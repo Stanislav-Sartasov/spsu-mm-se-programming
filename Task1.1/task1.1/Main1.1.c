@@ -22,5 +22,6 @@ int main()
         }
         t = t * 2;
     }
+    printf("123123");
     return 0;
 }
