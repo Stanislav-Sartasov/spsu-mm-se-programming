@@ -1,6 +1,7 @@
 #include <stdio.h>
 
-int is_prime(long long n) {
+int is_prime(long long n) 
+{
     if (n == 1)
         return 0;
 
@@ -12,7 +13,8 @@ int is_prime(long long n) {
     return 1;
 }
 
-int main() {
+int main() 
+{
     printf("This programm prints out the Mersenne prime numbers\n");
 
 
