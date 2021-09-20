@@ -8,7 +8,8 @@ void clear_excess_chars()
     do
     {
         temp = getchar();
-    } while (temp != '\n' && temp != EOF);
+    } 
+    while (temp != '\n' && temp != EOF);
 }
 
 long double get_number(int counter)
@@ -34,7 +35,8 @@ long double get_number(int counter)
             success = 1;
         }
 
-    } while (!success);
+    } 
+    while (!success);
     return result;
 }
 
