@@ -20,8 +20,8 @@ long long get_number(counter) {
 	char after_integer;
 	do {
 		printf("Введите %d-е число: ", counter);
-		if (scanf_s("%lld%c", &result, &after_integer, 6) != 2 || after_integer != '\n') {
-			printf("Ошибка! К вводу принимаются только натуральные числа\n");
+		if (scanf_s("%10lld%c", &result, &after_integer, 6) != 2 || after_integer != '\n') {
+			printf("Ошибка! К вводу принимаются только натуральные числа, которые не вызовут переполнение\n");
 			clear_excess_chars(); //Если не удалось сосканировать число, пропускаем лишние символы до след. строки
 		}
 		else if (result <= 0) {
@@ -49,7 +49,6 @@ int main() {
 	else if (numbers[1] >= numbers[0] && numbers[1] >= numbers[2]) {
 		swap(&numbers[1], &numbers[2]);
 	}
-
 	if (numbers[0] * numbers[0] + numbers[1] * numbers[1] == numbers[2] * numbers[2]) {
 		printf("Представленные числа являются Пифагоровой тройкой.\n");
 
