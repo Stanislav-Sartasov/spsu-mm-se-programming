@@ -10,6 +10,7 @@ int is_prime(int number)
     }
     return 1;
 }
+
 int main()
 {
     printf("This program prints all Mersenne prime numbers on the [1; 2^31 - 1] interval.\n");
