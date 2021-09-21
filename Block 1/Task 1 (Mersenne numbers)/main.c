@@ -1,4 +1,4 @@
-#include "stdio.h"
+#include <stdio.h>
 
 int is_prime(unsigned int n)
 {
