@@ -39,7 +39,7 @@ int main()
     printf("\ni = %d\n", count);
     while (printf("Another number? ( 0 - no, 1-9 - yes )>>>") && get_number(&ans, 10))
     {
-        fprintf(stderr, "Wrong input!  ( use nubmers, <10^8 ) \n");
+        fprintf(stderr, "Wrong input!  ( use nubmers, <10 ) \n");
         flush_stdin();
     }
     if (ans)
