@@ -4,7 +4,7 @@ project(task_2 VERSION 0.1.0)
 include(CTest)
 enable_testing()
 
-add_executable(task_2 main.cpp)
+add_executable(task_2 main.c)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
