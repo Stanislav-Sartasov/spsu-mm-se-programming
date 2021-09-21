@@ -17,9 +17,9 @@ int main()
         return 0;
     }
     double angles[] = {0, 0, 0};
-    angles[0] = acos((a * a + b * b - c * c)/(2.0 * a * b));
-    angles[1] = acos((a * a + c * c - b * b)/(2.0 * a * c));
-    angles[2] = acos((c * c + b * b - a * a)/(2.0 * c * b));
+    angles[0] = acos((a * a + b * b - c * c) / (2.0 * a * b));
+    angles[1] = acos((a * a + c * c - b * b) / (2.0 * a * c));
+    angles[2] = acos((c * c + b * b - a * a) / (2.0 * c * b));
 
     for (int i = 0; i < 3; ++i)
     {
