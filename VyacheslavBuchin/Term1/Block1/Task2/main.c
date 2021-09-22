@@ -32,7 +32,8 @@ void inputTriple(int *a, int *b, int *c)
             break;
         else
         {
-            fflush(stdin);
+            while (fgetc(stdin) != '\n')
+                ;
             printf("At least one of your inputs is not a positive integer. Please, try again:\n");
         }
     }
