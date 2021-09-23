@@ -77,7 +77,5 @@ int main()
     else
         printf("Triangle with given sides does not exist.\n");
 
-    printf("%lf", getAngle(a, b, c)+getAngle(b, c, a)+getAngle(c, a, b));
-
     return 0;
 }
