@@ -29,5 +29,5 @@ int main()
 			printf("%ld\n", n - 1);
 		}
 	}
-	
+	return 0;
 }
