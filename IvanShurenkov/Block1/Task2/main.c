@@ -22,10 +22,12 @@ INT64 gcd(INT64 a, INT64 b)
 int main()
 {
     printf("Pythagorean triple\nEnter three positive integer:");
-    INT64 x, y, z;
-    scanf("%ld%ld%ld", &x, &y, &z);
-    if (0 >= x || 0 >= y || 0 >= z)
-        goto is_not_triple;
+    INT64 x = 0, y = 0, z = 0;
+    while (0 >= x || 0 >= y || 0 >= z) {
+        scanf("%ld%ld%ld", &x, &y, &z);
+        if (0 >= x || 0 >= y || 0 >= z)
+            printf("\nAll numbers must be positive\nEnter three positive integer:");
+    }
     INT64 min = MIN(x, MIN(y, z)), max = MAX(x, MAX(y, z)), mid = x + y + z - min - max;
     bool is_triple = (SQ(min) + SQ(mid) == SQ(max) ? true : false);
     if (is_triple && 1 == gcd(x, y) && 1 == gcd(y, z) && 1 == gcd(x, z))
@@ -33,7 +35,6 @@ int main()
     else if (is_triple)
         printf("This numbers are Pythagorean triple");
     else {
-        is_not_triple:
         printf("This numbers aren't Pythagorean triple");
     }
     return 0;
