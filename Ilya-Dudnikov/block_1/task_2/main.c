@@ -7,27 +7,6 @@ int gcd(int a, int b)
     return gcd(b, a % b);
 }
 
-int get_input()
-{
-    while (1) 
-    {
-        printf("Enter the next number: ");
-        int x;
-        char tmp = '\0';
-        int wft;
-        if (scanf("%d%c", &x, &tmp) != 2 || tmp != '\n' || x <= 0) 
-        {
-            printf("Invalid input: you must enter a natural number\n");
-            while (tmp != '\n')
-                scanf("%c", &tmp);
-        }
-        else
-        {
-            return x;
-        }
-    }
-}
-
 int main() 
 {
     printf("This programm checks if 3 given natural numbers are Pythagorean triple and if they form a primitive Pythagorean triple\n");
