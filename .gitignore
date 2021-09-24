@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/IvanShurenkov/Block[1234]/Task[12345]/cmake-build-debug/
+/IvanShurenkov/Block[1234]/Task[1234]/.idea/
+/.idea/
