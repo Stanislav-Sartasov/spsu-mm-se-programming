@@ -30,22 +30,27 @@ int get_input()
 
 int main() 
 {
-    printf("This programm checks if 3 given natural numbers are Pythagorean triple and if they form a prime Pythagorean triple\n");
+    printf("This programm checks if 3 given natural numbers are Pythagorean triple and if they form a primitive Pythagorean triple\n");
 
     int x, y, z;
-    x = get_input(), 
-    y = get_input(), 
-    z = get_input();
+    printf("Please enter three natural numbers: ");
+    while (scanf("%d %d %d", &x, &y, &z) != 3 && x >= 0 && y >= 0 && z >= 0) 
+    {
+        printf("Invalid input error: you must enter three natural numbers\n");
+        char tmp = '\0';
+        while (tmp != '\n') scanf("%c", &tmp);
+        printf("Please enter three numbers: ");
+    }
 
     if (x * x + y * y == z * z || x * x + z * z == y * y || y * y + z * z == x * x) 
     {
-        if (gcd(x, y) == 1 && gcd(x, z) == 1 && gcd(y, z) == 1)
+        if (gcd(gcd(x, y), z) == 1)
         {
-            printf("This triple is a prime Pythagorean triple\n");
+            printf("This triple is a primitive Pythagorean triple\n");
         } 
         else
         {
-            printf("This triple is Pythagorean, but not prime\n");
+            printf("This triple is Pythagorean, but not primitive\n");
         }
     }
     else
