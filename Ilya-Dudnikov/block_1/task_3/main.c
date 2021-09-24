@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 
-double printAngle(double a, double b, double c) 
+double calculateAngle(double a, double b, double c) 
 {
-    double angle = acos((a * a + b * b - c * c) / (2 * a * b));
+    return acos((a * a + b * b - c * c) / (2 * a * b));
+}
 
+double printAngle(double angle) 
+{
     double degrees = (180 * angle) / M_PI;
     printf("%d degrees ", (int)degrees);
     
@@ -34,9 +37,9 @@ int main()
     if (a + b > c && a + c > b && b + c > a) 
     {
         printf("It is possible to create a non-degenerate triangle using these sides. It's angles are:\n");
-        printAngle(a, b, c);
-        printAngle(a, c, b);
-        printAngle(b, c, a);
+        printAngle(calculateAngle(a, b, c));
+        printAngle(calculateAngle(a, c, b));
+        printAngle(calculateAngle(b, c, a));
     }
     else
     {
