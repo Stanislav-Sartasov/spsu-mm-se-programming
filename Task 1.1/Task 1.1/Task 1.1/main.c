@@ -3,7 +3,7 @@
 // Checks if the given number is prime
 int is_prime(long number)
 {
-    for (unsigned int i = 2; i * i < number; i++)
+    for (unsigned int i = 2; i * i <= number; i++)
     {
         if (number % i == 0)
         {
