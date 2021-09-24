@@ -30,7 +30,7 @@ void get_angles(double* out_angles, float a, float b, float c)
     }
 }
 
-float my_scanf_decimal(const char* message)
+int my_scanf_decimal(const char* message)
 {
     // Output message
     printf(message);
@@ -53,6 +53,7 @@ float my_scanf_decimal(const char* message)
     }
     return result;
 }
+
 int main()
 {
     int a, b, c;
