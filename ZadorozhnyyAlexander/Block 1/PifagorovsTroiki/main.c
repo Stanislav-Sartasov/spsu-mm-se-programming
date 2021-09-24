@@ -23,9 +23,9 @@ bool is_pifagorova_triple(int x, int y, int z)
 	return false;
 }
 
+
 int main() {
-	int x, y, z;
-	int count_right_num;
+	int x, y, z, count_right_num;
 	printf("This programm check three number: is it Pythagorean triple(x^2 + y^2 = z^2) or not.\n");
 	printf("If it's true, programm check is this Pythagorean triple - simple.\n");
 	do
@@ -33,7 +33,9 @@ int main() {
 		printf("Enter three natural number: ");
 		count_right_num = scanf("%d%d%d", &x, &y, &z);
 		while (getchar() != '\n');
-	} while (!(count_right_num == 3 && x > 0 && y > 0 && z > 0)); 
+	} 
+	while (!(count_right_num == 3 && x > 0 && y > 0 && z > 0)); 
+
 	if (is_pifagorova_triple(x, y, z))
 	{
 		printf("This three number constitute a Pythagorean triple\n");
