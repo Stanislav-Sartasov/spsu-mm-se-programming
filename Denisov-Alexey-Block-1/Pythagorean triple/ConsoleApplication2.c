@@ -6,7 +6,7 @@ int GSD(int a, int b);
 int main()
 {
 	
-	printf("This programm identify primitive Pythagorean triple\n\n");
+	printf("This program identify primitive Pythagorean triple\n\n");
 	printf("Enter three integers: ");
 
 	int x, y, z;

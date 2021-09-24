@@ -9,7 +9,7 @@ int seconds(double deg);
 int main()
 {
 
-	printf("This programm gets three numders: lengths of a triangle sides\n");
+	printf("This program gets three numders: lengths of a triangle sides\n");
 	printf("and if the triangle is non-degenerate displays it's angels\n\n");
 	
 	double a, b, c;

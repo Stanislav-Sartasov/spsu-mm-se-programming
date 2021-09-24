@@ -6,6 +6,8 @@ bool isSimple(int a);
 
 int main()
 {
+    printf("This program displays simple Mersenne primes to 2^31-1\n\n");
+    
     for (int n = 1; n <= 31; n++)
     {
         if (isSimple(pow(2, n) - 1))
