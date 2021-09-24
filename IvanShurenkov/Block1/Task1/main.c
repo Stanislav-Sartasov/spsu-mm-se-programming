@@ -2,13 +2,13 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
-#define int64 __int64_t
+#define INT64 __int64_t
 #define SWAP(a, b) do { typeof(a) tmp = a; a = b; b = tmp; } while (0)
 
 
-int bin_pow(int64 a, int64 n, int64 m)
+int bin_pow(INT64 a, INT64 n, INT64 m)
 {
-    int64 res = 1;
+    INT64 res = 1;
     while (n)
     {
         if (n & 1)
@@ -21,7 +21,7 @@ int bin_pow(int64 a, int64 n, int64 m)
     return res;
 }
 
-int64 gcd(int64 a, int64 b)
+INT64 gcd(INT64 a, INT64 b)
 {
     while (b)
     {
@@ -31,7 +31,7 @@ int64 gcd(int64 a, int64 b)
     return a;
 }
 
-bool is_prime(int64 n)
+bool is_prime(INT64 n)
 {
     // Discard simple cases
     if (n == 2 || n == 3)
@@ -43,21 +43,21 @@ bool is_prime(int64 n)
 
     for (int i = 0; i < 15; i++)
     {
-        int64 a = rand() % (n - 1) + 1;
+        INT64 a = rand() % (n - 1) + 1;
         if (bin_pow(a, n - 1, n) != 1)
             return false;
     }
 
     // Miller-Rabin primality test
 
-    int64 s = 0;
+    INT64 s = 0;
     while ((n - 1) % (1 << (s + 1)) == 0)
         s++;
-    int64 t = (n - 1) / (1 << s);
+    INT64 t = (n - 1) / (1 << s);
     for (int i = 0; i < 15; i++)
     {
-        int64 a = (rand() % (n - 3)) + 2;
-        int64 x = bin_pow(a, t, n);
+        INT64 a = (rand() % (n - 3)) + 2;
+        INT64 x = bin_pow(a, t, n);
         if (x == 1 || x == n - 1)
             continue;
         bool flag = true;
@@ -83,8 +83,8 @@ int main()
     printf("Mersenne prime\n");
     for (int i = 1; i <= 31; i++)
     {
-        if (is_prime(((int64)1 << i) - 1))
-            printf("%d\n", ((int64)1 << i) - 1);
+        if (is_prime(((INT64)1 << i) - 1))
+            printf("%d\n", ((INT64)1 << i) - 1);
     }
     return 0;
 }
