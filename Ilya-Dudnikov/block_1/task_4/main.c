@@ -1,20 +1,34 @@
 #include <stdio.h>
-#include <math.h>
 
-double abs(double x) 
+long long binary_search(long long x)
 {
-    return (x >= 0 ? x : -x);
+    long long left = 1, right = 1;
+    while (right * right < x) 
+        right *= 2;
+    if (right * right == x) 
+        return right;
+    while (right - left > 1)
+    {
+        long long middle = (left + right) / 2;
+
+        if (middle * middle <= x)
+            left = middle;
+        else
+            right = middle;
+    }
+    return left;
 }
 
 int main() 
 {
     printf("This programm prints the length of the continued fraction of sqrt(n) and a sequence [a0; a1, ..., an] used to form that fraction\n");   
 
-    int number;
+    long long number;
     char after = '\0';
 
+    long long a_start;
     printf("Enter a natural number which is not a square of any other natural number: ");
-    while (scanf("%d%c", &number, &after) != 2 || number <= 0 || abs((int)sqrt(number) - sqrt(number)) <= 1e-6 || after != '\n') 
+    while (scanf("%lld%c", &number, &after) != 2 || number <= 0 || (a_start = binary_search(number)) * a_start == number || after != '\n') 
     {
         printf("Invalid input error: you must enter a natural number which is not a square of any other natural number\n");
         while (after != '\n') 
@@ -22,16 +36,6 @@ int main()
         after = '\0';
         printf("Enter a number: ");
     } 
-
-    /*
-    Thm. The continued fraction expansion of √D is periodic, with a period of at most pq, if D = p/q
-    If D is our input number, then D = D / 1, since it is natural, so the period of the continued
-    fraction expansion of √D is no more than D.
-    */
-    int answer[number + 1];
-    memset(answer, -1, sizeof(answer));
-    answer[0] = (int)sqrt(number);
-
 
     /*
     Thm. In the continued fraction expansion of √D, the remainders always take the form 
@@ -46,30 +50,21 @@ int main()
 
     The variables are named according to the theorem to avoid any confusion.
     */
-    int a = answer[0], b = a, c = number - a * a;
-    int b_start = b, c_start = c;
+
+    printf("[%lld; ", a_start);
+    long long a = a_start, b = a, c = number - a * a;
+    long long b_start = b, c_start = c;
     
-    int i = 1;
+    long long i = 1;
     do
     {
-        a = (answer[0] + b) / c;
+        a = (a_start + b) / c;
         b = a * c - b;
         c = (number - b * b) / c;
-        answer[i++] = a;
+        if (i++ != 1) printf(", ");
+        printf("%lld", a);
     } while (c != c_start || b != b_start);
-
-    printf("The length of the period is %d\n", i - 1);
-    printf("[%d; ", answer[0]);
-    for (int i = 1; i <= number; i++)
-    {
-        if (answer[i] == -1)
-        {   
-            printf("]");
-            break;
-        }
-        if (i != 1) printf(", ");
-        printf("%d", answer[i]);
-    }
-    printf("\n");
+    printf("]\n");
+    printf("The length of the period is %lld\n", i - 1);
     return 0;
 }
