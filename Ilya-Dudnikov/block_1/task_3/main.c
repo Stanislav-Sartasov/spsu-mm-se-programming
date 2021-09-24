@@ -26,9 +26,9 @@ int main()
     double a, b, c;
 
     printf("Please enter three numbers: ");
-    while (scanf("%lf %lf %lf", &a, &b, &c) != 3) 
+    while (scanf("%lf %lf %lf", &a, &b, &c) != 3 || a <= 0 || b <= 0 || c <= 0) 
     {
-        printf("Invalid input error: you must enter three non-negative numbers\n");
+        printf("Invalid input error: you must enter three positive numbers\n");
         char tmp = '\0';
         while (tmp != '\n') scanf("%c", &tmp);
         printf("Please enter three numbers: ");
@@ -36,7 +36,7 @@ int main()
 
     if (a + b > c && a + c > b && b + c > a) 
     {
-        printf("It is possible to create a non-degenerate triangle using these sides. It's angles are:\n");
+        printf("It is possible to create a non-degenerate triangle using these sides. Its angles are:\n");
         printAngle(calculateAngle(a, b, c));
         printAngle(calculateAngle(a, c, b));
         printAngle(calculateAngle(b, c, a));

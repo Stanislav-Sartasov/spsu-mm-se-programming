@@ -34,7 +34,7 @@ int main()
 
     int x, y, z;
     printf("Please enter three natural numbers: ");
-    while (scanf("%d %d %d", &x, &y, &z) != 3 && x >= 0 && y >= 0 && z >= 0) 
+    while (scanf("%d %d %d", &x, &y, &z) != 3 || x <= 0 || y <= 0 || z <= 0) 
     {
         printf("Invalid input error: you must enter three natural numbers\n");
         char tmp = '\0';
