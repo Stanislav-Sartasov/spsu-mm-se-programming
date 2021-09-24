@@ -33,12 +33,13 @@ int main()
     printf("This programm checks if 3 given natural numbers are Pythagorean triple and if they form a primitive Pythagorean triple\n");
 
     int x, y, z;
+    char after;
     printf("Please enter three natural numbers: ");
-    while (scanf("%d %d %d", &x, &y, &z) != 3 || x <= 0 || y <= 0 || z <= 0) 
+    while (scanf("%d %d %d%c", &x, &y, &z, &after) != 4 || x <= 0 || y <= 0 || z <= 0 || after != '\n') 
     {
         printf("Invalid input error: you must enter three natural numbers\n");
-        char tmp = '\0';
-        while (tmp != '\n') scanf("%c", &tmp);
+        while (after != '\n') scanf("%c", &after);
+        after = '\0';
         printf("Please enter three numbers: ");
     }
 

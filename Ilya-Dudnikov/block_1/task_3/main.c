@@ -24,13 +24,14 @@ int main()
     printf("and if so, prints the angles of this triangle \n");
 
     double a, b, c;
+    char after = '\0';
 
     printf("Please enter three numbers: ");
-    while (scanf("%lf %lf %lf", &a, &b, &c) != 3 || a <= 0 || b <= 0 || c <= 0) 
+    while (scanf("%lf %lf %lf%c", &a, &b, &c, &after) != 4 || a <= 0 || b <= 0 || c <= 0 || after != '\n') 
     {
         printf("Invalid input error: you must enter three positive numbers\n");
-        char tmp = '\0';
-        while (tmp != '\n') scanf("%c", &tmp);
+        while (after != '\n') scanf("%c", &after);
+        after = '\0';
         printf("Please enter three numbers: ");
     }
 
