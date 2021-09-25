@@ -41,7 +41,8 @@ int my_scanf_decimal(const char* message)
         // Check if scanf was a success
         if (!scanf_s("%d", &result))
         {
-            getchar();
+            // Skip entire string until new line
+            while (getchar() != '\n') {}
         }
         // Check if number is greater than zero
         if (result < 0) {

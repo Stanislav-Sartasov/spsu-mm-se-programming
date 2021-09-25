@@ -47,7 +47,8 @@ float my_scanf_float(const char* message)
 		// Check if scanf was a success
 		if (!scanf_s("%f", &result))
 		{
-			getchar();
+			// Skip entire line untile new one
+			while (getchar() != '\n') {}
 		}
 		// Check if number is greater than zero
 		if (result < 0) {
