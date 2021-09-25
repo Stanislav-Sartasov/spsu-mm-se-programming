@@ -43,12 +43,14 @@ int main()
     printf("This program checks whether three numbers are a Pythagorean triple.\n");
     printf("And if they're, the program can also check whether the numbers are mutually prime.\n");
     printf("Please, enter only natural numbers which will not cause an overflow.\n");
-    do {
+    do
+    {
         printf("Enter a %d number:", counter);
         fgets(str, MaxLenOfStr, stdin);
-        if (isTrash(str) || strtod(str, 0) == 0) {
+        if (isTrash(str) || strtod(str, 0) == 0)
             printf("Error! Enter a natural number which won't cause an overflow (less than a billion).\n");
-        } else {
+        else
+        {
             if (counter == 1)
                 number_1 = strtoll(str, 0, 10);
             if (counter == 2)
