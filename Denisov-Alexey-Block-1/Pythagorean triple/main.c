@@ -1,11 +1,11 @@
 ﻿#include <stdio.h>
 #include <locale.h>
 
-int GSD(int a, int b);
+int gsd(int a, int b);
 
 int main()
 {
-	
+
 	printf("This program identify primitive Pythagorean triple\n\n");
 	printf("Enter three integers: ");
 
@@ -37,7 +37,7 @@ int main()
 
 	if (x * x + y * y == z * z)
 	{
-		if (GSD(GSD(x, y), z) == 1)
+		if (gsd(gsd(x, y), z) == 1)
 			printf("It is primitive Pythagorean triple.\n");
 		else
 			printf("It is not primitive Pythagorean triple.\n");
@@ -46,7 +46,7 @@ int main()
 		printf("It is not Pythagorean triple.\n");
 }
 
-int GSD(int a, int b)
+int gsd(int a, int b)
 {
 	if (a == b)
 		return a;
