@@ -3,7 +3,7 @@
 #include <stdbool.h>
 
 
-int NOD(int a, int b)
+int gcd(int a, int b)
 {
 	int c;
 	while (b)
@@ -39,7 +39,7 @@ int main() {
 	if (is_pifagorova_triple(x, y, z))
 	{
 		printf("This three number constitute a Pythagorean triple\n");
-		if (NOD(x, y) == 1 && NOD(x, z) && NOD(y, z) == 1)
+		if (gcd(x, y) == 1 && gcd(x, z) && gcd(y, z) == 1)
 			printf("Moreover, it is simple Pythagorean triple.\n");
 	}
 	else

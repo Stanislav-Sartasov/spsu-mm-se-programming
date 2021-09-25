@@ -28,7 +28,7 @@ int main()
     do 
     {
         div = start * quit - div;
-        quit = (num - pow(div,2)) / quit;
+        quit = (num - pow(div, 2)) / quit;
         start = (sqrt_num + div) / quit;
         if (period == 0)
             printf("Sequence of elements is: [%lu", div);
