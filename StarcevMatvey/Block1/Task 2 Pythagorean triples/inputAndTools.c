@@ -3,7 +3,8 @@
 #include <math.h>
 #include "inputAndTools.h"
 
-// If input converted to INT, it returns INT
+
+// if input converted to INT, it returns INT
 // else it asks to try again
 long int get_int() 
 {
@@ -53,13 +54,14 @@ long int get_int()
 		return get_int();
 	}
 
+	printf("\n");
 	return rezult * sign;
 }
 
 
-// If input converted to DOUBLE, it returns DOUBLE
+// if input converted to DOUBLE, it returns DOUBLE
 // else it asks to try again
-// Can read number with '.' and with ','
+// can read number with '.' and with ','
 long double get_double()
 {
 	char str[80];
@@ -132,5 +134,51 @@ long double get_double()
 		}
 	}
 
+	printf("\n");
 	return rezult * sign;
+}
+
+
+// qick sort
+void sort_of_array(int* arr, int size)
+{
+	// pointers to first and last elements
+	int first = 0;
+	int last = size - 1;
+
+	// middle element
+	int middle = arr[size / 2];
+
+	// division of array and swap elements
+	do
+	{
+		while (arr[first] < middle)
+		{
+			first++;
+		}
+		while (arr[last] > middle)
+		{
+			last--;
+		}
+
+		if (first <= last)
+		{
+			int c = arr[last];
+			arr[last] = arr[first];
+			arr[first] = c;
+
+			first++;
+			last--;
+		}
+	} while (first <= last);
+
+	// recurrent calls for remaining halves
+	if (last > 0)
+	{
+		sort_of_array(arr, last + 1);
+	}
+	if (first < size)
+	{
+		sort_of_array(&arr[first], size - first);
+	}
 }
