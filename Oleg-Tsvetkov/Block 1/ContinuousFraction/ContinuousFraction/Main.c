@@ -50,33 +50,33 @@ int main()
 	printf("период цепной дроби, а также представляет его элементы.\n");
 	long long start_number;
 	start_number = get_number();
-	long long period[50000];
+	long long start_period_element;
 	int period_length = 1;
-	period[0] = (long long)sqrtl(start_number);
-	long long element, substract = period[0], divider = 1;
+	start_period_element = (long long)sqrtl(start_number);
+	long long element, substract = start_period_element, divider = 1;
+	printf("Последовательность: [%lld; ", start_period_element);
+	short is_first_printed = 0;
 	do
 	{
 		divider = (start_number - substract * substract) / divider;
-		element = (long long)((substract + period[0]) / divider);
-		period[period_length] = element;
+		element = (long long)((substract + start_period_element) / divider);
+		if (!is_first_printed) 
+		{
+			printf("%lld", element);
+			is_first_printed = 1;
+		}
+		else
+		{
+			printf(", %lld", element);
+		}
 		++period_length;
 		substract = element * divider - substract;
 	} 
 	while (divider != 1);
+	
+	printf("]\n");
+
 	printf("Период: %d ", period_length - 1);
-	printf("Последовательность: [%lld; ", period[0]);
-	for (int i = 1; i < period_length; ++i)
-	{
-		if (i != period_length - 1)
-		{
-			printf("%lld,", period[i]);
-		}
-		else
-		{
-			printf("%lld", period[i]);
-		}
-	}
-	printf("]");
 
 
 	return 0;
