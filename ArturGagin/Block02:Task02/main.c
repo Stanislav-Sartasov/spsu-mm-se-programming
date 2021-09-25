@@ -46,7 +46,7 @@ int main()
     do {
         printf("Enter a %d number:", counter);
         fgets(str, MaxLenOfStr, stdin);
-        if (isTrash(str)) {
+        if (isTrash(str) || strtod(str, 0) == 0) {
             printf("Error! Enter a natural number which won't cause an overflow (less than a billion).\n");
         } else {
             if (counter == 1)
@@ -59,7 +59,7 @@ int main()
         }
 
     }
-    while (isTrash(str) || counter != 4);
+    while (counter != 4);
 
     if (isPythagoreanTriple(number_1, number_2, number_3))
     {

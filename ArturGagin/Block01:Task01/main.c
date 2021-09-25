@@ -19,8 +19,7 @@ int isPrime(unsigned int number)
 int main()
 {
     printf("There are Mersenne primes on the segment [1; 2^31 - 1]:\n");
-    // 2147483647 means 2^31-1
-    const unsigned int upper_bound = 2147483647;
+    const double upper_bound = pow(2,31) - 1;
     for (unsigned int number = 1; number <= upper_bound; number = (number + 1) * 2 - 1)
     {
         if (isPrime(number))
