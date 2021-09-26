@@ -1,0 +1,33 @@
+/*Name and first name : Ragalison Hilaire ;
+  adress email: st085683@student.spbu.ru ; 
+  Цель задачи: вывести на экран все простые числа Мерсенна на отрезке [1; 2^31 -1] */   
+
+#include <stdio.h>
+#include <math.h>
+#include "checkPrimeNumbers.h"
+
+int main()
+{
+    unsigned int p;
+    unsigned long x, m;
+    for (p = 1; p <= 31; p++) //На отрезке [1; 2^31 -1].
+    {
+        x = pow(2, p);//Пусть p - степень, x - 2 в степени p.
+        m = x - 1; //Предположим m - некоторое число Мерсенна.
+        if (isPrime(m) == 1)
+        {
+            printf("\n 2^%u = %lu", p, x); 
+            printf("\n *** Mersenne number is equal to : %lu ***\n", m);
+            printf(" --> %lu IS a Mersenne prime. \n\n", m);
+        };
+        /*
+        if (isPrime(m) == 0)
+        {
+            printf(" --> %lu is NOT a Mersenne prime. \n\n", m);
+        };
+        */
+    };
+    return 0;
+}
+
+
