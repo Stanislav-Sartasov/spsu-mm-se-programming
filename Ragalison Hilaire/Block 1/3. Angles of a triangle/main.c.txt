@@ -65,7 +65,7 @@ int main()
     else
         printf("\n--->We can't construct a non-degenerate triangle with the corresponding\n sides based on these three numbers (%Lf, %Lf, %Lf)\n entered by the user.\n", a1, a2, a3);
 
-    return main();
+    return 0;
 
 }
 
