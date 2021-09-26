@@ -56,32 +56,18 @@ int main()
 	int start_a = a;
 	int start_b = b;
 	int start_c = c;
-	int a_i[32001] = { 0 };
-	a_i[0] = start_a;
-	int period = 1;
+	printf("The sequence is:\n[%d;\n%d", sq_root, start_a);
 
-	while (period <= 32000)
+	int period = 0;
+	while (!(start_a == a && start_b == b && start_c == c && period))
 	{
-		count_new_state(&a, &b, &c, &number, &sq_root);
-		if (start_a == a && start_b == b && start_c == c)
+		if (period)
 		{
-			printf("The period is %d. The sequence is:\n", period);
-			break;
+			printf(", %d", a);
 		}
-		a_i[period] = a;
+		count_new_state(&a, &b, &c, &number, &sq_root);
 		period++;
 	}
-	printf("[%d;\n%d", sq_root, a_i[0]);
-	for (int i = 1; a_i[i] != 0; i++)
-	{
-		if (i % 30 == 0)
-		{
-			printf(", \n%d", a_i[i]);
-		}
-		else
-		{
-			printf(", %d", a_i[i]);
-		}
-	}
-	printf("]\n");
+	printf("].\n");
+	printf("The period is %d.\n", period);
 }
