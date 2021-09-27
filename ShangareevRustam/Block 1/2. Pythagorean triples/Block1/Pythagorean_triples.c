@@ -7,8 +7,9 @@ void user_input(int* a, int* b, int* c)
 	printf("Please enter three natural numbers separated by spaces\n");
 	while (true)
 	{
-		int status_of_read = scanf_s("%d %d %d", a, b, c);
-		if (status_of_read == 3 && *a > 0 && *b > 0 && *c > 0)
+		char char_after_numbers;
+		int status_of_read = scanf_s("%d %d %d%c", a, b, c, &char_after_numbers);
+		if (status_of_read == 4 && *a > 0 && *b > 0 && *c > 0 && (char_after_numbers == ' ' || char_after_numbers == '\n'))
 		{
 			break;
 		}
