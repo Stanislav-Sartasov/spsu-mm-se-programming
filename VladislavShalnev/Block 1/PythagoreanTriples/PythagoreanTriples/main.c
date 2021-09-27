@@ -8,10 +8,10 @@ int is_pythagorean_triple(unsigned int x, unsigned int y, unsigned int z)
 
 int is_coprime(unsigned int x, unsigned int y, unsigned int z)
 {
-	return find_lcd(x, y) == 1 && find_lcd(y, z) == 1 && find_lcd(x, z) == 1;
+	return gcd(x, gcd(y, z)) == 1;
 }
 
-unsigned int find_lcd(unsigned int firstNumber, unsigned int secondNumber)
+unsigned int gcd(unsigned int firstNumber, unsigned int secondNumber)
 {
 	while (firstNumber && secondNumber)
 	{
