@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int drob(int high, int free, int i, int number, int count);
+int fraction(int high, int free, int i, int number, int count);
 
 int program();
 
@@ -19,11 +19,10 @@ int get_number(int* number, const int top)
 
 int main()
 {
-    printf("<<<description: The program represents the square root of a number in the form of a continued fraction and gives the length of the period.>>>\n\n");
+    printf("<<<Description: The program represents the square root of a number in the form of a continued fraction and gives the length of the period.>>>\n\n");
     program();
     return 0;
 }
-
 
 int program(void)
 {
@@ -38,7 +37,7 @@ int program(void)
     {
     }
     printf("[__%d__", i);
-    drob(1, 0, i, n, 0);
+    fraction(1, 0, i, n, 0);
     while (printf("Another number? ( 0 - no, 1 - yes )>>>") && get_number(&ans, 10) || ans < 0 || ans > 1)
     {
         fprintf(stderr, "Wrong input!  ( use '0' or '1' ) \n");
@@ -55,7 +54,7 @@ int program(void)
     }
 }
 
-int drob(int high, int free, int i, int number, int count)
+int fraction(int high, int free, int i, int number, int count)
 {
     count++;
     int tmp, tmp2;
@@ -71,7 +70,7 @@ int drob(int high, int free, int i, int number, int count)
     }
     else
     {
-        drob(tmp, tmp2, i, number, count);
+        fraction(tmp, tmp2, i, number, count);
     }
     return 0;
 }

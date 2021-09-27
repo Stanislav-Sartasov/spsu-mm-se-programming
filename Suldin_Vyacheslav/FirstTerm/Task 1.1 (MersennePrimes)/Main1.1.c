@@ -23,6 +23,7 @@ int main()
     }
     return 0;
 }
+
 int primeTest(int number)
 {
     int j;

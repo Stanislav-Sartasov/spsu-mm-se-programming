@@ -7,7 +7,7 @@ int program();
 void flush_stdin(void)
 {
     char ch;
-    while (scanf_s("%c", &ch) == 1 && ch != '\n')
+    while (scanf_s("%c", &ch) == 1 && ch != '\n' && ch != ' ')
     {
     }
 }
@@ -77,7 +77,7 @@ int program(void)
     {
         fprintf(stderr, "Wrong input! ( use '0' or '1' )\n");
         flush_stdin();
-    }
+}
     if (ans)
     {
         program();

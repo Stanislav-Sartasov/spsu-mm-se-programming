@@ -25,7 +25,7 @@ int main()
     printf("<<<Description: enter 3 int or float numbers. Program will output angles of triangle with that numbers as its sides ( side and opposite angle )>>>\n\n");
     program();
 }
-    
+
 int program(void)
 {
     float k[3] = { 0 }, tmp, ans, n;
