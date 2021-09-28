@@ -18,20 +18,6 @@ int coprime(int a, int b, int c) {
 	return gcd(gcd(a, b), c) == 1;
 }
 
-// Fills given array with counted angles
-void get_angles(double* out_angles, float a, float b, float c)
-{
-	// Cosine theorem is used here to determine angles
-	out_angles[0] = (float)acos((a * a + b * b - c * c) / (2.0 * a * b));
-	out_angles[1] = (float)acos((b * b + c * c - a * a) / (2.0 * c * b));
-	out_angles[2] = (float)acos((a * a + c * c - b * b) / (2.0 * a * c));
-	// Normalize angles from rad to degrees
-	for (int i = 0; i < 3; i++)
-	{
-		out_angles[i] = out_angles[i] * 180.0 / 3.14159265352f;
-	}
-}
-
 int my_scanf_decimal(const char* message)
 {
 	// Output message
