@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <math.h>
-#define pi 3.1415926535
+#define PI 3.1415926535
 
 float get_angle(float a, float b, float c)
 {
-	return 180 * acos((a * a + b * b - c * c) / (2 * a * b)) / pi;
+	return 180 * acos((a * a + b * b - c * c) / (2 * a * b)) / PI;
 }
 
 void print_angle(float a)
@@ -18,11 +18,16 @@ int main()
 	double a, b, c, alpha, beta, gamma;
 	printf("Enter the lengths of the sides of the triangle:\n");
 	scanf_s("%lf%lf%lf", &a, &b, &c);
-	if ((a < 0) || (b < 0) || (c < 0))
+	while ((a < 0) || (b < 0) || (c < 0))
 	{
-		printf("You cannot input negative numbers. Try again.");
+		printf("You cannot input negative numbers or letters. Please try again.");
+		char clean = 0;
+		while (clean != '\n' && clean != EOF)
+			clean = getchar();
+		scanf_s("%lf%lf%lf", &a, &b, &c);
 	}
-	else if ((a + b > c) && (a + c > b) && (b + c > a))
+
+	if ((a + b > c) && (a + c > b) && (b + c > a))
 	{
 		alpha = get_angle(a, b, c);
 		beta = get_angle(b, c, a);
