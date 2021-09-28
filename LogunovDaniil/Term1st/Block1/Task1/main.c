@@ -18,8 +18,15 @@ int isPrime(int n)
 	return 1;
 }
 
+void greetingsMessage()
+{
+	printf("This program is designed to output Mersenne primes in range [1, 2^31]:\n");
+}
+
 int main()
 {
+	greetingsMessage();
+
 	int powerOf2 = 1;
 	for (int i = 0; i < 32; i++)
 	{
