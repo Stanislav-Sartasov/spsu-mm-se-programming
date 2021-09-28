@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <math.h>
-#include <stdlib.h>
 
 #define IO_BUFFER_LIMIT 128
 #define MAX_INPUT_VALUE_POW10 4
@@ -72,7 +71,7 @@ void checkPythagorean(int triple[])
 	{
 		swap(&triple[1], &triple[2]);
 	}
-	if (triple[0] < triple[2])
+	if (triple[0] < triple[1])
 	{
 		swap(&triple[0], &triple[1]);
 	}
