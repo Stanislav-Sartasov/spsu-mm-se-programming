@@ -13,7 +13,7 @@ int main()
 	input("Please enter 3 natural numbers satisfying the Pythagorean formula (a^2 + b^2 = c^2):\n", &a, &b, &c);
 	if (is_pythagorean_triple(a, b, c))
 	{
-		if (gcd(a, b) == 1 && gcd(b, c) == 1 && gcd(a, c) == 1)
+		if (gcd(a, gcd(b, c)) == 1)
 		{
 			printf("Inputted numbers are prime Pythagorean triples");
 		}
