@@ -2,25 +2,28 @@
 #include <math.h>
 
 
-void main()
+
+int main()
 {
+	printf("The programm shows the prime Mersenne numbers from the interval [1; 2^31 - 1].\n\n");
 	printf("Prime Mersenne numbers from the interval [1; 2^31 - 1] are:\n");
 	for (int n = 1; n < 32; n++)
 	{
-		int Mersenne_number = pow(2, n) - 1;
+		int mersenneNumber = pow(2, n) - 1;
 		int count = 0;
-		for (int coefficicent = 2; coefficicent <= (int)(sqrt(Mersenne_number)); coefficicent++)
+		for (int coefficicent = 2; coefficicent <= (int)(sqrt(mersenneNumber)); coefficicent++)
 		{
-			int remain = Mersenne_number % coefficicent;
+			int remain = mersenneNumber % coefficicent;
 			if (remain == 0) break;
 			else
 			{
 				count++;
 			}
 		}
-		if (count == (int)(sqrt(Mersenne_number)) - 1 && Mersenne_number != 1)
+		if (count == (int)(sqrt(mersenneNumber)) - 1 && mersenneNumber != 1)
 		{
-			printf("%d\n", Mersenne_number);
+			printf(">>> %d\n", mersenneNumber);
 		}
 	}
+	return 0;
 }

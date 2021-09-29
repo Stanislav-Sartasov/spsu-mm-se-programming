@@ -5,35 +5,36 @@
 
 
 
-int UserInput(double *px, double *py, double *pz)
+int userInput(double *px, double *py, double *pz)
 {
 	int operation;
 	do
 	{
-		printf("\nEnter the natural x value, please.\nX = ");
+		printf("\nEnter the natural x value, the first value of the Pythagorean triple, please.\nX = ");
 		operation = scanf("%lf", px);
 	} 
-	while (CheckErrors(px, &operation));
+	while (checkErrors(px, &operation));
 	do
 	{
-		printf("\nEnter the natural y value, please.\nY = ");
+		printf("\nEnter the natural y value, the second value of the Pythagorean triple, please.\nY = ");
 		operation = scanf("%lf", py);
 	}
-	while (CheckErrors(py, &operation));
+	while (checkErrors(py, &operation));
 	do
 	{
-		printf("\nEnter the natural z value, please.\nZ = ");
+		printf("\nEnter the natural z value, the third value of the Pythagorean triple, please.\nZ = ");
 		operation = scanf("%lf", pz);
 	} 
-	while (CheckErrors(pz, &operation));
+	while (checkErrors(pz, &operation));
 	return *px, *py, *pz;
 }
-int CheckErrors(double *value, int *operation)
+
+int checkErrors(double *value, int *operation)
 {
 	if (*operation != 1 || *value <= 0 || *value - (int)*value != 0)
 	{
 		fseek(stdin, 0, 0);
-		printf("\nThe entered value was not the expected one.\n");
+		printf("\nThe entered value was not the natural one.\n");
 		return 1;
 	}
 	else
@@ -41,6 +42,7 @@ int CheckErrors(double *value, int *operation)
 		return 0;
 	}
 }
+
 int gcd(double* px, double *py, double* pz)
 {
 	int count = 0;
@@ -57,15 +59,15 @@ int gcd(double* px, double *py, double* pz)
 	}
 	if (count == min(min(*px, *py), *pz) - 1)
 	{
-
 		return 1;
 	}
 }
-void main(void)
+
+int main(void)
 { 
 	double x, y, z;
 	printf("Enter the natural numbers x, y, z to check whether they are a Pythagorean triple (x^2 + y^2 = z^2).\nThe programm will also show whether they are a primitive Pythagorean triple.\n");
-	UserInput(&x, &y, &z);
+	userInput(&x, &y, &z);
 	if (pow(x, 2) + pow(y, 2) == pow(z, 2))
 	{
 		if (gcd(&x, &y, &z) == 1)
@@ -81,5 +83,6 @@ void main(void)
 	{
 		printf("\n>>>The natural numbers %d, %d, %d are not a Pythagorean triple.<<<", (int)x, (int)y, (int)z);
 	}
-	printf("\n-Thank you for using this programm.\n");
+	printf("\nThank you for using this programm.\n");
+	return 0;
 }
