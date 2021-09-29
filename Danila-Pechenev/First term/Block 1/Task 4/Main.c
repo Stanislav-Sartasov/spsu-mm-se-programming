@@ -41,7 +41,7 @@ double get_input_number()
 int main()
 {
 	printf("This program for the input natural number that is not the square of another natural number\n");
-	printf("output the period and the sequence[a0; a1...ai] of continued fraction.\n");
+	printf("output the period and the sequence [a0; a1...ai] of continued fraction.\n");
 	printf("Restrictions on the entered numbers: 2 <= n <= 1000000000.\n");
 	printf("\n");
 
