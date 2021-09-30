@@ -37,6 +37,11 @@ int main()
                 scanf_s("%d", p1);
                 break;
             }
+            default:
+            {
+                printf("\n\t*First number entered is natural. We guess you to enter a second number.\n");
+                break;
+            }
         }
     } while (a1 < 0);
 
@@ -53,6 +58,11 @@ int main()
                 scanf_s("%d", p2);
                 break;
             }
+            default:
+            {
+                printf("\n\t**Second number entered is natural. We guess you to enter third number.\n");
+                break;
+            }
         }
     } while (a2 < 0);
 
@@ -67,6 +77,11 @@ int main()
             {
                 printf("\nThird number entered is negative. Try again!\n-->");
                 scanf_s("%d", p3);
+                break;
+            }
+            default:
+            {
+                printf("\n\t***Third number entered is natural. You correctly entered three numbers,\n\twe'll check if these three numbers are a Pythagorean triple.\n");
                 break;
             }
         }
