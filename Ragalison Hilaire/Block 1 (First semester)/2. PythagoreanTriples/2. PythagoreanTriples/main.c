@@ -60,7 +60,7 @@ int main()
             }
             default:
             {
-                printf("\n\t**Second number entered is natural. I invite you to enter third number.\n");
+                printf("\n\t**Second number entered is natural. I invite you to enter a third number.\n");
                 break;
             }
         }
@@ -86,7 +86,6 @@ int main()
         }
     } while (a3 < 0);
     
-
 
     if (isPythagorean1(a1, a2, a3))
     {
