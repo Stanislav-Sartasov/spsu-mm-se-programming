@@ -66,7 +66,6 @@ int main()
         }
     } while (a2 < 0);
 
-    
     printf("\n3. Enter any natural number: ");
     scanf_s("%d", p3);
     do
