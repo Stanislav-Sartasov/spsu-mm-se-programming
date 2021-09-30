@@ -1,8 +1,8 @@
 
 #define _USE_MATH_DEFINES
+
 #include <stdio.h>
 #include <math.h>
-
 
 double find_angle(double x, double y, double z)
 {
@@ -53,15 +53,16 @@ void input(double* adress, char* message)
 int main()
 {
 	double x, y, z, alpha, beta, gamma;
-	printf("This program checks existance of triangle by entered sides and counts its angles.\n");
+	printf("This program checks existance of triangle by entered sides and counts its angles.\n\n");
 	printf("Enter triangle sides:\n");
 	input(&x, "Enter first side: ");
 	input(&y, "Enter second side: ");
 	input(&z, "Enter third side: ");
+	printf("\n");
 
 	if (is_triangle(x, y, z))
 	{
-		printf("Triangle exists.\n");
+		printf("Triangle exists.\n\n");
 
 		alpha = find_angle(x, y, z);
 		beta = find_angle(z, x, y);
