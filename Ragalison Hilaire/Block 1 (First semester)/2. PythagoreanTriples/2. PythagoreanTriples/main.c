@@ -39,7 +39,7 @@ int main()
             }
             default:
             {
-                printf("\n\t*First number entered is natural. We guess you to enter a second number.\n");
+                printf("\n\t*First number entered is natural. I invite you to enter a second number.\n");
                 break;
             }
         }
@@ -60,7 +60,7 @@ int main()
             }
             default:
             {
-                printf("\n\t**Second number entered is natural. We guess you to enter third number.\n");
+                printf("\n\t**Second number entered is natural. I invite you to enter third number.\n");
                 break;
             }
         }
@@ -80,7 +80,7 @@ int main()
             }
             default:
             {
-                printf("\n\t***Third number entered is natural. You correctly entered three numbers,\n\twe'll check if these three numbers are a Pythagorean triple.\n");
+                printf("\n\t***Third number entered is natural. You correctly entered three numbers,\n\ti'll check if these three numbers are a Pythagorean triple.\n");
                 break;
             }
         }
