@@ -36,7 +36,7 @@ int main()
         {
             case 1:
             {
-                printf("\n\tError! First number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+                printf("\n\tError! First number entered is 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
                 scanf_s("%Lf", p1);
                 break;
             }
@@ -57,7 +57,7 @@ int main()
         {
             case 1:
             {
-                printf("\n\tError! Second number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+                printf("\n\tError! Second number entered is 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
                 scanf_s("%Lf", p2);
                 break;
             }
@@ -79,7 +79,7 @@ int main()
         {
         case 1:
         {
-            printf("\n\tError! Third number entered is equal to 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+            printf("\n\tError! Third number entered is equal to 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
             scanf_s("%Lf", p3);
             break;
         }
