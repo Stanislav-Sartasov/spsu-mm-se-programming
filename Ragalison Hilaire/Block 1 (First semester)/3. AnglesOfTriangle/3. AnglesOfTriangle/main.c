@@ -23,33 +23,60 @@ void determinationAngleSidesA1A2(long double, long double, long double);
 int main()
 
 {
-    long double a1 = 0, a2 = 0, a3 = 0;
+    long double a1, a2, a3, *p1, *p2, *p3;
+    p1 = &a1;
+    p2 = &a2;
+    p3 = &a3;
 
-    printf("\nEnter any rational number different to 0 : ");
-    scanf_s("%Lf", &a1);
-    if (a1 == 0)
+    printf("\n1.Enter any rational number different to 0 : ");
+    scanf_s("%Lf", p1);
+    do
     {
-        printf("\n\tError! First number entered is 0.\n\tWe cannot construct a triangle.\n");
-        return EXIT_SUCCESS;
-    }
+        switch (*p1 == 0)
+        {
+        case 1:
+        {
+            printf("\n\tError! First number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+            scanf_s("%Lf", p1);
+            break;
+        }
+        }
+    } while (a1 == 0);
 
-    printf("\nEnter any rational number different to 0 : ");
-    scanf_s("%Lf", &a2);
 
-    if (a2 == 0)
+    printf("\n2. Enter any rational number different to 0 : ");
+    scanf_s("%Lf", p2);
+    do
     {
-        printf("\n\tError! Second number entered is 0.\n\tWe cannot construct a triangle.\n");
-        return EXIT_SUCCESS;
-    }
+        switch (*p2 == 0)
+        {
+        case 1:
+        {
+            printf("\n\tError! Second number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+            scanf_s("%Lf", p2);
+            break;
+        }
+        }
+    } while (a2 == 0);
 
-    printf("\nEnter any rational number different to 0 : ");
-    scanf_s("%Lf", &a3);
 
-    if (a3 == 0)
+    printf("\n3. Enter any rational number different to 0 : ");
+    scanf_s("%Lf", p3);
+
+    do
     {
-        printf("\n\tError! Third number entered is 0.\n\tWe cannot construct a triangle.\n");
-        return EXIT_SUCCESS;
-    }
+        switch (*p3 == 0)
+        {
+        case 1:
+        {
+            printf("\n\tError! Third number entered is equal to 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+            scanf_s("%Lf", p3);
+            break;
+        }
+        }
+    } while (a3 == 0);
+
+
 
     showTripletEntered(a1, a2, a3);
     showFractionalPart3Num(a1, a2, a3);
