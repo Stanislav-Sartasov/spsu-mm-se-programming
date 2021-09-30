@@ -25,7 +25,7 @@ int main()
 	int remainder = 0, lastDenominator = 1, i = 0, intDenominator, intNumenator, difference;
 	int intPartOfNumber = (int)(pow(number, 0.5)); 
 
-	printf("\nInfinite continued fraction representation of the square root of %d: [%d; (", number, intPartOfNumber);
+	printf("\nInfinite continued fraction representation of the square root of %d: [%d; ", number, intPartOfNumber);
 
 	for ( ; ; )
 	{
@@ -46,11 +46,10 @@ int main()
 
 		if (lastDenominator == 1)
 		{
-			printf(")].");
+			printf("].");
 			break;
 		}
 	}
-	printf("\nThe '()' indicates period of the continued fraction, which repeats over and over again.\n");
 	printf("Period of the continued fraction is %d.\n", i);
 	return 0;
 }
