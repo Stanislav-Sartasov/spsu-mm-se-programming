@@ -37,11 +37,6 @@ int main()
                 scanf_s("%d", p1);
                 break;
             }
-            /*default:
-            {
-                printf("\n\4The main purpose of this exercise is to determine a pythagorean triple \nand a primitive pythagorean triple.\n");
-                break;
-            }*/
         }
     } while (a1 < 0);
 
@@ -58,10 +53,6 @@ int main()
                 scanf_s("%d", p2);
                 break;
             }
-           /*default:
-            {   
-                 printf("\n\4The main purpose of this exercise is to determine a pythagorean triple \nand a primitive pythagorean triple.\n");
-            }*/
         }
     } while (a2 < 0);
 
@@ -78,10 +69,6 @@ int main()
                 scanf_s("%d", p3);
                 break;
             }
-            /*default:
-            {
-                printf("\n\4The main purpose of this exercise is to determine a pythagorean triple \nand a primitive pythagorean triple.\n");
-            }*/ 
         }
     } while (a3 < 0);
     
