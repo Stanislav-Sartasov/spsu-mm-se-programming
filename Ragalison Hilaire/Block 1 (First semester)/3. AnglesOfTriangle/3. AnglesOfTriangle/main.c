@@ -34,12 +34,17 @@ int main()
     {
         switch (*p1 == 0)
         {
-        case 1:
-        {
-            printf("\n\tError! First number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
-            scanf_s("%Lf", p1);
-            break;
-        }
+            case 1:
+            {
+                printf("\n\tError! First number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+                scanf_s("%Lf", p1);
+                break;
+            }
+            default:
+            {
+                printf("\n\tNumber entered is different to 0.\n\tCould you enter a second number?\n");
+                break;
+            }
         }
     } while (a1 == 0);
 
@@ -50,12 +55,17 @@ int main()
     {
         switch (*p2 == 0)
         {
-        case 1:
-        {
-            printf("\n\tError! Second number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
-            scanf_s("%Lf", p2);
-            break;
-        }
+            case 1:
+            {
+                printf("\n\tError! Second number entered is 0.\n\tWe cannot construct a triangle. Try again!\n-->");
+                scanf_s("%Lf", p2);
+                break;
+            }
+            default:
+            {
+                printf("\n\tSecond number entered is different to 0.\n\tCould you enter a third number?\n");
+                break;
+            }
         }
     } while (a2 == 0);
 
@@ -71,6 +81,11 @@ int main()
         {
             printf("\n\tError! Third number entered is equal to 0.\n\tWe cannot construct a triangle. Try again!\n-->");
             scanf_s("%Lf", p3);
+            break;
+        }
+        default:
+        {
+            printf("\n\tNumber entered is different to 0.\n\tWe'll check if we can constuct triangle with these three numbers.\n");
             break;
         }
         }
