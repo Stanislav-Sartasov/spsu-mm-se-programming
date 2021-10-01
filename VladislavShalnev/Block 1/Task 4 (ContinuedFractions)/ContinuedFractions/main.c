@@ -31,7 +31,7 @@ long long get_int_part_of_sqrt(long long number)
 
 	long long right_border = (number < MAX_RIGHT_BORDER) ? number : MAX_RIGHT_BORDER;
 
-	while (left_border < right_border - 1)
+	while (right_border - left_border > 1)
 	{
 		long long middle = (left_border + right_border) / 2;
 		if (middle * middle <= number)
