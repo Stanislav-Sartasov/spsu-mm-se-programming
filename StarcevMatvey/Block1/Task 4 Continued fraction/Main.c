@@ -6,11 +6,11 @@ int main()
 {
 	printf("Calculates the order of a continued fraction and period for sqrt(number)\n");
 
-	long double number;
+	long int number;
 	while (1)
 	{
 		printf("Input your integer number\n");
-		number = get_double();
+		number = get_int();
 		if (number > 0 && sqrt(number) != trunc(sqrt(number)))
 		{
 			break;
