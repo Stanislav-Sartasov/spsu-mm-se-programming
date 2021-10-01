@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <math.h>
-#define PI 3.1415926535
+#define PI 3.14159265357989
 
-float get_angle(float a, float b, float c)
+float get_angle(double a, double b, double c)
 {
 	return 180 * acos((a * a + b * b - c * c) / (2 * a * b)) / PI;
 }
 
-void print_angle(float a)
+void print_angle(double a)
 {
 	printf("%d %d'%d\"\n", (int)floor(a), (int)floor((a - floor(a)) * 60), (int)floor((a - floor(a)) * 3600) % 60);
 }
