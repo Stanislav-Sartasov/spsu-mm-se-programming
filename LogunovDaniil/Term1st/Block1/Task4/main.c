@@ -54,7 +54,7 @@ void incorrectInputMessage(char error[])
 
 void inputAwaitingMessage()
 {
-	printf("Please, write a natural number in range [0, 1e%d]\n", MAX_INPUT_VALUE_POW10);
+	printf("Please, write a natural number in range [1, 1e%d]\n", MAX_INPUT_VALUE_POW10);
 	printf(" or enter an empty line to exit: ");
 }
 
@@ -67,6 +67,7 @@ void calculateAndPrintFraction(int n)
 {
 	printf("Arguments of the continued fraction are: ");
 	int rootN = (int)sqrt(n);
+	int periodLen = 0;
 	if (POW2(rootN + 1) == n)
 	{
 		rootN++;
@@ -113,12 +114,10 @@ void calculateAndPrintFraction(int n)
 		printf("[%d", rootN);
 
 		// calculating further until the period goes back to the first member
-		int isFirstCycle = 1;
-		while (isFirstCycle || alpha != cmpAlpha || add != cmpAdd || div != cmpDiv || mul != cmpMul)
+		while (periodLen == 0 || alpha != cmpAlpha || add != cmpAdd || div != cmpDiv || mul != cmpMul)
 		{
-			if (isFirstCycle)
+			if (periodLen == 0)
 			{
-				isFirstCycle = 0;
 				printf("; ");
 			}
 			else
@@ -126,6 +125,7 @@ void calculateAndPrintFraction(int n)
 				printf(", ");
 			}
 			printf("%d", alpha);
+			periodLen++;
 
 			add = -prevDiv * (prevAdd - prevAlpha * prevDiv);
 			mul = prevDiv * prevMul;
@@ -145,6 +145,7 @@ void calculateAndPrintFraction(int n)
 		}
 		printf("]");
 	}
+	printf(",\n with the period length of %d", periodLen);
 	printf("\n\n");
 }
 
