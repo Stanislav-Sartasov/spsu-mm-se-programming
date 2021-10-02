@@ -53,7 +53,7 @@ int main()
 	printf("The chain fraction of this root: \n[%d", (int)floor(sqrt(number)));
 	rem = 0;
 	den = 1;
-	count = 1;
+	count = 0;
 	a0 = (int)floor(sqrt(number));
 	res = a0;
 	do
