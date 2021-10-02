@@ -177,4 +177,3 @@ void determinationAngleSidesA1A2(long double r3, long double s3, long double t3)
     printf("\n--->ANGLE IN DEGREE between two sides %Lf and %Lf in triplet (%Lf, %Lf, %Lf) \n \t\tis EQUAL TO: %Lf ; %Lf in minute(') ; %Lf in second('').\n\n", r3, s3, r3, s3, t3, ac3, min3, sec3);
 
 }
-
