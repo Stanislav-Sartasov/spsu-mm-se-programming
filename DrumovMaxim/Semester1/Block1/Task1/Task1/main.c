@@ -4,7 +4,7 @@
 int primeN(int i)
 {
 	int prime = 1;
-	for (int j = 2; j * j <= i; j++)
+	for (int j = 2; j <= trunc(pow(i, 0.5)) + 1; j++)
 	{
 		if (i % j == 0)
 		{
@@ -22,9 +22,9 @@ int main() {
 	printf("Calculate Merseen's numbers\n");
 	for (int i = 2; i <= 31; ++i)
 	{
-		if (primeN(i) == 1)
+		numberM = pow(2, i) - 1;
+		if (primeN(numberM) == 1)
 		{
-			numberM = pow(2, i) - 1;
 			printf("%d\n", numberM);
 		}
 	}
