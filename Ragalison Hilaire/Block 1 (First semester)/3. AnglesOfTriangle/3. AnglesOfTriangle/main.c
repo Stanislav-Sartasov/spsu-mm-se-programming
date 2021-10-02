@@ -28,7 +28,7 @@ int main()
     p2 = &a2;
     p3 = &a3;
 
-    printf("\n1.Enter any rational number different to 0 : ");
+    printf("\n1.Enter any number different to 0 : ");
     scanf_s("%Lf", p1);
     do
     {
@@ -49,7 +49,7 @@ int main()
     } while (a1 == 0);
 
 
-    printf("\n2. Enter any rational number different to 0 : ");
+    printf("\n2. Enter any number different to 0 : ");
     scanf_s("%Lf", p2);
     do
     {
@@ -70,7 +70,7 @@ int main()
     } while (a2 == 0);
 
 
-    printf("\n3. Enter any rational number different to 0 : ");
+    printf("\n3. Enter any number different to 0 : ");
     scanf_s("%Lf", p3);
 
     do
