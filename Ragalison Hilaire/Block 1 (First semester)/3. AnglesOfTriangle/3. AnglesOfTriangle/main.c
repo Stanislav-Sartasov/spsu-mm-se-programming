@@ -32,11 +32,11 @@ int main()
     scanf_s("%Lf", p1);
     do
     {
-        switch (*p1 == 0)
+        switch (*p1 <= 0)
         {
             case 1:
             {
-                printf("\n\tError! First number entered is 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
+                printf("\n\tError! First number entered is 0 or negative.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
                 scanf_s("%Lf", p1);
                 break;
             }
@@ -46,18 +46,18 @@ int main()
                 break;
             }
         }
-    } while (a1 == 0);
+    } while (a1 <= 0);
 
 
     printf("\n2. Enter any number different to 0 : ");
     scanf_s("%Lf", p2);
     do
     {
-        switch (*p2 == 0)
+        switch (*p2 <= 0)
         {
             case 1:
             {
-                printf("\n\tError! Second number entered is 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
+                printf("\n\tError! Second number entered is 0 or negative.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
                 scanf_s("%Lf", p2);
                 break;
             }
@@ -67,18 +67,18 @@ int main()
                 break;
             }
         }
-    } while (a2 == 0);
+    } while ( a2 <= 0);
 
     printf("\n3. Enter any number different to 0 : ");
     scanf_s("%Lf", p3);
 
     do
     {
-        switch (*p3 == 0)
+        switch (*p3 <= 0)
         {
             case 1:
             {
-                printf("\n\tError! Third number entered is equal to 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
+                printf("\n\tError! Third number entered is equal to 0 or negative.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
                 scanf_s("%Lf", p3);
                 break;
             }
@@ -88,7 +88,7 @@ int main()
                 break;
             }
         }
-    } while (a3 == 0);
+    } while (a3 <=0);
 
 
 
