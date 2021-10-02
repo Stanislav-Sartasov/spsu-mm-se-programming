@@ -32,27 +32,21 @@ int gcd(int a, int b)
 	return a;
 }
 
-void sort_triple(int* a, int* b, int* c)
+void sort_double(int* a, int* b)
 {
-	int tmp;
-	if (*c > *b)
-	{
-		tmp = *b;
-		*b = *c;
-		*c = tmp;
-	}
 	if (*b > *a)
 	{
-		tmp = *a;
-		*a = *b;
-		*b = tmp;
+		int tmp = *b;
+		*b = *a;
+		*a = tmp;
 	}
-	if (*c > *b)
-	{
-		tmp = *b;
-		*b = *c;
-		*c = tmp;
-	}
+}
+
+void sort_triple(int* a, int* b, int* c)
+{
+	sort_double(b, c);
+	sort_double(a, b);
+	sort_double(b, c);
 }
 
 void print_answer(int a, int b, int c)
@@ -68,7 +62,7 @@ void print_answer(int a, int b, int c)
 	}
 	else
 	{
-		printf("The three numbers entered are the Pythagorean triplet.\n");
+		printf("The three numbers entered are the Pythagorean triple.\n");
 	}
 }
 
