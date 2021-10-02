@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+
 #define MAX_RIGHT_BORDER 3037000500
 
 void update_remainder_and_denominator(long long intermediate, long long number, long long int_part, long long* remainder, long long* denominator)
