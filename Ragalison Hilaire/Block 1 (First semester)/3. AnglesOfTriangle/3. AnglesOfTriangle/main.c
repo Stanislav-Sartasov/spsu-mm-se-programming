@@ -69,7 +69,6 @@ int main()
         }
     } while (a2 == 0);
 
-
     printf("\n3. Enter any number different to 0 : ");
     scanf_s("%Lf", p3);
 
