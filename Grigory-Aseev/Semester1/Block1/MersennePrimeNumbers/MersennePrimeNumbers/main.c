@@ -2,14 +2,14 @@
 #include <stdbool.h>
 #include <math.h>
 
-bool isPrime(int* number)
+bool is_prime(int* number)
 {
 	if (*number == 1)
 	{
 		return false;
 	}
-	int squareRoot = pow(*number, 0.5) + 1;
-	for (int i = 2; i <= squareRoot; i++)
+	int square_root = pow(*number, 0.5) + 1;
+	for (int i = 2; i <= square_root; i++)
 	{
 		if (*number % i == 0)
 		{
@@ -25,7 +25,7 @@ int main()
 	for (int i = 1; i <= 31; i++)
 	{
 		int mersenne_number = pow(2, i) - 1;
-		if (isPrime(&mersenne_number))
+		if (is_prime(&mersenne_number))
 		{
 			printf("Found a new Mersenne prime number: %d \n", mersenne_number);
 		}

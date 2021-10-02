@@ -3,10 +3,11 @@
 #include <limits.h>
 #include <math.h>
 
-int int_input(char message[])
+long long long_int_input(char message[])
 {
 	bool check_correction = true;
-	int sign = 1, number = 0, end = 0, check_overflow = 0;
+	long long number = 0;
+	int sign = 1, end = 0, check_overflow = 0;
 	do
 	{
 		bool first_mark_input = true;
@@ -14,7 +15,7 @@ int int_input(char message[])
 		sign = 1, number = 0, end = 0, check_overflow = 0;
 		check_correction = true;
 		printf_s("%s", message);
-		while (check_correction && check_overflow < 11)
+		while (check_correction && check_overflow < 19)
 		{
 			end = scanf_s("%c", &symbol_input);
 			if (first_mark_input)
@@ -38,9 +39,9 @@ int int_input(char message[])
 			{
 				if (symbol_input >= '0' && symbol_input <= '9')
 				{
-					if (check_overflow == 9 && INT_MAX / 10 <= number)
+					if (check_overflow == 17 && LLONG_MAX / 100 <= number)
 					{
-						check_overflow += 10;	// raising a variable due to overflow
+						check_overflow += 100;	// raising a variable due to overflow
 						break;
 					}
 					number = number * 10 + symbol_input - '0';
@@ -67,15 +68,15 @@ int int_input(char message[])
 				scanf_s("%c", &symbol_input);
 			}
 		}
-		else if (check_overflow > 10)
+		else if (check_overflow > 18)
 		{
 			if (sign == 1)
 			{
-				printf("overflow, there is more than int_max, try again.\n");
+				printf("overflow, there is more than llong_max, try again.\n");
 			}
 			else
 			{
-				printf("overflow, there is less than int_min, try again.\n");
+				printf("overflow, there is less than llong_min, try again.\n");
 			}
 			symbol_input = '\0';
 			while (symbol_input != '\n')	// clearing the buffer of unnecessary user input characters
@@ -83,16 +84,16 @@ int int_input(char message[])
 				scanf_s("%c", &symbol_input);
 			}
 		}
-	} while (!check_correction || check_overflow > 10);
+	} while (!check_correction || check_overflow > 18);
 	return number * sign;
 }
 
-int input_not_square()
+long long input_not_square()
 {
-	int a;
+	long long a = 0;
 	do
 	{
-		a = int_input("Enter a natural number that is not the square of another number: ");
+		a = long_int_input("Enter a natural number that is not the square of another number: ");
 		if ((trunc(sqrt(a)) * trunc(sqrt(a))) == a)
 		{
 			printf("That is the square of %f .\n", sqrt(a));
@@ -105,20 +106,17 @@ int input_not_square()
 	return a;
 }
 
-void chainFractionSquareRoot(int a)
+void chain_fraction_square_root(long long number)
 {
 	int period = 1;
-	int a0 = trunc(sqrt(a));
-	printf("The sequence of a square root: [%d", a0);
-	double x = sqrt(a) - a0; // auxiliary variable for calculating a chain of continued fractions
-	int ai = trunc(1 / x); // each subsequent member of the sequence
-	printf("; %d", ai);
-	while (ai != (a0 * 2)) // by Evariste Galois' theorem, the last term of the periodic sequence of the square root is the doubled first term of the chain of fractions of the square root.
+	long long first_term = floorl(sqrt(number));
+	printf("The sequence of a square root: [%lld", first_term);
+	for (long long denominator = 1, terms = first_term, k = 0; denominator != 1 || period == 1; period++)
 	{
-		period++; // And also by Galois theorem the first term of the periodic sequence of the square root is the second term of the fractional chain of the square root.
-		x = (1 / x) - ai;
-		ai = trunc(1 / x);
-		printf("; %d", ai);
+		k = terms * denominator - k;
+		denominator = (number - k * k) / denominator;
+		terms = (first_term + k) / denominator;
+		printf("; %lld", terms);
 	}
 	printf("] \n");
 	printf("The period: %d", period);
@@ -127,7 +125,8 @@ void chainFractionSquareRoot(int a)
 int main()
 {
 	printf("This program displays the period and the sequence of a square root for the entered number that is not the square of an integer. \n");
-	int a = input_not_square();
-	chainFractionSquareRoot(a);
+	long long a = 0;
+	a = input_not_square();
+	chain_fraction_square_root(a);
 	return 0;
 }

@@ -86,12 +86,12 @@ int int_input(char message[])
 	return number * sign;
 }
 
-bool isPythagoreanTriples(int a, int b, int c)
+bool is_pythagorean_triples(int a, int b, int c)
 {
 	return (a * a + b * b == c * c) || (a * a + c * c == b * b) || (b * b + c * c == a * a);
 }
 
-bool isPrimeCouple(int first, int second)
+bool is_prime_couple(int first, int second)
 {
 	while (first != 0 && second != 0)
 	{
@@ -124,9 +124,9 @@ int main()
 	natural_number_input(&y, "Please enter the second natural number: ");
 	natural_number_input(&z, "Please enter a third natural number: ");
 	printf("%d, %d, %d ", x, y, z);
-	if (isPythagoreanTriples(x, y, z))
+	if (is_pythagorean_triples(x, y, z))
 	{
-		if (isPrimeCouple(x, y) && isPrimeCouple(x, z) && isPrimeCouple(z, y))
+		if (is_prime_couple(x, y) && is_prime_couple(x, z) && is_prime_couple(z, y))
 		{
 			printf("are prime Pythagorean triples.");
 		}

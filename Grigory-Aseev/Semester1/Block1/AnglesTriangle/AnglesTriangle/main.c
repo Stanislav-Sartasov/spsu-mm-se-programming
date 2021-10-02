@@ -102,7 +102,7 @@ double double_input(char message[])
 }
 
 
-void printAngles(double a, double b, double c)
+void print_angles(double a, double b, double c)
 {
 	double p = (a + b + c) / 2;
 	double s = sqrt(p * (p - a) * (p - b) * (p - c));
@@ -143,6 +143,6 @@ int main()
 		return 0;
 	}
 	printf("it is possible to construct a non-degenerate triangle with corresponding sides. \n");
-	printAngles(a, b, c);
+	print_angles(a, b, c);
 	return 0;
 }
