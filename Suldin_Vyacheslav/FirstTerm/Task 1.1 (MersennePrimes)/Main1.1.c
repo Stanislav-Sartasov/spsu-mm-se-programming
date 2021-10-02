@@ -5,19 +5,19 @@ int primeTest(int number);
 
 int main()
 {
-	int N, t;
+	int n, t;
 
 	printf("Mersenne primes on [1,..2^31-1] :\n");
 	t = 2;
-	for (N = 1; N <= 31; N = N + 2)
+	for (n = 1; n <= 31; n += 2)
 	{
-		if (primeTest(N) && primeTest(t - 1))
+		if (primeTest(n) && primeTest(t - 1))
 		{
-			printf("N=%d, 2^N-1 = %d\n", N, t - 1);
+			printf("N=%d, 2^N-1 = %d\n", n, t - 1);
 		}
 		if (t == 2 && primeTest(t * t - 1))
 		{
-			printf("N=%d, 2^N-1 = %d\n", N, t * t - 1);
+			printf("N=%d, 2^N-1 = %d\n", n, t * t - 1);
 		}
 		t = t * 4;
 	}
