@@ -11,6 +11,7 @@
 unsigned int isPythagorean1( int,  int,  int);
 unsigned int isPythagorean2( int,  int,  int);
 unsigned int isPythagorean3( int,  int,  int);
+unsigned int isPythagorean0(int , int , int );
 
 void showTripletPyt( int,  int,  int);
 
@@ -86,8 +87,12 @@ int main()
         }
     } while (a3 < 0);
     
+    if (isPythagorean0(a1, a2, a3))
+    {
+    printf("\nTriplet (%d, %d, %d) of numbers, recently entered, IS NOT Pythagorean triple.\n", a1, a2, a3);
+    }
 
-    if (isPythagorean1(a1, a2, a3))
+    else if (isPythagorean1(a1, a2, a3))
     {
         showTripletPyt(a1, a2, a3);
         if ((a1 == a2) || (a1 == a3))
@@ -166,6 +171,8 @@ int main()
 
     }
 
+    
+
     else
     {
         printf("\nTriplet (%d, %d, %d) of numbers, recently entered, IS NOT Pythagorean triple.\n", a1, a2, a3);
@@ -177,6 +184,10 @@ int main()
 
 
 
+unsigned int isPythagorean0(int a, int b, int c)
+{
+    return a * a + b * b == 0;
+}
 
 unsigned int isPythagorean1( int a,  int b,  int c)
 {
