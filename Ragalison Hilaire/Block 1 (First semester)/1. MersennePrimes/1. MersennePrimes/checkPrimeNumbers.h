@@ -16,8 +16,8 @@ bool isPrime(int x)
 			{
 				return false;
 			}
-		    return true;
 		}
+		return true;
 	}
 	else
 		return false;
