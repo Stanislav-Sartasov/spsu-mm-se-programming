@@ -18,17 +18,17 @@ bool is_prime(int n) // prime check algorithm
 
 int main()
 {
-	int Mersenne_number = 2 * 2 - 1; /* first Mersenne number
+	int mersenne_number = 2 * 2 - 1; /* first mersenne number
 	is 2 - 1 = 1 not prime */
-	printf("The program calculates Mersenne primes that do not exceed 2 ^ 31 - 1\n");
+	printf("The program calculates mersenne primes that do not exceed 2 ^ 31 - 1\n");
 	for (int i = 1; i <= 30; i++)
 	{
-		if (is_prime(Mersenne_number))
+		if (is_prime(mersenne_number))
 		{
-			printf("%d ", Mersenne_number);
+			printf("%d ", mersenne_number);
 		}
-		Mersenne_number = 2 * Mersenne_number + 1; /* getting
-		the next Mersenne number */
+		mersenne_number = 2 * mersenne_number + 1; /* getting
+		the next mersenne number */
 	}
 	return 0;
 }
