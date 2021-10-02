@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4eb5161a-00a3-49e4-a16f-5b7a92b2733b}</ProjectGuid>
+    <ProjectGuid>{54faeaf9-c980-472e-b286-2d46b7e45bf4}</ProjectGuid>
     <RootNamespace>Task2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -139,11 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Input and tools\inputAndTools.c" />
+    <ClCompile Include="inputAndTools.c" />
     <ClCompile Include="Main.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Input and tools\inputAndTools.h" />
+    <ClInclude Include="inputAndTools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
