@@ -48,7 +48,7 @@ int gcd(int x1, int x2)
 
 int main()
 {
-	printf("This programm checks if 3 natural numbers are a Pythagorean triple and if they are coprime\n");
+	printf("This program checks if 3 natural numbers are a Pythagorean triple and if they are coprime\n");
 	printf("Enter 3 natural numbers (each one on next line)\n");
 	int a = get_natural_number();
 	int b = get_natural_number();
@@ -70,5 +70,4 @@ int main()
 		printf("This is not a Pythagorean triple");
 	}
 	return 0;
-
 }
