@@ -28,7 +28,7 @@ int main()
     p2 = &a2;
     p3 = &a3;
 
-    printf("\n1.Enter any rational number different to 0 : ");
+    printf("\n1.Enter any number different to 0 : ");
     scanf_s("%Lf", p1);
     do
     {
@@ -49,7 +49,7 @@ int main()
     } while (a1 == 0);
 
 
-    printf("\n2. Enter any rational number different to 0 : ");
+    printf("\n2. Enter any number different to 0 : ");
     scanf_s("%Lf", p2);
     do
     {
@@ -70,24 +70,24 @@ int main()
     } while (a2 == 0);
 
 
-    printf("\n3. Enter any rational number different to 0 : ");
+    printf("\n3. Enter any number different to 0 : ");
     scanf_s("%Lf", p3);
 
     do
     {
         switch (*p3 == 0)
         {
-        case 1:
-        {
-            printf("\n\tError! Third number entered is equal to 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
-            scanf_s("%Lf", p3);
-            break;
-        }
-        default:
-        {
-            printf("\n\tNumber entered is different to 0.\n\tWe'll check if we can constuct triangle with these three numbers.\n");
-            break;
-        }
+            case 1:
+            {
+                printf("\n\tError! Third number entered is equal to 0.\n\tWe'll not be able to construct a triangle. Try again!\n-->");
+                scanf_s("%Lf", p3);
+                break;
+            }
+            default:
+            {
+                printf("\n\tNumber entered is different to 0.\n\tWe'll check if we can constuct triangle with these three numbers.\n");
+                break;
+            }
         }
     } while (a3 == 0);
 
