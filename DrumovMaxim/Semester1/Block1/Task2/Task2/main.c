@@ -10,7 +10,14 @@ long long gcd(long long a, long long b) // Euclidean algorithm
 		a = b;
 		b = c;
 	}
+	if (a)
+	{
+		return a;
+	}
+	else
+	{
 		return b;
+	}
 }
 
 int pythagoreanTriple(long long a, long long b, long long c) // hypotenuse test
