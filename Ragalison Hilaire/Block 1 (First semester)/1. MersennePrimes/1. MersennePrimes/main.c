@@ -16,7 +16,6 @@ int main()
 
     for (a = 1; a <= 31; a++) 
     {
-
         b = pow(2, a);
         c = b - 1;
 
@@ -33,9 +32,7 @@ int main()
             printf(" --> %f is NOT a Mersenne prime. \n\n", c);
         };
         */
-
     }
-
     return 0;
 }
 
