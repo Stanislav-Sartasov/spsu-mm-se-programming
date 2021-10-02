@@ -19,7 +19,7 @@ int main()
 	printf("Please input three natural numbers:\n");
 	scanf_s("%d%d%d", &a, &b, &c);
 
-	while ((a < 0) || (b < 0) || (c < 0))
+	while ((a <= 0) || (b <= 0) || (c <= 0))
 	{
 		printf("At least one string is not a natural number. Please try again");
 		char clean = 0;
