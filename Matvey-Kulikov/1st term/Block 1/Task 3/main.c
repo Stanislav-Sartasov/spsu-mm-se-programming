@@ -32,7 +32,7 @@ double get_double_number()
 void get_angle(double op_side, double adj_side_1, double adj_side_2)
 {
 	double angle_radians = acos((pow(adj_side_1,2) + pow(adj_side_2, 2) - pow(op_side, 2)) / (2 * adj_side_1 * adj_side_2));
-	int angle_secs = angle_radians * 180 * 3600 / acos(-1);
+	int angle_secs = round(angle_radians * 180 * 3600 / acos(-1));
 	int angle_mins = angle_secs / 60;
 	int angle_degs = angle_mins / 60;
 	printf("Angle opposite to %lf side is %d degrees, %d minutes, %d seconds\n", op_side, angle_degs, angle_mins % 60, angle_secs % 60);
