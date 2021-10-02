@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1ef9d963-5891-4c93-b617-999831b067c8}</ProjectGuid>
-    <RootNamespace>MersenneNumbers</RootNamespace>
+    <ProjectGuid>{eb0b4b8a-cc44-4cb9-a079-1ce566087972}</ProjectGuid>
+    <RootNamespace>AnglesOfTheTriangle</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

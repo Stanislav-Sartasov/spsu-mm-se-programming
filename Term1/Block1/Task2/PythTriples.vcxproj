@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{ea5f9a02-5b24-4053-8b75-3e783d9765f5}</ProjectGuid>
-    <RootNamespace>AnglesOfTriangle</RootNamespace>
+    <ProjectGuid>{b5e79bb2-da27-44b8-8d04-b6459508670c}</ProjectGuid>
+    <RootNamespace>PythTriples</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

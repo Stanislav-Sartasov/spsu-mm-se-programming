@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{da95dad0-1c7b-41fc-a416-688ee1276ca5}</ProjectGuid>
-    <RootNamespace>PythagoreanTriples</RootNamespace>
+    <ProjectGuid>{d5dfc074-466e-4d4e-8898-f1b61699de4b}</ProjectGuid>
+    <RootNamespace>MercenneNumbers</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
