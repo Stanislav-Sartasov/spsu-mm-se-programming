@@ -8,13 +8,18 @@
 
 bool check_number(int number)
 {
-    for (int i = 2; i < sqrt(number) + 1; i++) {
-        if (number % i == 0)
-        {
-            return false;
+    if (number > 1)
+    {
+        for (int i = 2; i < sqrt(number) + 1; i++) {
+            if (number % i == 0)
+            {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
+
 }
 
 bool check_Pifagor(int a, int b, int c)

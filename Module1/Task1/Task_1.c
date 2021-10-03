@@ -6,13 +6,17 @@
 
 bool check_number(int n)
 {
-    for (int i = 2; i < sqrt(n) + 1; i++) {
-        if (n % i == 0)
-        {
-            return false;
+    if (n > 1) {
+        for (int i = 2; i < sqrt(n) + 1; i++) {
+            if (n % i == 0)
+            {
+                return false;
+            }
         }
+        return true;
     }
-    return true;
+    return false;
+   
 }
 
 int main()
@@ -22,7 +26,7 @@ int main()
 
     printf("Вывод всех простых чисел Мерсенна на отрезке [1; 2^31 - 1]: \n");
 
-    for (int i = 2; i <= 31; i++)
+    for (int i = 1; i <= 31; i++)
     {
         if (check_number((int)pow(2, i) - 1))
         {
