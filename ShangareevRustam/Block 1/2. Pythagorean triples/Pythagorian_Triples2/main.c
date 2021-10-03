@@ -62,7 +62,7 @@ void print_answer(int a, int b, int c)
 	}
 	else
 	{
-		printf("The three numbers entered are the Pythagorean triple.\n");
+		printf("The three numbers entered are the non-primitive Pythagorean triple.\n");
 	}
 }
 

@@ -20,7 +20,7 @@ int main()
 {
 	int mersenne_number = 2 * 2 - 1; /* first mersenne number
 	is 2 - 1 = 1 not prime */
-	printf("The program calculates mersenne primes that do not exceed 2 ^ 31 - 1\n");
+	printf("The program calculates Mersenne primes that do not exceed 2 ^ 31 - 1\n");
 	for (int i = 1; i <= 30; i++)
 	{
 		if (is_prime(mersenne_number))
