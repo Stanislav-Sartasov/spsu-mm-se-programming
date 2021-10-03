@@ -22,7 +22,7 @@ int main()
 
     printf("Вывод всех простых чисел Мерсенна на отрезке [1; 2^31 - 1]: \n");
 
-    for (int i = 1; i <= 31; i++)
+    for (int i = 2; i <= 31; i++)
     {
         if (check_number((int)pow(2, i) - 1))
         {
