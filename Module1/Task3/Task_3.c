@@ -68,13 +68,11 @@ bool check_error(double *value)
             return false;
         }
 
-    
-
     }
     else
     {
-        scanf("%*[^\n]");
-        scanf("%*c");
+        scanf_s("%*[^\n]");
+        scanf_s("%*c");
         printf("ќшибка: не вводите больше чем %d символа(ов).\n", CLI_BUFFER_SIZE - 2);
 
         return false;
@@ -95,6 +93,14 @@ void check_enter(double* cislo)
     } while (!status);
 }
 
+void transleteinthenormalangle( double znach) 
+{
+    int a=0, b=0, c=0;
+    a = (int) (znach);
+    b = (int) ((znach - (double) a) * 60);
+    c = (int) (((znach - (double) a) * 60 - b) * 60);
+    printf("%d(гр); %d(мин); %d(сек);\n", a, b, c);
+}
 
 
 int main()
@@ -114,10 +120,15 @@ int main()
 
    if (CheckTangle(a,b,c))
     {
-       
-        printf("”гол є 1 - %.2lf \n", Result_angle(a, c, b));
-        printf("”гол є 2 - %.2lf \n", Result_angle(a, b, c));
-        printf("”гол є 3 - %.2lf \n", Result_angle(b, c, a));
+       double a1=0, b1=0, c1=0;
+       a1 = Result_angle(a, c, b);
+       b1 = Result_angle(a, b, c);
+       c1 = Result_angle(b, c, a);
+
+     
+       printf("”гол є 1 - %.2lf можно представить в виде: ",  a1);  transleteinthenormalangle(a1);
+       printf("”гол є 2 - %.2lf можно представить в виде: ",  b1);  transleteinthenormalangle(b1);
+       printf("”гол є 3 - %.2lf можно представить в виде: ",  c1);  transleteinthenormalangle(c1);
     }
     else
     {
