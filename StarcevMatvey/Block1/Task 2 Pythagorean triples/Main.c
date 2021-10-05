@@ -39,11 +39,20 @@ int main()
 
 	int arr[3];
 
-	for (int i = 0; i < 3; i++)
+	int i = 0;
+	do
 	{
-		printf("Input number number %d\n", i + 1);
+		printf("Input positive number number %d\n", i + 1);
 		arr[i] = get_int();
-	}
+		if (arr[i] > 0)
+		{
+			i++;
+		}
+		else
+		{
+			printf("Input error. Try again\n\n");
+		}
+	} while (i < 3);
 
 	sort_of_array(arr, 3);
 
