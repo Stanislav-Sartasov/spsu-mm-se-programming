@@ -35,9 +35,7 @@ int main()
 		else
 			printf("The numbers are a Pythagorean triple and they are not coprime");
 	}
-	else if ((alg_euclid(alg_euclid(a, b), c)))
-		printf("The numbers are not a Pythagorean triple and they are coprime");
 	else
-		printf("The numbers are not a Pythagorean triple and they are not coprime");
+		printf("The numbers are not a Pythagorean triple");
 	return 0;
 }
