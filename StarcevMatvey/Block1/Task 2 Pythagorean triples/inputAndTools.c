@@ -71,8 +71,8 @@ long double get_double()
 	int k = -1;
 	int newk;
 	int sign = 1;
-	int chekMinus = 1;
-	int chekPoint = 0;
+	int chek_minus = 1;
+	int chek_point = 0;
 
 	printf("> ");
 
@@ -97,10 +97,10 @@ long double get_double()
 
 	for (int i = 0; i < k; i++)
 	{
-		if (str[0] == '-' && chekMinus)
+		if (str[0] == '-' && chek_minus)
 		{
 			sign = -1;
-			chekMinus = 0;
+			chek_minus = 0;
 			continue;
 		}
 		if ('0' <= str[i] && str[i] <= '9')
@@ -110,7 +110,7 @@ long double get_double()
 		}
 		if ((str[i] == '.' || str[i] == ',') && (i != 0) && (i != k - 1))
 		{
-			chekPoint = 1;
+			chek_point = 1;
 			newk = i + 1;
 			break;
 		}
@@ -119,7 +119,7 @@ long double get_double()
 		return get_double();
 	}
 
-	if (chekPoint)
+	if (chek_point)
 	{
 		for (int i = newk; i < k; i++)
 		{
