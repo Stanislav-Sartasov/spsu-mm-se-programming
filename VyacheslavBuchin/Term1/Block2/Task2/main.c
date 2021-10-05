@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 const int PENS_COUNT = 8;
-const int pens[] = { 1, 2, 5, 10, 20, 50, 100, 200 };
+const int PENS[] = {1, 2, 5, 10, 20, 50, 100, 200 };
 
 void input(int* sum)
 {
@@ -21,13 +21,13 @@ void input(int* sum)
 	}
 }
 
-void init(long long** dp, size_t width, size_t height, long long init_value)
+void init(long long** dp, size_t width, size_t height, long long initValue)
 {
 	for (int i = 0; i < height; i++)
 	{
 		dp[i] = (long long *) malloc(sizeof(long long) * width);
 		for (int j = 0; j < width; j++)
-			dp[i][j] = init_value;
+			dp[i][j] = initValue;
 	}
 }
 
@@ -47,8 +47,8 @@ void computeDP(long long** dp, int sum)
 		for (int currentSum = 1; currentSum <= sum; currentSum++)
 		{
 			dp[currentPrefix][currentSum] += dp[currentPrefix - 1][currentSum];
-			if (currentSum - pens[currentPrefix - 1] >= 0)
-				dp[currentPrefix][currentSum] += dp[currentPrefix][currentSum - pens[currentPrefix - 1]];
+			if (currentSum - PENS[currentPrefix - 1] >= 0)
+				dp[currentPrefix][currentSum] += dp[currentPrefix][currentSum - PENS[currentPrefix - 1]];
 		}
 	}
 }
