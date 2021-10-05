@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b5e79bb2-da27-44b8-8d04-b6459508670c}</ProjectGuid>
-    <RootNamespace>PythTriples</RootNamespace>
+    <ProjectGuid>{5267fdf6-8af1-4ee5-98e6-66138803c752}</ProjectGuid>
+    <RootNamespace>PythTriple</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

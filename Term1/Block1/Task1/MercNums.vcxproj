@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d5dfc074-466e-4d4e-8898-f1b61699de4b}</ProjectGuid>
-    <RootNamespace>MercenneNumbers</RootNamespace>
+    <ProjectGuid>{70836545-b498-4f2e-836a-2c5a61d21723}</ProjectGuid>
+    <RootNamespace>MercNums</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
