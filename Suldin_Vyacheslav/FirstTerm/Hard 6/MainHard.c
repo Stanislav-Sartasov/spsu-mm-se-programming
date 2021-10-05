@@ -125,7 +125,7 @@ int main()
 	*/
 	int a_formula[5] = { 1,1,2,-1,1 },						//suggestion for a ( 1*n^5+1*n^4+2*n^3+(-1)*n^2+1*n^1 )
 		b_formula[5] = { 1,2,3,0,0 };						//suggestion for b ( 1*n^5+2*n^4+3*n^3 )		
-	for (int i = 1; i <= 5; i++)							//testing
+	/*for (int i = 1; i <= 5; i++)							//testing
 	{
 		int a_test = 0, b_test = 0;
 		for (int l = 0; l <= 4;l++)
@@ -148,7 +148,8 @@ int main()
 			printf("test %d -\n", i);
 		}
 	}
-	/*long long n[6][6] = {{0}};				//	checking formulas to be sure
+	*/
+	/*long long n[6][6] = {{0}};				//	testing^2
 	for (int i = 1; i < 6;i++)
 	{
 		for (int j = 1; j < 6;j++)
