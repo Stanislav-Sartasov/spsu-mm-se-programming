@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-int coins(int summa, int lenght);
+int coins(int summ, int length);
 
 long long int count;
 
 void flush_stdin(void)
 {
-	char ch=" ";
+	char ch = " ";
 	while (scanf_s("%c", &ch) == 1 && ch != '\n')
 	{
 	}
@@ -49,36 +49,36 @@ int main()
 	}
 }
 
-int coins(int summa, int lenght)
+int coins(int summ, int length)
 {
-	if (summa == 0)
+	if (summ == 0)
 	{
 		count++;
 	}
 	else
 	{
 		int i;
-		for (i = lenght - 1; i >= 1; i--)
+		for (i = length - 1; i >= 1; i--)
 		{
 			int m[] = { 1, 2, 5, 10, 20, 50, 100, 200 };
 			if (i == 1)
 			{
-				if (summa % 2 == 0)
+				if (summ % 2 == 0)
 				{
-					count += summa / 2 + 1;
+					count += summ / 2 + 1;
 				}
 				else
 				{
-					count += 1.5 + summa / 2;
+					count += 1.5 + summ / 2;
 				}
 			}
-			else if (summa == 1)
+			else if (summ == 1)
 			{
 				count++;
 			}
-			else if (summa - m[i] >= 0)
+			else if (summ - m[i] >= 0)
 			{
-				coins(summa - m[i], i + 1);
+				coins(summ - m[i], i + 1);
 			}
 		}
 	}
