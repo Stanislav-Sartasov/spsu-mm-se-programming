@@ -9,43 +9,8 @@ void swap(int *pa,int *pb)
 	*pb = temp;
 }
 
-// Sorting 3 numbers in ascending order(it is necessary for correct program execution)
-int sorted_triple(int *triple[3])
+void is_pythagorean(int x, int y, int z)
 {
-	if (triple[0]>triple[1])
-		swap(&triple[0], &triple[1]);
-	if (triple[1] > triple[2])
-		swap(&triple[1], &triple[2]);
-	if (triple[0] > triple[1])
-		swap(&triple[0], &triple[1]);
-	return triple;
-}
-
-int input()
-{
-	printf("Enter three natural numbers: \n");
-	int x, y, z;
-	char end;
-	while (scanf("%d %d %d%c", &x, &y, &z, &end) != 4 || x <= 0 || y <= 0 || z <= 0 || end != '\n')
-	{
-		while (end != '\n')
-		{
-			scanf("%c", &end);
-		}
-		end = '\0';
-		printf("Input error, please try again: \n");
-	}
-	int triple[3] = { x, y, z };
-	return triple;
-}
-
-
-void is_pythagorean()
-{
-	int *triple = sorted_triple(input());
-	int x = triple[0];
-	int y = triple[1];
-	int z = triple[2];
 	if (x * x + y * y == z * z)
 	{
 		for (int d = 2; d <= x; d++)
@@ -67,11 +32,31 @@ void is_pythagorean()
 	}
 }
 
-
 int main()
 {
 	printf("This program determines whether a triple of numbers ");
 	printf("is Pythagorean,and also whether it is primitive.\n\n");
-	is_pythagorean();
+
+	printf("Enter three natural numbers: \n");
+	int x, y, z;
+	char end;
+	while (scanf("%d %d %d%c", &x, &y, &z, &end) != 4 || x <= 0 || y <= 0 || z <= 0 || end != '\n')
+	{
+		while (end != '\n')
+		{
+			scanf("%c", &end);
+		}
+		end = '\0';
+		printf("Input error, please try again: \n");
+	}
+
+	if (x > y)
+		swap(&x, &y);
+	if (y > z)
+		swap(&y, &z);
+	if (x > y)
+		swap(&x, &y);
+
+	is_pythagorean(x, y, z);
 	return 0;
 }
