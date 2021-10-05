@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 const int PENS_COUNT = 8;
-const int PENS[] = {1, 2, 5, 10, 20, 50, 100, 200 };
+const int PENS[] = { 1, 2, 5, 10, 20, 50, 100, 200 };
 
 void input(int* sum)
 {
