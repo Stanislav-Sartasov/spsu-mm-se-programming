@@ -6,7 +6,7 @@
 
 //change -  N(number_of_a, number_of_b, n)
 #define number_of_a 25
-#define number_of_b 75	
+#define number_of_b 75
 #define	n 1984
 
 //	SA(k,colors)=(n^2 - n) * ( (n - 2)^5 + (n - 2)^4 + 2 * (n - 2)^3 - (n - 2)^2 + (n - 2) ) ^ 'graphs' ( only A's)
@@ -30,7 +30,8 @@ int brute_force(int** sample, int len, int colors, int type) // creating simple 
 			if (i == 1) a_sample[5][i] = 6;
 			else a_sample[5][i] = 4;
 		}
-	}																		
+	}
+
 	int count = 0, counter[nver + 1] = { 0 };								//	1-----6----11
 																			//	|\   /|\   /|
 	while (len > 0)															//	|  2  |  7  |
@@ -127,52 +128,52 @@ int main()
 			}
 			free(sample);
 		}
-	/*for (int i = 0; i < 5;i++)							//for creating formulas ( 10 sec by hands )
-	{
-		printf("%5d   %5d\n", a_subsequence[i], b_subsequence[i]);
-	}
-	*/
 
-	int a_formula[ver - 2] = { 1, 1, 2, -1, 1 },			//suggestion for a ( 1*n^5+1*n^4+2*n^3+(-1)*n^2+1*n^1 )
-		b_formula[ver - 2] = { 1, 2, 3, 0, 0 };				//suggestion for b ( 1*n^5+2*n^4+3*n^3 )		
-																		
-	/*for (int i = 1; i <= 5; i++)							//testing
+	int a_formula[5] = { 1, -5 , -5, -5, -5 },				//creating formulas automattly
+		b_formula[5] = { 1, -5 , -5, -5, -5 };
+	int a_cont = 1, b_cont = 1;
+
+	while (a_cont || b_cont)
 	{
-		int a_test = 0, b_test = 0;
-		for (int l = 0; l <= 4;l++)
+		for (int j = 4; j > 0; j--)
 		{
-			int a_r = 1, b_r = 1;
-			for (int j = 5 - l; j > 0;j--)
+			if (a_formula[j] == 5 || b_formula[j] == 5)
 			{
-				a_r *= i;
-				b_r *= i;
-			}
-			a_test += a_formula[l] * a_r;
-			b_test += b_formula[l] * b_r;
-		}
-		if (a_test == a_subsequence[i - 1] && b_test == b_subsequence[i - 1])
-		{
-			printf("test %d +\n", i);
-		}
-		else
-		{
-			printf("test %d -\n", i);
-		}
-	}
-	*/
-	/*long long n[6][6] = {{0}};				//	checking formulas to be sure
-	for (int i = 1; i < 6;i++)
-	{
-		for (int j = 1; j < 6;j++)
-		{
-			n[i][j] = ((j - 1) * (j - 1) + j - 1);
-			for (int k = 0; k < i; k++)
-			{
-				n[i][j] *= j * j * j * j * j - 8 * j * j * j * j + 27 * j * j * j - 50 * j * j + 52 * j - 24;
+				if (a_formula[j] == 5)
+				{
+					a_formula[j] = -5;
+					a_formula[j - 1]++;
+				}
+				if (b_formula[j] == 5)
+				{
+					b_formula[j] = -5;
+					b_formula[j - 1]++;
+				}
 			}
 		}
-	}
-	*/
+		int i = 1;
+		for (i = 1; i <= 5; i++)
+		{
+			int a_test = 0, b_test = 0;
+			for (int l = 0; l <= 4;l++)
+			{
+				int a_r = 1, b_r = 1;
+				for (int j = 5 - l; j > 0;j--)
+				{
+					a_r *= i;
+					b_r *= i;
+				}
+				a_test += a_formula[l] * a_r;
+				b_test += b_formula[l] * b_r;
+			}
+			if (a_test == a_subsequence[i - 1] && (a_cont == 0 || i == 1)) a_cont = 0;
+			else a_cont = 1;
+			if (b_test == b_subsequence[i - 1] && (b_cont == 0 || i == 1)) b_cont = 0;
+			else b_cont = 1;
+		}
+		if (a_cont) a_formula[4]++;
+		if (b_cont) b_formula[4]++;
+	}										// getting coefficents
 
 	unsigned long long a = 0, b = 0; 		// a = (n-2)^5+(n-2)^4+2*(n-2)^3-(n-2)^2+(n-2) const for n colors and graph A
 											// b = (n-2)^5+2*(n-2)^4+3*(n-2)^3 const for n colors and graph B
