@@ -5,16 +5,22 @@ int get_prime_d(int number);
 int main()
 {
 	int j, count = 0, c = 0, n;
+
+	printf("Description: The program calculates the sum of all the maximum digital roots of numbers on a given interval.\n");
 	for (j = 2;j <= 999999; j++)
 	{
 		n = j;
+
 		int drr[5] = { 0 };
+
 		while (n % 2 == 0)
 		{
 			drr[2]++;
 			n = n / 2;
 		}
+
 		int prime_div;
+
 		while (n % 9 == 0)
 		{
 			count = count + 9;
@@ -61,6 +67,7 @@ int main()
 	printf("\n\t%d", count);
 	return 0;
 }
+
 int get_prime_d(int number)
 {
 	for (int i = 3; i < (number / 1024) + 260; i = i + 2)
