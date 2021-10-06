@@ -21,7 +21,7 @@ int main()
 	int rounded_number = trunc(sqrt(number));
 
 	// period
-	int i = 1;
+	int i = 0;
 
 	// coefficients for quadratic surd
 	int q = 1;
