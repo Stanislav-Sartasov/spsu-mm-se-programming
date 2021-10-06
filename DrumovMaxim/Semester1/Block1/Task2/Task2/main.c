@@ -60,7 +60,7 @@ void cleanInput()
 
 int correctInput(long long* number)
 {
-	return (scanf("%10lld", number) >= 1);
+	return (scanf("%10lld", number) && *number >= 1);
 }
 
 long long getInputNum()
