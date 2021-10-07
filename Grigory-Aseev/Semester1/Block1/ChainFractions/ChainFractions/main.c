@@ -108,10 +108,10 @@ long long input_not_square()
 
 void chain_fraction_square_root(long long number)
 {
-	int period = 1;
+	int period = 0;
 	long long first_term = floorl(sqrt(number));
 	printf("The sequence of a square root: [%lld", first_term);
-	for (long long denominator = 1, terms = first_term, k = 0; denominator != 1 || period == 1; period++)
+	for (long long denominator = 1, terms = first_term, k = 0; denominator != 1 || period == 0; period++)
 	{
 		k = terms * denominator - k;
 		denominator = (number - k * k) / denominator;
