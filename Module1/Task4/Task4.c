@@ -1,119 +1,131 @@
-#define _CRT_SECURE_NO_WARNINGS
-#define _USE_MATH_DEFINES
-
 #include <stdlib.h> 
 #include <stdio.h> 
 #include <math.h>
 #include <stdbool.h>
 #include <limits.h>
 
-#define CLI_BUFFER_SIZE  13
+#define bufer_size  13
 
 bool check_error(double* value)
 {
-    size_t length = 0;
-    char* end = NULL;
-    char buf[CLI_BUFFER_SIZE] = "";
+	size_t length = 0;
+	char* end = NULL;
+	char buf[bufer_size] = "";
 
 
 
-    fflush(stdout);
+	fflush(stdout);
 
 
-    if (!fgets(buf, sizeof(buf), stdin)) {
-        return false;
-    }
+	if (!fgets(buf, sizeof(buf), stdin))
+	{
+		return false;
+	}
 
 
-    length = strlen(buf);
-    if (buf[length - 1] == '\n')
-    {
-        buf[--length] = '\0';
+	length = strlen(buf);
+
+	if (buf[length - 1] == '\n')
+	{
+		buf[--length] = '\0';
 
 
-        errno = 0;
-        *value = strtod(buf, &end);
+		errno = 0;
+		*value = strtod(buf, &end);
 
 
-        if (length == 0) {
-            printf("Ошибка: введена пустая строка.\n");
-            return false;
-        }
-        if (errno != 0 || *end != '\0') {
-            printf("Ошибка: некорректный символ.\n");
-            printf("\t%s\n", buf);
-            printf("\t%*c\n", (int)(end - buf) + 1, '^');
+		if (length == 0)
+		{
+			printf("Ошибка: введена пустая строка.\n");
+			return false;
+		}
 
-            return false;
-        }
+		if (errno != 0 || *end != '\0')
+		{
+			printf("Ошибка: некорректный символ.\n");
+			printf("\t%s\n", buf);
+			printf("\t%*c\n", (int)(end - buf) + 1, '^');
 
-        if ((int) sqrt(*value) * (int) sqrt(*value) == *value)
-        {
-            printf("Ошибка: Был введен квадратом целого");
-            return false;
-        }
+			return false;
+		}
+
+		if ((int)sqrt(*value) * (int)sqrt(*value) == *value)
+		{
+			printf("Ошибка: Был введен квадратом целого\n");
+			return false;
+		}
+
+		if (*value < 0)
+		{
+			printf("Ошибка: введено отрицательное чило.\n");
+			return false;
+		}
 
 
-    }
-    else
-    {
-        scanf_s("%*[^\n]");
-        scanf_s("%*c");
-        printf("Ошибка: не вводите больше чем %d символа(ов).\n", CLI_BUFFER_SIZE - 2);
+	}
+	else
+	{
+		scanf_s("%*[^\n]");
+		scanf_s("%*c");
+		printf("Ошибка: не вводите больше чем %d символа(ов).\n", bufer_size - 2);
 
-        return false;
-    }
+		return false;
+	}
 
-    return true;
+	return true;
 }
 
 
-int CalculatingAFractions(int a, double n, int t)
+int сalculating_a_fractions(int a, double n, int t)
 {
 
-    int subsequence, period = 0;
-    double numerator = 1, denominator = 1, q = a;
-     
-    printf("Последовательность: %d ", a);
+	int subsequence, period = 0;
 
-    do
-    {
-        numerator = (n + q);
-        denominator = (t - q * q) / denominator;
+	double numerator = 1, denominator = 1, q = a;
 
-        subsequence = (int)(numerator / denominator);
-        q = denominator * subsequence - q;
+	printf("Последовательность: %d ", a);
 
-        printf(" %d ", subsequence);
-        period++;
-    } while ((numerator / denominator != (n + a)));
+	do
+	{
+		numerator = (n + q);
+		denominator = (t - q * q) / denominator;
 
-    return period;
+		subsequence = (int)(numerator / denominator);
+		q = denominator * subsequence - q;
+
+		printf(" %d ", subsequence);
+
+		period++;
+
+	} while ((numerator / denominator != (n + a)));
+
+	return period;
 }
 
 int main()
 {
 
-    double number = 0;
+	double number = 0;
 
-    system("chcp 1251");
-    system("cls");
+	system("chcp 1251");
+	system("cls");
 
-    printf("%s", "Пожалуйста, введите неквадратное целое число:\n");
+	printf("%s", "Пожалуйста, введите неквадратное целое число:\n");
 
+	bool status = false;
 
-    bool status = false;
+	do
+	{
+		status = check_error(&number);
 
-    do {
-        status = check_error(&number);
-        if (!status) {
-            printf("Пожалуйста, попробуйте еще раз.\n");
-        }
-    } while (!status);
+		if (!status)
+		{
+			printf("Пожалуйста, попробуйте еще раз.\n");
+		}
 
+	} while (!status);
 
-  printf("\nПериод =  %d", CalculatingAFractions((int)sqrt(number), sqrt(number), number));
+	printf("\nПериод =  %d", сalculating_a_fractions((int)sqrt(number), sqrt(number), number));
 
-
-    return 0;
+	return 0;
 }
