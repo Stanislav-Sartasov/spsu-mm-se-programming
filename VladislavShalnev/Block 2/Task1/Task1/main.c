@@ -1,5 +1,6 @@
 
 #include <stdio.h>
+#include <string.h>
 
 #define MASK_32 0x80000000
 #define MASK_64 0x8000000000000000
