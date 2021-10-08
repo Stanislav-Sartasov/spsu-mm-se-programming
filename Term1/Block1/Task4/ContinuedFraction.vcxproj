@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{b28691ef-a0b4-455c-84ec-8650bc65f617}</ProjectGuid>
-    <RootNamespace>ContinuedFractions</RootNamespace>
+    <ProjectGuid>{1f4f51b6-c96a-4cd8-8a86-84cc1c92abfc}</ProjectGuid>
+    <RootNamespace>ContinuedFraction</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
