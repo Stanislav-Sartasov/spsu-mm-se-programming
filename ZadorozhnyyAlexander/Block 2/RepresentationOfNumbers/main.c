@@ -21,15 +21,15 @@ void digit_to_binary(int digit, char* binary_string, int length)
 	}
 }
 
-void try_to_right_binary(char *exp)
+void try_to_right_binary(char* exp, int lenght_exp)
 {
 	while (exp[0] == '0')
 	{
-		for (int i = 0; i < 7; i++)
+		for (int i = 0; i < lenght_exp - 1; i++)
 		{
 			exp[i] = exp[i + 1];
 		}
-		exp[7] = '0';
+		exp[lenght_exp - 1] = '0';
 	}
 
 }
@@ -39,7 +39,7 @@ void print_int_to_negative_binary_system(int digit)
 	char binary_stroke[33];
 	int first_digit = 1;
 	digit_to_binary(digit, binary_stroke, 32);
-	
+
 	for (int i = 1; i < 32; i++)
 	{
 		if (!first_digit)
@@ -70,8 +70,8 @@ void print_int_to_float_32(int digit)
 	}
 
 	digit_to_binary(127 + count_digit_binary_system, exp, 8);
-	try_to_right_binary(exp);
-	
+	try_to_right_binary(exp, 8);
+
 	for (int i = 0; i < 8; i++)
 	{
 		binary_stroke[i + 1] = exp[i];
@@ -109,8 +109,8 @@ void print_int_to_double_64(int digit)
 	}
 
 	digit_to_binary(1023 + count_digit_binary_system, exp, 11);
-	try_to_right_binary(exp);
-	
+	try_to_right_binary(exp, 11);
+
 	for (int i = 0; i < 11; i++)
 	{
 		binary_stroke[i + 1] = exp[i];
