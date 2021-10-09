@@ -6,8 +6,7 @@ int main()
 	printf("This program takes number from user, write period of this continued fraction and sequence elements\n");
 	long long num;
 	int check_num;
-	do
-	{
+	do {
 		printf("Enter natural number that is not a square number: \n");
 		check_num = scanf("%lld", &num);
 		while (getchar() != '\n');
@@ -19,11 +18,12 @@ int main()
 	int period = 1;
 	do
 	{
+		if (quit != 1)
+			period++;
 		div = start * quit - div;
 		quit = (num - pow(div, 2)) / quit;
 		start = (sqrt_num + div) / quit;
 		printf(", %lu", start);
-		period++;
 	}
 	while (quit != 1);
 	printf("\nPeriod of this continued fraction: %d\n", period);
