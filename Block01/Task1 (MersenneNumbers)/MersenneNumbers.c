@@ -5,30 +5,30 @@
 
 bool isPrime(int n)
 {
-    for (int i = 2; i <= (n / 2); ++i)
-    {
-        if (!(n % i))
-        {
-            return false;
-        }
-    }
-    return true;
+	for (int i = 2; i < n; ++i)
+	{
+		if ((n % i) == 0)
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 int main(int argc, char** argv)
 {
-    printf("The program searches Mersenne Numbers within the range [1; 2^31-1]\n");
-    int N = 31;
-    for (int i = 1; i <= N; ++i)
-    {
-        int p = (int)pow(2, i);
-        if (isPrime(i))
-        {
-            if (isPrime(p - 1))
-            {
-                printf("pow(2,%d) - 1 = %d\n", i, p - 1);
-            }
-        }
-    }
-    return 0;
+	printf("The program searches Mersenne Numbers within the range [1; 2^31-1]\n");
+	int N = 31;
+	for (int i = 1; i <= N; ++i)
+	{
+		int p = (int)pow(2, i);
+		if (isPrime(i))
+		{
+			if (isPrime(p - 1))
+			{
+				printf("pow(2,%d) - 1 = %d\n", i, p - 1);
+			}
+		}
+	}
+	return 0;
 }
