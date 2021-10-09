@@ -1,10 +1,6 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <math.h>
-
-void clear_buffer()
-{
-	while (getchar() != '\n');
-}
 
 int root_is_integer(n)
 {
@@ -17,13 +13,23 @@ int main()
 {
 	int number, period, integer_portion, correctly_read;
 	printf("This program displays the period and continued fraction of the square root of the entered number. \n");
-	do
+	printf("Enter a natural number: ");
+	while (true)
 	{
-		printf("Please enter a natural number: ");
-		correctly_read = scanf_s("%u", &number);
-		clear_buffer(stdin);
-	} 
-	while (correctly_read != 1 || number <= 0);
+		{
+			char ch;
+			int correctly_read = scanf_s("%d%c", &number, &ch);
+			if (correctly_read == 2 && (ch == ' ' || ch == '\n'))
+			{
+				break;
+			}
+			else
+			{
+				printf("The input value entered is not a natural number. Please try again: ");
+				fseek(stdin, 0, 0);
+			}
+		}
+	}
 	if (root_is_integer(number))
 	{
 		printf("The entered number is a square of an integer.");
@@ -46,4 +52,5 @@ int main()
 	} 
 	while (z != 1);
 	printf("] \n Period = %d", period);
+	return 0;
 }

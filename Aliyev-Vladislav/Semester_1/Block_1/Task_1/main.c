@@ -24,4 +24,5 @@ int main()
 			printf("%d\n", number - 1);
 		}
 	}
+	return 0;
 }

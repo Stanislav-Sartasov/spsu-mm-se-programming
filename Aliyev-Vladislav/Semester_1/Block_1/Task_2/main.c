@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 void is_prime(int a, int b, int c)
 {
@@ -32,11 +33,6 @@ void is_prime(int a, int b, int c)
 	}
 }
 
-void clear_buffer()
-{
-	while (getchar() != '\n');
-}
-
 int is_pythagorean_triple(int a, int b, int c)
 {
 	return (a * a + b * b == c * c) || (a * a + c * c == b * b) || (b * b + c * c == a * a);
@@ -46,13 +42,23 @@ int main()
 {
 	int a, b, c, correctly_read;
 	printf("This program checks that inputted triples are Pythagorean and prime.\n");
-	do 
+	printf("Enter three natural numbers satisfying the Pythagorean formula x ^ 2 + y ^ 2 = z ^ 2 : ");
+	while (true)
 	{
-		printf("Enter three natural numbers satisfying the Pythagorean formula x ^ 2 + y ^ 2 = z ^ 2 : ");
-		correctly_read = scanf_s("%u%u%u", &a, &b, &c);
-		clear_buffer(stdin);
-	} 
-	while (correctly_read != 3 || a <= 0 || b <= 0 || c <= 0);
+		{
+			char ch;
+			int correctly_read = scanf_s("%d %d %d%c", &a, &b, &c, &ch);
+			if (correctly_read == 4 && a > 0 && b > 0 && c > 0 && (ch == ' ' || ch == '\n'))
+			{
+				break;
+			}
+			else
+			{
+				printf("At least one of your inputs is not a natural integer. Please, try again: ");
+				fseek(stdin, 0, 0);
+			}
+		}
+	}
 	if (is_pythagorean_triple(a, b, c))
 	{
 		is_prime(a, b, c);
