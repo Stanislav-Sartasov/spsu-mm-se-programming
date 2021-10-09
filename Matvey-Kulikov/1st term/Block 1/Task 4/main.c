@@ -7,8 +7,10 @@ int get_number()
 	int num;
 	char end;
 	int read_result = scanf("%d%c", &num, &end);
-	if ((read_result == 2) && (end == '\n')) {
-		if (num > 0) {
+	if ((read_result == 2) && (end == '\n'))
+    {
+		if (num > 0)
+        {
 			if (pow((int)sqrt(num), 2) != num)
 			{
 				return num;
@@ -25,7 +27,8 @@ int get_number()
 		printf("Please enter correct natural number\n");
 	}
 
-	while (end != '\n') {
+	while (end != '\n')
+    {
 		scanf("%c", &end);
 	}
 
@@ -43,7 +46,8 @@ int main()
 	int div = 1;
 	int period = 0;
 	printf("a0: %d\na1-ai: [ ", int_part);
-	do {
+	do
+    {
 		period++;
 		remaining = int_part * div - remaining;
 		div = (num - pow(remaining, 2)) / div;
