@@ -5,7 +5,7 @@
 
 bool isPrime(int n)
 {
-	for (int i = 2; i < n; ++i)
+	for (int i = 3; i < sqrt(n) + 1; i+=2)
 	{
 		if ((n % i) == 0)
 		{
@@ -18,7 +18,7 @@ bool isPrime(int n)
 int main(int argc, char** argv)
 {
 	printf("The program searches Mersenne Numbers within the range [1; 2^31-1]\n");
-	int N = 31;
+	int N = 32;
 	for (int i = 1; i <= N; ++i)
 	{
 		int p = (int)pow(2, i);
