@@ -45,18 +45,16 @@ int main()
 	printf("Enter three natural numbers satisfying the Pythagorean formula x ^ 2 + y ^ 2 = z ^ 2 : ");
 	while (true)
 	{
+		char ch;
+		correctly_read = scanf_s("%d %d %d%c", &a, &b, &c, &ch);
+		if (correctly_read == 4 && a > 0 && b > 0 && c > 0 && (ch == ' ' || ch == '\n'))
 		{
-			char ch;
-			int correctly_read = scanf_s("%d %d %d%c", &a, &b, &c, &ch);
-			if (correctly_read == 4 && a > 0 && b > 0 && c > 0 && (ch == ' ' || ch == '\n'))
-			{
-				break;
-			}
-			else
-			{
-				printf("At least one of your inputs is not a natural integer. Please, try again: ");
-				fseek(stdin, 0, 0);
-			}
+			break;
+		}
+		else
+		{
+			printf("At least one of your inputs is not a natural integer. Please, try again: ");
+			fseek(stdin, 0, 0);
 		}
 	}
 	if (is_pythagorean_triple(a, b, c))

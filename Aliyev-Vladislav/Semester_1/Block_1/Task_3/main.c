@@ -30,18 +30,17 @@ int main()
 	printf("Enter the numerical values for the sides of the triangle: ");
 	while (true)
 	{
+
+		char ch;
+		correctly_read = scanf_s("%lf %lf %lf%c", &a, &b, &c, &ch);
+		if (correctly_read == 4 && a >= 0 && b >= 0 && c >= 0 && (ch == ' ' || ch == '\n'))
 		{
-			char ch;
-			int correctly_read = scanf_s("%lf %lf %lf%c", &a, &b, &c, &ch);
-			if (correctly_read == 4 && a > 0 && b > 0 && c > 0 && (ch == ' ' || ch == '\n'))
-			{
-				break;
-			}
-			else
-			{
-				printf("At least one of the parameters you entered is not a non-negative number. Try again: ");
-				fseek(stdin, 0, 0);
-			}
+			break;
+		}
+		else
+		{
+			printf("At least one of the parameters you entered is not a non-negative number. Try again: ");
+			fseek(stdin, 0, 0);
 		}
 	}
 	if (!is_a_triangle(a, b, c))

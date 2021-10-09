@@ -13,21 +13,19 @@ int main()
 {
 	int number, period, integer_portion, correctly_read;
 	printf("This program displays the period and continued fraction of the square root of the entered number. \n");
-	printf("Enter a natural number: ");
+	printf("Enter a non-negative integer that is not the square of any integer: ");
 	while (true)
 	{
+		char ch;
+		correctly_read = scanf_s("%u%c", &number, &ch);
+		if (correctly_read == 2 && number >= 0 && (ch == ' ' || ch == '\n'))
 		{
-			char ch;
-			int correctly_read = scanf_s("%d%c", &number, &ch);
-			if (correctly_read == 2 && (ch == ' ' || ch == '\n'))
-			{
-				break;
-			}
-			else
-			{
-				printf("The input value entered is not a natural number. Please try again: ");
-				fseek(stdin, 0, 0);
-			}
+			break;
+		}
+		else
+		{
+			printf("The input value entered is not a non-negative integer. Please try again: ");
+			fseek(stdin, 0, 0);
 		}
 	}
 	if (root_is_integer(number))
