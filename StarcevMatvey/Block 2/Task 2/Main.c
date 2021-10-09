@@ -15,14 +15,15 @@ int main()
 	{
 		printf("Input your summ (greater than zero)\n");
 		s = get_int();
-		s++;
 	} while (s <= 0);
+
+	s++;
 
 	// array of ways
 	CUSTOM_TYPE** f = (CUSTOM_TYPE**)malloc(8 * sizeof(CUSTOM_TYPE*));
 	for (int i = 0; i < 8; i++)
 	{
-		f[i] = (CUSTOM_TYPE*)malloc((CUSTOM_TYPE)(s * sizeof(CUSTOM_TYPE)));
+		f[i] = (CUSTOM_TYPE*)malloc((CUSTOM_TYPE)((s + 2) * sizeof(CUSTOM_TYPE)));
 	}
 
 	for (int i = 0; i < 8; i++)
