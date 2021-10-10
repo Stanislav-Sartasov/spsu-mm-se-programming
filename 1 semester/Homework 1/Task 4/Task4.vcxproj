@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{72e97f31-db3e-440a-b1c6-15a20743bdd8}</ProjectGuid>
+    <ProjectGuid>{a8573caa-416e-4e3c-9be1-9073ef9b73ad}</ProjectGuid>
     <RootNamespace>Task4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Desktop\GitWork\Task4\Task4.c" />
+    <ClCompile Include="..\Task4.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
