@@ -1,16 +1,20 @@
 #include <stdio.h>
 #include <math.h>
+#include <ctype.h>
 
 
 int main()
 {
 	long long number;
+	char d;
 	printf("This program takes a natural number and displays members and length of period of the continued fraction obtained from the square root of the received number. The entered number must not be a square of an integer. Enter a number:\n");
 	scanf("%lld", &number);
-	while ((sqrtl(number)) == (floorl(sqrtl(number))))
+	d = getchar();
+	while (((sqrtl(number)) == (floorl(sqrtl(number)))) || isalpha(d) || number < 1)
 	{
 		printf("Invalid value. You must enter a natural number which is not a square of an integer. Please, re-enter: ");
 		scanf("%lld", &number);
+		d = getchar();
 	}
 
 	long long a = (floorl(sqrtl(number)));
