@@ -19,7 +19,7 @@ INT64 gcd(INT64 a, INT64 b)
 	while (b)
 	{
 		a %= b;
-		swap(a, b);
+		swap(&a, &b);
 	}
 	return a;
 }
