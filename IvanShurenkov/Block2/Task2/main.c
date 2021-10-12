@@ -14,18 +14,16 @@ int main()
 		correctly_scan = scanf("%d", &n);
 		if (1 != correctly_scan || 0 >= n)
 		{
-			while (fgetc(stdin) != '\n')
-				;
+			while (fgetc(stdin) != '\n');
 			printf("It's not positive number\nTry again:\n");
 		}
 		if (n > 130000)
 		{
-			while (fgetc(stdin) != '\n')
-				;
+			while (fgetc(stdin) != '\n');
 			printf("Number is too big\nTry again:\n");
 		}
 	}
-	UINT64 value_coins[8] = { 1, 2, 5, 10, 20, 50, 100, 200 };
+	UINT64 value_coins[8] = {1, 2, 5, 10, 20, 50, 100, 200};
 	UINT64 dp[8 * (n + 1)];// [0, 1, 2], [3, 4, 5] [0][1] = 1, 0 * 3 + i;
 	for (int i = 0; i < 8 * (n + 1); i++)
 	{
@@ -45,7 +43,7 @@ int main()
 				if (i + value_coins[q] <= n)
 				{
 					dp[q * (n + 1) + i + value_coins[q]] += dp[j * (n + 1) + i];
-					if (dp[q * (n + 1) + i + value_coins[q]] >= (1 << 63) - 1)
+					if (dp[q * (n + 1) + i + value_coins[q]] >= ((UINT64) 1 << 63) - 1)
 					{
 						overflow = true;
 					}
@@ -57,7 +55,7 @@ int main()
 	for (int i = 0; i < 8; i++)
 	{
 		cnt_options += dp[i * (n + 1) + n];
-		if (cnt_options >= (1 << 63) - 1)
+		if (cnt_options >= ((UINT64) 1 << 63) - 1)
 		{
 			overflow = true;
 		}
