@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 const int MAX_N = (int)(1e6);
 
@@ -44,12 +45,14 @@ void computeDP(int* dp)
 int main()
 {
 	printf("This program prints the sum of all MDRS(n) for n in [2; 999999].\n\n");
+	
+	int* dp = (int*) malloc(sizeof(int) * MAX_N);
 
-	int dp[MAX_N];
 	fill(dp, dp + MAX_N, 0);
 	computeDP(dp);
 
 	printf("The sum of all MDRS(n) for n in [2; 999999] is %lld.", sum(dp, dp + MAX_N));
 
+	free(dp);
 	return 0;
 }
