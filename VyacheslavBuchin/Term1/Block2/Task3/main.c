@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <memory.h>
 
 const int MAX_N = (int)(1e6);
-
-void fill(int* left, const int* right, int value)
-{
-	while (left < right)
-		*(left++) = value;
-}
 
 long long sum(int* left, const int* right)
 {
@@ -45,10 +40,10 @@ void computeDP(int* dp)
 int main()
 {
 	printf("This program prints the sum of all MDRS(n) for n in [2; 999999].\n\n");
-	
+
 	int* dp = (int*) malloc(sizeof(int) * MAX_N);
 
-	fill(dp, dp + MAX_N, 0);
+	memset(dp, 0, sizeof(int) * MAX_N);
 	computeDP(dp);
 
 	printf("The sum of all MDRS(n) for n in [2; 999999] is %lld.", sum(dp, dp + MAX_N));
