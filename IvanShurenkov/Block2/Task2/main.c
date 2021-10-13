@@ -6,13 +6,13 @@
 
 int main()
 {
-	printf("English Coins\nEnter positive integer less 130000:\n");
+	printf("English Coins\nEnter positive integer less 130000 or zero:\n");
 	int correctly_scan = 0;
 	int n = -1;
-	while (1 != correctly_scan || 0 >= n || n > 130000)
+	while (1 != correctly_scan || 0 > n || n > 130000)
 	{
 		correctly_scan = scanf("%d", &n);
-		if (1 != correctly_scan || 0 >= n)
+		if (1 != correctly_scan || 0 > n)
 		{
 			while (fgetc(stdin) != '\n');
 			printf("It's not positive number\nTry again:\n");
@@ -61,7 +61,7 @@ int main()
 		}
 	}
 	if (overflow)
-		printf("Perhaps it was overflow");
-	printf("%llu", cnt_options);
+		printf("Perhaps it was overflow\n");
+	printf("Amount ways to present given number: %llu", cnt_options);
 	return 0;
 }
