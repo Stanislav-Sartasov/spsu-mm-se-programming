@@ -42,11 +42,18 @@ double getSeconds(double a)
 
 int main()
 {
-	printf("The program defines the possibility of creating a triangle by given the leghth of its 3 sides.\n");
+	printf("The program defines the possibility of creating a triangle by given the leghth of its 3 sides. If the triangle exists the program calculates its angles\n");
 
 	double sideA, sideB, sideC, angleA, angleB, angleC;
-	printf("Enter 3 numbers separated by space (use dot if float): ");
-	scanf_s("%lf%lf%lf", &sideA, &sideB, &sideC);
+	int count;
+
+	do
+	{
+		printf("Input three positive numbers devided by space. Use dot if float numbers: ");
+		count = scanf("%lf%lf%lf", &sideA, &sideB, &sideC);
+		while (getchar() != '\n');
+	} while (!(count == 3 && sideA > 0 && sideB > 0 && sideC > 0));
+
 	if (isTriangle(sideA, sideB, sideC))
 	{
 		angleA = getAngle(sideC, sideB, sideA);
