@@ -22,26 +22,29 @@ INT64 cnt_next_fraction(INT64 *integer_part, INT64 *denominator, INT64 square)
 int main()
 {
 	INT64 n = 0;
-	printf("Enter positive integer, which is not square:\n");
+	printf("Continued fraction\nEnter positive integer, which is not square:\n");
 	int correctly_scan = 0;
-	while (1 != correctly_scan || 0 >= n || SQ((int) sqrt(n)) == n)
+	while (1)
 	{
 		correctly_scan = scanf("%ld", &n);
-		if (1 != correctly_scan || 0 >= n)
+		if (correctly_scan == 1 && n > 0)
+		{
+			if (SQ((int) sqrt(n)) != n)
+				break;
+			else
+			{
+				printf("Your number is square!\nTry again:\n");
+			}
+		}
+		else
 		{
 			while (fgetc(stdin) != '\n')
 				;
 			printf("It's not positive number\nTry again:\n");
 		}
-		else if (SQ((int) sqrt(n)) == n)
-		{
-			while (fgetc(stdin) != '\n')
-				;
-			printf("Your number is square!\nTry again:\n");
-		}
 	}
 
-	printf("[%ld", (INT64) sqrt(n));
+	printf("Continued fraction of square root given number: [%ld", (INT64) sqrt(n));
 	INT64 integer_part = 0, denominator = 1;
 	INT64 out = cnt_next_fraction(&integer_part, &denominator, n);
 	INT64 first_int_part = integer_part, first_denominator = denominator;
@@ -53,6 +56,6 @@ int main()
 		out = cnt_next_fraction(&integer_part, &denominator, n);
 	}
 	while (first_int_part != integer_part || first_denominator != denominator);
-	printf("]\nSize of the circle is %d", circle_size);
+	printf("]\nThe circle size of this fraction is %d", circle_size);
 	return 0;
 }
