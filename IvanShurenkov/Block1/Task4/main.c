@@ -22,7 +22,9 @@ INT64 cnt_next_fraction(INT64 *integer_part, INT64 *denominator, INT64 square)
 int main()
 {
 	INT64 n = 0;
-	printf("Continued fraction\nEnter positive integer, which is not square:\n");
+	printf("Continued fraction\n"
+		   "This programm calculates the continue fraction square root of the positive integer, which is not square.\n"
+		   "Enter positive integer, which is not square:\n");
 	int correctly_scan = 0;
 	while (1)
 	{
