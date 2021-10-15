@@ -37,6 +37,7 @@ int main()
 	for (int i = 0; i < 999998; i++)
 		result += arr[i];
 
+	free(arr);
 	printf("The sum is: %d", result);
 }
 
