@@ -20,7 +20,7 @@ int main()
 	printf("Continued fraction: [ %d ", intx);
 
 	int p = 0; int q = 1; int a = intx;
-	int period = 1;
+	int period = 0;
 
 	do
 	{
