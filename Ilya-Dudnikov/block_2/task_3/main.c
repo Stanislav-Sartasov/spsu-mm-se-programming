@@ -28,6 +28,8 @@ long long calculate_mdrs(int max_n)
 		}
 		result += (dp[n] = current_result);
 	}
+
+	free(dp);
 	return result;
 }
 
