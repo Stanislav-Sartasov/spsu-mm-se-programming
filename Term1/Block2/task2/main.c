@@ -35,7 +35,7 @@ int main()
 	printf("This program prints the number of ways to score a certain amount using any number "
 		"of English coins.\n*(Program works for amount of no more than 36696)*\n\n");
 	printf("Enter the amount:\n");
-	int coins[] = { 1,2,5,10,20,50,100,200 };
+	int coins[] = { 1, 2, 5, 10, 20, 50, 100, 200 };
 	int sum = input();
 	
 	long long** matrix = (long long**)malloc(sizeof(long long*) * 9);
