@@ -2,14 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <memory.h>
 
 #define REM_SIZE 9
-#define MAX_DIV 1000
+#define MAX_N 999999
 
 void greetingsMessage()
 {
 	printf("This program is designed to calculate the sum of MDRS(n) function\n");
-	printf(" for all n in range [2, 999999].\n");
+	printf(" for all n in range [2, %d].\n", MAX_N);
 }
 
 int main()
@@ -18,16 +19,23 @@ int main()
 	int mdrsSum = 0;
 	int remainder[REM_SIZE];
 
-	int isPrime[MAX_DIV];
-	memset(isPrime, 1, sizeof(int) * MAX_DIV);
+	int maxDiv = sqrt(MAX_N) + 2;
+	int* isPrime = malloc(sizeof(int) * maxDiv);
+	if (isPrime == NULL)
+	{
+		printf("could not allocate memory; program aborted");
+		return 1;
+	}
+	memset(isPrime, 1, sizeof(int) * maxDiv);
+
 	isPrime[0] = 0;
 	isPrime[1] = 0;
-	for (int i = 0; i < MAX_DIV; i++)
+	for (int i = 0; i < maxDiv; i++)
 	{
 		if (isPrime[i])
 		{
 			int j = 2 * i;
-			while (j < MAX_DIV)
+			while (j < maxDiv)
 			{
 				isPrime[j] = 0;
 				j += i;
@@ -35,14 +43,14 @@ int main()
 		}
 	}
 
-	for (int i = 2; i < 1000000; i++)
+	for (int i = 2; i <= MAX_N; i++)
 	{
 		int n = i;
 
 		// counting digital roots of prime decomposition of n
 		memset(remainder, 0, REM_SIZE * sizeof(int));
 		int divisor = 1;
-		for (int div = 1; div<MAX_DIV;div++)
+		for (int div = 1; div < maxDiv; div++)
 		{
 			if (!isPrime[div])
 				continue;
@@ -82,6 +90,8 @@ int main()
 		}
 	}
 	printf("The sum of all MDRS(n) values is %d.\n\n", mdrsSum);
+
+	free(isPrime);
 
 	return 0;
 }
