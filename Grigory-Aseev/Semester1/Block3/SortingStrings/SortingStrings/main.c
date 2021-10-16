@@ -98,11 +98,11 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-int own_cmpr(const char* str1, const char* str2)
+int own_cmpr(const char* str_first, const char* str_second)
 {
-	char* str_new1 = *(char**)str1;
-	char* str_new2 = *(char**)str2;
-	return strcmp(new_char(str_new1), new_char(str_new2));
+	char* str_new_first = *(char**)str_first;
+	char* str_new_second = *(char**)str_second;
+	return strcmp(new_char(str_new_first), new_char(str_new_second));
 }
 
 char* new_char(char* str)
