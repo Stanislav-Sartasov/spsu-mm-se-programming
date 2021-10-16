@@ -39,6 +39,29 @@ int cmpr(const void* f_ptr, const void* s_ptr) // '>'
 		}
 	}
 }
+int cool_cmpr(const void* f_ptr, const void* s_ptr) // '>'
+{
+	char* s_s = *(char**)f_ptr;
+	char* s_f = *(char**)s_ptr;
+
+	int l_f = length_of_string(s_f);
+	int l_s = length_of_string(s_s);
+
+	char c_f = s_f[l_f];
+	char c_s = s_s[l_s];
+
+	s_f[l_f] = '\0';
+	s_s[l_s] = '\0';
+
+	// magic cmpr
+	int r = strcmp(s_f, s_s);
+
+	s_f[l_f] = c_f;
+	s_s[l_s] = c_s;
+
+	return r;
+
+}
 int length_of_string(char* str)
 {
 	int i = 0;
@@ -113,7 +136,7 @@ int main(int argc, char*argv[])
 		k += 2;
 	}
 
-	qsort(data, count_of_strings, sizeof(char*), cmpr);
+	qsort(data, count_of_strings, sizeof(char*), cool_cmpr);
 
 	// output
 	char* next = "\n";
