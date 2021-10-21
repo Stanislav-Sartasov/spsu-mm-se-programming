@@ -18,8 +18,8 @@ bool isPrime(int n)
 int main(int argc, char** argv)
 {
 	printf("The program searches Mersenne Numbers within the range [1; 2^31-1]\n");
-	int N = 31;
-	for (int i = 1; i <= N; ++i)
+	int power = 31;
+	for (int i = 2; i <= power; ++i)
 	{
 		int p = (int)pow(2, i);
 		if (isPrime(i))
