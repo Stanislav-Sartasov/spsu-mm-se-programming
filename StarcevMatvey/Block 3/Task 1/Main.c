@@ -39,6 +39,7 @@ int cmpr(const void* f_ptr, const void* s_ptr) // '>'
 		}
 	}
 }
+
 int cool_cmpr(const void* f_ptr, const void* s_ptr) // '>'
 {
 	char* s_s = *(char**)f_ptr;
@@ -62,6 +63,7 @@ int cool_cmpr(const void* f_ptr, const void* s_ptr) // '>'
 	return r;
 
 }
+
 int length_of_string(char* str)
 {
 	int i = 0;
