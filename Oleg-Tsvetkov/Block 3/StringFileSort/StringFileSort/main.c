@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
 
 	if (argc != 3) 
 	{
-		printf("Ошибка! Пример правильного формата: sort <Входной файл> <Выходной файл>");
+		printf("Ошибка! Пример правильного формата: <Название_программы> <Входной файл> <Выходной файл>");
 		return -1;
 	}
 
