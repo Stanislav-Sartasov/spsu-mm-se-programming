@@ -9,7 +9,6 @@
 #include "sys/mman.c"
 
 int own_cmpr(const char* str1, const char* str2);
-char* new_char(char* str);
 
 int main(int argc, char* argv[])
 {
@@ -42,10 +41,10 @@ int main(int argc, char* argv[])
 		printf("Could not get the address of the beginning of the mapped memory section");
 		return 0;
 	}
-	unsigned long long numbers_str = 1;
+	unsigned long long numbers_str = 0;
 	for (int i = 0; i < statbuf.st_size; i++)
 	{
-		if (src[i] == '\n')
+		if (src[i] == '\n' || i + 1 == statbuf.st_size)
 		{
 			numbers_str++;
 		}
@@ -55,12 +54,12 @@ int main(int argc, char* argv[])
 	char* lch = src;
 	int len = 0;
 	int str_i = 0;
-	for (; lch < &src[statbuf.st_size]; lch = rch + 1)
+	for (; str_i < numbers_str; lch = rch + 1)
 	{
 		rch = strchr(lch, '\n');
 		if (rch != NULL)
 		{
-			len = rch - lch - 1;
+			len = rch - lch;
 		}
 		else
 		{
@@ -70,10 +69,17 @@ int main(int argc, char* argv[])
 		memcpy(strs[str_i], lch, len);
 		strs[str_i][len] = '\0';
 		str_i++;
-		if (rch == NULL)
+	}
+
+	// eliminating unnecessary tabs
+	for (int i = 0; i < numbers_str; i++)
+	{
+		int j = strlen(strs[i]);
+		while (strs[i][j - 1] == '\n' || strs[i][j - 1] == '\r')
 		{
-			break;
+			j--;
 		}
+		strs[i][j] = '\0';
 	}
 
 	qsort(strs, (size_t)numbers_str, sizeof(char*), own_cmpr);
@@ -85,7 +91,6 @@ int main(int argc, char* argv[])
 		_write(fdout, strs[i], strlen(strs[i]));
 		_write(fdout, &end, 1);
 	}
-
 	for (int i = 0; i < numbers_str; i++)
 	{
 		free(strs[i]);
@@ -102,20 +107,5 @@ int own_cmpr(const char* str_first, const char* str_second)
 {
 	char* str_new_first = *(char**)str_first;
 	char* str_new_second = *(char**)str_second;
-	return strcmp(new_char(str_new_first), new_char(str_new_second));
-}
-
-char* new_char(char* str)
-{
-	if (str[strlen(str) - 1] == '\r')
-	{
-		char* str_new = (char*)malloc(sizeof(char) * strlen(str));
-		memcpy(str_new, str, strlen(str) - 1);
-		str_new[strlen(str) - 1] = '\0';
-		return str_new;
-	}
-	else
-	{
-		return str;
-	}
+	return strcmp(str_new_first, str_new_second);
 }
