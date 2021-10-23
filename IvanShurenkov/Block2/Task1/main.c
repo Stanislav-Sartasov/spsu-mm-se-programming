@@ -53,7 +53,7 @@ void print_double(int n)
 int main()
 {
 	printf("Representation of the number\n\nPrint binary representation of product my name, second name and patronymic\n");
-	int product = (int)(sizeof("Ivan") - 1) * (int)(sizeof("Shurenkov") - 1) * (int)(sizeof("Andreevich") - 1);
+	int product = (int) (sizeof("Ivan") - 1) * (int) (sizeof("Shurenkov") - 1) * (int) (sizeof("Andreevich") - 1);
 	printf("A)Negative 32-bit integer: ");
 	for (int i = 32; i >= 0; i--)
 	{
