@@ -1,8 +1,14 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 
+#ifdef IS_MSVC
+#define INT64 __int64
+#define UINT64 unsigned INT64
+#else
 #define INT64 __int64_t
 #define UINT64 __uint64_t
+#endif
 
 int main()
 {
@@ -24,7 +30,7 @@ int main()
 		}
 	}
 	UINT64 value_coins[8] = {1, 2, 5, 10, 20, 50, 100, 200};
-	UINT64 dp[8 * (n + 1)];// [0, 1, 2], [3, 4, 5] [0][1] = 1, 0 * 3 + i;
+	UINT64 *dp = (UINT64 *) malloc(sizeof(UINT64) * 8 * (n + 1));// [0, 1, 2], [3, 4, 5] [0][1] = 1, 0 * 3 + i;
 	for (int i = 0; i < 8 * (n + 1); i++)
 	{
 		dp[i] = 0;
