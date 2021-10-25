@@ -37,7 +37,7 @@ int main()
 	char d;
 	scanf("%d", &sum);
 	d = getchar();
-	while ((sum <= 0) || (isalpha(d)))
+	while ((sum <= 0) || (isalpha(d)) || (sum >= 25000))
 	{
 		printf("Invalid value. The entered number is too large or input cannot be converted into coins. Please, re-enter: ");
 		scanf("%d", &sum);
