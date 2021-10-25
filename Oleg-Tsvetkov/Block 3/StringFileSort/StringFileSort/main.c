@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
 	если полученное число отрицательное, то возникла ошибка,
 	сообщаем об этом пользователю и заканчиваем работу программы
 	*/
-	file_in = open(argv[1], O_RDONLY);
+	file_in = open(argv[1], O_RDWR);
 	if (file_in < 0)
 	{
 		printf("Произошла ошибка: не удалось открыть входной файл\n");
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	if ((source = mmap(0, in_file_stats.st_size, PROT_READ, MAP_SHARED, file_in, 0)) == MAP_FAILED)
+	if ((source = mmap(0, in_file_stats.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, file_in, 0)) == MAP_FAILED)
 	{
 		printf("Произошла ошибка: не удалось отобразить входной файл на память");
 		close(file_in);
@@ -84,27 +84,21 @@ int main(int argc, char* argv[])
 
 	// Создаём и заполняем массив строк
 	char** string_array = (char **)malloc(str_count * sizeof(char*));
+	int* string_lengths = (int*)malloc(str_count * sizeof(int));
 	long long current_symbol = 0;
 
 	for (long long str_number = 0; str_number < str_count; ++str_number)
 	{
 		long long string_length = 0;
-		while (source[current_symbol + string_length] != '\0' && source[current_symbol + string_length] != '\r' && source[current_symbol + string_length] != '\n' && current_symbol + string_length <= in_file_stats.st_size)
+		while (source[current_symbol + string_length] != '\0' && source[current_symbol + string_length] != '\n' && current_symbol + string_length <= in_file_stats.st_size)
 		{
 			++string_length;
 		}
-		string_array[str_number] = (char *)malloc((string_length + 1) * sizeof(char));
-		for (int i = 0; i < string_length; ++i)
-		{
-			string_array[str_number][i] = source[current_symbol + i];
-		}
+		string_array[str_number] = &source[current_symbol];
 		string_array[str_number][string_length] = '\0';
 		current_symbol += string_length;
-		if (source[current_symbol] == '\r')
-		{
-			++current_symbol;
-		}
-		if (source[current_symbol] == '\n')
+		string_lengths[str_number] = string_length;
+		if (source[current_symbol] == '\n' || source[current_symbol] == '\0')
 		{
 			++current_symbol;
 		}
@@ -116,8 +110,15 @@ int main(int argc, char* argv[])
 
 	for (long long i = 0; i < str_count; ++i)
 	{
-		write(file_out, string_array[i], strlen(string_array[i]));
-		if (i + 1 != str_count)
+		if (string_array[i][strlen(string_array[i])-1] != '\r') 
+		{
+			write(file_out, string_array[i], strlen(string_array[i]));
+		}
+		else 
+		{
+			write(file_out, string_array[i], strlen(string_array[i])-1);
+		}
+		if (i < str_count - 1) 
 		{
 			write(file_out, "\n", 1);
 		}
@@ -125,10 +126,11 @@ int main(int argc, char* argv[])
 
 	printf("\nЕсли вы читаете это, то строки были отсортированы и помещены в выходной файл.\n");
 
-	for (long long i = 0; i < str_count; ++i)
+	for (long long str_number = 0; str_number < str_count-1; ++str_number)
 	{
-		free(string_array[i]);
+		string_array[str_number][strlen(string_array[str_number])] = '\n';
 	}
+
 	free(string_array);
 
 	munmap(source, in_file_stats.st_size);
