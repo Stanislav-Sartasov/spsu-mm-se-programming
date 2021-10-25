@@ -4,10 +4,7 @@
 
 
 
-int memory[999998];
-int sumMDRS = 0;
-
-void countMDRSFactors(int factor1, int factor2, int* maxMDRS)
+void countMDRSFactors(int factor1, int factor2, int* maxMDRS, int* memory)
 {
 	int MDRS;
 	MDRS = memory[factor1 - 2] + memory[factor2 - 2];
@@ -30,6 +27,9 @@ int main()
 {
 	printf("The programm counts the sum of all maximum digital roots on the period [2, 999999].\n\n");
 	int number;
+	int* memory = NULL;
+	memory = (int*)malloc(999998 * sizeof(int));
+	int sumMDRS = 0;
 	for (number = 2; number < 1000000; number++)
 	{
 		int maxMDRS = 0;
@@ -39,12 +39,13 @@ int main()
 		{
 			if (number % devider == 0)
 			{
-				countMDRSFactors(number / devider, devider, &maxMDRS);
+				countMDRSFactors(number / devider, devider, &maxMDRS, memory);
 			}
 		}
 		memory[number - 2] = maxMDRS;
 		sumMDRS += maxMDRS;
 	}
 	printf(">>>The sum of all maximum digital roots on the period [2, 999999] is %d.\n", sumMDRS);
+	free(memory);
 	return 0;
 }
