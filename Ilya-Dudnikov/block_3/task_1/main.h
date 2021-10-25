@@ -11,6 +11,10 @@ int get_file_size(char *path, int oflag, int mode, int *file_desc);
 // finds necessary information about the file: how many words there are and length of the longest one
 void get_file_stat(char *mem_file, int size, int *longest, int *word_count);
 
+char **init(int dimension_1, int dimension_2);
+
 void free_memory(char **array, int dimension_1);
+
+void sort_strings(char **array);
 
 #endif //TASK_1_MAIN_H
