@@ -5,7 +5,7 @@
 #define NAME "Ksenia"
 #define PATRONYMIC "Andreevna"
 
-void NegBin(int length)
+void negBin(int length)
 {
 	int bin[32] = { 0 };
 
@@ -28,14 +28,14 @@ void NegBin(int length)
 
 	}
 
-	for (int i = 0; i < 32; i++)
+	for (int i = 0; i <= 31; i++)
 	{
 		printf("%d", bin[i]);
 	}
 
 }
 
-void FloatBin(int lenght)
+void floatBin(int lenght)
 {
 	int bits[32] = { 0 };
 
@@ -52,7 +52,7 @@ void FloatBin(int lenght)
 		bits[i] = exp % 2;
 		exp /= 2;
 	}
-	for (int i = 0; i < 32; i++)
+	for (int i = 0; i <= 31; i++)
 	{
 		printf("%d", bits[i]);
 	}
@@ -60,7 +60,7 @@ void FloatBin(int lenght)
 }
 
 
-void NegDoubleBin(int lenght)
+void negDoubleBin(int lenght)
 {
 	int bits[64] = { 0 };
 	bits[0] = 1;
@@ -93,11 +93,11 @@ int main()
 	printf("This program calculates the product of the lengths of the first name, last nameand patronymic\n");
 	printf("and displays a binary representation of the values in the following formats:\n\n");
 	printf("A) a negative 32-bit integer, the modulus of which is equal to the found product:\n");
-	NegBin(product-1);
+	negBin(product-1);
 	printf("\nB) a positive single-precision floating-point number  according to the IEEE 754 standard: \n");
-	FloatBin(product);
+	floatBin(product);
 	printf("\nC) a negative double-precision floating-point number according to the IEEE 754 standard: \n");
-	NegDoubleBin(product);
+	negDoubleBin(product);
 
 	return 0;
 }
