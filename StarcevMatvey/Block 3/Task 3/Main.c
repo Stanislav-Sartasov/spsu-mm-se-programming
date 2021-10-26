@@ -3,7 +3,7 @@
 #include <string.h>
 #include "filters.h"
 
-// alignment
+// header
 #pragma pack(push)
 #pragma pack(2)
 typedef struct
@@ -60,61 +60,67 @@ int main(int argc, char*argv[])
 	FILE* f;
 	
 	// reading
-	if ((f = fopen(argv[1], "rb")) == NULL)
+	if (!(f = fopen(argv[1], "rb")))
 	{
 		printf("\nUnable to open file for reading\n");
 		return 0;
 	}
 
-	fread(&bh, 1, sizeof(bmp_header), f);
+	fread(&bh, sizeof(char), sizeof(bmp_header), f);
 	int x = bh.bi_width;
 	int y = bh.bi_height;
-	int row = (3 * x + 3) & (-4);
+
+	int c = bh.bi_bit_count == 32;
+
+	// * 4 for 32bit  and  * 3 & mod 4 == 0 for 24bit
+	int row = ((3 + c) * x + !(c) * 3) & (-4);
+	// 4 for 32bit and 3 for 24bit
+	int t = 3 + c;
 
 	unsigned char** image = (unsigned char**)malloc(y * sizeof(char*));
 	for (int i = 0; i < y; i++)
 	{
-		image[i] = (char*)malloc(row * sizeof(char));
-		fread(image[i], 1, row * sizeof(char), f);
+		image[i] = (char*)malloc((row + 2) * sizeof(char));
+		fread(image[i], sizeof(char), row * sizeof(char), f);
 	}
 
 
 	if (strcmp(argv[2], "MIDDLE") == 0)
 	{
-		med_middle(image, row, y);
+		med_middle(image, row, y, t);
 	}
 	else if (strcmp(argv[2], "SOBELX") == 0)
 	{
-		sobel_x(image, x, y, row);
+		multi_sobel(image, x, y, row, 'X', t);
 	}
 	else if (strcmp(argv[2], "SOBELY") == 0)
 	{
-		sobel_y(image, x, y, row);
+		multi_sobel(image, x, y, row, 'Y', t);
 	}
 	else if (strcmp(argv[2], "SOBEL") == 0)
 	{
-		sobel(image, x, y, row);
+		multi_sobel(image, x, y, row, '0', t);
 	}
 	else if (strcmp(argv[2], "GREY") == 0)
 	{
-		grey(image, row, y);
+		grey(image, row, y, t);
 	}
 	else
 	{
-		five_x_five_gauss(image, row, y);
+		five_x_five_gauss(image, row, y, t);
 	}
 
 
 	// writing
-	if ((f = fopen(argv[3], "wb")) == NULL)
+	if (!(f = fopen(argv[3], "wb")))
 	{
 		printf("\nUnable to open file for writing\n");
 		return 0;
 	}
-	fwrite(&bh, 1, sizeof(bmp_header), f);
+	fwrite(&bh, sizeof(char), sizeof(bmp_header), f);
 	for (int i = 0; i < y; i++)
 	{
-		fwrite(image[i], 1, row * sizeof(char), f);
+		fwrite(image[i], sizeof(char), row * sizeof(char), f);
 	}
 
 	printf("\nFiltered\n");

@@ -2,11 +2,11 @@
 #include "input_and_tools.h"
 #include "filters.h"
 
-int grey(unsigned char** image, int row, int y)
+int grey(unsigned char** image, int row, int y, int t)
 {
 	for (int i = 0; i < y; i++)
 	{
-		for (int j = 0; j < row ; j += 3)
+		for (int j = 0; j < row ; j += t)
 		{
 			unsigned char z = (unsigned char)(image[i][j] * 0.3 + image[i][j + 1] * 0.59 + image[i][j + 2] * 0.11);
 			image[i][j] = z;
@@ -18,20 +18,19 @@ int grey(unsigned char** image, int row, int y)
 	return 0;
 }
 
-int med_middle(unsigned char** image, int row, int y)
+int med_middle(unsigned char** image, int row, int y, int t)
 {
 	for (int a = 0; a < 3; a++)
 	{
-		//int a = 0;
 		for (int i = 1; i < y - 1; i++)
 		{
-			for (int j = a + 3; j < row - 3; j += 3)
+			for (int j = a + t; j < row - t; j += t)
 			{
 				int c = 0;
 				int arr[9] = { 0 };
 				for (int k = i - 1; k < i + 2; k++)
 				{
-					for (int h = j - 3; h < j + 4; h += 3)
+					for (int h = j - t; h < j + t + 1; h += t)
 					{
 						arr[c] = image[k][h];
 						c++;
@@ -44,31 +43,25 @@ int med_middle(unsigned char** image, int row, int y)
 	}
 }
 
-int five_x_five_gauss(unsigned char** image, int row, int y)
+int five_x_five_gauss(unsigned char** image, int row, int y, int t)
 {
 	double gauss[5] = { 0.028087, 0.23431, 0.475207, 0.23431, 0.028087 };
 	for (int i = 1; i < y - 1; i++)
 	{
-		for (int j = 3; j < row - 3; j += 3)
+		for (int j = t; j < row - t; j += t)
 		{
 			double r = 0;
 			double g = 0;
 			double b = 0;
 			for (int k = i - 2; k < i + 3; k++)
 			{
-				for (int h = j - 6; h < j + 7; h += 3)
+				for (int h = j - 2 * t; h < j + 2 * t + 1; h += t)
 				{
-					if (k < 0 || k >= y || h < 0 || h >= row)
+					if (k >= 0 && k < y && h >= 0 && h < row)
 					{
-						r += 0;
-						g += 0;
-						b += 0;
-					}
-					else
-					{
-						r += image[k][h] * gauss[k - i + 2] * gauss[(h - j + 6) / 3];
-						g += image[k][h + 1] * gauss[k - i + 2] * gauss[(h - j + 6) / 3];
-						b += image[k][h + 2] * gauss[k - i + 2] * gauss[(h - j + 6) / 3];
+						r += image[k][h] * gauss[k - i + 2] * gauss[(h - j + 2 * t) / t];
+						g += image[k][h + 1] * gauss[k - i + 2] * gauss[(h - j + 2 * t) / t];
+						b += image[k][h + 2] * gauss[k - i + 2] * gauss[(h - j + 2 * t) / t];
 					}
 				}
 			}
@@ -81,163 +74,85 @@ int five_x_five_gauss(unsigned char** image, int row, int y)
 	return 0;
 }
 
-int sobel_x(unsigned char** image, int x, int y, int row)
+int multi_sobel(unsigned char** image, int x, int y, int row, char flag, int t)
 {
-	grey(image, row, y);
-	med_middle(image, row, y);
+	grey(image, row, y, t);
 
-	int** pr = (int**)malloc(y * sizeof(int*));
+	// limit for edge
+	const int limit = 74;
+
+	int matrix_x[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
+	int matrix_y[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
+
+	unsigned char** pr = (unsigned char**)malloc(y * sizeof(unsigned char*));
 	for (int i = 0; i < y; i++)
 	{
-		pr[i] = (int*)malloc(x * sizeof(int));
+		pr[i] = (unsigned char*)malloc(x * sizeof(unsigned char));
 	}
 
 	for (int i = 1; i < y - 1; i++)
 	{
-		for (int j = 3; j < row - 3; j += 3)
+		for (int j = t; j < row - t; j += t)
 		{
-			int g = image[i - 1][j + 3] + 2 * image[i][j + 3] + image[i + 1][j + 3] - (image[i - 1][j - 3] + 2 * image[i][j - 3] + image[i + 1][j - 3]);
-			if (g < 74)
+			int g = 0;
+			int gy = 0;
+			int gx = 0;
+			for (int k = i - 1; k < i + 2; k++)
 			{
-				g = 255;
+				for (int h = j - t; h < j + t + 1; h += t)
+				{
+					gx += image[k][h] * matrix_x[k - (i - 1)][(h - (j - t)) / t];
+					gy += image[k][h] * matrix_y[k - (i - 1)][(h - (j - t)) / t];
+				}
 			}
+
+			// normal Sobel
+			if (flag == '0')
+			{
+				g = (int)(sqrt(gy * gy + gx * gx));
+				if (g < limit)
+				{
+					pr[i][j / t] = 0;
+				}
+				else
+				{
+					pr[i][j / t] = 255;
+				}
+			}
+			// X Sobel
+			else if (flag == 'X')
+			{
+				if (abs(gx) < limit)
+				{
+					pr[i][j / t] = 0;
+				}
+				else
+				{
+					pr[i][j / t] = 255;
+				}
+			}
+			// Y Sobel
 			else
 			{
-				g = 0;
+				if (abs(gy) < limit)
+				{
+					pr[i][j / t] = 0;
+				}
+				else
+				{
+					pr[i][j / t] = 255;
+				}
 			}
-			pr[i][j / 3] = g;
 		}
 	}
 
 	for (int i = 1; i < y - 1; i++)
 	{
-		for (int j = 3; j < row - 3; j += 3)
+		for (int j = t; j < row - t; j += t)
 		{
-			if (pr[i][j / 3] == 255)
+			for (int k = 0; k < t; k++)
 			{
-				image[i][j] = 0;
-				image[i][j + 1] = 0;
-				image[i][j + 2] = 0;
-			}
-			else
-			{
-				image[i][j] = 255;
-				image[i][j + 1] = 255;
-				image[i][j + 2] = 255;
-			}
-		}
-	}
-
-	for (int i = 0; i < y; i++)
-	{
-		free(pr[i]);
-	}
-	free(pr);
-
-	return 0;
-}
-
-int sobel_y(unsigned char** image, int x, int y, int row)
-{
-	grey(image, row, y);
-	med_middle(image, row, y);
-
-	int** pr = (int**)malloc(y * sizeof(int*));
-	for (int i = 0; i < y; i++)
-	{
-		pr[i] = (int*)malloc(x * sizeof(int));
-	}
-
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 3; j < row - 3; j += 3)
-		{
-			int g = image[i - 1][j - 3] + 2 * image[i - 1][j] + image[i - 1][j + 3] - (image[i + 1][j - 3] + 2 * image[i + 1][j] + image[i + 1][j + 3]);
-			if (g < 74)
-			{
-				g = 255;
-			}
-			else
-			{
-				g = 0;
-			}
-			pr[i][j / 3] = g;
-		}
-	}
-
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 3; j < row - 3; j += 3)
-		{
-			if (pr[i][j / 3] == 255)
-			{
-				image[i][j] = 0;
-				image[i][j + 1] = 0;
-				image[i][j + 2] = 0;
-			}
-			else
-			{
-				image[i][j] = 255;
-				image[i][j + 1] = 255;
-				image[i][j + 2] = 255;
-			}
-		}
-	}
-
-	for (int i = 0; i < y; i++)
-	{
-		free(pr[i]);
-	}
-	free(pr);
-
-	return 0;
-}
-
-int sobel(unsigned char** image, int x, int y, int row)
-{
-	grey(image, row, y);
-	med_middle(image, row, y);
-
-	int** pr = (int**)malloc(y * sizeof(int*));
-	for (int i = 0; i < y; i++)
-	{
-		pr[i] = (int*)malloc(x * sizeof(int));
-	}
-
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 3; j < row - 3; j += 3)
-		{
-			int gx = image[i - 1][j + 3] + 2 * image[i][j + 3] + image[i + 1][j + 3] - (image[i - 1][j - 3] + 2 * image[i][j - 3] + image[i + 1][j - 3]);
-			int gy = image[i + 1][j - 3] + 2 * image[i + 1][j] + image[i + 1][j + 3] - (image[i - 1][j - 3] + 2 * image[i - 1][j] + image[i - 1][j + 3]);
-			int g = (int)(sqrt(gy * gy + gx * gx));
-			if (g < 72)
-			{
-				g = 255;
-			}
-			else
-			{
-				g = 0;
-			}
-			pr[i][j / 3] = g;
-		}
-	}
-
-	for (int i = 1; i < y - 1; i++)
-	{
-		for (int j = 3; j < row - 3; j += 3)
-		{
-			if (pr[i][j / 3] == 255)
-			{
-				image[i][j] = 0;
-				image[i][j + 1] = 0;
-				image[i][j + 2] = 0;
-			}
-			else
-			{
-				image[i][j] = 255;
-				image[i][j + 1] = 255;
-				image[i][j + 2] = 255;
+				image[i][j + k] = pr[i][j / t];
 			}
 		}
 	}
