@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void flush()
+{
+	int ch;
+	while (((ch = getchar()) != '\n') && (ch != EOF));
+}
+
 void input(char string[], int *a)
 {
 	int result;
@@ -8,7 +14,7 @@ void input(char string[], int *a)
 	{
 		printf(string);
 		result = scanf("%d", a);
-		fflush(stdin);
+		flush();
 	}
 	while (!(result == 1 && (*a > 0)));
 }
