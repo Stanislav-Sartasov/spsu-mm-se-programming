@@ -10,18 +10,18 @@ int main()
 
 	const int x = 504;
 
-	int A = -x; char binA[32] = { 0 };
-	float B = x; char binB[32] = { 0 };
-	double C = -x; char binC[64] = { 0 };
+	int a = -x; char binA[32] = { 0 };
+	float b = x; char binB[32] = { 0 };
+	double c = -x; char binC[64] = { 0 };
 
 	printf("Negative 32-bit integer representation is ");
-	bin(A, 32, &binA);
+	bin(a, 32, &binA);
 
 	printf("Positive float IEEE 754 representation is ");
-	bin(*(int*)&B, 32, &binB);
+	bin(*(int*)&b, 32, &binB);
 
 	printf("Negative double IEEE 754 representation is ");
-	bin(*(long long*)&C, 64, &binC);
+	bin(*(long long*)&b, 64, &binC);
 
 	return 0;
 
@@ -39,13 +39,11 @@ void bin(long long num, int bits, char* binNum)
 	}
 	else
 	{
-		//binary representation
 		for (int i = bits - 1; i >= 0; i--)
 		{
 			binNum[i] = num % 2 ? '1' : '0';
 			num /= 2;
 		}
-		//inversion
 		for (int i = 0; i < bits; i++)
 		{
 			if (binNum[i] == '1')
@@ -53,7 +51,6 @@ void bin(long long num, int bits, char* binNum)
 			else
 				binNum[i] = '1';
 		}
-		//add 1 to inversion
 		for (int i = bits - 1; i >= 0; i--)
 		{
 			if (binNum[i] == '1')
