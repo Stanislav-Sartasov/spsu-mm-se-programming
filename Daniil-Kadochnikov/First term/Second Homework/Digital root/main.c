@@ -23,7 +23,7 @@ void countMaxMDRS1Num(int number, int* maxMDRS)
 	else *maxMDRS = max(MDRS, *maxMDRS);
 }
 
-int main() 
+int main()
 {
 	printf("The programm counts the sum of all maximum digital roots on the period [2, 999999].\n\n");
 	int number;
