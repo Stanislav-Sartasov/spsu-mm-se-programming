@@ -22,9 +22,9 @@ void free_table(struct table* hash_table)
 		while (hash_table->lists[i] != NULL)
 		{
 			if (hash_table->type.key == DECIMAL_ELEM)
-				del_elem(hash_table, decimal(hash_table->lists[i]->key.decimal));
+				del_elem(hash_table, hash_table->lists[i]->key.decimal);
 			else if (hash_table->type.key == STRING_ELEM)
-				del_elem(hash_table, string(hash_table->lists[i]->key.string));
+				del_elem(hash_table, hash_table->lists[i]->key.string);
 			else
 			{
 				exit(1);
@@ -39,6 +39,8 @@ void free_table(struct table* hash_table)
 
 void add_elem(struct table* hash_table, void* key, void* value)
 {
+	
+
 	uint32_t res_hash = hashing(key, hash_table->segments, hash_table->type.key);
 	struct list* current;
 	struct list* find_el = find_elem(hash_table, key);
@@ -141,17 +143,8 @@ static uint32_t hashing(void* key, size_t size, value_type_t type)
 	return res_hash;
 }
 
-void* decimal(int64_t x)
-{
-	return (void*)x;
-}
 
-void* string(uint8_t* x)
-{
-	return (void*)x;
-}
-
-void* real(double x)
+static void* real(double x)
 {
 	double* f = (double*)malloc(sizeof(double));
 	*f = x;
@@ -179,18 +172,18 @@ static void rebalance(struct table* hash_table)
 			{
 				if (hash_table->type.value == DECIMAL_ELEM)
 				{
-					add_elem(new_table, decimal(hash_table->lists[i]->key.decimal), decimal(hash_table->lists[i]->value.decimal));
-					del_elem(hash_table, decimal(hash_table->lists[i]->key.decimal));
+					add_elem(new_table, hash_table->lists[i]->key.decimal, hash_table->lists[i]->value.decimal);
+					del_elem(hash_table, hash_table->lists[i]->key.decimal);
 				}
 				else if (hash_table->type.value == STRING_ELEM)
 				{
-					add_elem(new_table, decimal(hash_table->lists[i]->key.decimal), string(hash_table->lists[i]->value.string));
-					del_elem(hash_table, decimal(hash_table->lists[i]->key.decimal));
+					add_elem(new_table, hash_table->lists[i]->key.decimal, hash_table->lists[i]->value.string);
+					del_elem(hash_table, hash_table->lists[i]->key.decimal);
 				}
 				else if (hash_table->type.value == REAL_ELEM)
 				{
-					add_elem(new_table, decimal(hash_table->lists[i]->key.decimal), real(hash_table->lists[i]->value.real));
-					del_elem(hash_table, decimal(hash_table->lists[i]->key.decimal));
+					add_elem(new_table, hash_table->lists[i]->key.decimal, real(hash_table->lists[i]->value.real));
+					del_elem(hash_table, hash_table->lists[i]->key.decimal);
 				}
 				else
 				{
@@ -201,18 +194,18 @@ static void rebalance(struct table* hash_table)
 			{
 				if (hash_table->type.value == DECIMAL_ELEM)
 				{
-					add_elem(new_table, string(hash_table->lists[i]->key.string), decimal(hash_table->lists[i]->value.decimal));
-					del_elem(hash_table, string(hash_table->lists[i]->key.string));
+					add_elem(new_table, hash_table->lists[i]->key.string, hash_table->lists[i]->value.decimal);
+					del_elem(hash_table, hash_table->lists[i]->key.string);
 				}
 				else if (hash_table->type.value == STRING_ELEM)
 				{
-					add_elem(new_table, string(hash_table->lists[i]->key.string), string(hash_table->lists[i]->value.string));
-					del_elem(hash_table, string(hash_table->lists[i]->key.string));
+					add_elem(new_table, hash_table->lists[i]->key.string, hash_table->lists[i]->value.string);
+					del_elem(hash_table, hash_table->lists[i]->key.string);
 				}
 				else if (hash_table->type.value == REAL_ELEM)
 				{
-					add_elem(new_table, string(hash_table->lists[i]->key.string), real(hash_table->lists[i]->value.real));
-					del_elem(hash_table, string(hash_table->lists[i]->key.string));
+					add_elem(new_table, hash_table->lists[i]->key.string, real(hash_table->lists[i]->value.real));
+					del_elem(hash_table, hash_table->lists[i]->key.string);
 				}
 				else
 				{

@@ -9,12 +9,13 @@
 #include "sys/mman.c"
 
 int own_cmpr(const char* str1, const char* str2);
+unsigned long long len_str(char* string);
 
 int main(int argc, char* argv[])
 {
 	int fdin, fdout, err;
 	struct stat statbuf;
-	char* src, * dst;
+	char* src;
 	printf("This program sorts the lines in a text file using the memory mapped file mechanism.\n");
 	if (argc != 3)
 	{
@@ -42,6 +43,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 	unsigned long long numbers_str = 0;
+
 	for (int i = 0; i < statbuf.st_size; i++)
 	{
 		if (src[i] == '\n' || i + 1 == statbuf.st_size)
@@ -49,37 +51,13 @@ int main(int argc, char* argv[])
 			numbers_str++;
 		}
 	}
-	char** strs = (char**)malloc(sizeof(char*) * numbers_str);
-	char* rch = src;
-	char* lch = src;
-	int len = 0;
-	int str_i = 0;
-	for (; str_i < numbers_str; lch = rch + 1)
-	{
-		rch = strchr(lch, '\n');
-		if (rch != NULL)
-		{
-			len = rch - lch;
-		}
-		else
-		{
-			len = &src[statbuf.st_size] - lch;
-		}
-		strs[str_i] = malloc(sizeof(char) * (len + 1));
-		memcpy(strs[str_i], lch, len);
-		strs[str_i][len] = '\0';
-		str_i++;
-	}
 
-	// eliminating unnecessary tabs
+	char** strs = (char**)malloc(sizeof(char*) * numbers_str);
+	int j = 0;
 	for (int i = 0; i < numbers_str; i++)
 	{
-		int j = strlen(strs[i]);
-		while (strs[i][j - 1] == '\n' || strs[i][j - 1] == '\r')
-		{
-			j--;
-		}
-		strs[i][j] = '\0';
+		strs[i] = &src[j];
+		while (src[j++] != '\n' && j < statbuf.st_size && i != numbers_str - 1);
 	}
 
 	qsort(strs, (size_t)numbers_str, sizeof(char*), own_cmpr);
@@ -88,13 +66,10 @@ int main(int argc, char* argv[])
 
 	for (int i = 0; i < numbers_str; i++)
 	{
-		_write(fdout, strs[i], strlen(strs[i]));
+		_write(fdout, strs[i], len_str(strs[i]));
 		_write(fdout, &end, 1);
 	}
-	for (int i = 0; i < numbers_str; i++)
-	{
-		free(strs[i]);
-	}
+
 	free(strs);
 	munmap(src, statbuf.st_size);
 	_close(fdin);
@@ -107,5 +82,27 @@ int own_cmpr(const char* str_first, const char* str_second)
 {
 	char* str_new_first = *(char**)str_first;
 	char* str_new_second = *(char**)str_second;
-	return strcmp(str_new_first, str_new_second);
+
+	unsigned long long index_end_first = len_str(str_new_first);
+	unsigned long long index_end_second = len_str(str_new_second);
+
+	char control_symbol_first = str_new_first[index_end_first];
+	char control_symbol_second = str_new_second[index_end_second];
+
+	str_new_first[index_end_first] = '\0';
+	str_new_second[index_end_second] = '\0';
+
+	int result = strcmp(str_new_first, str_new_second);
+
+	str_new_first[index_end_first] = control_symbol_first;
+	str_new_second[index_end_second] = control_symbol_second;
+
+	return result;
+}
+
+unsigned long long len_str(char* string)
+{
+	unsigned long long i = 0;
+	for (;(string[i] != '\r') && (string[i] != '\n') && (string[i] != '\0'); i++);
+	return i;
 }

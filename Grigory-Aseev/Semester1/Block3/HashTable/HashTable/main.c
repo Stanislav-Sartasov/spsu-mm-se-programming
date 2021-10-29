@@ -11,8 +11,8 @@ int main()
 {
 	printf("This program demonstrates the capabilities of a hash table in various types (decimal, real, string).\n");
 	test_by_decimal();
-	test_by_real();
 	test_by_string();
+	test_by_real();
 	return 0;
 }
 
@@ -24,14 +24,14 @@ static void test_by_decimal()
 	printf("Adding a decimal key-value pair...\n");
 	for (size_t i = 0; i < 64; i++)
 	{
-		add_elem(tab, decimal(i*7), decimal(i * 1000 - 7));
+		add_elem(tab, i*7, i * 1000 - 7);
 	}
 	print_hash_table(tab);
 	printf("Searching for some element by key...\n");
 	struct list* el;
 	for (size_t i = 20; i < 33; i++)
 	{
-		el = find_elem(tab, decimal(i * 7));
+		el = find_elem(tab, i * 7);
 		if (el == NULL)
 		{
 			printf("the key(%d) element not found\n", i * 7);
@@ -44,13 +44,13 @@ static void test_by_decimal()
 	printf("Removing these items...\n");
 	for (size_t i = 20; i < 33; i++)
 	{
-		del_elem(tab, decimal(i * 7));
+		del_elem(tab, i * 7);
 	}
 	print_hash_table(tab);
 	printf("Searching for these items...\n");
 	for (size_t i = 20; i < 33; i++)
 	{
-		el = find_elem(tab, decimal(i * 7));
+		el = find_elem(tab, i * 7);
 		if (el == NULL)
 		{
 			printf("the key(%d) element not found\n", i*7);
@@ -71,7 +71,10 @@ static void test_by_real()
 	printf("Adding a decimal key and a real value pair...\n");
 	for (size_t i = 0; i < 64; i++)
 	{
-		add_elem(tab, decimal(i * 7), real(i * 10 - 0.777));
+		double x = i * 10 - 0.777;
+		double* f = (double*)malloc(sizeof(double));
+		*f = x;
+		add_elem(tab, i * 7, (void*)f);
 	}
 	print_hash_table(tab);
 
@@ -79,7 +82,7 @@ static void test_by_real()
 	printf("Searching for some element by key...\n");
 	for (size_t i = 20; i < 33; i++)
 	{
-		el = find_elem(tab, decimal(i * 7));
+		el = find_elem(tab, i * 7);
 		if (el == NULL)
 		{
 			printf("the key(%d) element not found\n", i * 7);
@@ -92,13 +95,13 @@ static void test_by_real()
 	printf("Removing these items...\n");
 	for (size_t i = 20; i < 33; i++)
 	{
-		del_elem(tab, decimal(i * 7));
+		del_elem(tab, i * 7);
 	}
 	print_hash_table(tab);
 	printf("Searching for these items...\n");
 	for (size_t i = 20; i < 33; i++)
 	{
-		el = find_elem(tab, decimal(i * 7));
+		el = find_elem(tab, i * 7);
 		if (el == NULL)
 		{
 			printf("the key(%d) element not found\n", i * 7);
@@ -130,7 +133,7 @@ static void test_by_string()
 	printf("Adding a string key-value pair...\n");
 	for (size_t i = 0; i < 12; i++)
 	{
-		add_elem(tab, string(months[i]), string(days[i%7]));
+		add_elem(tab, months[i], days[i%7]);
 	}
 	print_hash_table(tab);
 
@@ -138,7 +141,7 @@ static void test_by_string()
 	printf("Searching for some element by key...\n");
 	for (size_t i = 2; i < 7; i++)
 	{
-		el = find_elem(tab, string(months[i]));
+		el = find_elem(tab, months[i]);
 		if (el == NULL)
 		{
 			printf("the key(%s) element not found\n", months[i]);
@@ -151,13 +154,13 @@ static void test_by_string()
 	printf("Removing these items...\n");
 	for (size_t i = 2; i < 7; i++)
 	{
-		del_elem(tab, string(months[i]));
+		del_elem(tab, months[i]);
 	}
 	print_hash_table(tab);
 	printf("Searching for these items...\n");
 	for (size_t i = 2; i < 7; i++)
 	{
-		el = find_elem(tab, string(months[i]));
+		el = find_elem(tab, months[i]);
 		if (el == NULL)
 		{
 			printf("the key(%s) element not found\n", months[i]);

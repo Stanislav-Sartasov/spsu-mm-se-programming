@@ -45,7 +45,5 @@ void del_elem(struct table* hash_table, void* key);
 struct list* find_elem(struct table* hash_table, void* key);
 static void rebalance(struct table* hash_table);
 static uint16_t cmpr_keys(void* key, value_t tab_key, value_type_t type);
-void* decimal(int64_t x);
-void* string(uint8_t* x);
-void* real(double x);
+static void* real(double x);
 void print_hash_table(struct table* hash_table);
