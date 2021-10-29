@@ -19,4 +19,6 @@ void sort_strings(char **array, int longest_word, int word_count, int left, int 
 
 void output_result(char **array, char *to, int dimension_1, int dimension_2);
 
+int comparator(const char *left, const char *right);
+
 #endif //TASK_1_MAIN_H
