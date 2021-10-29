@@ -28,5 +28,6 @@ int main()
 		ans += mdrs[i];
 	}
 	printf("Sum of all MDRS(n) for n = [2, 999999]: %d", ans);
+	free(mdrs);
 	return 0;
 }
