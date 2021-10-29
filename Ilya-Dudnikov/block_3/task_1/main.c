@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 	parse(from, size, string_arr);
 	munmap(from, size);
 
-	sort_strings(string_arr, longest_word, word_count, 0, word_count, 0);
+	qsort(string_arr, word_count, sizeof(char*), comparator);
 
 	char *to = get_input(argv[2], O_RDWR | O_CREAT | O_TRUNC, (mode_t)0600, &size);
 	output_result(string_arr, to, word_count, longest_word);
@@ -34,6 +34,13 @@ int main(int argc, char *argv[]) {
 
 	free_memory(string_arr, word_count);
 	return 0;
+}
+
+int comparator(const char *left, const char *right)
+{
+	left = *(char**)left;
+	right = *(char**)right;
+	return strcmp(left, right);
 }
 
 int get_file_size(char *path, int oflag, int mode, int *file_desc)
@@ -120,36 +127,6 @@ void free_memory(char **array, int dimension_1)
 	for (int i = 0; i < dimension_1; i++)
 		free(array[i]);
 	free(array);
-}
-
-void sort_strings(char **array, int longest_word, int word_count, int left, int right, int current_ind)
-{
-	if (current_ind > longest_word || left >= right)
-		return;
-
-	char *bucket[word_count];
-	int cnt[128];
-	memset(cnt, 0, sizeof(cnt));
-
-	for (int i = left; i < right; i++)
-	{
-		int current = array[i][current_ind];
-		cnt[array[i][current_ind]]++;
-	}
-	for (int i = 1; i < 128; i++)
-		cnt[i] += cnt[i - 1];
-
-	for (int i = left; i < right; i++)
-	{
-		bucket[left + cnt[array[i][current_ind]] - 1] = array[i];
-		cnt[array[i][current_ind]]--;
-	}
-	for (int i = left; i < right; i++)
-		array[i] = bucket[i];
-
-	sort_strings(array, longest_word, word_count, left, left + cnt[0], current_ind + 1);
-	for (int i = 1; i < 128; i++)
-		sort_strings(array, longest_word, word_count, left + cnt[i - 1], left + cnt[i], current_ind + 1);
 }
 
 void output_result(char **array, char *to, int dimension_1, int dimension_2)

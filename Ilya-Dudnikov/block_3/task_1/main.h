@@ -15,8 +15,8 @@ char **init(int dimension_1, int dimension_2);
 
 void free_memory(char **array, int dimension_1);
 
-void sort_strings(char **array, int longest_word, int word_count, int left, int right, int current_ind);
-
 void output_result(char **array, char *to, int dimension_1, int dimension_2);
+
+int comparator(const char *left, const char *right);
 
 #endif //TASK_1_MAIN_H
