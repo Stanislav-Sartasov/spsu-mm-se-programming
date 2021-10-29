@@ -1,4 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdbool.h>
@@ -98,12 +97,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	int output_file = open(argv[2], O_RDWR || O_TRUNC, S_IWRITE);
-	if (output_file == -1)
-	{
-		printf("Unable to open file for writing\n");
-		return 0;
-	}
+	int output_file = open(argv[2], O_RDWR | O_TRUNC | O_CREAT, S_IWRITE);
 
 	struct stat st;
 	fstat(input_file, &st);
