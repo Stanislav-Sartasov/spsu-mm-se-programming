@@ -69,5 +69,6 @@ int main()
 	if (overflow)
 		printf("Perhaps it was overflow\n");
 	printf("Amount ways to present given number: %llu", cnt_options);
+    free(dp);
 	return 0;
 }
