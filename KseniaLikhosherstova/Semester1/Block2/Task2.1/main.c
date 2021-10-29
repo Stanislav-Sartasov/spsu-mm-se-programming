@@ -93,7 +93,7 @@ int main()
 	printf("This program calculates the product of the lengths of the first name, last nameand patronymic\n");
 	printf("and displays a binary representation of the values in the following formats:\n\n");
 	printf("A) a negative 32-bit integer, the modulus of which is equal to the found product:\n");
-	negBin(product-1);
+	negBin(product - 1);
 	printf("\nB) a positive single-precision floating-point number  according to the IEEE 754 standard: \n");
 	floatBin(product);
 	printf("\nC) a negative double-precision floating-point number according to the IEEE 754 standard: \n");
