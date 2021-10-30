@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void count(int sum)
 {
@@ -7,13 +9,13 @@ void count(int sum)
 	long long* buffer;
 	buffer = malloc(sizeof(long long) * 9 * 201);
 	memset(buffer, 0, sizeof(long long) * 9 * 201);
-	long long** arr = malloc(sizeof(long long*) * 9);
+	long long** table = malloc(sizeof(long long*) * 9);
+	if (buffer == NULL || table == NULL)
+		printf("Failed to allocate memory\n");
 	for (int i = 0; i < 9; i++)
 	{
-		arr[i] = &buffer[i * 201];
+		table[i] = &buffer[i * 201];
 	}
-	long long** table = arr;
-
 	for (int i = 1; i <= 8; i++)
 	{
 		table[i][0] = 1;
@@ -27,6 +29,8 @@ void count(int sum)
 		}
 	}
 	printf("The number of ways in which the entered amount can be converted: %lld\n", table[8][sum % m]);
+	free(table[0]);
+	free(table);
 }
 
 int main()
