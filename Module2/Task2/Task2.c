@@ -81,7 +81,11 @@ int main()
 	system("cls");
 
 	int enter_znach;
+
 	bool status = false;
+
+	printf("¬ведите значение дл€ размена:");
+
 	do
 	{
 		status = check_error(&enter_znach);
@@ -102,10 +106,11 @@ int main()
 	}
 	else if (enter_znach == 2)
 	{
-		printf(" оличество возможных вариантов %d дл€ размена %d пенсов", 1, enter_znach);
+		printf(" оличество возможных вариантов %d дл€ размена %d пенсов", 2, enter_znach);
 	}
 	else
 	{
+		enter_znach += 1;
 		int* varians_monet = malloc(8 * sizeof(int));
 		zapolenie_vozmozniv_varions(varians_monet);
 
@@ -141,13 +146,14 @@ int main()
 				}
 			}
 		}
-		
-		printf(" оличество возможных вариантов %d дл€ размена %d пенсов", variants[enter_znach - 1][7], enter_znach);
+
+		printf(" оличество возможных вариантов %d дл€ размена %d пенсов", variants[enter_znach - 1][7], enter_znach - 1);
 
 		free(varians_monet);
 		for (int i = 0; i < enter_znach; i++)
 		{
 			free(variants[i]);
 		}
+		free(variants);
 	}
 }
