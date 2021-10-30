@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <stdlib.h>
 
 void clear_input()
 {
@@ -76,5 +77,10 @@ int main()
 		}
 	}
 	printf("%lld", ways[8][sum]);
+	for (i = 0; i < 9; ++i)
+	{
+		free(ways[i]);
+	}
+	free(ways);
 	return 0;
 }
