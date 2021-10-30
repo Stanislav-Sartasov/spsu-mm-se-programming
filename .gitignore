@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /AlexanderKharitonov/First/1.Mersenne numbers/cmake-build-debug/
 /AlexanderKharitonov/First/2.Pythagorean_triple/cmake-build-debug/
+.idea/
