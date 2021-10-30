@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 int main()
 {
@@ -29,26 +30,26 @@ int main()
 	}
 
 	long long maxsize = number + 1;
-	long long** ways = (unsigned long long**) malloc(length * sizeof(unsigned long long*));
-	for (int i = 0; i < length; ++i)
-		ways[i] = (long long*) malloc(maxsize * sizeof(long long));
+	long long** ways = (unsigned long long**) malloc(8 * sizeof(long long*));
+	for (int i = 0; i < 8; ++i)
+		ways[i] = (long long*)malloc(maxsize * sizeof(long long));
 
-	for (int i = 0; i < length; i++)
+	for (int i = 0; i < 8; ++i)
 	{
-		for (int j = 0; j < maxsize; j++)
+		for (int j = 0; j < maxsize; ++j)
 		{
 			ways[i][j] = 0;
 		}
 	}
 	ways[0][0] = 1;
 
-	for (int i = 0; i < maxsize; i++)
+	for (int i = 0; i < maxsize; ++i)
 	{
-		for (int j = 0; j < 8; j++)
+		for (int j = 0; j < 8; ++j)
 		{
-			for (int k = j; k < 8; k++)
+			for (int k = j; k < 8; ++k)
 			{
-				if (i + coins[k] <= maxsize)
+				if (i + coins[k] < maxsize)
 				{
 					ways[k][i + coins[k]] += ways[j][i];
 				}
@@ -56,12 +57,12 @@ int main()
 		}
 	}
 
-	unsigned long long int ans = 0;
-	for (int i = 0; i < 8; i++)
+	long long int answer = 0;
+	for (int i = 0; i < 8; ++i)
 	{
-		ans += ways[i][number];
+		answer += ways[i][number];
 	}
-	printf("There are %lld ways.", ans);
+	printf("There are %lld ways.", answer);
 
 	return 0;
 }
