@@ -1,7 +1,5 @@
-#include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include <math.h>
 #include "ht.h"
 #define START_MOD 7
 
