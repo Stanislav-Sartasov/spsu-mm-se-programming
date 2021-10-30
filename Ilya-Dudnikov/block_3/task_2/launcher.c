@@ -83,4 +83,6 @@ int main()
 			printf("Invalid input: there is no such command\n");
 		}
 	}
+
+	delete_hash_table(&ht);
 }

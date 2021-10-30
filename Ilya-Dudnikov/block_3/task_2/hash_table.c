@@ -19,6 +19,15 @@ void delete_linked_list(lst *list)
 	free(list);
 }
 
+void delete_hash_table(hash_table *ht)
+{
+	for (int i = 0; i < ht->current_size; i++)
+	{
+		delete_linked_list(ht->table[i]);
+	}
+	free(ht->table);
+}
+
 int is_prime(int num)
 {
 	for (int i = 2; i * i <= num; i++)

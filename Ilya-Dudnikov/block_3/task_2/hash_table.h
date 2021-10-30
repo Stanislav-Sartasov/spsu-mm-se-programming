@@ -23,3 +23,5 @@ lst *find(hash_table *ht, int key);
 void delete(hash_table *ht, int key);
 
 void initialize_hash_table(hash_table *ht);
+
+void delete_hash_table(hash_table *ht);
