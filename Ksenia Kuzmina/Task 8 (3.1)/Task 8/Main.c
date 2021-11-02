@@ -6,26 +6,26 @@
 #include <sys/stat.h>
 #include <string.h>
 
-void new_qsort(char** mas, int size) 
+void new_qsort(char** mas, int size)
 {
 	int i = 0;
 	int j = size - 1;
 
 	char* mid = mas[size / 2];
 
-	do 
+	do
 	{
-		while (strcmp (mas[i], mid) == -1) 
+		while (strcmp(mas[i], mid) == -1)
 		{
 			i++;
 		}
 
-		while (strcmp(mas[j], mid) == 1) 
+		while (strcmp(mas[j], mid) == 1)
 		{
 			j--;
 		}
 
-		if (i <= j) 
+		if (i <= j)
 		{
 			char* tmp = mas[i];
 			mas[i] = mas[j];
@@ -36,17 +36,17 @@ void new_qsort(char** mas, int size)
 		}
 	} while (i <= j);
 
-	if (j > 0) 
+	if (j > 0)
 	{
 		new_qsort(mas, j + 1);
 	}
-	if (i < size) 
+	if (i < size)
 	{
 		new_qsort(&mas[i], size - i);
 	}
 }
 
-char** split(char* str) 
+char** split(char* str)
 {
 	int num_words = count_strings(str);
 	char** my_words = malloc((1 + num_words) * sizeof(char*));
@@ -55,7 +55,7 @@ char** split(char* str)
 	token = strtok(str, delim);
 
 	int i = 0;
-	while (token != NULL) 
+	while (token != NULL)
 	{
 		my_words[i] = malloc(sizeof(char) * (1 + strlen(token)));
 		strcpy(my_words[i], token);
@@ -68,7 +68,7 @@ char** split(char* str)
 	return my_words;
 }
 
-int count_strings(char* str) 
+int count_strings(char* str)
 {
 	int cnt = 0;
 
