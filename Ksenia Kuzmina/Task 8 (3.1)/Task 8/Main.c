@@ -144,6 +144,9 @@ int main(int argc, char* argv[])
 		free(split_list[i]);
 	}
 
+	munmap(map, statbuf.st_size);
+	close(file_inp);
+	close(file_out);
 	free(split_list);
 	free(strings);
 
