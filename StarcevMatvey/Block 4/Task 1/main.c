@@ -136,6 +136,8 @@ struct light_number* power(light_number* a, int pow)
 
 int main()
 {
+	printf("Calculates 3 to the power of 5000\n");
+	
 	light_number* a = create_light_number(4, 3);
 
 	a = power(a, 5000);
