@@ -39,7 +39,7 @@ bool compare(struct line_with_length line1, struct line_with_length line2)
 int count_length(char* line)
 {
 	int length = 0;
-	while (line[length] != '\n' && line[length] != '\r')
+	while (line[length] != '\n' && line[length] != '\r' && line[length] != '\0')
 	{
 		length++;
 	}
@@ -111,14 +111,42 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
+	char* stop_line = "\r\n";
+	bool r_appeared = false;
+	for (int s_index = 0; s_index < size_in_bytes; s_index++)
+	{
+		if (mmp_in[s_index] == '\r')
+		{
+			r_appeared = true;
+			stop_line = "\r";
+		}
+		else if (mmp_in[s_index] == '\n')
+		{
+			if (r_appeared)
+			{
+				stop_line = "\r\n";
+			}
+			else
+			{
+				stop_line = "\n";
+			}
+			break;
+		}
+		else if (r_appeared)
+		{
+			break;
+		}
+	}
+
 	int number_of_lines = 0;
 	for (int s_index = 0; s_index < size_in_bytes; s_index++)
 	{
-		if (mmp_in[s_index] == '\n')
+		if (mmp_in[s_index] == stop_line[0])
 		{
 			number_of_lines += 1;
 		}
 	}
+	number_of_lines += 1;
 
 	struct line_with_length* array = malloc(sizeof(struct line_with_length) * number_of_lines);
 
@@ -141,11 +169,12 @@ int main(int argc, char* argv[])
 
 	quick_str_sort(array, 0, number_of_lines - 1);
 
-	for (int n_line = 0; n_line < number_of_lines; n_line++)
+	for (int n_line = 0; n_line < number_of_lines - 1; n_line++)
 	{
 		write(output_file, array[n_line].line, array[n_line].length);
-		write(output_file, "\n", 1);
+		write(output_file, stop_line, 1);
 	}
+	write(output_file, array[number_of_lines - 1].line, array[number_of_lines - 1].length);
 
 	munmap(mmp_in, size_in_bytes);
 	close(input_file);
