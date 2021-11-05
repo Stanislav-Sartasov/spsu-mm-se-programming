@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 	// free
 	free(strings);
 
-	munmap(input, symbols_count + 1);
+	munmap(input, symbols_count);
 
 	_close(input_descriptor);
 	_close(output_descriptor);
