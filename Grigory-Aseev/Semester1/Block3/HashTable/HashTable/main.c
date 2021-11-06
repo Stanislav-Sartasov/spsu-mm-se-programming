@@ -3,9 +3,10 @@
 #include <inttypes.h>
 
 
-static void test_by_decimal();
-static void test_by_string();
-static void test_by_real();
+void test_by_decimal();
+void test_by_string();
+void test_by_real();
+void print_hash_table(struct table* hash_table);
 
 int main()
 {
@@ -24,7 +25,7 @@ static void test_by_decimal()
 	printf("Adding a decimal key-value pair...\n");
 	for (size_t i = 0; i < 64; i++)
 	{
-		add_elem(tab, i*7, i * 1000 - 7);
+		add_elem(tab, i * 7, i * 1000 - 7);
 	}
 	print_hash_table(tab);
 	printf("Searching for some element by key...\n");
@@ -53,7 +54,7 @@ static void test_by_decimal()
 		el = find_elem(tab, i * 7);
 		if (el == NULL)
 		{
-			printf("the key(%d) element not found\n", i*7);
+			printf("the key(%d) element not found\n", i * 7);
 		}
 		else
 		{
@@ -133,7 +134,7 @@ static void test_by_string()
 	printf("Adding a string key-value pair...\n");
 	for (size_t i = 0; i < 12; i++)
 	{
-		add_elem(tab, months[i], days[i%7]);
+		add_elem(tab, months[i], days[i % 7]);
 	}
 	print_hash_table(tab);
 
@@ -171,4 +172,47 @@ static void test_by_string()
 		}
 	}
 	free_table(tab);
+}
+
+void print_hash_table(struct table* hash_table)
+{
+	struct list* current;
+	printf("Display of hash table:\n");
+	for (size_t i = 0; i < hash_table->segments; i++)
+	{
+		current = hash_table->lists[i];
+		if (current != NULL)
+		{
+			printf("Hash value: %d [ ", i);
+		}
+		else
+		{
+			continue;
+		}
+		while (current != NULL)
+		{
+			if (hash_table->type.key == DECIMAL_ELEM)
+			{
+				printf("{key >> %I64d; ", current->key.decimal);
+			}
+			else if (hash_table->type.key == STRING_ELEM)
+			{
+				printf("{key >> %s; ", current->key.string);
+			}
+			if (hash_table->type.value == DECIMAL_ELEM)
+			{
+				printf("value >> %I64d} ", current->value.decimal);
+			}
+			else if (hash_table->type.value == STRING_ELEM)
+			{
+				printf("value >> %s} ", current->value.string);
+			}
+			else if (hash_table->type.value == REAL_ELEM)
+			{
+				printf("value >> %.15f} ", current->value.real);
+			}
+			current = current->next;
+		}
+		printf("]\n");
+	}
 }
