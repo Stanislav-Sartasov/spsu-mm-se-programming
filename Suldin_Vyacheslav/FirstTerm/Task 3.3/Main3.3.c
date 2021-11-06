@@ -147,17 +147,17 @@ void gauss(unsigned char** image, int row, int h, int bits, int coreSize, int po
 		for (int y = 0; y < coreSize;y++)
 			core[l][y] = 0;
 	}
-	double S = 0;
+	double sum = 0;
 	for (int p = 0; p < coreSize;p++)
 		for (int p1 = 0; p1 < coreSize;p1++)
 		{
 			double gau = gaussFunction(imp + p, imp + p1, 1);
 			core[p][p1] = gau;
-			S += gau;
+			sum += gau;
 		}
 	for (int p = 0; p < coreSize;p++)
 		for (int p1 = 0; p1 < coreSize;p1++)
-			core[p][p1] = core[p][p1] / S;
+			core[p][p1] = core[p][p1] / sum;
 	for (int u = 0; u < power;u++)
 		for (int i = (-1) * imp; i < h + imp; i++)
 			for (int j = (-1) * imp * bits; j < row + imp * bits; j += bits)
@@ -172,7 +172,7 @@ void gauss(unsigned char** image, int row, int h, int bits, int coreSize, int po
 	corrector(image, row, h, bits, imp*(-1));
 }
 
-void sobel(unsigned char** image, int row, int h, int bits, int type, int s)
+void sobelSharr(unsigned char** image, int row, int h, int bits, int type, int s)
 {
 	grey(image, row, h, bits);
 	gauss(image, row, h, bits, 3, 1);
@@ -225,57 +225,11 @@ void sobel(unsigned char** image, int row, int h, int bits, int type, int s)
 			else a[i][j / bits] = sqrt(sumx * sumx + sumy * sumy) < sensivity ? -10 : atan((sumx / (double)sumy+0.000001));
 		}
 	}
-	if (type!=3)
-		for (int i = 1; i < h - 1; i++)
-			for (int j = bits; j < row - bits; j += bits)
-				for (int n = 0; n < 3; n++)
-					image[i][j + n] = a[i][j / bits];
-	else 
-	{
-		printf("%d ", type);
-		for (int i = 1; i < h - 1; i++)
-			for (int j = bits; j < row - bits; j += bits)
-				if (a[i][j/ bits]== -10)
-					for (int n = 0; n < bits; n++)
-						image[i][j + n] = 0;
-				else
-				{
-					image[i][j] = 255 * a[i][j / bits] ;
-					image[i][j + 1] = 255 * a[i][j / bits];
-					image[i][j + 2] = 255 * a[i][j / bits];
-					
-				}
-	}
+	for (int i = 1; i < h - 1; i++)
+		for (int j = bits; j < row - bits; j += bits)
+			for (int n = 0; n < 3; n++)
+				image[i][j + n] = a[i][j / bits];
 	corrector(image, row, h, bits, 1);
-}
-
-void LCD(unsigned char** image, int row, int h, int bits, int tablets)
-{
-	for (int y = 0; y < tablets;y++)
-	{
-		int*** a = (int***)malloc(h * sizeof(int**));
-		for (int i = 0; i < h; i++)
-		{
-			a[i] = (int**)malloc((row / bits) * sizeof(int*));
-			for (int l = 0; l < (row / bits); l++)
-				a[i][l] = (int*)malloc(3 * sizeof(int));
-		}
-
-		for (int i = 0; i < h - 1; i++)
-		{
-			for (int j = 0; j < row - bits; j += bits)
-			{
-				for (int n = 0; n < 3; n++)
-					a[i][j / bits][n] = image[i][j + n];
-			}
-		}
-		for (int i = 0; i < h - 1; i++)
-			for (int j = 0; j < row - bits; j += bits)
-				for (int k = 0; k < 3; k++)
-					if (i < h - 1 -  k * 20 && j<row-bits - 3*k*20) image[i][j + k] = a[i + k * 20][j / bits + k * 20][k];
-
-	}
-	negative(image, row, h, bits);
 }
 
 int main(int argc, char* argv[])
@@ -310,16 +264,17 @@ int main(int argc, char* argv[])
 	int filter = -1;
 	for (int f = 0; f < 11;f++)
 	{
-		int po = 0,p =0;
-		for ( p = 0; argv[2][p] != '\0';p++)
-			if (filters[f][p] == argv[2][p])
-				po++;
-		if (po == p)
+		int p0 = 0,p1 =0;
+		for ( p1 = 0; argv[2][p1] != '\0';p1++)
+			if (filters[f][p1] == argv[2][p1])
+				p0++;
+		if (p0 == p1)
 		{
 			filter = f;
 			break;
 		}
-	};
+	}
+
 	if (filter == -1)
 		printf("input error: no such filter");
 	else if (filter == 0) negative(image, row, h, dibHeader.bitsPerPixel / 8);
@@ -327,18 +282,15 @@ int main(int argc, char* argv[])
 	else if (filter == 2) fastMedian(image, row, h, dibHeader.bitsPerPixel / 8);
 	else if (filter == 3) gauss(image, row, h, dibHeader.bitsPerPixel / 8, 5, 1);
 
-	else if (filter == 4) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 0,0);
-	else if (filter == 5) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 1,0);
-	else if (filter == 6) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 2,0);
+	else if (filter == 4) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 0,0);
+	else if (filter == 5) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 1,0);
+	else if (filter == 6) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 2,0);
 
-	else if (filter == 7) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 0,1);
-	else if (filter == 8) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 1,1);
-	else if (filter == 9) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 2,1);
+	else if (filter == 7) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 0,1);
+	else if (filter == 8) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 1,1);
+	else if (filter == 9) sobelSharr(image, row, h, dibHeader.bitsPerPixel / 8, 2,1);
 
 	else if (filter == 10) grey(image, row, h, dibHeader.bitsPerPixel / 8);
-
-	else if (filter == 11) LCD(image, row, h, dibHeader.bitsPerPixel / 8, 1);
-	else if (filter == 12) sobel(image, row, h, dibHeader.bitsPerPixel / 8, 3,0); 
 
 	for (int i = 0; i < h; i++)
 		fwrite(image[i], sizeof(unsigned char), row * sizeof(unsigned char), fout);
