@@ -2,6 +2,7 @@
 #define BASE 16
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
 struct l_n
 {
@@ -18,11 +19,16 @@ struct h_n
 typedef struct h_n heavy_number;
 
 // size must be bigger than log(16, value) + 1
-struct light_number* create_light_number(int size, int value)
+struct light_number* create_light_number(int size, ...)
 {
 	light_number* a = (light_number*)malloc(sizeof(light_number));
 	a->size = size;
-	a->numbers = (unsigned char*)malloc(a->size * sizeof(unsigned char));
+	a->numbers = (unsigned char*)calloc(a->size, sizeof(unsigned char));
+
+	va_list arg;
+	va_start(arg, size);
+
+	int value = va_arg(arg, int);
 
 	int k = 0;
 	while (value)
@@ -31,12 +37,16 @@ struct light_number* create_light_number(int size, int value)
 		value = value / BASE;
 		k++;
 	}
-	for (int i = k; i < a->size; i++)
-	{
-		a->numbers[i] = 0;
-	}
+
+	va_end(arg);
 
 	return a;
+}
+
+void del_light_number(light_number* a)
+{
+	free(a->numbers);
+	free(a);
 }
 
 void normalize(heavy_number* a)
@@ -44,7 +54,7 @@ void normalize(heavy_number* a)
 	if (a->numbers[a->size - 1] >= BASE)
 	{
 		a->size += 4;
-		a->numbers = realloc(a->numbers, (a->size * sizeof(int)));
+		a->numbers = (int*)realloc(a->numbers, (a->size * sizeof(int)));
 		for (int i = 1; i < 5; i++)
 		{
 			a->numbers[a->size - i] = 0;
@@ -80,12 +90,7 @@ struct light_number* multy(light_number* a, light_number* b)
 {
 	heavy_number* heavy_rezult = (heavy_number*)malloc(sizeof(heavy_number));
 	heavy_rezult->size = a->size + b->size;
-	heavy_rezult->numbers = (int*)malloc(heavy_rezult->size * sizeof(int));
-
-	for (int i = 0; i < heavy_rezult->size; i++)
-	{
-		heavy_rezult->numbers[i] = 0;
-	}
+	heavy_rezult->numbers = (int*)calloc(heavy_rezult->size, sizeof(int));
 
 	for (int i = 0; i < a->size; i++)
 	{
@@ -104,7 +109,7 @@ struct light_number* multy(light_number* a, light_number* b)
 	}
 	k = (k + 4) & (-4);
 
-	light_number* light_rezult = create_light_number(k, 0);
+	light_number* light_rezult = create_light_number(k);
 
 	for (int i = 0; i < light_rezult->size; i++)
 	{
@@ -137,14 +142,14 @@ struct light_number* power(light_number* a, int pow)
 int main()
 {
 	printf("Calculates 3 to the power of 5000\n");
-	
+
 	light_number* a = create_light_number(4, 3);
 
 	a = power(a, 5000);
 
 	printf_number(a);
 
-	free(a->numbers);
-	free(a);
+	del_light_number(a);
+
 	return 0;
 }
