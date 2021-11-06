@@ -25,7 +25,7 @@ int main()
 	printf("Some of the baskets received more than ten values and there was a rebalance\n\n");
 
 	printf("Let's delete some values.\n");
-	printf("First, let's look at the initial table and some values that we did not fill. (They will be filled with zeros)\n\n");
+	printf("First, let's look at the initial table and some values that we did not fill.\n\n");
 	for (int i = 0; i < 60; i++)
 	{
 		if (get(new_hash_table, i) == NULL)
