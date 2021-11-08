@@ -106,7 +106,7 @@ void rebalance(hash_table* table)
 			}
 		}
 	}
-	free(old_array); // ???
+	free(old_array);
 }
 
 hash_table* new_table()
