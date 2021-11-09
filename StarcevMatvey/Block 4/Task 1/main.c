@@ -1,34 +1,20 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define BASE 16
+#define BASE 4096
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
 
-struct l_n
-{
-	int size;
-	unsigned char* numbers;
-};
-typedef struct l_n light_number;
-
-struct h_n
+struct numb
 {
 	int size;
 	int* numbers;
 };
-typedef struct h_n heavy_number;
+typedef struct numb number;
 
-// size must be bigger than log(16, value) + 1
-struct light_number* create_light_number(int size, ...)
+struct number* create_number(int size, int value)
 {
-	light_number* a = (light_number*)malloc(sizeof(light_number));
+	number* a = (number*)malloc(sizeof(number));
 	a->size = size;
-	a->numbers = (unsigned char*)calloc(a->size, sizeof(unsigned char));
-
-	va_list arg;
-	va_start(arg, size);
-
-	int value = va_arg(arg, int);
+	a->numbers = (int*)calloc(a->size, sizeof(int));
 
 	int k = 0;
 	while (value)
@@ -38,18 +24,16 @@ struct light_number* create_light_number(int size, ...)
 		k++;
 	}
 
-	va_end(arg);
-
 	return a;
 }
 
-void del_light_number(light_number* a)
+void del_number(number* a)
 {
 	free(a->numbers);
 	free(a);
 }
 
-void normalize(heavy_number* a)
+void normalize(number* a)
 {
 	if (a->numbers[a->size - 1] >= BASE)
 	{
@@ -71,7 +55,7 @@ void normalize(heavy_number* a)
 	}
 }
 
-void printf_number(light_number* a)
+void printf_number(number* a)
 {
 	int k = a->size - 1;
 	while (!(a->numbers[k]))
@@ -79,57 +63,38 @@ void printf_number(light_number* a)
 		k--;
 	}
 
-	printf("0x");
-	for (int i = k; i > -1; i--)
+	printf("0x%X", a->numbers[k]);
+	for (int i = k - 1; i > -1; i--)
 	{
-		printf("%X", a->numbers[i]);
+		printf("%03X", a->numbers[i]);
 	}
 }
 
-struct light_number* multy(light_number* a, light_number* b)
+struct number* multy(number* a, number* b)
 {
-	heavy_number* heavy_rezult = (heavy_number*)malloc(sizeof(heavy_number));
-	heavy_rezult->size = a->size + b->size;
-	heavy_rezult->numbers = (int*)calloc(heavy_rezult->size, sizeof(int));
+	number* rezult = create_number(a->size + b->size, 0);
 
 	for (int i = 0; i < a->size; i++)
 	{
 		for (int j = 0; j < b->size; j++)
 		{
-			heavy_rezult->numbers[i + j] += a->numbers[i] * b->numbers[j];
+			rezult->numbers[i + j] += a->numbers[i] * b->numbers[j];
 		}
 	}
 
-	normalize(heavy_rezult);
+	normalize(rezult);
 
-	int k = heavy_rezult->size - 1;
-	while (!(heavy_rezult->numbers[k]))
-	{
-		k--;
-	}
-	k = (k + 4) & (-4);
-
-	light_number* light_rezult = create_light_number(k);
-
-	for (int i = 0; i < light_rezult->size; i++)
-	{
-		light_rezult->numbers[i] = (unsigned char)(heavy_rezult->numbers[i]);
-	}
-
-	free(heavy_rezult->numbers);
-	free(heavy_rezult);
-
-	return light_rezult;
+	return rezult;
 }
 
-struct light_number* power(light_number* a, int pow)
+struct number* power(number* a, int pow)
 {
 	if (pow == 1)
 	{
 		return a;
 	}
 
-	light_number* b = power(a, pow / 2);
+	number* b = power(a, pow / 2);
 
 	if (pow % 2)
 	{
@@ -143,13 +108,13 @@ int main()
 {
 	printf("Calculates 3 to the power of 5000\n");
 
-	light_number* a = create_light_number(4, 3);
+	number* a = create_number(2, 3);
 
 	a = power(a, 5000);
 
 	printf_number(a);
 
-	del_light_number(a);
+	del_number(a);
 
 	return 0;
 }
