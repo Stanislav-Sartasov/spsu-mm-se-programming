@@ -16,15 +16,17 @@ int len(char* str)
 	return i;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	int fdin, fdout;
 	char* src;
 	struct stat statbuf;
 
-	if ( (fdin = open("in.txt", O_RDWR)) < 0)
+	if (argc != 3) return printf("wrong input");
+
+	if ( (fdin = open(argv[1], O_RDWR)) < 0)
 		printf("cant open %s for reading", "in.txt");
-	if ( (fdout = open("out.txt", O_RDWR | O_TRUNC, S_IWRITE)) < 0)
+	if ( (fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE)) < 0)
 		printf("cant open %s for writing", "out.txt");
 	fstat(fdin, &statbuf);
 	if ((src = mmap(0, statbuf.st_size, PROT_READ, MAP_SHARED, fdin, 0)) == MAP_FAILED)
