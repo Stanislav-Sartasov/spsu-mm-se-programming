@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -25,9 +26,9 @@ int main(int argc, char* argv[])
 	if (argc != 3) return printf("wrong input");
 
 	if ( (fdin = open(argv[1], O_RDWR)) < 0)
-		printf("cant open %s for reading", "in.txt");
+		printf("cant open %s for reading", argv[1]);
 	if ( (fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE)) < 0)
-		printf("cant open %s for writing", "out.txt");
+		printf("cant open %s for writing", argv[2]);
 	fstat(fdin, &statbuf);
 	if ((src = mmap(0, statbuf.st_size, PROT_READ, MAP_SHARED, fdin, 0)) == MAP_FAILED)
 		printf("reading with mmap error");
