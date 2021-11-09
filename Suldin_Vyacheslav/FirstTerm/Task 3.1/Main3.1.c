@@ -59,6 +59,6 @@ int main(int argc, char* argv[])
 	munmap(src, statbuf.st_size);
 	close(fdin);
 	close(fdout);
-	printf("Seems likes sorted");
+	printf("Seems likes sorted.");
 	return 0;
 }
