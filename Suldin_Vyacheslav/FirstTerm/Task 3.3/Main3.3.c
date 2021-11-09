@@ -185,7 +185,7 @@ void sobelSharr(unsigned char** image, int row, int h, int bits, int type, int s
 	int corey[3][3] = { {0} };
 	if (s == 0)
 	{
-		sensivity = 75;
+		sensivity = 60;
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 			{
@@ -246,6 +246,10 @@ int main(int argc, char* argv[])
 	
 	int w = dibHeader.widht, h = dibHeader.height, row = w * dibHeader.bitsPerPixel / 8;
 	unsigned char** image = (unsigned char**)malloc(h * sizeof(unsigned char*));
+
+	printf("<in> file short information\n height x widht:%dx%d\nbit depth: %d\n\n", h, w, dibHeader.bitsPerPixel);
+
+	if (dibHeader.compression != 0) return printf("Your Bmp file is compessed, returning.\n");
 
 	for (int i = 0; i < h; i++)
 	{
