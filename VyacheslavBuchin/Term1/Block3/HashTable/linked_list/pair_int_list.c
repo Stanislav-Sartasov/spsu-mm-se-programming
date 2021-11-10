@@ -7,6 +7,8 @@
 list_t* list_create_node(int key, int value)
 {
 	list_t* result = (list_t*) malloc(sizeof(list_t));
+	if (result == NULL)
+		return NULL;
 	result->key = key;
 	result->value = value;
 	result->next = NULL;
