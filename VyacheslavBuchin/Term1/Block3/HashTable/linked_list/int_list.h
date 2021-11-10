@@ -7,7 +7,8 @@
 
 #include <stdlib.h>
 
-typedef struct list_item {
+typedef struct list_item
+{
 	int value;
 	struct list_item* next;
 } list_t;

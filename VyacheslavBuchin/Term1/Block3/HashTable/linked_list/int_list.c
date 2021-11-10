@@ -87,7 +87,8 @@ list_t* list_find(list_t* list, int value)
 	list = list->next;
 	while (list)
 	{
-		if (list->value == value) {
+		if (list->value == value)
+		{
 			return list;
 		}
 		list = list->next;
