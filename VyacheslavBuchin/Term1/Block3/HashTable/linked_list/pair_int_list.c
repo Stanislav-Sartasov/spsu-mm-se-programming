@@ -2,11 +2,12 @@
 // Created by Вячеслав Бучин on 09.11.2021.
 //
 
-#include "int_list.h"
+#include "pair_int_list.h"
 
-list_t* list_create_node(int value)
+list_t* list_create_node(int key, int value)
 {
 	list_t* result = (list_t*) malloc(sizeof(list_t));
+	result->key = key;
 	result->value = value;
 	result->next = NULL;
 	return result;
@@ -17,7 +18,7 @@ list_t* list_create_node(int value)
  */
 list_t* empty_list()
 {
-	return list_create_node(0);
+	return list_create_node(0, 0);
 }
 
 void free_list(list_t* node)
@@ -29,7 +30,7 @@ void free_list(list_t* node)
 
 size_t list_size(list_t* list)
 {
-	return list->value;
+	return list->key;
 }
 
 int list_empty(list_t* list)
@@ -38,43 +39,43 @@ int list_empty(list_t* list)
 }
 
 /**
- * @return a pointer to inserted value
+ * @return a pointer to inserted key
  */
-list_t* list_insert(list_t* list, int value)
+list_t* list_insert(list_t* list, int key, int value)
 {
-	list->value++;
+	list->key++;
 	while (list->next)
 		list = list->next;
-	list->next = list_create_node(value);
+	list->next = list_create_node(key, value);
 
 	return list->next;
 }
 
 /**
- * @return a pointer to inserted value
+ * @return a pointer to inserted key
  */
-list_t* list_insert_after(list_t* list, list_t* node, int value)
+list_t* list_insert_after(list_t* list, list_t* node, int key, int value)
 {
-	list->value++;
+	list->key++;
 	list_t* right = node->next;
-	node->next = list_create_node(value);
+	node->next = list_create_node(key, value);
 	node->next->next = right;
 	return node->next;
 }
 
-int list_remove(list_t* list, int value)
+int list_remove(list_t* list, int key)
 {
 	if (!list || list_empty(list))
 		return 0;
 	list_t* head = list;
 	while (list->next)
 	{
-		if (list->next->value == value)
+		if (list->next->key == key)
 		{
 			list_t* temp = list->next;
 			list->next = temp->next;
 			free(temp);
-			head->value--;
+			head->key--;
 			return 1;
 		}
 		list = list->next;
@@ -82,12 +83,12 @@ int list_remove(list_t* list, int value)
 	return 0;
 }
 
-list_t* list_find(list_t* list, int value)
+list_t* list_find(list_t* list, int key)
 {
 	list = list->next;
 	while (list)
 	{
-		if (list->value == value)
+		if (list->key == key)
 		{
 			return list;
 		}
