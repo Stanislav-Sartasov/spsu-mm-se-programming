@@ -57,7 +57,7 @@ int main()
 	{
 		int key, operation, value;
 		printf("\nENTER OPERATION>>>");
-		operation = input(0, 2);
+		operation = input(-1, 2);
 		if (operation == -1) break;
 		printf("\nENTER KEY>>>");
 		key = input(-1000000000, 1000000000);
@@ -92,8 +92,9 @@ int main()
 			if (deleteAndSearch(&keys[hashKey], key, operation) == -1) printf("No such value. ");
 			if ( operation == 1 ) printf("Deleting %d is ended\n", key);
 		}
-		/*
+		
 		printf("\n-------------------\n");
+		/*												//then check this out..
 		for (int i = 0; i < balance;i++)
 		{
 			printf("%d- ", i);

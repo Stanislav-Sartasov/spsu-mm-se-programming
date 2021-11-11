@@ -19,21 +19,25 @@ int len(char* str)
 
 int main(int argc, char* argv[])
 {
+	printf("Description: This program sorts file of strings.\n");
 	int fdin, fdout;
 	char* src;
 	struct stat statbuf;
 
 	if (argc != 3) return printf("wrong input");
 
-	if ( (fdin = open(argv[1], O_RDWR)) < 0)
-		printf("cant open %s for reading", argv[1]);
-	if ( (fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE)) < 0)
-		printf("cant open %s for writing", argv[2]);
+	if ((fdin = open(argv[1], O_RDWR)) < 0)
+		printf("cant open %s for reading\n", argv[1]);
+	else printf("%s successfully opened for reading\n", argv[1]);
+	if ((fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE)) < 0)
+		printf("cant open %s for writing\n", argv[2]);
+	else printf("%s successfully opened for writing\n", argv[2]);
 	fstat(fdin, &statbuf);
 	if ((src = mmap(0, statbuf.st_size, PROT_READ, MAP_SHARED, fdin, 0)) == MAP_FAILED)
 		printf("reading with mmap error");
-	
-	long int stringNum = 1;
+	else printf("mmap successfully executed\n");
+
+	long int stringNum = 0;
 	for (int i = 0; i < statbuf.st_size; i++)
 		if (src[i] == '\n')
 			stringNum++;
@@ -45,7 +49,7 @@ int main(int argc, char* argv[])
 	{
 		int len = 0;
 		for (len = 0; src[j + len + 1] != '\n'; len++);
-		j += len+2;
+		j += len + 2;
 	}
 
 	qsort(strings, stringNum, sizeof(char*), cmp);
@@ -53,13 +57,13 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < stringNum; i++)
 	{
 		write(fdout, strings[i], len(strings[i]));
-		write(fdout, "\n", 1);
+		write(fdout, "\n" , 1);
 	}
 
 	free(strings);
 	munmap(src, statbuf.st_size);
 	close(fdin);
 	close(fdout);
-	printf("Seems likes sorted.");
+	printf("Seems like sorted.");
 	return 0;
 }
