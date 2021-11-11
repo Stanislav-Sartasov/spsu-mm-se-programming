@@ -41,28 +41,22 @@ int list_empty(list_t* list)
 }
 
 /**
- * @return a pointer to inserted key
+ * @return a pointer to inserted key or NULL if insertion went wrong
  */
 list_t* list_insert(list_t* list, int key, int value)
 {
 	list->key++;
+	list_t* head = list;
 	while (list->next)
 		list = list->next;
 	list->next = list_create_node(key, value);
 
-	return list->next;
-}
-
-/**
- * @return a pointer to inserted key
- */
-list_t* list_insert_after(list_t* list, list_t* node, int key, int value)
-{
-	list->key++;
-	list_t* right = node->next;
-	node->next = list_create_node(key, value);
-	node->next->next = right;
-	return node->next;
+	if (list->next == NULL)
+	{
+		head->key--;
+		return NULL;
+	}
+	return head;
 }
 
 int list_remove(list_t* list, int key)

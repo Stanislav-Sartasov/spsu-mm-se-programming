@@ -24,8 +24,6 @@ int list_empty(list_t* list);
 
 list_t* list_insert(list_t* list, int key, int value);
 
-list_t* list_insert_after(list_t* list, list_t* node, int key, int value);
-
 list_t* list_find(list_t* list, int key);
 
 int list_remove(list_t* list, int key);
