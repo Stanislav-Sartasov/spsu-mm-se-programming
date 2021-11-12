@@ -108,5 +108,6 @@ int main()
 	hash_map_t* map = empty_hash_map();
 	run_tests(&map);
 
+	free_hash_map(map);
 	return 0;
 }
