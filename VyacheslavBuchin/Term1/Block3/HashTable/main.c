@@ -24,7 +24,7 @@ void insertion_and_get_test(hash_map_t* map)
 
 void rebalance_test(hash_map_t** map)
 {
-	printf("Rebgalance test is running:\n");
+	printf("Rebalance test is running:\n");
 	int changed = 0;
 	for (int i = 0; i < 15; i++)
 	{
