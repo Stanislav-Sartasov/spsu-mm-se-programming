@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 	int input_file_descriptor = open(argv[1], O_RDONLY);
 	if (input_file_descriptor < 0)
 	{
-		printf("Opening input_file in read&write mode failed: %s!\n", strerror(errno));
+		printf("Opening input_file in readonly mode failed: %s!\n", strerror(errno));
 		return FILE_OPEN_ERROR;
 	}
 
