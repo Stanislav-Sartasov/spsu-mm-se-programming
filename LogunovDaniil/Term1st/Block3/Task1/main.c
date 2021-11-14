@@ -6,7 +6,8 @@
 #include <sys/stat.h>
 #include <stdarg.h>
 
-struct String {
+struct String
+{
 	char* ptr;
 	int len;
 };
@@ -14,7 +15,7 @@ struct String {
 void greetingsMessage()
 {
 	printf("This program is designed to sort strings from one file\n");
-	printf(" and wirte them into another.\n\n");
+	printf(" and write them into another.\n\n");
 }
 
 void startedSortingMessage()
