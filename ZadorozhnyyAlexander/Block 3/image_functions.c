@@ -42,9 +42,9 @@ Image copy_image(Image copy_from)
 	return picture;
 }
 
-void save_bmp_file(Bitmap_file file, Image picture)
+void save_bmp_file(Bitmap_file file, Image picture, char* path)
 {
-	FILE* outfile = fopen("result_4.bmp", "wb");
+	FILE* outfile = fopen(path, "wb");
 	fwrite(&file, 1, sizeof(Bitmap_file), outfile);
 
 	for (int i = picture.height - 1; i >= 0; i--)
