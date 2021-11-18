@@ -15,9 +15,6 @@ list_t* list_create_node(int key, int value)
 	return result;
 }
 
-/**
- * @return a list with one node that contains count of significant nodes in list
- */
 list_t* empty_list()
 {
 	return list_create_node(0, 0);
@@ -40,9 +37,6 @@ int list_empty(list_t* list)
 	return list_size(list) == 0;
 }
 
-/**
- * @return a pointer to inserted key or NULL if insertion went wrong
- */
 list_t* list_insert(list_t* list, int key, int value)
 {
 	list->key++;
