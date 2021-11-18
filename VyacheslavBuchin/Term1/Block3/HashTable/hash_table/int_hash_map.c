@@ -45,9 +45,6 @@ hash_map_t* empty_hash_map_reserved_size(int size_ind)
 	return map;
 }
 
-/**
- * @return an empty map or NULL if something went wrong
- */
 hash_map_t* empty_hash_map()
 {
 	return empty_hash_map_reserved_size(0);
@@ -72,9 +69,6 @@ int hash_map_contains(hash_map_t* map, int key)
 	return list_find(map->buckets[hash_code], key) != NULL;
 }
 
-/**
- * @return the bucket where given <key, value> pair was stored
- */
 list_t* unsafe_insert(hash_map_t* map, int key, int value)
 {
 	int hash_code = hash(key, (int)SIZES[map->current_size_ind]);
