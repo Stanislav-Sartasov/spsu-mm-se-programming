@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "hash_table/int_hash_map.h"
 
-void insertion_and_get_test(hash_map_t*; map)
+void insertion_and_get_test(hash_map_t** map)
 {
 	printf("Executing insertion test:\n");
 
