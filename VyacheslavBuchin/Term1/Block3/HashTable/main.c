@@ -1,23 +1,23 @@
 #include <stdio.h>
 #include "hash_table/int_hash_map.h"
 
-void insertion_and_get_test(hash_map_t* map)
+void insertion_and_get_test(hash_map_t*; map)
 {
 	printf("Executing insertion test:\n");
 
 	printf("Trying to insert 1, 228, 1588, 25, 15\n");
-	hash_map_insert(&map, 2, 1);
-	hash_map_insert(&map, 6, 228);
-	hash_map_insert(&map, 3, 1588);
-	hash_map_insert(&map, 57891375 + 5897, 25);
-	hash_map_insert(&map, 57891375, 15);
+	hash_map_insert(map, 2, 1);
+	hash_map_insert(map, 6, 228);
+	hash_map_insert(map, 3, 1588);
+	hash_map_insert(map, 57891375 + 5897, 25);
+	hash_map_insert(map, 57891375, 15);
 
 	printf("Inserted values: %d, %d, %d, %d, %d\n",
-			   hash_map_get(map, 2),
-			   hash_map_get(map, 6),
-			   hash_map_get(map, 3),
-			   hash_map_get(map, 57891375 + 5897),
-			   hash_map_get(map, 57891375)
+			   hash_map_get(*map, 2),
+			   hash_map_get(*map, 6),
+			   hash_map_get(*map, 3),
+			   hash_map_get(*map, 57891375 + 5897),
+			   hash_map_get(*map, 57891375)
 		   );
 
 }
@@ -87,7 +87,7 @@ void get_not_existing_test(hash_map_t* map)
 
 void run_tests(hash_map_t** map)
 {
-	insertion_and_get_test(*map);
+	insertion_and_get_test(map);
 	printf("\n");
 
 	rebalance_test(map);
