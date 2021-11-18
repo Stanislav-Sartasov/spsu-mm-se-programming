@@ -1,5 +1,5 @@
 #ifdef IS_WINDOWS
-#include "sys/mman.c"
+#include "sys/mman.h"
 #elif IS_LINUX
 #include <sys/mman.h>
 #endif
