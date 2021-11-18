@@ -20,9 +20,10 @@ typedef struct list_item
 list_t* empty_list();
 
 /**
- * @param node is a pointer to list to be freed
+ * Frees the pointer returned by empty_list function
+ * @param list is a pointer to list to be freed
  */
-void free_list(list_t* node);
+void free_list(list_t* list);
 
 /**
  * @return a count of significant elements in the given list

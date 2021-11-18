@@ -20,11 +20,11 @@ list_t* empty_list()
 	return list_create_node(0, 0);
 }
 
-void free_list(list_t* node)
+void free_list(list_t* list)
 {
-	if (node->next)
-		free_list(node->next);
-	free(node);
+	if (list->next)
+		free_list(list->next);
+	free(list);
 }
 
 size_t list_size(list_t* list)
