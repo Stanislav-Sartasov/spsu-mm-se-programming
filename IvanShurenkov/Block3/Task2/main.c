@@ -16,14 +16,30 @@ int main()
 		scanf("%c", &operation);
 		switch (operation)
 		{
-			int key, value;
+			int key, value, correctly_scan;
 			case '+':
-				scanf("%d%d", &key, &value);
+				do
+				{
+					correctly_scan = scanf("%d%d", &key, &value);
+					if (1 != correctly_scan)
+					{
+						printf("It's not integers")
+					}
+				}
+				while (1 != correctly_scan)
 				add_element(table, key, value);
 				printf("Element added\n");
 				break;
 			case '?':
-				scanf("%d", &key);
+				do
+				{
+					correctly_scan = scanf("%d", &key);
+					if (1 != correctly_scan)
+					{
+						printf("It's not integer")
+					}
+				}
+				while (1 != correctly_scan)
 				INT8 ret = find_element(table, key, &value);
 				if (ret)
 					printf("Value of element with that key: %d\n", value);
@@ -31,7 +47,15 @@ int main()
 					printf("Element wasn't found\n");
 				break;
 			case '-':
-				scanf("%d", &key);
+				do
+				{
+					correctly_scan = scanf("%d", &key);
+					if (1 != correctly_scan)
+					{
+						printf("It's not integer")
+					}
+				}
+				while (1 != correctly_scan)
 				delete_element(table, key);
 				printf("Element removed\n");
 				break;
