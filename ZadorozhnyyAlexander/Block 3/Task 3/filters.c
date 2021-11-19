@@ -4,8 +4,7 @@
 #include "filters.h"
 #include <math.h>
 
-int compare(const void* a, const void* b) 
-{
+int compare(const void* a, const void* b) {
 	return *(int*)a - *(int*)b;
 }
 
@@ -30,7 +29,7 @@ Image sobel_filter(Image picture, int direction)
 	grey_filter(picture);
 	Image new_pic = copy_image(picture);
 
-	int edge = 75;
+	int edge = 80;
 	//int g_x[3][3] = { {1, 0, -1}, {2, 0, -2}, {1, 0, -1} };
 	//int g_y[3][3] = { {1, 2, 1}, {0, 0, 0}, {-1, -2, -1} };
 	for (int i = 1; i < picture.height - 1; i++)

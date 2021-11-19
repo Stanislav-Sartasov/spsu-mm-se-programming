@@ -42,17 +42,22 @@ Image copy_image(Image copy_from)
 	return picture;
 }
 
-void save_bmp_file(Bitmap_file file, Image picture, char* path)
+int save_bmp_file(Bitmap_file file, Image picture, char* path)
 {
-	FILE* outfile = fopen(path, "wb");
+	FILE* outfile;
+	if (!(outfile = fopen(path, "wb")))
+	{
+		printf("Unable to open the file to record the image\n");
+		return 0;
+	}
 	fwrite(&file, 1, sizeof(Bitmap_file), outfile);
 
 	for (int i = picture.height - 1; i >= 0; i--)
 	{
 		fwrite(picture.rgb[i], 1, ((file.bitsperpixel * picture.width + 31) / 32) * 4, outfile);
 	}
-
 	fclose(outfile);
+	return 1;
 }
 
 void free_image(Image picture)
