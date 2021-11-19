@@ -20,7 +20,7 @@ void print_table(hash_table *ht);
 
 lst *find(hash_table *ht, int key);
 
-void delete(hash_table *ht, int key);
+void remove_key(hash_table *ht, int key);
 
 void initialize_hash_table(hash_table *ht);
 

@@ -139,7 +139,7 @@ lst *find(hash_table *ht, int key)
 	return found;
 }
 
-void delete(hash_table *ht, int key)
+void remove_key(hash_table *ht, int key)
 {
 	int index = hash(key, ht->current_size);
 	lst *current = ht->table[index];
