@@ -26,6 +26,7 @@ void delete_hash_table(hash_table *ht)
 		delete_linked_list(ht->table[i]);
 	}
 	free(ht->table);
+	free(ht);
 }
 
 int is_prime(int num)
@@ -71,6 +72,7 @@ void rebalance(hash_table *ht)
 	free(ht->table);
 	ht->current_size = new_size;
 	ht->table = new_ht->table;
+	free(new_ht);
 }
 
 void add_pair(hash_table *ht, int key, int value)
