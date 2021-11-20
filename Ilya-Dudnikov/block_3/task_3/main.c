@@ -30,6 +30,8 @@ int apply_filter(unsigned char **image, char *filter_name, int width, int height
 
 int main(int argc, char *argv[])
 {
+	printf("This program applies a filter to a .bmp file\n");
+
 	if (argc != 4)
 	{
 		printf("Expected 3 arguments. Usage: <executable> <input file name> <filter name> <output file name>\n");
