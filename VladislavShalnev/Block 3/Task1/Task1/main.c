@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
 	if (input_descriptor < 0)
 		return error("Unable to open input file.\n");
 
-	_sopen_s(&output_descriptor, argv[2], _O_WRONLY, _SH_DENYNO, _S_IWRITE);
+	_sopen_s(&output_descriptor, argv[2], _O_WRONLY | _O_CREAT | _O_TRUNC, _SH_DENYNO, _S_IWRITE);
 	if (output_descriptor < 0)
 		return error("Unable to create output file.\n");
 	//
