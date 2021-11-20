@@ -49,13 +49,11 @@ int main(int argc, char *argv[])
 	{
 		row_byte_size = 3 * bmp_info.width + bmp_info.width % 4;
 		channels = 3;
-		//printf("Working with 24-bit bmp file\n");
 	}
 	else if (bmp_info.bit_count == 32)
 	{
 		row_byte_size = 4 * bmp_info.width;
 		channels = 4;
-		//printf("Working with 32-bit bmp file\n");
 	}
 	else
 	{
@@ -77,28 +75,25 @@ int main(int argc, char *argv[])
 	if (strcmp("gray", argv[2]) == 0)
 	{
 		apply_gray(bmp_info, &picture, row_byte_size, channels);
-		//printf("Applied gray");
 	}
 	else if (strcmp("median", argv[2]) == 0)
 	{
 		apply_median_3x3(bmp_info, &picture, row_byte_size, channels);
-		//printf("Applied median 3x3");
 	}
 	else if (strcmp("gauss", argv[2]) == 0)
 	{
 		apply_gauss_3x3(bmp_info, &picture, row_byte_size, channels);
-		//printf("Applied gauss 3x3");
 	}
 	else if (strcmp("sobelx", argv[2]) == 0)
 	{
 		apply_sobel_3x3(bmp_info, &picture, row_byte_size, channels, 0);
-		//printf("Applied sobel x");
 	}
 	else if (strcmp("sobely", argv[2]) == 0)
 	{
 		apply_sobel_3x3(bmp_info, &picture, row_byte_size, channels, 1);
-		//printf("Applied sobel y");
 	}
+	
+	printf("Фильтр был применён\n");
 
 	for (int i = 0; i < bmp_info.height; ++i)
 	{
