@@ -7,6 +7,7 @@
 #include "main.h"
 
 int main(int argc, char *argv[]) {
+	printf("Program sorts strings in the given file\n");
 	if (argc != 3)
 	{
 		fprintf(stderr, "Incorrect command line arguments, usage: <executable> <input file name> <output file name>\n");
