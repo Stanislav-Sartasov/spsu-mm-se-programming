@@ -7,7 +7,7 @@
 #pragma pack(push)
 #pragma pack(2)
 
-typedef struct Bitmap_file
+typedef struct bitmap_file
 {
 	char name[2]; // it must be BM
 	int size;
@@ -26,7 +26,7 @@ typedef struct Bitmap_file
 	int vertical_resolution;
 	int number_of_colors;
 	int number_of_important_colors;
-} Bitmap_file;
+} bitmap_file;
 
 #pragma pack(pop)
 
@@ -37,10 +37,10 @@ typedef struct rgb_colors
 	unsigned char red;
 } rgb_colors;
 
-typedef struct Image
+typedef struct image
 {
 	int height;
 	int width;
 	int bits_per_pixel;
 	rgb_colors** rgb;
-} Image;
+} image;

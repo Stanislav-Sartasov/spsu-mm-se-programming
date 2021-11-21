@@ -2,9 +2,9 @@
 #include "structs.h"
 #include "image_functions.h"
 
-Image read_image(FILE* file, int height, int width, int bits_per_pixel)
+image read_image(FILE* file, int height, int width, int bits_per_pixel)
 {
-	Image picture;
+	image picture;
 	picture.height = height;
 	picture.width = width;
 	picture.bits_per_pixel = bits_per_pixel;
@@ -21,9 +21,9 @@ Image read_image(FILE* file, int height, int width, int bits_per_pixel)
 	return picture;
 }
 
-Image copy_image(Image copy_from)
+image copy_image(image copy_from)
 {
-	Image picture;
+	image picture;
 	picture.height = copy_from.height;
 	picture.width = copy_from.width;
 	picture.bits_per_pixel = copy_from.bits_per_pixel;
@@ -42,7 +42,7 @@ Image copy_image(Image copy_from)
 	return picture;
 }
 
-int save_bmp_file(Bitmap_file file, Image picture, char* path)
+int save_bmp_file(bitmap_file file, image picture, char* path)
 {
 	FILE* outfile;
 	if (!(outfile = fopen(path, "wb")))
@@ -50,7 +50,7 @@ int save_bmp_file(Bitmap_file file, Image picture, char* path)
 		printf("Unable to open the file to record the image\n");
 		return 0;
 	}
-	fwrite(&file, 1, sizeof(Bitmap_file), outfile);
+	fwrite(&file, 1, sizeof(bitmap_file), outfile);
 
 	for (int i = picture.height - 1; i >= 0; i--)
 	{
@@ -60,7 +60,7 @@ int save_bmp_file(Bitmap_file file, Image picture, char* path)
 	return 1;
 }
 
-void free_image(Image picture)
+void free_image(image picture)
 {
 	for (int i = picture.height - 1; i >= 0; i--)
 	{

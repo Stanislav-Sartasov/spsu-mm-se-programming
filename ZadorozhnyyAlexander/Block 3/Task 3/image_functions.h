@@ -1,10 +1,10 @@
 #pragma once
 #include "structs.h"
 
-Image read_image(FILE* file, int height, int width, int bits_per_pixel);
+image read_image(FILE* file, int height, int width, int bits_per_pixel);
 
-Image copy_image(Image copy_from);
+image copy_image(image copy_from);
 
-int save_bmp_file(Bitmap_file file, Image picture, char*);
+int save_bmp_file(bitmap_file file, image picture, char*);
 
-void free_image(Image picture);
+void free_image(image picture);

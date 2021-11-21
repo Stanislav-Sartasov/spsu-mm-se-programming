@@ -13,7 +13,7 @@ unsigned char greyscale(rgb_colors rgb)
 	return ((0.3 * rgb.blue) + (0.6 * rgb.green) + (0.1 * rgb.red));
 }
 
-void grey_filter(Image picture)
+void grey_filter(image picture)
 {
 	for (int i = 0; i < picture.height; i++)
 	{
@@ -24,10 +24,10 @@ void grey_filter(Image picture)
 	}
 }
 
-Image sobel_filter(Image picture, int direction)
+image sobel_filter(image picture, int direction)
 {
 	grey_filter(picture);
-	Image new_pic = copy_image(picture);
+	image new_pic = copy_image(picture);
 
 	int edge = 80;
 	//int g_x[3][3] = { {1, 0, -1}, {2, 0, -2}, {1, 0, -1} };
@@ -67,7 +67,7 @@ Image sobel_filter(Image picture, int direction)
 	return new_pic;
 }
 
-void middle_filter(Image picture)
+void middle_filter(image picture)
 {
 	for (int i = 1; i < picture.height - 1; i++)
 	{
@@ -95,7 +95,7 @@ void middle_filter(Image picture)
 	}
 }
 
-void gausses_filter_3x3(Image picture)
+void gausses_filter_3x3(image picture)
 {
 	int g[3][3] = { {1, 2, 1}, {2, 4, 2}, {1, 2, 1} };
 	for (int i = 1; i < picture.height - 1; i++)

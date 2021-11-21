@@ -4,7 +4,7 @@
 
 int main(int argc, char* argv[])
 {
-	printf("This programm modificate your bmp image with 6 availible filters:\n"
+	printf("This programm modificate your bmp image_file with 6 availible filters:\n"
 		"1 -> SobelX\n2 -> SobelY\n3 -> SobelBoth\n4 -> Middle\n5 -> Gauss3x3\n6 -> Grey\n");
 
 	if (argc != 4)
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	Bitmap_file header;
+	bitmap_file header;
 	FILE* file = fopen(argv[1], "rb");
 	
 	if (file == NULL)
@@ -29,7 +29,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	if (!(fread(&header, sizeof(char), sizeof(Bitmap_file), file)))
+	if (!(fread(&header, sizeof(char), sizeof(bitmap_file), file)))
 	{
 		printf("The file cannot be read or the file is corrupted");
 		return -2;
@@ -44,21 +44,21 @@ int main(int argc, char* argv[])
 	if (header.compression != 0) 
 		return printf("Error! Your Bmp file is compessed.\n");
 	
-	Image image = read_image(file, header.height, header.width, header.bitsperpixel);
+	image image_file = read_image(file, header.height, header.width, header.bitsperpixel);
 	if (strcmp(argv[2], "SobelX") == 0)
-		image = sobel_filter(image, -1);
+		image_file = sobel_filter(image_file, -1);
 	else if (strcmp(argv[2], "SobelY") == 0)
-		image = sobel_filter(image, 1);
+		image_file = sobel_filter(image_file, 1);
 	else if (strcmp(argv[2], "SobelBoth") == 0)
-		image = sobel_filter(image, 0);
+		image_file = sobel_filter(image_file, 0);
 	else if (strcmp(argv[2], "Middle") == 0)
-		middle_filter(image);
+		middle_filter(image_file);
 	else if (strcmp(argv[2], "Gauss3x3") == 0)
-		gausses_filter_3x3(image);
+		gausses_filter_3x3(image_file);
 	else
-		grey_filter(image);
-	if (save_bmp_file(header, image, argv[3]))
-		printf("Your image was successfully filtered!");
-	free_image(image);
+		grey_filter(image_file);
+	if (save_bmp_file(header, image_file, argv[3]))
+		printf("Your image_file was successfully filtered!");
+	free_image(image_file);
 	fclose(file);
 }
