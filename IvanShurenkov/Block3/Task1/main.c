@@ -1,7 +1,9 @@
 #ifdef IS_WINDOWS
 #include "sys/mman.h"
+#define MODE S_IWRITE | S_IREAD
 #elif IS_LINUX
 #include <sys/mman.h>
+#define MODE S_IRWXO | S_IRWXG | S_IRWXU
 #endif
 
 #include <stdio.h>
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
 		printf("Input file not opened\n");
 		return 0;
 	}
-	int ofile = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, S_IRWXO | S_IRWXG | S_IRWXU);
+	int ofile = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, MODE);
 	if (ofile < 0)
 	{
 		printf("Output file not opened\n");
