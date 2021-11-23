@@ -21,22 +21,26 @@ int len_str(const char *string)
 	return len;
 }
 
-bool cmp(const char *f_s, const char *s_s)
+bool cmp(const void *f_s, const void *s_s)
 {
 	char *first_str = *(char **) f_s;
 	char *second_str = *(char **) s_s;
+
 	int len_first = len_str(first_str);
 	int len_second = len_str(second_str);
-	for (int i = 0; i < MIN(len_first, len_second); i++)
-	{
-		if (first_str[i] == second_str[i])
-			continue;
-		if (first_str[i] < second_str[i])
-			return false;
-		else
-			return true;
-	}
-	return len_first > len_second;
+
+	char first_char = first_str[len_first];
+	char second_char = second_str[len_second];
+
+	first_str[len_first] = '\0';
+	second_str[len_second] = '\0';
+
+	int ret = strcmp(first_str, second_str);
+
+	first_str[len_first] = first_char;
+	second_str[len_second] = second_char;
+
+	return ret < 0;
 }
 
 int main(int argc, char *argv[])
@@ -57,7 +61,7 @@ int main(int argc, char *argv[])
 		printf("Input file not opened\n");
 		return 0;
 	}
-	int ofile = open(argv[2], O_RDWR | O_CREAT | O_TRUNC);
+	int ofile = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, S_IRWXO | S_IRWXG | S_IRWXU);
 	if (ofile < 0)
 	{
 		printf("Output file not opened\n");
@@ -101,12 +105,14 @@ int main(int argc, char *argv[])
 			write(ofile, "\n", 1);
 	}
 
+	close(ofile);
+	ofile = NULL;
 	free(strings);
 	strings = NULL;
 	munmap(map, input_stat.st_size);
-	close(ofile);
-	ofile = NULL;
 	close(ifile);
 	ifile = NULL;
+
+	printf("Sorted");
 	return 0;
 }
