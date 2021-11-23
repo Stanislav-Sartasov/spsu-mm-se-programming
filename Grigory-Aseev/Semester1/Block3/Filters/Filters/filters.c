@@ -8,6 +8,7 @@ int compare(const void* x1, const void* x2);
 void gauss_five(struct image* img);
 void sobel(struct image* img, char* str);
 void single_sobel(struct image* img, int matrix[]);
+void scan_matrix(struct image* img, double matrix[], int len_matrix);
 
 int read_bmp(FILE* file, struct bmp_file_header* file_head, struct bmp_info_header* file_info, struct image* img, char* palette, int* palette_size, int* padding)
 {
@@ -162,17 +163,18 @@ void median(struct image* img)
 	}
 }
 
-void gauss_five(struct image* img)
+void scan_matrix(struct image* img, double matrix[], int len_matrix)
 {
-	double matrix[25] = \
-	{0.000789, 0.006581, 0.013347, 0.006581, 0.000789, \
-		0.006581, 0.054901, 0.111345, 0.054901, 0.006581, \
-		0.013347, 0.111345, 0.225821, 0.111345, 0.013347, \
-		0.006581, 0.054901, 0.111345, 0.054901, 0.006581, \
-		0.000789, 0.006581, 0.013347, 0.006581, 0.000789};
 	int point = 0;
 	int copy_pi, copy_pj;
-	long long gaussian = 0;
+	long long result = 0;
+	struct pixel** result_bits = (struct pixel**)malloc(sizeof(struct pixel*) * img->height);
+
+	for (unsigned int i = 0; i < img->height; i++)
+	{
+		result_bits[i] = (struct pixel*)malloc(sizeof(struct pixel) * img->width);
+	}
+
 	for (int i = 0; i < img->height; i++)
 	{
 		for (int j = 0; j < img->width; j++)
@@ -180,10 +182,10 @@ void gauss_five(struct image* img)
 			for (int p = 0; p < 3; p++)
 			{
 				point = 0;
-				gaussian = 0;
-				for (int pi = i - 2; pi < i + 3; pi++)
+				result = 0;
+				for (int pi = i - len_matrix / 2; pi < i + len_matrix / 2 + 1; pi++)
 				{
-					for (int pj = j - 2; pj < j + 3; pj++)
+					for (int pj = j - len_matrix / 2; pj < j + len_matrix / 2 + 1; pj++)
 					{
 						if (pj < 0 || pi < 0 || pj >= img->width || pi >= img->height)
 						{
@@ -205,53 +207,22 @@ void gauss_five(struct image* img)
 							{
 								copy_pj = img->width - 1;
 							}
-							gaussian += matrix[point++] * img->bits[copy_pi][copy_pj].rgb[p];
+							result += matrix[point++] * img->bits[copy_pi][copy_pj].rgb[p];
 						}
 						else
 						{
-							gaussian += matrix[point++] * img->bits[pi][pj].rgb[p];
+							result += matrix[point++] * img->bits[pi][pj].rgb[p];
 						}
 					}
 				}
-				img->bits[i][j].rgb[p] = (unsigned char)gaussian;
+				result = abs(result) > 255 ? 255 : abs(result);
+				result_bits[i][j].rgb[p] = (unsigned char)result;
 			}
 		}
 	}
-}
-void single_sobel(struct image* img, int matrix[])
-{
-	gray_scale(img);
-	int point = 0;
-	long long mag = 0;
-	struct pixel** result_bits = (struct pixel**)malloc(sizeof(struct pixel*) * img->height);
-	for (unsigned int i = 0; i < img->height; i++)
+	for (int i = 0; i < img->height; i++)
 	{
-		result_bits[i] = (struct pixel*)malloc(sizeof(struct pixel) * img->width);
-	}
-
-	for (int i = 1; i < img->height - 1; i++)
-	{
-		for (int j = 1; j < img->width - 1; j++)
-		{
-			for (int p = 0; p < 3; p++)
-			{
-				point = 0;
-				mag = 0;
-				for (int pi = i - 1; pi < i + 2; pi++)
-				{
-					for (int pj = j - 1; pj < j + 2; pj++)
-					{
-						mag += matrix[point++] * img->bits[pi][pj].rgb[p];
-					}
-				}
-				mag = abs(mag) > 255 ? 255 : abs(mag);
-				result_bits[i][j].rgb[p] = (unsigned char)mag;
-			}
-		}
-	}
-	for (int i = 1; i < img->height - 1; i++)
-	{
-		for (int j = 1; j < img->width - 1; j++)
+		for (int j = 0; j < img->width; j++)
 		{
 			for (int p = 0; p < 3; p++)
 			{
@@ -266,24 +237,41 @@ void single_sobel(struct image* img, int matrix[])
 	free(result_bits);
 }
 
+void gauss_five(struct image* img)
+{
+	double matrix[25] = \
+	{0.000789, 0.006581, 0.013347, 0.006581, 0.000789, \
+		0.006581, 0.054901, 0.111345, 0.054901, 0.006581, \
+		0.013347, 0.111345, 0.225821, 0.111345, 0.013347, \
+		0.006581, 0.054901, 0.111345, 0.054901, 0.006581, \
+		0.000789, 0.006581, 0.013347, 0.006581, 0.000789};
+	scan_matrix(img, matrix, 5);
+}
+
+void single_sobel(struct image* img, int matrix[], int len_matrix)
+{
+	gray_scale(img);
+	scan_matrix(img, matrix, len_matrix);
+}
+
 void sobel(struct image* img, char* str)
 {
-	int matrix_x[] = \
+	double matrix_x[] = \
 	{-1, 0, 1, \
 		- 2, 0, 2, \
 		- 1, 0, 1};
-	int matrix_y[] = \
+	double matrix_y[] = \
 	{ -1, -2, -1, \
 		0, 0, 0, \
 		1, 2, 1};
 	if (strcmp(str, "sobelX") == 0)
 	{
-		single_sobel(img, matrix_x);
+		single_sobel(img, matrix_x, 3);
 		return;
 	}
 	else if (strcmp(str, "sobelY") == 0)
 	{
-		single_sobel(img, matrix_y);
+		single_sobel(img, matrix_y, 3);
 		return;
 	}
 	struct image new_img;
@@ -309,8 +297,8 @@ void sobel(struct image* img, char* str)
 			}
 		}
 	}
-	single_sobel(img, matrix_x);
-	single_sobel(&new_img, matrix_y);
+	single_sobel(img, matrix_x, 3);
+	single_sobel(&new_img, matrix_y, 3);
 	long long mag = 0;
 	for (unsigned int i = 0; i < new_img.height; i++)
 	{
@@ -324,9 +312,9 @@ void sobel(struct image* img, char* str)
 			}
 		}
 	}
-	for (int i = 1; i < img->height - 1; i++)
+	for (int i = 0; i < img->height; i++)
 	{
-		for (int j = 1; j < img->width - 1; j++)
+		for (int j = 0; j < img->width; j++)
 		{
 			for (int p = 0; p < 3; p++)
 			{
