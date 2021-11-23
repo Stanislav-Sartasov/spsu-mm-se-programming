@@ -9,7 +9,7 @@
 
 int cmp(const char* firstStr, const char* secondStr)
 {
-	return strcmp(*(char**)firstStr, *(char**)secondStr);
+	return -strcmp(*(char**)firstStr, *(char**)secondStr);
 }
 
 int lengthStr(char* string)
