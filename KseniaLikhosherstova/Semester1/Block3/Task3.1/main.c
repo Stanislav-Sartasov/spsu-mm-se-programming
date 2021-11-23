@@ -30,6 +30,8 @@ int main(int argc, char* argv[])
 	char* src;
 	struct stat statbuf;
 
+	printf("The program sorts the strings from the input file using memory mapped file.\n");
+
 	if (argc != 3)
 	{
 		printf("There no 3 arguments\n");
