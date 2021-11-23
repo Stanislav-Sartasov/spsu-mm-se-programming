@@ -39,18 +39,18 @@ int main(int argc, char** argv)
 	char** strings = (char**)malloc(stringCounter * sizeof(char*));
 	parseFile(source, source + charCounter, strings, '\n');
 
-	ssort(strings, strings + stringCounter, stringComparator);
+	stringSort(strings, strings + stringCounter, stringComparator);
 
 
-	FILE* fout = fopen(argv[2], "w");
+	FILE* fileOutputStream = fopen(argv[2], "w");
 	for (int i = 0; i < stringCounter; i++)
 	{
 		int stringLength = find(strings[i], source + fileSize, '\n') - strings[i];
-		fwrite(strings[i], sizeof(char), stringLength, fout);
-		fputc('\n', fout);
+		fwrite(strings[i], sizeof(char), stringLength, fileOutputStream);
+		fputc('\n', fileOutputStream);
 	}
 
-	fclose(fout);
+	fclose(fileOutputStream);
 	free(strings);
 	unmapFile(source, fileSize);
 	close(inputFileDescriptor);

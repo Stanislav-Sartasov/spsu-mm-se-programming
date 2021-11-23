@@ -27,7 +27,8 @@ size_t mapFile(void** destination, int fileDescriptor, int prot, int flag)
 
 void parseFile(char* begin, const char* end, char** destination, char symbol)
 {
-	while (begin < end) {
+	while (begin < end)
+	{
 		*destination++ = begin;
 		while (begin < end && *begin != symbol)
 			begin++;

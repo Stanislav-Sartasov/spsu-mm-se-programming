@@ -9,7 +9,6 @@
 
 int stringComparator(const void* left, const void* right);
 
-void ssort(char** begin, char** end, int (*compare) (const void*, const void*));
-
+void stringSort(char** begin, char** end, int (*compare) (const void*, const void*));
 
 #endif //TASK1_STRING_SORT_H
