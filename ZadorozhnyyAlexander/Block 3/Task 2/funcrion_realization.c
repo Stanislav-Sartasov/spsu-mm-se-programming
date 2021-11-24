@@ -187,6 +187,11 @@ void delete_hash_table(hash_table* table)
 
 void print_all_student(hash_table* table)
 {
+	if (table->count_elements == 0)
+	{
+		printf("Hash-table is empty!\n");
+		return;
+	}
 	for (int i = 0; i < table->size; i++)
 	{
 		all_students_list* head = table->list_hash_table[i];

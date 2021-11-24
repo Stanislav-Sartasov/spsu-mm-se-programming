@@ -2,6 +2,7 @@
 
 void sample_test_add_del_student(hash_table* table)
 {
+	print_all_student(table);
 	add_new_student(table, "Jacob", 15);
 	add_new_student(table, "Sue", 20);
 	add_new_student(table, "Mark", 99);
@@ -57,6 +58,13 @@ void test_search(hash_table* table)
 
 int main()
 {
+	printf("\nThis programm working with a hash-table of student\n");
+	printf("Function add_new_student that have 3 parametrs {hash-table, name, age} used for add new student in table.\n");
+	printf("Function delete_student that have 3 parametrs {hash-table, name, age} deleting student from table if somebody found else doing nothing.\n");
+	printf("Function print_serching_result that have 3 parametrs {hash-table, name, age} shows if there is a person with the same name and age in the table\n");
+	printf("Function print_all_student that have only one parametr {hash-table} write all student from hash-table if table clear it write 'Hash-table is empty!'\n");
+	printf("\n");
+
 	hash_table* hash_table = create_hash_table(10);
 
 	sample_test_add_del_student(hash_table);
