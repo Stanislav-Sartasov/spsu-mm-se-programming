@@ -14,8 +14,54 @@ void free_init()
 	free(space);
 }
 
+void garbage_collector(block* curr)
+{
+	if (!(curr) || !(curr->next))
+	{
+		return;
+	}
+
+	while (curr->next && curr->flag)
+	{
+		curr = curr->next;
+	}
+
+	if (!(curr->next))
+	{
+		return;
+	}
+
+	block* str = curr;
+	block* prv = curr;
+	curr = curr->next;
+
+	while (curr->next && !(curr->flag))
+	{
+		prv = curr;
+		curr = curr->next;
+	}
+
+	if (str != prv)
+	{
+		if (!(curr->next) && !(curr->flag))
+		{
+			str->size = (int)curr - (int)str + curr->size;
+			str->next = NULL;
+		}
+		else
+		{
+			str->size = (int)curr - (int)str - SIZE_OF_BLOCK;
+			str->next = curr;
+		}
+	}
+
+	garbage_collector(curr);
+}
+
 void* my_malloc(int size)
 {
+	garbage_collector(first_block);
+
 	size = (size + 3) & (-4);
 
 	if (!(first_block))
