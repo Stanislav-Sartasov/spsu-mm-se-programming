@@ -9,8 +9,6 @@ struct linked_sorted_list
 	struct linked_sorted_list* next;
 };
 
-void add_first(struct linked_sorted_list** head_list, int element);
-
 void add_element_to_lsl(struct linked_sorted_list** list, int element);
 
 int get_first_from_lsl(struct linked_sorted_list** head_list);

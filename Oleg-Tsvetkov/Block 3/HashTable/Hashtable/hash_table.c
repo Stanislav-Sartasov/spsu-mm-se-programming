@@ -1,4 +1,5 @@
 ﻿#include "hash_table.h"
+#include "linked_sorted_list.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -18,6 +19,34 @@ struct linked_sorted_list** create_array_of_lists(struct hash_table* target_tabl
 		array[i]->next = 0;
 	}
 	return array;
+}
+
+void rebalance_hash_table(struct hash_table** target_table)
+{
+	struct hash_table* table = (struct hash_table*)malloc(sizeof(struct hash_table));
+
+	table->current_mod = (*target_table)->current_mod * HASH_TABLE_SIZE_TO_MOD_RATIO;
+	table->array_of_lists = create_array_of_lists(table);
+	table->list_lengths_array = (int*)malloc(table->current_mod * sizeof(int));
+
+	for (int i = 0; i < table->current_mod; ++i)
+	{
+		table->list_lengths_array[i] = 0;
+	}
+
+	for (int i = 0; i < (*target_table)->current_mod; ++i)
+	{
+		for (int j = 0; j < (*target_table)->list_lengths_array[i]; ++j)
+		{
+			int value = get_first_from_lsl(&((*target_table)->array_of_lists[i]));
+			remove_first_from_lsl_safe(&((*target_table)->array_of_lists[i]));
+			add_element_to_hash_table(&table, value);
+		}
+	}
+
+	free_hash_table_contents(*target_table);
+
+	*target_table = table;
 }
 
 void add_element_to_hash_table(struct hash_table** target_table, int element)
@@ -76,34 +105,6 @@ void remove_element_from_hash_table(struct hash_table* target_table, int element
 		remove_element_from_lsl_safe(&(target_table->array_of_lists[expected_index]), element);
 		target_table->list_lengths_array[expected_index] -= 1;
 	}
-}
-
-void rebalance_hash_table(struct hash_table** target_table)
-{
-	struct hash_table* table = (struct hash_table*)malloc(sizeof(struct hash_table));
-
-	table->current_mod = (*target_table)->current_mod * HASH_TABLE_SIZE_TO_MOD_RATIO;
-	table->array_of_lists = create_array_of_lists(table);
-	table->list_lengths_array = (int*)malloc(table->current_mod * sizeof(int));
-
-	for (int i = 0; i < table->current_mod; ++i)
-	{
-		table->list_lengths_array[i] = 0;
-	}
-
-	for (int i = 0; i < (*target_table)->current_mod; ++i)
-	{
-		for (int j = 0; j < (*target_table)->list_lengths_array[i]; ++j)
-		{
-			int value = get_first_from_lsl(&((*target_table)->array_of_lists[i]));
-			remove_first_from_lsl_safe(&((*target_table)->array_of_lists[i]));
-			add_element_to_hash_table(&table, value);
-		}
-	}
-
-	free_hash_table_contents(*target_table);
-
-	*target_table = table;
 }
 
 void print_hash_table(struct hash_table* target_table)
