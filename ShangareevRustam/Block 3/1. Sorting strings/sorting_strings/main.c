@@ -16,9 +16,13 @@ void input_check(int argc);
 
 void open_input(char** argv, int* fd);
 
-void filling_array(char** strs, char* file_strs, int max_len, int file_size, int str_cnt);
+void filling_array(char** strs_pointers, char* file_strs, int file_size, int str_cnt);
 
-void write_answer(char** argv, char** strs, int str_cnt, int max_len);
+void write_answer(char** argv, char** strs_pointers, int str_cnt, int max_len);
+
+void mmap_check(char* file_strs, int file_size);
+
+void cancel_changes(char* file_strs, int file_size);
 
 int main(int argc, char** argv)
 {
@@ -30,35 +34,68 @@ int main(int argc, char** argv)
 	open_input(argv, &fd);
 	fstat(fd, &file_data);
 	// Mapping a file to memory
-	char* file_strs = mmap(NULL, file_data.st_size, PROT_READ,
+	char* file_strs = mmap(NULL, file_data.st_size, PROT_READ | PROT_WRITE,
 		MAP_PRIVATE, fd, 0);
+	mmap_check(file_strs, file_data.st_size);
+	find_max_len_and_cnt_strs(&max_len, &str_cnt, file_strs, file_data.st_size);
+	// Memory allocation and filling array
+	char** strs_pointers = malloc(str_cnt * sizeof(char*));
+	filling_array(strs_pointers, file_strs, file_data.st_size, str_cnt);
+	_close(fd);
+	// Sorting
+	qsort(strs_pointers, str_cnt, sizeof(char*), str_comparator);
+	write_answer(argv, strs_pointers, str_cnt, max_len);
+	printf("Successfully! The lines of file %s are sorted and placed in file %s\n",
+		argv[1], argv[2]);
+	// Resetting the input file to its original state
+	cancel_changes(file_strs, file_data.st_size);
+	// Freeing up memory
+	free(strs_pointers);
+	munmap(file_strs, file_data.st_size);
+	return 0;
+}
+
+void cancel_changes(char* file_strs, int file_size)
+{
+	for (int i = 0; i < file_size; i++)
+	{
+		if (file_strs[i] == '\0')
+		{
+			if (i != file_size - 1)
+			{
+				if (file_strs[i + 1] == '\0')
+				{
+					file_strs[i] = '\r';
+					file_strs[i + 1] = '\n';
+				}
+				else
+				{
+					file_strs[i] = '\n';
+				}
+			}
+			else
+			{
+				file_strs[i] = '\n';
+			}
+		}
+	}
+}
+
+void mmap_check(char* file_strs, int file_size)
+{
 	if (file_strs == MAP_FAILED)
 	{
 		printf("Error! Failed to map file data to memory. Error message: %s",
 			strerror(errno));
 		exit(errno);
 	}
-	find_max_len_and_cnt_strs(&max_len, &str_cnt, file_strs, file_data.st_size);
-	// Memory allocation
-	char** strs = malloc(str_cnt * sizeof(char*));
-	for (int i = 0; i < str_cnt; i++)
+	else if (file_strs[file_size - 1] != '\n')
 	{
-		strs[i] = (char*)malloc(max_len * sizeof(char));
+		printf("Error reading lines from file! The last"
+			" line is incorrectly formatted: all lines in the file should "
+			"end according to the rules of the operating system(\\n or \\r\\n)");
+		exit(-1);
 	}
-	filling_array(strs, file_strs, max_len, file_data.st_size, str_cnt);
-	_close(fd);
-	// Sorting
-	qsort(strs, str_cnt, sizeof(char*), str_comparator);
-	write_answer(argv, strs, str_cnt, max_len);
-	printf("Successfully! The lines of file %s are sorted and placed in file %s\n",
-		argv[1], argv[2]);
-	// Freeing up memory
-	for (int i = 0; i < str_cnt; i++)
-	{
-		free(strs[i]);
-	}
-	free(strs);
-	return 0;
 }
 
 int str_comparator(const void* first, const void* second)
@@ -99,7 +136,7 @@ void input_check(int argc)
 
 void open_input(char** argv, int* fd)
 {
-	*fd = _open(argv[1], O_RDONLY);
+	*fd = _open(argv[1], O_RDWR);
 	if (*fd == -1)
 	{
 		printf("An error occurred while opening the file"
@@ -108,43 +145,34 @@ void open_input(char** argv, int* fd)
 	}
 }
 
-void filling_array(char** strs, char* file_strs, int max_len, int file_size, int str_cnt)
+void filling_array(char** strs_pointers, char* file_strs, int file_size, int str_cnt)
 {
-	int i = 0, j = 0, k = 0;
-	while (i < file_size)
+	strs_pointers[0] = (char*)file_strs;
+	int j = 1;
+	for (int i = 0; i < file_size; i++)
 	{
-		if (file_strs[i] == '\r' || file_strs[i] == '\n')
+		if (file_strs[i] == '\r')
 		{
-			if (file_strs[i] == '\r') i++;
-			for (int l = k; l < max_len; l++) strs[j][l] = (char)0;
-			j++;
-			k = 0;
+			file_strs[i] = '\0';
 		}
-		else
+		else if (file_strs[i] == '\n')
 		{
-			if (j >= str_cnt)
+			file_strs[i] = '\0';
+			if (j < str_cnt)
 			{
-				printf("Error reading lines from file! Possibly the (last)"
-					" line is incorrectly formatted: all lines in the file should "
-					"end according to the rules of the operating system(\\n or \\r\\n)");
-				exit(-1);
+				strs_pointers[j] = (char*)file_strs + i + 1;
 			}
-			strs[j][k] = file_strs[i];
-			k++;
+			j++;
 		}
-		i++;
 	}
 }
 
-void write_answer(char** argv, char** strs, int str_cnt, int max_len)
+void write_answer(char** argv, char** strs_pointers, int str_cnt, int max_len)
 {
 	FILE* output_file = fopen(argv[2], "w");
 	for (int i = 0; i < str_cnt; i++)
 	{
-		for (int j = 0; j < max_len && strs[i][j] != 0; j++)
-		{
-			fputc(strs[i][j], output_file);
-		}
+		fputs(strs_pointers[i], output_file);
 		fputc('\n', output_file);
 	}
 	fclose(output_file);
