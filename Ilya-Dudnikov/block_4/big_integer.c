@@ -53,18 +53,19 @@ char *big_int_to_hexadecimal(big_int *num)
 	return result;
 }
 
-void big_int_add(big_int *left, big_int *right)
+big_int big_int_add(big_int *left, big_int *right)
 {
 	int remainder = 0;
+	big_int result;
+	set_to_zero(&result);
 	for (int i = 0; i < max(left->size, right->size) || remainder; i++)
 	{
-		left->digits[i] += remainder + right->digits[i];
-		remainder = left->digits[i] / BASE;
-		left->digits[i] %= BASE;
-
-		if (i >= left->size)
-			left->size++;
+		result.digits[i] = remainder + left->digits[i] + right->digits[i];
+		remainder = result.digits[i] / BASE;
+		result.digits[i] %= BASE;
+		result.size++;
 	}
+	return result;
 }
 
 big_int big_int_multiply(big_int *left, big_int *right)
@@ -85,7 +86,7 @@ big_int big_int_multiply(big_int *left, big_int *right)
 			remainder = tmp.digits[i + j] / BASE;
 			tmp.digits[i + j] %= BASE;
 		}
-		big_int_add(&result, &tmp);
+		result = big_int_add(&result, &tmp);
 	}
 	return result;
 }

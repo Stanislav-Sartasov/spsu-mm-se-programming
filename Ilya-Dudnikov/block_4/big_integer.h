@@ -31,11 +31,11 @@ void set_value(big_int *number, int val);
 char *big_int_to_hexadecimal(big_int *num);
 
 /**
- * @brief Calculates sum of two big integers and saves it in left
  * @param left - big integer
  * @param right - big integer
+ * @return sum of two big integers
  */
-void big_int_add(big_int *left, big_int *right);
+big_int big_int_add(big_int *left, big_int *right);
 
 /**
  * @param left - big integer
