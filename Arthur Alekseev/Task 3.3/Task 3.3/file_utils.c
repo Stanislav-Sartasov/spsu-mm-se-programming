@@ -1,5 +1,6 @@
 #include "file_utils.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int parse_int(byte* begin) 
 {
