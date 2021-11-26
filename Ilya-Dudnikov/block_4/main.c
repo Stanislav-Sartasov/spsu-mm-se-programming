@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "big_integer.h"
 
 int main()
@@ -11,5 +12,6 @@ int main()
 	number = big_int_power(&number, 5000);
 	char *result = big_int_to_hexadecimal(&number);
 	printf("3^5000 = %s\n", result);
+	free(result);
 	return 0;
 }

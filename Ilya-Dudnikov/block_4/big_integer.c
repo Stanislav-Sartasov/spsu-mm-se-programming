@@ -1,8 +1,7 @@
 #include "big_integer.h"
-#include <limits.h>
 #include <string.h>
 #include <minmax.h>
-#include <malloc.h>
+#include <stdlib.h>
 
 void set_to_zero(big_int *value)
 {
@@ -47,6 +46,8 @@ char *big_int_to_hexadecimal(big_int *num)
 		char *current_digit = int_to_hexadecimal(num->digits[i]);
 		result[result_size - 2 * i - 2] = current_digit[0];
 		result[result_size - 2 * i - 3] = current_digit[1];
+
+		free(current_digit);
 	}
 	result[result_size - 1] = '\0';
 	return result;
