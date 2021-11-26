@@ -35,9 +35,9 @@ void filter_apply_avg(bmp_t* image)
 {
 	double ninth = 1.0 / 9;
 	double kernel[3][3] = {
-			{ninth, ninth, ninth },
-			{ninth, ninth, ninth },
-			{ninth, ninth, ninth }
+			{ ninth, ninth, ninth },
+			{ ninth, ninth, ninth },
+			{ ninth, ninth, ninth }
 	};
 	apply_kernel(image, kernel, sum);
 }
@@ -50,7 +50,7 @@ void filter_apply_gaussian(bmp_t* image)
 	double kernel[3][3] = {
 			{ sixteenth, 	eighth, 	sixteenth 	},
 			{ eighth, 		fourth, 	eighth 		},
-			{ sixteenth, 	eighth, 	fourth 		}
+			{ sixteenth, 	eighth, 	sixteenth 	}
 	};
 	apply_kernel(image, kernel, sum);
 }
