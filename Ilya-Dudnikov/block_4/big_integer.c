@@ -60,4 +60,23 @@ big_int big_int_multiply(big_int *left, big_int *right)
 		big_int_add(&result, &tmp);
 	}
 	return result;
+big_int big_int_power(big_int *num, int power)
+{
+	big_int result;
+	set_to_zero(&result);
+	if (power == 0)
+	{
+		result.size = 1;
+		result.digits[0] = 1;
+		return result;
+	}
+
+	if (power % 2)
+	{
+		result = big_int_power(num, power - 1);
+		return big_int_multiply(num, &result);
+	}
+	result = big_int_power(num, power / 2);
+	big_int tmp = result;
+	return big_int_multiply(&result, &tmp);
 }

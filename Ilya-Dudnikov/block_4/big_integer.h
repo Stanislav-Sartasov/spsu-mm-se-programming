@@ -39,4 +39,11 @@ void big_int_add(big_int *left, big_int *right);
  */
 big_int big_int_multiply(big_int *left, big_int *right);
 
+/**
+ * @param num - big integer
+ * @param power - int
+ * @return num raised to the power of parameter "power"
+ */
+big_int big_int_power(big_int *num, int power);
+
 #endif //TASK_1_BIG_INTEGER_H
