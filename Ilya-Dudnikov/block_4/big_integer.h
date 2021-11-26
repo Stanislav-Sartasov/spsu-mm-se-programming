@@ -4,8 +4,6 @@
 #define BASE 256
 #define INT_SIZE 1000
 
-#define TOO_BIG_FOR_DECIMAL -1
-
 typedef struct big_integer
 {
 	int digits[INT_SIZE];
@@ -19,11 +17,7 @@ typedef struct big_integer
 void set_to_zero(big_int *value);
 
 /**
- * Converts big integer to decimal, if possible
- * @param num
- * @return value of big integer in decimal, or -1 if the value is too big
  */
-long long decimal(big_int *num);
 
 /**
  * @brief Calculates sum of two big integers and saves it in left

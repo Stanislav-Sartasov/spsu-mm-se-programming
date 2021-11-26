@@ -9,20 +9,9 @@ void set_to_zero(big_int *value)
 	value->size = 0;
 }
 
-long long decimal(big_int *num)
 {
-	long long res = 0;
-	long long current_power = 1;
-	for (int i = 0; i < min(7, num->size); i++)
 	{
-		if (res > LLONG_MAX - current_power * num->digits[i])
-		{
-			return TOO_BIG_FOR_DECIMAL;
-		}
-		res += current_power * num->digits[i];
-		current_power *= BASE;
 	}
-	return res;
 }
 
 void big_int_add(big_int *left, big_int *right)
