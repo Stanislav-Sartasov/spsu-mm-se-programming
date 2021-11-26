@@ -9,8 +9,14 @@ void set_to_zero(big_int *value)
 	value->size = 0;
 }
 
+void set_value(big_int *number, int val)
 {
+	set_to_zero(number);
+	for (int i = 0; val; i++)
 	{
+		number->size++;
+		number->digits[i] = val % BASE;
+		val /= BASE;
 	}
 }
 

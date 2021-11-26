@@ -17,7 +17,12 @@ typedef struct big_integer
 void set_to_zero(big_int *value);
 
 /**
+ * @brief Sets big integer's value to val
+ * @param number - big integer
+ * @param val - int
  */
+void set_value(big_int *number, int val);
+
 
 /**
  * @brief Calculates sum of two big integers and saves it in left
