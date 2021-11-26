@@ -76,7 +76,7 @@ big_int big_int_multiply(big_int *left, big_int *right)
 	{
 		big_int tmp;
 		set_to_zero(&tmp);
-		tmp.size = i + 1;
+		tmp.size = i;
 		for (int j = 0; j < right->size || remainder; j++)
 		{
 			tmp.size++;
@@ -87,6 +87,8 @@ big_int big_int_multiply(big_int *left, big_int *right)
 		big_int_add(&result, &tmp);
 	}
 	return result;
+}
+
 big_int big_int_power(big_int *num, int power)
 {
 	big_int result;
