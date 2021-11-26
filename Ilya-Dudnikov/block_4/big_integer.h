@@ -23,6 +23,12 @@ void set_to_zero(big_int *value);
  */
 void set_value(big_int *number, int val);
 
+/**
+ * Converts big integer to hexadecimal
+ * @param num - big integer
+ * @return num's hexadecimal value as a string
+ */
+char *big_int_to_hexadecimal(big_int *num);
 
 /**
  * @brief Calculates sum of two big integers and saves it in left

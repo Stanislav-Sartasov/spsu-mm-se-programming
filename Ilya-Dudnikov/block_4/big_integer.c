@@ -2,6 +2,7 @@
 #include <limits.h>
 #include <string.h>
 #include <minmax.h>
+#include <malloc.h>
 
 void set_to_zero(big_int *value)
 {
@@ -18,6 +19,37 @@ void set_value(big_int *number, int val)
 		number->digits[i] = val % BASE;
 		val /= BASE;
 	}
+}
+
+char *int_to_hexadecimal(int number)
+{
+	char alphabet[] = "0123456789ABCDEF";
+	char *result = (char*) malloc(3* sizeof(char));
+
+	result[0] = alphabet[number % 16];
+	result[1] = '0';
+	result[2] = '\0';
+
+	if (number >= 16) {
+		result[1] = alphabet[number / 16];
+	}
+
+	return result;
+}
+
+char *big_int_to_hexadecimal(big_int *num)
+{
+	int result_size = (1 + 2 * num->size);
+	char *result = (char*) malloc(result_size * sizeof(char));
+
+	for (int i = 0; i < num->size; i++)
+	{
+		char *current_digit = int_to_hexadecimal(num->digits[i]);
+		result[result_size - 2 * i - 2] = current_digit[0];
+		result[result_size - 2 * i - 3] = current_digit[1];
+	}
+	result[result_size - 1] = '\0';
+	return result;
 }
 
 void big_int_add(big_int *left, big_int *right)
