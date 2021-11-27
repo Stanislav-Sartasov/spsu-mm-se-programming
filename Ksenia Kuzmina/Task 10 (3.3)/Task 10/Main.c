@@ -5,28 +5,28 @@
 
 #pragma pack(push)
 #pragma pack(1)
-struct file_header
+struct fileHeader
 {
-	unsigned short filetype;
-	unsigned int filesize;
-	unsigned short reserved_byte_one;
-	unsigned short reserved_byte_two;
+	unsigned short fileType;
+	unsigned int fileSize;
+	unsigned short reservedByte1;
+	unsigned short reservedByte2;
 	unsigned int offset;
 };
 
-struct bitmap_header
+struct bitmapHeader
 {
-	unsigned int headersize;
+	unsigned int headerSize;
 	unsigned int width;
 	unsigned int height;
-	unsigned short colorplanes;
-	unsigned short bits_per_pixel;
+	unsigned short colorPlanes;
+	unsigned short bitsPerPixel;
 	unsigned int compression;
-	unsigned int size_of_bitmap;
+	unsigned int sizeOfBitmap;
 	unsigned int hresolution;
 	unsigned int vresolution;
 	unsigned int colors;
-	unsigned int important_colors;
+	unsigned int importantColors;
 };
 #pragma pack(pop)
 
@@ -45,7 +45,7 @@ struct pix32
 	unsigned char a;
 };
 
-void gray_filter_24(struct pix24* pixels, int height, int width)
+void grayFilter24(struct pix24* pixels, int height, int width)
 {
 	int res;
 	for (int i = 0; i < height * width; i++)
@@ -57,7 +57,7 @@ void gray_filter_24(struct pix24* pixels, int height, int width)
 	}
 }
 
-void gray_filter_32(struct pix32* pixels, int height, int width)
+void grayFilter32(struct pix32* pixels, int height, int width)
 {
 	int res;
 	for (int i = 0; i < height * width; i++)
@@ -69,7 +69,7 @@ void gray_filter_32(struct pix32* pixels, int height, int width)
 	}
 }
 
-int bubble_sort(int* a)
+int bubbleSort(int* a)
 {
 	int tmp;
 	for (int i = 1; i < 9; i++)
@@ -102,7 +102,7 @@ float gauss(int* a)
 	return res;
 }
 
-int sobel_x(int* a)
+int sobelX(int* a)
 {
 	float res = 0;
 	for (int i = 0; i < 9; i++)
@@ -119,7 +119,7 @@ int sobel_x(int* a)
 	return (int)min(255, max(0, abs(res)));
 }
 
-int sobel_y(int* a)
+int sobelY(int* a)
 {
 	float res = 0;
 	for (int i = 0; i < 9; i++)
@@ -138,15 +138,15 @@ int sobel_y(int* a)
 
 void filter24(struct pix24* pixels, int height, int width, char* filter)
 {
-	struct pix24* copy_pixels;
-	copy_pixels = (struct pix24*)malloc(width * height * sizeof(struct pix24));
-	memcpy(copy_pixels, pixels, width * height * sizeof(struct pix24));
-	int* block_red;
-	int* block_green;
-	int* block_blue;
-	block_red = (int*)malloc(9 * sizeof(int));
-	block_green = (int*)malloc(9 * sizeof(int));
-	block_blue = (int*)malloc(9 * sizeof(int));
+	struct pix24* copyPixels;
+	copyPixels = (struct pix24*)malloc(width * height * sizeof(struct pix24));
+	memcpy(copyPixels, pixels, width * height * sizeof(struct pix24));
+	int* blockRed;
+	int* blockGreen;
+	int* blockBlue;
+	blockRed = (int*)malloc(9 * sizeof(int));
+	blockGreen = (int*)malloc(9 * sizeof(int));
+	blockBlue = (int*)malloc(9 * sizeof(int));
 	for (int i = 0; i < height * width - 2 * width; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -155,53 +155,53 @@ void filter24(struct pix24* pixels, int height, int width, char* filter)
 			{
 				if ((i % width != 0) && (i < (width * height - width)))
 				{
-					block_red[j + 3 * k] = copy_pixels[i + j + width * k].r;
-					block_green[j + 3 * k] = copy_pixels[i + j + width * k].g;
-					block_blue[j + 3 * k] = copy_pixels[i + j + width * k].b;
+					blockRed[j + 3 * k] = copyPixels[i + j + width * k].r;
+					blockGreen[j + 3 * k] = copyPixels[i + j + width * k].g;
+					blockBlue[j + 3 * k] = copyPixels[i + j + width * k].b;
 				}
 			}
 		}
 		if (strcmp(filter, "median") == 0)
 		{
-			pixels[i + 1 + width].r = bubble_sort(block_red);
-			pixels[i + 1 + width].g = bubble_sort(block_green);
-			pixels[i + 1 + width].b = bubble_sort(block_blue);
+			pixels[i + 1 + width].r = bubbleSort(blockRed);
+			pixels[i + 1 + width].g = bubbleSort(blockGreen);
+			pixels[i + 1 + width].b = bubbleSort(blockBlue);
 		}
 		if (strcmp(filter, "gauss") == 0)
 		{
-			pixels[i + 1 + width].r = (int)gauss(block_red);
-			pixels[i + 1 + width].g = (int)gauss(block_green);
-			pixels[i + 1 + width].b = (int)gauss(block_blue);
+			pixels[i + 1 + width].r = (int)gauss(blockRed);
+			pixels[i + 1 + width].g = (int)gauss(blockGreen);
+			pixels[i + 1 + width].b = (int)gauss(blockBlue);
 		}
-		if (strcmp(filter, "sobel_x") == 0)
+		if (strcmp(filter, "sobelX") == 0)
 		{
-			pixels[i + 1 + width].r = (int)sobel_x(block_red);
-			pixels[i + 1 + width].g = (int)sobel_x(block_green);
-			pixels[i + 1 + width].b = (int)sobel_x(block_blue);
+			pixels[i + 1 + width].r = (int)sobelX(blockRed);
+			pixels[i + 1 + width].g = (int)sobelX(blockGreen);
+			pixels[i + 1 + width].b = (int)sobelX(blockBlue);
 		}
-		if (strcmp(filter, "sobel_y") == 0)
+		if (strcmp(filter, "sobelY") == 0)
 		{
-			pixels[i + 1 + width].r = (int)sobel_y(block_red);
-			pixels[i + 1 + width].g = (int)sobel_y(block_green);
-			pixels[i + 1 + width].b = (int)sobel_y(block_blue);
+			pixels[i + 1 + width].r = (int)sobelY(blockRed);
+			pixels[i + 1 + width].g = (int)sobelY(blockGreen);
+			pixels[i + 1 + width].b = (int)sobelY(blockBlue);
 		}
 	}
-	free(block_red);
-	free(block_green);
-	free(block_blue);
+	free(blockRed);
+	free(blockGreen);
+	free(blockBlue);
 }
 
 void filter32(struct pix32* pixels, int height, int width, char* filter)
 {
-	struct pix32* copy_pixels;
-	copy_pixels = (struct pix32*)malloc(width * height * sizeof(struct pix32));
-	memcpy(copy_pixels, pixels, width * height * sizeof(struct pix32));
-	int* block_red;
-	int* block_green;
-	int* block_blue;
-	block_red = (int*)malloc(9 * sizeof(int));
-	block_green = (int*)malloc(9 * sizeof(int));
-	block_blue = (int*)malloc(9 * sizeof(int));
+	struct pix32* copyPixels;
+	copyPixels = (struct pix32*)malloc(width * height * sizeof(struct pix32));
+	memcpy(copyPixels, pixels, width * height * sizeof(struct pix32));
+	int* blockRed;
+	int* blockGreen;
+	int* blockBlue;
+	blockRed = (int*)malloc(9 * sizeof(int));
+	blockGreen = (int*)malloc(9 * sizeof(int));
+	blockBlue = (int*)malloc(9 * sizeof(int));
 	for (int i = 0; i < height * width - 2 * width; i++)
 	{
 		for (int j = 0; j < 3; j++)
@@ -210,53 +210,53 @@ void filter32(struct pix32* pixels, int height, int width, char* filter)
 			{
 				if ((i % width != 0) && (i < (width * height - width)))
 				{
-					block_red[j + 3 * k] = copy_pixels[i + j + width * k].r;
-					block_green[j + 3 * k] = copy_pixels[i + j + width * k].g;
-					block_blue[j + 3 * k] = copy_pixels[i + j + width * k].b;
+					blockRed[j + 3 * k] = copyPixels[i + j + width * k].r;
+					blockGreen[j + 3 * k] = copyPixels[i + j + width * k].g;
+					blockBlue[j + 3 * k] = copyPixels[i + j + width * k].b;
 				}
 			}
 		}
 		if (strcmp(filter, "median") == 0)
 		{
-			pixels[i + 1 + width].r = bubble_sort(block_red);
-			pixels[i + 1 + width].g = bubble_sort(block_green);
-			pixels[i + 1 + width].b = bubble_sort(block_blue);
+			pixels[i + 1 + width].r = bubbleSort(blockRed);
+			pixels[i + 1 + width].g = bubbleSort(blockGreen);
+			pixels[i + 1 + width].b = bubbleSort(blockBlue);
 		}
 		if (strcmp(filter, "gauss") == 0)
 		{
-			pixels[i + 1 + width].r = (int)gauss(block_red);
-			pixels[i + 1 + width].g = (int)gauss(block_green);
-			pixels[i + 1 + width].b = (int)gauss(block_blue);
+			pixels[i + 1 + width].r = (int)gauss(blockRed);
+			pixels[i + 1 + width].g = (int)gauss(blockGreen);
+			pixels[i + 1 + width].b = (int)gauss(blockBlue);
 		}
-		if (strcmp(filter, "sobel_x") == 0)
+		if (strcmp(filter, "sobelX") == 0)
 		{
-			pixels[i + 1 + width].r = (int)sobel_x(block_red);
-			pixels[i + 1 + width].g = (int)sobel_x(block_green);
-			pixels[i + 1 + width].b = (int)sobel_x(block_blue);
+			pixels[i + 1 + width].r = (int)sobelX(blockRed);
+			pixels[i + 1 + width].g = (int)sobelX(blockGreen);
+			pixels[i + 1 + width].b = (int)sobelX(blockBlue);
 		}
-		if (strcmp(filter, "sobel_y") == 0)
+		if (strcmp(filter, "sobelY") == 0)
 		{
-			pixels[i + 1 + width].r = (int)sobel_y(block_red);
-			pixels[i + 1 + width].g = (int)sobel_y(block_green);
-			pixels[i + 1 + width].b = (int)sobel_y(block_blue);
+			pixels[i + 1 + width].r = (int)sobelY(blockRed);
+			pixels[i + 1 + width].g = (int)sobelY(blockGreen);
+			pixels[i + 1 + width].b = (int)sobelY(blockBlue);
 		}
 	}
-	free(block_red);
-	free(block_green);
-	free(block_blue);
+	free(blockRed);
+	free(blockGreen);
+	free(blockBlue);
 }
 
-int arguementscheck(int argcount, char* filter)
+int arguementsCheck(int argcount, char* filter)
 {
 	if (argcount != 4)
 	{
 		printf("You have to submit three arguments to the input.\n");
 		return 0;
 	}
-	if ((strcmp(filter, "gauss") != 0) && (strcmp(filter, "median") != 0) && (strcmp(filter, "sobel_x") != 0)
-		&& (strcmp(filter, "sobel_y") != 0) && (strcmp(filter, "gray") != 0))
+	if ((strcmp(filter, "gauss") != 0) && (strcmp(filter, "median") != 0) && (strcmp(filter, "sobelX") != 0)
+		&& (strcmp(filter, "sobelY") != 0) && (strcmp(filter, "gray") != 0))
 	{
-		printf("You have entered the wrong filter name. Available filters: gauss, median, sobel_x, sobel_y, gray.\n");
+		printf("You have entered the wrong filter name. Available filters: gauss, median, sobelX, sobelY, gray.\n");
 		return 0;
 	}
 	return 1;
@@ -265,87 +265,87 @@ int arguementscheck(int argcount, char* filter)
 int main(int argc, char* argv[])
 {
 	printf("This program applies the following filters to images:\n");
-	printf("3x3 Gaussian filter, median filter, gray filter, Sobel x filter and Sobel y filter\n");
-	if (!arguementscheck(argc, argv[2]))
+	printf("3x3 Gaussian filter, median filter, gray filter, SobelX filter and SobelY filter\n");
+	if (!arguementsCheck(argc, argv[2]))
 		return -1;
 
-	FILE* file_inp, * file_out;
+	FILE* fileInp, * fileOut;
 
-	struct file_header header;
-	struct bitmap_header bmpheader;
+	struct fileHeader header;
+	struct bitmapHeader bmpheader;
 
-	fopen_s(&file_inp, argv[1], "rb");
-	fopen_s(&file_out, argv[3], "wb");
+	fopen_s(&fileInp, argv[1], "rb");
+	fopen_s(&fileOut, argv[3], "wb");
 
-	if (file_inp == NULL)
+	if (fileInp == NULL)
 		return -1;
 
-	fread(&header, sizeof(header), 1, file_inp);
-	fread(&bmpheader, sizeof(bmpheader), 1, file_inp);
+	fread(&header, sizeof(header), 1, fileInp);
+	fread(&bmpheader, sizeof(bmpheader), 1, fileInp);
 
-	if ((bmpheader.bits_per_pixel != 24) && (bmpheader.bits_per_pixel != 32))
+	if ((bmpheader.bitsPerPixel != 24) && (bmpheader.bitsPerPixel != 32))
 		return -1;
 
-	if (bmpheader.bits_per_pixel == 24)
+	if (bmpheader.bitsPerPixel == 24)
 	{
-		struct pix24* array = (struct pix24*)malloc(header.filesize - sizeof(header) - sizeof(bmpheader));
-		fseek(file_inp, header.offset, SEEK_SET);
-		fread(array, header.filesize - sizeof(header) - sizeof(bmpheader), 1, file_inp);
+		struct pix24* array = (struct pix24*)malloc(header.fileSize - sizeof(header) - sizeof(bmpheader));
+		fseek(fileInp, header.offset, SEEK_SET);
+		fread(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileInp);
 
 		if (strcmp(argv[2], "gray") == 0)
-			gray_filter_24(array, bmpheader.height, bmpheader.width, argv[2]);
+			grayFilter24(array, bmpheader.height, bmpheader.width, argv[2]);
 		if (strcmp(argv[2], "median") == 0)
 			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
 		if (strcmp(argv[2], "gauss") == 0)
 			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "sobel_x") == 0)
+		if (strcmp(argv[2], "sobelX") == 0)
 		{
-			gray_filter_24(array, bmpheader.height, bmpheader.width);
+			grayFilter24(array, bmpheader.height, bmpheader.width);
 			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
 		}
-		if (strcmp(argv[2], "sobel_y") == 0)
+		if (strcmp(argv[2], "sobelY") == 0)
 		{
-			gray_filter_24(array, bmpheader.height, bmpheader.width);
+			grayFilter24(array, bmpheader.height, bmpheader.width);
 			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
 		}
 
-		fwrite(&header, sizeof(header), 1, file_out);
-		fwrite(&bmpheader, sizeof(bmpheader), 1, file_out);
-		fwrite(array, header.filesize - sizeof(header) - sizeof(bmpheader), 1, file_out);
+		fwrite(&header, sizeof(header), 1, fileOut);
+		fwrite(&bmpheader, sizeof(bmpheader), 1, fileOut);
+		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
 		free(array);
 	}
 
-	if (bmpheader.bits_per_pixel == 32)
+	if (bmpheader.bitsPerPixel == 32)
 	{
-		struct pix32* array = (struct pix32*)malloc(header.filesize - sizeof(header) - sizeof(bmpheader));
-		fseek(file_inp, header.offset, SEEK_SET);
-		fread(array, header.filesize - sizeof(header) - sizeof(bmpheader), 1, file_inp);
+		struct pix32* array = (struct pix32*)malloc(header.fileSize - sizeof(header) - sizeof(bmpheader));
+		fseek(fileInp, header.offset, SEEK_SET);
+		fread(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileInp);
 
 		if (strcmp(argv[2], "gray") == 0)
-			gray_filter_32(array, bmpheader.height, bmpheader.width);
+			grayFilter32(array, bmpheader.height, bmpheader.width);
 		if (strcmp(argv[2], "median") == 0)
 			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
 		if (strcmp(argv[2], "gauss") == 0)
 			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "sobel_x") == 0)
+		if (strcmp(argv[2], "sobelX") == 0)
 		{
-			gray_filter_32(array, bmpheader.height, bmpheader.width);
+			grayFilter32(array, bmpheader.height, bmpheader.width);
 			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
 		}
-		if (strcmp(argv[2], "sobel_y") == 0)
+		if (strcmp(argv[2], "sobelY") == 0)
 		{
-			gray_filter_32(array, bmpheader.height, bmpheader.width);
+			grayFilter32(array, bmpheader.height, bmpheader.width);
 			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
 		}
 
-		fwrite(&header, sizeof(header), 1, file_out);
-		fwrite(&bmpheader, sizeof(bmpheader), 1, file_out);
-		fwrite(array, header.filesize - sizeof(header) - sizeof(bmpheader), 1, file_out);
+		fwrite(&header, sizeof(header), 1, fileOut);
+		fwrite(&bmpheader, sizeof(bmpheader), 1, fileOut);
+		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
 		free(array);
 	}
 
-	fclose(file_inp);
-	fclose(file_out);
+	fclose(fileInp);
+	fclose(fileOut);
 
 	printf("The filter has been applied");
 	return 0;
