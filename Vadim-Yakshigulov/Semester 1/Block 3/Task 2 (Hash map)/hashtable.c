@@ -33,25 +33,25 @@ int hash(char *key, int size)
 	return result;
 }
 
-bool isEqualElementByKey(Element *self, Element *element)
+bool isEqualElementByKey(elementOfList *self, elementOfList *element)
 {
 	return (self->key == element->key);
 }
 
-bool isTimeToResize(HashTable *self)
+bool isTimeToResize(hashTable *self)
 {
 	return self->addedElementsCount > self->size * self->loadFactor;
 }
 
-void resize(HashTable *self, int size)
+void resize(hashTable *self, int size)
 {
-	LinkedList **newTable = malloc(size * sizeof(LinkedList *));
+	linkedList **newTable = malloc(size * sizeof(linkedList *));
 	for (int i = 0; i < size; ++i)
 		newTable[i] = initLinkedListByDefault();
 
 	for (int i = 0; i < self->size; ++i)
 	{
-		Element *currentElement = self->table[i]->head;
+		elementOfList *currentElement = self->table[i]->head;
 		while (currentElement->next != NULL)
 		{
 			currentElement = currentElement->next;
@@ -64,9 +64,9 @@ void resize(HashTable *self, int size)
 	self->size = size;
 }
 
-HashTable *newHashTable(LinkedList **table, int size, int addedElementsCount, double loadFactor)
+hashTable *newHashTable(linkedList **table, int size, int addedElementsCount, double loadFactor)
 {
-	HashTable *self = malloc(sizeof(HashTable));
+	hashTable *self = malloc(sizeof(hashTable));
 	self->size = size;
 	self->addedElementsCount = addedElementsCount;
 	self->loadFactor = loadFactor;
@@ -76,22 +76,22 @@ HashTable *newHashTable(LinkedList **table, int size, int addedElementsCount, do
 		return self;
 	}
 
-	self->table = malloc(self->size * sizeof(LinkedList *));
+	self->table = malloc(self->size * sizeof(linkedList *));
 	for (int i = 0; i < self->size; ++i)
 		self->table[i] = initLinkedListByDefault();
 
 	return self;
 }
 
-HashTable *initHashTableByDefault()
+hashTable *initHashTableByDefault()
 {
 	return newHashTable(NULL, DEFAULT_HASHTABLE_SIZE, 0, DEFAULT_HASHTABLE_LOAD_FACTOR);
 }
 
-void addByKey(HashTable *self, char *key, int value)
+void addByKey(hashTable *self, char *key, int value)
 {
-	Element *elementToAdd = newElement(key, value, NULL);
-	LinkedList *listWhereElementLocated = self->table[hash(key, self->size)];
+	elementOfList *elementToAdd = newElement(key, value, NULL);
+	linkedList *listWhereElementLocated = self->table[hash(key, self->size)];
 	int index = getElementIndex(listWhereElementLocated, elementToAdd, isEqualElementByKey);
 	if (index == NOT_FOUND)
 		appendElement(listWhereElementLocated, elementToAdd);
@@ -103,25 +103,25 @@ void addByKey(HashTable *self, char *key, int value)
 		resize(self, nextSimple(2 * self->size));
 }
 
-void removeByKey(HashTable *self, char *key)
+void removeByKey(hashTable *self, char *key)
 {
-	Element *searchedElement = initElementByDefault();
+	elementOfList *searchedElement = initElementByDefault();
 	searchedElement->key = key;
 	removeElement(self->table[hash(key, self->size)], searchedElement, isEqualElementByKey);
 	self->addedElementsCount--;
 }
 
 
-int getValueByKey(HashTable *self, char *key)
+int getValueByKey(hashTable *self, char *key)
 {
-	LinkedList *list = self->table[hash(key, self->size)];
-	Element *searchedElement = initElementByDefault();
+	linkedList *list = self->table[hash(key, self->size)];
+	elementOfList *searchedElement = initElementByDefault();
 	searchedElement->key = key;
 	int index = getElementIndex(list, searchedElement, isEqualElementByKey);
 	return (index == NOT_FOUND) ? NOT_FOUND : getElementByIndex(list, index)->value;
 }
 
-void deleteHashTable(HashTable *self)
+void deleteHashTable(hashTable *self)
 {
 	for (int i = 0; i < self->size; ++i)
 		deleteLinkedList(self->table[i]);
