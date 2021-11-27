@@ -58,19 +58,15 @@ int main()
 	char** arrStr = (char**)malloc(kStr * sizeof(char*)); 
 	for (int i = 0; i < kStr; i++) 
 	{
-		arrStr[i] = (char*)malloc(st.st_size * sizeof(char));
-		while (map[j] != '\r' && map[j] != '\n' && j < st.st_size)
+		arrStr[i] = &map[j];
+		while (map[j] != '\n' && map[j] != '\r' && j < st.st_size)
 		{
-			arrStr[i][s] = map[j];
-			s++;
 			j++;
 		}
 		if (map[j] == '\r')
 			j += 2;
 		else
 			j++;
-		arrStr[i][s] = '\0';
-		s = 0;
 	}
 
 	qsort(arrStr, kStr, sizeof(char*), cmpStr);
