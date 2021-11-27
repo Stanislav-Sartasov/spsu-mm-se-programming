@@ -1,4 +1,4 @@
-#include <sys/types.h>
+﻿#include <sys/types.h>
 #include <sys/stat.h>
 #include <stdbool.h>
 #include <malloc.h>
@@ -9,7 +9,7 @@
 #include "mman.h"
 
 
-/* �ombining a string and its size so as not to count the same number many times */
+/* Ñombining a string and its size so as not to count the same number many times */
 struct line_with_length
 {
 	char* line;
