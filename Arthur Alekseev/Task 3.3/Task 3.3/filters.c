@@ -23,17 +23,30 @@ void sobel_x(struct bmp_file* target)
 	// Create copy of data
 	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
 	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
+	memset(target->data, 0, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
 
 	int offset = target->bits_per_pixel * target->width / 8;
 	int max_size = offset * target->height;
 	int byps = target->bits_per_pixel / 8;
+
+	int current = 0;
 	// Process filter
 	for (int i = offset; i < max_size - offset; i += byps)
 	{
 		if (i % offset < 1 || max_size - i < 1)
 			continue;
-		for (int j = 0; j < 3; j++)
-			target->data[i + j] = abs(max(datacpy[i - byps + j] - datacpy[i + j], datacpy[i + byps + j] - datacpy[i + j]));
+		for (int j = 0; j < 3; j++) 
+		{
+			current = 0;
+			current -= 2 * datacpy[i - offset - byps + j];
+			current -= datacpy[i - byps + j];
+			current -= datacpy[i - byps + offset + j];
+			current += 2 * datacpy[i - offset + byps + j];
+			current += datacpy[i + byps + j];
+			current += datacpy[i + byps + offset + j];
+			target->data[i + j] = min(255, max(0, abs(current)));
+		}
+			
 	}
 	free(datacpy);
 }
@@ -46,17 +59,28 @@ void sobel_y(struct bmp_file* target)
 	// Copy data
 	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
 	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
+	memset(target->data, 0, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
 
 	int offset = target->bits_per_pixel * target->width / 8;
 	int max_size = offset * target->height;
 	int byps = target->bits_per_pixel / 8;
+	int current = 0;
 	// Process image
 	for (int i = offset; i < max_size - offset; i += byps)
 	{
 		if (i % offset < 1 || max_size - i < 1)
 			continue;
 		for (int j = 0; j < 3; j++)
-			target->data[i + j] = abs(max(datacpy[i + j - offset] - datacpy[i + j], datacpy[i + offset + j] - datacpy[i + j]));
+		{
+			current = 0;
+			current -= datacpy[i - offset - byps + j];
+			current -= 2 * datacpy[i - offset + j];
+			current -= datacpy[i + byps - offset + j];
+			current += datacpy[i + offset - byps + j];
+			current += 2 * datacpy[i + byps + j];
+			current += datacpy[i + byps + offset + j];
+			target->data[i + j] = min(255, max(0, abs(current)));
+		}
 	}
 	free(datacpy);
 }

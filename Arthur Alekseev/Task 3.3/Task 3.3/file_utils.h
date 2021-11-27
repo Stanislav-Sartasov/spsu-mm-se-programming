@@ -1,6 +1,7 @@
 #ifndef MY_FILE_UTILS
 #define MY_FILE_UTILS
 #include <stdio.h>
+#include <stdlib.h>
 #define byte unsigned char
 
 int parse_int(byte* begin);
