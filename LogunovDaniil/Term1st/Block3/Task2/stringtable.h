@@ -1,7 +1,7 @@
 #pragma once
 
-struct StringTable;
-typedef struct StringTable stringTable;
+struct stringTable;
+typedef struct stringTable stringTable;
 
 stringTable* createStringTable();
 

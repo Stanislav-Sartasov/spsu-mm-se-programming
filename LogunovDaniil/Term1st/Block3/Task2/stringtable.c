@@ -6,21 +6,21 @@
 #define HT_MAX_AVAILABLE_SIZE 2000000
 #define HT_MAX_USED_SPACE (double)0.45 // percentage
 
-struct StringHash
+struct stringHash
 {
 	int hash;
 	int ifDeleted;
 	char* original;
 };
-typedef struct StringHash stringHash;
+typedef struct stringHash stringHash;
 
-struct StringTable
+struct stringTable
 {
 	int size;
 	int allocated;
 	stringHash** table;
 };
-typedef struct StringTable stringTable;
+typedef struct stringTable stringTable;
 
 int calcStringHash(const char* str, int modulo)
 {

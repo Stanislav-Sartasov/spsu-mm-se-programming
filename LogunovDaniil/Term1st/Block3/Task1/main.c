@@ -6,8 +6,7 @@
 #include <sys/stat.h>
 #include <stdarg.h>
 
-struct String
-{
+struct string {
 	char* ptr;
 	int len;
 };
@@ -45,7 +44,7 @@ int errorMessage(int errorCode, int strNum, ...)
 	return errorCode;
 }
 
-int cmp(struct String* a, struct String* b)
+int cmp(struct string* a, struct string* b)
 {
 	return strcmp(a->ptr, b->ptr);
 }
@@ -87,7 +86,7 @@ int main(int argc, char* argv[])
 		if (src[i] == '\n')
 			stringsNum++;
 
-	struct String* strings = malloc(stringsNum * sizeof(struct String));
+	struct string* strings = malloc(stringsNum * sizeof(struct string));
 	if (strings == NULL)
 		return errorMessage(2, 1, "memory allocation error");
 
@@ -101,7 +100,7 @@ int main(int argc, char* argv[])
 		curStrId++;
 	}
 
-	qsort(strings, stringsNum, sizeof(struct String), cmp);
+	qsort(strings, stringsNum, sizeof(struct string), cmp);
 
 	for (int i = 0, curLen = 0; i < stringsNum; i++)
 	{
