@@ -42,10 +42,13 @@ void apply_kernel(bmp_t* image, double kernel[3][3], double (*modify)(double, do
 		{
 			for (int color = 0; color < 3; color++)
 			{
-				double new_value = 0;
+				double new_value = old_content[i][j + color] * kernel[0][0];
 				for (int row = 0; row < 3; row++)
 					for (int col = 0; col < 3; col++)
-						new_value = modify(new_value, old_content[i + row][j + col * bytes_per_pixel + color] * kernel[row][col]);
+						if (row == 0 && col == 0)
+							continue;
+						else
+							new_value = modify(new_value, old_content[i + row][j + col * bytes_per_pixel + color] * kernel[row][col]);
 				image->content[i + 1][j + bytes_per_pixel + color] = normalize(new_value);
 			}
 		}
