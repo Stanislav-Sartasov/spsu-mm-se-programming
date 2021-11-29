@@ -47,9 +47,10 @@ struct bmp_image
 
 void show_stat(struct BIT_header* bit_header, struct DIB_header* dib_header)
 {
-	printf("First two letters: %c%c\nfile size: %d\nHeader size: %d\nimage offset: %d\nWidth:%d\nHeight %d\nplanes: %d\nbit_per_pixel: %d\ncompressison: %d\nsize_image: %d\n"
-		"x_pels_per_meter: %d\ny_pels_per_meter: %d\ncolors_used: %d\ncolors_important: %d\n", bit_header->file_type[0], bit_header->file_type[1],
-		bit_header->file_size, bit_header->image_offset, dib_header->size_image, dib_header->width, dib_header->height, 
+	printf("BMP file info:\n\n");
+	printf("First two letters: %c%c\nFile size: %d\nImage offset: %d\nWidth:%d\nHeight %d\nplanes: %d\nbit_per_pixel: %d\ncompressison: %d\nImage size: %d\n"
+		"x pels per meter: %d\ny pels per meter: %d\nColors used: %d\nColors important: %d\n\n", bit_header->file_type[0], bit_header->file_type[1],
+		bit_header->file_size, bit_header->image_offset, dib_header->width, dib_header->height, 
 		dib_header->planes, dib_header->bit_per_pixel, dib_header->compressison, dib_header->size_image, dib_header->x_pels_per_meter,
 		dib_header->y_pels_per_meter, dib_header->colors_used, dib_header->colors_important);
 

@@ -9,7 +9,10 @@
 
 int main(int argc, char* argv[])
 {
-	printf("Filters\n");
+	printf("This program applies filters to the bpm image\n");
+	printf("Before running the program, you must pass the following arguments to it:"
+		"the location of the input file, the filter, the location of the output file\n");
+	printf("You can use such filters: Median, Gauss, SobelX, SobelY, Sobel, Grey, SharrX, SharrY, Sharr, Average, Negative\n\n");
 
 	// check arguments
 
