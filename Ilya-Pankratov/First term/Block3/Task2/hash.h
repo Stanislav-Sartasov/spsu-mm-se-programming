@@ -9,8 +9,6 @@ struct hash_table
 
 void create_hash_table(struct hash_table* my_hast_table, int mode);
 
-int hash_function(struct hash_table* hash_table, int value);
-
 void add_element(struct hash_table* my_hash_table, int value);
 
 void find_element(struct hash_table* my_hash_table, int value);
