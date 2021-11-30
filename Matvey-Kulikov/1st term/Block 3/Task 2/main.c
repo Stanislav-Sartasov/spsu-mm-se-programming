@@ -1,25 +1,22 @@
 #include "hash_table.h"
 #include <stdio.h>
 
+void clear_input()
+{
+	char end;
+	scanf("%c", &end);
+	while (end != '\n')
+	{
+		scanf("%c", &end);
+	}
+}
+
 int get_number(char* string, int* mode_flag)
 {
 	printf("%s >>> ", string);
 	char start;
 	int num;
 	char end;
-	int exit = scanf("%1[c]", &start);
-	if (exit)
-	{
-		*mode_flag = 3;
-		return 0;
-	}
-	int switch_mode = scanf("%1[\n]", &start);
-	if (switch_mode)
-	{
-		printf("\n");
-		*mode_flag = (*mode_flag + 1) % 3;
-		return 0;
-	}
 	int read_result = scanf("%d%c", &num, &end);
 	if ((read_result == 2) && (end == '\n'))
 	{
@@ -27,14 +24,23 @@ int get_number(char* string, int* mode_flag)
 	}
 	else
 	{
+		int next = scanf("%1[n]", &start);
+		if (next)
+		{
+			*mode_flag = (*mode_flag + 1) % 3;
+			clear_input();
+			return 0;
+		}
+		int exit = scanf("%1[c]", &start);
+		if (exit)
+		{
+			*mode_flag = 3;
+			clear_input();
+			return 0;
+		}
 		printf("Please enter a correct number!\n");
+		clear_input();
 	}
-
-	while (end != '\n')
-	{
-		scanf("%c", &end);
-	}
-
 	return get_number(string, mode_flag);
 }
 
@@ -45,7 +51,7 @@ int main()
 	printf("If program can't find a proper value for given key in hash-table, default value (zero) is returned.\n\n");
 
 	printf("You may now input different keys and values, related to them, to be added in hash table.\nAlso you may get values using their keys or delete them by key.\n");
-	printf("To switch between modes press Enter instead of number. To close program input \"c\"\n\n");
+	printf("To switch between modes input \"n\" instead of number. To close program input \"c\"\n\n");
 
 	hash_table* table = new_table();
 
