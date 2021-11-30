@@ -3,27 +3,34 @@
 #include <minmax.h>
 #include <stdlib.h>
 
-void set_to_zero(big_int *value)
+big_int set_value(int val, int size)
 {
-	memset(value->digits, 0, sizeof(value->digits));
-	value->size = 0;
-}
+	big_int *number = (big_int*) malloc(sizeof(big_int));
+	number->digits = (int*) calloc(size, sizeof(int));
+	number->size = size;
+	number->digits_cnt = 0;
 
-void set_value(big_int *number, int val)
-{
-	set_to_zero(number);
 	for (int i = 0; val; i++)
 	{
-		number->size++;
+		number->digits_cnt++;
 		number->digits[i] = val % BASE;
 		val /= BASE;
 	}
+	return *number;
+}
+
+void delete_big_int(big_int *number)
+{
+	free(number->digits);
+	number->digits = NULL;
+	free(number);
+	number = NULL;
 }
 
 char *int_to_hexadecimal(int number)
 {
 	char alphabet[] = "0123456789ABCDEF";
-	char *result = (char*) malloc(3* sizeof(char));
+	char *result = (char*) malloc(3 * sizeof(char));
 
 	result[0] = alphabet[number % 16];
 	result[1] = '0';
@@ -39,12 +46,17 @@ char *int_to_hexadecimal(int number)
 char *big_int_to_hexadecimal(big_int *num)
 {
 	int result_size = (1 + 2 * num->size);
+
+	if (num->digits[num->digits_cnt - 1] < 16)
+		result_size--;
+
 	char *result = (char*) malloc(result_size * sizeof(char));
 
 	for (int i = 0; i < num->size; i++)
 	{
 		char *current_digit = int_to_hexadecimal(num->digits[i]);
-		result[result_size - 2 * i - 2] = current_digit[0];
+		if (result_size >= 2 * i - 2)
+			result[result_size - 2 * i - 2] = current_digit[0];
 		result[result_size - 2 * i - 3] = current_digit[1];
 
 		free(current_digit);
@@ -56,37 +68,59 @@ char *big_int_to_hexadecimal(big_int *num)
 big_int big_int_add(big_int *left, big_int *right)
 {
 	int remainder = 0;
-	big_int result;
-	set_to_zero(&result);
-	for (int i = 0; i < max(left->size, right->size) || remainder; i++)
+	big_int result = set_value(0, max(left->digits_cnt, right->digits_cnt));
+	for (int i = 0; i < max(left->digits_cnt, right->digits_cnt) || remainder; i++)
 	{
-		result.digits[i] = remainder + left->digits[i] + right->digits[i];
+		if (i >= result.size)
+		{
+			result.size += 10;
+			result.digits = (int*)realloc(result.digits, result.size * sizeof(int));
+
+			for (int k = 0; k < 10; k++)
+				result.digits[result.size - k - 1] = 0;
+		}
+
+		result.digits_cnt++;
+		int left_digit = (i < left->size ? left->digits[i] : 0);
+		int right_digit = (i < right->size ? right->digits[i] : 0);
+
+		result.digits[i] = remainder + left_digit + right_digit;
 		remainder = result.digits[i] / BASE;
 		result.digits[i] %= BASE;
-		result.size++;
 	}
 	return result;
 }
 
 big_int big_int_multiply(big_int *left, big_int *right)
 {
-	big_int result;
-	set_to_zero(&result);
+	big_int result = set_value(0, left->digits_cnt + right->digits_cnt);
 
 	int remainder = 0;
 	for (int i = 0; i < left->size; i++)
 	{
-		big_int tmp;
-		set_to_zero(&tmp);
-		tmp.size = i;
-		for (int j = 0; j < right->size || remainder; j++)
+		big_int tmp = set_value(0, i + right->digits_cnt);
+		tmp.digits_cnt = i;
+		for (int j = 0; j < right->digits_cnt || remainder; j++)
 		{
-			tmp.size++;
-			tmp.digits[i + j] = left->digits[i] * right->digits[j] + remainder;
+			if (i + j >= tmp.size)
+			{
+				tmp.size += 10;
+				tmp.digits = (int*)realloc(tmp.digits, tmp.size * sizeof(int));
+
+				for (int k = 0; k < 10; k++)
+					tmp.digits[tmp.size - k - 1] = 0;
+			}
+			tmp.digits_cnt++;
+
+			int left_digit = (i < left->size ? left->digits[i] : 0);
+			int right_digit = (j < right->size ? right->digits[j] : 0);
+
+			tmp.digits[i + j] = left_digit * right_digit + remainder;
 			remainder = tmp.digits[i + j] / BASE;
 			tmp.digits[i + j] %= BASE;
 		}
 		result = big_int_add(&result, &tmp);
+		delete_big_int(&tmp);
 	}
 	return result;
 }
@@ -94,20 +128,21 @@ big_int big_int_multiply(big_int *left, big_int *right)
 big_int big_int_power(big_int *num, int power)
 {
 	big_int result;
-	set_to_zero(&result);
 	if (power == 0)
 	{
-		result.size = 1;
-		result.digits[0] = 1;
+		result = set_value(1, 1);
 		return result;
 	}
 
 	if (power % 2)
 	{
 		result = big_int_power(num, power - 1);
-		return big_int_multiply(num, &result);
+		result = big_int_multiply(num, &result);
+		return result;
 	}
 	result = big_int_power(num, power / 2);
 	big_int tmp = result;
-	return big_int_multiply(&result, &tmp);
+	result = big_int_multiply(&result, &tmp);
+	delete_big_int(&tmp);
+	return result;
 }

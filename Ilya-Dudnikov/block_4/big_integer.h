@@ -2,26 +2,26 @@
 #define TASK_1_BIG_INTEGER_H
 
 #define BASE 256
-#define INT_SIZE 1000
 
 typedef struct big_integer
 {
-	int digits[INT_SIZE];
+	int *digits;
 	int size;
+	int digits_cnt;
 } big_int;
 
 /**
- * @brief Sets value of given big integer to 0
- * @param value - big integer
+ * @brief Frees the memory allocated to (number)
+ * @param number - big int
  */
-void set_to_zero(big_int *value);
+void delete_big_int(big_int *number);
 
 /**
- * @brief Sets big integer's value to val
- * @param number - big integer
  * @param val - int
+ * @param size - int
+ * @return big_int with the given value and (size) digits
  */
-void set_value(big_int *number, int val);
+big_int set_value(int val, int size);
 
 /**
  * Converts big integer to hexadecimal
