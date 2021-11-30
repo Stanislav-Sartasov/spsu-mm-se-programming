@@ -1,141 +1,161 @@
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <fcntl.h>
 #include "mman.h"
+#include <fcntl.h>
+#include <sys\stat.h>
 #include <string.h>
-#include <stdbool.h>
-#include <sys/stat.h>
-#include <locale.h>
 
-int my_string_cmpr(const void* first, const void* second)
+int compare_strings(const void* first_string, const void* second_string)
 {
-	return strcmp(*(char**)first, *(char**)second);
+	return strcmp(*(char**)first_string, *(char**)second_string);
 }
-
 
 int main(int argc, char* argv[])
 {
-	setlocale(LC_ALL, "Russian");
+	printf("Sorting strings\n\n");
+
+	// check arguments
 
 	if (argc != 3)
 	{
-		printf("Ошибка! Пример правильного формата: <Название_программы> <Входной файл> <Выходной файл>");
+		printf("You entered %d arguments, but 2 arguments are requared\n", argc - 1);
 		return -1;
 	}
 
-	printf("Данная программа отсортирует строки по порядку согласно strcmp(Лексикографический\n");
-	printf("порядок). Ввод осуществляется в \"%s\".\n", argv[1]);
-	printf("Вывод осуществляется в \"%s\"(создастся, если не существует).\n", argv[2]);
-	printf("Внимание: пустые строки также участвуют в сортировке.\n");
+	int f_in, f_out;
+	struct stat info;
 
-	// Дескрипторы файлов
-	int file_in, file_out;
-	// Указатель на входной файл
-	char* source;
-	// Позже здесь будет храниться информация о введённом файле
-	struct stat in_file_stats;
+	// open file for reading
 
-	/*
-	Получаем идентификаторы ввода / вывода для наших файлов,
-	если полученное число отрицательное, то возникла ошибка,
-	сообщаем об этом пользователю и заканчиваем работу программы
-	*/
-	file_in = open(argv[1], O_RDWR);
-	if (file_in < 0)
+	if ((f_in = open(argv[1], O_RDWR)) < 0)
 	{
-		printf("Произошла ошибка: не удалось открыть входной файл\n");
+		printf("Can't open file for reading\n");
 		return -1;
 	}
 
-	if (fstat(file_in, &in_file_stats) < 0)
+	// open file for writing
+
+	if ((f_out = open(argv[2], O_WRONLY | O_CREAT | O_TRUNC, S_IWRITE)) < 0)
 	{
-		printf("Произошла ошибка: не удалось получить информацию о входном файле");
-		close(file_in);
+		close(f_in);
+		printf("Can't open file for writing\n");
 		return -1;
 	}
 
-	file_out = open(argv[2], O_RDWR | O_CREAT | O_TRUNC, 0777);
-	if (file_out < 0)
+	//collect statystics about file 
+
+	if (fstat(f_in, &info) < 0)
 	{
-		printf("Произошла ошибка: не удалось открыть/создать выходной файл\n");
-		close(file_in);
+		close(f_in);
+		close(f_out);
+		printf("Can't get statystics from the input file\n");
 		return -1;
 	}
 
-	if ((source = mmap(0, in_file_stats.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, file_in, 0)) == MAP_FAILED)
+	// mapping file
+
+	char* map_file;
+
+	if ((map_file = mmap(0, info.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, f_in, 0)) == MAP_FAILED)
 	{
-		printf("Произошла ошибка: не удалось отобразить входной файл на память");
-		close(file_in);
-		close(file_out);
+		close(f_in);
+		close(f_out);
+		printf("Can't map file\n");
 		return -1;
 	}
 
-	long long str_count = 0;
+	// count strings and finding endline
 
-	for (long long symbol = 0; symbol <= in_file_stats.st_size; ++symbol)
+	int count_string = 0;
+	char endline_check;
+	char endline[2];
+
+	for (long long int i = 0; i <= info.st_size; i++)
 	{
-		if (source[symbol] == '\n' || source[symbol] == '\0')
+		if (map_file[i] == '\n' || map_file[i] == '\r' || map_file[i] == '\0')
 		{
-			++str_count;
+			count_string++;
+
+			if (map_file[i] == '\r' && map_file[i + 1] == '\n')
+			{
+				endline[0] = '\r';
+				endline[1] = '\n';
+				i++;
+			}
+			else if (map_file[i] == '\n')
+			{
+				endline[0] = '\n';
+				endline[1] = '\0';
+			}
+			else if (map_file[i] == '\r')
+			{
+				endline[0] = '\r';
+				endline[1] = '\0';
+			}
 		}
 	}
+	printf("There are %d strings in the input file\n", count_string);
 
-	// Создаём и заполняем массив строк
-	char** string_array = (char**)malloc(str_count * sizeof(char*));
-	int* string_lengths = (int*)malloc(str_count * sizeof(int));
+	// creating and filling array of strings
+
+	char** strings = (char**)malloc(count_string * sizeof(char*));
 	long long current_symbol = 0;
 
-	for (long long str_number = 0; str_number < str_count; ++str_number)
+	for (int i = 0; i < count_string; i++)
 	{
-		long long string_length = 0;
-		while (source[current_symbol + string_length] != '\0' && source[current_symbol + string_length] != '\n' && current_symbol + string_length <= in_file_stats.st_size)
-		{
-			++string_length;
-		}
-		string_array[str_number] = &source[current_symbol];
-		string_array[str_number][string_length] = '\0';
-		current_symbol += string_length;
-		printf("str len %d\n", string_length);
-		string_lengths[str_number] = string_length;
-		if (source[current_symbol] == '\n' || source[current_symbol] == '\0')
-		{
-			++current_symbol;
-		}
-	}
+		long long length = 0;
 
-
-	// Сортировка строк и вывод в файл
-	qsort(string_array, str_count, sizeof(char*), my_string_cmpr);
-
-	for (long long i = 0; i < str_count; ++i)
-	{
-		if (string_array[i][strlen(string_array[i]) - 1] != '\r')
+		while (map_file[current_symbol + length] != endline[0] && map_file[current_symbol + length] != '\0' && (current_symbol + length <= info.st_size))
 		{
-			write(file_out, string_array[i], strlen(string_array[i]));
+			length++;
 		}
+
+		strings[i] = &map_file[current_symbol];
+		strings[i][length] = '\0'; // replacing /n(/r, /r/n) -> /0 for future sorting strings
+
+		if (endline[1] == '\n')
+			current_symbol += length + 2;
 		else
-		{
-			write(file_out, string_array[i], strlen(string_array[i]) - 1);
-		}
-		if (i < str_count - 1)
-		{
-			write(file_out, "\n", 1);
-		}
+			current_symbol += length + 1;
 	}
+	printf("The array of strings was filled\n");
 
-	printf("\nЕсли вы читаете это, то строки были отсортированы и помещены в выходной файл.\n");
+	// sortings strings
 
-	for (long long str_number = 0; str_number < str_count - 1; ++str_number)
+	qsort(strings, count_string, sizeof(char*), compare_strings);
+	printf("Strings are sorted\n");
+
+	// writing strings in file
+
+	for (int i = 0; i < count_string; i++)
 	{
-		string_array[str_number][strlen(string_array[str_number])] = '\n';
+		write(f_out, strings[i], strlen(strings[i]));
+		if ( i != count_string - 1)
+		{
+			if (endline[1] == '\n')
+				write(f_out, "\n", 1);
+			else if (endline[0] = '\n')
+				write(f_out, "\n", 1);
+			else
+				write(f_out, "\r", 1);
+		}
+	}
+	printf("Strings are written in output file\n");
+
+	// replacing /0 -> /n(/r, /r/n)
+
+	for (long long i = 0; i < count_string - 1; i++)
+	{
+		int len = strlen(strings[i]);
+		strings[i][len] = endline[0];
 	}
 
-	free(string_array);
+	// freeing memory, closing mapping and files
 
-	munmap(source, in_file_stats.st_size);
-	close(file_in);
-	close(file_out);
+	printf("\nDONE! You can see the result in %s\n", argv[2]);
+	free(strings);
+	munmap(map_file, info.st_size);
+	close(f_in);
+	close(f_out);
 	return 0;
 }
