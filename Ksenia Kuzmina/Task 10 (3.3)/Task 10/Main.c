@@ -196,7 +196,8 @@ int main(int argc, char* argv[])
 	if (!arguementsCheck(argc, argv[2]))
 		return -1;
 
-	FILE* fileInp, * fileOut;
+	FILE* fileInp;
+	FILE* fileOut;
 
 	struct fileHeader header;
 	struct bitmapHeader bmpheader;
@@ -205,15 +206,24 @@ int main(int argc, char* argv[])
 	fopen_s(&fileOut, argv[3], "wb");
 
 	if (fileInp == NULL)
+	{
+		printf("Problems with the input file.\n");
 		return -1;
+	}
 	if (fileOut == NULL)
+	{
+		printf("Problems with the output file.\n");
 		return -1;
+	}
 
 	fread(&header, sizeof(header), 1, fileInp);
 	fread(&bmpheader, sizeof(bmpheader), 1, fileInp);
 
 	if ((bmpheader.bitsPerPixel != 24) && (bmpheader.bitsPerPixel != 32))
+	{
+		printf("Your image has an incorrect format.\n");
 		return -1;
+	}
 
 	int maxIndex = 0;
 	int index = 0;
@@ -258,10 +268,10 @@ int main(int argc, char* argv[])
 
 	if (bmpheader.bitsPerPixel == 24)
 		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
-	else 
+	else
 	{
 		index = 0;
-		while (index < maxIndex) 
+		while (index < maxIndex)
 		{
 			fwrite(&(array[index]), 4, 1, fileOut);
 			index++;
