@@ -5,6 +5,7 @@
 
 #pragma pack(push)
 #pragma pack(1)
+
 struct fileHeader
 {
 	unsigned short fileType;
@@ -30,34 +31,15 @@ struct bitmapHeader
 };
 #pragma pack(pop)
 
-struct pix24
+struct pix
 {
 	unsigned char r;
 	unsigned char g;
 	unsigned char b;
 };
 
-struct pix32
-{
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	unsigned char a;
-};
 
-void grayFilter24(struct pix24* pixels, int height, int width)
-{
-	int res;
-	for (int i = 0; i < height * width; i++)
-	{
-		res = (pixels[i].r + pixels[i].g + pixels[i].b) / 3;
-		pixels[i].r = res;
-		pixels[i].g = res;
-		pixels[i].b = res;
-	}
-}
-
-void grayFilter32(struct pix32* pixels, int height, int width)
+void grayFilter(struct pix* pixels, int height, int width)
 {
 	int res;
 	for (int i = 0; i < height * width; i++)
@@ -136,66 +118,11 @@ int sobelY(int* a)
 	return (int)min(255, max(0, abs(res)));
 }
 
-void filter24(struct pix24* pixels, int height, int width, char* filter)
+void filter(struct pix* pixels, int height, int width, char* filter)
 {
-	struct pix24* copyPixels;
-	copyPixels = (struct pix24*)malloc(width * height * sizeof(struct pix24));
-	memcpy(copyPixels, pixels, width * height * sizeof(struct pix24));
-	int* blockRed;
-	int* blockGreen;
-	int* blockBlue;
-	blockRed = (int*)malloc(9 * sizeof(int));
-	blockGreen = (int*)malloc(9 * sizeof(int));
-	blockBlue = (int*)malloc(9 * sizeof(int));
-	for (int i = 0; i < height * width - 2 * width; i++)
-	{
-		for (int j = 0; j < 3; j++)
-		{
-			for (int k = 0; k < 3; k++)
-			{
-				if ((i % width != 0) && (i < (width * height - width)))
-				{
-					blockRed[j + 3 * k] = copyPixels[i + j + width * k].r;
-					blockGreen[j + 3 * k] = copyPixels[i + j + width * k].g;
-					blockBlue[j + 3 * k] = copyPixels[i + j + width * k].b;
-				}
-			}
-		}
-		if (strcmp(filter, "median") == 0)
-		{
-			pixels[i + 1 + width].r = bubbleSort(blockRed);
-			pixels[i + 1 + width].g = bubbleSort(blockGreen);
-			pixels[i + 1 + width].b = bubbleSort(blockBlue);
-		}
-		if (strcmp(filter, "gauss") == 0)
-		{
-			pixels[i + 1 + width].r = (int)gauss(blockRed);
-			pixels[i + 1 + width].g = (int)gauss(blockGreen);
-			pixels[i + 1 + width].b = (int)gauss(blockBlue);
-		}
-		if (strcmp(filter, "sobelX") == 0)
-		{
-			pixels[i + 1 + width].r = (int)sobelX(blockRed);
-			pixels[i + 1 + width].g = (int)sobelX(blockGreen);
-			pixels[i + 1 + width].b = (int)sobelX(blockBlue);
-		}
-		if (strcmp(filter, "sobelY") == 0)
-		{
-			pixels[i + 1 + width].r = (int)sobelY(blockRed);
-			pixels[i + 1 + width].g = (int)sobelY(blockGreen);
-			pixels[i + 1 + width].b = (int)sobelY(blockBlue);
-		}
-	}
-	free(blockRed);
-	free(blockGreen);
-	free(blockBlue);
-}
-
-void filter32(struct pix32* pixels, int height, int width, char* filter)
-{
-	struct pix32* copyPixels;
-	copyPixels = (struct pix32*)malloc(width * height * sizeof(struct pix32));
-	memcpy(copyPixels, pixels, width * height * sizeof(struct pix32));
+	struct pix* copyPixels;
+	copyPixels = (struct pix*)malloc(width * height * sizeof(struct pix));
+	memcpy(copyPixels, pixels, width * height * sizeof(struct pix));
 	int* blockRed;
 	int* blockGreen;
 	int* blockBlue;
@@ -279,6 +206,8 @@ int main(int argc, char* argv[])
 
 	if (fileInp == NULL)
 		return -1;
+	if (fileOut == NULL)
+		return -1;
 
 	fread(&header, sizeof(header), 1, fileInp);
 	fread(&bmpheader, sizeof(bmpheader), 1, fileInp);
@@ -286,63 +215,60 @@ int main(int argc, char* argv[])
 	if ((bmpheader.bitsPerPixel != 24) && (bmpheader.bitsPerPixel != 32))
 		return -1;
 
+	int maxIndex = 0;
+	int index = 0;
+	unsigned char buffer[4];
+
+	struct pix* array = (struct pix*)malloc(header.fileSize - sizeof(header) - sizeof(bmpheader));
 	if (bmpheader.bitsPerPixel == 24)
 	{
-		struct pix24* array = (struct pix24*)malloc(header.fileSize - sizeof(header) - sizeof(bmpheader));
 		fseek(fileInp, header.offset, SEEK_SET);
 		fread(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileInp);
-
-		if (strcmp(argv[2], "gray") == 0)
-			grayFilter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "median") == 0)
-			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "gauss") == 0)
-			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "sobelX") == 0)
-		{
-			grayFilter24(array, bmpheader.height, bmpheader.width);
-			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		}
-		if (strcmp(argv[2], "sobelY") == 0)
-		{
-			grayFilter24(array, bmpheader.height, bmpheader.width);
-			filter24(array, bmpheader.height, bmpheader.width, argv[2]);
-		}
-
-		fwrite(&header, sizeof(header), 1, fileOut);
-		fwrite(&bmpheader, sizeof(bmpheader), 1, fileOut);
-		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
-		free(array);
 	}
-
-	if (bmpheader.bitsPerPixel == 32)
+	else
 	{
-		struct pix32* array = (struct pix32*)malloc(header.fileSize - sizeof(header) - sizeof(bmpheader));
 		fseek(fileInp, header.offset, SEEK_SET);
-		fread(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileInp);
-
-		if (strcmp(argv[2], "gray") == 0)
-			grayFilter32(array, bmpheader.height, bmpheader.width);
-		if (strcmp(argv[2], "median") == 0)
-			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "gauss") == 0)
-			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
-		if (strcmp(argv[2], "sobelX") == 0)
+		while (index * 4 < header.fileSize - sizeof(header) - sizeof(bmpheader))
 		{
-			grayFilter32(array, bmpheader.height, bmpheader.width);
-			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
+			fread(&(array[index]), 4, 1, fileInp);
+			index++;
 		}
-		if (strcmp(argv[2], "sobelY") == 0)
-		{
-			grayFilter32(array, bmpheader.height, bmpheader.width);
-			filter32(array, bmpheader.height, bmpheader.width, argv[2]);
-		}
-
-		fwrite(&header, sizeof(header), 1, fileOut);
-		fwrite(&bmpheader, sizeof(bmpheader), 1, fileOut);
-		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
-		free(array);
+		maxIndex = index + 1;
 	}
+
+	if (strcmp(argv[2], "gray") == 0)
+		grayFilter(array, bmpheader.height, bmpheader.width, argv[2]);
+	if (strcmp(argv[2], "median") == 0)
+		filter(array, bmpheader.height, bmpheader.width, argv[2]);
+	if (strcmp(argv[2], "gauss") == 0)
+		filter(array, bmpheader.height, bmpheader.width, argv[2]);
+	if (strcmp(argv[2], "sobelX") == 0)
+	{
+		grayFilter(array, bmpheader.height, bmpheader.width);
+		filter(array, bmpheader.height, bmpheader.width, argv[2]);
+	}
+	if (strcmp(argv[2], "sobelY") == 0)
+	{
+		grayFilter(array, bmpheader.height, bmpheader.width);
+		filter(array, bmpheader.height, bmpheader.width, argv[2]);
+	}
+
+	fwrite(&header, sizeof(header), 1, fileOut);
+	fwrite(&bmpheader, sizeof(bmpheader), 1, fileOut);
+
+	if (bmpheader.bitsPerPixel == 24)
+		fwrite(array, header.fileSize - sizeof(header) - sizeof(bmpheader), 1, fileOut);
+	else 
+	{
+		index = 0;
+		while (index < maxIndex) 
+		{
+			fwrite(&(array[index]), 4, 1, fileOut);
+			index++;
+		}
+	}
+
+	free(array);
 
 	fclose(fileInp);
 	fclose(fileOut);
