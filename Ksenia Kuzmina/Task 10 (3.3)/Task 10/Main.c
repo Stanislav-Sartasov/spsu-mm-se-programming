@@ -171,6 +171,7 @@ void filter(struct pix* pixels, int height, int width, char* filter)
 	free(blockRed);
 	free(blockGreen);
 	free(blockBlue);
+	free(copyPixels);
 }
 
 int arguementsCheck(int argcount, char* filter)
