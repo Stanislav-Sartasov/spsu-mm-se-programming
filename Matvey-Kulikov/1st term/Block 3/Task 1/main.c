@@ -13,13 +13,20 @@
 #define MAP_FAIL_ERROR 5
 #define UNMAP_FAIL_ERROR 6
 
-char* get_string(char* string_start)
+
+int get_length(const char* string_start)
 {
 	int length = 0;
 	while ((string_start[length] != '\n') && (string_start[length] != '\r') && (string_start[length] != '\0'))
 	{
 		length++;
 	}
+	return length;
+}
+
+char* get_string(char* string_start)
+{
+	int length = get_length(string_start);
 	char* string = (char*)malloc(sizeof(char)*(length+1));
 	strncpy(string, string_start, length);
 	string[length] = '\0';
@@ -28,8 +35,8 @@ char* get_string(char* string_start)
 
 int comparator(const void* string_1_pointer, const void* string_2_pointer)
 {
-	const char* string_1 = *(char**)string_1_pointer;
-	const char* string_2 = *(char**)string_2_pointer;
+	const char* string_1 = get_string(*(char**)string_1_pointer);
+	const char* string_2 = get_string(*(char**)string_2_pointer);
 	return strcmp(string_1, string_2);
 }
 
@@ -46,14 +53,14 @@ int main(int argc, char* argv[])
 	int input_file_descriptor = open(argv[1], O_RDONLY);
 	if (input_file_descriptor < 0)
 	{
-		printf("Opening input file in readonly mode failed: %s!\n", strerror(errno));
+		printf("Opening input_file in read&write mode failed: %s!\n", strerror(errno));
 		return FILE_OPEN_ERROR;
 	}
 
 	int output_file_descriptor = open(argv[2], O_RDWR | O_CREAT, S_IRWXU);
 	if (output_file_descriptor < 0)
 	{
-		printf("Creating output file failed: %s!\n", strerror(errno));
+		printf("Creating output input_file failed: %s!\n", strerror(errno));
 		return FILE_OPEN_ERROR;
 	}
 
@@ -76,29 +83,15 @@ int main(int argc, char* argv[])
 	char** strings = (char**)malloc(sizeof(char*)*size); // input_file can't contain more strings than symbols
 
 	int strings_amount = 1;
-	strings[strings_amount - 1] = get_string(&input_file[0]); // putting first string address to string array
+	strings[0] = input_file; // putting first string address to string array
 
 	for (int i = 1; i < size; i++)
 	{
 		if ((input_file[i - 1] == '\n') || (input_file[i - 1] == '\r'))
 		{
 			strings_amount++;
-			strings[strings_amount - 1] = get_string(&input_file[i]);
+			strings[strings_amount - 1] = &input_file[i];
 		}
-	}
-
-	int unmap_error = munmap(input_file, size);
-	if (unmap_error)
-	{
-		printf("Input file unmapping failed: %s!\n", strerror(errno));
-		return UNMAP_FAIL_ERROR;
-	}
-
-	int close_error = close(input_file_descriptor);
-	if (close_error)
-	{
-		printf("Closing input file failed: %s!\n", strerror(errno));
-		return FILE_CLOSE_ERROR;
 	}
 
 	strings = realloc(strings, sizeof(char*)*strings_amount); // make extra space we took free for allocation
@@ -116,10 +109,9 @@ int main(int argc, char* argv[])
 	write(output_file_descriptor, "", 1);
 
 	int copying_start = 0;
-
 	for (int i = 0; i < strings_amount; i++)
 	{
-		int length = (int)strlen(strings[i]);
+		int length = get_length(strings[i]);
 		strncpy(&output_file[copying_start], strings[i], length);
 		copying_start += length;
 		output_file[copying_start] = '\n';
@@ -127,6 +119,20 @@ int main(int argc, char* argv[])
 	}
 
 	free(strings);
+
+	int unmap_error = munmap(input_file, size);
+	if (unmap_error)
+	{
+		printf("Input file unmapping failed: %s!\n", strerror(errno));
+		return UNMAP_FAIL_ERROR;
+	}
+
+	int close_error = close(input_file_descriptor);
+	if (close_error)
+	{
+		printf("Closing input file failed: %s!\n", strerror(errno));
+		return FILE_CLOSE_ERROR;
+	}
 
 	unmap_error = munmap(output_file, size);
 	if (unmap_error)
