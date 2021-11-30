@@ -5,7 +5,7 @@
 struct number
 {
 	int degree;
-	unsigned long long int* poly;
+	unsigned int* poly;
 };
 typedef struct number number;
 
@@ -29,11 +29,11 @@ number long_sum(number* a, number* b)
 	else
 		deg = b->degree;
 	c.degree = deg;
-	c.poly = (unsigned long long int*)calloc(c.degree + 1, sizeof(unsigned long long int));
+	c.poly = (unsigned int*)calloc(c.degree + 1, sizeof(unsigned int));
 
 	for (int j = 0; j < deg; j++)
 	{
-		unsigned long long int tmp = a->poly[j] + b->poly[j];
+		unsigned long long int tmp = (unsigned long long int)a->poly[j] + (unsigned long long int)b->poly[j];
 		if (tmp + c.poly[j] < BASE)
 		{
 			c.poly[j] += tmp;
@@ -63,7 +63,7 @@ number long_mul(number* a, number* b)
 {
 	number c;
 	c.degree = a->degree + b->degree;
-	c.poly = (unsigned long long int*)malloc(sizeof(unsigned long long int) * c.degree);
+	c.poly = (unsigned int*)malloc(sizeof(unsigned int) * c.degree);
 	for (int i = 0; i < c.degree; i++)
 		c.poly[i] = 0;
 
@@ -73,9 +73,9 @@ number long_mul(number* a, number* b)
 			number simple;
 			unsigned long long int simple_simple[2] = { 0 };
 			simple.degree = c.degree;
-			simple.poly = (unsigned long long int*)calloc( simple.degree, sizeof(unsigned long long int));
+			simple.poly = (unsigned int*)calloc( simple.degree, sizeof(unsigned int));
 
-			unsigned long long int simple_mult = a->poly[i] * b->poly[j];
+			unsigned long long int simple_mult = (unsigned long long int)a->poly[i] * (unsigned long long int)b->poly[j];
 			simple_simple[0] = simple_mult % BASE;
 			simple_simple[1] = (simple_mult - simple_simple[0])/BASE;
 			for (int y = 0; y < 2; y++)
@@ -96,8 +96,8 @@ number long_mul(number* a, number* b)
 
 void translation( number a, int from, int to)
 {
-	unsigned long long int* kern = (unsigned long long int*)malloc(sizeof(unsigned long long int) * from);
-	unsigned long int first = 1;
+	unsigned int* kern = (unsigned int*)malloc(sizeof(unsigned int) * from);
+	unsigned int first = 1;
 	int flag = 0;
 	for (int j = 0; j < from; j++)
 	{
@@ -134,12 +134,12 @@ void translation( number a, int from, int to)
 	free(kern);
 }
 
-number long_deg(unsigned long int c, int degree)
+number long_deg(unsigned int c, int degree)
 {
 	number initial;
 
 	initial.degree = 1;
-	initial.poly = (unsigned long long int*)malloc(sizeof(unsigned long long int) * initial.degree);
+	initial.poly = (unsigned int*)malloc(sizeof(unsigned int) * initial.degree);
 	initial.poly[0] = c;
 
 	number result = initial;
@@ -149,11 +149,11 @@ number long_deg(unsigned long int c, int degree)
 	{
 		number tmp, power;
 		tmp.degree = i != 1 ? result.degree : 1;
-		tmp.poly = (unsigned long long int*)malloc(sizeof(unsigned long long int) * tmp.degree);
+		tmp.poly = (unsigned int*)malloc(sizeof(unsigned int) * tmp.degree);
 		for (int k = 0; k < tmp.degree; k++)
 			tmp.poly[k] = i != 1 ? result.poly[k] : c;
 		power.degree = 1;
-		power.poly = (unsigned long long int*)malloc(sizeof(unsigned long long int) * tmp.degree);
+		power.poly = (unsigned int*)malloc(sizeof(unsigned int) * power.degree);
 		power.poly[0] = c;
 		result = long_mul(&tmp, &power);
 	}
@@ -168,7 +168,9 @@ void long_show(number number)
 
 int main()
 {
-	number c = long_deg(3, 5000);	//3^5000 = 3486784401^250
+	number c;
+
+	c = long_deg(3, 5000);
 
 	long_show(c);
 
