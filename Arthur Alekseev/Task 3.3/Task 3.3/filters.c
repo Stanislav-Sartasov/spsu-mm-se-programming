@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #define byte unsigned char
 
-// Mono
+// Function for monochrome filter
 void monochrome_filter(struct bmp_file* target)
 {
 	int avg;
@@ -15,85 +15,64 @@ void monochrome_filter(struct bmp_file* target)
 	}
 }
 
-// SobelX Filter
-void sobel_x(struct bmp_file* target)
+// Function for median
+byte med_func(byte* buffer)
 {
-	// Make image monochromatic
-	monochrome_filter(target);
-	// Create copy of data
-	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memset(target->data, 0, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-
-	int offset = target->bits_per_pixel * target->width / 8;
-	int max_size = offset * target->height;
-	int byps = target->bits_per_pixel / 8;
-
-	int current = 0;
-	// Process filter
-	for (int i = offset; i < max_size - offset; i += byps)
-	{
-		if (i % offset < 1 || max_size - i < 1)
-			continue;
-		for (int j = 0; j < 3; j++) 
+	// Sort buffer
+	byte temp;
+	for (int i1 = 0; i1 < 9 - 1; i1++)
+		for (int j1 = i1 + 1; j1 < 9; j1++)
 		{
-			current = 0;
-			current -= 2 * datacpy[i - offset - byps + j];
-			current -= datacpy[i - byps + j];
-			current -= datacpy[i - byps + offset + j];
-			current += 2 * datacpy[i - offset + byps + j];
-			current += datacpy[i + byps + j];
-			current += datacpy[i + byps + offset + j];
-			target->data[i + j] = min(255, max(0, abs(current)));
+			if (buffer[i1] > buffer[j1])
+			{
+				temp = buffer[i1];
+				buffer[i1] = buffer[j1];
+				buffer[j1] = temp;
+			}
 		}
-			
-	}
-	free(datacpy);
+	return buffer[4];
 }
 
-// SobelY
-void sobel_y(struct bmp_file* target)
+// Runs for every pixel and applies some effect to it according by it's 3x3 area
+byte base_filter_pixel(byte* buffer, float* matrix)
 {
-	// Make image monochromatic
-	monochrome_filter(target);
-	// Copy data
-	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memset(target->data, 0, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-
-	int offset = target->bits_per_pixel * target->width / 8;
-	int max_size = offset * target->height;
-	int byps = target->bits_per_pixel / 8;
-	int current = 0;
-	// Process image
-	for (int i = offset; i < max_size - offset; i += byps)
-	{
-		if (i % offset < 1 || max_size - i < 1)
-			continue;
-		for (int j = 0; j < 3; j++)
-		{
-			current = 0;
-			current -= datacpy[i - offset - byps + j];
-			current -= 2 * datacpy[i - offset + j];
-			current -= datacpy[i + byps - offset + j];
-			current += datacpy[i + offset - byps + j];
-			current += 2 * datacpy[i + byps + j];
-			current += datacpy[i + byps + offset + j];
-			target->data[i + j] = min(255, max(0, abs(current)));
-		}
-	}
-	free(datacpy);
+	int result = 0;
+	for (int x = -1; x < 2; x++)
+		for (int y = -1; y < 2; y++)
+			result += buffer[(x + 1) + 3 * (y + 1)] * matrix[(x + 1) + 3 * (y + 1)];
+	return min(255, max(0, abs(result)));
 }
 
-// MedFilter
-void med_filter(struct bmp_file* target)
+// Functions. They call base filter pixel with matrix arguments
+byte sobel_x_func(byte* buffer)
+{
+	float matrix[] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+	return base_filter_pixel(buffer, matrix);
+}
+
+byte sobel_y_func(byte* buffer)
+{
+	float matrix[] = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+	return base_filter_pixel(buffer, matrix);
+}
+
+byte gauss3_func(byte* buffer)
+{
+	float matrix[] = { 1 / 16.0, 2 / 16.0, 1 / 16.0, 2 / 16.0, 4 / 16.0, 2 / 16.0, 1 / 16.0, 2 / 16.0, 1 / 16.0 };
+	return base_filter_pixel(buffer, matrix);
+}
+
+// Base filter. It calls filters for pixels and gives them info about 3x3 area
+void base_filter(struct bmp_file* target, byte(*func)(byte*), int clear_pixels)
 {
 	// Create copy of data
 	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
 	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
+	if (clear_pixels)
+		memset(target->data, 0, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
+
 	// Create buffer to sort and find med
 	byte* buffer = (byte*)malloc(sizeof(byte) * 9);
-
 	byte temp = 0;
 	int offset = target->bits_per_pixel * target->width / 8;
 	int max_size = offset * target->height;
@@ -101,98 +80,41 @@ void med_filter(struct bmp_file* target)
 	// Process filter
 	for (int i = offset; i < max_size - offset; i += byps)
 	{
-		if (i % offset < 1 || max_size - i < 1)
+		if (i % offset < 1 || max_size - i % offset < 1)
 			continue;
 		for (int j = 0; j < 3; j++)
 		{
-			// Collect data in 3x3 area
-			buffer[0] = datacpy[i - offset - byps + j];
-			buffer[1] = datacpy[i - offset + j];
-			buffer[2] = datacpy[i - offset + byps + j];
-			buffer[3] = datacpy[i - byps + j];
-			buffer[4] = datacpy[i + j];
-			buffer[5] = datacpy[i + byps + j];
-			buffer[6] = datacpy[i + offset - byps + j];
-			buffer[7] = datacpy[i + offset + j];
-			buffer[8] = datacpy[i + offset + byps + j];
-
-			// Sort buffer
-			for (int i1 = 0; i1 < 9 - 1; i1++) 
-			{
-				for (int j1 = i1 + 1; j1 < 9; j1++) 
-				{
-					if (buffer[i1] > buffer[j1]) {
-						temp = buffer[i1];
-						buffer[i1] = buffer[j1];
-						buffer[j1] = temp;
-					}
-				}
-			}
+			// Collect data in 3x3 area (once for each channel)
+			for (int x = -1; x < 2; x++)
+				for (int y = -1; y < 2; y++)
+					buffer[(x + 1) + 3 * (y + 1)] = datacpy[i + (y + 1) * offset + (x + 1) * byps + j];
 
 			// Write element in the middle
-			target->data[i + j] = buffer[4];
+			target->data[i + j] = (*func)(buffer);
 		}
 	}
-
-	free(buffer);
 	free(datacpy);
 }
+// Interfaces of the filters. These functions call base filter 3x3 with parameters
+void med_filter(struct bmp_file* target)
+{
+	base_filter(target, med_func, 0);
+}
 
-// Gauss3
+void sobel_x(struct bmp_file* target)
+{
+	monochrome_filter(target);
+	base_filter(target, sobel_x_func, 1);
+}
+
+void sobel_y(struct bmp_file* target)
+{
+	monochrome_filter(target);
+	base_filter(target, sobel_y_func, 1);
+}
+
 void gauss3_filter(struct bmp_file* target)
 {
-	// Copy data
-	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-
-	// 3x3 gauss kernel
-	float matrix[] = { 1 / 16.0, 1 / 8.0, 1 / 16.0, 1 / 8.0, 1 / 4.0, 1 / 8.0, 1 / 16.0, 1 / 8.0, 1 / 16.0 };
-
-	int offset = target->bits_per_pixel * target->width / 8;
-	int max_size = offset * target->height;
-	int byps = target->bits_per_pixel / 8;
-	// Filter processing
-	for (int i = offset; i < max_size - offset; i += byps)
-	{
-		if (i % offset < 1 || max_size - i < 1)
-			continue;
-		for (int j = 0; j < 3; j++)
-			target->data[i + j] = datacpy[i - offset - byps + j] * matrix[0] + datacpy[i - offset + j] * matrix[1] + datacpy[i - offset + byps + j] * matrix[2] +
-			datacpy[i - byps + j] * matrix[3] + datacpy[i + j] * matrix[4] + datacpy[i + byps + j] * matrix[5] +
-			datacpy[i + offset - byps + j] * matrix[6] + datacpy[i + offset + j] * matrix[7] + datacpy[i + offset + byps + j] * matrix[8];
-	}
-	free(datacpy);
-}
-
-// Gauss5
-void gauss5_filter(struct bmp_file* target)
-{
-	// Create a copy of data
-	byte* datacpy = (byte*)malloc(sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-	memcpy(datacpy, target->data, sizeof(byte) * (int)(target->bits_per_pixel / 8) * target->width * target->height);
-
-	// Guassin kernel
-	float matrix[] = { 1, 4, 7, 4, 1, 4, 16, 26, 16, 4, 7, 26, 41, 26, 7, 4, 16, 26, 16, 4, 1, 4, 7, 4, 1 };
-
-	int offset = target->bits_per_pixel * target->width / 8;
-	int max_size = offset * target->height;
-	int byps = target->bits_per_pixel / 8;
-	int current = 0;
-
-	// Process filter
-	for (int i = offset * 2; i < max_size - offset * 2; i += byps)
-	{
-		if (i % offset < 2 || max_size - i < 2)
-			continue;
-		for (int j = 0; j < 3; j++)
-		{
-			current = 0;
-			for (int x = 0; x < 5; x++)
-				for (int y = 0; y < 5; y++)
-					current += matrix[5 * x + y] * datacpy[i - offset * (y - 2) - 3 * (x - 2)];
-			target->data[i + j] = current / 273;
-		}
-	}
-	free(datacpy);
+	base_filter(target, gauss3_func, 0);
 }
 

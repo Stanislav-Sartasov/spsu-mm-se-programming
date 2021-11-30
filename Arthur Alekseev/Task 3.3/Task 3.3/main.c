@@ -14,7 +14,7 @@ int main(int argc, char* argv[])
 	if (argc != 4)
 	{
 		printf("Too many / not enough arguments.\nProgram shhould be called like this:\n name.exe input.bmp filter output.bmp\n");
-		printf("Available filters: SobelX, SobelY, Gauss3, Gauss5, Gray, Median");
+		printf("Available filters: SobelX, SobelY, Gauss3, Gray, Median");
 		return -1;
 	}
 
@@ -61,10 +61,6 @@ int main(int argc, char* argv[])
 	{
 		med_filter(inp_file);
 	}
-	else if (strcmp(argv[2], "Gauss5") == 0)
-	{
-		gauss5_filter(inp_file);
-	}
 	else if (strcmp(argv[2], "Gauss3") == 0)
 	{
 		gauss3_filter(inp_file);
@@ -72,7 +68,7 @@ int main(int argc, char* argv[])
 	else 
 	{
 		printf("The filter you entered does not exist.\n");
-		printf("Available filters: SobelX, SobelY, Gauss3, Gauss5, Gray, Median");
+		printf("Available filters: SobelX, SobelY, Gauss3, Gray, Median");
 		return -1;
 	}
 
@@ -92,6 +88,6 @@ int main(int argc, char* argv[])
 	fclose(ptr_out);
 	free_bmp_file(inp_file);
 
-	printf("\n\n Done\n\n");
+	printf("\n\nDone V\n");
 	return 0;
 }
