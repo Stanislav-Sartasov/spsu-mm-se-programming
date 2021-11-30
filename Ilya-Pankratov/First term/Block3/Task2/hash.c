@@ -62,7 +62,7 @@ int hash_function(struct hash_table* hash_table, int value)
 	return (value % (hash_table->mode));
 }
 
-void create_hash_table(struct hash_table* my_hast_table, int mode)
+void create_hash_table(struct hash_table* my_hash_table, int mode)
 {
 	struct line* lines = malloc(sizeof(struct line) * mode);
 	for (int i = 0; i < mode; i++)
@@ -71,9 +71,9 @@ void create_hash_table(struct hash_table* my_hast_table, int mode)
 		lines[i].length = 0;
 	}
 
-	my_hast_table->mode = mode;
-	my_hast_table->number_elements = 0;
-	my_hast_table->lines = lines;
+	my_hash_table->mode = mode;
+	my_hash_table->number_elements = 0;
+	my_hash_table->lines = lines;
 }
 
 void add_element(struct hash_table* my_hash_table, int value)
@@ -196,11 +196,11 @@ void delete_element(struct hash_table* my_hash_table, int value)
 	}
 }
 
-void delete_hash_table(struct hash_table* my_hast_table)
+void delete_hash_table(struct hash_table* my_hash_table)
 {
-	struct line* lines = my_hast_table->lines;
+	struct line* lines = my_hash_table->lines;
 
-	for (int i = 0; i < my_hast_table->mode; i++)
+	for (int i = 0; i < my_hash_table->mode; i++)
 	{
 		while (lines[i].head != NULL)
 		{
@@ -210,7 +210,7 @@ void delete_hash_table(struct hash_table* my_hast_table)
 		}
 		free(lines[i].head);
 	}
-	free(my_hast_table->lines);
+	free(my_hash_table->lines);
 }
 
 void show(struct hash_table* my_hash_table)
