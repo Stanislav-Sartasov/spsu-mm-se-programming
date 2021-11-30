@@ -23,26 +23,14 @@ int len_str(const char *string)
 	return len;
 }
 
-bool cmp(const void *f_s, const void *s_s)
+int cmp(const void *f_s, const void *s_s)
 {
 	char *first_str = *(char **) f_s;
 	char *second_str = *(char **) s_s;
 
-	int len_first = len_str(first_str);
-	int len_second = len_str(second_str);
-
-	char first_char = first_str[len_first];
-	char second_char = second_str[len_second];
-
-	first_str[len_first] = '\0';
-	second_str[len_second] = '\0';
-
 	int ret = strcmp(first_str, second_str);
 
-	first_str[len_first] = first_char;
-	second_str[len_second] = second_char;
-
-	return ret < 0;
+	return ret;
 }
 
 int main(int argc, char *argv[])
@@ -88,7 +76,7 @@ int main(int argc, char *argv[])
 
 	//printf("%d\n", cnt_str);
 	char **strings = (char **) malloc(cnt_str * sizeof(char *));
-	for (int i = 0, j = 0; i < cnt_str; i++)
+	for (int i = 0, j = 0; i < cnt_str && j < input_stat.st_size; i++)
 	{
 		strings[i] = &map[j];
 		//printf("%d,", len_str(strings[i]));
@@ -102,7 +90,7 @@ int main(int argc, char *argv[])
 	for (int i = 0; i < cnt_str; i++)
 	{
 		int len = len_str(strings[i]);
-		write(ofile, strings[i], len_str(strings[i]));
+		write(ofile, strings[i], len);
 		if (i + 1 != cnt_str)
 			write(ofile, "\n", 1);
 	}
