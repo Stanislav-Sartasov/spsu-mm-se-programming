@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 	}
 	else if (strcmp(argv[2], "Gauss3") == 0)
 	{
-		gauss3_filter(inp_file);
+		gauss_filter(inp_file);
 	}
 	else 
 	{

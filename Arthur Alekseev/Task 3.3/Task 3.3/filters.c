@@ -56,7 +56,7 @@ byte sobel_y_func(byte* buffer)
 	return base_filter_pixel(buffer, matrix);
 }
 
-byte gauss3_func(byte* buffer)
+byte gauss_func(byte* buffer)
 {
 	float matrix[] = { 1 / 16.0, 2 / 16.0, 1 / 16.0, 2 / 16.0, 4 / 16.0, 2 / 16.0, 1 / 16.0, 2 / 16.0, 1 / 16.0 };
 	return base_filter_pixel(buffer, matrix);
@@ -113,8 +113,8 @@ void sobel_y(struct bmp_file* target)
 	base_filter(target, sobel_y_func, 1);
 }
 
-void gauss3_filter(struct bmp_file* target)
+void gauss_filter(struct bmp_file* target)
 {
-	base_filter(target, gauss3_func, 0);
+	base_filter(target, gauss_func, 0);
 }
 
