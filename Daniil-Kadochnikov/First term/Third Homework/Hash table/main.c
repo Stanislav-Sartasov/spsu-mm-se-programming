@@ -72,7 +72,7 @@ int main()
 	printf("The programm shows the power of hash tables.\nThere are 3 possible actions allowed\n-INSERT a key and an element;\n-FIND an element via a key;\n-DELETE a key and an element;\n-QUIT the program.\n");
 	printf("Also, to check the efficiency of functions and actions, hash table will be printed out every time it subjects to changes.\n");
 
-	createHashTable();
+	struct hashTable* newHashTable = createHashTable();
 
 	int operation;
 	char action[8];
@@ -145,8 +145,8 @@ int main()
 				element[countChar] = '\0';
 
 				free(buffer);
-				insert(key, countChar + 1, element);
-				show();
+				insert(key, countChar + 1, element, newHashTable);
+				show(newHashTable);
 				free(element);
 			}
 		}
@@ -161,7 +161,7 @@ int main()
 				{
 					break;
 				}
-				find(key);
+				find(key, newHashTable);
 			}
 		}
 		else if (!(strcmp(action, "DELETE\n")))
@@ -176,13 +176,13 @@ int main()
 				{
 					break;
 				}
-				delete(key);
-				show();
+				delete(key, newHashTable);
+				show(newHashTable);
 			}
 		}
 		else if (!(strcmp(action, "QUIT\n")))
 		{
-			quit();
+			quit(newHashTable);
 			printf("Completing the program...\n");
 			exit(0);
 		}

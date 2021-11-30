@@ -5,16 +5,6 @@
 #include "hash_table.h"
 
 
-
-struct hashTable
-{
-    int amountOfElements;
-    int amountOfLists;
-    int rebalance;
-    int maxlength;
-    struct list** lists;
-} newHashTable;
-
 struct list
 {
     int length;
@@ -29,13 +19,13 @@ struct node
     struct node* next;
 };
 
-void show()
+void show(struct hashTable* newHashTable)
 {
     int coefficient;
     printf("\n");
-    for (coefficient = 0; coefficient < newHashTable.amountOfLists; coefficient++)
+    for (coefficient = 0; coefficient < newHashTable->amountOfLists; coefficient++)
     {
-        struct node* current = newHashTable.lists[coefficient]->next;
+        struct node* current = newHashTable->lists[coefficient]->next;
         while (current != NULL)
         {
             printf("[%d %s] ", current->key, current->element);
@@ -97,7 +87,7 @@ int substituteElement(struct node* current, struct node* node)
     return 1;
 }
 
-int addElement(struct list* head, struct node* node)
+int addElement(struct list* head, struct node* node, struct hashTable* newHashTable)
 {
     if (head->next == NULL)
     {
@@ -122,9 +112,9 @@ int addElement(struct list* head, struct node* node)
         current->next = node;
     }
     head->length++;
-    if (head->length > newHashTable.maxlength)
+    if (head->length > newHashTable->maxlength)
     {
-        newHashTable.maxlength = head->length;
+        newHashTable->maxlength = head->length;
     }
     return 0;
 }
@@ -152,12 +142,12 @@ struct node* createNode(int key, int sizeOfElement, char* element)
     return node;
 }
 
-int checkNewAmountOfLists()
+int checkNewAmountOfLists(struct hashTable* newHashTable)
 {
     int number;
-    for (number = 2; number <= (int)sqrt(newHashTable.amountOfLists) + 1; number++)
+    for (number = 2; number <= (int)sqrt(newHashTable->amountOfLists) + 1; number++)
     {
-        if (newHashTable.amountOfLists % number == 0 && newHashTable.amountOfLists > 2)
+        if (newHashTable->amountOfLists % number == 0 && newHashTable->amountOfLists > 2)
         {
             return 1;
         }
@@ -179,95 +169,95 @@ struct list* initial()
     return head;
 }
 
-int rebalance()
+int rebalance(struct hashTable* newHashTable)
 {
-    int oldAmountOfSets = newHashTable.amountOfLists;
+    int oldAmountOfSets = newHashTable->amountOfLists;
     do
     {
-        newHashTable.amountOfLists++;
-    } while (checkNewAmountOfLists());
+        newHashTable->amountOfLists++;
+    } while (checkNewAmountOfLists(newHashTable));
 
-    if ((newHashTable.lists = (struct list*)realloc(newHashTable.lists, newHashTable.amountOfLists * sizeof(struct list*))) == NULL)
+    if ((newHashTable->lists = (struct list*)realloc(newHashTable->lists, newHashTable->amountOfLists * sizeof(struct list*))) == NULL)
     {
         printf("\nERROR: failed to reallocate memory.\n");
         exit(-1);
     }
     int coefficient;
-    for (coefficient = oldAmountOfSets; coefficient < newHashTable.amountOfLists; coefficient++)
+    for (coefficient = oldAmountOfSets; coefficient < newHashTable->amountOfLists; coefficient++)
     {
-        newHashTable.lists[coefficient] = initial();
+        newHashTable->lists[coefficient] = initial();
     }
 
-    struct list** buffer = (struct list*)malloc(newHashTable.amountOfLists * sizeof(struct list*));
-    for (coefficient = 0; coefficient < newHashTable.amountOfLists; coefficient++)
+    struct list** buffer = (struct list*)malloc(newHashTable->amountOfLists * sizeof(struct list*));
+    for (coefficient = 0; coefficient < newHashTable->amountOfLists; coefficient++)
     {
         buffer[coefficient] = initial();
     }
 
-    newHashTable.maxlength = 0;
+    newHashTable->maxlength = 0;
 
     int set;
     for (coefficient = 0; coefficient < oldAmountOfSets; coefficient++)
     {
-        struct node* current = newHashTable.lists[coefficient]->next;
+        struct node* current = newHashTable->lists[coefficient]->next;
         struct node* previous;
         while (current != NULL)
         {
-            set = current->key % newHashTable.amountOfLists;
-            addElement(buffer[set], current);
+            set = current->key % newHashTable->amountOfLists;
+            addElement(buffer[set], current, newHashTable);
             previous = current;
             current = current->next;
             previous->next = NULL;
         }
     }
 
-    for (coefficient = 0; coefficient < newHashTable.amountOfLists; coefficient++)
+    for (coefficient = 0; coefficient < newHashTable->amountOfLists; coefficient++)
     {
-        free(newHashTable.lists[coefficient]);
-        newHashTable.lists[coefficient] = buffer[coefficient];
+        free(newHashTable->lists[coefficient]);
+        newHashTable->lists[coefficient] = buffer[coefficient];
     }
     free(buffer);
 }
 
 
-int insert(int key, int sizeOfElement, char* element)
+int insert(int key, int sizeOfElement, char* element, struct hashTable* newHashTable)
 {
-    newHashTable.amountOfElements++;
-    if ((int)pow(2, newHashTable.rebalance) <= newHashTable.amountOfElements)
+    newHashTable->amountOfElements++;
+    if ((int)pow(2, newHashTable->rebalance) <= newHashTable->amountOfElements)
     {
-        newHashTable.rebalance++;
+        newHashTable->rebalance++;
     }
-    if (newHashTable.amountOfLists * newHashTable.rebalance < newHashTable.amountOfElements)
+    if (newHashTable->amountOfLists * newHashTable->rebalance < newHashTable->amountOfElements)
     {
-        rebalance();
+        rebalance(newHashTable);
     }
     
     int line;
-    line = key % newHashTable.amountOfLists;
+    line = key % newHashTable->amountOfLists;
 
     struct node* nodePointer;
     nodePointer = createNode(key, sizeOfElement, element);
 
     int exists;
-    exists = addElement(newHashTable.lists[line], nodePointer);
+    exists = addElement(newHashTable->lists[line], nodePointer, newHashTable);
     if (exists)
     {
-        newHashTable.amountOfElements--;
+        newHashTable->amountOfElements--;
         return 0;
     }
 
-    while (newHashTable.maxlength > newHashTable.rebalance)
+    while (newHashTable->maxlength > newHashTable->rebalance)
     {
-        rebalance();
+        rebalance(newHashTable);
     }
     return 0;
 }
 
-int find(int key)
+int find(int key, struct hashTable* newHashTable)
 {
     int line;
-    line = key % newHashTable.amountOfLists;
-    struct node* current = newHashTable.lists[line]->next;
+    line = key % newHashTable->amountOfLists;
+    struct node* current = newHashTable->lists[line]->next;
     while (current != NULL)
     {
         if (current->key == key)
@@ -282,19 +272,19 @@ int find(int key)
     return 0;
 }
 
-int delete(int key)
+int delete(int key, struct hashTable* newHashTable)
 {
     int line;
-    line = key % newHashTable.amountOfLists;
-    struct node* current = newHashTable.lists[line]->next;
+    line = key % newHashTable->amountOfLists;
+    struct node* current = newHashTable->lists[line]->next;
     if (current->key == key)
     {
-        newHashTable.lists[line]->next = current->next;
+        newHashTable->lists[line]->next = current->next;
         printf("The element '%s' with key number '%d' deleted.", current->element, current->key);
         free(current->element);
         free(current);
-        newHashTable.amountOfElements--;
-        newHashTable.lists[line]->length--;
+        newHashTable->amountOfElements--;
+        newHashTable->lists[line]->length--;
         return 0;
     }
     else
@@ -310,8 +300,8 @@ int delete(int key)
                 printf("The element '%s' with key number '%d' deleted.", current->element, current->key);
                 free(current->element);
                 free(current);
-                newHashTable.amountOfElements--;
-                newHashTable.lists[line]->length--;
+                newHashTable->amountOfElements--;
+                newHashTable->lists[line]->length--;
                 return 0;
             }
         }
@@ -320,12 +310,12 @@ int delete(int key)
     return 0;
 }
 
-int quit()
+int quit(struct hashTable* newHashTable)
 {
     int coefficient;
-    for (coefficient = 0; coefficient < newHashTable.amountOfLists; coefficient++)
+    for (coefficient = 0; coefficient < newHashTable->amountOfLists; coefficient++)
     {
-        struct node* currentNode = newHashTable.lists[coefficient]->next;
+        struct node* currentNode = newHashTable->lists[coefficient]->next;
         struct node* previous;
         while (currentNode != NULL)
         {
@@ -334,22 +324,30 @@ int quit()
             currentNode = currentNode->next;
             free(previous);
         }
-        struct list* currentList = newHashTable.lists[coefficient];
+        struct list* currentList = newHashTable->lists[coefficient];
         free(currentList);
     }
-    free(newHashTable.lists);
+    free(newHashTable->lists);
+    free(newHashTable);
     return 0;
 }
 
-void createHashTable()
+struct hashTable* createHashTable()
 {
-    newHashTable.amountOfElements = 0;
-    newHashTable.amountOfLists = 0;
-    newHashTable.rebalance = 0;
-    newHashTable.maxlength = 0;
-    if ((newHashTable.lists = (struct set*)malloc(newHashTable.amountOfLists * sizeof(struct set*))) == NULL)
+    struct hashTable* newHashTable;
+    if ((newHashTable = (struct hashTable*)malloc(sizeof(struct hashTable))) == NULL)
     {
         printf("\nERROR: failed to allocate memory.\n");
         exit(-1);
     }
+    newHashTable->amountOfElements = 0;
+    newHashTable->amountOfLists = 0;
+    newHashTable->rebalance = 0;
+    newHashTable->maxlength = 0;
+    if ((newHashTable->lists = (struct set*)malloc(newHashTable->amountOfLists * sizeof(struct set*))) == NULL)
+    {
+        printf("\nERROR: failed to allocate memory.\n");
+        exit(-1);
+    }
+    return newHashTable;
 }
