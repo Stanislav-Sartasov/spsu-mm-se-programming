@@ -22,8 +22,4 @@ void insert_value(struct list* func);
 
 void delete_key(struct list* func);
 
-void random_filling(struct list* func);
-
-void actions_on_the_table(struct list* func);
-
 struct list initialize_the_structure();
