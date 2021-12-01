@@ -24,19 +24,11 @@ int currLen(char* arr)
 	return i;
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	printf("This program gets an input file and writes in a new output file sorted strings from the input file.\n\n");
-	
-	printf("Enter an input file path: ");
-	char inputName[260];
-	gets(inputName);
 
-	printf("\nEnter an output file path: ");
-	char outputName[260];
-	gets(outputName);
-
-	int input = open(inputName, O_RDWR);
+	int input = open(argv[1], O_RDWR);
 	if (input < 0)
 	{
 		printf("\nUnable to open the input file for reading\n\n");
@@ -71,7 +63,7 @@ int main()
 
 	qsort(arrStr, kStr, sizeof(char*), cmpStr);
 
-	int output = open(outputName, O_RDWR | O_CREAT | O_TRUNC);
+	int output = open(argv[2], O_RDWR | O_CREAT | O_TRUNC);
 	if (output < 0)
 	{
 		printf("\nUnable to open the output file for writing\n\n");
