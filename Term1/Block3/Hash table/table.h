@@ -1,27 +1,30 @@
 #pragma once
 
-typedef struct List
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct list
 {
 	int value;
-	struct List* next;
-}List;
+	struct list* next;
+}list;
 
-typedef struct Bucket
+typedef struct bucket
 {
 	int countElements;
-	List* first;
-}Bucket;
+	list* first;
+}bucket;
 
-typedef struct HashTable
+typedef struct hashTable
 {
 	int size;
 	int countElements;
-	Bucket* buckets;
-}HashTable;
+	bucket* buckets;
+}hashTable;
 
-void createTable(HashTable* hasht, int size);
-void add(HashTable* hasht, int key);
-void del(HashTable* hasht, int key);
-void search(HashTable* hasht, int key);
-void printTable(HashTable* hasht);
-void freeTable(HashTable* hasht);
+void createTable(hashTable* hasht, int size);
+void add(hashTable* hasht, int key);
+void del(hashTable* hasht, int key);
+void search(hashTable* hasht, int key);
+void printTable(hashTable* hasht);
+void freeTable(hashTable* hasht);

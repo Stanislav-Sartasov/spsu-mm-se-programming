@@ -1,27 +1,25 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include <stdio.h>
-#include <stdlib.h>
 #include "table.h"
 
 #define SUCCESS 1
 #define FAIL 0
 
 
-static int _add(List** head, int key);
-static int _delete(List** head, int key);
-static int _search(List* head, int key);
-static int hash(int key, int size);
-static int resize(int size);
-static void rebalance(HashTable* hasht);
+int _add(list** head, int key);
+int _delete(list** head, int key);
+int _search(list* head, int key);
+int hash(int key, int size);
+int resize(int size);
+void rebalance(hashTable* hasht);
 
 
-static int hash(int key, int size)
+int hash(int key, int size)
 {
 	return (key % size);
 }
 
-static int resize(int size)
+int resize(int size)
 {
 	size = size * 3 + 1;
 	int flag = 1;
@@ -39,15 +37,15 @@ static int resize(int size)
 	return size;
 }
 
-static void rebalance(HashTable* hasht)
+void rebalance(hashTable* hasht)
 {
-	HashTable new;
+	hashTable new;
 	createTable(&new, resize(hasht->size));
 
 	for (int i = 0; i < hasht->size; i++)
 		if (hasht->buckets[i].first != NULL)
 		{
-			List* current = hasht->buckets[i].first;
+			list* current = hasht->buckets[i].first;
 			while (current->next != NULL)
 			{
 				add(&new, current->value);
@@ -60,9 +58,9 @@ static void rebalance(HashTable* hasht)
 	*hasht = new;
 }
 
-void createTable(HashTable* hasht, int size)
+void createTable(hashTable* hasht, int size)
 {
-	hasht->buckets = (Bucket*)malloc(sizeof(Bucket) * size);
+	hasht->buckets = (bucket*)malloc(sizeof(bucket) * size);
 	hasht->countElements = 0;
 	hasht->size = size;
 	for (int i = 0; i < size; i++)
@@ -72,15 +70,15 @@ void createTable(HashTable* hasht, int size)
 	}
 }
 
-void freeTable(HashTable* hasht)
+void freeTable(hashTable* hasht)
 {
 	for (int i = 0; i < hasht->size; i++)
 	{
-		List* current = hasht->buckets[i].first;
+		list* current = hasht->buckets[i].first;
 		if (current == NULL)
 			continue;
 
-		List* next = NULL;
+		list* next = NULL;
 		while (current->next != NULL)
 		{
 			next = current->next;
@@ -92,14 +90,14 @@ void freeTable(HashTable* hasht)
 	free(hasht->buckets);
 }
 
-void printTable(HashTable* hasht)
+void printTable(hashTable* hasht)
 {
 	printf("\n");
 	for (int i = 0; i < hasht->size; i++)
 		if (hasht->buckets[i].first != NULL)
 		{
 			printf("%d: [", i);
-			List* current = hasht->buckets[i].first;
+			list* current = hasht->buckets[i].first;
 			while (current->next != NULL)
 			{
 				printf("%d; ", current->value);
@@ -110,20 +108,20 @@ void printTable(HashTable* hasht)
 	printf("\n");
 }
 
-static int _add(List** head, int key)
+int _add(list** head, int key)
 {
 	int value = key;
 
 	if (*head == NULL)
 	{
-		*head = (List*)malloc(sizeof(List));
+		*head = (list*)malloc(sizeof(list));
 		(*head)->value = value;
 		(*head)->next = NULL;
 		return SUCCESS;
 	}
 
-	List* current = *head;
-	List* prev = NULL;
+	list* current = *head;
+	list* prev = NULL;
 	while (current->next != NULL && current->value < value)
 	{
 		prev = current;
@@ -134,7 +132,7 @@ static int _add(List** head, int key)
 
 	if (prev == NULL && current->value > value)
 	{
-		List* first = (List*)malloc(sizeof(List));
+		list* first = (list*)malloc(sizeof(list));
 		first->value = value;
 		first->next = *head;
 		*head = first;
@@ -143,21 +141,21 @@ static int _add(List** head, int key)
 
 	if (current->next == NULL && current->value < value)
 	{
-		List* last = (List*)malloc(sizeof(List));
+		list* last = (list*)malloc(sizeof(list));
 		current->next = last;
 		last->value = value;
 		last->next = NULL;
 		return SUCCESS;
 	}
 
-	List* between = (List*)malloc(sizeof(List));
+	list* between = (list*)malloc(sizeof(list));
 	between->value = value;
 	between->next = current;
 	prev->next = between;
 	return SUCCESS;
 }
 
-void add(HashTable* hasht, int key)
+void add(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
 
@@ -172,7 +170,7 @@ void add(HashTable* hasht, int key)
 		rebalance(hasht);
 }
 
-static int _delete(List** head, int key)
+int _delete(list** head, int key)
 {
 	int value = key;
 
@@ -181,14 +179,14 @@ static int _delete(List** head, int key)
 
 	if ((*head)->value == value)
 	{
-		List* toDelete = *head;
+		list* toDelete = *head;
 		*head = (*head)->next;
 		free(toDelete);
 		return SUCCESS;
 	}
 
-	List* current = *head;
-	List* prev = NULL;
+	list* current = *head;
+	list* prev = NULL;
 	while (current->next != NULL && current->value < value)
 	{
 		prev = current;
@@ -205,7 +203,7 @@ static int _delete(List** head, int key)
 	return FAIL;
 }
 
-void del(HashTable* hasht, int key)
+void del(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
 
@@ -216,14 +214,14 @@ void del(HashTable* hasht, int key)
 	}
 }
 
-static int _search(List* head, int key)
+int _search(list* head, int key)
 {
 	int value = key;
 
 	if (head == NULL)
 		return FAIL;
 
-	List* current = head;
+	list* current = head;
 	while (current->next != NULL && current->value < value)
 	{
 		current = current->next;
@@ -234,7 +232,7 @@ static int _search(List* head, int key)
 	return FAIL;
 }
 
-void search(HashTable* hasht, int key)
+void search(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
 	if (_search(hasht->buckets[n].first, key))

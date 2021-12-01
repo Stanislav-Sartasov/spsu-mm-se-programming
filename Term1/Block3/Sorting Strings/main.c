@@ -21,6 +21,9 @@ int strLength(char* string)
 
 int main(int argc, char* argv[])
 {
+	printf("This program sorts the strings of the input file" 
+		"and outputs them to another file using memory-mapped files mechanism\n");
+
 	int fdin, fdout;
 	char* src;
 	struct stat statbuf;
