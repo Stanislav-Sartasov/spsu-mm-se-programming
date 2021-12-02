@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #define	BASE 4294967296
 
-struct number
+typedef struct
 {
 	int degree;
 	unsigned int* poly;
-};
-typedef struct number number;
+} number;
 
 int conventor(int number)
 {
@@ -70,19 +69,20 @@ number long_mul(number* a, number* b)
 	for (int i = 0; i < a->degree; i++)
 		for (int j = 0; j < b->degree; j++)
 		{
-			number simple;
-			unsigned long long int simple_simple[2] = { 0 };
-			simple.degree = c.degree;
-			simple.poly = (unsigned int*)calloc( simple.degree, sizeof(unsigned int));
+			number simple_long_number;
+			unsigned int simple_simple[2] = { 0 };
+			simple_long_number.degree = c.degree;
+			simple_long_number.poly = (unsigned int*)calloc( simple_long_number.degree, sizeof(unsigned int));
 
 			unsigned long long int simple_mult = (unsigned long long int)a->poly[i] * (unsigned long long int)b->poly[j];
 			simple_simple[0] = simple_mult % BASE;
 			simple_simple[1] = (simple_mult - simple_simple[0])/BASE;
 			for (int y = 0; y < 2; y++)
 			{
-				simple.poly[i + j + y] = simple_simple[y];
+				simple_long_number.poly[i + j + y] = simple_simple[y];
 			}
-			c = long_sum(&c,&simple);
+
+			c = long_sum(&c,&simple_long_number);
 		}
 
 	free(a->poly);
@@ -168,6 +168,9 @@ void long_show(number number)
 
 int main()
 {
+
+	printf("This program calculates 3 ^ 5000 using long arithmetic algorithms and represents it in hexadecimal notation.\n");
+
 	number c;
 
 	c = long_deg(3, 5000);
