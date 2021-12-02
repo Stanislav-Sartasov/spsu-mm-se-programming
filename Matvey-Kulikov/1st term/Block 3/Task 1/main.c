@@ -24,19 +24,10 @@ int get_length(const char* string_start)
 	return length;
 }
 
-char* get_string(char* string_start)
-{
-	int length = get_length(string_start);
-	char* string = (char*)malloc(sizeof(char)*(length+1));
-	strncpy(string, string_start, length);
-	string[length] = '\0';
-	return string;
-}
-
 int comparator(const void* string_1_pointer, const void* string_2_pointer)
 {
-	const char* string_1 = get_string(*(char**)string_1_pointer);
-	const char* string_2 = get_string(*(char**)string_2_pointer);
+	const char* string_1 = *(char**)string_1_pointer;
+	const char* string_2 = *(char**)string_2_pointer;
 	return strcmp(string_1, string_2);
 }
 
