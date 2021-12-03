@@ -49,7 +49,7 @@ bmp_image_t* read_image(char* filename)
 	}
 	else
 	{
-		for (int i = 0; i * 4 < image->info.image_size; i++)
+		for (int i = 0; i * 4 < image->size; i++)
 			fread(&image->data[i], 4, 1, input);
 	}
 	//
@@ -92,7 +92,7 @@ int write_image(char* filename, bmp_image_t* image)
 	}
 	else
 	{
-		for (int i = 0; i * 4 < image->info.image_size; i++)
+		for (int i = 0; i * 4 < image->size; i++)
 			if (fwrite(&image->data[i], 4, 1, output) == NULL)
 				return 0;
 	}

@@ -8,10 +8,10 @@ void filter(bmp_image_t* image, int (*filter_function)(int*))
 {
 	int windows[3][9];
 
-	pixel* buffer = (pixel*)malloc(image->size);
-	memcpy(buffer, image->data, image->size);
+	pixel* buffer = (pixel*)malloc(image->width * image->height * sizeof(pixel));
+	memcpy(buffer, image->data, image->width * image->height * sizeof(pixel));
 
-	for (int index = 0; index < (image->width - 1) * (image->height - 1); index++)
+	for (int index = 0; index < (image->width - 2) * (image->height - 2); index++)
 	{
 		for (int i = 0; i < 3; i++)
 		{
