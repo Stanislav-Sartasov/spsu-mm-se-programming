@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "bmp/bmp.h"
 #include "filters/filters.h"
@@ -34,7 +35,7 @@ void choose_filter(bmp_image_t* image, char* filter_type)
 	}
 	else
 	{
-		error("No such filter. Available filters: Median, Gauss, SobelX, SobelY, Grayscale.\n");
+		printf("No such filter. Available filters: Median, Gauss, SobelX, SobelY, Grayscale.\n");
 		exit(EXIT_FAILURE);
 	}	
 }
