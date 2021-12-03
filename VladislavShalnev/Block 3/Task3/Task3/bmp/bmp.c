@@ -33,7 +33,7 @@ bmp_image_t* read_image(char* filename)
 	// defining properties
 	image->width = image->info.width;
 	image->height = image->info.height;
-	image->size = image->header.size;
+	image->size = image->header.size - sizeof(image->header) - sizeof(image->info);
 	//
 
 	// reading pixels
