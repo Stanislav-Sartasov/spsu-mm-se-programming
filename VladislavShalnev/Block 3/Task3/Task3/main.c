@@ -3,7 +3,6 @@
 
 #include "bmp/bmp.h"
 #include "filters/filters.h"
-#include "lib/error.h"
 
 
 void choose_filter(bmp_image_t* image, char* filter_type)
@@ -36,7 +35,7 @@ void choose_filter(bmp_image_t* image, char* filter_type)
 	else
 	{
 		error("No such filter. Available filters: Median, Gauss, SobelX, SobelY, Grayscale.\n");
-		exit(-1);
+		exit(EXIT_FAILURE);
 	}	
 }
 
@@ -45,7 +44,10 @@ int main(int argc, char* argv[])
 	printf("This program applies the selected filter to the given bmp image.\n\n");
 
 	if (argc != 4)
-		return error("Invalid command line parameters.\n");
+	{
+		printf("Invalid command line parameters.\n");
+		return -1;
+	}
 
 	char* input_filename = argv[1];
 	char* output_filename = argv[3];
@@ -53,12 +55,18 @@ int main(int argc, char* argv[])
 
 	bmp_image_t* image = read_image(input_filename);
 	if (image == NULL)
-		return error("Something went wrong in reading image.\n");
+	{
+		printf("Something went wrong in reading image.\n");
+		return -1;
+	}
 
 	choose_filter(image, filter_type);
 
 	if (!write_image(output_filename, image))
-		return error("Something went wrong in writing image.\n");
+	{
+		printf("Something went wrong in writing image.\n");
+		return -1;
+	}
 
 	close_image(image);
 

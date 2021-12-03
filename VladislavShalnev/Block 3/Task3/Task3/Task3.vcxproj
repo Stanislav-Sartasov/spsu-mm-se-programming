@@ -141,13 +141,11 @@
   <ItemGroup>
     <ClCompile Include="bmp\bmp.c" />
     <ClCompile Include="filters\filters.c" />
-    <ClCompile Include="lib\error.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bmp\bmp.h" />
     <ClInclude Include="filters\filters.h" />
-    <ClInclude Include="lib\error.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

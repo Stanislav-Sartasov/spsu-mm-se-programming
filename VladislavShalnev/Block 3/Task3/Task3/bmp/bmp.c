@@ -4,7 +4,12 @@
 #include <stdlib.h>
 
 #include "bmp.h"
-#include "../lib/error.h"
+
+void* error(char* message)
+{
+	printf(message);
+	return NULL;
+}
 
 bmp_image_t* read_image(char* filename)
 {
@@ -65,7 +70,10 @@ int write_image(char* filename, bmp_image_t* image)
 	FILE* output;
 
 	if ((output = fopen(filename, "wb")) == NULL)
-		return error("Unable to create output image file.\n");
+	{
+		printf("Unable to create output image file.\n");
+		return 0;
+	}
 	
 	// writing file header and file info
 	if (fwrite(&image->header, sizeof(image->header), 1, output) == NULL)
