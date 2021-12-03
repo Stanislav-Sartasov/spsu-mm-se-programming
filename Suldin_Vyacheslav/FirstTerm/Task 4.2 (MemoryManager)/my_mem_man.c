@@ -158,22 +158,28 @@ void my_free(void* ptr)
 void* my_realloc(void* ptr, size_t size)
 {
 	size_t previous_size = alloc_list.units[(size_t)list_find(&alloc_list, ptr)].size;
+	size_t min_size = previous_size > size ? size : previous_size;
 
 	if (previous_size <= 0 || size == 0)
 		return NULL;
+ 
+	char* phase_ptr = (char*)my_malloc(previous_size + size - min_size);
 
-	char* tmp = (char*)my_malloc(previous_size);
-	for (int i = 0; i < previous_size; i++)
+	char* tmp = (char*)my_malloc(min_size);
+	for (int i = 0; i < min_size; i++)
 		tmp[i] = *((char*)ptr + i);
 
 	my_free(ptr);
+	
+	if (phase_ptr != NULL)
+		my_free(phase_ptr);
 
 	char* result_ptr = (char*)my_malloc(size);
 
-	for (int i = 0; i < previous_size; i++)
+	for (int i = 0; i < min_size; i++)
 		*(result_ptr + i) = tmp[i];
 
 	my_free(tmp);
-
+	
 	return (void*)result_ptr;
 }

@@ -9,7 +9,7 @@ int main()
 
 	init();
 
-	int first_size = 3;
+	int first_size = 3, second_size = 5;
 
 	char* test_first = (char*)my_malloc(first_size * (sizeof(char)));
 
@@ -23,35 +23,29 @@ int main()
 
 	for (int i = 0; i < first_size; i++)
 	{
-		test_first[i] = i;
-		printf(">>>%d\n", test_first[i]);
+		test_first[i] = i+1;
+		printf("allocated: >>>%d\n", test_first[i]);
 	}
-
-	int second_size = 5;
 
 	test_first = (char*)my_realloc(test_first, second_size);
 
 	if (test_first != NULL)
-		printf("reallocation success, %d is yours\n", second_size);
+		printf("reallocation success, %d is yours on %p\n", second_size, test_first);
 	else
 	{
 		printf("seems like out of memory!");
 		return;
 	}
-
 	for (int i = 0; i < second_size; i++)
-		printf(">>>%d\n", test_first[i]);
+		printf("reallocated: >>>%d\n", test_first[i]);
 
 	my_free(test_first);
 	printf("test is free now\n");
 
-	for (int i = 0; i < second_size; i++)
-		printf(">>>%d\n", test_first[i]);
+	char* test_second = (char*)my_malloc(first_size);
+	printf("pointer to your new memory>>>%p", test_second);
 
-	int* test_second = (int*)my_malloc(sizeof(int) * first_size);
-	printf("%p", test_second);
 	my_free(test_second);
-
 
 	init_free();
 	return 0;

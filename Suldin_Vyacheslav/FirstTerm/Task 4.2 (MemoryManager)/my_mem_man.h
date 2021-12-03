@@ -3,9 +3,9 @@
 /*Description: Memory manager emulator.
 my_malloc: returns a void pointer to the allocated space, or NULL if there is insufficient memory available.
 free: freeing memory by the pointer, making its available again
-realloc: returns a void pointe to the reallocated space of new size, or NULL if it imposible or new size == 0
+realloc: returns a void pointer to the reallocated space of new size, or NULL if it imposible or new size == 0
 Structures:
-meta_list: using to realtime manage the pointers, information about them are consisting in units.
+metadata_list: using to realtime manage the pointers, information about them are consisting in units.
 UNIT_LIST_SIZE = max number of allocations in Single time.
 */
 
