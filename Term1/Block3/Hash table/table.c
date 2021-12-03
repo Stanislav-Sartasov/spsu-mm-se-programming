@@ -6,9 +6,9 @@
 #define FAIL 0
 
 
-int _add(list** head, int key);
-int _delete(list** head, int key);
-int _search(list* head, int key);
+int addInList(list** head, int key);
+int deleteInList(list** head, int key);
+int searchInList(list* head, int key);
 int hash(int key, int size);
 int resize(int size);
 void rebalance(hashTable* hasht);
@@ -108,7 +108,7 @@ void printTable(hashTable* hasht)
 	printf("\n");
 }
 
-int _add(list** head, int key)
+int addInList(list** head, int key)
 {
 	int value = key;
 
@@ -159,7 +159,7 @@ void add(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
 
-	if (_add(&hasht->buckets[n].first, key))
+	if (addInList(&hasht->buckets[n].first, key))
 	{
 		hasht->buckets[n].countElements++;
 		hasht->countElements++;
@@ -170,7 +170,7 @@ void add(hashTable* hasht, int key)
 		rebalance(hasht);
 }
 
-int _delete(list** head, int key)
+int deleteInList(list** head, int key)
 {
 	int value = key;
 
@@ -207,14 +207,14 @@ void del(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
 
-	if (_delete(&hasht->buckets[n].first, key))
+	if (deleteInList(&hasht->buckets[n].first, key))
 	{
 		hasht->buckets[n].countElements--;
 		hasht->countElements--;
 	}
 }
 
-int _search(list* head, int key)
+int searchInList(list* head, int key)
 {
 	int value = key;
 
@@ -235,7 +235,7 @@ int _search(list* head, int key)
 void search(hashTable* hasht, int key)
 {
 	int n = hash(key, hasht->size);
-	if (_search(hasht->buckets[n].first, key))
+	if (searchInList(hasht->buckets[n].first, key))
 		printf("Element %d was found\n", key);
 	else
 		printf("Element %d was not found\n", key);

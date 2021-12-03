@@ -8,7 +8,7 @@ void searchTest(hashTable* hasht);
 
 int main()
 {
-	printf("This program implements a data structure called a hash table"
+	printf("This program implements a data structure called a hash table "
 		"with three main functions(adding, deleting and searching for elements)\n\n");
 	hashTable hasht;
 	createTable(&hasht, DEFAULT_SIZE);
