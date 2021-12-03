@@ -1,5 +1,5 @@
-#include "error.h"
 #include <stdio.h>
+#include "error.h"
 
 int error(char* message)
 {

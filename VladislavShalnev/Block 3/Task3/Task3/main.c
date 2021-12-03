@@ -1,10 +1,10 @@
-
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "bmp/bmp.h"
 #include "filters/filters.h"
 #include "lib/error.h"
-#include <stdlib.h>
+
 
 void choose_filter(bmp_image_t* image, char* filter_type)
 {

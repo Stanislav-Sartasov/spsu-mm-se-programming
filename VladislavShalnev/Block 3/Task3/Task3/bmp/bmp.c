@@ -1,10 +1,10 @@
 #define _CRT_SECURE_NO_WARNINGS
 
-#include "bmp.h"
-#include "../lib/error.h"
-
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "bmp.h"
+#include "../lib/error.h"
 
 bmp_image_t* read_image(char* filename)
 {
