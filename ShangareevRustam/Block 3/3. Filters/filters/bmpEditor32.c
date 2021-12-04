@@ -7,6 +7,23 @@ int cmp(int* x, int* y)
 	return *x - *y;
 }
 
+unsigned char arrMedian(unsigned char* arr)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 7; j++)
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				unsigned char tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+		}
+	}
+	return (arr[3] + arr[4]) / 2;
+}
+
 unsigned char grayScale32(struct argb argb)
 {
 	return (0.1 * argb.blue + 0.6 * argb.green + 0.3 * argb.red);
@@ -37,14 +54,10 @@ void medianFilter32(struct img32* picture)
 				picture->argb[i][j - 1].alpha, picture->argb[i][j + 1].alpha,
 				picture->argb[i + 1][j - 1].alpha, picture->argb[i + 1][j].alpha,
 				picture->argb[i + 1][j + 1].alpha, picture->argb[i - 1][j + 1].alpha };
-			qsort(reds, 8, 1, cmp);
-			qsort(greens, 8, 1, cmp);
-			qsort(alphas, 8, 1, cmp);
-			qsort(blues, 8, 1, cmp);
-			cur[i][j].blue = (blues[4] + blues[3]) / 2;
-			cur[i][j].red = (reds[4] + reds[3]) / 2;
-			cur[i][j].green = (greens[4] + greens[3]) / 2;
-			cur[i][j].alpha = (alphas[4] + alphas[3]) / 2;
+			cur[i][j].blue = arrMedian(blues);
+			cur[i][j].red = arrMedian(reds);
+			cur[i][j].green = arrMedian(greens);
+			cur[i][j].alpha = arrMedian(alphas);
 		}
 	}
 	for (int j = 0; j < picture->width; j++)

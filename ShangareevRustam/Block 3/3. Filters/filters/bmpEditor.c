@@ -34,12 +34,9 @@ void medianFilter(struct img* picture)
 				picture->rgb[i][j - 1].green, picture->rgb[i][j + 1].green,
 				picture->rgb[i + 1][j - 1].green, picture->rgb[i + 1][j].green,
 				picture->rgb[i + 1][j + 1].green, picture->rgb[i - 1][j + 1].green };
-			qsort(reds, 8, 1, cmp);
-			qsort(greens, 8, 1, cmp);
-			qsort(blues, 8, 1, cmp);
-			cur[i][j].blue = (blues[4] + blues[3]) / 2;
-			cur[i][j].red = (reds[4] + reds[3]) / 2;
-			cur[i][j].green = (greens[4] + greens[3]) / 2;
+			cur[i][j].blue = arrMedian(blues);
+			cur[i][j].red = arrMedian(reds);
+			cur[i][j].green = arrMedian(greens);
 		}
 	}
 	for (int j = 0; j < picture->width; j++)
