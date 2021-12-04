@@ -36,7 +36,8 @@ char *int_to_hexadecimal(int number)
 	result[1] = '0';
 	result[2] = '\0';
 
-	if (number >= 16) {
+	if (number >= 16)
+	{
 		result[1] = alphabet[number / 16];
 	}
 
