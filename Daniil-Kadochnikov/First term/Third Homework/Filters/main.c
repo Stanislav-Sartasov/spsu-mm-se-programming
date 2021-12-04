@@ -143,10 +143,12 @@ int main(int argc, char* argv[])
 	}
 	if (strcmp(argv[2], "sobelX") == 0)
 	{
+		greyFilter(&image);
 		filter(&image, sobelXFunction);
 	}
 	if (strcmp(argv[2], "sobelY") == 0)
 	{
+		greyFilter(&image);
 		filter(&image, sobelYFunction);
 	}
 	if (strcmp(argv[2], "grey") == 0)
