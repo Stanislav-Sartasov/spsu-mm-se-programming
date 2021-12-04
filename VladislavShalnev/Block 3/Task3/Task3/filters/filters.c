@@ -8,24 +8,37 @@ void filter(bmp_image_t* image, int (*filter_function)(int*))
 {
 	int windows[3][9];
 
-	pixel* buffer = (pixel*)malloc(image->width * image->height * sizeof(pixel));
-	memcpy(buffer, image->data, image->width * image->height * sizeof(pixel));
+	int size = image->width * image->height;
 
-	for (int index = 0; index < (image->width - 2) * (image->height - 2); index++)
+	pixel* buffer = (pixel*)malloc(size * sizeof(pixel));
+	memcpy(buffer, image->data, size * sizeof(pixel));
+
+	for (int index = 0; index < size; index++)
 	{
 		for (int i = 0; i < 3; i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
-				windows[0][i * 3 + j] = buffer[index + i * image->width + j].red;
-				windows[1][i * 3 + j] = buffer[index + i * image->width + j].green;
-				windows[2][i * 3 + j] = buffer[index + i * image->width + j].blue;
+				int column = index % image->width;
+				int row = index / image->width;
+
+				// checking if we've gone outside the picture
+				int extra_index = index;
+				if (column + (j - 1) < image->width && column + (j - 1) >= 0)
+					extra_index += (j - 1);
+				if (row + (i - 1) < image->height && row + (i - 1) >= 0)
+					extra_index += (i - 1) * image->width;
+				//
+				
+				windows[0][i * 3 + j] = buffer[extra_index].red;
+				windows[1][i * 3 + j] = buffer[extra_index].green;
+				windows[2][i * 3 + j] = buffer[extra_index].blue;
 			}
 		}
 
-		image->data[index + image->width + 1].red = filter_function(windows[0]);
-		image->data[index + image->width + 1].green = filter_function(windows[1]);
-		image->data[index + image->width + 1].blue = filter_function(windows[2]);
+		image->data[index].red = filter_function(windows[0]);
+		image->data[index].green = filter_function(windows[1]);
+		image->data[index].blue = filter_function(windows[2]);
 	}
 
 	free(buffer);
