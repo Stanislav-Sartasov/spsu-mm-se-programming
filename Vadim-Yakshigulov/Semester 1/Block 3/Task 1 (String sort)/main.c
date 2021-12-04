@@ -102,6 +102,8 @@ char **sortText(mmfile *file)
 
 int main(int argc, char *argv[])
 {
+	printf("This program sorts strings from input file and place to new one.\n");
+
 	if (argc != 3)
 	{
 		printf("Not enough/too many arguments.\n");
