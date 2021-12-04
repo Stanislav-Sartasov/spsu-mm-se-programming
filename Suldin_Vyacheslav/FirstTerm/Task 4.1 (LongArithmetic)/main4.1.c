@@ -8,15 +8,18 @@ typedef struct
 	unsigned int* poly;
 } number;
 
-int conventor(int number)
+void conventor(int number)
 {
-	if (number == 10) return printf("A");
-	if (number == 11) return printf("B");
-	if (number == 12) return printf("C");
-	if (number == 13) return printf("D");
-	if (number == 14) return printf("E");
-	if (number == 15) return printf("F");
-	else return printf("%d", number);
+	if (number >= 10)
+	{
+		printf("%c", 55 + number);
+		return;
+	}
+	else
+	{
+		printf("%d", number);
+		return;
+	}
 }
 
 number long_sum(number* a, number* b)
@@ -131,7 +134,10 @@ void translation( number a, int from, int to)
 		}
 		free(tmp);
 	}
+
 	free(kern);
+
+	return;
 }
 
 number long_deg(unsigned int c, int degree)
@@ -164,12 +170,13 @@ number long_deg(unsigned int c, int degree)
 void long_show(number number)
 {
 	translation(number, 32, 4);
+	return;
 }
 
 int main()
 {
 
-	printf("This program calculates 3 ^ 5000 using long arithmetic algorithms and represents it in hexadecimal notation.\n");
+	printf("This program calculates 3^5000 using long arithmetic algorithms and represents it in hexadecimal notation.\n");
 
 	number c;
 
@@ -178,6 +185,8 @@ int main()
 	long_show(c);
 
 	free(c.poly);
+
+	return 0;
 }
 
 
