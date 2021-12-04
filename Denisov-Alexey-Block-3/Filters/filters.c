@@ -54,6 +54,16 @@ void gauss(BYTE**** image, bmpHeader header, int myWidth, int channels)
 
 void sobelX(BYTE**** image, bmpHeader header, int myWidth, int channels)
 {
+	BYTE*** copy = (BYTE***)malloc(header.biHeight * sizeof(BYTE**));
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		copy[i] = (BYTE**)malloc(myWidth * sizeof(BYTE*));
+		for (int j = 0; j < myWidth; j++)
+		{
+			copy[i][j] = (BYTE*)malloc(channels * sizeof(BYTE));
+		}
+	}
+
 	for (int i = 1; i < header.biHeight - 1; i++)
 	{
 		for (int j = 1; j < myWidth - 1; j++)
@@ -77,18 +87,49 @@ void sobelX(BYTE**** image, bmpHeader header, int myWidth, int channels)
 					}
 				}
 				if (pixel == 0)
-					(*image)[i][j][c] = 0;
+					copy[i][j][c] = 0;
 				else if (abs(pixel) < 255)
-					(*image)[i][j][c] = abs(pixel);
+					copy[i][j][c] = abs(pixel);
 				else 
-					(*image)[i][j][c] = 255;
+					copy[i][j][c] = 255;
 			}
 		}
 	}
+
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		for (int j = 0; j < myWidth; j++)
+		{
+			for (int c = 0; c < channels; c++)
+			{
+				(*image)[i][j][c] = copy[i][j][c];
+			}
+		}
+	}
+
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		for (int j = 0; j < myWidth; j++)
+		{
+			free(copy[i][j]);
+		}
+		free(copy[i]);
+	}
+	free(copy);
 }
 
 void sobelY(BYTE**** image, bmpHeader header, int myWidth, int channels)
 {
+	BYTE*** copy = (BYTE***)malloc(header.biHeight * sizeof(BYTE**));
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		copy[i] = (BYTE**)malloc(myWidth * sizeof(BYTE*));
+		for (int j = 0; j < myWidth; j++)
+		{
+			copy[i][j] = (BYTE*)malloc(channels * sizeof(BYTE));
+		}
+	}
+	
 	for (int i = 1; i < header.biHeight - 1; i++)
 	{
 		for (int j = 1; j < myWidth - 1; j++)
@@ -113,14 +154,35 @@ void sobelY(BYTE**** image, bmpHeader header, int myWidth, int channels)
 					}
 				}
 				if (pixel == 0)
-					(*image)[i][j][c] = 0;
+					copy[i][j][c] = 0;
 				else if (abs(pixel) < 255)
-					(*image)[i][j][c] = abs(pixel);
+					copy[i][j][c] = abs(pixel);
 				else
-					(*image)[i][j][c] = 255;
+					copy[i][j][c] = 255;
 			}
 		}
 	}
+
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		for (int j = 0; j < myWidth; j++)
+		{
+			for (int c = 0; c < channels; c++)
+			{
+				(*image)[i][j][c] = copy[i][j][c];
+			}
+		}
+	}
+
+	for (int i = 0; i < header.biHeight; i++)
+	{
+		for (int j = 0; j < myWidth; j++)
+		{
+			free(copy[i][j]);
+		}
+		free(copy[i]);
+	}
+	free(copy);
 }
 
 void greyscale(BYTE**** image, bmpHeader header, int myWidth, int channels)

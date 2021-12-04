@@ -9,7 +9,7 @@
 int main(int argc, char* argv[])
 {
 
-	printf("This program applies to input 24 or 32 bit BMP image one of median, gauss, sobelX, sobelY, grayscale filters.");
+	printf("This program applies to input 24 or 32 bit BMP image one of median, gauss, sobelX, sobelY, grayscale filters.\n\n");
 
 	if (strcmp(argv[2], "median") != 0 && strcmp(argv[2], "gauss") != 0 && strcmp(argv[2], "sobelX") != 0 && strcmp(argv[2], "sobelY") != 0 && strcmp(argv[2], "grayscale") != 0)
 	{
