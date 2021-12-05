@@ -129,7 +129,7 @@ int main(int argc, char* argv[])
 	}
 
 	lseek(output_file_descriptor, size-1, SEEK_SET);
-	write(output_file_descriptor, 0, 1);
+	write(output_file_descriptor, "", 1);
 	memcpy(output_image , image, size);
 
 	if (filter_mode == 4)
