@@ -61,14 +61,7 @@ bool h_search(struct hash_table* table, int key, int* num)
 {
 	struct list* list = table->array_list + h_func(key, table);
 
-	if (listSearch(key, list, num))
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return listSearch(key, list, num);
 }
 
 void h_remove(struct hash_table* table, int key)
