@@ -206,5 +206,7 @@ int main(int argc, char* argv[])
 	printf("\nSUCCESS: the filter was been applied.\n");
 
 	free(image.pixels);
+	fclose(inputFile);
+	fclose(outputFile);
 	return 0;
 }
