@@ -6,6 +6,7 @@ int comparator(const void* a, const void* b)
 	return *(int*)a - *(int*)b;
 }
 
+
 void grey(unsigned char** image, int height, int width, int bps)
 {
 	unsigned char avg;
@@ -42,17 +43,22 @@ void median(unsigned char** image, int height, int width, int bps)
 void gauss(unsigned char** image, int height, int width, int bps)
 {
 	int matrix[3][3] = { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
-	int res = 0;
-	for (int color = 0; color < 3; color++)
-		for (int row = 1; row < height - 1; row++)
-			for (int col = color + bps; col < width - bps; col += bps)
-			{
-				for (int y = row - 1; y < row + 2; y++)
-					for (int x = col - bps; x < col + bps + 1; x += bps)
-						res += image[y][x] * matrix[y - row + 1][(x - col) / bps + 1];
-				image[row][col] = (unsigned char)(res / 16);
-				res = 0;
-			}
+	int r = 0, g = 0, b = 0;
+	for (int row = 1; row < height - 1; row++)
+		for (int col = bps; col < width - bps; col += bps)
+		{
+			for (int y = -1; y < 2; y++)
+				for (int x = -1; x < 2; x++)
+				{
+					r += image[row + y][col + x * bps] * matrix[y + 1][x + 1];
+					g += image[row + y][col + x * bps + 1] * matrix[y + 1][x + 1];
+					b += image[row + y][col + x * bps + 2] * matrix[y + 1][x + 1];
+				}
+			image[row][col] = (unsigned char)(r / 16);
+			image[row][col + 1] = (unsigned char)(g / 16);
+			image[row][col + 2] = (unsigned char)(b / 16);
+			r = g = b = 0;
+		}
 }
 
 void sobel(unsigned char** image, int height, int width, int bps, char flag)
@@ -78,11 +84,11 @@ void sobel(unsigned char** image, int height, int width, int bps, char flag)
 						ry += image[y][x] * my[y - row + 1][(x - col) / bps + 1];
 					}
 				if (flag == 'Y')
-					new[row][col] = (unsigned char)ry;
+					new[row][col] = (unsigned char)min(255, max(ry, 0));
 				else if (flag == 'X')
-					new[row][col] = (unsigned char)rx;
+					new[row][col] = (unsigned char)min(255, max(rx, 0));
 				else
-					new[row][col] = (unsigned char)sqrt(rx * rx + ry * ry);
+					new[row][col] = (unsigned char)min(255, max((int)sqrt(ry * ry + rx * rx), 0));
 				rx = ry = 0;
 			}
 
