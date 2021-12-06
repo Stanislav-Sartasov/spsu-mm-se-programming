@@ -1,11 +1,25 @@
 #include "bmp.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-void invalid_file_error(const char* filename)
+void invalid_file_error(const char *filename)
 {
 	printf("Error was occurred while opening/creating file %s", filename);
 	exit(-1);
+}
+
+void is_not_a_bmp_file_error(const char *filename)
+{
+	printf("File format is not valid %s\n", filename);
+	printf("Try *.bmp file");
+	exit(-1);
+}
+
+bool valid_header(bmp_header_t *header)
+{
+	return (header->bits_per_pixel == 24 || header->bits_per_pixel == 32)
+		   && header->signature[0] == 'B' && header->signature[1] == 'M';
 }
 
 void read_header(FILE *file, bmp_header_t *header)
@@ -73,7 +87,12 @@ void bmp_open(const char *filename, bmp_header_t *header, bmp_image_t *image)
 	FILE *file = fopen(filename, "rb");
 	if (file == NULL)
 		invalid_file_error(filename);
+
 	read_header(file, header);
+
+	if (!valid_header(header))
+		is_not_a_bmp_file_error(filename);
+
 	read_pixels(file, header, image);
 	fclose(file);
 }
