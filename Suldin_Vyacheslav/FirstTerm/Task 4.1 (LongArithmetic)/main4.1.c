@@ -89,9 +89,9 @@ number* long_mul(number* a, number* b)
 			}
 
 			c = long_sum(c,simple_long_number);
+
 		}
 
-	
 	free(a->poly);
 	free(b->poly);
 	free(a);
@@ -167,10 +167,10 @@ number* long_deg(unsigned int c, int degree)
 		power->degree = 1;
 		power->poly = (unsigned int*)malloc(sizeof(unsigned int) * power->degree);
 		power->poly[0] = c;
+		free(result->poly);
+		free(result);
 		result = long_mul(tmp, power);
 	}
-	free(initial->poly);
-	free(initial);
 	return result;
 }
 
@@ -186,7 +186,6 @@ void long_show(number* number)
 
 int main()
 {
-	
 	printf("This program calculates 3^5000 using long arithmetic algorithms and represents it in hexadecimal notation.\n");
 
 	number* c;
