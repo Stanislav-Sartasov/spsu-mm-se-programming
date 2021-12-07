@@ -5,25 +5,25 @@
 
 #define NOT_FOUND -1
 
-typedef struct HashTable
+typedef struct hashTable
 {
-	LinkedList **table;
+	linkedList **table;
 	int size;
 	int addedElementsCount;
 	double loadFactor;
-} HashTable;
+} hashTable;
 
-HashTable *newHashTable(LinkedList **table, int size, int addedElementsCount, double loadFactor);
+hashTable *newHashTable(linkedList **table, int size, int addedElementsCount, double loadFactor);
 
-HashTable *initHashTableByDefault();
+hashTable *initHashTableByDefault();
 
-void addByKey(HashTable *self, char *key, int value);
+void addByKey(hashTable *self, char *key, int value);
 
-void removeByKey(HashTable *self, char *key);
+void removeByKey(hashTable *self, char *key);
 
-int getValueByKey(HashTable *self, char *key);
+int getValueByKey(hashTable *self, char *key);
 
-void deleteHashTable(HashTable *self);
+void deleteHashTable(hashTable *self);
 
 
 

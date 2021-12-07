@@ -3,48 +3,48 @@
 #include <stddef.h>
 
 
-Element *newElement(char *key, int value, Element *next)
+elementOfList *newElement(char *key, int value, elementOfList *next)
 {
-	Element *self = malloc(sizeof(Element));
+	elementOfList *self = malloc(sizeof(elementOfList));
 	self->key = key;
 	self->value = value;
 	self->next = next;
 	return self;
 }
 
-Element *initElementByDefault()
+elementOfList *initElementByDefault()
 {
 	return newElement(NULL, 0, NULL);
 }
 
-void deleteElement(Element *self)
+void deleteElement(elementOfList *self)
 {
 	free(self);
 }
 
 
-LinkedList *newLinkedList(Element *head, int size)
+linkedList *newLinkedList(elementOfList *head, int size)
 {
-	LinkedList *self = malloc(sizeof(LinkedList));
+	linkedList *self = malloc(sizeof(linkedList));
 	self->head = (head == NULL) ? initElementByDefault() : head;
 	self->size = size;
 	return self;
 }
 
-LinkedList *initLinkedListByDefault()
+linkedList *initLinkedListByDefault()
 {
 	return newLinkedList(NULL, 0);
 }
 
-void deleteLinkedList(LinkedList *self)
+void deleteLinkedList(linkedList *self)
 {
 	deleteElement(self->head);
 	free(self);
 }
 
-void appendElement(LinkedList *self, Element *element)
+void appendElement(linkedList *self, elementOfList *element)
 {
-	Element *current = self->head;
+	elementOfList *current = self->head;
 	while (current->next != NULL)
 	{
 		current = current->next;
@@ -53,10 +53,10 @@ void appendElement(LinkedList *self, Element *element)
 	self->size++;
 }
 
-void insertElement(LinkedList *self, Element *element, int index)
+void insertElement(linkedList *self, elementOfList *element, int index)
 {
-	Element *current = self->head;
-	Element *prev;
+	elementOfList *current = self->head;
+	elementOfList *prev;
 	for (int i = 0; current->next != NULL; ++i)
 	{
 		prev = current;
@@ -71,10 +71,10 @@ void insertElement(LinkedList *self, Element *element, int index)
 	}
 }
 
-Element *popElement(LinkedList *self, int index)
+elementOfList *popElement(linkedList *self, int index)
 {
-	Element *current = self->head;
-	Element *prev;
+	elementOfList *current = self->head;
+	elementOfList *prev;
 	for (int i = 0; current->next != NULL; ++i)
 	{
 		prev = current;
@@ -90,10 +90,10 @@ Element *popElement(LinkedList *self, int index)
 
 }
 
-int getElementIndex(LinkedList *self, Element *element,
-					bool (*equalityFunc)(Element *, Element *))
+int getElementIndex(linkedList *self, elementOfList *element,
+					bool (*equalityFunc)(elementOfList *, elementOfList *))
 {
-	Element *current = self->head;
+	elementOfList *current = self->head;
 	for (int i = 0; current->next != NULL; ++i)
 	{
 		current = current->next;
@@ -103,9 +103,9 @@ int getElementIndex(LinkedList *self, Element *element,
 	return NOT_FOUND;
 }
 
-Element *getElementByIndex(LinkedList *self, int index)
+elementOfList *getElementByIndex(linkedList *self, int index)
 {
-	Element *current = self->head;
+	elementOfList *current = self->head;
 	for (int i = 0; current->next != NULL; ++i)
 	{
 		current = current->next;
@@ -115,18 +115,18 @@ Element *getElementByIndex(LinkedList *self, int index)
 	return NULL;
 }
 
-void replaceElementByIndex(LinkedList *self, Element *element, int index)
+void replaceElementByIndex(linkedList *self, elementOfList *element, int index)
 {
 	popElement(self, index);
 	insertElement(self, element, index);
 }
 
-void removeElement(LinkedList *self, Element *element,
-				   bool (*equalityFunc)(Element *, Element *))
+void removeElement(linkedList *self, elementOfList *element,
+				   bool (*equalityFunc)(elementOfList *, elementOfList *))
 {
 
-	Element *current = self->head;
-	Element *prev;
+	elementOfList *current = self->head;
+	elementOfList *prev;
 	while (current->next != NULL)
 	{
 		prev = current;

@@ -4,43 +4,43 @@
 
 #define NOT_FOUND -1
 
-typedef struct Element
+typedef struct elementOfList
 {
 	char *key;
 	int value;
-	struct Element *next;
-} Element;
+	struct elementOfList *next;
+} elementOfList;
 
-typedef struct LinkedList
+typedef struct linkedList
 {
-	Element *head;
+	elementOfList *head;
 	int size;
-} LinkedList;
+} linkedList;
 
-Element *newElement(char *key, int value, Element *next);
+elementOfList *newElement(char *key, int value, elementOfList *next);
 
-Element *initElementByDefault();
+elementOfList *initElementByDefault();
 
-void deleteElement(Element *self);
+void deleteElement(elementOfList *self);
 
-LinkedList *newLinkedList(Element *head, int size);
+linkedList *newLinkedList(elementOfList *head, int size);
 
-LinkedList *initLinkedListByDefault();
+linkedList *initLinkedListByDefault();
 
-void deleteLinkedList(LinkedList *self);
+void deleteLinkedList(linkedList *self);
 
-void appendElement(LinkedList *self, Element *element);
+void appendElement(linkedList *self, elementOfList *element);
 
-void insertElement(LinkedList *self, Element *element, int index);
+void insertElement(linkedList *self, elementOfList *element, int index);
 
-Element *popElement(LinkedList *self, int index);
+elementOfList *popElement(linkedList *self, int index);
 
-int getElementIndex(LinkedList *self, Element *element,
-					bool (*equalityFunc)(Element *, Element *));
+int getElementIndex(linkedList *self, elementOfList *element,
+					bool (*equalityFunc)(elementOfList *, elementOfList *));
 
-Element *getElementByIndex(LinkedList *self, int index);
+elementOfList *getElementByIndex(linkedList *self, int index);
 
-void replaceElementByIndex(LinkedList *self, Element *element, int index);
+void replaceElementByIndex(linkedList *self, elementOfList *element, int index);
 
-void removeElement(LinkedList *self, Element *element,
-				   bool (*equalityFunc)(Element *, Element *));
+void removeElement(linkedList *self, elementOfList *element,
+				   bool (*equalityFunc)(elementOfList *, elementOfList *));
