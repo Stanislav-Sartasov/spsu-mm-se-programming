@@ -140,7 +140,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bmpEditor.c" />
-    <ClCompile Include="bmpEditor32.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>

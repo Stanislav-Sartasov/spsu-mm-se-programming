@@ -1,20 +1,8 @@
 #define _CRT_NO_SECURE_WARNINGS
 
 #include <stdio.h>
-
-struct rgb
-{
-	unsigned char blue;
-	unsigned char green;
-	unsigned char red;
-};
-
-struct img
-{
-	int height;
-	int width;
-	struct rgb** rgb;
-};
+#include <stdlib.h>
+#include <string.h>
 
 struct bmpHeader
 {
@@ -43,53 +31,41 @@ struct bmpInfoHeader
 
 struct argb
 {
-	unsigned char alpha;
 	unsigned char blue;
 	unsigned char green;
 	unsigned char red;
+	unsigned char alpha;
 };
 
-struct img32
+struct img
 {
 	int height;
 	int width;
 	struct argb** argb;
 };
 
-int min(int a, int b);
+int cmp(unsigned char* x, unsigned char* y);
 
-int cmp(int* x, int* y);
+FILE* fileOpen(const char* fileName, const char* mode);
 
-unsigned char grayScale(struct rgb rgb);
+void fileWrite(const void* buf, size_t elemSize, size_t elemCount, FILE* stream);
 
-void medianFilter(struct img* picture);
+void fileRead(void* buf, size_t elemSize, size_t elemCount, FILE* stream);
 
-void sobelXFilter(struct img* picture);
+void applyMedianFilter(struct img picture, struct argb** cur);
 
-void sobelYFilter(struct img* picture);
+void applySobelXFilter(struct img picture, struct argb** cur);
 
-void gaussFilter(struct img* picture);
+void applySobelYFilter(struct img picture, struct argb** cur);
 
-void grayFilter(struct img* picture);
+void applyGaussFilter(struct img picture, struct argb** cur);
 
-struct img readImage(FILE* fp, int height, int width);
+void applyGrayFilter(struct img* picture);
 
-void writeImage(struct bmpHeader header, struct bmpInfoHeader headerInfo, struct img picture, char** argv);
+void applyFilter(struct img* picture, char* filterName);
 
-int cmp(int* x, int* y);
+struct img readImage(FILE* fp, int height, int width, unsigned short int numberBitsPerPixel);
 
-unsigned char grayScale32(struct argb argb);
+void writeImage(struct bmpHeader header, struct bmpInfoHeader headerInfo, struct img picture, char** argv, unsigned short int numberBitsPerPixel);
 
-void medianFilter32(struct img32* picture);
-
-void sobelXFilter32(struct img32* picture);
-
-void sobelYFilter32(struct img32* picture);
-
-void gaussFilter32(struct img32* picture);
-
-void grayFilter32(struct img32* picture);
-
-struct img32 readImage32(FILE* fp, int height, int width);
-
-void writeImage32(struct bmpHeader header, struct bmpInfoHeader headerInfo, struct img32 picture, char** argv);
+void readHeaders(FILE* fp, struct bmpHeader* header, struct bmpInfoHeader* headerInfo);
