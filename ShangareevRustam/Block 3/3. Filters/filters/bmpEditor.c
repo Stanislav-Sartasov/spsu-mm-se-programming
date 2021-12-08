@@ -40,122 +40,98 @@ int cmp(unsigned char* x, unsigned char* y)
 	return (int)*x - *y;
 }
 
-void applyMedianFilter(struct img picture, struct argb** cur)
+void applyMedianFilter(struct img picture, struct argb** cur, int i, int j)
 {
-	for (int i = 1; i < picture.height - 1; i++)
-	{
-		for (int j = 1; j < picture.width - 1; j++)
-		{
-			unsigned char reds[] = { picture.argb[i - 1][j - 1].red, picture.argb[i - 1][j].red,
-				picture.argb[i][j - 1].red, picture.argb[i][j + 1].red, picture.argb[i + 1][j - 1].red,
-				picture.argb[i + 1][j].red, picture.argb[i + 1][j + 1].red, picture.argb[i - 1][j + 1].red, picture.argb[i][j].red };
-			unsigned char blues[] = { picture.argb[i - 1][j - 1].blue, picture.argb[i - 1][j].blue,
-				picture.argb[i][j - 1].blue, picture.argb[i][j + 1].blue, picture.argb[i + 1][j - 1].blue,
-				picture.argb[i + 1][j].blue, picture.argb[i + 1][j + 1].blue, picture.argb[i - 1][j + 1].blue, picture.argb[i][j].blue };
-			unsigned char greens[] = { picture.argb[i - 1][j - 1].green, picture.argb[i - 1][j].green,
-				picture.argb[i][j - 1].green, picture.argb[i][j + 1].green,
-				picture.argb[i + 1][j - 1].green, picture.argb[i + 1][j].green,
-				picture.argb[i + 1][j + 1].green, picture.argb[i - 1][j + 1].green, picture.argb[i][j].green };
-			unsigned char alphas[] = { picture.argb[i - 1][j - 1].alpha, picture.argb[i - 1][j].alpha,
-				picture.argb[i][j - 1].alpha, picture.argb[i][j + 1].alpha,
-				picture.argb[i + 1][j - 1].alpha, picture.argb[i + 1][j].alpha,
-				picture.argb[i + 1][j + 1].alpha, picture.argb[i - 1][j + 1].alpha, picture.argb[i][j].alpha };
-			qsort(blues, 9, 1, cmp);
-			qsort(reds, 9, 1, cmp);
-			qsort(greens, 9, 1, cmp);
-			qsort(alphas, 9, 1, cmp);
-			cur[i][j].blue = blues[4];
-			cur[i][j].red = reds[4];
-			cur[i][j].green = greens[4];
-			cur[i][j].alpha = alphas[4];
-		}
-	}
+	unsigned char reds[] = { picture.argb[i - 1][j - 1].red, picture.argb[i - 1][j].red,
+		picture.argb[i][j - 1].red, picture.argb[i][j + 1].red, picture.argb[i + 1][j - 1].red,
+		picture.argb[i + 1][j].red, picture.argb[i + 1][j + 1].red, picture.argb[i - 1][j + 1].red, picture.argb[i][j].red };
+	unsigned char blues[] = { picture.argb[i - 1][j - 1].blue, picture.argb[i - 1][j].blue,
+		picture.argb[i][j - 1].blue, picture.argb[i][j + 1].blue, picture.argb[i + 1][j - 1].blue,
+		picture.argb[i + 1][j].blue, picture.argb[i + 1][j + 1].blue, picture.argb[i - 1][j + 1].blue, picture.argb[i][j].blue };
+	unsigned char greens[] = { picture.argb[i - 1][j - 1].green, picture.argb[i - 1][j].green,
+		picture.argb[i][j - 1].green, picture.argb[i][j + 1].green,
+		picture.argb[i + 1][j - 1].green, picture.argb[i + 1][j].green,
+		picture.argb[i + 1][j + 1].green, picture.argb[i - 1][j + 1].green, picture.argb[i][j].green };
+	unsigned char alphas[] = { picture.argb[i - 1][j - 1].alpha, picture.argb[i - 1][j].alpha,
+		picture.argb[i][j - 1].alpha, picture.argb[i][j + 1].alpha,
+		picture.argb[i + 1][j - 1].alpha, picture.argb[i + 1][j].alpha,
+		picture.argb[i + 1][j + 1].alpha, picture.argb[i - 1][j + 1].alpha, picture.argb[i][j].alpha };
+	qsort(blues, 9, 1, cmp);
+	qsort(reds, 9, 1, cmp);
+	qsort(greens, 9, 1, cmp);
+	qsort(alphas, 9, 1, cmp);
+	cur[i][j].blue = blues[4];
+	cur[i][j].red = reds[4];
+	cur[i][j].green = greens[4];
+	cur[i][j].alpha = alphas[4];
 }
 
-void applySobelXFilter(struct img picture, struct argb** cur)
+void applySobelXFilter(struct img picture, struct argb** cur, int i, int j)
 {
-	for (int i = 1; i < picture.height - 1; i++)
-	{
-		for (int j = 1; j < picture.width - 1; j++)
-		{
-			cur[i][j].blue = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].blue
-				+ 2 * (int)picture.argb[i][j - 1].blue + (int)picture.argb[i + 1][j - 1].blue
-				- (int)picture.argb[i - 1][j + 1].blue - 2 * (int)picture.argb[i][j + 1].blue
-				- (int)picture.argb[i + 1][j + 1].blue));
-			cur[i][j].green = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].green
-				+ 2 * (int)picture.argb[i][j - 1].green + (int)picture.argb[i + 1][j - 1].green
-				- (int)picture.argb[i - 1][j + 1].green - 2 * (int)picture.argb[i][j + 1].green
-				- (int)picture.argb[i + 1][j + 1].green));
-			cur[i][j].red = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].red
-				+ 2 * (int)picture.argb[i][j - 1].red + (int)picture.argb[i + 1][j - 1].red
-				- (int)picture.argb[i - 1][j + 1].red - 2 * (int)picture.argb[i][j + 1].red
-				- (int)picture.argb[i + 1][j + 1].red));
-			cur[i][j].alpha = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].alpha
-				+ 2 * (int)picture.argb[i][j - 1].alpha + (int)picture.argb[i + 1][j - 1].alpha
-				- (int)picture.argb[i - 1][j + 1].alpha - 2 * (int)picture.argb[i][j + 1].alpha
-				- (int)picture.argb[i + 1][j + 1].alpha));
-			cur[i][j].blue = cur[i][j].green = cur[i][j].red = cur[i][j].alpha
-				= (unsigned char)(0.1 * cur[i][j].blue + 0.6 * cur[i][j].green + 0.3 * cur[i][j].red);
-		}
-	}
+	cur[i][j].blue = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].blue
+		+ 2 * (int)picture.argb[i][j - 1].blue + (int)picture.argb[i + 1][j - 1].blue
+		- (int)picture.argb[i - 1][j + 1].blue - 2 * (int)picture.argb[i][j + 1].blue
+		- (int)picture.argb[i + 1][j + 1].blue));
+	cur[i][j].green = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].green
+		+ 2 * (int)picture.argb[i][j - 1].green + (int)picture.argb[i + 1][j - 1].green
+		- (int)picture.argb[i - 1][j + 1].green - 2 * (int)picture.argb[i][j + 1].green
+		- (int)picture.argb[i + 1][j + 1].green));
+	cur[i][j].red = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].red
+		+ 2 * (int)picture.argb[i][j - 1].red + (int)picture.argb[i + 1][j - 1].red
+		- (int)picture.argb[i - 1][j + 1].red - 2 * (int)picture.argb[i][j + 1].red
+		- (int)picture.argb[i + 1][j + 1].red));
+	cur[i][j].alpha = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].alpha
+		+ 2 * (int)picture.argb[i][j - 1].alpha + (int)picture.argb[i + 1][j - 1].alpha
+		- (int)picture.argb[i - 1][j + 1].alpha - 2 * (int)picture.argb[i][j + 1].alpha
+		- (int)picture.argb[i + 1][j + 1].alpha));
+	cur[i][j].blue = cur[i][j].green = cur[i][j].red = cur[i][j].alpha
+		= (unsigned char)(0.1 * cur[i][j].blue + 0.6 * cur[i][j].green + 0.3 * cur[i][j].red);
 }
 
-void applySobelYFilter(struct img picture, struct argb** cur)
+void applySobelYFilter(struct img picture, struct argb** cur, int i, int j)
 {
-	for (int i = 1; i < picture.height - 1; i++)
-	{
-		for (int j = 1; j < picture.width - 1; j++)
-		{
-			cur[i][j].blue = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].blue
-				+ 2 * (int)picture.argb[i - 1][j].blue + (int)picture.argb[i - 1][j + 1].blue
-				- (int)picture.argb[i + 1][j - 1].blue - 2 * (int)picture.argb[i + 1][j].blue
-				- (int)picture.argb[i + 1][j + 1].blue));
-			cur[i][j].green = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].green
-				+ 2 * (int)picture.argb[i - 1][j].green + (int)picture.argb[i - 1][j + 1].green
-				- (int)picture.argb[i + 1][j - 1].green - 2 * (int)picture.argb[i + 1][j].green
-				- (int)picture.argb[i + 1][j + 1].green));
-			cur[i][j].red = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].red
-				+ 2 * (int)picture.argb[i - 1][j].red + (int)picture.argb[i - 1][j + 1].red
-				- (int)picture.argb[i + 1][j - 1].red - 2 * (int)picture.argb[i + 1][j].red
-				- (int)picture.argb[i + 1][j + 1].red));
-			cur[i][j].alpha = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].alpha
-				+ 2 * (int)picture.argb[i - 1][j].alpha + (int)picture.argb[i - 1][j + 1].alpha
-				- (int)picture.argb[i + 1][j - 1].alpha - 2 * (int)picture.argb[i + 1][j].alpha
-				- (int)picture.argb[i + 1][j + 1].alpha));
-			cur[i][j].blue = cur[i][j].green = cur[i][j].red = cur[i][j].alpha
-				= (unsigned char)(0.1 * cur[i][j].blue + 0.6 * cur[i][j].green + 0.3 * cur[i][j].red);
-		}
-	}
+	cur[i][j].blue = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].blue
+		+ 2 * (int)picture.argb[i - 1][j].blue + (int)picture.argb[i - 1][j + 1].blue
+		- (int)picture.argb[i + 1][j - 1].blue - 2 * (int)picture.argb[i + 1][j].blue
+		- (int)picture.argb[i + 1][j + 1].blue));
+	cur[i][j].green = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].green
+		+ 2 * (int)picture.argb[i - 1][j].green + (int)picture.argb[i - 1][j + 1].green
+		- (int)picture.argb[i + 1][j - 1].green - 2 * (int)picture.argb[i + 1][j].green
+		- (int)picture.argb[i + 1][j + 1].green));
+	cur[i][j].red = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].red
+		+ 2 * (int)picture.argb[i - 1][j].red + (int)picture.argb[i - 1][j + 1].red
+		- (int)picture.argb[i + 1][j - 1].red - 2 * (int)picture.argb[i + 1][j].red
+		- (int)picture.argb[i + 1][j + 1].red));
+	cur[i][j].alpha = (unsigned char)min(255, abs((int)picture.argb[i - 1][j - 1].alpha
+		+ 2 * (int)picture.argb[i - 1][j].alpha + (int)picture.argb[i - 1][j + 1].alpha
+		- (int)picture.argb[i + 1][j - 1].alpha - 2 * (int)picture.argb[i + 1][j].alpha
+		- (int)picture.argb[i + 1][j + 1].alpha));
+	cur[i][j].blue = cur[i][j].green = cur[i][j].red = cur[i][j].alpha
+		= (unsigned char)(0.1 * cur[i][j].blue + 0.6 * cur[i][j].green + 0.3 * cur[i][j].red);
 }
 
-void applyGaussFilter(struct img picture, struct argb** cur)
+void applyGaussFilter(struct img picture, struct argb** cur, int i, int j)
 {
-	for (int i = 1; i < picture.height - 1; i++)
-	{
-		for (int j = 1; j < picture.width - 1; j++)
-		{
-			cur[i][j].blue = (unsigned char)(((int)picture.argb[i - 1][j - 1].blue
-				+ 2 * (int)picture.argb[i - 1][j].blue + (int)picture.argb[i - 1][j + 1].blue
-				+ 2 * (int)picture.argb[i][j - 1].blue + 4 * (int)picture.argb[i][j].blue
-				+ 2 * (int)picture.argb[i][j + 1].blue + (int)picture.argb[i + 1][j - 1].blue
-				+ 2 * (int)picture.argb[i + 1][j].blue + (int)picture.argb[i + 1][j + 1].blue) / 16);
-			cur[i][j].green = (unsigned char)(((int)picture.argb[i - 1][j - 1].green
-				+ 2 * (int)picture.argb[i - 1][j].green + (int)picture.argb[i - 1][j + 1].green
-				+ 2 * (int)picture.argb[i][j - 1].green + 4 * (int)picture.argb[i][j].green
-				+ 2 * (int)picture.argb[i][j + 1].green + (int)picture.argb[i + 1][j - 1].green
-				+ 2 * (int)picture.argb[i + 1][j].green + (int)picture.argb[i + 1][j + 1].green) / 16);
-			cur[i][j].red = (unsigned char)(((int)picture.argb[i - 1][j - 1].red
-				+ 2 * (int)picture.argb[i - 1][j].red + (int)picture.argb[i - 1][j + 1].red
-				+ 2 * (int)picture.argb[i][j - 1].red + 4 * (int)picture.argb[i][j].red
-				+ 2 * (int)picture.argb[i][j + 1].red + (int)picture.argb[i + 1][j - 1].red
-				+ 2 * (int)picture.argb[i + 1][j].red + (int)picture.argb[i + 1][j + 1].red) / 16);
-			cur[i][j].alpha = (unsigned char)(((int)picture.argb[i - 1][j - 1].alpha
-				+ 2 * (int)picture.argb[i - 1][j].alpha + (int)picture.argb[i - 1][j + 1].alpha
-				+ 2 * (int)picture.argb[i][j - 1].alpha + 4 * (int)picture.argb[i][j].alpha
-				+ 2 * (int)picture.argb[i][j + 1].alpha + (int)picture.argb[i + 1][j - 1].alpha
-				+ 2 * (int)picture.argb[i + 1][j].alpha + (int)picture.argb[i + 1][j + 1].alpha) / 16);
-		}
-	}
+	cur[i][j].blue = (unsigned char)(((int)picture.argb[i - 1][j - 1].blue
+		+ 2 * (int)picture.argb[i - 1][j].blue + (int)picture.argb[i - 1][j + 1].blue
+		+ 2 * (int)picture.argb[i][j - 1].blue + 4 * (int)picture.argb[i][j].blue
+		+ 2 * (int)picture.argb[i][j + 1].blue + (int)picture.argb[i + 1][j - 1].blue
+		+ 2 * (int)picture.argb[i + 1][j].blue + (int)picture.argb[i + 1][j + 1].blue) / 16);
+	cur[i][j].green = (unsigned char)(((int)picture.argb[i - 1][j - 1].green
+		+ 2 * (int)picture.argb[i - 1][j].green + (int)picture.argb[i - 1][j + 1].green
+		+ 2 * (int)picture.argb[i][j - 1].green + 4 * (int)picture.argb[i][j].green
+		+ 2 * (int)picture.argb[i][j + 1].green + (int)picture.argb[i + 1][j - 1].green
+		+ 2 * (int)picture.argb[i + 1][j].green + (int)picture.argb[i + 1][j + 1].green) / 16);
+	cur[i][j].red = (unsigned char)(((int)picture.argb[i - 1][j - 1].red
+		+ 2 * (int)picture.argb[i - 1][j].red + (int)picture.argb[i - 1][j + 1].red
+		+ 2 * (int)picture.argb[i][j - 1].red + 4 * (int)picture.argb[i][j].red
+		+ 2 * (int)picture.argb[i][j + 1].red + (int)picture.argb[i + 1][j - 1].red
+		+ 2 * (int)picture.argb[i + 1][j].red + (int)picture.argb[i + 1][j + 1].red) / 16);
+	cur[i][j].alpha = (unsigned char)(((int)picture.argb[i - 1][j - 1].alpha
+		+ 2 * (int)picture.argb[i - 1][j].alpha + (int)picture.argb[i - 1][j + 1].alpha
+		+ 2 * (int)picture.argb[i][j - 1].alpha + 4 * (int)picture.argb[i][j].alpha
+		+ 2 * (int)picture.argb[i][j + 1].alpha + (int)picture.argb[i + 1][j - 1].alpha
+		+ 2 * (int)picture.argb[i + 1][j].alpha + (int)picture.argb[i + 1][j + 1].alpha) / 16);
 }
 
 void applyGrayFilter(struct img* picture)
@@ -182,33 +158,39 @@ void applyFilter(struct img* picture, char* filterName)
 	}
 	else
 	{
-		if (!strcmp(filterName, "median"))
+		for (int i = 1; i < picture->height - 1; i++)
 		{
-			applyMedianFilter(*picture, cur);
-		}
-		else if (!strcmp(filterName, "gauss"))
-		{
-			applyGaussFilter(*picture, cur);
-		}
-		else if (!strcmp(filterName, "sobelX"))
-		{
-			applySobelXFilter(*picture, cur);
-		}
-		else if (!strcmp(filterName, "sobelY"))
-		{
-			applySobelYFilter(*picture, cur);
-		}
-		else
-		{
-			printf("Incorrect filter format entered!\n");
-			printf("Types of input filters:\n"
-				"3x3 averaging filter <=> median\n"
-				"3x3 Gaussian averaging filter <=> gauss\n"
-				"Sobel filter on X <=> sobelX\n"
-				"Sobel filter by Y <=> sobelY\n"
-				"Converting an image from color to grayscale <=> gray\n");
-			printf("Re-enter as <program name> <input file> <filter type> <output file>\n");
-			exit(-1);
+			for (int j = 1; j < picture->width - 1; j++)
+			{
+				if (!strcmp(filterName, "median"))
+				{
+					applyMedianFilter(*picture, cur, i, j);
+				}
+				else if (!strcmp(filterName, "gauss"))
+				{
+					applyGaussFilter(*picture, cur, i, j);
+				}
+				else if (!strcmp(filterName, "sobelX"))
+				{
+					applySobelXFilter(*picture, cur, i, j);
+				}
+				else if (!strcmp(filterName, "sobelY"))
+				{
+					applySobelYFilter(*picture, cur, i, j);
+				}
+				else
+				{
+					printf("Incorrect filter format entered!\n");
+					printf("Types of input filters:\n"
+						"3x3 averaging filter <=> median\n"
+						"3x3 Gaussian averaging filter <=> gauss\n"
+						"Sobel filter on X <=> sobelX\n"
+						"Sobel filter by Y <=> sobelY\n"
+						"Converting an image from color to grayscale <=> gray\n");
+					printf("Re-enter as <program name> <input file> <filter type> <output file>\n");
+					exit(-1);
+				}
+			}
 		}
 		for (int j = 0; j < picture->width; j++)
 		{

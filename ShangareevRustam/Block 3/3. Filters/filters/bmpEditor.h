@@ -52,13 +52,13 @@ void fileWrite(const void* buf, size_t elemSize, size_t elemCount, FILE* stream)
 
 void fileRead(void* buf, size_t elemSize, size_t elemCount, FILE* stream);
 
-void applyMedianFilter(struct img picture, struct argb** cur);
+void applyMedianFilter(struct img picture, struct argb** cur, int i, int j);
 
-void applySobelXFilter(struct img picture, struct argb** cur);
+void applySobelXFilter(struct img picture, struct argb** cur, int i, int j);
 
-void applySobelYFilter(struct img picture, struct argb** cur);
+void applySobelYFilter(struct img picture, struct argb** cur, int i, int j);
 
-void applyGaussFilter(struct img picture, struct argb** cur);
+void applyGaussFilter(struct img picture, struct argb** cur, int i, int j);
 
 void applyGrayFilter(struct img* picture);
 
