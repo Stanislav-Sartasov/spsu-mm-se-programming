@@ -11,6 +11,12 @@ int main(int argc, char* argv[])
 
 	printf("This program applies to input 24 or 32 bit BMP image one of median, gauss, sobelX, sobelY, grayscale filters.\n\n");
 
+	if (argc != 4)
+	{
+		printf("Input error. Please, enter data in following order: program name, input file, filter name, output file\n\n");
+		return -1;
+	}
+	
 	if (strcmp(argv[2], "median") != 0 && strcmp(argv[2], "gauss") != 0 && strcmp(argv[2], "sobelX") != 0 && strcmp(argv[2], "sobelY") != 0 && strcmp(argv[2], "grayscale") != 0)
 	{
 		printf("There is only median, gauss, sobelX, sobelY and grayscale filters");
@@ -28,12 +34,15 @@ int main(int argc, char* argv[])
 	if (header.biBitCount != 32 && header.biBitCount != 24)
 	{
 		printf("Unsupported bitness of image.");
+		fclose(inputFile);
+		return -1;
 	}
 
 	FILE* outputFile = fopen(argv[3], "wb");
 	if (outputFile == NULL)
 	{
 		printf("Unable to create output file.");
+		fclose(inputFile);
 		return -1;
 	}
 	BYTE headerFull[HEADER_SIZE];

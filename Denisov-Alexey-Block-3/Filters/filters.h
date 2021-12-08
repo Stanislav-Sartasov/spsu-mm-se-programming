@@ -13,6 +13,8 @@ void sobelY(BYTE**** image, bmpHeader header, int myWidth, int channels);
 
 void greyscale(BYTE**** image, bmpHeader header, int myWidth, int channels);
 
+void convolution(BYTE**** image, bmpHeader header, int myWidth, int channels, double kernel[9]);
+
 int cmp(const void* p1, const void* p2);
 
 #endif // FILTERS
