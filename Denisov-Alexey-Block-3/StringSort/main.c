@@ -28,16 +28,37 @@ int main(int argc, char* argv[])
 {
 	printf("This program gets an input file and writes in a new output file sorted strings from the input file.\n\n");
 
+	if (argc != 3)
+	{
+		printf("Input error. Please, specify paths of an input and output files.\n\n");
+		return -1;
+	}
+
 	int input = open(argv[1], O_RDWR);
 	if (input < 0)
 	{
 		printf("\nUnable to open the input file for reading\n\n");
-		return 0;
+		return -1;
+	}
+
+	int output = open(argv[2], O_RDWR | O_CREAT | O_TRUNC);
+	if (output < 0)
+	{
+		printf("\nUnable to open the output file for writing\n\n");
+		close(input);
+		return -1;
 	}
 
 	struct stat st;
 	fstat(input, &st);
 	char* map = mmap(NULL, st.st_size, PROT_READ | PROT_WRITE, MAP_PRIVATE, input, 0);
+	if (map == MAP_FAILED)
+	{
+		printf("Mapping error.\n\n");
+		close(input);
+		close(output);
+		return -1;
+	}
 
 	int kStr = 1;
 	for (int i = 0; i < st.st_size; i++)
@@ -63,13 +84,6 @@ int main(int argc, char* argv[])
 
 	qsort(arrStr, kStr, sizeof(char*), cmpStr);
 
-	int output = open(argv[2], O_RDWR | O_CREAT | O_TRUNC);
-	if (output < 0)
-	{
-		printf("\nUnable to open the output file for writing\n\n");
-		return 0;
-	}
-
 	for (int i = 0; i < kStr; i++)
 	{
 		write(output, arrStr[i], currLen(arrStr[i]));
@@ -78,6 +92,10 @@ int main(int argc, char* argv[])
 
 	close(input);
 	munmap(map, st.st_size);
+	for (int i = 0; i < kStr; i++)
+	{
+		free(arrStr[i]);
+	}
 	free(arrStr);
 	close(output);
 
