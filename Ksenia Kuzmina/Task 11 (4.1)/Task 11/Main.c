@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define SIZE (1 + (log(3) / log(16)) * 5000) // number of digits in the number
+#define SIZE 1985
 
 void multiply(int* big_int, int number, int length)
 {
