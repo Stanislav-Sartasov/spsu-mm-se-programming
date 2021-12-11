@@ -2,8 +2,9 @@
 #define TASK_2_MEMORY_MANAGER_H
 
 #include <stdlib.h>
+#include <string.h>
 
-#define INITIAL_SIZE 1000
+#define INITIAL_SIZE 8192
 
 typedef struct memory_manager_block
 {
@@ -16,8 +17,6 @@ void init();
 void free_memory();
 
 void *my_malloc(size_t size);
-
-void *my_calloc(size_t nmemb, size_t size);
 
 void *my_realloc(void *ptr, size_t size);
 
