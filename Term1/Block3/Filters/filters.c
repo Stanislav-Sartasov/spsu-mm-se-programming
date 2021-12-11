@@ -6,6 +6,34 @@ int comparator(const void* a, const void* b)
 	return *(int*)a - *(int*)b;
 }
 
+void convolution(unsigned char** image, int height, int width, int bps, double* kernel)
+{
+	unsigned char** new = (unsigned char**)malloc(height * sizeof(unsigned char*));
+	for (int i = 0; i < height; i++)
+		new[i] = (unsigned char*)malloc(width * sizeof(unsigned char));
+
+	double res = 0;
+	for (int color = 0; color < 3; color++)
+		for (int row = 1; row < height - 1; row++)
+			for (int col = color + bps; col < width - bps; col += bps)
+			{
+				for (int y = 0; y < 3; y++)
+					for (int x = 0; x < 3; x ++)
+					{
+						res += image[row + y - 1][col + (x - 1) * bps] * kernel[y * 3 + x];
+					}
+				new[row][col] = (unsigned char)min(255, max(0, res));
+				res = 0;
+			}
+
+	for (int i = 0; i < height; i++)
+	{
+		for (int j = 0; j < width; j++)
+			image[i][j] = new[i][j];
+		free(new[i]);
+	}
+	free(new);
+}
 
 void grey(unsigned char** image, int height, int width, int bps)
 {
@@ -42,61 +70,49 @@ void median(unsigned char** image, int height, int width, int bps)
 
 void gauss(unsigned char** image, int height, int width, int bps)
 {
-	int matrix[3][3] = { { 1, 2, 1 }, { 2, 4, 2 }, { 1, 2, 1 } };
-	int r = 0, g = 0, b = 0;
-	for (int row = 1; row < height - 1; row++)
-		for (int col = bps; col < width - bps; col += bps)
-		{
-			for (int y = -1; y < 2; y++)
-				for (int x = -1; x < 2; x++)
-				{
-					r += image[row + y][col + x * bps] * matrix[y + 1][x + 1];
-					g += image[row + y][col + x * bps + 1] * matrix[y + 1][x + 1];
-					b += image[row + y][col + x * bps + 2] * matrix[y + 1][x + 1];
-				}
-			image[row][col] = (unsigned char)(r / 16);
-			image[row][col + 1] = (unsigned char)(g / 16);
-			image[row][col + 2] = (unsigned char)(b / 16);
-			r = g = b = 0;
-		}
+	double kernel[9] = { 1.0 / 16, 2.0 / 16, 1.0 / 16, 2.0 / 16, 4.0 / 16, 2.0 / 16, 1.0 / 16, 2.0 / 16, 1.0 / 16 };
+	convolution(image, height, width, bps, kernel);
 }
 
-void sobel(unsigned char** image, int height, int width, int bps, char flag)
+void sobelx(unsigned char** image, int height, int width, int bps)
 {
 	grey(image, height, width, bps);
+	double kernel[9] = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+	convolution(image, height, width, bps, kernel);
+}
 
-	int mx[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
-	int my[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
-	
-	unsigned char** new = (unsigned char**)malloc(height * sizeof(unsigned char*));
+void sobely(unsigned char** image, int height, int width, int bps)
+{
+	grey(image, height, width, bps);
+	double kernel[9] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
+	convolution(image, height, width, bps, kernel);
+}
+
+void sobel(unsigned char** image, int height, int width, int bps)
+{
+	unsigned char** sx = (unsigned char**)malloc(height * sizeof(unsigned char*));
+	unsigned char** sy = (unsigned char**)malloc(height * sizeof(unsigned char*));
 	for (int i = 0; i < height; i++)
-		new[i] = (unsigned char*)malloc(width * sizeof(unsigned char));
+	{
+		sx[i] = (unsigned char*)malloc(width * sizeof(unsigned char));
+		sy[i] = (unsigned char*)malloc(width * sizeof(unsigned char));
+		for (int j = 0; j < width; j++)
+		{
+			sx[i][j] = image[i][j];
+			sy[i][j] = image[i][j];
+		}
+	}
 
-	int rx = 0, ry = 0;
-	for (int color = 0; color < 3; color++)
-		for (int row = 1; row < height - 1; row++)
-			for (int col = color + bps; col < width - bps; col += bps)
-			{
-				for (int y = row - 1; y < row + 2; y++)
-					for (int x = col - bps; x < col + bps + 1; x += bps)
-					{
-						rx += image[y][x] * mx[y - row + 1][(x - col) / bps + 1];
-						ry += image[y][x] * my[y - row + 1][(x - col) / bps + 1];
-					}
-				if (flag == 'Y')
-					new[row][col] = (unsigned char)min(255, max(ry, 0));
-				else if (flag == 'X')
-					new[row][col] = (unsigned char)min(255, max(rx, 0));
-				else
-					new[row][col] = (unsigned char)min(255, max((int)sqrt(ry * ry + rx * rx), 0));
-				rx = ry = 0;
-			}
-
+	sobelx(sx, height, width, bps);
+	sobely(sy, height, width, bps);
+	
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
-			image[i][j] = new[i][j];
-		free(new[i]);
+			image[i][j] = (unsigned char)min(255, sqrt(sx[i][j] * sx[i][j] + sy[i][j] * sy[i][j]));
+		free(sx[i]);
+		free(sy[i]);
 	}
-	free(new);
+	free(sx);
+	free(sy);
 }

@@ -101,11 +101,11 @@ int applyFilter(unsigned char** image, int height, int width, int bps, char* fil
 	else if (!strcmp(filter, "gauss"))
 		gauss(image, height, width, bps);
 	else if (!strcmp(filter, "sobel"))
-		sobel(image, height, width, bps, '0');
+		sobel(image, height, width, bps);
 	else if (!strcmp(filter, "sobelx"))
-		sobel(image, height, width, bps, 'X');
+		sobelx(image, height, width, bps);
 	else if (!strcmp(filter, "sobely"))
-		sobel(image, height, width, bps, 'Y');
+		sobely(image, height, width, bps);
 	else
 	{
 		printf("Incorrect filter name");
