@@ -42,7 +42,7 @@ int checkNumber(int message)
 
 void releaseMem(char* arr[])
 {
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 	{
 		free(arr[i]);
 		arr[i] = NULL;
@@ -55,25 +55,25 @@ int main()
 	unsigned int coins[8] = {1, 2, 5, 10, 20, 50, 100, 200};
 	unsigned int bank;
 	unsigned long long** way = (unsigned long long**)malloc(8 * sizeof(unsigned long long*));
-
 	bank = checkNumber("");
-	for (int i = 0; i < 8; i++)
+
+	for (int i = 0; i < 8; ++i)
 	{
 		way[i] = (unsigned long long*)malloc(bank * sizeof(unsigned long long));
 	}
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; ++i)
 	{
-		for (int j = 0; j < bank; j++)
+		for (int j = 0; j < bank; ++j)
 		{
 			way[i][0] = 1;
 			way[0][j] = 1;
 		}
 	}
 
-	for (int i = 1; i < 8; i++)
+	for (int i = 1; i < 8; ++i)
 	{
-		for (int j = 1; j < bank; j++)
+		for (int j = 1; j < bank; ++j)
 		{
 			if (j < coins[i])
 				way[i][j] = way[i - 1][j];
@@ -82,9 +82,7 @@ int main()
 		}
 	}
 
-
 	printf("There are %llu ways of exchange for inputed amount", way[7][bank - 1]);
-
 	releaseMem(way);
 	free(way);
 	return 0;
