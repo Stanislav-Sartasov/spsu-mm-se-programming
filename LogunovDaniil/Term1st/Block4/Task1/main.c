@@ -3,16 +3,24 @@
 #include <string.h>
 
 #define SUBNUM (16)
-#define NUM_MAX (SUBNUM * SUBNUM * SUBNUM)
+#define NUM_MAX (8)
+
+unsigned long long numeralBase()
+{
+	unsigned long long base = 1;
+	for (int i = 0; i < NUM_MAX; i++)
+		base *= SUBNUM;
+	return base;
+}
 
 struct integer
 {
 	int size;
-	int* numerals;
+	unsigned int* numerals;
 };
 typedef struct integer integer;
 
-char lastDigit(int x)
+char lastDigit(unsigned int x)
 {
 	x %= SUBNUM;
 	if (x < 10)
@@ -20,24 +28,26 @@ char lastDigit(int x)
 	return 'a' + x - 10;
 }
 
-void numeralToString(int n, char* str)
+void numeralToString(unsigned int n, char* str)
 {
-	str[0] = lastDigit(n / SUBNUM / SUBNUM);
-	str[1] = lastDigit(n / SUBNUM);
-	str[2] = lastDigit(n);
+	for (int i = NUM_MAX - 1; i > -1; i--)
+	{
+		str[i] = lastDigit(n);
+		n /= SUBNUM;
+	}
 }
 
 void integerToString(integer* num, char* str)
 {
 	for (int i = num->size - 1; i > -1; i--)
 	{
-		numeralToString(num->numerals[i], str + (num->size - i - 1) * 3);
+		numeralToString(num->numerals[i], str + (num->size - i - 1) * NUM_MAX);
 	}
 }
 
 void integerPrint(integer* num)
 {
-	char* print = calloc(num->size * 3 + 1, sizeof(char));
+	char* print = calloc(num->size * NUM_MAX + 1, sizeof(char));
 	if (print == NULL)
 	{
 		printf("error");
@@ -45,7 +55,7 @@ void integerPrint(integer* num)
 	}
 	integerToString(num, print);
 	int nonZero = 0;
-	while (nonZero < num->size * 3 - 1 && print[nonZero] == '0')
+	while (nonZero < num->size * NUM_MAX - 1 && print[nonZero] == '0')
 		nonZero++;
 	printf("%s", print + nonZero);
 	free(print);
@@ -57,7 +67,7 @@ integer* integerCreate(int size)
 	integer* new = malloc(sizeof(integer));
 	if (new == NULL)
 		return NULL;
-	int* nums = calloc(size, sizeof(int));
+	unsigned int* nums = calloc(size, sizeof(unsigned int));
 	if (nums == NULL && size > 0)
 	{
 		free(new);
@@ -74,30 +84,12 @@ void integerDestroy(integer* toDestroy)
 	free(toDestroy);
 }
 
-int countLength(int value)
+integer* assignInteger(unsigned int value)
 {
-	int res = 0;
-	value = abs(value);
-	while (value > 0)
-	{
-		value /= NUM_MAX;
-		res++;
-	}
-	return res;
-}
-
-integer* assignInteger(int value)
-{
-	value = max(value, 0);
-	int size = countLength(value);
-	integer* new = integerCreate(size);
+	integer* new = integerCreate(1);
 	if (new == NULL)
 		return NULL;
-	for (int i = 0; i < size; i++)
-	{
-		new->numerals[i] = value % NUM_MAX;
-		value /= NUM_MAX;
-	}
+	new->numerals[0] = value;
 	return new;
 }
 
@@ -106,7 +98,7 @@ int dropHeadZeros(integer* num)
 	int nonZero = num->size - 1;
 	while (nonZero > 0 && num->numerals[nonZero] == 0)
 		nonZero--;
-	int* drop = malloc((nonZero + 1) * sizeof(int));
+	unsigned int* drop = malloc((nonZero + 1) * sizeof(unsigned int));
 	if (drop == NULL)
 		return 1;
 	for (int i = 0; i <= nonZero; i++)
@@ -117,7 +109,7 @@ int dropHeadZeros(integer* num)
 	return 0;
 }
 
-int integerGetNumeral(integer* num, int id)
+unsigned int integerGetNumeral(integer* num, int id)
 {
 	if (id >= num->size || id < 0)
 		return 0;
@@ -127,16 +119,18 @@ int integerGetNumeral(integer* num, int id)
 integer* integerMul(integer* a, integer* b)
 {
 	integer* new = integerCreate(a->size + b->size + 1);
+	unsigned long long base = numeralBase();
 	if (new == NULL)
 		return NULL;
 	for (int i = 0; i < a->size; i++)
 	{
-		int carry = 0;
+		unsigned long long carry = 0;
 		for (int j = 0; j <= b->size; j++)
 		{
-			int mul = a->numerals[i] * integerGetNumeral(b, j) + carry + new->numerals[i + j];
-			new->numerals[i + j] = mul % NUM_MAX;
-			carry = mul / NUM_MAX;
+			unsigned long long mul = (unsigned long long)a->numerals[i] * integerGetNumeral(b, j)
+				+ carry + new->numerals[i + j];
+			new->numerals[i + j] = mul % base;
+			carry = mul / base;
 		}
 	}
 	dropHeadZeros(new);
