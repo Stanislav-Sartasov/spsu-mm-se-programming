@@ -8,6 +8,8 @@
 #pragma pack(push)
 #pragma pack(1) 
 
+
+
 struct bitMapFileHeader
 {
 	unsigned char char1, char2;
@@ -40,24 +42,27 @@ void writingError()
 {
 	printf("ERROR: failed to write pixels in file.\n");
 	printf("Completing the programm.\n");
+	exit(-1);
 }
 
 int checkArguement(char* filter)
 {
 	if (!(strcmp(filter, "median"))) return 0;
-	if (!(strcmp(filter, "gauss"))) return 0;
+	if (!(strcmp(filter, "gauss3"))) return 0;
 	if (!(strcmp(filter, "sobelX"))) return 0;
 	if (!(strcmp(filter, "sobelY"))) return 0;
 	if (!(strcmp(filter, "grey"))) return 0;
+	if (!(strcmp(filter, "gauss5"))) return 0;
 	else
 	{
-		printf("ERROR: you have written the worg filter name. Filters' names:\n-Median filter 3x3 - median;\n-Gaussian filter 3x3 - gauss;\n-Sobel filter on X - sobelX;\n-Sobel filter on Y - sobelY;\n-grey filter - grey.\n\n");
+		printf("ERROR: you have written the worg filter name. Filters' names:\n-Median filter 3x3 - median;\n-Gaussian filter 3x3 - gauss3;\n-Gaussian filter 5x5 - gauss5;\n-Sobel filter on X - sobelX;\n-Sobel filter on Y - sobelY;\n-grey filter - grey.\n\n");
 		return 1;
 	}
 }
 
 int main(int argc, char* argv[])
 {
+	
 	printf("\nThe program gets a 24 or 32 bit BMP-file and applies one of the following filters:\n-Median filter 3x3 - median;\n-Gaussian filter 3x3 - gauss;\n-Sobel filter on X - sobelX;\n-Sobel filter on Y - sobelY;\n-grey filter - grey.\n\n");
 	if (argc != 4)
 	{
@@ -65,7 +70,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 	if (checkArguement(argv[2])) return -1;
-	
+
 	FILE
 		* inputFile,
 		* outputFile;
@@ -106,50 +111,63 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-	if ((image.pixels = (struct rgb*)malloc(image.height * image.width * 3)) == NULL)
+	if ((image.pixels = (struct rgb**)malloc(image.height * sizeof(struct rgb*))) == NULL)
 	{
-		printf("ERROR: failed to allocate memory.\n");
-		printf("Completing the programm.\n");
-		return -1;
+		allocationError();
+	}
+	int coefficient, added, coefficient2;
+	for (coefficient = 0; coefficient < newInfo.biHeight; coefficient++)
+	{
+		if ((image.pixels[coefficient] = (struct rgb*)malloc(image.width * sizeof(struct rgb))) == NULL)
+		{
+			allocationError();
+		}
 	}
 
 	fseek(inputFile, newHeader.bfOffBits, SEEK_SET);
-	int coefficient, added;
+
 	if (newInfo.biBitCount == 24)
 	{
 		added = (4 - ((newInfo.biWidth * 3) % 4)) % 4;
 		for (coefficient = 0; coefficient < newInfo.biHeight; coefficient++)
 		{
-			fread(&image.pixels[newInfo.biWidth * coefficient], 3 * newInfo.biWidth, 1, inputFile);
+			fread(&image.pixels[coefficient][0], 3 * newInfo.biWidth, 1, inputFile);
 			fseek(inputFile, added, SEEK_CUR);
 		}
 	}
 	else
 	{
-		for (coefficient = 0; coefficient < image.height * image.width; coefficient++)
+		for (coefficient = 0; coefficient < image.height; coefficient++)
 		{
-			fread(&image.pixels[coefficient], 3, 1, inputFile);
-			fseek(inputFile, 1, SEEK_CUR);
+			for (coefficient2 = 0; coefficient2 < image.width; coefficient2++)
+			{
+				fread(&image.pixels[coefficient][coefficient2], 3, 1, inputFile);
+				fseek(inputFile, 1, SEEK_CUR);
+			}
 		}
 	}
 
 	if (strcmp(argv[2], "median") == 0)
 	{
-		filter(&image, medianFunction);
+		filter(&image, medianFunction, 3);
 	}
-	if (strcmp(argv[2], "gauss") == 0)
+	if (strcmp(argv[2], "gauss3") == 0)
 	{
-		filter(&image, gaussFunction);
+		filter(&image, gauss3Function, 3);
+	}
+	if (strcmp(argv[2], "gauss5") == 0)
+	{
+		filter(&image, gauss5Function, 5);
 	}
 	if (strcmp(argv[2], "sobelX") == 0)
 	{
 		greyFilter(&image);
-		filter(&image, sobelXFunction);
+		filter(&image, sobelXFunction, 3);
 	}
 	if (strcmp(argv[2], "sobelY") == 0)
 	{
 		greyFilter(&image);
-		filter(&image, sobelYFunction);
+		filter(&image, sobelYFunction, 3);
 	}
 	if (strcmp(argv[2], "grey") == 0)
 	{
@@ -174,32 +192,33 @@ int main(int argc, char* argv[])
 	{
 		for (coefficient = 0; coefficient < newInfo.biHeight; coefficient++)
 		{
-			if ((fwrite(&image.pixels[newInfo.biWidth * coefficient], 3 * newInfo.biWidth, 1, outputFile)) == NULL)
+			if ((fwrite(&image.pixels[coefficient][0], 3 * newInfo.biWidth, 1, outputFile)) == NULL)
 			{
 				writingError();
-				return -1;
 			}
 			if ((fwrite(&gap, sizeof(char), added, outputFile)) == NULL && added != 0)
 			{
 				writingError();
-				return -1;
 			}
+			free(image.pixels[coefficient]);
 		}
 	}
 	else
 	{
-		for (coefficient = 0; coefficient < image.height * image.width; coefficient++)
+		for (coefficient = 0; coefficient < image.height; coefficient++)
 		{
-			if ((fwrite(&image.pixels[coefficient], 3, 1, outputFile)) == NULL)
+			for (coefficient2 = 0; coefficient2 < image.width; coefficient2++)
 			{
-				writingError();
-				return -1;
+				if ((fwrite(&image.pixels[coefficient][coefficient2], 3, 1, outputFile)) == NULL)
+				{
+					writingError();
+				}
+				if ((fwrite(&gap, sizeof(char), 1, outputFile)) == NULL)
+				{
+					writingError();
+				}
 			}
-			if ((fwrite(&gap, sizeof(char), 1, outputFile)) == NULL)
-			{
-				writingError();
-				return -1;
-			}			
+			free(image.pixels[coefficient]);
 		}
 	}
 

@@ -14,18 +14,21 @@ int compare(const int* x1, const int* x2)
 void greyFilter(struct image* image)
 {
 	double average;
-	for (int coefficient = 0; coefficient < image->height * image->width; coefficient++)
+	for (int coefficient = 0; coefficient < image->height; coefficient++)
 	{
-		average = (image->pixels[coefficient].blue + image->pixels[coefficient].green + image->pixels[coefficient].red) / 3;
-		image->pixels[coefficient].blue = (int)average;
-		image->pixels[coefficient].green = (int)average;
-		image->pixels[coefficient].red = (int)average;
+		for (int coefficient2 = 0; coefficient2 < image->width; coefficient2++)
+		{
+			average = (image->pixels[coefficient][coefficient2].blue + image->pixels[coefficient][coefficient2].green + image->pixels[coefficient][coefficient2].red) / 3;
+			image->pixels[coefficient][coefficient2].blue = (int)average;
+			image->pixels[coefficient][coefficient2].green = (int)average;
+			image->pixels[coefficient][coefficient2].red = (int)average;
+		}
 	}
 }
 
 int sobelYFunction(int* massive)
 {
-	int proportions[9] = { -1,-2,-1,0,0,0,1,2,1 };
+	int proportions[9] = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
 	int result = 0;
 	for (int coefficient = 0; coefficient < 9; coefficient++)
 	{
@@ -36,7 +39,7 @@ int sobelYFunction(int* massive)
 
 int sobelXFunction(int* massive)
 {
-	int proportions[9] = { -1,0,1,-2,0,2,-1,0,1 };
+	int proportions[9] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
 	int result = 0;
 	for (int coefficient = 0; coefficient < 9; coefficient++)
 	{
@@ -45,13 +48,24 @@ int sobelXFunction(int* massive)
 	return (int)min(255, abs(result));
 }
 
-int gaussFunction(int* massive)
+int gauss3Function(int* massive)
 {
-	int proportions[9] = { 1,2,1,2,4,2,1,2,1 };
+	int proportions[9] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
 	double result = 0;
 	for (int coefficient = 0; coefficient < 9; coefficient++)
 	{
 		result += massive[coefficient] * proportions[coefficient] / 16;
+	}
+	return (int)result;
+}
+
+int gauss5Function(int* massive)
+{
+	int proportions[25] = { 1, 4, 7, 4, 1, 4, 16, 26, 16, 4, 7, 26, 41, 26, 7, 4, 16, 26, 16, 4, 1, 4, 7, 4, 1 };
+	double result = 0;
+	for (int coefficient = 0; coefficient < 25; coefficient++)
+	{
+		result += massive[coefficient] * proportions[coefficient] / 273;
 	}
 	return (int)result;
 }
@@ -62,42 +76,86 @@ int medianFunction(int* massive)
 	return massive[4];
 }
 
-int filter(struct image* image, int (*filterFunction)(int*))
+void allocationError()
 {
-	struct rgb* buffer;
-	if ((buffer = (struct rgb*)malloc(image->height * image->width * sizeof(struct rgb))) == NULL)
+	printf("ERROR: failed to allocate memory.\n");
+	printf("Completing the programm.\n");
+	exit(-1);
+}
+
+int* memoryAllocationForRGB(int number)
+{
+	int* buffer;
+	if ((buffer = (int*)malloc(number * number * sizeof(int))) == NULL)
 	{
-		printf("ERROR: failed to allocate memory.\n");
-		printf("Completing the programm.\n");
-		return -1;
+		allocationError();
 	}
-	memcpy(buffer, image->pixels, image->height * image->width * sizeof(struct rgb));
+	return buffer;
+}
 
-	unsigned int blue[9], green[9], red[9];
-	int coef1, coef2, coef3, coef4, pix, n;
+int filter(struct image* image, int (*filterFunction)(int*), int number)
+{
+	int* blue, * green, * red;
+	blue = memoryAllocationForRGB(number);
+	green = memoryAllocationForRGB(number);
+	red = memoryAllocationForRGB(number);
 
-	for (coef1 = 1; coef1 < image->height - 1; coef1++)
+	int coef1, coef2, coef3, coef4, offset, n, row, column;
+	offset = number / 2;
+
+	struct rgb** buffer;
+	if ((buffer = (struct rgb**)malloc(image->height * sizeof(struct rgb*))) == NULL)
 	{
-		for (coef2 = 1; coef2 < image->width - 1; coef2++)
+		allocationError();
+	}
+	for (coef1 = 0; coef1 < image->height; coef1++)
+	{
+		if ((buffer[coef1] = (struct rgb*)malloc(image->width * sizeof(struct rgb))) == NULL)
 		{
-			int pix = coef1 * image->width + coef2;
+			allocationError();
+		}
+		memcpy(buffer[coef1], image->pixels[coef1], image->width * sizeof(struct rgb));
+	}
+
+	for (coef1 = 0; coef1 < image->height; coef1++)
+	{
+		for (coef2 = 0; coef2 < image->width; coef2++)
+		{
 			n = 0;
-			for (coef3 = -1; coef3 < 2; coef3++)
+			for (coef3 = -offset; coef3 < offset + 1; coef3++)
 			{
-				for (coef4 = -1; coef4 < 2; coef4++)
+				row = coef1 + coef3;
+				for (coef4 = -offset; coef4 < offset + 1; coef4++)
 				{
-					blue[n] = buffer[pix + (image->width * coef3) + coef4].blue;
-					green[n] = buffer[pix + (image->width * coef3) + coef4].green;
-					red[n] = buffer[pix + (image->width * coef3) + coef4].red;
+					column = coef2 + coef4;
+					if (row < 0 || row > image->height - 1)
+					{
+						row -= coef3;
+					}
+					if (column < 0 || column > image->width - 1)
+					{
+						column -= coef4;
+					}
+
+					blue[n] = buffer[row][column].blue;
+					green[n] = buffer[row][column].green;
+					red[n] = buffer[row][column].red;
 					n++;
 				}
 			}
-			image->pixels[pix].blue = filterFunction(blue);
-			image->pixels[pix].green = filterFunction(green);
-			image->pixels[pix].red = filterFunction(red);
-			pix++;
+			image->pixels[coef1][coef2].blue = filterFunction(blue);
+			image->pixels[coef1][coef2].green = filterFunction(green);
+			image->pixels[coef1][coef2].red = filterFunction(red);
 		}
 	}
+
+	for (coef1 = 0; coef1 < image->height; coef1++)
+	{
+		free(buffer[coef1]);
+	}
 	free(buffer);
+	free(blue);
+	free(green);
+	free(red);
 	return 0;
 }
