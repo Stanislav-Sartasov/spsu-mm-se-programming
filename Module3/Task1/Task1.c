@@ -46,7 +46,7 @@ struct stat* getStatBuff(char* name)
 
     if (stat(name, buff) == -1)
     {
-        printf("Фатальная ошибка не могу открыть файл\n");
+        printf("Фатальная ошибка! Не могу открыть файл\n");
         return NULL;
     }
 
@@ -59,7 +59,7 @@ char* openFile(char* name, size_t size)
 
     if (fdin == -1)
     {
-        printf("Фатальная ошибка не могу открыть файл\n");
+        printf("Фатальная ошибка! Не могу открыть файл\n");
         return NULL;
     }
 
@@ -67,7 +67,7 @@ char* openFile(char* name, size_t size)
 
     if (file == MAP_FAILED)
     {
-        printf("Фатальная ошибка не создать файл\\n");
+        printf("Фатальная ошибка! Не создать файл\\n");
         return NULL;
     }
 
@@ -157,7 +157,7 @@ int main(int argc, char* argv[])
 {
     if (argc == 1)
     {
-        printf("Введите путь к текстовому файлу, который хотите Вы отсортировать.");
+        printf("Введите путь к текстовому файлу, который хотите отсортировать.");
         return 0;
     }
 
