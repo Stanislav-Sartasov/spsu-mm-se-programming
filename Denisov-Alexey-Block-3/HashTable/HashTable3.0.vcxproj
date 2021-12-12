@@ -140,10 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="hashtable.h" />
+    <ClInclude Include="tableEntrails.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="hashtable.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="tableEntrails.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

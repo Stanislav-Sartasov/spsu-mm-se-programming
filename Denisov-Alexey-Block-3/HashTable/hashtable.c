@@ -50,40 +50,6 @@ void add(pointer** p, int value)
 	head->next = last;
 }
 
-pointer* rebalance(pointer** p)
-{
-	pointer* copy = (pointer*)malloc(sizeof(pointer));
-	copy->arrChains = (table*)malloc(REBALANCE_MULTIPLIER * (*p)->arrChains->divisor * sizeof(table));
-	copy->arrChains->divisor = REBALANCE_MULTIPLIER * (*p)->arrChains->divisor;
-
-	for (int i = 0; i < copy->arrChains->divisor; i++)
-	{
-		copy->arrChains[i].divisor = copy->arrChains->divisor;
-		copy->arrChains[i].chainsFirst = NULL;
-	}
-	
-	/*table* copy = (table*)malloc(REBALANCE_MULTIPLIER * arrChains->divisor * sizeof(table));
-	copy->divisor = REBALANCE_MULTIPLIER * arrChains->divisor;
-	for (int i = 0; i < copy->divisor; i++)
-	{
-		copy[i].divisor = copy->divisor;
-		copy[i].chainsFirst = NULL;
-	}*/
-
-	element* head = NULL;
-	for (int i = 0; i < (*p)->arrChains->divisor; i++)
-	{
-		head = (*p)->arrChains[i].chainsFirst;
-		while (head != NULL)
-		{
-			add(&copy, head->value);
-			head = head->next;
-		}
-	}
-
-	return copy;
-}
-
 void del(pointer** p, int value)
 {
 	element* head = (*p)->arrChains[value % (*p)->arrChains->divisor].chainsFirst;
