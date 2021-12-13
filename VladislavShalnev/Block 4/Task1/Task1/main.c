@@ -4,7 +4,7 @@
 
 int main()
 {
-	printf("This program calculates 3^5000 using algorithms of long arithmetics.\n\n");
+	printf("This program calculates 3^5000 using algorithms of long arithmetics and displays it in hex format.\n\n");
 
 	printf("Result:\n");
 
