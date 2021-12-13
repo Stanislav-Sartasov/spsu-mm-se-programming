@@ -6,11 +6,14 @@
 
 #define INITIAL_SIZE 8192
 
+#pragma pack(1)
+#pragma push
 typedef struct memory_manager_block
 {
-	int is_free;
 	size_t size;
+	char is_free;
 } mm_block;
+#pragma pop
 
 void init();
 
