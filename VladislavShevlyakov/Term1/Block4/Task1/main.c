@@ -7,11 +7,11 @@ struct long_number
 {
 	unsigned int size;
 	unsigned int* digits;
-}total;
+};
 
 void multiplication(struct long_number* total)
 {
-	int i = 0;
+	unsigned int i = 0;
 	unsigned int current;
 	unsigned int carry = 0;
 	while (i < total->size || carry)
@@ -42,6 +42,7 @@ void dec_hex(unsigned int n)
 
 int main()
 {
+	struct long_number total;
 	total.size = 1;
 	total.digits = (unsigned int*)malloc(sizeof(unsigned int));
 	total.digits[0] = 1;
