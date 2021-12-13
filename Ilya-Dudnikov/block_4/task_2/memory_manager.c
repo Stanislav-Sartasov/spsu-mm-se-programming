@@ -60,6 +60,19 @@ void my_free(void *ptr)
 
 	if (next_block->is_free)
 		block_info->size = block_info->size + next_block->size + INFO_SIZE;
+
+	void *current = memory;
+	mm_block *prev_block = memory;
+	while (current < memory + INITIAL_SIZE)
+	{
+		if (current + INFO_SIZE + prev_block->size == ptr - INFO_SIZE && prev_block->is_free)
+		{
+			prev_block->size += block_info->size + INFO_SIZE;
+			return;
+		}
+		current += INFO_SIZE + prev_block->size;
+		prev_block = current;
+	}
 }
 
 void *my_realloc(void *ptr, size_t size)
