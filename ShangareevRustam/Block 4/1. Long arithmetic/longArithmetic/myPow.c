@@ -1,30 +1,30 @@
 #include "myPow.h"
 
-void printNumber(hex result)
+void printHexNumber(base256 result)
 {
-	for (int i = result.startNumber; i < result.sizeNumber; i++)
+	if (result.number[result.startNumber] / 16 == 0)
 	{
-		printf("%c", (int)(result.number[i] >= 10) * 7 + result.number[i] + 48);
+		printf("%c", (int)(result.number[result.startNumber] % 16 >= 10) * 7 + result.number[result.startNumber] % 16 + 48);
+	}
+	else
+	{
+		printf("%c", (int)(result.number[result.startNumber] / 16 >= 10) * 7 + result.number[result.startNumber] / 16 + 48);
+		printf("%c", (int)(result.number[result.startNumber] % 16 >= 10) * 7 + result.number[result.startNumber] % 16 + 48);
+	}
+	for (int i = result.startNumber + 1; i < result.sizeNumber; i++)
+	{
+		printf("%c", (int)(result.number[i] / 16 >= 10) * 7 + result.number[i] / 16 + 48);
+		printf("%c", (int)(result.number[i] % 16 >= 10) * 7 + result.number[i] % 16 + 48);
 	}
 	free(result.number);
 }
 
-int myLog16(int n)
+base256 my256NumPow(int numb, int exp)
 {
-	int res = 0;
-	for (int counter = 1; n / counter > 0; counter *= 16)
-	{
-		res++;
-	}
-	return res;
-}
-
-hex myHexPow(int numb, int exp)
-{
-	hex result;
-	result.sizeNumber = exp * myLog16(numb);
+	base256 result;
+	result.sizeNumber = (int)floor(exp * (log(numb) / log(16))) + 1;
 	result.startNumber = result.sizeNumber - 1;
-	result.number = malloc(sizeof(char) * result.sizeNumber);
+	result.number = malloc(sizeof(unsigned char) * result.sizeNumber);
 	for (int i = 0; i < result.sizeNumber; i++)
 	{
 		result.number[i] = 0;
@@ -35,8 +35,8 @@ hex myHexPow(int numb, int exp)
 		int cur = 0;
 		for (int j = result.sizeNumber - 1; j >= 0; j--)
 		{
-			int tmp = (numb * result.number[j] + cur) / 16;
-			result.number[j] = (numb * result.number[j] + cur) % 16;
+			int tmp = (numb * result.number[j] + cur) / 256;
+			result.number[j] = (numb * result.number[j] + cur) % 256;
 			cur = tmp;
 			if (result.number[j] != 0) result.startNumber = min(result.startNumber, j);
 		}

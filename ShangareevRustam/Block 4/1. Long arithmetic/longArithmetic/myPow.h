@@ -2,16 +2,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
-typedef struct hexNumber
+typedef struct numb256
 {
-	char* number;
+	unsigned char* number;
 	int startNumber;
 	int sizeNumber;
-} hex;
+} base256;
 
-void printNumber(hex result);
+void printHexNumber(base256 result);
 
-int myLog16(int n);
-
-hex myHexPow(int numb, int exp);
+base256 my256NumPow(int numb, int exp);
