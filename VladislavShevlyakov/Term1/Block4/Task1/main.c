@@ -1,55 +1,61 @@
-#define BASE 16
+#define BASE 1073741824 // 2^30
 
 #include <stdio.h>
 #include <stdlib.h>
 
 struct long_number
 {
-	int size;
-	int* digits;
-	int count;
+	unsigned int size;
+	unsigned int* digits;
 }total;
 
 void multiplication(struct long_number* total)
 {
-	for (int i = 0; i < total->size; i++)
-		total->digits[i] = total->digits[i] * 3;
-
-	for (int i = 0; i < total->size - 1; i++)
+	int i = 0;
+	unsigned int current;
+	unsigned int carry = 0;
+	while (i < total->size || carry)
 	{
-		total->digits[i + 1] += total->digits[i] / BASE;
-		total->digits[i] %= BASE;
+		if (i == total->size)
+		{
+			total->size++;
+			total->digits = (unsigned int*)realloc(total->digits, sizeof(unsigned int) * total->size);
+			total->digits[total->size - 1] = 0;
+		}
+		current = carry + total->digits[i] * 3;
+		total->digits[i] = current % BASE;
+		carry = current / BASE;
+		i++;
 	}
+}
 
-	if (total->digits[total->size - 1] >= BASE)
+void dec_hex(unsigned int n)
+{
+	unsigned int x;
+	if (n != 0)
 	{
-		total->size++;
-		total->digits = (int*)realloc(total->digits, sizeof(int) * total->size);
-		total->digits[total->size - 1] = total->digits[total->size - 2] / BASE;
-		total->digits[total->size - 2] %= BASE;
+		x = n % 16;
+		dec_hex(n /= 16);
+		printf("%c", x < 10 ? x + '0' : x - 10 + 'A');
 	}
-
-	total->count--;
-
-	if (total->count)
-		multiplication(total);
 }
 
 int main()
 {
 	total.size = 1;
-	total.digits = (int*)malloc(sizeof(int));
+	total.digits = (unsigned int*)malloc(sizeof(unsigned int));
 	total.digits[0] = 1;
-	total.count = 5000;
 
-	printf("The program uses long arithmetic algorithms to calculate the value of the number 3 ^5000 "
+	printf("The program uses long arithmetic algorithms to calculate the value of the number 3^5000 "
 		"and it is in the HEX number system.\n\n3^5000 = \n");
 
-	multiplication(&total);
+	for(int i = 1;i<=5000;i++)
+		multiplication(&total);
 
 	for (int i = total.size - 1; i >= 0; i--)
-		printf("%X", total.digits[i]);
+		dec_hex(total.digits[i]);
 
 	free(total.digits);
+
 	return 0;
 }
