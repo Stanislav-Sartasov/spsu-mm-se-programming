@@ -1,9 +1,15 @@
 #include "big_int.h"
+#include <string.h>
 
 void memory_error()
 {
 	printf("Not enough memory!");
 	exit(-1);
+}
+
+void slice(const char *str, char *result, size_t start, size_t end)
+{
+	strncpy(result, str + start, end - start);
 }
 
 uint64_t count_digits(uint64_t value, uint64_t base)
@@ -109,7 +115,7 @@ char compare(uint64_t i)
 void big_int_print_hex(big_int_t number)
 {
 	size_t hex_size = number.size * 6;
-	char *string = malloc(sizeof(char) *  number.size * 6 );
+	char *string = malloc(sizeof(char) * hex_size);
 	if (string == NULL)
 		memory_error();
 	string[number.size * 6] = '\0';
@@ -126,8 +132,12 @@ void big_int_print_hex(big_int_t number)
 	int count = 0;
 	while (string[count] == '0')
 		count++;
-	string = string + count;
 
-	printf("%s\n", string);
+
+	char * string_to_print = malloc(sizeof(char) * (hex_size - count));
+	slice(string, string_to_print, count, hex_size);
+
+	printf("%s\n", string_to_print);
 	free(string);
+	free(string_to_print);
 }
