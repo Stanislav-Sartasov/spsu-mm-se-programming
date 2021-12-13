@@ -6,6 +6,7 @@ void printNumber(hex result)
 	{
 		printf("%c", (int)(result.number[i] >= 10) * 7 + result.number[i] + 48);
 	}
+	free(result.number);
 }
 
 int myLog16(int n)
