@@ -19,7 +19,6 @@ int main()
 	for (i = 0; i < number; ++i)
 	{
 		input_arr[i] = rand() % (int)pow(2, 30);
-		printf("%d\n", input_arr[i]);
 	}
 
 	/* Testing hashtable functions */
@@ -27,10 +26,17 @@ int main()
 	test = create_htable(number);
 	for (i = 0; i < number; ++i)
 	{
-		add_elem(input_arr[i], &test, number);
+		add_elem(input_arr[i], &test);
 	}
-	printf("%d\n", find_elem(input_arr[10], test));
+	if (find_elem(input_arr[10], test) == 1)
+	{
+		printf("Element %d is in hashtable\n", input_arr[10]);
+	}
+	printf("Deleting element %d from hashtable\n", input_arr[10]);
 	delete_elem(input_arr[10], &test);
-	printf("%d", find_elem(input_arr[10], test));
+	if (find_elem(input_arr[10], test) == 0)
+	{
+		printf("Element %d is not in hashtable\n", input_arr[10]);
+	}
 	return 0;
 }

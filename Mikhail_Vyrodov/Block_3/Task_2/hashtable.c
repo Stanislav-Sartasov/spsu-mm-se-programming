@@ -1,11 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
+#define CRC_32_IEEE_802_3 0x04C11DB7
 
 int hash_func(unsigned int value, int number)
 {
-	unsigned int CRC_32_IEEE_802_3 = 0x04C11DB7;
 	unsigned int stepen = pow(2, 31);
 	while (value > CRC_32_IEEE_802_3)
 	{
@@ -59,22 +58,6 @@ void rebalance(htable* hashtable, int number);
 void check_balance(htable* hashtable, int number);
 
 
-int find_list_element(int value, list* head)
-{
-	int position = hash_func(value, 10);
-	while ((head->value != value) && (head->next != NULL))
-	{
-
-		head = head->next;
-	}
-	if (head->next == NULL && head->value != value)
-	{
-		return 0;
-	}
-	return 1;
-}
-
-
 int find_elem(int value, htable hashtable)
 {
 	int hash = hash_func(value, hashtable.count);
@@ -98,21 +81,44 @@ int find_elem(int value, htable hashtable)
 }
 
 
-void add_list_element(list* head, int value)
+void add_elem(int value, htable* hashtable)
 {
-	while (head->next != NULL)
+	int hash;
+	list head;
+	list* arr;
+	arr = hashtable->table;
+	hash = hash_func(value, hashtable->count);
+	head = arr[hash];
+	if (head.value == NULL)
 	{
-		head = head->next;
+		list first;
+		first.value = value;
+		first.next = NULL;
+		hashtable->table[hash] = first;
 	}
-	list* last = (list*)malloc(sizeof(list));
-	head->next = last;
-	last->value = value;
-	last->next = NULL;
+	else
+	{
+		list* head_1 = &(hashtable->table[hash]);
+		while (head_1->next != NULL)
+		{
+			head_1 = head_1->next;
+		}
+		list* last = (list*)malloc(sizeof(list));
+		head_1->next = last;
+		last->value = value;
+		last->next = NULL;
+	}
+	int number = (hashtable->count - 1) * 3;
+	check_balance(hashtable, number);
 }
 
 
-void delete_list_element(list* head, int value)
+void delete_elem(int value, htable* hashtable)
 {
+	int hash;
+	list* head;
+	hash = hash_func(value, hashtable->count);
+	head = &(hashtable->table[hash]);
 	if ((*head).value == value)
 	{
 		head = head->next;
@@ -129,47 +135,6 @@ void delete_list_element(list* head, int value)
 		prev->next = current->next;
 		free(current);
 	}
-}
-
-
-void add_first_list_element(list* head, int value)
-{
-	list first;
-	first.value = value;
-	first.next = NULL;
-	*head = first;
-}
-
-
-void add_elem(int value, htable* hashtable, int number)
-{
-	int hash;
-	list head;
-	list* arr;
-	arr = hashtable->table;
-	hash = hash_func(value, hashtable->count);
-	head = arr[hash];
-	if (head.value == NULL)
-	{
-		add_first_list_element(&(hashtable->table[hash]), value);
-	}
-	else
-	{
-		add_list_element(&(hashtable->table[hash]), value);
-	}
-	check_balance(hashtable, number);
-}
-
-
-void delete_elem(int value, htable* hashtable)
-{
-	int hash;
-	list head;
-	list* arr;
-	hash = hash_func(value, hashtable->count);
-	arr = hashtable->table;
-	head = arr[hash];
-	delete_list_element(&(hashtable->table[hash]), value);
 }
 
 
