@@ -4,7 +4,7 @@
 void init_new_int(long_aritcmetic_int* ar_int, long long input_int, int lim_length)
 {
 	ar_int->lim = lim_length;
-	ar_int->elements = (int*)calloc(lim_length, sizeof(int));
+	ar_int->elements = (unsigned char*)calloc(lim_length, sizeof(unsigned char));
 	int index = 0;
 
 	if (input_int != 0)
@@ -16,7 +16,6 @@ void init_new_int(long_aritcmetic_int* ar_int, long long input_int, int lim_leng
 			index++;
 		} while (input_int != 0);
 	}
-
 	ar_int->lenght = index;
 }
 
@@ -44,7 +43,8 @@ long_aritcmetic_int* multiplication_long_numbers(long_aritcmetic_int* ar_int_f, 
 {
 	long_aritcmetic_int* composition = (long_aritcmetic_int*)malloc(sizeof(long_aritcmetic_int));
 	int max_lenght = ar_int_f->lenght + ar_int_s->lenght;
-	init_new_int(composition, 0, max_lenght > 20 ? max_lenght : START_LIM_LENGHT);
+	int max_lim = ar_int_f->lim > ar_int_s->lim ? ar_int_f->lim : ar_int_s->lim;
+	init_new_int(composition, 0, max_lenght > max_lim ? max_lenght : max_lim);
 
 	for (int i = 0; i < ar_int_f->lenght; i++)
 	{

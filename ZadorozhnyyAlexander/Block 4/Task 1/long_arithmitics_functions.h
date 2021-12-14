@@ -6,7 +6,7 @@
 #define START_LIM_LENGHT 20
 
 typedef struct {
-	int* elements;
+	unsigned char* elements;
 	int lenght;
 	int lim;
 } long_aritcmetic_int;

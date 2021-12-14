@@ -8,7 +8,6 @@ int main()
 	init_new_int(result, 3, START_LIM_LENGHT);
 	
 	result = pow_long_numbers(result, 5000);
-
 	printf("The result of 3^5000 = ");
 	print_hexadecimal_long_numbers(result);
 
