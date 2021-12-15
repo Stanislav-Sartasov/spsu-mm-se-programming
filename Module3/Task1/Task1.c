@@ -5,7 +5,8 @@
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
-#include <zconf.h>
+
+
 
 typedef struct string
 {
@@ -13,12 +14,46 @@ typedef struct string
     char* str;
 } string;
 
-void sort(char* file, int str_num, string* str_arr, size_t file_size)
+
+int comparator(const void* str1, const void* str2)
+{
+    string* a = (string*)str1;
+    string* b = (string*)str2;
+
+    if (a->size != b->size)
+    {
+        return (a->size - b->size);
+    }
+
+    int k = a->size;
+    char* ptr_a = a->str, * ptr_b = b->str;
+
+    for (; k >= 4; k -= 4, ptr_a += 4, ptr_b += 4)
+    {
+        int temp = memcmp(ptr_a, ptr_b, 4);
+
+        if (temp)
+        {
+            return temp;
+        }
+    }
+
+    int temp = memcmp(ptr_a, ptr_b, (size_t)k);
+
+    if (temp)
+    {
+        return temp;
+    }
+
+    return 0;
+}
+
+void sort(char* file, char* file_out, int str_num, string* str_arr, size_t file_size)
 {
     qsort((void*)str_arr, (size_t)str_num, sizeof(string), comparator);
 
-    remove("../out.txt");
-    int out_res = open("../out.txt", O_RDWR | O_CREAT | O_TRUNC);
+    remove(file_out);
+    int out_res = open(file_out, O_RDWR | O_CREAT | O_TRUNC);
     char* out = mmap(0, (size_t)file_size, PROT_READ | PROT_WRITE, MAP_SHARED, out_res, 0);
     ftruncate(out_res, file_size);
 
@@ -36,7 +71,7 @@ void sort(char* file, int str_num, string* str_arr, size_t file_size)
 
     munmap(out, file_size);
     close(out_res);
-    remove("../out.txt");
+    remove(file_out);
 
 }
 
@@ -118,73 +153,47 @@ int strCount(char* file, int size)
     return count;
 }
 
-int comparator(const void* str1, const void* str2)
-{
-    string* a = (string*)str1;
-    string* b = (string*)str2;
-
-    if (a->size != b->size)
-    {
-        return (a->size - b->size);
-    }
-
-    int k = a->size;
-    char* ptr_a = a->str, * ptr_b = b->str;
-
-    for (; k >= 4; k -= 4, ptr_a += 4, ptr_b += 4)
-    {
-        int temp = memcmp(ptr_a, ptr_b, 4);
-
-        if (temp)
-        {
-            return temp;
-        }
-    }
-
-    int temp = memcmp(ptr_a, ptr_b, (size_t)k);
-
-    if (temp)
-    {
-        return temp;
-    }
-
-    return 0;
-}
-
-
-
 int main(int argc, char* argv[])
 {
-    if (argc == 1)
+    system("chcp 1251");
+    system("cls");
+
+    printf("Пример запуска программы: \n");
+    printf("Параметр1 Параметр2, где \n");
+    printf(" - Параметр 1 - это путь к файлу исходнику(файл, которых хотите отсортировать); Пример ввода: С:\\file.txt\n");
+    printf(" - Параметр 2 - это путь к файлу выгрузки (файл, результат работы рограммы);    Пример ввода: С:\\file_test.txt\n\n");
+
+    if (argc != 3)
     {
-        printf("Введите путь к текстовому файлу, который хотите отсортировать.");
+        printf("Фатальная ошибка! Указано не верное количество параметров.");
         return 0;
     }
 
-    char* name = argv[1];
+    char* part_to_the_file = argv[1];
+    char* part_to_the_file_out = argv[2];
 
-    struct stat* buff = getStatBuff(name);
+    struct stat* buff = getStatBuff(part_to_the_file);
 
     if (buff == NULL)
     {
         return 0;
     }
 
-    char* file = openFile(name, (size_t)buff->st_size);
+    char* file_in = openFile(part_to_the_file, (size_t)buff->st_size);
 
-    if (file == NULL)
+    if (file_in == NULL)
     {
+        printf("Фатальная ошибка! Программа не смогла прочитать, указанный Вами файд.");
         return 0;
     }
 
-    int str_num = strCount(file, (int)buff->st_size);
+    int str_num = strCount(file_in, (int)buff->st_size);
 
-    string* str_arr = getString(str_num, file);
+    string* str_arr = getString(str_num, file_in);
 
-    sort(file, str_num, str_arr, (size_t)buff->st_size);
+    sort(file_in, part_to_the_file_out, str_num, str_arr, (size_t)buff->st_size);
 
-    munmap(file, (size_t)buff->st_size);
+    munmap(file_in, (size_t)buff->st_size);
 
     return 0;
 }
-
