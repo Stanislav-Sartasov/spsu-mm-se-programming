@@ -98,13 +98,13 @@ void add_elem(int value, htable* hash_table)
 	}
 	else
 	{
-		list* head_1 = &(hash_table->table[hash]);
-		while (head_1->next != NULL)
+		list* head_adress = &(hash_table->table[hash]);
+		while (head_adress->next != NULL)
 		{
-			head_1 = head_1->next;
+			head_adress = head_adress->next;
 		}
 		list* last = (list*)malloc(sizeof(list));
-		head_1->next = last;
+		head_adress->next = last;
 		last->value = value;
 		last->next = NULL;
 	}
