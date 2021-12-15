@@ -40,11 +40,11 @@ int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile)
 
 struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE* importFile)
 {
-	struct RGBTRIPLE** rgb_arr = calloc(sizeof(struct RGBTRIPLE*), infMAP->biHeight);
+	struct RGBTRIPLE** rgbArr = calloc(sizeof(struct RGBTRIPLE*), infMAP->biHeight);
 
 	for (int i = 0; i < infMAP->biHeight; i++)
 	{
-		rgb_arr[i] = calloc(infMAP->biWidth, sizeof(struct RGBTRIPLE));
+		rgbArr[i] = calloc(infMAP->biWidth, sizeof(struct RGBTRIPLE));
 	}
 
 	*padding = (4 - (infMAP->biWidth * (infMAP->biBitCount / 8)) % 4) & 3;
@@ -53,9 +53,9 @@ struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE
 	{
 		for (int j = 0; j < infMAP->biWidth; j++)
 		{
-			rgb_arr[i][j].b = (unsigned char)getc(importFile);
-			rgb_arr[i][j].g = (unsigned char)getc(importFile);
-			rgb_arr[i][j].r = (unsigned char)getc(importFile);
+			rgbArr[i][j].b = (unsigned char)getc(importFile);
+			rgbArr[i][j].g = (unsigned char)getc(importFile);
+			rgbArr[i][j].r = (unsigned char)getc(importFile);
 			if (infMAP->biBitCount == 32)
 			{
 				getc(importFile);
@@ -70,23 +70,20 @@ struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE
 
 	fclose(importFile);
 
-	return rgb_arr;
+	return rgbArr;
 }
 
-struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** old_arr, struct infoHeaderOfFile* infMap)
+struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** oldArr, struct infoHeaderOfFile* infMap)
 {
-	struct RGBTRIPLE** rgb_new = malloc(sizeof(struct RGBTRIPLE*) * infMap->biHeight);
+	struct RGBTRIPLE** rgbNew = malloc(sizeof(struct RGBTRIPLE*) * infMap->biHeight);
 
 	for (int i = 0; i < infMap->biHeight; i++)
 	{
-		rgb_new[i] = calloc(sizeof(struct RGBTRIPLE), infMap->biWidth);
-		memcpy(rgb_new[i], old_arr[i], sizeof(struct RGBTRIPLE) * infMap->biWidth);
+		rgbNew[i] = calloc(sizeof(struct RGBTRIPLE), infMap->biWidth);
+		memcpy(rgbNew[i], oldArr[i], sizeof(struct RGBTRIPLE) * infMap->biWidth);
 
 	}
-
-
-	return rgb_new;
-
+	return rgbNew;
 }
 
 

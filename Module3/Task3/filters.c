@@ -6,114 +6,114 @@ void swap(unsigned char* a, unsigned char* b)
 	*b = temp;
 }
 
-void filterMedian(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr)
+void filterMedian(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr)
 {
 	for (int i = 1; i < height - 3; i++)
 		for (int j = 1; j < width - 3; j++)
 		{
-			applyMedianToPixels(rgb_arr, new_arr, j, i);
+			applyMedianToPixels(rgbArr, newArr, j, i);
 		}
 }
 
-void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy)
+void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idX, int idY)
 {
-	unsigned char arr_g[9], arr_b[9], arr_r[9];
+	unsigned char arrG[9], arrB[9], arrR[9];
 
 	for (int i = 0; i < 9; i++)
 	{
-		struct RGBTRIPLE* temp_rgb = &arr[idy - 1 + i / 3][idx - 1 + i % 3];
+		struct RGBTRIPLE* tempRGB = &arr[idY - 1 + i / 3][idX - 1 + i % 3];
 
-		arr_b[i] = temp_rgb->b;
-		arr_g[i] = temp_rgb->g;
-		arr_r[i] = temp_rgb->r;
+		arrB[i] = tempRGB->b;
+		arrG[i] = tempRGB->g;
+		arrR[i] = tempRGB->r;
 	}
 
 	for (int j = 0; j < 9; j++)
 		for (int i = 0; i < 9; i++)
 		{
-			if (arr_b[i] > arr_b[j])
-				swap(&arr_b[j], &arr_b[i]);
+			if (arrB[i] > arrB[j])
+				swap(&arrB[j], &arrB[i]);
 
-			if (arr_g[i] > arr_g[j])
-				swap(&arr_g[j], &arr_g[i]);
+			if (arrG[i] > arrG[j])
+				swap(&arrG[j], &arrG[i]);
 
-			if (arr_r[i] > arr_r[j])
-				swap(&arr_r[j], &arr_r[i]);
+			if (arrR[i] > arrR[j])
+				swap(&arrR[j], &arrR[i]);
 		}
 
-	new_arr[idy][idx].r = arr_r[4];
-	new_arr[idy][idx].b = arr_b[4];
-	new_arr[idy][idx].g = arr_g[4];
+	newArr[idY][idX].r = arrR[4];
+	newArr[idY][idX].b = arrB[4];
+	newArr[idY][idX].g = arrG[4];
 
 }
 
 //Black and White
-void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr)
+void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR)
 {
 	for (int i = 0; i < height; i++)
 	{
 		for (int j = 0; j < width; j++)
 		{
-			unsigned char d = (unsigned char)((rgb_arr[i][j].g + rgb_arr[i][j].b + rgb_arr[i][j].r) / 3);
+			unsigned char d = (unsigned char)((rgbARR[i][j].g + rgbARR[i][j].b + rgbARR[i][j].r) / 3);
 
-			new_arr[i][j].b = d;
-			new_arr[i][j].g = d;
-			new_arr[i][j].r = d;
+			newARR[i][j].b = d;
+			newARR[i][j].g = d;
+			newARR[i][j].r = d;
 		}
 	}
 }
 
 //filter gauss 3*3 and 5*5
-const int gauss_matrix5x5[5][5] = { {1, 4,  6,  4,  1},
+const int gaussMatrix5x5[5][5] = { {1, 4,  6,  4,  1},
 								   {4, 16, 24, 16, 4},
 								   {6, 24, 36, 24, 6},
 								   {4, 16, 24, 16, 4},
 								   {1, 4,  6,  4,  1} };
 
-const int gauss_matrix3x3[3][3] = { {1, 2, 1},
+const int gaussMatrix3x3[3][3] = { {1, 2, 1},
 								   {2, 4, 2},
 								   {1, 2, 1} };
 
-void filterGauss(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr, int size)
+void filterGauss(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int size)
 {
 	for (int i = size / 2; i < height - size; i++)
 		for (int j = size / 2; j < width - size; j++)
 		{
-			applyGaussToPixels(rgb_arr, new_arr, j, i, size);
+			applyGaussToPixels(rgbARR, newARR, j, i, size);
 		}
 }
 
-void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy, int size)
+void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int idX, int idY, int size)
 {
-	int sum_g = 0, sum_b = 0, sum_r = 0;
+	int sumG = 0, sumB = 0, sumR = 0;
 	int div = size < 4 ? 16 : 256;
 
 	if (size == 3)
 	{
 		for (int i = 0; i < size * size; i++)
 		{
-			struct RGBTRIPLE* temp_rgb = &arr[idy - 1 + i / size][idx - 1 + i % size];
+			struct RGBTRIPLE* tempRGB = &arr[idY - 1 + i / size][idX - 1 + i % size];
 
-			sum_b += temp_rgb->b * gauss_matrix3x3[i / size][i % size];
-			sum_g += temp_rgb->g * gauss_matrix3x3[i / size][i % size];
-			sum_r += temp_rgb->r * gauss_matrix3x3[i / size][i % size];
+			sumB += tempRGB->b * gaussMatrix3x3[i / size][i % size];
+			sumG += tempRGB->g * gaussMatrix3x3[i / size][i % size];
+			sumR += tempRGB->r * gaussMatrix3x3[i / size][i % size];
 		}
 	}
 	else
 	{
 		for (int i = 0; i < size * size; i++)
 		{
-			struct RGBTRIPLE* temp_rgb = &arr[idy - 2 + i / size][idx - 2 + i % size];
+			struct RGBTRIPLE* tempRGB = &arr[idY - 2 + i / size][idX - 2 + i % size];
 
-			sum_b += temp_rgb->b * gauss_matrix5x5[i / size][i % size];
-			sum_g += temp_rgb->g * gauss_matrix5x5[i / size][i % size];
-			sum_r += temp_rgb->r * gauss_matrix5x5[i / size][i % size];
+			sumB += tempRGB->b * gaussMatrix5x5[i / size][i % size];
+			sumG += tempRGB->g * gaussMatrix5x5[i / size][i % size];
+			sumR += tempRGB->r * gaussMatrix5x5[i / size][i % size];
 		}
 	}
 
-	new_arr[idy][idx].r = (unsigned char)(sum_r / div);
-	new_arr[idy][idx].b = (unsigned char)(sum_b / div);
-	new_arr[idy][idx].g = (unsigned char)(sum_g / div);
+	newARR[idY][idX].r = (unsigned char)(sumR / div);
+	newARR[idY][idX].b = (unsigned char)(sumB / div);
+	newARR[idY][idX].g = (unsigned char)(sumG / div);
 }
 
 const int sobelx_matrix[3][3] = { {1,  2,  1},
@@ -124,7 +124,7 @@ const int sobely_matrix[3][3] = { {-1, 0, 1},
 								 {-2, 0, 2},
 								 {-1, 0, 1} };
 
-void filterSobelXY(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr, int axis)
+void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int axis)
 {
 	for (int i = 1; i < height - 3; i++)
 	{
@@ -133,11 +133,11 @@ void filterSobelXY(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGB
 			if (axis == 1)
 			{
 
-				applySobelToPixels(rgb_arr, new_arr, j, i, axis);
+				applySobelToPixels(rgbARR, newARR, j, i, axis);
 			}
 			else
 			{
-				applySobelToPixels(rgb_arr, new_arr, j, i, axis);
+				applySobelToPixels(rgbARR, newARR, j, i, axis);
 			}
 
 
@@ -145,39 +145,39 @@ void filterSobelXY(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGB
 	}
 }
 
-void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy, int axis)
+void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int idX, int idY, int axis)
 {
-	int sum_g = 0, sum_b = 0, sum_r = 0;
+	int sumG = 0, sumB = 0, sumR = 0;
 
 	for (int i = 0; i < 9; i++)
 	{
-		struct RGBTRIPLE* temp_rgb = &arr[idy - 1 + i / 3][idx - 1 + i % 3];
+		struct RGBTRIPLE* tempRGB = &arr[idY - 1 + i / 3][idX - 1 + i % 3];
 
 		if (axis == 1)
 		{
-			sum_b += temp_rgb->b * sobelx_matrix[i / 3][i % 3];
-			sum_g += temp_rgb->g * sobelx_matrix[i / 3][i % 3];
-			sum_r += temp_rgb->r * sobelx_matrix[i / 3][i % 3];
+			sumB += tempRGB->b * sobelx_matrix[i / 3][i % 3];
+			sumG += tempRGB->g * sobelx_matrix[i / 3][i % 3];
+			sumR += tempRGB->r * sobelx_matrix[i / 3][i % 3];
 		}
 		else
 		{
-			sum_b += temp_rgb->b * sobely_matrix[i / 3][i % 3];
-			sum_g += temp_rgb->g * sobely_matrix[i / 3][i % 3];
-			sum_r += temp_rgb->r * sobely_matrix[i / 3][i % 3];
+			sumB += tempRGB->b * sobely_matrix[i / 3][i % 3];
+			sumG += tempRGB->g * sobely_matrix[i / 3][i % 3];
+			sumR += tempRGB->r * sobely_matrix[i / 3][i % 3];
 		}
 
 	}
 
-	if (sum_r < 0) sum_r = 0;
-	if (sum_b < 0) sum_b = 0;
-	if (sum_g < 0) sum_g = 0;
+	if (sumR < 0) sumR = 0;
+	if (sumB < 0) sumB = 0;
+	if (sumG < 0) sumG = 0;
 
-	if (sum_b > 255) sum_b = 255;
-	if (sum_g > 255) sum_g = 255;
-	if (sum_r > 255) sum_r = 255;
+	if (sumB > 255) sumB = 255;
+	if (sumG > 255) sumG = 255;
+	if (sumR > 255) sumR = 255;
 
-	new_arr[idy][idx].r = (unsigned char)(sum_r);
-	new_arr[idy][idx].b = (unsigned char)(sum_b);
-	new_arr[idy][idx].g = (unsigned char)(sum_g);
+	newARR[idY][idX].r = (unsigned char)(sumR);
+	newARR[idY][idX].b = (unsigned char)(sumB);
+	newARR[idY][idX].g = (unsigned char)(sumG);
 }
 

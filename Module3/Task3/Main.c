@@ -49,33 +49,33 @@ int main(int argc, char* argv[])
 	}
 
 	int p;
-	struct RGBTRIPLE** rgb_triple = readArray(&p, headerFile, fileImport);;
-	struct RGBTRIPLE** rgb_new = cpyArray(rgb_triple, headerFile);
+	struct RGBTRIPLE** rgbTriple = readArray(&p, headerFile, fileImport);;
+	struct RGBTRIPLE** rgbNew = cpyArray(rgbTriple, headerFile);
 
 
 	if (!strcmp(numberOfFilter, "1"))
 	{
-		filterMedian(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new);
+		filterMedian(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew);
 	}
 	if (!strcmp(numberOfFilter, "2"))
 	{
-		filterGauss(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new, 3);
+		filterGauss(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 3);
 	}
 	if (!strcmp(numberOfFilter, "3"))
 	{
-		filterGauss(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new, 5);
+		filterGauss(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 5);
 	}
 	if (!strcmp(numberOfFilter, "4"))
 	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new, 1);
+		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 1);
 	}
 	if (!strcmp(numberOfFilter, "5"))
 	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new, 1);
+		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 1);
 	}
 	if (!strcmp(numberOfFilter, "6"))
 	{
-		filterBlackandWhite(headerFile->biWidth, headerFile->biHeight, rgb_triple, rgb_new);
+		filterBlackandWhite(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew);
 	}
 
 	FILE* fileExport = fopen(partToTheFileExport, "wb");
@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
 	for (int i = 0; i < headerFile->biHeight; i++)
 	{
 		for (int j = 0; j < headerFile->biWidth; j++)
-			fwrite(&rgb_new[i][j], sizeof(struct RGBTRIPLE), 1, fileExport);
+			fwrite(&rgbNew[i][j], sizeof(struct RGBTRIPLE), 1, fileExport);
 		if (headerFile->biBitCount == 32)
 		{
 			putc(0, fileExport);
@@ -104,8 +104,8 @@ int main(int argc, char* argv[])
 
 	fclose(fileExport);
 	free(headerFile);
-	free(rgb_triple);
-	free(rgb_new);
+	free(rgbTriple);
+	free(rgbNew);
 
 	return 0;
 

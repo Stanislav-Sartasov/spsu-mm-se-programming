@@ -49,17 +49,17 @@ bool readArgument(int);
 //work with file
 int fileValidation(struct infoHeaderOfFile* BITMAPFILEHEADER, FILE* importFile);
 struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE* importFile);
-struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** old_arr, struct infoHeaderOfFile* infMap);
+struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** oldArr, struct infoHeaderOfFile* infMap);
 
 //filters
 void swap(unsigned char* a, unsigned char* b);
-void filterMedian(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr);
-void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy);
+void filterMedian(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr);
+void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy);
 
-void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr);
+void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr);
 
-void filterGauss(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr, int size);
-void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy, int size);
+void filterGauss(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr, int size);
+void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy, int size);
 
-void filterSobelXY(int width, int height, struct RGBTRIPLE** rgb_arr, struct RGBTRIPLE** new_arr, int axis);
-void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** new_arr, int idx, int idy, int axis);
+void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** new_arr, int axis);
+void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy, int axis);
