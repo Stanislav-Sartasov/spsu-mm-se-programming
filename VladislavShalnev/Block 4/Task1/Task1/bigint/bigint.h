@@ -1,12 +1,12 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
-#define SIZE 248 // required number of bigint digits for 3^5000
 #define BASE 4294967296 // 2^32
 
 typedef struct
 {
 	unsigned int* digits;
+	unsigned int length;
 } bigint_t;
 
 bigint_t* new_bigint(unsigned int initial);
