@@ -37,7 +37,7 @@ int main()
 		multiple = EXP;
 		digit = 0;
 		countPower++;
-		while (multiple < 1431655765 && countPower < POWER)
+		while (multiple < CALC_DEGREE / EXP + 1 && countPower < POWER)
 		{
 			multiple *= EXP;
 			countPower++;
