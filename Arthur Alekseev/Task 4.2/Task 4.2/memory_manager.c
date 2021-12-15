@@ -19,22 +19,26 @@ void dispose()
 
 void* my_malloc(size_t size)
 {
-	// Variable "current" is offset from memory beginning to current block
-	int current = 0;
-	while (current < MEM_SIZE && current >= 0)
+	// Variable "current" is current block
+	struct memory_block* current;
+	// Reading the first element
+	current = memory_begin;
+
+	while (current->next_block_offset < MEM_SIZE && current->next_block_offset >= 0)
 	{
 		// End of sequence (next_block points to 0)
-		if (*(current + memory_begin) == 0)
+		if (current->next_block_offset == 0)
 		{
 			// Check for space
-			if (MEM_SIZE - current - 8 > size + 8)
+			if (MEM_SIZE - (int)(current - memory_begin) > size)
 			{
-				// Setting the next_block to a new block
-				*(int*)(current + memory_begin) = (int)((current + size) + 8);
-				// Setting is_used variable to true
-				*(current + memory_begin + 4) = 1;
+				// Setting the next_block_offset to a new block
+				current->next_block_offset = (int)current - (int)memory_begin + (int)size + sizeof(*current);
 
-				return current + memory_begin + 8;
+				// Setting is_used variable to true
+				current->in_use = 1;
+
+				return current + 1;
 			}
 			// Not enough space
 			else
@@ -42,43 +46,65 @@ void* my_malloc(size_t size)
 		}
 
 		// If block is not used (is_used is set to false)
-		if (*(current + memory_begin + 4) == 0)
+		if (current->in_use == 0)
 		{
 			// Enough space for new block insertion
-			if (MEM_SIZE - current - 8 > size + 16)
+			if (current->next_block_offset - (int)current >= size + 2 * sizeof(*current))
 			{
 				// Creating new block
+				struct memory_block* new_memory_block = memory_begin + size + sizeof(*current);
+
 				// Binding new block's next_block to the old next_block
-				*(int*)(memory_begin + (current + size) + 8) = *(int*)(current + memory_begin);
+				new_memory_block->next_block_offset = current->next_block_offset;
 
 				// Setting new block as unused
-				*(int*)(memory_begin + (current + size) + 12) = 0;
+				new_memory_block->in_use = 0;
 
 				// Binding next_block to the beginning of new block
-				*(int*)(current + memory_begin) = (int)((current + size) + 8);
+				current->next_block_offset = (int)new_memory_block - (int)memory_begin;
 
 				// Setting block as in use
-				*(current + memory_begin + 4) = 1;
+				current->in_use = 1;
 
-
-				return current + memory_begin + 8;
+				return current + 1;
 			}
 
 			// Not enough space for new block, but enough space for just reallocation of block
-			if (MEM_SIZE - current - 8 > size + 8)
+			if (current->next_block_offset - (int)current >= size + sizeof(*current))
 			{
 				// Setting block as in use
-				*(current + memory_begin + 4) = 1;
+				current->in_use = 1;
 
-
-				return current + memory_begin + 8;
+				return current + 1;
 			}
 		}
 		// Switching to next memory block
-		current = *(int*)(current + memory_begin);
+		current = (memory_begin + current->next_block_offset);
 	}
 
 	return NULL;
+}
+
+void merge()
+{
+	// Merge free blocks
+	struct memory_block* current = memory_begin;
+	while (current->next_block_offset != 0)
+	{
+		// Check if the next block is free and this block is free
+		if (current->in_use == 0 && ((struct memory_block*)(memory_begin + current->next_block_offset))->in_use == 0)
+		{
+			// Merging next block into first one (changing the current pointer to the next block)
+			current->next_block_offset = ((struct memory_block*)(memory_begin + current->next_block_offset))->next_block_offset;
+		}
+
+		// End of sequence
+		if (current->next_block_offset == 0)
+			return;
+
+		// Switching to next block
+		current = memory_begin + current->next_block_offset;
+	}
 }
 
 void my_free(void* ptr)
@@ -89,27 +115,11 @@ void my_free(void* ptr)
 	// Set block as if it is not in use
 	*((int*)ptr - 1) = 0;
 
-	// Merge free blocks
-	int current = 0;
-	while (current < MEM_SIZE && current >= 0)
-	{
+	// Merging blocks 
+	merge();
 
-		// Check if the next block is free and this block is free
-		if (*(current + memory_begin + 4) == 0 && *(memory_begin + *(int*)(current + memory_begin) + 4) == 0 && *(current + memory_begin) != 0)
-		{
-			// Merging next block into first one
-			*(current + memory_begin) = *(int*)(memory_begin + *(int*)(current + memory_begin));
-
-			return;
-		}
-
-		// End of sequence
-		if (*(current + memory_begin) == 0)
-			return;
-
-		// Switching to next block
-		current = *(int*)(current + memory_begin);
-	}
+	// Merging merged blocks (if are left)
+	merge();
 }
 
 void* my_realloc(void* ptr, size_t size)
@@ -121,7 +131,7 @@ void* my_realloc(void* ptr, size_t size)
 	my_free(ptr);
 	void* result = my_malloc(size);
 	// If my_malloc worked correctly elements are just all copied
-	return result;
+
 	if (result != NULL)
 		for (int i = 0; i < block_size; i++)
 			((byte*)result)[i] = ((byte*)ptr)[i];

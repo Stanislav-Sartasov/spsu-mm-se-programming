@@ -10,9 +10,16 @@
 /*
 * Memory has the following structure:
 * Next block stride: 4 bytes
-* In use: 4 byte
+* In use: 1 byte
 * Actual data: a lot of bytes
 */
+#pragma pack(1)
+struct memory_block
+{
+	int next_block_offset;
+	byte in_use;
+};
+#pragma pack(pop)
 
 // Global variables and constants
 // Beginning of array
