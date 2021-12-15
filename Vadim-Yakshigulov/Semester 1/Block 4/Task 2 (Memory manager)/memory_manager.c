@@ -94,6 +94,7 @@ void my_free(void *ptr)
 
 	current_block->is_free = true;
 	unite_free_blocks_around(current_block);
+	ptr = NULL;
 }
 
 void *my_memcpy(void *destination, const void *source, size_t n)
@@ -112,9 +113,20 @@ void *my_realloc(void *ptr, size_t size)
 	if (current_block == NULL || current_block->is_free)
 		return NULL;
 
-	size_t stored_data_size = current_block->size;
+
+	size_t temp_size = current_block->size;
+	void* temp_ptr = my_malloc(temp_size);
+	if (temp_ptr == NULL)
+		return NULL;
+
+	my_memcpy(temp_ptr, ptr, current_block->size);
 	my_free(ptr);
+
 	void* new_ptr = my_malloc(size);
-	my_memcpy(new_ptr, ptr, stored_data_size);
+	if (new_ptr == NULL)
+		return NULL;
+
+	my_memcpy(new_ptr, temp_ptr, temp_size);
+	my_free(temp_ptr);
 	return new_ptr;
 }
