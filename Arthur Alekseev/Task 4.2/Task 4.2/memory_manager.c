@@ -113,7 +113,7 @@ void my_free(void* ptr)
 	if (ptr == NULL)
 		return;
 	// Set block as if it is not in use
-	*((int*)ptr - 1) = 0;
+	((struct memory_block*)ptr - 1)->in_use = 0;
 
 	// Merging blocks 
 	merge();
@@ -125,7 +125,7 @@ void my_free(void* ptr)
 void* my_realloc(void* ptr, size_t size)
 {
 	// Determining the previous size
-	int block_size = (int)ptr - (int)((int*)ptr - 2);
+	int block_size = (int)ptr - ((struct memory_block*)ptr - 1)->next_block_offset - (int)memory_begin;
 
 	// My free does not corrupt information or changes accesability, so data is there, but accessable for use
 	my_free(ptr);
