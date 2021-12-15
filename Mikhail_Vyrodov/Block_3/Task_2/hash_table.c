@@ -30,38 +30,38 @@ struct list
 
 typedef struct list list;
 
-struct hashtable
+struct hash_table
 {
 	int count;
 	list* table;
 };
 
-typedef struct hashtable htable;
+typedef struct hash_table htable;
 
 
 htable create_htable(int number)
 {
-	htable hashtable;
+	htable hash_table;
 	int i;
-	hashtable.count = (int)(number / 3) + 1;
-	hashtable.table = malloc(hashtable.count * sizeof(list));
-	for (i = 0; i < hashtable.count; ++i)
+	hash_table.count = (int)(number / 3) + 1;
+	hash_table.table = malloc(hash_table.count * sizeof(list));
+	for (i = 0; i < hash_table.count; ++i)
 	{
-		hashtable.table[i].value = NULL;
+		hash_table.table[i].value = NULL;
 	}
-	return hashtable;
+	return hash_table;
 }
 
 
-void rebalance(htable* hashtable, int number);
+void rebalance(htable* hash_table, int number);
 
-void check_balance(htable* hashtable, int number);
+void check_balance(htable* hash_table, int number);
 
 
-int find_elem(int value, htable hashtable)
+int find_elem(int value, htable hash_table)
 {
-	int hash = hash_func(value, hashtable.count);
-	list head = hashtable.table[hash];
+	int hash = hash_func(value, hash_table.count);
+	list head = hash_table.table[hash];
 	if (head.value == NULL)
 	{
 		return 0;
@@ -81,24 +81,24 @@ int find_elem(int value, htable hashtable)
 }
 
 
-void add_elem(int value, htable* hashtable)
+void add_elem(int value, htable* hash_table)
 {
 	int hash;
 	list head;
 	list* arr;
-	arr = hashtable->table;
-	hash = hash_func(value, hashtable->count);
+	arr = hash_table->table;
+	hash = hash_func(value, hash_table->count);
 	head = arr[hash];
 	if (head.value == NULL)
 	{
 		list first;
 		first.value = value;
 		first.next = NULL;
-		hashtable->table[hash] = first;
+		hash_table->table[hash] = first;
 	}
 	else
 	{
-		list* head_1 = &(hashtable->table[hash]);
+		list* head_1 = &(hash_table->table[hash]);
 		while (head_1->next != NULL)
 		{
 			head_1 = head_1->next;
@@ -108,17 +108,17 @@ void add_elem(int value, htable* hashtable)
 		last->value = value;
 		last->next = NULL;
 	}
-	int number = (hashtable->count - 1) * 3;
-	check_balance(hashtable, number);
+	int number = (hash_table->count - 1) * 3;
+	check_balance(hash_table, number);
 }
 
 
-void delete_elem(int value, htable* hashtable)
+void delete_elem(int value, htable* hash_table)
 {
 	int hash;
 	list* head;
-	hash = hash_func(value, hashtable->count);
-	head = &(hashtable->table[hash]);
+	hash = hash_func(value, hash_table->count);
+	head = &(hash_table->table[hash]);
 	if ((*head).value == value)
 	{
 		head = head->next;
@@ -138,19 +138,19 @@ void delete_elem(int value, htable* hashtable)
 }
 
 
-void rebalance(htable* hashtable, int number)
+void rebalance(htable* hash_table, int number)
 {
 	htable rebalanced;
 	int i;
-	rebalanced.count = hashtable->count * 2;
+	rebalanced.count = hash_table->count * 2;
 	rebalanced.table = malloc((rebalanced.count) * sizeof(list));
 	for (i = 0; i < rebalanced.count; ++i)
 	{
 		rebalanced.table[i].value = NULL;
 	}
-	for (i = 0; i < hashtable->count; ++i)
+	for (i = 0; i < hash_table->count; ++i)
 	{
-		list head = hashtable->table[i];
+		list head = hash_table->table[i];
 		if (head.value == NULL)
 		{
 			add_elem(head.value, &rebalanced, number);
@@ -165,19 +165,19 @@ void rebalance(htable* hashtable, int number)
 		}
 	}
 	check_balance(&rebalanced, number);
-	hashtable->count = rebalanced.count;
-	hashtable->table = rebalanced.table;
+	hash_table->count = rebalanced.count;
+	hash_table->table = rebalanced.table;
 }
 
 
-void check_balance(htable* hashtable, int number)
+void check_balance(htable* hash_table, int number)
 {
 
 	int kolv;
-	for (int i = 0; i < hashtable->count; ++i)
+	for (int i = 0; i < hash_table->count; ++i)
 	{
 		kolv = 0;
-		list head = hashtable->table[i];
+		list head = hash_table->table[i];
 		if (head.value == NULL)
 		{
 			continue;
@@ -190,7 +190,7 @@ void check_balance(htable* hashtable, int number)
 		}
 		if (kolv >= (int)(number / 3))
 		{
-			rebalance(hashtable, number);
+			rebalance(hash_table, number);
 			break;
 		}
 	}

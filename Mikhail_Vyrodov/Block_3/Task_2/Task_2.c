@@ -1,12 +1,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "hashtable.h"
+#include "hash_table.h"
 
 
 int main()
 {
-	int i, k, value, an_number, flag;
+	int i;
 	htable test;
 	int* input_arr;
 	int number;

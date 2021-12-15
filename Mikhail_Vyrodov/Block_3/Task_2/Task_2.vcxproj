@@ -139,11 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="hashtable.c" />
+    <ClCompile Include="hash_table.c" />
     <ClCompile Include="Task_2.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hashtable.h" />
+    <ClInclude Include="hash_table.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
