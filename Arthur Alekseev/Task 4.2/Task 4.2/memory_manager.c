@@ -96,6 +96,9 @@ void merge()
 		{
 			// Merging next block into first one (changing the current pointer to the next block)
 			current->next_block_offset = ((struct memory_block*)(memory_begin + current->next_block_offset))->next_block_offset;
+
+			// Try merging block further
+			continue;
 		}
 
 		// End of sequence
@@ -116,9 +119,6 @@ void my_free(void* ptr)
 	((struct memory_block*)ptr - 1)->in_use = 0;
 
 	// Merging blocks 
-	merge();
-
-	// Merging merged blocks (if are left)
 	merge();
 }
 
