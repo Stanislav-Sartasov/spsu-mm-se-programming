@@ -24,7 +24,7 @@ void* my_malloc(size_t size)
 	// Reading the first element
 	current = memory_begin;
 
-	while (current->next_block_offset <= MEM_SIZE && current->next_block_offset >= 0)
+	while (current->next_block_offset < MEM_SIZE && current->next_block_offset >= 0)
 	{
 		// End of sequence (next_block points to 0)
 		if (current->next_block_offset == 0)
@@ -49,7 +49,7 @@ void* my_malloc(size_t size)
 		if (current->in_use == 0)
 		{
 			// Enough space for new block insertion
-			if (current->next_block_offset - (int)current + (int)memory_begin >= size + 2 * sizeof(*current))
+			if (current->next_block_offset - (int)current >= size + 2 * sizeof(*current))
 			{
 				// Creating new block
 				struct memory_block* new_memory_block = memory_begin + size + sizeof(*current);
@@ -89,11 +89,8 @@ void merge()
 {
 	// Merge free blocks
 	struct memory_block* current = memory_begin;
-	while (current->next_block_offset != 0 && current->next_block_offset + sizeof(*current) <= MEM_SIZE)
+	while (current->next_block_offset != 0)
 	{
-		if (current->next_block_offset >= MEM_SIZE)
-			current->next_block_offset = 0;
-
 		// Check if the next block is free and this block is free
 		if (current->in_use == 0 && ((struct memory_block*)(memory_begin + current->next_block_offset))->in_use == 0)
 		{
@@ -128,7 +125,7 @@ void my_free(void* ptr)
 void* my_realloc(void* ptr, size_t size)
 {
 	// Determining the previous size
-	int block_size = ((struct memory_block*)ptr - 1)->next_block_offset + (int)ptr - (int)memory_begin;
+	int block_size = (int)ptr - ((struct memory_block*)ptr - 1)->next_block_offset - (int)memory_begin;
 
 	// My free does not corrupt information or changes accesability, so data is there, but accessable for use
 	my_free(ptr);
