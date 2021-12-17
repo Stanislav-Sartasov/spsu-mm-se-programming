@@ -103,16 +103,22 @@ void sobel_filter(UINT8 **image, UINT32 height, UINT32 row, UINT16 bit_cnt, int 
 		for (int j = step; j + step < row; j += step)
 		{
 			int g = 0;
+			int gx = 0;
+			int gy = 0;
 			for (int q = i - 1; q <= i + 1; q++)
 			{
 				for (int w = j - step; w <= j + step; w += step)
 				{
 					g += image[q][w] * matrix[q - i + 1][(w - j + step) / step];
+					/*gx += image[q][w] * gx_matrix[q - i + 1][(w - j + step) / step];
+					gy += image[q][w] * gy_matrix[q - i + 1][(w - j + step) / step];*/
 				}
 			}
 			int clr = 0;
 			if (SQ(g) > SQ(128))
 				clr = 255;
+			/*if (SQ(gx) + SQ(gy) > SQ(60))
+				clr = 255;*/
 			ans_image[i][j] = clr;
 		}
 	}
