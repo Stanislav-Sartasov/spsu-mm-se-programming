@@ -74,13 +74,6 @@ void my_free(void* ptr)
 	}
 }
 
-void print_buffer()
-{
-	for (int i = 0; i < mem_size / 4; i++)
-		printf("%d ", ((int*)buffer)[i]);
-	printf("\n\n");
-}
-
 void* my_realloc(void* ptr, size_t size)
 {
 	if (ptr != NULL)
