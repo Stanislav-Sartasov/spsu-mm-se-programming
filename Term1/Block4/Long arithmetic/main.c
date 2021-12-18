@@ -58,17 +58,17 @@ big_int* multiply(big_int* higher, big_int* lower)
 		for (size_t j = 0; j < lower->size; j++)
 			temp[i + j] += (uint64_t)higher->chunks[i] * (uint64_t)lower->chunks[j];
 	
-	size_t new_size = 1;
 	for (size_t i = 0; i < higher->size + lower->size - 1; i++)
 	{
 		temp[i + 1] += temp[i] / BASE;
 		temp[i] %= BASE;
-		if (temp[i + 1])
-			new_size++;
 	}
 
-	big_int* result = new_big_int(new_size, 0);
-	for (size_t i = 0; i < new_size; i++)
+	size_t new_size = higher->size + lower->size - 1;
+	for (; !temp[new_size] && new_size > 0; new_size--);
+
+	big_int* result = new_big_int(new_size + 1, 0);
+	for (size_t i = 0; i < new_size + 1; i++)
 		result->chunks[i] = (uint32_t)temp[i];
 	
 	free(temp);
