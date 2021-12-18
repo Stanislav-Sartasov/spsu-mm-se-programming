@@ -33,6 +33,14 @@ int main(int argc, char* argv[])
     }
     fdin = open(argv[1], O_RDONLY);
     fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE);
+    if (fdin < 0)
+    {
+        printf("Error reading <%s> file\n", argv[1]);
+    }
+    if (fdout < 0)
+    {
+        printf("Error reading <%s> file\n", argv[2]);
+    }
     if (fdin == NULL)
     {
         printf("Cannot open %s for the reading\n", argv[1]);

@@ -18,10 +18,17 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="mman.c" />
+    <ClCompile Include="Task_1.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="mman.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{1167225a-2811-42dc-91b5-c86e89da4618}</ProjectGuid>
+    <ProjectGuid>{ceca7024-28c1-4693-8abb-ec9e3c7f44ff}</ProjectGuid>
     <RootNamespace>Task1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -138,13 +145,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\libs\mman-win32-master\mman.c" />
-    <ClCompile Include="Task_1.c" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="mman.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
