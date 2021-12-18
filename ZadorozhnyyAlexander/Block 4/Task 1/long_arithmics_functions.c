@@ -65,11 +65,14 @@ long_aritcmetic_int* pow_long_numbers(long_aritcmetic_int* ar_int_f, unsigned in
 		return 0;
 
 	long_aritcmetic_int* res = (long_aritcmetic_int*)malloc(sizeof(long_aritcmetic_int));
-	res = ar_int_f;
+	init_new_int(res, 1, START_LIM_LENGHT);
 
-	for (int i = 1; i < stepen; i++)
+	for (int i = 0; i < stepen; i++)
 	{
-		res = multiplication_long_numbers(res, ar_int_f);
+		long_aritcmetic_int* temp_int;
+		temp_int = multiplication_long_numbers(res, ar_int_f);
+		free_long_numbers(res);
+		res = temp_int;
 	}
 
 	return res;
