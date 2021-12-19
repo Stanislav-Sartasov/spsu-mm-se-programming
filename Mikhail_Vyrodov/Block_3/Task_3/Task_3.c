@@ -9,11 +9,13 @@ int main(int argc, char** argv)
 	struct bitmap_header header;
 	struct dib_header dibheader;
 	struct image image;
+	printf("This program applies <%s> filter to the <%s> file and writes it to the <%s> file\n", argv[3], argv[1], argv[2]);
 	if (argc != 4)
 	{
 		printf("Not enough arguments or more than enough arguments\n");
 		return 1;
 	}
+	// Reading file and creating image
 	FILE* fp = fopen(argv[1], "rb");
 	if (fp == NULL)
 	{
@@ -25,6 +27,7 @@ int main(int argc, char** argv)
 	fread(&dibheader, sizeof(struct dib_header), 1, fp);
 	fseek(fp, header.image_offset, SEEK_SET);
 	image = read_image(fp, dibheader.height, dibheader.width, dibheader.bits_per_pixel);
+	// Applying filter and creating filtered image
 	if (apply_filters(image, argv[2], argv[3], dibheader, header))
 	{
 		printf("Filter was applied and you can see filtered image in <");

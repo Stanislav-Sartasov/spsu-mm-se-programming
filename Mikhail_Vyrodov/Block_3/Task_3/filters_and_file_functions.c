@@ -52,18 +52,22 @@ void grayscale(struct argb* argb)
 
 void median_filter(struct argb** pic, struct argb** pixels, int i, int k)
 {
-	unsigned char reds[] = { pic[i - 1][k - 1].red, pic[i - 1][k].red, pic[i - 1][k + 1].red,
-	pic[i][k - 1].red, pic[i][k].red, pic[i][k + 1].red, pic[i + 1][k].red,
-	pic[i + 1][k - 1].red, pic[i + 1][k + 1].red };
-	unsigned char blues[] = { pic[i - 1][k - 1].blue, pic[i - 1][k].blue, pic[i - 1][k + 1].blue,
-	pic[i][k - 1].blue, pic[i][k].blue, pic[i][k + 1].blue, pic[i + 1][k].blue,
-	pic[i + 1][k - 1].blue, pic[i + 1][k + 1].blue };
-	unsigned char greens[] = { pic[i - 1][k - 1].green, pic[i - 1][k].green, pic[i - 1][k + 1].green,
-	pic[i][k - 1].green, pic[i][k].green, pic[i][k + 1].green, pic[i + 1][k].green,
-	pic[i + 1][k - 1].green, pic[i + 1][k + 1].green };
-	unsigned char alphas[] = { pic[i - 1][k - 1].alpha, pic[i - 1][k].alpha, pic[i - 1][k + 1].alpha,
-	pic[i][k - 1].alpha, pic[i][k].alpha, pic[i][k + 1].alpha, pic[i + 1][k].alpha,
-	pic[i + 1][k - 1].alpha, pic[i + 1][k + 1].alpha };
+	unsigned char reds[9] = { 0 };
+	unsigned char blues[9] = { 0 };
+	unsigned char greens[9] = { 0 };
+	unsigned char alphas[9] = { 0 };
+	unsigned count = 0;
+	for (int first_counter = i - 1; first_counter <= i + 1; first_counter++)
+	{
+		for (int second_counter = k - 1; second_counter <= k + 1; second_counter++)
+		{
+			reds[count] = pic[first_counter][second_counter].red;
+			blues[count] = pic[first_counter][second_counter].blue;
+			greens[count] = pic[first_counter][second_counter].green;
+			alphas[count] = pic[first_counter][second_counter].alpha;
+			count++;
+		}
+	}
 	qsort(reds, 9, 1, compare);
 	qsort(blues, 9, 1, compare);
 	qsort(greens, 9, 1, compare);
@@ -108,37 +112,19 @@ void sobel_x(struct argb** pic, struct argb** pixels, int i, int k)
 	pix_blue = 0;
 	pix_green = 0;
 	pix_alpha = 0;
-	for (int first_counter = i - 1; first_counter < i + 1; first_counter++)
+	for (int first_counter = i - 1; first_counter <= i + 1; first_counter++)
 	{
-		for (int second_counter = k - 1; second_counter < k + 1; second_counter++)
+		for (int second_counter = k - 1; second_counter <= k + 1; second_counter++)
 		{
 			pix_red += pic[first_counter][second_counter].red * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_green += pic[first_counter][second_counter].green * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_blue += pic[first_counter][second_counter].blue * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_alpha += pic[first_counter][second_counter].alpha * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
 		}
 	}
+	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
+	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
+	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
 	pixels[i][k].alpha = abs(pix_alpha) < 255 ? abs(pix_alpha) : 255;
 	grayscale(&pixels[i][k]);
 }
@@ -150,37 +136,19 @@ void sobel_y(struct argb** pic, struct argb** pixels, int i, int k)
 	pix_blue = 0;
 	pix_green = 0;
 	pix_alpha = 0;
-	for (int first_counter = i - 1; first_counter < i + 1; first_counter++)
+	for (int first_counter = i - 1; first_counter <= i + 1; first_counter++)
 	{
-		for (int second_counter = k - 1; second_counter < k + 1; second_counter++)
+		for (int second_counter = k - 1; second_counter <= k + 1; second_counter++)
 		{
 			pix_red += pic[first_counter][second_counter].red * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_green += pic[first_counter][second_counter].green * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_blue += pic[first_counter][second_counter].blue * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
-	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
-	for (first_counter = i - 1; first_counter < i + 1; first_counter++)
-	{
-		for (second_counter = k - 1; second_counter < k + 1; second_counter++)
-		{
 			pix_alpha += pic[first_counter][second_counter].alpha * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
 		}
 	}
+	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
+	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
+	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
 	pixels[i][k].alpha = abs(pix_alpha) < 255 ? abs(pix_alpha) : 255;
 	grayscale(&pixels[i][k]);
 }
