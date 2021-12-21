@@ -45,8 +45,7 @@ void unite_empety_blocks(memory_block* curr_block)
 		return;
 	}
 
-	// find out how many empty block we have
-	// on this step we know that we have at least one empty block
+	// find out how many empty block we have, on this step we know that we have at least one empty block 
 
 	memory_block* start_block = curr_block;
 	memory_block* end_block = curr_block;
@@ -83,13 +82,13 @@ void unite_empety_blocks(memory_block* curr_block)
 
 void my_free(void* pointer)
 {
-	*(((char*)pointer) - 8) = 0;
+	*(((char*)pointer) - OFFSET_TO_ISUSED_FROM_USER_DATA) = 0;
 }
 
 void* my_malloc(int size)
 {
 	unite_empety_blocks(first_block);
-	size = (size + 3) / 4 * 4;
+	size = (size + 3) / 4 * 4; // makes size a multiple of 4
 
 	if (first_block == NULL) // if we have no blocks yet
 	{
@@ -107,16 +106,16 @@ void* my_malloc(int size)
 		if ((char*)curr_block + curr_block->size + 2 * HEADER_SIZE + size > memory + DEFAULT_MEMORY_SIZE)
 			return NULL;
 
-		if (curr_block->is_used == 0 && curr_block->size > size) // try to find space between in empty blocks
+		if (curr_block->is_used == 0 && curr_block->size > size) // try to find space between empty blocks
 		{
 			int remaining_memory = curr_block->size - size;
 
 			/*
-				if remaining memory > 16 we create an extra block with user data size at least 4 bytes
+				if remaining memory > 16 (THE_SMALLEST_SIZE_OF_ALLOCATED_MEMORY) we create an extra block with user data size at least 4 bytes
 				in other situations we leave this memory as fragmentation
 			*/
 
-			if (remaining_memory > 16)
+			if (remaining_memory > THE_SMALLEST_SIZE_OF_ALLOCATED_MEMORY)
 			{
 				memory_block* temp = curr_block->next;
 				curr_block->next = (char*)curr_block + HEADER_SIZE + curr_block->size;
@@ -153,7 +152,7 @@ void* my_calloc(int size)
 
 void* my_realloc(void* pointer, int size)
 {
-	memory_block* curr_block = ((memory_block*)(((char*)pointer - 12)));
+	memory_block* curr_block = ((memory_block*)(((char*)pointer - OFFSET_TO_STRUCT_ADRESS_FROM_USER_DATA)));
 
 	if (curr_block->size >= size)
 	{
@@ -165,7 +164,7 @@ void* my_realloc(void* pointer, int size)
 		{
 			int remaining_memory = curr_block->size - size;
 
-			if (remaining_memory > 16)
+			if (remaining_memory > THE_SMALLEST_SIZE_OF_ALLOCATED_MEMORY)
 			{
 				memory_block* temp = curr_block->next;
 				curr_block->next = (char*)curr_block + HEADER_SIZE + curr_block->size;
