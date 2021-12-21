@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "long_arithmetic.h"
 
-#define BASE 4096
+#define BASE 65536
 
 int main(int argc, char* argv[])
 {

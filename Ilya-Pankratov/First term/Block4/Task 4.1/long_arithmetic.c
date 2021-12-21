@@ -5,6 +5,13 @@
 
 long_number* create_number(int size, int value, int base)
 {
+	// if the base os the number is greater than MAX_BASE, we may have some mistakes because of overflow during product
+
+	if (base > MAX_BASE)
+	{
+		return NULL;
+	}
+
 	long_number* number = (long_number*)malloc(sizeof(long_number));
 	number->digits = (int*)calloc(size, sizeof(int));
 	number->size = size;
@@ -95,7 +102,7 @@ long_number* long_max(long_number* first, long_number* second)
 	return long_comparator(first, second) == 1 ? first : second;
 }
 
-long_number* long_sum(long_number* first, long_number* second) // calculates a + b; a - b: -a - b; -a + b
+long_number* long_sum(long_number* first, long_number* second) // calculates a + b; a - b; -a - b; -a + b
 {
 	int end = first->size >= second->size ? first->size : second->size;
 	long_number* result = create_number(end + 1, 0, first->base);
@@ -129,12 +136,12 @@ long_number* long_sum(long_number* first, long_number* second) // calculates a +
 			}
 			if (i < second->size)
 			{
-				result->digits[i] = first->digits[i] - second->digits[i];
 				if (result->digits[i] < 0)
 				{
 					result->digits[i] += result->base;
 					int difference_flag = 1;
 				}
+				result->digits[i] = first->digits[i] - second->digits[i];
 			}
 			else
 			{
