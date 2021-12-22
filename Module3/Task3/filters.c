@@ -1,4 +1,5 @@
 #include"Header.h"
+
 void swap(unsigned char* a, unsigned char* b)
 {
 	unsigned char temp = *a;
@@ -9,10 +10,12 @@ void swap(unsigned char* a, unsigned char* b)
 void filterMedian(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr)
 {
 	for (int i = 1; i < height - 3; i++)
+	{
 		for (int j = 1; j < width - 3; j++)
 		{
 			applyMedianToPixels(rgbArr, newArr, j, i);
 		}
+	}
 }
 
 void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idX, int idY)
@@ -29,17 +32,25 @@ void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int 
 	}
 
 	for (int j = 0; j < 9; j++)
+	{
 		for (int i = 0; i < 9; i++)
 		{
 			if (arrB[i] > arrB[j])
+			{
 				swap(&arrB[j], &arrB[i]);
+			}
 
 			if (arrG[i] > arrG[j])
+			{
 				swap(&arrG[j], &arrG[i]);
+			}
 
 			if (arrR[i] > arrR[j])
+			{
 				swap(&arrR[j], &arrR[i]);
+			}
 		}
+	}
 
 	newArr[idY][idX].r = arrR[4];
 	newArr[idY][idX].b = arrB[4];
@@ -47,7 +58,6 @@ void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int 
 
 }
 
-//Black and White
 void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR)
 {
 	for (int i = 0; i < height; i++)
@@ -63,7 +73,6 @@ void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgbARR, struc
 	}
 }
 
-//filter gauss 3*3 and 5*5
 const int gaussMatrix5x5[5][5] = { {1, 4,  6,  4,  1},
 								   {4, 16, 24, 16, 4},
 								   {6, 24, 36, 24, 6},
@@ -77,10 +86,12 @@ const int gaussMatrix3x3[3][3] = { {1, 2, 1},
 void filterGauss(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int size)
 {
 	for (int i = size / 2; i < height - size; i++)
+	{
 		for (int j = size / 2; j < width - size; j++)
 		{
 			applyGaussToPixels(rgbARR, newARR, j, i, size);
 		}
+	}
 }
 
 void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int idX, int idY, int size)
@@ -88,9 +99,9 @@ void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int i
 	int sumG = 0, sumB = 0, sumR = 0;
 	int div = size < 4 ? 16 : 256;
 
-	if (size == 3)
+	for (int i = 0; i < size * size; i++)
 	{
-		for (int i = 0; i < size * size; i++)
+		if (size == 3)
 		{
 			struct RGBTRIPLE* tempRGB = &arr[idY - 1 + i / size][idX - 1 + i % size];
 
@@ -98,10 +109,7 @@ void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int i
 			sumG += tempRGB->g * gaussMatrix3x3[i / size][i % size];
 			sumR += tempRGB->r * gaussMatrix3x3[i / size][i % size];
 		}
-	}
-	else
-	{
-		for (int i = 0; i < size * size; i++)
+		else
 		{
 			struct RGBTRIPLE* tempRGB = &arr[idY - 2 + i / size][idX - 2 + i % size];
 
@@ -132,15 +140,12 @@ void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBT
 		{
 			if (axis == 1)
 			{
-
 				applySobelToPixels(rgbARR, newARR, j, i, axis);
 			}
 			else
 			{
 				applySobelToPixels(rgbARR, newARR, j, i, axis);
 			}
-
-
 		}
 	}
 }
@@ -180,4 +185,3 @@ void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int i
 	newARR[idY][idX].b = (unsigned char)(sumB);
 	newARR[idY][idX].g = (unsigned char)(sumG);
 }
-

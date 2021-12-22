@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
 	char* partToTheFileExport = argv[3];
 	char* numberOfFilter = argv[2];
 
-
 	if (readArgument(argc))
 	{
 		printf("\n Ошибка ввода параметров аргументов!\n");
@@ -49,9 +48,8 @@ int main(int argc, char* argv[])
 	}
 
 	int p;
-	struct RGBTRIPLE** rgbTriple = readArray(&p, headerFile, fileImport);;
+	struct RGBTRIPLE** rgbTriple = readArray(&p, headerFile, fileImport);
 	struct RGBTRIPLE** rgbNew = cpyArray(rgbTriple, headerFile);
-
 
 	if (!strcmp(numberOfFilter, "1"))
 	{
@@ -94,8 +92,6 @@ int main(int argc, char* argv[])
 			fputc(0, fileExport);
 	}
 
-
-
 	printf("Результат работы программы:\n");
 	printf(" - Параметр 1 - %s\n", argv[1]);
 	printf(" - Параметр 2 - %s\n", argv[2]);
@@ -108,5 +104,4 @@ int main(int argc, char* argv[])
 	free(rgbNew);
 
 	return 0;
-
 }

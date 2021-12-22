@@ -8,10 +8,8 @@ int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile)
 		return 0;
 	}
 
-	// читаем заголовок
 	fread(inf, sizeof(struct infoHeaderOfFile), 1, importFile);
 
-	// проверяем сигнатуру
 	if (inf->bfType != 0x4D42 && inf->bfType != 0x4349 && inf->bfType != 0x5450)
 	{
 		printf("Фатальная ошибка! Указан не верный формат (Не BMP)!");
@@ -25,8 +23,6 @@ int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile)
 		return 0;
 	}
 
-
-
 	if (inf->biBitCount != 24 && inf->biBitCount != 32)
 	{
 		printf("Фатальная оибка, программа работает только с 24 и 32-битовыми файлами\n");
@@ -34,10 +30,7 @@ int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile)
 	}
 
 	return inf->biBitCount;
-
-
 }
-
 struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE* importFile)
 {
 	struct RGBTRIPLE** rgbArr = calloc(sizeof(struct RGBTRIPLE*), infMAP->biHeight);
@@ -72,7 +65,6 @@ struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE
 
 	return rgbArr;
 }
-
 struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** oldArr, struct infoHeaderOfFile* infMap)
 {
 	struct RGBTRIPLE** rgbNew = malloc(sizeof(struct RGBTRIPLE*) * infMap->biHeight);
