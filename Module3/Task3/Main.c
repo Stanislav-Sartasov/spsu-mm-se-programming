@@ -65,11 +65,11 @@ int main(int argc, char* argv[])
 	}
 	if (!strcmp(numberOfFilter, "4"))
 	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 1);
+		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew,1);
 	}
 	if (!strcmp(numberOfFilter, "5"))
 	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 1);
+		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew,2);
 	}
 	if (!strcmp(numberOfFilter, "6"))
 	{

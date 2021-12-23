@@ -83,6 +83,26 @@ const int gaussMatrix3x3[3][3] = { {1, 2, 1},
 								   {2, 4, 2},
 								   {1, 2, 1} };
 
+const int sobelx_matrix[3][3] = { {1,  2,  1},
+								 {0,  0,  0},
+								 {-1, -2, -1} };
+
+const int sobely_matrix[3][3] = { {-1, 0, 1},
+								 {-2, 0, 2},
+								 {-1, 0, 1} };
+
+void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int axis)
+{
+	for (int i = 1; i < height - 3; i++)
+	{
+		for (int j = 1; j < width - 3; j++)
+		{
+			applySobelToPixels(rgbARR, newARR, j, i, axis);
+		}
+	}
+}
+
+
 void filterGauss(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int size)
 {
 	for (int i = size / 2; i < height - size; i++)
@@ -124,31 +144,6 @@ void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int i
 	newARR[idY][idX].g = (unsigned char)(sumG / div);
 }
 
-const int sobelx_matrix[3][3] = { {1,  2,  1},
-								 {0,  0,  0},
-								 {-1, -2, -1} };
-
-const int sobely_matrix[3][3] = { {-1, 0, 1},
-								 {-2, 0, 2},
-								 {-1, 0, 1} };
-
-void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbARR, struct RGBTRIPLE** newARR, int axis)
-{
-	for (int i = 1; i < height - 3; i++)
-	{
-		for (int j = 1; j < width - 3; j++)
-		{
-			if (axis == 1)
-			{
-				applySobelToPixels(rgbARR, newARR, j, i, axis);
-			}
-			else
-			{
-				applySobelToPixels(rgbARR, newARR, j, i, axis);
-			}
-		}
-	}
-}
 
 void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newARR, int idX, int idY, int axis)
 {
