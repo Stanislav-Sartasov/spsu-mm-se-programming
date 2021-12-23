@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{17120052-f4a9-4b8d-9a1f-328c4148dcb0}</ProjectGuid>
-    <RootNamespace>Task3</RootNamespace>
+    <ProjectGuid>{7e47ea85-952d-4ed1-a752-484600938af6}</ProjectGuid>
+    <RootNamespace>Task3filters</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -139,7 +139,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="filters.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="tools.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="filters.h" />
+    <ClInclude Include="tools.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
