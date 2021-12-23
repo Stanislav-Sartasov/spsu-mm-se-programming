@@ -27,7 +27,8 @@ void* my_malloc(size_t size)
 	size_t needed_size = size + sizeof(memory_t);
 	if (blocks == NULL)
 	{
-		if (needed_size > PREALLOCATED_BYTES) {
+		if (needed_size > PREALLOCATED_BYTES)
+		{
 			return NULL;
 		}
 		blocks = memory;
@@ -92,7 +93,8 @@ void* my_realloc(void* ptr, size_t size)
 	while (block->data != ptr)
 		block = block->next;
 
-	if (size <= (byte_t*)block->next - (byte_t*)block->data) {
+	if (size <= (byte_t*)block->next - (byte_t*)block->data)
+	{
 		block->size = size;
 		return ptr;
 	}
