@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
         printf("Not enough arguments or too many arguments\n");
     }
     fdin = open(argv[1], O_RDONLY);
-    fdout = open(argv[2], O_RDWR | O_TRUNC, S_IWRITE);
+    fdout = open(argv[2], O_RDWR | O_TRUNC | O_CREAT, S_IWRITE);
     if (fdin < 0)
     {
         printf("Error reading <%s> file\n", argv[1]);
