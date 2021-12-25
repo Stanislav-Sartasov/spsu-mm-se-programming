@@ -277,42 +277,48 @@ void median_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
     }
 }
 
-void gauss_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas) 
+void mask(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas, int kf, int* apl) 
 {
 
-    BYTE apl[9] = { 1,2,1,2,4,2,1,2,1 }; 
-    int k = 0;
-    float green = 0, red = 0, blue = 0;
+    int k = 0, green = 0, red = 0, blue = 0;
 
-    for (int i = 2; i < BMPIH->hight + 2; ++i) 
+    for (int i = 2; i < BMPIH->hight + 2; ++i)
     {
-        for (int j = 2; j < BMPIH->width + 2; ++j) 
-        { 
+        for (int j = 2; j < BMPIH->width + 2; ++j)
+        {
             k = 0, green = 0, red = 0, blue = 0;
-            for (int i1 = i - 1; (i1 < i1 + 1) && (k < 9); ++i1) 
+            for (int i1 = i - 1; (i1 < i1 + 1) && (k < 9); ++i1)
             {
-                for (int j1 = j - 1; j1 <= j + 1; ++j1, ++k) 
+                for (int j1 = j - 1; j1 <= j + 1; ++j1, ++k)
                 {
-                    green += mas[i1][j1].green * apl[k] / 16;
-                    blue += mas[i1][j1].blue * apl[k] / 16;
-                    red += mas[i1][j1].red * apl[k] / 16;
+                    green += mas[i1][j1].green * apl[k] / kf;
+                    blue += mas[i1][j1].blue * apl[k] / kf;
+                    red += mas[i1][j1].red * apl[k] / kf;
                 }
             }
-            mas[i][j].blue = (BYTE)blue;
-            mas[i][j].red = (BYTE)red;
-            mas[i][j].green = (BYTE)green; 
+            if (kf == 16) 
+            {
+                mas[i][j].blue = (BYTE)blue;
+                mas[i][j].red = (BYTE)red;
+                mas[i][j].green = (BYTE)green;
+            }
+            else 
+            {
+                mas[i][j].blue = MIN(abs(blue), 255);
+                mas[i][j].red = MIN(abs(red), 255);
+                mas[i][j].green = MIN(abs(green), 255);
+            }
         }
     }
 
 }
 
-
-void gray_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas) 
+void gray_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
 {
     BYTE average = 0;
-    for (int i = 0; i < BMPIH->hight + 4; ++i) 
+    for (int i = 0; i < BMPIH->hight + 4; ++i)
     {
-        for (int j = 0; j < BMPIH->width + 4; ++j) 
+        for (int j = 0; j < BMPIH->width + 4; ++j)
         {
             average = (mas[i][j].red + mas[i][j].green + mas[i][j].blue) / 3;
             mas[i][j].red = average;
@@ -320,67 +326,37 @@ void gray_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
             mas[i][j].blue = average;
         }
     }
-} 
-
-void sobel_fX(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas) 
-{
-
-    gray_f(BMPFH, BMPIH, mas); 
-
-    int apl[9] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 }; 
-    int k = 0;
-    float green = 0, red = 0, blue = 0;
-
-    for (int i = 2; i < BMPIH->hight + 2; ++i) 
-    {
-        for (int j = 2; j < BMPIH->width + 2; ++j) 
-        { 
-            k = 0, green = 0, red = 0, blue = 0;
-            for (int i1 = i - 1; (i1 < i1 + 1) && (k < 9); ++i1) 
-            {
-                for (int j1 = j - 1; j1 <= j + 1; ++j1, ++k) 
-                {
-                    green += mas[i1][j1].green * apl[k];
-                    blue += mas[i1][j1].blue * apl[k];
-                    red += mas[i1][j1].red * apl[k]; 
-                }
-            }
-            mas[i][j].blue = MIN(abs(blue), 255); 
-            mas[i][j].red = MIN(abs(red), 255);
-            mas[i][j].green = MIN(abs(green), 255);
-        }
-    }
 }
 
-void sobel_fY(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas) 
+void gauss_f(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
+{
+
+    int apl[9] = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
+
+    mask(BMPFH, BMPIH, mas, 16, apl);
+
+}
+
+void sobel_fX(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
 {
 
     gray_f(BMPFH, BMPIH, mas);
 
-    int apl[9] = { -1, -2, -1, 0, 0, 0, 1, 2, 1 }; 
-    int k = 0;
-    float green = 0, red = 0, blue = 0;
+    int apl[9] = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
 
-    for (int i = 2; i < BMPIH->hight + 2; ++i) 
-    {
-        for (int j = 2; j < BMPIH->width + 2; ++j) 
-        { 
-            k = 0, green = 0, red = 0, blue = 0;
-            for (int i1 = i - 1; (i1 < i1 + 1) && (k < 9); ++i1) 
-            {
-                for (int j1 = j - 1; j1 <= j + 1; ++j1, ++k) 
-                {
-                    green += mas[i1][j1].green * apl[k];
-                    blue += mas[i1][j1].blue * apl[k];
-                    red += mas[i1][j1].red * apl[k];
-                }
-            }
-            mas[i][j].blue = MIN(abs(blue), 255);
-            mas[i][j].red = MIN(abs(red), 255);
-            mas[i][j].green = MIN(abs(green), 255);
-        }
-    } 
+    mask(BMPFH, BMPIH, mas, 1, apl);
 }
+
+void sobel_fY(bmp_file_header* BMPFH, bmp_info_header* BMPIH, pixel** mas)
+{
+
+    gray_f(BMPFH, BMPIH, mas);
+
+    int apl[9] = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
+
+    mask(BMPFH, BMPIH, mas, 1, apl);
+}
+
 
 int main()
 {
