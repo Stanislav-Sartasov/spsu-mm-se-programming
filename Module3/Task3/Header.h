@@ -1,4 +1,3 @@
-#pragma once
 #define _CRT_SECURE_NO_WARNINGS
 
 #include <stdint.h>
@@ -16,7 +15,7 @@ typedef uint32_t LONG;
 
 #pragma pack(1)
 
-typedef struct infoHeaderOfFile
+struct infoHeaderOfFile
 {
 	WORD bfType;
 	DWORD bfSize;
@@ -45,14 +44,10 @@ struct RGBTRIPLE
 #pragma pop()
 
 bool readArgument(int);
-int fileValidation(struct infoHeaderOfFile* BITMAPFILEHEADER, FILE* importFile);
-struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE* importFile);
-struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** oldArr, struct infoHeaderOfFile* infMap);
-void swap(unsigned char* a, unsigned char* b);
-void filterMedian(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr);
-void applyMedianToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy);
-void filterBlackandWhite(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr);
-void filterGauss(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** newArr, int size);
-void applyGaussToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy, int size);
-void filterSobelXY(int width, int height, struct RGBTRIPLE** rgbArr, struct RGBTRIPLE** new_arr, int axis);
-void applySobelToPixels(struct RGBTRIPLE** arr, struct RGBTRIPLE** newArr, int idx, int idy, int axis);
+int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile);
+struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile infMAP, FILE* importFile);
+void filterBlackandWhite(struct infoHeaderOfFile bh, struct RGBTRIPLE** rgbArr, FILE* fileExport);
+void applyMatrixToPixel(struct infoHeaderOfFile headerFile, struct RGBTRIPLE** rgbArr, FILE* fileExport, double* matrix, bool sob);
+void filterGauss(struct infoHeaderOfFile headerFile, struct pixel_info** rgbArr, FILE* fileExport);
+void filterSobelXY(struct infoHeaderOfFile headerFile, struct pixel_info** rgbArr, FILE* fileExport, int axis);
+void filterMedian(struct infoHeaderOfFile headerFile, struct pixel_info** rgbArr, FILE* fileExport);

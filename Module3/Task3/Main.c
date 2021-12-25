@@ -8,10 +8,9 @@ int main(int argc, char* argv[])
 	printf("Функциональное меню: \n");
 	printf(" 1 - Усредняющий фильтр 3x3 \n");
 	printf(" 2 - Усредняющий фильтр Гаусса 3x3 \n");
-	printf(" 3 - Усредняющий фильтр Гаусса 5x5 \n");
-	printf(" 4 - Фильтр Собеля по X \n");
-	printf(" 5 - Фильтр Собеля по Y \n");
-	printf(" 6 - Перевод изображения из цветного в оттенки серого \n\n");
+	printf(" 3 - Фильтр Собеля по X \n");
+	printf(" 4 - Фильтр Собеля по Y \n");
+	printf(" 5 - Перевод изображения из цветного в оттенки серого \n\n");
 
 	printf(" Пример ввода: Параметр1 Параметр2  Параметр3, где   \n");
 	printf(" - Параметр 1 - это путь к файлу исходнику; Пример ввода: С:\\file.bpm\n");
@@ -28,7 +27,7 @@ int main(int argc, char* argv[])
 		return 0;
 	}
 
-	if (strcmp(numberOfFilter, "1") && strcmp(numberOfFilter, "2") && strcmp(numberOfFilter, "3") && strcmp(numberOfFilter, "4") && strcmp(numberOfFilter, "5") && strcmp(numberOfFilter, "6"))
+	if (strcmp(numberOfFilter, "1") && strcmp(numberOfFilter, "2") && strcmp(numberOfFilter, "3") && strcmp(numberOfFilter, "4") && strcmp(numberOfFilter, "5"))
 	{
 		printf("\nУказанного вами фильтра нет в меню\n");
 		return 0;
@@ -36,11 +35,10 @@ int main(int argc, char* argv[])
 
 	FILE* fileImport = fopen(partToTheFile, "rb");
 
-	struct infoHeaderOfFile* headerFile = malloc(sizeof(struct infoHeaderOfFile));
+	struct infoHeaderOfFile headerFile;
 
-	int result = fileValidation(headerFile, fileImport);
 
-	if (!result)
+	if (!fileValidation(&headerFile, fileImport))
 	{
 		fclose(fileImport);
 		printf("Ошибка чтения файла импорта");
@@ -49,47 +47,28 @@ int main(int argc, char* argv[])
 
 	int p;
 	struct RGBTRIPLE** rgbTriple = readArray(&p, headerFile, fileImport);
-	struct RGBTRIPLE** rgbNew = cpyArray(rgbTriple, headerFile);
-
-	if (!strcmp(numberOfFilter, "1"))
-	{
-		filterMedian(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew);
-	}
-	if (!strcmp(numberOfFilter, "2"))
-	{
-		filterGauss(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 3);
-	}
-	if (!strcmp(numberOfFilter, "3"))
-	{
-		filterGauss(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew, 5);
-	}
-	if (!strcmp(numberOfFilter, "4"))
-	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew,1);
-	}
-	if (!strcmp(numberOfFilter, "5"))
-	{
-		filterSobelXY(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew,2);
-	}
-	if (!strcmp(numberOfFilter, "6"))
-	{
-		filterBlackandWhite(headerFile->biWidth, headerFile->biHeight, rgbTriple, rgbNew);
-	}
 
 	FILE* fileExport = fopen(partToTheFileExport, "wb");
 
-	fwrite(headerFile, sizeof(struct infoHeaderOfFile), 1, fileExport);
-
-	for (int i = 0; i < headerFile->biHeight; i++)
+	if (!strcmp(numberOfFilter, "1"))
 	{
-		for (int j = 0; j < headerFile->biWidth; j++)
-			fwrite(&rgbNew[i][j], sizeof(struct RGBTRIPLE), 1, fileExport);
-		if (headerFile->biBitCount == 32)
-		{
-			putc(0, fileExport);
-		}
-		for (int k = 0; k < p; k++)
-			fputc(0, fileExport);
+		filterMedian(headerFile, rgbTriple, fileExport);
+	}
+	if (!strcmp(numberOfFilter, "2"))
+	{
+		filterGauss(headerFile, rgbTriple, fileExport);
+	}
+	if (!strcmp(numberOfFilter, "3"))
+	{
+		filterSobelXY(headerFile, rgbTriple, fileExport, 1);
+	}
+	if (!strcmp(numberOfFilter, "4"))
+	{
+		filterSobelXY(headerFile, rgbTriple, fileExport, 2);
+	}
+	if (!strcmp(numberOfFilter, "5"))
+	{
+		filterBlackandWhite(headerFile, rgbTriple, fileExport);
 	}
 
 	printf("Результат работы программы:\n");
@@ -99,9 +78,7 @@ int main(int argc, char* argv[])
 	printf("Программа успешно завершила программу!\n\n");
 
 	fclose(fileExport);
-	free(headerFile);
 	free(rgbTriple);
-	free(rgbNew);
 
 	return 0;
 }

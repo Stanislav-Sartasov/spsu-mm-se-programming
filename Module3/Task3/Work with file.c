@@ -31,25 +31,25 @@ int fileValidation(struct infoHeaderOfFile* inf, FILE* importFile)
 
 	return inf->biBitCount;
 }
-struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE* importFile)
+struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile infMAP, FILE* importFile)
 {
-	struct RGBTRIPLE** rgbArr = calloc(sizeof(struct RGBTRIPLE*), infMAP->biHeight);
+	struct RGBTRIPLE** rgbArr = calloc(sizeof(struct RGBTRIPLE*), infMAP.biHeight);
 
-	for (int i = 0; i < infMAP->biHeight; i++)
+	for (int i = 0; i < infMAP.biHeight; i++)
 	{
-		rgbArr[i] = calloc(infMAP->biWidth, sizeof(struct RGBTRIPLE));
+		rgbArr[i] = calloc(infMAP.biWidth, sizeof(struct RGBTRIPLE));
 	}
 
-	*padding = (4 - (infMAP->biWidth * (infMAP->biBitCount / 8)) % 4) & 3;
+	*padding = (4 - (infMAP.biWidth * (infMAP.biBitCount / 8)) % 4) & 3;
 
-	for (int i = 0; i < infMAP->biHeight; i++)
+	for (int i = 0; i < infMAP.biHeight; i++)
 	{
-		for (int j = 0; j < infMAP->biWidth; j++)
+		for (int j = 0; j < infMAP.biWidth; j++)
 		{
 			rgbArr[i][j].b = (unsigned char)getc(importFile);
 			rgbArr[i][j].g = (unsigned char)getc(importFile);
 			rgbArr[i][j].r = (unsigned char)getc(importFile);
-			if (infMAP->biBitCount == 32)
+			if (infMAP.biBitCount == 32)
 			{
 				getc(importFile);
 			}
@@ -65,17 +65,4 @@ struct RGBTRIPLE** readArray(int* padding, struct infoHeaderOfFile* infMAP, FILE
 
 	return rgbArr;
 }
-struct RGBTRIPLE** cpyArray(struct RGBTRIPLE** oldArr, struct infoHeaderOfFile* infMap)
-{
-	struct RGBTRIPLE** rgbNew = malloc(sizeof(struct RGBTRIPLE*) * infMap->biHeight);
-
-	for (int i = 0; i < infMap->biHeight; i++)
-	{
-		rgbNew[i] = calloc(sizeof(struct RGBTRIPLE), infMap->biWidth);
-		memcpy(rgbNew[i], oldArr[i], sizeof(struct RGBTRIPLE) * infMap->biWidth);
-
-	}
-	return rgbNew;
-}
-
 
