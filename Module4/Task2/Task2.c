@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <locale.h>
 
 const int mem_size = 1024 * 1024 * 1024;
 
@@ -25,10 +26,9 @@ int isEnough(size_t size, char* memstart)
         memstart++;
     }
 
-    if (k == 0)
-        return 0;
-    else
-        return k;
+    if (k == 0) return 0;
+  
+    return k;
 
 }
 
@@ -113,8 +113,7 @@ void* myRealloc(void* ptr, size_t new_size)
 
 int main()
 {
-    system("chcp 1251");
-    system("cls");
+    setlocale(LC_ALL, "Rus");
     initialize();
 
     int* variable = myMalloc(sizeof(int));
