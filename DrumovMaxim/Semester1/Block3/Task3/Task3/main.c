@@ -5,6 +5,8 @@
 int main(int argc, char* argv[])
 {
 	FILE* fIn, * fOut;
+	printf("This program applies the selected filter to the given bmp image.\n\n");
+
 	if (argc != 4)
 	{
 		printf("Arguments are not enough");
