@@ -1,313 +1,311 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define LongNumber struct LongNumber
+#define long_number struct long_number
 
-const unsigned char NUM_BASE = 16;
+const unsigned int num_base = 16;
 
-LongNumber
+long_number
 {
-    unsigned char num;
-    LongNumber* next;
+	int num;
+	long_number* next;
 };
 
-void freeLongNumber(LongNumber* num)
+void freelong_number(long_number* num)
 {
-    LongNumber* ptr_prv, * ptr;
+	long_number* ptr_prv, * ptr;
 
-    ptr = num;
+	ptr = num;
 
-    while (ptr->next != NULL)
-    {
-        ptr_prv = ptr;
-        ptr = ptr->next;
+	while (ptr->next != NULL)
+	{
+		ptr_prv = ptr;
+		ptr = ptr->next;
 
-        free(ptr_prv);
-    }
+		free(ptr_prv);
+	}
 
-    free(ptr);
+	free(ptr);
 }
 
-LongNumber* createLongNumber(unsigned char num)
+long_number* createlong_number(int num)
 {
-    LongNumber* result = malloc(sizeof(LongNumber));
-    result->num = num;
-    result->next = NULL;
+	long_number* result = malloc(sizeof(long_number));
+	result->num = num;
+	result->next = NULL;
 
-    return result;
+	return result;
 }
 
-int getSize(LongNumber* num)
+int get_size(long_number* num)
 {
-    int k = 1;
+	int k = 1;
 
-    while (num->next != NULL)
-    {
-        k++;
-        num = num->next;
-    }
+	while (num->next != NULL)
+	{
+		k++;
+		num = num->next;
+	}
 
-    return k;
+	return k;
 }
 
-LongNumber* bigMult(LongNumber* num1, LongNumber* num2)
+long_number* big_mult(long_number* num1, long_number* num2)
 {
-    LongNumber* result = malloc(sizeof(LongNumber));
-    result->num = 0;
-    result->next = NULL;
+	long_number* result = malloc(sizeof(long_number));
+	result->num = 0;
+	result->next = NULL;
 
-    int size1 = getSize(num1);
-    int size2 = getSize(num2);
+	int size1 = get_size(num1);
+	int size2 = get_size(num2);
 
-    LongNumber* small, * big;
+	long_number* small, * big;
 
-    if (size1 > size2)
-    {
-        small = num2;
-        big = num1;
-    }
-    else
-    {
-        small = num1;
-        big = num2;
-    }
+	if (size1 > size2)
+	{
+		small = num2;
+		big = num1;
+	}
+	else
+	{
+		small = num1;
+		big = num2;
+	}
 
-    LongNumber* res_chk = result;
+	long_number* res_chk = result;
 
-    while (small != NULL)
-    {
-        unsigned char delta_prv = 0;
-        unsigned char delta_next = 0;
+	while (small != NULL)
+	{
+		int delta_prv = 0;
+		int delta_next = 0;
 
-        LongNumber* big_temp = big;
-        LongNumber* res_temp = res_chk;
-
-
-        while (big_temp->next != NULL)
-        {
-            delta_next = small->num * big_temp->num;
-
-            res_temp->num += delta_next % NUM_BASE + delta_prv;
-
-            delta_prv = delta_next / NUM_BASE + res_temp->num / NUM_BASE;
-
-            res_temp->num %= NUM_BASE;
-
-            if (res_temp->next == NULL)
-            {
-                res_temp->next = malloc(sizeof(LongNumber));
-                res_temp->next->num = 0;
-                res_temp->next->next = NULL;
-            }
-
-            big_temp = big_temp->next;
-            res_temp = res_temp->next;
-        }
-
-        delta_next = small->num * big_temp->num;
-
-        if (res_temp == NULL)
-        {
-            res_temp = malloc(sizeof(LongNumber));
-            res_temp->num = 0;
-            res_temp->next = NULL;
-        }
-
-        res_temp->num += delta_next % NUM_BASE + delta_prv;
-
-        delta_prv = delta_next / NUM_BASE + res_temp->num / NUM_BASE;
-
-        res_temp->num %= NUM_BASE;
-
-        if (delta_prv != 0)
-        {
-            if (res_temp->next == NULL)
-            {
-                res_temp->next = malloc(sizeof(LongNumber));
-                res_temp->next->num = 0;
-                res_temp->next->next = NULL;
-            }
-
-            res_temp->next->num += delta_prv;
-        }
-
-        small = small->next;
-        res_chk = res_chk->next;
-    }
-
-    return result;
-
-}
-
-LongNumber* bigSum(LongNumber* num1, LongNumber* num2)
-{
-    LongNumber* result = calloc(1, sizeof(LongNumber));
-    LongNumber* return_value = result;
-    result->next = NULL;
-    result->num = 0;
-
-    while ((num1->next != NULL) && (num2->next != NULL))
-    {
-        result->num += num1->num + num2->num;
-        result->next = calloc(1, sizeof(LongNumber));
-
-        result->next->num = 0;
-        result->next->next = NULL;
-
-        if (result->num >= NUM_BASE)
-        {
-            result->next->num = result->num / NUM_BASE;
-            result->num = result->num % NUM_BASE;
-        }
-
-        num1 = num1->next;
-        num2 = num2->next;
-        result = result->next;
-    }
-
-    result->num += num1->num + num2->num;
-
-    if (result->num >= NUM_BASE)
-    {
-        result->next = calloc(1, sizeof(LongNumber));
-        result->next->next = NULL;
-        result->next->num = result->num / NUM_BASE;
-        result->num = result->num % NUM_BASE;
-    }
-
-    LongNumber* cnt = NULL;
-
-    if (num1->next != NULL)
-    {
-        cnt = num1->next;
-    }
-    else if (num2->next != NULL)
-    {
-        cnt = num2->next;
-    }
-
-    if (cnt != NULL)
-    {
-        while (cnt != NULL)
-        {
-            if (result->next == NULL)
-            {
-
-                result->next = calloc(1, sizeof(LongNumber));
-                result->next->num = 0;
-                result->next->next = NULL;
-
-            }
-
-            result = result->next;
-            result->num += cnt->num;
-
-            if (result->num >= NUM_BASE)
-            {
-                if (result->next == NULL)
-                {
-
-                    result->next = calloc(1, sizeof(LongNumber));
-                    result->next->num = 0;
-                    result->next->next = NULL;
-
-                }
-
-                result->next->num = result->num / NUM_BASE;
-                result->num = result->num % NUM_BASE;
-            }
-
-            result = result->next;
-            cnt = cnt->next;
-        }
-    }
+		long_number* big_temp = big;
+		long_number* res_temp = res_chk;
 
 
-    return return_value;
-}
+		while (big_temp->next != NULL)
+		{
+			delta_next = small->num * big_temp->num;
 
-LongNumber* pow(LongNumber* num, int power)
-{
-    LongNumber* temp = malloc(sizeof(LongNumber));
-    *temp = *num;
+			res_temp->num += delta_next % num_base + delta_prv;
 
-    for (int i = 1; i < power; i++)
-    {
-        *temp = *bigMult(temp, num);
-    }
+			delta_prv = delta_next / num_base + res_temp->num / num_base;
 
-    return temp;
-}
+			res_temp->num %= num_base;
 
-void toHex(unsigned char num)
-{
-    if (num < 10)
-        printf("%d", num);
-    else
-        switch (num)
-        {
-        case 10:
-        {
-            printf("a");
-            break;
-        }
-        case 11:
-        {
-            printf("b");
-            break;
-        }
-        case 12:
-        {
-            printf("c");
-            break;
-        }
-        case 13:
-        {
-            printf("d");
-            break;
-        }
-        case 14:
-        {
-            printf("e");
-            break;
-        }
-        case 15:
-        {
-            printf("f");
-            break;
-        }
-        default:
-        {
-            break;
-        }
-        }
+			if (res_temp->next == NULL)
+			{
+				res_temp->next = malloc(sizeof(long_number));
+				res_temp->next->num = 0;
+				res_temp->next->next = NULL;
+			}
+
+			big_temp = big_temp->next;
+			res_temp = res_temp->next;
+		}
+
+		delta_next = small->num * big_temp->num;
+
+		if (res_temp == NULL)
+		{
+			res_temp = malloc(sizeof(long_number));
+			res_temp->num = 0;
+			res_temp->next = NULL;
+		}
+
+		res_temp->num += delta_next % num_base + delta_prv;
+
+		delta_prv = delta_next / num_base + res_temp->num / num_base;
+
+		res_temp->num %= num_base;
+
+		if (delta_prv != 0)
+		{
+			if (res_temp->next == NULL)
+			{
+				res_temp->next = malloc(sizeof(long_number));
+				res_temp->next->num = 0;
+				res_temp->next->next = NULL;
+			}
+
+			res_temp->next->num += delta_prv;
+		}
+
+		small = small->next;
+		res_chk = res_chk->next;
+	}
+
+	return result;
 
 }
 
-void printLongNumber(LongNumber* num)
+long_number* big_sum(long_number* num1, long_number* num2)
 {
-    if (num->next == NULL)
-    {
-        if (num->num != 0)
-            toHex(num->num);
+	long_number* result = calloc(1, sizeof(long_number));
+	long_number* return_value = result;
+	result->next = NULL;
+	result->num = 0;
 
-        return;
-    }
+	while ((num1->next != NULL) && (num2->next != NULL))
+	{
+		result->num += num1->num + num2->num;
+		result->next = calloc(1, sizeof(long_number));
 
-    printLongNumber(num->next);
-    toHex(num->num);
+		result->next->num = 0;
+		result->next->next = NULL;
+
+		if (result->num >= num_base)
+		{
+			result->next->num = result->num / num_base;
+			result->num = result->num % num_base;
+		}
+
+		num1 = num1->next;
+		num2 = num2->next;
+		result = result->next;
+	}
+
+	result->num += num1->num + num2->num;
+
+	if (result->num >= num_base)
+	{
+		result->next = calloc(1, sizeof(long_number));
+		result->next->next = NULL;
+		result->next->num = result->num / num_base;
+		result->num = result->num % num_base;
+	}
+
+	long_number* cnt = NULL;
+
+	if (num1->next != NULL)
+	{
+		cnt = num1->next;
+	}
+	else if (num2->next != NULL)
+	{
+		cnt = num2->next;
+	}
+
+	if (cnt != NULL)
+	{
+		while (cnt != NULL)
+		{
+			if (result->next == NULL)
+			{
+
+				result->next = calloc(1, sizeof(long_number));
+				result->next->num = 0;
+				result->next->next = NULL;
+
+			}
+
+			result = result->next;
+			result->num += cnt->num;
+
+			if (result->num >= num_base)
+			{
+				if (result->next == NULL)
+				{
+
+					result->next = calloc(1, sizeof(long_number));
+					result->next->num = 0;
+					result->next->next = NULL;
+
+				}
+
+				result->next->num = result->num / num_base;
+				result->num = result->num % num_base;
+			}
+
+			result = result->next;
+			cnt = cnt->next;
+		}
+	}
+
+
+	return return_value;
+}
+
+long_number* pow(long_number* num, int power)
+{
+	long_number* temp = malloc(sizeof(long_number));
+	*temp = *num;
+
+	for (int i = 1; i < power; i++)
+	{
+		*temp = *big_mult(temp, num);
+	}
+
+	return temp;
+}
+
+void to_hex(int num)
+{
+	if (num < 10)
+		printf("%d", num);
+	else
+		switch (num)
+		{
+		case 10:
+		{
+			printf("a");
+			break;
+		}
+		case 11:
+		{
+			printf("b");
+			break;
+		}
+		case 12:
+		{
+			printf("c");
+			break;
+		}
+		case 13:
+		{
+			printf("d");
+			break;
+		}
+		case 14:
+		{
+			printf("e");
+			break;
+		}
+		case 15:
+		{
+			printf("f");
+			break;
+		}
+		default:
+		{
+			break;
+		}
+		}
+
+}
+
+void printlong_number(long_number* num)
+{
+	if (num->next == NULL)
+	{
+		if (num->num != 0)
+			to_hex(num->num);
+
+		return;
+	}
+
+	printlong_number(num->next);
+	to_hex(num->num);
 }
 
 int main()
 {
-    system("chcp 1251");
-    system("cls");
-    unsigned char num = 3;
-    LongNumber* answer = createLongNumber(num);
-    *answer = *pow(answer, 5000);
-    printf("Ответ:");
-    printLongNumber(answer);
-    freeLongNumber(answer);
+	int num = 3;
+	long_number* answer = createlong_number(num);
+	*answer = *pow(answer, 5000);
+	printf("Answer:");
+	printlong_number(answer);
+	freelong_number(answer);
 
-    return 0;
+	return 0;
 }
