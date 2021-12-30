@@ -13,10 +13,12 @@ struct string
     char* array;
     int len;
 };
+
 int comparing(struct string* a, struct string* b)
 {
     return strcmp(a->array, b->array);
 }
+
 int main(int argc, char* argv[])
 {
     int i, strings_number, str_start, str_end, strings_count;
