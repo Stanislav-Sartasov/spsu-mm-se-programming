@@ -78,26 +78,51 @@ void median_filter(struct argb** pic, struct argb** pixels, int i, int k)
 	pixels[i][k].alpha = alphas[4];
 }
 
+void redact_pixels(struct argb** pic, char* filter, int i, int k, int* pix_red, int* pix_blue, int* pix_green, int* pix_alpha)
+{
+	int first_counter, second_counter, dif;
+	*pix_red = 0;
+	*pix_blue = 0;
+	*pix_green = 0;
+	*pix_alpha = 0;
+	for (first_counter = i - 1; first_counter < i + 2; ++first_counter)
+	{
+		for (second_counter = k - 1; second_counter < k + 2; ++second_counter)
+		{
+			if (strcmp(filter, "gauss") == 0)
+			{
+				int coefficients[] = { 4, 3, 2 };
+				dif = coefficients[abs(first_counter - i) + abs(second_counter - k)];
+			}
+			else if (strcmp(filter, "sobelx") == 0)
+			{
+				int sobel_x_coeff[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
+				dif = sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
+			}
+			else
+			{
+				int sobel_y_coeff[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
+				dif = sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
+			}
+			*pix_red += pic[first_counter][second_counter].red * dif;
+			*pix_blue += pic[first_counter][second_counter].blue * dif;
+			*pix_green += pic[first_counter][second_counter].green * dif;
+			*pix_alpha += pic[first_counter][second_counter].alpha * dif;
+		}
+	}
+}
+
 void gauss_filter_3x3(struct argb** pic, struct argb** pixels, int i, int k)
 {
 	int coefficients[] = { 4, 3, 2 };
-	int first_counter, second_counter, div, dif, pix_red, pix_blue, pix_green, pix_alpha;
+	char* filter = "gauss";
+	int div, pix_red, pix_blue, pix_green, pix_alpha;
 	pix_red = 0;
 	pix_blue = 0;
 	pix_green = 0;
 	pix_alpha = 0;
 	div = 24;
-	for (first_counter = i - 1; first_counter < i + 2; ++first_counter)
-	{
-		for (second_counter = k - 1; second_counter < k + 2; ++second_counter)
-		{
-			dif = coefficients[abs(first_counter - i) + abs(second_counter - k)];
-			pix_red += pic[first_counter][second_counter].red * dif;
-			pix_blue += pic[first_counter][second_counter].blue * dif;
-			pix_green += pic[first_counter][second_counter].green * dif;
-			pix_alpha += pic[first_counter][second_counter].alpha * dif;
-		}
-	}
+	redact_pixels(pic, filter, i, k, &pix_red, &pix_blue, &pix_green, &pix_alpha);
 	pixels[i][k].red = pix_red / div;
 	pixels[i][k].blue = pix_blue / div;
 	pixels[i][k].green = pix_green / div;
@@ -106,46 +131,21 @@ void gauss_filter_3x3(struct argb** pic, struct argb** pixels, int i, int k)
 
 void sobel_x(struct argb** pic, struct argb** pixels, int i, int k)
 {
-	int sobel_x_coeff[3][3] = { {-1, 0, 1}, {-2, 0, 2}, {-1, 0, 1} };
-	int pix_red, pix_blue, pix_green, pix_alpha, first_counter, second_counter;
-	pix_red = 0;
-	pix_blue = 0;
-	pix_green = 0;
-	pix_alpha = 0;
-	for (int first_counter = i - 1; first_counter <= i + 1; first_counter++)
-	{
-		for (int second_counter = k - 1; second_counter <= k + 1; second_counter++)
-		{
-			pix_red += pic[first_counter][second_counter].red * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_green += pic[first_counter][second_counter].green * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_blue += pic[first_counter][second_counter].blue * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_alpha += pic[first_counter][second_counter].alpha * sobel_x_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
+	char* filter = "sobelx";
+	int pix_red, pix_blue, pix_green, pix_alpha;
+	redact_pixels(pic, filter, i, k, &pix_red, &pix_blue, &pix_green, &pix_alpha);
 	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
 	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
 	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
 	pixels[i][k].alpha = abs(pix_alpha) < 255 ? abs(pix_alpha) : 255;
 	grayscale(&pixels[i][k]);
 }
+
 void sobel_y(struct argb** pic, struct argb** pixels, int i, int k)
 {
-	int sobel_y_coeff[3][3] = { {-1, -2, -1}, {0, 0, 0}, {1, 2, 1} };
-	int pix_red, pix_blue, pix_green, pix_alpha, first_counter, second_counter;
-	pix_red = 0;
-	pix_blue = 0;
-	pix_green = 0;
-	pix_alpha = 0;
-	for (int first_counter = i - 1; first_counter <= i + 1; first_counter++)
-	{
-		for (int second_counter = k - 1; second_counter <= k + 1; second_counter++)
-		{
-			pix_red += pic[first_counter][second_counter].red * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_green += pic[first_counter][second_counter].green * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_blue += pic[first_counter][second_counter].blue * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-			pix_alpha += pic[first_counter][second_counter].alpha * sobel_y_coeff[first_counter - i + 1][second_counter - k + 1];
-		}
-	}
+	int pix_red, pix_blue, pix_green, pix_alpha;
+	char* filter = "sobely";
+	redact_pixels(pic, filter, i, k, &pix_red, &pix_blue, &pix_green, &pix_alpha);
 	pixels[i][k].red = abs(pix_red) < 255 ? abs(pix_red) : 255;
 	pixels[i][k].green = abs(pix_green) < 255 ? abs(pix_green) : 255;
 	pixels[i][k].blue = abs(pix_blue) < 255 ? abs(pix_blue) : 255;
