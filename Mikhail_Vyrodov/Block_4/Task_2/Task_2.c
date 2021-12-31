@@ -60,7 +60,7 @@ void* my_malloc(size_t size)
 
 }
 
-void* my_realloc(char* ptr, unsigned new_size)
+void* my_realloc(char* ptr, size_t new_size)
 {
 	if (ptr == NULL)
 	{
@@ -70,7 +70,7 @@ void* my_realloc(char* ptr, unsigned new_size)
 	header* old_header = ptr - sizeof(header);
 	unsigned old_size = old_header->size;
 	my_free(ptr);
-	char* new_ptr = my_malloc(new_size);
+	void* new_ptr = my_malloc(new_size);
 	if (new_ptr == NULL)
 	{
 		printf("Memory allocation error");
@@ -78,7 +78,7 @@ void* my_realloc(char* ptr, unsigned new_size)
 	}
 	for (size_t i = 0; i < old_size; i++)
 	{
-		new_ptr[i] = ptr[i];
+		((char*)new_ptr)[i] = ptr[i];
 	}
 	return new_ptr;
 }
@@ -89,7 +89,6 @@ void my_free(char* ptr)
 	head->status = 0;
 	header* footer;
 	footer = (char*)(ptr + head->size);
-	footer->size = 0;
 	footer->status = 0;
 	if (head == heap_start)
 	{

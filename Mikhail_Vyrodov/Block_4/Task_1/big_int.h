@@ -2,7 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+
 #define BASE 4294967296;
+
 struct big_int
 {
     uint32_t len;

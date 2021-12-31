@@ -3,7 +3,7 @@
 big_int power(int number, int degree)
 {
     big_int result = create_big_int(1, 1);
-    big_int exp = create_big_int(3, 1);
+    big_int exp = create_big_int(number, 1);
     while (degree)
     {
         if (degree % 2)
@@ -41,6 +41,7 @@ big_int multiply(big_int a, big_int b)
     free(a.digits);
     return result;
 }
+
 big_int create_big_int(int value, int size)
 {
     big_int number;
