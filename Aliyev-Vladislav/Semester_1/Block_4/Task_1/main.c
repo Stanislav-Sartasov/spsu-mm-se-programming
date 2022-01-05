@@ -7,9 +7,7 @@ int main()
 {
 	printf("Calculates 3 to the power of 5000:\n\n");
 
-	bit_integer* number = form_big_int(2, 3);
-
-	number = power(number, 5000);
+	bit_integer* number = power(3, 5000);
 
 	print_long_num(number);
 
