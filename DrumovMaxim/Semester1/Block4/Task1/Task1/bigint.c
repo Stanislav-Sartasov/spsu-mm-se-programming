@@ -1,7 +1,7 @@
 #include "bigint.h"
 
 
-bigInt* newBigInt(size_t size, uint64_t value)
+bigInt* newBigInt(size_t size, uint32_t value)
 {
 	bigInt* number = (bigInt*)malloc(sizeof(bigInt));
 
@@ -12,7 +12,7 @@ bigInt* newBigInt(size_t size, uint64_t value)
 	}
 
 	number->size = size;
-	number->digits = (uint64_t*)calloc(size, sizeof(uint64_t));
+	number->digits = (uint32_t*)calloc(size, sizeof(uint32_t));
 
 	if (number == NULL)
 	{
@@ -67,13 +67,13 @@ bigInt* multiply(bigInt* left, bigInt* right)
 
 	bigInt* result = newBigInt(newSize + 1, 0);
 	for (size_t i = 0; i < newSize + 1; i++)
-		result->digits[i] = (uint64_t)temp[i];
+		result->digits[i] = (uint32_t)temp[i];
 
 	free(temp);
 	return result;
 }
 
-bigInt* power(bigInt* number, uint64_t pow)
+bigInt* power(bigInt* number, int32_t pow)
 {
 	if (pow == 1)
 	{
