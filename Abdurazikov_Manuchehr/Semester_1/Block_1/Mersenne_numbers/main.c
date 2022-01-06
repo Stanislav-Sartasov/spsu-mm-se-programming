@@ -1,53 +1,33 @@
-#include <stdio.h>
+#include <stdio.h> 
 #include <math.h>
 
-int isSimple(int number)
+int is_simple(int number)
 {
-	int sqrt = (int)sqrtf(number);
-		
-	if (number > sqrt) {
-		sqrt = number;
-	}
-
-	for (int i = 2; i <= sqrt; i++) {
-		if (number % i == 0 && number != i) {
+	int i = 0;
+	for (i = 2; i < pow(number, 0.5); ++i)
+	{
+		if (number % i == 0) 
 			return 0;
-		}
-		else if (i == sqrt) {
-			return 1;
-		}
+	}
+	if (number == 1)
+	{
+		return 0;
 	}
 	return 1;
 }
 
-int main(void)
+int main()
 {
-	unsigned int		num1 = 1;
-	unsigned long int	num2 = 100;
-	unsigned int		num1_from_sqrt;
-	int 				start = 0;
-	unsigned long 		pow;
-
-	printf("\033[33mMerson numbers for 1 <= 2^N - 1 <= 2^31 - 1: ");
-	while (num1 <= num2) {
-		if (isSimple(num1) && num1 > 1) {
-			pow = (long)powf(2, num1) - 1;
-			
-			if (isSimple(pow)) {
-				if (pow > 2147483647) {
-					break ;
-				}
-				if (start == 0) {
-					start = 1;
-					printf("\033[32m%lu", pow);
-				}
-				else {
-					printf("\033[32m, %lu", pow);
-				}
-			}
+	printf("\033[33mMersenne numbers on the segment [1; 2^31-1]:\n");
+	int n;
+	n = 1;
+	for (int i = 0; i < 31; i++)
+	{
+		n = n * 2;
+		if (is_simple(n - 1))
+		{
+			printf("%d\n", n - 1);
 		}
-		num1++;
 	}
-	printf("\n");
-	return (0);
+	return 0;
 }
