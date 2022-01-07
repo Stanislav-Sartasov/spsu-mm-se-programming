@@ -11,9 +11,9 @@ long_number
 	int length;
 };
 
-void big_mult(long_number* big_number,int num)
+void big_mult(long_number* big_number, int num)
 {
-	int res_temp =0, delta_prv=0;
+	int res_temp = 0, delta_prv = 0;
 	for (int j = big_number->length - 1; j >= 0; j--)
 	{
 		res_temp = (big_number->num[j] * num + delta_prv) % num_base;
@@ -27,10 +27,10 @@ void pow_number(int num, int power, long_number* answer)
 	answer->num = (unsigned char*)calloc(answer->length, sizeof(unsigned char));
 	answer->num[answer->length - 1] = 1;
 
-	
+
 	for (int i = 0; i < power; i++)
 	{
-		big_mult(answer,  num);
+		big_mult(answer, num);
 	}
 }
 
