@@ -40,6 +40,7 @@ void printlong_number(long_number* num)
 	{
 		printf("%02x", num->num[i]);
 	}
+
 	free(num->num);
 }
 
