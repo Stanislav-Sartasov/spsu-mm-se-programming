@@ -2,123 +2,138 @@
 #include <string.h>
 #include "mymem.h"
 
+void* buffer;
+block_memory* blocks;
+
 void init()
 {
-	buffer = (int8_t*)malloc(sizeof(int8_t) * M_SIZE);
-
-	for (int i = 0; i < M_SIZE; i++)
-		buffer[i] = 0;
+	buffer = malloc(M_SIZE);
 }
+
+
+void memory_initialization(block_memory* block, block_memory* next, size_t size)
+{
+	block->next = next;
+
+	block->size = size;
+
+	block->allocation = (byte*)block + INFO;
+}
+
 
 void* my_malloc(size_t size)
 {
-	// Variable "current" is current block
-	struct block_memory* present;
+	if (size <= 0)
+		return NULL;
 
-	// Reading the first element
-	present = buffer;
-
-	while (present->size != 0 && present->size + present + sizeof(*present) - (int8_t)buffer <= M_SIZE)
+	if (!blocks)
 	{
-		if ((present->size >= size + 2 * sizeof(*present)) && !(present->allocation))
-		{
-			struct block_memory* new_block;
+		if (M_SIZE < size + INFO)
+			return NULL;
 
-			new_block = (struct block_memory*)(present + size + sizeof(*present));
+		blocks = buffer;
 
-			new_block->size = present->size - size - sizeof(struct block_memory);
+		memory_initialization(blocks, NULL, size);
 
-			new_block->allocation = 0;
-
-			present->size = size + sizeof(*present);
-
-			present->allocation = 1;
-
-			return present + 1;
-		}
-
-		if ((present->size >= size + sizeof(*present)) && !(present->allocation))
-		{
-			present->allocation = 1;
-
-			return present + 1;
-		}
-
-		// Switching to next memory block
-		present = (struct block_memory*)(present + present->size);
+		return blocks->allocation;
 	}
 
-	if (M_SIZE - (present - buffer) >= size + sizeof(*present))
+	if ((byte*)blocks - (byte*)buffer >= size + INFO)
 	{
-		present->size = size + sizeof(*present);
+		memory_initialization(buffer, blocks, size);
 
-		present->allocation = 1;
+		blocks = buffer;
 
-		return present + 1;
+		return blocks->allocation;
 	}
-	return NULL;
+
+	block_memory* present = blocks;
+
+	while (present->next)
+	{
+		block_memory* new_block  = (block_memory*)((byte*)present->allocation + present->size);
+
+		if ((byte*)present->next - (byte*)new_block  >= size + INFO)
+		{
+			memory_initialization(new_block , present->next, size);
+
+			present->next = new_block ;
+
+			return new_block ->allocation;
+		}
+		present = present->next;
+	}
+
+	block_memory* last = (block_memory*)((byte*)present->allocation + INFO);
+
+	if ((byte*)last - (byte*)buffer > M_SIZE - size - INFO)
+		return NULL;
+
+	memory_initialization(last, NULL, size);
+
+	present->next = last;
+
+	return last->allocation;
 }
+
 
 void my_free(void* ptr)
 {
-	// If pointer is NULL, my_free does not work
-	if (ptr != NULL)
-			return;
+	if (!ptr)
+		return;
 
-	// Set block as if it is not in use
-	((struct block_memory*)ptr - 1)->allocation = 0;
+	block_memory** present = &blocks;
 
-	// Merge free blocks
-	struct block_memory* present = (struct block_memory*)buffer;
-
-	while (present->size != 0 && present->size + sizeof(*present) <= M_SIZE)
+	if ((*present)->allocation == ptr)
 	{
-		if (present->size >= M_SIZE)
-				present->size = 0;
+		blocks = (*present)->next;
 
-		// Check if the next block is free and this block is free
-		if (present->allocation == 0 && ((struct block_memory*)(buffer + present->size))->allocation == 0)
+		return;
+	}
+
+	while ((*present)->next)
+	{
+		if ((*present)->next->allocation == ptr)
 		{
-			// Merging next block into first one (changing the current pointer to the next block)
-			present->size = ((struct block_memory*)(buffer + present->size))->size;
+			(*present)->next = (*present)->next->next;
 
-			// Try merging block further
-			continue;
+			return;
 		}
-
-		// End of sequence
-		if (present->size == 0)
-				return;
-
-		// Switching to next block
-		present = buffer + present->size;
+		present = &(*present)->next;
 	}
 }
+
 
 void* my_realloc(void* ptr, size_t size)
 {
-	if (ptr != NULL)
+	if (!ptr)
+		return NULL;
+
+	block_memory* present = blocks;
+
+	while (present->next && present->allocation != ptr)
+		present = present->next;
+
+	if (present->allocation != ptr)
+		return NULL;
+
+	if ((byte*)present->next - (byte*)present->allocation >= size)
 	{
-		int past_length = ((struct block_memory*)ptr - 1)->size;
+		present->size = size;
 
-		my_free(ptr);
-
-		void* new_memory = my_malloc(size);
-
-		if (new_memory == NULL)
-		{
-			return NULL;
-		}
-		else
-		{
-			for (int i = 0; i < past_length; i++)
-			{
-				((char*)new_memory)[i] = ((char*)ptr)[i];
-			}	
-			return new_memory;
-		}
+		return ptr;
 	}
+
+	block_memory* new_memory = my_malloc(size);
+
+	for (int i = 0; i < present->size; i++)
+		*((byte*)new_memory->allocation + i) = *((byte*)present->allocation + i);
+
+	my_free(present->allocation);
+
+	return new_memory->allocation;
 }
+
 
 void end()
 {

@@ -1,18 +1,19 @@
 #ifndef MYMEM_H
 #define MYMEM_H
 
-#include <stdlib.h>
 #include <stdint.h>
 
-#define M_SIZE 100
+#define M_SIZE 256
+#define INFO sizeof(block_memory)
 
-struct block_memory
+typedef unsigned char byte;
+
+typedef struct block_memory
 {
-	int size;
-	char allocation;
-};
-
-int8_t* buffer;
+	size_t size;
+	void* allocation;
+	struct block_memory* next; // pointer to next reserved block
+}block_memory;
 
 void init();
 
