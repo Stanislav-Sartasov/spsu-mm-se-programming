@@ -2,6 +2,7 @@
 #define MYMEM_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 #define M_SIZE 100
 
@@ -11,7 +12,7 @@ struct block_memory
 	char allocation;
 };
 
-char* buffer;
+int8_t* buffer;
 
 void init();
 

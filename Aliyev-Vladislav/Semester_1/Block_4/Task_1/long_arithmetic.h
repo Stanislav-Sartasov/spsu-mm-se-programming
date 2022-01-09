@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdio.h>
 
+#define BASE 268435456
+
 typedef struct bit_integer
 {
 	int length;

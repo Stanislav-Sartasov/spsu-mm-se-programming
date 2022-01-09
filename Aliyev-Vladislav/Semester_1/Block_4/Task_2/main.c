@@ -44,8 +44,8 @@ int main()
 
 	printf("Adding another block:\n");
 
-	a = my_malloc(20 * sizeof(int));
-	for (int i = 0; i < 20; i++)
+	a = my_malloc(15 * sizeof(int));
+	for (int i = 0; i < 15; i++)
 	{
 		a[i] = 123;
 		printf("%d ", a[i]);
@@ -53,8 +53,8 @@ int main()
 
 	printf("\n\nReallocating memory:\n");
 
-	a = my_realloc(a, 10 * sizeof(int));
-	for (int i = 0; i < 10; i++)
+	a = my_realloc(a, 4 * sizeof(int));
+	for (int i = 0; i < 4; i++)
 	{
 		a[i] = 234;
 		printf("%d ", a[i]);
@@ -63,16 +63,16 @@ int main()
 
 	printf("\nReallocating it again:\n");
 
-	a = my_realloc(a, 20 * sizeof(int));
-	for (int i = 0; i < 20; i++)
+	a = my_realloc(a, 14 * sizeof(int));
+	for (int i = 0; i < 14; i++)
 	{
 		a[i] = 345;
 		printf("%d ", a[i]);
 	}
 
-	printf("\n\nFreeing up allocated memory.");
-
 	my_free(a);
+
+	printf("\n\nFreeing up allocated memory.");
 
 	end();
 
