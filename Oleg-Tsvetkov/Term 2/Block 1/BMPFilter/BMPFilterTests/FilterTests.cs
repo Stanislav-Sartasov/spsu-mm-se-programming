@@ -1,4 +1,4 @@
-using NUnit.Framework;
+п»їusing NUnit.Framework;
 using BMPFilter;
 using System.IO;
 using System.Drawing;
@@ -44,7 +44,7 @@ namespace BMPFilterTests
             }
             catch (FileNotFoundException)
             {
-                throw new FileNotFoundException("Ошибка! Входной файл не был найден!");
+                throw new FileNotFoundException("РћС€РёР±РєР°! Р’С…РѕРґРЅРѕР№ С„Р°Р№Р» РЅРµ Р±С‹Р» РЅР°Р№РґРµРЅ!");
             }
             try
             {
@@ -53,7 +53,7 @@ namespace BMPFilterTests
             catch (Exception)
             {
                 fileIn.Close();
-                throw new Exception("Ошибка! Возникла проблема с открытием/созданием выходного файла!");
+                throw new Exception("РћС€РёР±РєР°! Р’РѕР·РЅРёРєР»Р° РїСЂРѕР±Р»РµРјР° СЃ РѕС‚РєСЂС‹С‚РёРµРј/СЃРѕР·РґР°РЅРёРµРј РІС‹С…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°!");
             }
             file = new(fileIn);
             fileIn.Close();
