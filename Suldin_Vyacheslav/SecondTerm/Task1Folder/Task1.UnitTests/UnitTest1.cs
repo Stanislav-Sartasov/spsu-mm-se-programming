@@ -27,7 +27,7 @@ namespace Task1.UnitTests
             {
                 image.ApplyFilter(filterPack[filter], filter + ".bmp");
 
-                if (new Image(filter+".test.bmp") != new Image(filter + ".bmp"))
+                if (new Image(filter + ".test.bmp") != new Image(filter + ".bmp"))
                     Assert.Fail();
                 File.Delete(filter + ".bmp");
             }
