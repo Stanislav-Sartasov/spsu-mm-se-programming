@@ -64,7 +64,7 @@ int main()
 	long long** matrix = (long long**)malloc((n + 1) * sizeof(long long*));
 	for (int i = 0; i <= n; i++)
 	{
-		matrix[i] = (long long*)malloc((NUMBER_OF_COINS + 1) * sizeof(long long)); //!
+		matrix[i] = (long long*)malloc((NUMBER_OF_COINS + 1) * sizeof(long long));
 	}
 
 	for (int sum = 0; sum <= n; sum++)
