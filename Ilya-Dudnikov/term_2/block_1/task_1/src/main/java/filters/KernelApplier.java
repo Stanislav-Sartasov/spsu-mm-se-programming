@@ -47,7 +47,7 @@ public class KernelApplier {
 								continue;
 							}
 
-							newPixelValue += kernel.getKernelValueAt(row + dx, col + dy) * oldImage[row + dx][col + dy];
+							newPixelValue += kernel.getKernelValueAt(halfKernelSize + dx, halfKernelSize + dy) * oldImage[row + dx][col + dy];
 						}
 					}
 

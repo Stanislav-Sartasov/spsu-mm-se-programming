@@ -7,7 +7,7 @@ public class Kernel {
 		this.kernel = kernel;
 		size = kernel.length;
 
-		if (size != 0 && (size != kernel[0].length || size % 2 != 0)) {
+		if (size != 0 && (size != kernel[0].length || size % 2 == 0)) {
 			System.out.println("Invalid kernel: kernel should be a square matrix with odd number of rows (columns)!");
 		}
 	}

@@ -5,9 +5,11 @@ import bmp.BMPPixelStorage;
 
 public class Filters {
 	public void applyAverageFilter(BMPPixelStorage bmpPixelStorage) {
-		Kernel kernel = new Kernel(new double[][]{{
-			1.0 / 9
-		}});
+		Kernel kernel = new Kernel(new double[][]{
+				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 },
+				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 },
+				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 }
+		});
 
 		KernelApplier kernelApplier = new KernelApplier();
 		kernelApplier.applyKernel(bmpPixelStorage, kernel);
