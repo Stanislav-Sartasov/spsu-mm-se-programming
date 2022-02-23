@@ -114,7 +114,7 @@ internal class CliAppTest {
             |To run application, please, specify input file, filter, and output file.
             |Provided filters: gauss_3, gauss_5, gray_scale, median_3, sobel_x, sobel_y.
             |For example:
-            |  On Windows: ./gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
+            |  On Windows: gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
             |  On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'
             |
         """.trimMargin(marginPrefix = "|")

@@ -14,7 +14,7 @@ object CliApp {
                 |To run application, please, specify input file, filter, and output file.
                 |Provided filters: ${FILTERS.keys.joinToString()}.
                 |For example:
-                |  On Windows: ./gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
+                |  On Windows: gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
                 |  On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'
                 |
             """.trimMargin(marginPrefix = "|")
