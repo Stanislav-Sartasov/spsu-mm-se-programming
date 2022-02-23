@@ -21,6 +21,7 @@ public class BMPPixelStorage {
 		image = new int[height][];
 
 		for (int row = 0; row < height; row++) {
+			image[row] = new int[realWidth];
 			for (int col = 0; col < realWidth; col++) {
 				image[row][col] = bytes.get();
 			}
