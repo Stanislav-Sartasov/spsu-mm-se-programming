@@ -27,5 +27,5 @@ tasks.test {
 
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("bmp.MainKt")
 }
