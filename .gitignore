@@ -352,3 +352,6 @@ MigrationBackup/
 # Clion files
 cmake-build-debug/
 .idea
+
+.gradle
+build
