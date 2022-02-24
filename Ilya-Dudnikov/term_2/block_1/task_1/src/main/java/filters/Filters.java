@@ -27,6 +27,8 @@ public class Filters {
 	}
 
 	public void applySobelXFilter(BMPPixelStorage bmpPixelStorage) {
+		applyGrayscaleFilter(bmpPixelStorage);
+
 		Kernel kernel = new Kernel(new double[][] {
 				{ -1, 0, 1 },
 				{ -2, 0, 2 },
@@ -38,6 +40,8 @@ public class Filters {
 	}
 
 	public void applySobelYFilter(BMPPixelStorage bmpPixelStorage) {
+		applyGrayscaleFilter(bmpPixelStorage);
+
 		Kernel kernel = new Kernel(new double[][] {
 				{ -1, -2, -1 },
 				{ 0, 0, 0 },
