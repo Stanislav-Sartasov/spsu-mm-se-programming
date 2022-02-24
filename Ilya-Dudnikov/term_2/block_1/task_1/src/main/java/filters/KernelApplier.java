@@ -33,25 +33,25 @@ public class KernelApplier {
 
 		int bytesPerPixel = bmpPixelStorage.getBitsPerPixel() / 8;
 		for (int row = 0; row < bmpPixelStorage.getHeight(); row++) {
-			for (int col = 0; col < bmpPixelStorage.getWidth(); col += bytesPerPixel) {
+			for (int col = 0; col < bmpPixelStorage.getWidth() - halfKernelSize * bytesPerPixel + 1; col += bytesPerPixel) {
 				for (int color = 0; color < 3; color++) {
 					double newPixelValue = 0;
 					for (int dy = -halfKernelSize; dy <= halfKernelSize; dy++) {
 						for (int dx = -halfKernelSize; dx <= halfKernelSize; dx++) {
 							if (!isValidPixel(
-									row + dx,
-									col + dy,
+									row + dy,
+									col + color + dx * bytesPerPixel,
 									bmpPixelStorage.getWidth(),
 									bmpPixelStorage.getHeight()
 							)) {
 								continue;
 							}
 
-							newPixelValue += kernel.getKernelValueAt(halfKernelSize + dx, halfKernelSize + dy) * oldImage[row + dx][col + dy];
+							newPixelValue += kernel.getKernelValueAt(halfKernelSize + dy, halfKernelSize + dx) * oldImage[row + dy][col + color + dx * bytesPerPixel];
 						}
 					}
 
-					bmpPixelStorage.setPixel(row, col, normalizeValue(newPixelValue));
+					bmpPixelStorage.setPixel(row, col + color, normalizeValue(newPixelValue));
 				}
 			}
 		}
