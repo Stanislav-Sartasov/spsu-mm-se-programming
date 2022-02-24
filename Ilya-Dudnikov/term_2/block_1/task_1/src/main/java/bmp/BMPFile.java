@@ -2,12 +2,13 @@ package bmp;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 public class BMPFile {
-	BMPHeader bmpHeader;
-	BMPPixelStorage bmpPixelStorage;
+	private BMPHeader bmpHeader;
+	private BMPPixelStorage bmpPixelStorage;
 
 	public BMPFile(ByteBuffer bytes) {
 		bytes.order(ByteOrder.LITTLE_ENDIAN);
@@ -31,5 +32,25 @@ public class BMPFile {
 		}
 
 		return new BMPFile(ByteBuffer.wrap(bytes));
+	}
+
+	public BMPPixelStorage getBmpPixelStorage() {
+		return bmpPixelStorage;
+	}
+
+	public void writeToOutputStream(OutputStream outputStream) {
+		try {
+			outputStream.write(bmpHeader.toByteArray());
+
+			for (int row = 0; row < bmpPixelStorage.getHeight(); row++) {
+				for (int col = 0; col < bmpPixelStorage.getWidth(); col++) {
+					outputStream.write(bmpPixelStorage.getPixel(row, col));
+				}
+			}
+			
+			outputStream.flush();
+		} catch (IOException e) {
+			System.out.println("Error: could not write to a file");
+		}
 	}
 }

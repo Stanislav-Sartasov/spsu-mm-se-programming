@@ -1,6 +1,7 @@
 package bmp;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class BMPHeader {
     char signature;
@@ -38,5 +39,28 @@ public class BMPHeader {
         pixelPerMeterY = bytes.getInt();
         colorsUsed = bytes.getInt();
         importantColors = bytes.getInt();
+    }
+
+    public byte[] toByteArray() {
+        ByteBuffer byteBuffer = ByteBuffer.allocate(54);
+        byteBuffer.order(ByteOrder.LITTLE_ENDIAN);
+
+        byteBuffer.putChar(signature);
+        byteBuffer.putInt(fileSize);
+        byteBuffer.putInt(reserved);
+        byteBuffer.putInt(dataOffset);
+        byteBuffer.putInt(headerSize);
+        byteBuffer.putInt(width);
+        byteBuffer.putInt(height);
+        byteBuffer.putShort(planes);
+        byteBuffer.putShort(bitsPerPixel);
+        byteBuffer.putInt(compression);
+        byteBuffer.putInt(imageSize);
+        byteBuffer.putInt(pixelPerMeterX);
+        byteBuffer.putInt(pixelPerMeterY);
+        byteBuffer.putInt(colorsUsed);
+        byteBuffer.putInt(importantColors);
+
+        return byteBuffer.array();
     }
 }
