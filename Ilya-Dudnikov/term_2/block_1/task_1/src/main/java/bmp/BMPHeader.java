@@ -21,9 +21,41 @@ public class BMPHeader {
     int colorsUsed;
     int importantColors;
 
-    public BMPHeader() {}
+    public BMPHeader(char signature,
+                     int fileSize,
+                     int reserved,
+                     int dataOffset,
+                     int headerSize,
+                     int width,
+                     int height,
+                     short planes,
+                     short bitsPerPixel,
+                     int compression,
+                     int imageSize,
+                     int pixelPerMeterX,
+                     int pixelPerMeterY,
+                     int colorsUsed,
+                     int importantColors) {
+        this.signature = signature;
+        this.fileSize = fileSize;
+        this.reserved = reserved;
+        this.dataOffset = dataOffset;
+        this.headerSize = headerSize;
+        this.width = width;
+        this.height = height;
+        this.planes = planes;
+        this.bitsPerPixel = bitsPerPixel;
+        this.compression = compression;
+        this.imageSize = imageSize;
+        this.pixelPerMeterX = pixelPerMeterX;
+        this.pixelPerMeterY = pixelPerMeterY;
+        this.colorsUsed = colorsUsed;
+        this.importantColors = importantColors;
+    }
 
     public BMPHeader(ByteBuffer bytes) {
+        bytes.order(ByteOrder.LITTLE_ENDIAN);
+
         signature = bytes.getChar();
         fileSize = bytes.getInt();
         reserved = bytes.getInt();
@@ -62,5 +94,15 @@ public class BMPHeader {
         byteBuffer.putInt(importantColors);
 
         return byteBuffer.array();
+    }
+
+    public void checkBmpHeader() {
+        if (signature != 0x4D42) {
+            throw new IllegalArgumentException("Given file is corrupted!");
+        }
+
+        if (bitsPerPixel != 24 && bitsPerPixel != 32) {
+            throw new IllegalArgumentException("Depth of the image should either be 24 or 32 bits per pixel");
+        }
     }
 }
