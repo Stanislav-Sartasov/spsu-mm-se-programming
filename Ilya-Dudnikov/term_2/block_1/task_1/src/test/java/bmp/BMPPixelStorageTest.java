@@ -30,7 +30,6 @@ class BMPPixelStorageTest {
 		fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
 
 		BufferedImage image = ImageIO.read(fileInputStream);
-		ImageIO.write(image, "BMP", new File("wtf.bmp"));
 
 		int imageHeight = image.getHeight();
 		int imageWidth = image.getWidth();

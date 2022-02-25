@@ -28,14 +28,14 @@ class KernelApplierTest {
 		KernelApplier kernelApplier = new KernelApplier();
 		kernelApplier.applyKernel(bmpFile.getBmpPixelStorage(), kernel);
 
-		FileOutputStream fileOutputStream = new FileOutputStream("src/test/resources/write_output.bmp");
+		FileOutputStream fileOutputStream = new FileOutputStream("src/test/resources/kernel_applier_output.bmp");
 		bmpFile.writeToOutputStream(fileOutputStream);
 		fileInputStream.close();
 		fileOutputStream.close();
 
-		FileInputStream outputFile = new FileInputStream("src/test/resources/write_output.bmp");
+		FileInputStream outputFile = new FileInputStream("src/test/resources/kernel_applier_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_kernel_applied.bmp");
-		
+
 		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 }

@@ -28,16 +28,7 @@ class FiltersTest {
 		FileInputStream outputFile = new FileInputStream("src/test/resources/test_avg_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_avg.bmp");
 
-		byte[] outputFileBytes = outputFile.readAllBytes();
-		byte[] correctFileBytes = correctFile.readAllBytes();
-
-		outputFile.close();
-		correctFile.close();
-
-		File toDelete = new File("src/test/resources/test_avg_output.bmp");
-		toDelete.delete();
-
-		assertArrayEquals(correctFileBytes, outputFileBytes);
+		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 
 	@Test
@@ -57,16 +48,7 @@ class FiltersTest {
 		FileInputStream outputFile = new FileInputStream("src/test/resources/test_gauss_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_gauss.bmp");
 
-		byte[] outputFileBytes = outputFile.readAllBytes();
-		byte[] correctFileBytes = correctFile.readAllBytes();
-
-		outputFile.close();
-		correctFile.close();
-
-		File toDelete = new File("src/test/resources/test_gauss_output.bmp");
-		toDelete.delete();
-
-		assertArrayEquals(correctFileBytes, outputFileBytes);
+		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 
 	@Test
@@ -86,16 +68,7 @@ class FiltersTest {
 		FileInputStream outputFile = new FileInputStream("src/test/resources/test_sobelX_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_sobelX.bmp");
 
-		byte[] outputFileBytes = outputFile.readAllBytes();
-		byte[] correctFileBytes = correctFile.readAllBytes();
-
-		outputFile.close();
-		correctFile.close();
-
-		File toDelete = new File("src/test/resources/test_sobelX_output.bmp");
-		toDelete.delete();
-
-		assertArrayEquals(correctFileBytes, outputFileBytes);
+		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 
 	@Test
@@ -115,16 +88,7 @@ class FiltersTest {
 		FileInputStream outputFile = new FileInputStream("src/test/resources/test_sobelY_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_sobelY.bmp");
 
-		byte[] outputFileBytes = outputFile.readAllBytes();
-		byte[] correctFileBytes = correctFile.readAllBytes();
-
-		outputFile.close();
-		correctFile.close();
-
-		File toDelete = new File("src/test/resources/test_sobelY_output.bmp");
-		toDelete.delete();
-
-		assertArrayEquals(correctFileBytes, outputFileBytes);
+		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 
 	@Test
@@ -144,15 +108,6 @@ class FiltersTest {
 		FileInputStream outputFile = new FileInputStream("src/test/resources/test_grayscale_output.bmp");
 		FileInputStream correctFile = new FileInputStream("src/test/resources/correct_grayscale.bmp");
 
-		byte[] outputFileBytes = outputFile.readAllBytes();
-		byte[] correctFileBytes = correctFile.readAllBytes();
-
-		outputFile.close();
-		correctFile.close();
-
-		File toDelete = new File("src/test/resources/test_grayscale_output.bmp");
-		toDelete.delete();
-
-		assertArrayEquals(correctFileBytes, outputFileBytes);
+		assertArrayEquals(correctFile.readAllBytes(), outputFile.readAllBytes());
 	}
 }

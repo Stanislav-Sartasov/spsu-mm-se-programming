@@ -25,7 +25,7 @@ class BMPFileTest {
 
 		assertThrows(
 				IllegalArgumentException.class,
-				() -> { BMPFile.readFromInputStream(fileInputStream); }
+				() -> BMPFile.readFromInputStream(fileInputStream)
 		);
 	}
 
@@ -35,23 +35,23 @@ class BMPFileTest {
 
 		assertThrows(
 				IOException.class,
-				() -> { BMPFile.readFromInputStream(fileInputStream); }
+				() -> BMPFile.readFromInputStream(fileInputStream)
 		);
 	}
 
 	@Test
 	void writeToOutputStream() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
-		BMPFile bmpFile = BMPFile.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readAllBytes()));
+		byte[] inputFileBytes = fileInputStream.readAllBytes();
+		BMPFile bmpFile = BMPFile.readFromByteBuffer(ByteBuffer.wrap(inputFileBytes));
 		fileInputStream.close();
 
 		FileOutputStream fileOutputStream = new FileOutputStream("src/test/resources/write_output.bmp");
 		bmpFile.writeToOutputStream(fileOutputStream);
 		fileOutputStream.close();
 
-		FileInputStream inputFile = new FileInputStream("src/test/resources/ok_test.bmp");
 		FileInputStream outputFile = new FileInputStream("src/test/resources/write_output.bmp");
 
-		assertArrayEquals(inputFile.readAllBytes(), outputFile.readAllBytes());
+		assertArrayEquals(inputFileBytes, outputFile.readAllBytes());
 	}
 }
