@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Filters
 {
-    public class Pixel
-    {
-        public int Red;
-        public int Green;
-        public int Blue;
+	public class Pixel
+	{
+		public int Red;
+		public int Green;
+		public int Blue;
 
-        public Pixel(byte red, byte green, byte blue)
-        {
-            Red = red;
-            Green = green;
-            Blue = blue;
-        }
-    }
+		public Pixel(byte red, byte green, byte blue)
+		{
+			Red = red;
+			Green = green;
+			Blue = blue;
+		}
+	}
 }
