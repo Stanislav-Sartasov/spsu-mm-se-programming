@@ -10,28 +10,41 @@ public class BMPFile {
 	private BMPHeader bmpHeader;
 	private BMPPixelStorage bmpPixelStorage;
 
-	public BMPFile(ByteBuffer bytes) {
-		bytes.order(ByteOrder.LITTLE_ENDIAN);
-
-		bmpHeader = new BMPHeader(bytes);
-		bmpPixelStorage = new BMPPixelStorage(
-				bytes,
-				bmpHeader.width,
-				bmpHeader.height,
-				bmpHeader.bitsPerPixel
-		);
+	public BMPFile(BMPHeader bmpHeader, BMPPixelStorage bmpPixelStorage) {
+		this.bmpHeader = bmpHeader;
+		this.bmpPixelStorage = bmpPixelStorage;
 	}
 
-	public static BMPFile readFromInputStream(InputStream inputStream) {
+	private void checkBmpHeader() throws IllegalArgumentException {
+		bmpHeader.checkBmpHeader();
+	}
+
+	public static BMPFile readFromByteBuffer(ByteBuffer bytes) throws IOException {
+		 bytes.order(ByteOrder.LITTLE_ENDIAN);
+
+		 BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(bytes);
+		 BMPPixelStorage bmpPixelStorage = BMPPixelStorage.readFromByteBuffer(bytes, bmpHeader.width, bmpHeader.height, bmpHeader.bitsPerPixel);
+
+		 return new BMPFile(bmpHeader, bmpPixelStorage);
+	}
+
+	public static BMPFile readFromInputStream(InputStream inputStream) throws IOException {
 		byte[] bytes = new byte[0];
+
 		try {
 			bytes = inputStream.readAllBytes();
 		} catch (IOException e) {
-			System.out.println("Could not read bytes from the input file!");
-			e.printStackTrace();
+			throw new IOException("Could not read data from the file!\n", e);
 		}
 
-		return new BMPFile(ByteBuffer.wrap(bytes));
+		if (bytes.length < 54) {
+			throw new IOException("Too few bytes in a given file");
+		}
+
+		BMPFile returnValue = BMPFile.readFromByteBuffer(ByteBuffer.wrap(bytes));
+		returnValue.checkBmpHeader();
+
+		return returnValue;
 	}
 
 	public BMPPixelStorage getBmpPixelStorage() {

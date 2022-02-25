@@ -1,5 +1,6 @@
 package bmp;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class BMPPixelStorage {
@@ -8,7 +9,7 @@ public class BMPPixelStorage {
 	private int height;
 	private int bitsPerPixel;
 
-	public BMPPixelStorage(ByteBuffer bytes, int width, int height, short bitsPerPixel) {
+	private BMPPixelStorage(ByteBuffer bytes, int width, int height, short bitsPerPixel) {
 		if (width % 4 != 0 && bitsPerPixel == 24)
 			width += 4 - width % 4;
 
@@ -26,6 +27,21 @@ public class BMPPixelStorage {
 				image[row][col] = bytes.get() & 0xFF;
 			}
 		}
+	}
+
+	public static BMPPixelStorage readFromByteBuffer(ByteBuffer bytes,
+													 int width,
+													 int height,
+													 short bitsPerPixel) throws IOException {
+		if (width % 4 != 0 && bitsPerPixel == 24)
+			width += 4 - width % 4;
+
+		int realWidth = width * (bitsPerPixel / 8);
+		if (bytes.remaining() < realWidth * height) {
+			throw new IOException("There are less bytes in a file than expected");
+		}
+
+		return new BMPPixelStorage(bytes, width, height, bitsPerPixel);
 	}
 
 	public int getPixel(int i, int j) {

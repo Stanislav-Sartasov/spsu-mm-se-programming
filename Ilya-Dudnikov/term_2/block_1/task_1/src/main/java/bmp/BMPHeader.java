@@ -1,5 +1,6 @@
 package bmp;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -53,7 +54,7 @@ public class BMPHeader {
         this.importantColors = importantColors;
     }
 
-    public BMPHeader(ByteBuffer bytes) {
+    private BMPHeader(ByteBuffer bytes) {
         bytes.order(ByteOrder.LITTLE_ENDIAN);
 
         signature = bytes.getChar();
@@ -71,6 +72,14 @@ public class BMPHeader {
         pixelPerMeterY = bytes.getInt();
         colorsUsed = bytes.getInt();
         importantColors = bytes.getInt();
+    }
+
+    public static BMPHeader readFromByteBuffer(ByteBuffer bytes) throws IOException {
+        if (bytes.remaining() < 54) {
+            throw new IOException("Too few bytes in a given file!");
+        }
+
+        return new BMPHeader(bytes);
     }
 
     public byte[] toByteArray() {

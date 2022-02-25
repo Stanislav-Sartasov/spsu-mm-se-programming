@@ -12,7 +12,7 @@ class BMPHeaderTest {
 	@Test
 	void readBmpHeaderSuccess() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
-		BMPHeader bmpHeader = new BMPHeader(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
+		BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
 
 		BMPHeader validBmpHeader = new BMPHeader(
 				(char) 19778,
@@ -53,7 +53,7 @@ class BMPHeaderTest {
 	void toByteArray() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
 		byte[] bytes = fileInputStream.readNBytes(54);
-		BMPHeader bmpHeader = new BMPHeader(ByteBuffer.wrap(bytes));
+		BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(ByteBuffer.wrap(bytes));
 
 		assertArrayEquals(bytes, bmpHeader.toByteArray());
 	}
@@ -61,7 +61,7 @@ class BMPHeaderTest {
 	@Test
 	void checkBmpHeaderSuccess() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
-		BMPHeader bmpHeader = new BMPHeader(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
+		BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
 
 		bmpHeader.checkBmpHeader();
 	}
@@ -69,7 +69,7 @@ class BMPHeaderTest {
 	@Test
 	void checkBmpHeaderFail1() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/corrupted_signature.bmp");
-		BMPHeader bmpHeader = new BMPHeader(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
+		BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
 
 		assertThrows(IllegalArgumentException.class, bmpHeader::checkBmpHeader);
 	}
@@ -77,7 +77,7 @@ class BMPHeaderTest {
 	@Test
 	void checkBmpHeaderFail2() throws IOException {
 		FileInputStream fileInputStream = new FileInputStream("src/test/resources/corrupted_bpp.bmp");
-		BMPHeader bmpHeader = new BMPHeader(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
+		BMPHeader bmpHeader = BMPHeader.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readNBytes(54)));
 
 		assertThrows(IllegalArgumentException.class, bmpHeader::checkBmpHeader);
 	}
