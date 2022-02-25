@@ -5,7 +5,7 @@ import bmp.BMPPixelStorage;
 
 public class Filters {
 	public void applyAverageFilter(BMPPixelStorage bmpPixelStorage) {
-		Kernel kernel = new Kernel(new double[][]{
+		Kernel kernel = Kernel.createKernel(new double[][]{
 				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 },
 				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 },
 				{ 1.0 / 9, 1.0 / 9, 1.0 / 9 }
@@ -16,7 +16,7 @@ public class Filters {
 	}
 
 	public void applyGaussianFilter(BMPPixelStorage bmpPixelStorage) {
-		Kernel kernel = new Kernel(new double[][] {
+		Kernel kernel = Kernel.createKernel(new double[][] {
 				{ 1.0 / 16, 1.0 / 8, 1.0 / 16 },
 				{ 1.0 / 8, 1.0 / 4, 1.0 / 8 },
 				{ 1.0 / 16, 1.0 / 8, 1.0 / 16 }
@@ -29,7 +29,7 @@ public class Filters {
 	public void applySobelXFilter(BMPPixelStorage bmpPixelStorage) {
 		applyGrayscaleFilter(bmpPixelStorage);
 
-		Kernel kernel = new Kernel(new double[][] {
+		Kernel kernel = Kernel.createKernel(new double[][] {
 				{ -1, 0, 1 },
 				{ -2, 0, 2 },
 				{ -1, 0, 1 }
@@ -42,7 +42,7 @@ public class Filters {
 	public void applySobelYFilter(BMPPixelStorage bmpPixelStorage) {
 		applyGrayscaleFilter(bmpPixelStorage);
 
-		Kernel kernel = new Kernel(new double[][] {
+		Kernel kernel = Kernel.createKernel(new double[][] {
 				{ -1, -2, -1 },
 				{ 0, 0, 0 },
 				{ 1, 2, 1 }
