@@ -10,6 +10,7 @@ namespace Task_1._1
     {
         protected int[] kernel;
         protected int divisor;
+        
         public void ProcessBitmap(Bitmap bmp)
         {
             Pixel[] copy = new Pixel[bmp.Width * bmp.Height];
@@ -23,7 +24,6 @@ namespace Task_1._1
             for (int x = 0; x < bmp.Width; x++)
                 for (int y = 0; y < bmp.Height; y++)
                 {
-                    // Collectiong all pixel data
                     for (int i = -1; i < 2; i++)
                         for (int j = -1; j < 2; j++)                            
                             copy[x + y * bmp.Width] += bmp.GetPixel(Normalize(x + i, bmp.Width - 1), Normalize(y + j, bmp.Height - 1)) * kernel[i + 3 * j + 4];
