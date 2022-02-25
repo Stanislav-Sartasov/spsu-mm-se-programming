@@ -33,7 +33,7 @@ public class KernelApplier {
 
 		int bytesPerPixel = bmpPixelStorage.getBitsPerPixel() / 8;
 		for (int row = 0; row < bmpPixelStorage.getHeight(); row++) {
-			for (int col = 0; col < bmpPixelStorage.getWidth() - halfKernelSize * bytesPerPixel + 1; col += bytesPerPixel) {
+			for (int col = 0; col < bmpPixelStorage.getWidth(); col += bytesPerPixel) {
 				for (int color = 0; color < 3; color++) {
 					double newPixelValue = 0;
 					for (int dy = -halfKernelSize; dy <= halfKernelSize; dy++) {
