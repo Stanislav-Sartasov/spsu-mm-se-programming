@@ -7,20 +7,18 @@ import java.io.IOException;
 
 public class MainApp {
 	public static void run(String[] args) {
-		System.out.println(
-				"This app applies filter to a .bmp file\n" +
-				"Available filters: grayscale, average, gaussian, sobelX, sobelY"
-		);
+		System.out.println("This app applies filter to a .bmp file");
 
 		if (args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"))) {
 			System.out.println(
 					"Usage: gradlew clean build run <filter name> <input file> <output file>\n" +
 					"Available filters: grayscale, average, gaussian, sobelX, sobelY"
 			);
+			return;
 		}
 
 		if (args.length != 3) {
-			System.err.println("Got " + (args.length < 3 ? "less" : "more") + " arguments, than expected: use -h or --help for more information");
+			System.err.println("Got " + (args.length < 3 ? "less" : "more") + " arguments than expected: use -h or --help for more information");
 			return;
 		}
 
