@@ -78,14 +78,14 @@ namespace Filters
 			{
 				for (int j = 0; j < image.Height; j++)
 				{
-					Pixel currentpixel;
+					Pixel currentPixel;
 					int sum;
-					currentpixel = image.GetPixel(i, j);
-					sum = (currentpixel.Red + currentpixel.Green + currentpixel.Blue) / 3;
-					currentpixel.Red = (byte)sum;
-					currentpixel.Green = (byte)sum;
-					currentpixel.Blue = (byte)sum;
-					image.SetPixel(currentpixel, i, j);
+					currentPixel = image.GetPixel(i, j);
+					sum = (currentPixel.Red + currentPixel.Green + currentPixel.Blue) / 3;
+					currentPixel.Red = (byte)sum;
+					currentPixel.Green = (byte)sum;
+					currentPixel.Blue = (byte)sum;
+					image.SetPixel(currentPixel, i, j);
 				}
 			}
 		}
