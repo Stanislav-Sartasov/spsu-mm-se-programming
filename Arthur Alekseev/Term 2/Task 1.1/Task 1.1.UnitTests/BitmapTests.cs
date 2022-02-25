@@ -7,8 +7,8 @@ namespace Task_1._1.UnitTests
 {
     public class BitmapTests
     {
-        private string TestFilenameIn = "in.bmp";
-        private string TestFilenameOut = "out.bmp";
+        private string TestFilenameIn = "testfiles/in.bmp";
+        private string TestFilenameOut = "testfiles/out.bmp";
 
         private Bitmap? bitmap;
 
