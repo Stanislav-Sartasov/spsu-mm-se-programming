@@ -2,9 +2,7 @@ package bmp;
 
 import org.junit.jupiter.api.Test;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -42,6 +40,18 @@ class BMPFileTest {
 	}
 
 	@Test
-	void writeToOutputStream() {
+	void writeToOutputStream() throws IOException {
+		FileInputStream fileInputStream = new FileInputStream("src/test/resources/ok_test.bmp");
+		BMPFile bmpFile = BMPFile.readFromByteBuffer(ByteBuffer.wrap(fileInputStream.readAllBytes()));
+		fileInputStream.close();
+
+		FileOutputStream fileOutputStream = new FileOutputStream("src/test/resources/write_output.bmp");
+		bmpFile.writeToOutputStream(fileOutputStream);
+		fileOutputStream.close();
+
+		FileInputStream inputFile = new FileInputStream("src/test/resources/ok_test.bmp");
+		FileInputStream outputFile = new FileInputStream("src/test/resources/write_output.bmp");
+
+		assertArrayEquals(inputFile.readAllBytes(), outputFile.readAllBytes());
 	}
 }
