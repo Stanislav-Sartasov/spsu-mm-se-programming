@@ -58,19 +58,10 @@
         /// </summary>
         public int BfOffBits;
 
-        /// <summary>
-        /// The file type; must be BM.
-        /// </summary>
         private short bfType;
 
-        /// <summary>
-        /// Reserved; must be zero.
-        /// </summary>
         private short bfReserved1;
 
-        /// <summary>
-        /// Reserved; must be zero.
-        /// </summary>
         private short bfReserved2;
 
         /// <summary>
@@ -135,29 +126,14 @@
         /// </summary>
         public int BiClrImportant;
 
-        /// <summary>
-        /// Specifies the number of bytes required by the structure.
-        /// </summary>
         private int biSize;
 
-        /// <summary>
-        /// Specifies the number of planes for the target device.
-        /// </summary>
         private short biPlanes;
 
-        /// <summary>
-        /// For compressed video and YUV formats, this member is a FOURCC code, specified as a DWORD in little-endian order.
-        /// </summary>
         private int biCompression;
 
-        /// <summary>
-        /// Specifies the horizontal resolution, in pixels per meter, of the target device for the bitmap.
-        /// </summary>
         private int biXPelsPerMeter;
 
-        /// <summary>
-        /// Specifies the vertical resolution, in pixels per meter, of the target device for the bitmap.
-        /// </summary>
         private int biYPelsPerMeter;
 
         /// <summary>
