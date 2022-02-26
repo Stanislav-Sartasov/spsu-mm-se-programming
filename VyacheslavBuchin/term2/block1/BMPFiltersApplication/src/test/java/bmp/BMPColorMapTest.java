@@ -80,6 +80,13 @@ class BMPColorMapTest {
         @Test
         void ExistsShouldReturnFalseIfValueExists() {
             assertFalse(map.exists(13, 37));
+            assertFalse(map.exists(-1, 37));
+            assertFalse(map.exists(13, -5));
+            assertFalse(map.exists(-3, -5));
+            assertFalse(map.exists(0, -5));
+            assertFalse(map.exists(0, 5));
+            assertFalse(map.exists(13, 0));
+            assertFalse(map.exists(-13, 0));
         }
     }
 }
