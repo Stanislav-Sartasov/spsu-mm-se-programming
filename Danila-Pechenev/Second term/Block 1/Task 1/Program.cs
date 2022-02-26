@@ -37,20 +37,38 @@
             }
             else
             {
-                code = ImageProcessor.Filter(args[0], args[2], filterType);
+                double[] kernel;
+                switch (filterType)
+                {
+                    case "averaging":
+                        kernel = new double[9] { 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9 };
+                        break;
+                    case "gaussian":
+                        kernel = new double[9] { 1.0 / 16, 1.0 / 8, 1.0 / 16, 1.0 / 8, 1.0 / 4, 1.0 / 8, 1.0 / 16, 1.0 / 8, 1.0 / 16 };
+                        break;
+                    case "sobelx":
+                        kernel = new double[9] { -1.0, -2.0, -1.0, 0.0, 0.0, 0.0, 1.0, 2.0, 1.0 };
+                        break;
+                    case "sobely":
+                        kernel = new double[9] { -1.0, 0.0, 1.0, -2.0, 0.0, 2.0, -1.0, 0.0, 1.0 };
+                        break;
+                    default:
+                        Console.WriteLine("ERROR: Nonexistent type of filter.");
+                        return;
+                }
+
+                code = ImageProcessor.Filter(args[0], args[2], kernel);
             }
 
-            switch (code)
+            if (code == 1)
             {
-                case 1:
-                    Console.WriteLine("ERROR: File wasn't found.");
-                    break;
-                case 2:
-                    Console.WriteLine("ERROR: Nonexistent type of filter.");
-                    break;
-                default:
-                    Console.WriteLine("The program has worked successfully.");
-                    break;
+                Console.WriteLine("ERROR: File wasn't found.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("The program has worked successfully.");
+                return;
             }
         }
     }

@@ -185,9 +185,9 @@
         /// </summary>
         /// <param name="pathToRead">The path to the file to read.</param>
         /// <param name="pathToWrite">The path to the file to write.</param>
-        /// <param name="filterType">Filter type for convolution.</param>
-        /// <returns>0 - success, 1 - file not found, 2 - nonexistent type of filter.</returns>
-        public static int Filter(string pathToRead, string pathToWrite, string filterType)
+        /// <param name="kernel">Kernel of filter type for convolution.</param>
+        /// <returns>0 - success, 1 - file not found.</returns>
+        public static int Filter(string pathToRead, string pathToWrite, double[] kernel)
         {
             FileStream fileStreamIn;
             try
@@ -203,26 +203,6 @@
             ReadImage(binaryReader, out BitmapFileHeader fileHeader, out BitmapInfoHeader infoHeader, out Pixel[,] image);
             binaryReader.Close();
             fileStreamIn.Close();
-
-            double[] kernel;
-            switch (filterType)
-            {
-                case "averaging":
-                    kernel = new double[9] { 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9, 1.0 / 9 };
-                    break;
-                case "gaussian":
-                    kernel = new double[9] { 1.0 / 16, 1.0 / 8, 1.0 / 16, 1.0 / 8, 1.0 / 4, 1.0 / 8, 1.0 / 16, 1.0 / 8, 1.0 / 16 };
-                    break;
-                case "sobelx":
-                    kernel = new double[9] { -1.0, -2.0, -1.0, 0.0, 0.0, 0.0, 1.0, 2.0, 1.0 };
-                    break;
-                case "sobely":
-                    kernel = new double[9] { -1.0, 0.0, 1.0, -2.0, 0.0, 2.0, -1.0, 0.0, 1.0 };
-                    break;
-                default:
-                    Console.WriteLine("There is no such a filter. The program has finished its work.");
-                    return 2;
-            }
 
             Pixel[,] outImage = new Pixel[infoHeader.BiHeight, infoHeader.BiWidth];
             double sumBlue, sumGreen, sumRed;
