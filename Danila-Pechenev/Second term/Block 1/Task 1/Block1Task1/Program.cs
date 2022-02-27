@@ -21,7 +21,7 @@
             Console.WriteLine("\tsobelx [sobel filter on the X axis]");
             Console.WriteLine("\tsobely [sobel filter on the Y axis]");
             Console.WriteLine("\tgrayscale [convertion to grayscale];");
-            Console.WriteLine("3) Path to the output image.");
+            Console.WriteLine("3) Path to the output file.");
 
             if (args.Length != 3)
             {
