@@ -1,14 +1,14 @@
 package kernel;
 
 public class Kernel {
-    protected final KernelItem[] items;
+	protected final KernelItem[] items;
 
-    public Kernel(KernelItem[] items) {
-        this.items = items;
-    }
+	public Kernel(KernelItem[] items) {
+		this.items = items;
+	}
 
-    public KernelItem[] getItems() {
-        return items;
-    }
+	public KernelItem[] getItems() {
+		return items;
+	}
 
 }

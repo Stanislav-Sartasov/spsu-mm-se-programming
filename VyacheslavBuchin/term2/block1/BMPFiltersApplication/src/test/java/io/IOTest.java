@@ -15,28 +15,28 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class IOTest {
 
-    @BeforeEach
-    void setUp() {
-    }
+	@BeforeEach
+	void setUp() {
+	}
 
-    @Test
-    void FileAfterReadingAndWritingShouldStaySame() {
-        try (var fileIS = new FileInputStream("src/test/resources/test.bmp");
-            var bmpInput = new BMPInputStream(fileIS);
-            var fileOS = new FileOutputStream("src/test/resources/test_copy.bmp");
-            var bmpOutput = new BMPOutputStream(fileOS)) {
-            var file = bmpInput.readBMPFile();
-            bmpOutput.writeBMPFile(file);
+	@Test
+	void FileAfterReadingAndWritingShouldStaySame() {
+		try (var fileIS = new FileInputStream("src/test/resources/test.bmp");
+			 var bmpInput = new BMPInputStream(fileIS);
+			 var fileOS = new FileOutputStream("src/test/resources/test_copy.bmp");
+			 var bmpOutput = new BMPOutputStream(fileOS)) {
+			var file = bmpInput.readBMPFile();
+			bmpOutput.writeBMPFile(file);
 
-            bmpOutput.flush();
-            var bmpInputCopy = new BMPInputStream(new FileInputStream("src/test/resources/test_copy.bmp"));
-            var fileCopy = bmpInputCopy.readBMPFile();
-            bmpInputCopy.close();
+			bmpOutput.flush();
+			var bmpInputCopy = new BMPInputStream(new FileInputStream("src/test/resources/test_copy.bmp"));
+			var fileCopy = bmpInputCopy.readBMPFile();
+			bmpInputCopy.close();
 
-            assertTrue(BMPColorMaps.equal(file.colorMap(), fileCopy.colorMap()));
+			assertTrue(BMPColorMaps.equal(file.colorMap(), fileCopy.colorMap()));
 
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-        }
-    }
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		}
+	}
 }

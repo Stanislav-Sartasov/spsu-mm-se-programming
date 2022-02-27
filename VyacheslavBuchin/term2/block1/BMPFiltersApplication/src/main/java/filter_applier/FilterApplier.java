@@ -6,33 +6,33 @@ import util.BMPColorMaps;
 
 public class FilterApplier implements IFilterApplier {
 
-    private BMPColorMap map;
+	private BMPColorMap map;
 
-    public FilterApplier(BMPColorMap map) {
-        this.map = map;
-    }
+	public FilterApplier(BMPColorMap map) {
+		this.map = map;
+	}
 
-    @Override
-    public IFilterApplier apply(IFilter filter) {
+	@Override
+	public IFilterApplier apply(IFilter filter) {
 
-        if (filter == null)
-            return this;
+		if (filter == null)
+			return this;
 
-        var workingMap = BMPColorMaps.copy(map);
+		var workingMap = BMPColorMaps.copy(map);
 
-        for (int i = 0; i < workingMap.height(); i++) {
-            for (int j = 0; j < workingMap.width(); j++) {
-                workingMap.set(i, j, filter.modified(map, j, i));
-            }
-        }
+		for (int i = 0; i < workingMap.height(); i++) {
+			for (int j = 0; j < workingMap.width(); j++) {
+				workingMap.set(i, j, filter.modified(map, j, i));
+			}
+		}
 
-        map = BMPColorMaps.copy(workingMap);
+		map = BMPColorMaps.copy(workingMap);
 
-        return this;
-    }
+		return this;
+	}
 
-    @Override
-    public BMPColorMap toBMPColorMap() {
-        return map;
-    }
+	@Override
+	public BMPColorMap toBMPColorMap() {
+		return map;
+	}
 }
