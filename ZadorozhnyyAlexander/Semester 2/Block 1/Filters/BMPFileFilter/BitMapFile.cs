@@ -6,7 +6,7 @@ namespace BMPFileFilter
     public class BitMapFile
     {
 		private Int16 BitsPerPixel;
-		private byte[] Header { get; }
+		private readonly byte[] Header;
 		private int Channels;
 
 		public int CountRowRgb { get; }
