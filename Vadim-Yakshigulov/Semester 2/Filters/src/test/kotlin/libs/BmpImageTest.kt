@@ -51,4 +51,16 @@ internal class BmpImageTest {
 
         assertArrayEquals(img1.pixelData, img2.pixelData)
     }
+
+    @Test
+    fun `can open 32bit per pixel images`() {
+        val img = BmpImage.open("src/test/resources/img/32.bmp")
+        assertNotNull(img)
+    }
+
+    @Test
+    fun `can open 24bit per pixel images`() {
+        val img = BmpImage.open("src/test/resources/img/24.bmp")
+        assertNotNull(img)
+    }
 }

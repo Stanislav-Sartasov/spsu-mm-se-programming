@@ -3,6 +3,10 @@ package libs
 import libs.filters.*
 
 object CliApp {
+    enum class States {
+        SUCCESS, INVALID_ARGS_COUNT_ERROR, INVALID_FILTER_NAME_ERROR, INVALID_BMP_IMAGE_ERROR, ANOTHER_ERROR
+    }
+
     private val FILTERS = mapOf(
         "gaussian_3x3" to GaussianFilter3x3,
         "gaussian_5x5" to GaussianFilter5x5,
@@ -12,7 +16,7 @@ object CliApp {
         "sobelY" to SobelYFilter,
     )
 
-    fun run(args: Array<String>) {
+    fun run(args: Array<String>): States {
         println(
             """
                 |This application can filter bmp files with various algorithms.
@@ -28,7 +32,7 @@ object CliApp {
         if (args.size != 3) {
             println("Error: expected 3 arguments, got ${args.size}.")
             println("Please, try again...")
-            return
+            return States.INVALID_ARGS_COUNT_ERROR
         }
 
         val (inputPath, filterName, outputPath) = args
@@ -37,7 +41,7 @@ object CliApp {
         if (filter == null) {
             println("Error: expected one of the available filters (${FILTERS.keys.joinToString()}), got $filterName.")
             println("Please, try again...")
-            return
+            return States.INVALID_FILTER_NAME_ERROR
         }
         try {
             println("Opening $inputPath file...")
@@ -46,7 +50,7 @@ object CliApp {
             if (img == null) {
                 println("Error: expected 24/32 bits per pixel bmp file")
                 println("Please, double check the input file and try again...")
-                return
+                return States.INVALID_BMP_IMAGE_ERROR
             }
 
             println("Applying $filterName filter...")
@@ -64,7 +68,9 @@ object CliApp {
                 println("Unexpected error.")
             }
             println("Please, try again...")
+            return States.ANOTHER_ERROR
         }
+        return States.SUCCESS
 
     }
 }
