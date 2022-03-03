@@ -10,11 +10,11 @@ namespace BMPFileFilterTest
         [Test]
         public void TestBrokenBitMapFile()
         {
-            FileStream OpenigFile;
-            bool IsFoundException = false;
+            FileStream openingFile;
+            bool isFoundException = false;
             try
             {
-                OpenigFile = new FileStream("../../../TestImages/error.bmp", FileMode.Open, FileAccess.ReadWrite);
+                openingFile = new FileStream("../../../TestImages/error.bmp", FileMode.Open, FileAccess.ReadWrite);
             }
             catch
             {
@@ -23,13 +23,13 @@ namespace BMPFileFilterTest
 
             try
             {
-                BitMapFile file = new BitMapFile(OpenigFile);
+                BitMapFile file = new BitMapFile(openingFile);
             }
             catch (Exception exception)
             {
-                IsFoundException = exception.Message.Contains("Unsupported bitness of file.");
+                isFoundException = exception.Message.Contains("Unsupported bitness of file.");
             }
-            Assert.IsTrue(IsFoundException);
+            Assert.IsTrue(isFoundException);
         }
     }
 }

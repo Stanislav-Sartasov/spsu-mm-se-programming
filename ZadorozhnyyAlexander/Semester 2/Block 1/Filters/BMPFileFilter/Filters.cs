@@ -6,7 +6,7 @@ namespace BMPFileFilter
     {
         private static byte GreyScale(Rgb pixel)
         {
-            return Convert.ToByte((0.3 * pixel.Blue) + (0.6 * pixel.Green) + (0.1 * pixel.Red));
+            return Convert.ToByte((0.3 * pixel.blue) + (0.6 * pixel.green) + (0.1 * pixel.red));
         }
 
         public static void ApplyGreyFilter(BitMapFile file)
@@ -15,7 +15,7 @@ namespace BMPFileFilter
             {
                 for (int j = 0; j < file.CountRowRgb; j++)
                 {
-                    file.ImageRgb[i, j].Red = file.ImageRgb[i, j].Green = file.ImageRgb[i, j].Blue = GreyScale(file.ImageRgb[i, j]);
+                    file.ImageRgb[i, j].red = file.ImageRgb[i, j].green = file.ImageRgb[i, j].blue = GreyScale(file.ImageRgb[i, j]);
                 }
             }
         }
@@ -42,21 +42,21 @@ namespace BMPFileFilter
             {
                 for (int j = 1; j < file.CountRowRgb - 1; j++)
                 {
-                    int sum_x = (file.ImageRgb[i + 1, j - 1].Red + 2 * file.ImageRgb[i + 1, j].Red + file.ImageRgb[i + 1, j + 1].Red) -
-                        (file.ImageRgb[i - 1, j - 1].Red + 2 * file.ImageRgb[i - 1, j].Red + file.ImageRgb[i - 1, j + 1].Red);
-                    int sum_y = (file.ImageRgb[i - 1, j + 1].Red + 2 * file.ImageRgb[i, j + 1].Red + file.ImageRgb[i + 1, j + 1].Red) -
-                        (file.ImageRgb[i - 1, j - 1].Red + 2 * file.ImageRgb[i, j - 1].Red + file.ImageRgb[i + 1, j - 1].Red);
+                    int sum_x = (file.ImageRgb[i + 1, j - 1].red + 2 * file.ImageRgb[i + 1, j].red + file.ImageRgb[i + 1, j + 1].red) -
+                        (file.ImageRgb[i - 1, j - 1].red + 2 * file.ImageRgb[i - 1, j].red + file.ImageRgb[i - 1, j + 1].red);
+                    int sum_y = (file.ImageRgb[i - 1, j + 1].red + 2 * file.ImageRgb[i, j + 1].red + file.ImageRgb[i + 1, j + 1].red) -
+                        (file.ImageRgb[i - 1, j - 1].red + 2 * file.ImageRgb[i, j - 1].red + file.ImageRgb[i + 1, j - 1].red);
 
                     switch (direction)
                     {
                         case "X":
-                            new_pic[i, j].Red = new_pic[i, j].Green = new_pic[i, j].Blue = Math.Abs(sum_x) <= edge ? (byte)0 : (byte)255;
+                            new_pic[i, j].red = new_pic[i, j].green = new_pic[i, j].blue = Math.Abs(sum_x) <= edge ? (byte)0 : (byte)255;
                             break;
                         case "Both":
-                            new_pic[i, j].Red = new_pic[i, j].Green = new_pic[i, j].Blue = Math.Sqrt(Math.Pow(sum_x, 2) + Math.Pow(sum_y, 2)) <= edge ? (byte)0 : (byte)255;
+                            new_pic[i, j].red = new_pic[i, j].green = new_pic[i, j].blue = Math.Sqrt(Math.Pow(sum_x, 2) + Math.Pow(sum_y, 2)) <= edge ? (byte)0 : (byte)255;
                             break;
                         case "Y":
-                            new_pic[i, j].Red = new_pic[i, j].Green = new_pic[i, j].Blue = Math.Abs(sum_y) <= edge ? (byte)0 : (byte)255;
+                            new_pic[i, j].red = new_pic[i, j].green = new_pic[i, j].blue = Math.Abs(sum_y) <= edge ? (byte)0 : (byte)255;
                             break;
                     }
                 }
@@ -76,9 +76,9 @@ namespace BMPFileFilter
                     {
                         for (int p = -1; p <= 1; p++)
                         {
-                            mid_arr_Red[index] = file.ImageRgb[i + k, j + p].Red;
-                            mid_arr_Green[index] = file.ImageRgb[i + k, j + p].Green;
-                            mid_arr_Blue[index] = file.ImageRgb[i + k, j + p].Blue;
+                            mid_arr_Red[index] = file.ImageRgb[i + k, j + p].red;
+                            mid_arr_Green[index] = file.ImageRgb[i + k, j + p].green;
+                            mid_arr_Blue[index] = file.ImageRgb[i + k, j + p].blue;
                             index++;
                         }
                     }
@@ -87,9 +87,9 @@ namespace BMPFileFilter
                     Array.Sort(mid_arr_Green);
                     Array.Sort(mid_arr_Blue);
 
-                    file.ImageRgb[i, j].Red = mid_arr_Red[4];
-                    file.ImageRgb[i, j].Green = mid_arr_Green[4];
-                    file.ImageRgb[i, j].Blue = mid_arr_Blue[4];
+                    file.ImageRgb[i, j].red = mid_arr_Red[4];
+                    file.ImageRgb[i, j].green = mid_arr_Green[4];
+                    file.ImageRgb[i, j].blue = mid_arr_Blue[4];
                 }
             }
         }
@@ -106,14 +106,14 @@ namespace BMPFileFilter
                     {
                         for (int p = -1; p <= 1; p++)
                         {
-                            r_k += file.ImageRgb[i + k, j + p].Red * g[k + 1, p + 1];
-                            g_k += file.ImageRgb[i + k, j + p].Green * g[k + 1, p + 1];
-                            b_k += file.ImageRgb[i + k, j + p].Blue * g[k + 1, p + 1];
+                            r_k += file.ImageRgb[i + k, j + p].red * g[k + 1, p + 1];
+                            g_k += file.ImageRgb[i + k, j + p].green * g[k + 1, p + 1];
+                            b_k += file.ImageRgb[i + k, j + p].blue * g[k + 1, p + 1];
                         }
                     }
-                    file.ImageRgb[i, j].Red = Convert.ToByte(r_k / 16);
-                    file.ImageRgb[i, j].Green = Convert.ToByte(g_k / 16);
-                    file.ImageRgb[i, j].Blue = Convert.ToByte(b_k / 16);
+                    file.ImageRgb[i, j].red = Convert.ToByte(r_k / 16);
+                    file.ImageRgb[i, j].green = Convert.ToByte(g_k / 16);
+                    file.ImageRgb[i, j].blue = Convert.ToByte(b_k / 16);
                 }
             }
         }

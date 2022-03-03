@@ -2,31 +2,31 @@
 {
     public class Rgb
     {
-        private int Length;
+        private int length;
 
-        public byte Blue;
-        public byte Green;
-        public byte Red;
-        public byte Reserved;
+        public byte blue;
+        public byte green;
+        public byte red;
+        public byte reserved;
 
         public Rgb(byte[] list)
         {
-            Length = list.Length;
-            Blue = list[0];
-            Green = list[1];
-            Red = list[2];
-            if (Length == 4)
-                Reserved = list[3];
+            length = list.Length;
+            blue = list[0];
+            green = list[1];
+            red = list[2];
+            if (length == 4)
+                reserved = list[3];
         }
 
         public byte[] GetListBytes()
         {
-            if (Length == 3)
+            if (length == 3)
             {
-                byte[] res_3 = { Blue, Green, Red };
+                byte[] res_3 = { blue, green, red };
                 return res_3;
             }
-            byte[] res_4 = { Blue, Green, Red, Reserved };
+            byte[] res_4 = { blue, green, red, reserved };
             return res_4;
         }
     }

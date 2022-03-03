@@ -8,11 +8,11 @@ namespace BMPFileFilterTest
 {
     public class BMPFilterTest
     {
-        private FileStream SavingFile;
-        private BitMapFile File;
+        private FileStream savingFile;
+        private BitMapFile file;
 
-        private Bitmap ExampleOne;
-        private Bitmap ExampleTwo;
+        private Bitmap exampleOne;
+        private Bitmap exampleTwo;
 
         private static bool CheckBitmaps(Bitmap first, Bitmap second)
         {
@@ -37,10 +37,10 @@ namespace BMPFileFilterTest
         [SetUp]
         public void Setup()
         {
-            FileStream OpenigFile;
+            FileStream openingFile;
             try
             {
-                OpenigFile = new FileStream("../../../TestImages/testing_file.bmp", FileMode.Open, FileAccess.ReadWrite);
+                openingFile = new FileStream("../../../TestImages/testing_file.bmp", FileMode.Open, FileAccess.ReadWrite);
             }
             catch (FileNotFoundException)
             {
@@ -49,76 +49,76 @@ namespace BMPFileFilterTest
 
             try
             {
-                SavingFile = new FileStream("../../../TestImages/save.bmp", FileMode.Create, FileAccess.ReadWrite);
+                savingFile = new FileStream("../../../TestImages/save.bmp", FileMode.Create, FileAccess.ReadWrite);
             }
             catch (Exception)
             {
-                OpenigFile.Close();
+                openingFile.Close();
                 throw new Exception("Failed to open the output file.");
             }
-            File = new(OpenigFile);
-            OpenigFile.Close();
+            file = new(openingFile);
+            openingFile.Close();
         }
 
         public void TestingAlgorithm(string path_1, string path_2)
         {
-            ExampleOne = new(path_1);
-            ExampleTwo = new(path_2);
-            Assert.IsTrue(CheckBitmaps(ExampleOne, ExampleTwo));
-            ExampleOne.Dispose();
-            ExampleTwo.Dispose();
+            exampleOne = new(path_1);
+            exampleTwo = new(path_2);
+            Assert.IsTrue(CheckBitmaps(exampleOne, exampleTwo));
+            exampleOne.Dispose();
+            exampleTwo.Dispose();
         }
 
         [Test]
         public void TestSobelXFilter()
         {
-            Filters.ApplySobelFilter(File, "X");
-            File.WriteNewFile(SavingFile);
-            SavingFile.Close();
+            Filters.ApplySobelFilter(file, "X");
+            file.WriteNewFile(savingFile);
+            savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobelx_result.bmp");
         }
 
         [Test]
         public void TestSobelYFilter()
         {
-            Filters.ApplySobelFilter(File, "Y");
-            File.WriteNewFile(SavingFile);
+            Filters.ApplySobelFilter(file, "Y");
+            file.WriteNewFile(savingFile);
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobely_result.bmp");
         }
 
         [Test]
         public void TestSobelBothFilter()
         {
-            Filters.ApplySobelFilter(File, "Both");
-            File.WriteNewFile(SavingFile);
-            SavingFile.Close();
+            Filters.ApplySobelFilter(file, "Both");
+            file.WriteNewFile(savingFile);
+            savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobelboth_result.bmp");
         }
 
         [Test]
         public void TestGaussFilter()
         {
-            Filters.ApplyGauss3x3Filter(File);
-            File.WriteNewFile(SavingFile);
-            SavingFile.Close();
+            Filters.ApplyGauss3x3Filter(file);
+            file.WriteNewFile(savingFile);
+            savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/gauss_result.bmp");
         }
 
         [Test]
         public void TestMedianFilter()
         {
-            Filters.ApplyMiddleFilter(File);
-            File.WriteNewFile(SavingFile);
-            SavingFile.Close();
+            Filters.ApplyMiddleFilter(file);
+            file.WriteNewFile(savingFile);
+            savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/middle_result.bmp");
         }
 
         [Test]
         public void TestGreyFilter()
         {
-            Filters.ApplyGreyFilter(File);
-            File.WriteNewFile(SavingFile);
-            SavingFile.Close();
+            Filters.ApplyGreyFilter(file);
+            file.WriteNewFile(savingFile);
+            savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/grey_result.bmp");
         }
     }

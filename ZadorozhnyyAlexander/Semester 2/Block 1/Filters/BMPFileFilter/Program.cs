@@ -24,11 +24,11 @@ namespace BMPFileFilter
 				return;
 			}
 
-			FileStream OpenigFile;
+			FileStream openingFile;
 			try
             {
                 Console.WriteLine(args[0]);
-				OpenigFile = new FileStream(args[0], FileMode.Open, FileAccess.ReadWrite);
+				openingFile = new FileStream(args[0], FileMode.Open, FileAccess.ReadWrite);
 			}
 			catch
             {
@@ -43,13 +43,13 @@ namespace BMPFileFilter
 			}
 			catch
 			{
-				OpenigFile.Close();
+				openingFile.Close();
 				Console.WriteLine("Failed to open the output file.");
 				return;
 			}
 
-			BitMapFile file = new(OpenigFile);
-			OpenigFile.Close();
+			BitMapFile file = new(openingFile);
+			openingFile.Close();
 
 			if (args[1] == "SobelX")
 				Filters.ApplySobelFilter(file, "X");
