@@ -16,8 +16,8 @@ namespace BMPFileFilterTest
 
         private static bool CheckBitmaps(Bitmap first, Bitmap second)
         {
-            bool is_good = first.Size == second.Size;
-            if (!is_good)
+            bool isGood = first.Size == second.Size;
+            if (!isGood)
                 return false;
 
             for (int x = 0; x < first.Width; ++x)
@@ -26,12 +26,12 @@ namespace BMPFileFilterTest
                 {
                     if (first.GetPixel(x, y) != second.GetPixel(x, y))
                     {
-                        is_good = false;
+                        isGood = false;
                         break;
                     }
                 }
             }
-            return is_good;
+            return isGood;
         }
 
         [SetUp]
@@ -60,10 +60,10 @@ namespace BMPFileFilterTest
             openingFile.Close();
         }
 
-        public void TestingAlgorithm(string path_1, string path_2)
+        public void TestingAlgorithm(string pathOne, string pathTwo)
         {
-            exampleOne = new(path_1);
-            exampleTwo = new(path_2);
+            exampleOne = new(pathOne);
+            exampleTwo = new(pathTwo);
             Assert.IsTrue(CheckBitmaps(exampleOne, exampleTwo));
             exampleOne.Dispose();
             exampleTwo.Dispose();
