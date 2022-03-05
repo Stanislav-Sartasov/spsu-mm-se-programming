@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bmpFiltersTests.BmpFiltersTests" tests="10" skipped="0" failures="0" errors="0" timestamp="2022-03-05T18:52:31" hostname="DESKTOP-GP8BOQD" time="6.671">
+  <properties/>
+  <testcase name="sobelXTest24" classname="bmpFiltersTests.BmpFiltersTests" time="0.995"/>
+  <testcase name="sobelXTest32" classname="bmpFiltersTests.BmpFiltersTests" time="0.549"/>
+  <testcase name="sobelYTest24" classname="bmpFiltersTests.BmpFiltersTests" time="0.505"/>
+  <testcase name="sobelYTest32" classname="bmpFiltersTests.BmpFiltersTests" time="0.47"/>
+  <testcase name="medianTest24" classname="bmpFiltersTests.BmpFiltersTests" time="1.81"/>
+  <testcase name="medianTest32" classname="bmpFiltersTests.BmpFiltersTests" time="1.319"/>
+  <testcase name="gaussTest24" classname="bmpFiltersTests.BmpFiltersTests" time="0.428"/>
+  <testcase name="gaussTest32" classname="bmpFiltersTests.BmpFiltersTests" time="0.42"/>
+  <testcase name="grayTest24" classname="bmpFiltersTests.BmpFiltersTests" time="0.086"/>
+  <testcase name="grayTest32" classname="bmpFiltersTests.BmpFiltersTests" time="0.088"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
