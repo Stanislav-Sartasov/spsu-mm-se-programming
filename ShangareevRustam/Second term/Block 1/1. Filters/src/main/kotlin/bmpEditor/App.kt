@@ -4,7 +4,7 @@ import bmpEditor.bmp.*
 import kotlin.system.exitProcess
 
 fun inputPrompt() {
-	println("To start, use the template: gradlew :run --args = \"<input bmp path> <filter name> <output bmp path>\"")
+	println("To start, use the template: gradlew :run --args=\"<input bmp path> <filter name> <output bmp path>\"")
 	println("Available filters: gray, sobelX, sobelY, median, gauss")
 	println()
 }
