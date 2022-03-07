@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bmpReadWriteTests.BmpReadWriteTests" tests="6" skipped="0" failures="0" errors="0" timestamp="2022-03-07T11:36:09" hostname="DESKTOP-GP8BOQD" time="0.009">
+  <properties/>
+  <testcase name="bmpReadTest24()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.001"/>
+  <testcase name="bmpReadTest32()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.001"/>
+  <testcase name="bmpWriteTest24()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.002"/>
+  <testcase name="bmpWriteTest32()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.002"/>
+  <testcase name="bmpReadWriteTest24()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.001"/>
+  <testcase name="bmpReadWriteTest32()" classname="bmpReadWriteTests.BmpReadWriteTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

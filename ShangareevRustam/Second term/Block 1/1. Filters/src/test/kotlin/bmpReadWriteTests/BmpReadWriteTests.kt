@@ -1,8 +1,8 @@
 package bmpReadWriteTests
 
-import org.junit.Test
-import bmp.*
-import pixel.*
+import org.junit.jupiter.api.Test
+import bmpEditor.bmp.*
+import bmpEditor.pixel.*
 
 class BmpReadWriteTests {
 	private val bmpFileHeader24 = BmpFileHeader(

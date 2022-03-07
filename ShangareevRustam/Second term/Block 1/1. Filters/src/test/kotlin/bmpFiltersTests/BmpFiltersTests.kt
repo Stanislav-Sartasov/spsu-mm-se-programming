@@ -1,7 +1,7 @@
 package bmpFiltersTests
 
-import bmp.*
-import org.junit.Test
+import bmpEditor.bmp.*
+import org.junit.jupiter.api.Test
 
 class BmpFiltersTests {
 
