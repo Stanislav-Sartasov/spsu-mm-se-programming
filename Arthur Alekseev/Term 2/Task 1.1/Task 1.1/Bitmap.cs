@@ -10,8 +10,8 @@ namespace Task_1._1
 		private byte[] Data;
 		private int BitsPerPixel;
 
-		public int Width;
-		public int Height;
+		public readonly int Width;
+		public readonly int Height;
 
 		public Bitmap(string filename)
 		{
