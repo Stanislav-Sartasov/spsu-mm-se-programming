@@ -73,7 +73,7 @@ public class BMPInputStream extends BufferedInputStream {
 		var header = readBMPHeader();
 
 		var colorMap = readColorMap(
-				header.bitsPerPixel() / 24,
+				header.bitsPerPixel() / 8,
 				header.width(),
 				header.height()
 		);

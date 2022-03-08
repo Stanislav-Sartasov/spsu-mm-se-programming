@@ -73,7 +73,7 @@ public class BMPOutputStream extends BufferedOutputStream {
 		writeBMPHeader(header);
 
 		writeColorMap(
-				header.bitsPerPixel() / 24,
+				header.bitsPerPixel() / 8,
 				header.width(),
 				header.height(),
 				file.colorMap()

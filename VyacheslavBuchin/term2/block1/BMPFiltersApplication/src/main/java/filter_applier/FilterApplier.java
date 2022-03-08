@@ -26,7 +26,7 @@ public class FilterApplier implements IFilterApplier {
 			}
 		}
 
-		map = BMPColorMaps.copy(workingMap);
+		map = workingMap;
 
 		return this;
 	}
