@@ -81,6 +81,119 @@ class Bmp(
 		1, 2, 1
 	)
 
+	companion object {
+		fun readBmp(filePath: String): Bmp {
+			val file = try {
+				RandomAccessFile(filePath, "r")
+			} catch (e: java.io.FileNotFoundException) {
+				println("Error opening file. It is likely that a file with that name does not exist. Try again")
+				inputPrompt()
+				exitProcess(0)
+			}
+
+			// use a memory-mapped byte buffer for better performance
+			val buffer = try {
+				file.channel.map(
+					/* mode = */ FileChannel.MapMode.READ_ONLY,
+					/* position = */ 0,
+					/* size = */ file.length()
+				).apply {
+					order(ByteOrder.LITTLE_ENDIAN)
+				}
+			} catch (e: java.io.IOException) {
+				println("Memory mapping error. The specified file is probably too large or corrupted. Try again")
+				inputPrompt()
+				exitProcess(0)
+			}
+
+			// the minimum file header size is 14 bytes
+			// the minimum and only allowed size of the information header is 40 bytes
+			if (file.length() < 54) {
+				println(
+					"Bmp file is corrupted or the header information file" +
+							" is not in the common Windows BITMAPINFOHEADER format. Try again"
+				)
+				inputPrompt()
+				exitProcess(0)
+			}
+
+			// after each call to get bytes from the buffer,
+			// the pointer in the buffer is moved by the number of bytes taken
+			val curBmpFileHeader = BmpFileHeader(
+				identifier = buffer.short.toUShort(),
+				fileSize = buffer.int.toUInt(),
+				reserved1 = buffer.short.toUShort(),
+				reserved2 = buffer.short.toUShort(),
+				imageOffset = buffer.int.toUInt()
+			)
+
+			// using toUInt and toUShort is correct, because two's complement code is used
+			val curBmpInfoHeader = BmpInfoHeader(
+				headerSize = buffer.int.toUInt(),
+				imageWidth = buffer.int,
+				imageHeight = buffer.int,
+				numbOfColorPlanes = buffer.short.toUShort(),
+				bitsPerPixel = buffer.short.toUShort(),
+				compressionMethod = buffer.int.toUInt(),
+				sizeOfBitmap = buffer.int.toUInt(),
+				horResolution = buffer.int,
+				verResolution = buffer.int,
+				colorsUsed = buffer.int.toUInt(),
+				colorsImportant = buffer.int.toUInt(),
+			)
+
+			// the minimum and only allowed size of the information header is 40 bytes
+			if (curBmpInfoHeader.headerSize != 40u) {
+				println(
+					"Bmp file is corrupted or the header information file " +
+							"is not in the common Windows BITMAPINFOHEADER format! Try again"
+				)
+				inputPrompt()
+				exitProcess(0)
+			}
+
+			val numbOfRows = curBmpInfoHeader.imageHeight
+			val numbOfColumns = curBmpInfoHeader.imageWidth
+			val numbOfGarbageBytes = (4 + (-3 * numbOfColumns) % 4) % 4
+			// creates a list of lists that consist of the pixels read from the buffer.
+			// For 24 BPPs, "garbage" bytes are also read after reading each row in the amount of (-3 * numbOfColumns) % 4.
+			val pixels: List<List<Pixel>> = when (curBmpInfoHeader.bitsPerPixel) {
+				24.toUShort() -> {
+					List(size = numbOfRows) {
+						List(size = numbOfColumns) {
+							Pixel(
+								buffer.get().toUByte().toInt(),
+								buffer.get().toUByte().toInt(), buffer.get().toUByte().toInt(), 0
+							)
+						}.also {
+							buffer.get(ByteArray(numbOfGarbageBytes))
+						}
+					}
+				}
+				32.toUShort() -> {
+					List(size = numbOfRows) {
+						List(numbOfColumns) {
+							Pixel(
+								buffer.get().toUByte().toInt(),
+								buffer.get().toUByte().toInt(),
+								buffer.get().toUByte().toInt(),
+								buffer.get().toUByte().toInt()
+							)
+						}
+					}
+				}
+				else -> {
+					println("Bmp file don't have 24 or 32 bits per pixel. Try again")
+					inputPrompt()
+					exitProcess(0)
+				}
+			}
+
+			file.close()
+			return Bmp(curBmpFileHeader, curBmpInfoHeader, pixels)
+		}
+	}
+
 	fun write(filePath: String) {
 		val outputStream = File(filePath).outputStream()
 		val buffer = ByteBuffer.allocate(bmpFileHeader.fileSize.toInt()).apply {
@@ -247,113 +360,3 @@ class Bmp(
 	}
 }
 
-fun readBmp(filePath: String): Bmp {
-	val file = try {
-		RandomAccessFile(filePath, "r")
-	} catch (e: java.io.FileNotFoundException) {
-		println("Error opening file. It is likely that a file with that name does not exist. Try again")
-		inputPrompt()
-		exitProcess(0)
-	}
-
-	// use a memory-mapped byte buffer for better performance
-	val buffer = try {
-		file.channel.map(
-			/* mode = */ FileChannel.MapMode.READ_ONLY,
-			/* position = */ 0,
-			/* size = */ file.length()
-		).apply {
-			order(ByteOrder.LITTLE_ENDIAN)
-		}
-	} catch (e: java.io.IOException) {
-		println("Memory mapping error. The specified file is probably too large or corrupted. Try again")
-		inputPrompt()
-		exitProcess(0)
-	}
-
-	// the minimum file header size is 14 bytes
-	// the minimum and only allowed size of the information header is 40 bytes
-	if (file.length() < 54) {
-		println(
-			"Bmp file is corrupted or the header information file" +
-					" is not in the common Windows BITMAPINFOHEADER format. Try again"
-		)
-		inputPrompt()
-		exitProcess(0)
-	}
-
-	// after each call to get bytes from the buffer,
-	// the pointer in the buffer is moved by the number of bytes taken
-	val curBmpFileHeader = BmpFileHeader(
-		identifier = buffer.short.toUShort(),
-		fileSize = buffer.int.toUInt(),
-		reserved1 = buffer.short.toUShort(),
-		reserved2 = buffer.short.toUShort(),
-		imageOffset = buffer.int.toUInt()
-	)
-
-	// using toUInt and toUShort is correct, because two's complement code is used
-	val curBmpInfoHeader = BmpInfoHeader(
-		headerSize = buffer.int.toUInt(),
-		imageWidth = buffer.int,
-		imageHeight = buffer.int,
-		numbOfColorPlanes = buffer.short.toUShort(),
-		bitsPerPixel = buffer.short.toUShort(),
-		compressionMethod = buffer.int.toUInt(),
-		sizeOfBitmap = buffer.int.toUInt(),
-		horResolution = buffer.int,
-		verResolution = buffer.int,
-		colorsUsed = buffer.int.toUInt(),
-		colorsImportant = buffer.int.toUInt(),
-	)
-
-	// the minimum and only allowed size of the information header is 40 bytes
-	if (curBmpInfoHeader.headerSize != 40u) {
-		println(
-			"Bmp file is corrupted or the header information file " +
-					"is not in the common Windows BITMAPINFOHEADER format! Try again"
-		)
-		inputPrompt()
-		exitProcess(0)
-	}
-
-	val numbOfRows = curBmpInfoHeader.imageHeight
-	val numbOfColumns = curBmpInfoHeader.imageWidth
-	val numbOfGarbageBytes = (4 + (-3 * numbOfColumns) % 4) % 4
-	// creates a list of lists that consist of the pixels read from the buffer.
-	// For 24 BPPs, "garbage" bytes are also read after reading each row in the amount of (-3 * numbOfColumns) % 4.
-	val pixels: List<List<Pixel>> = when (curBmpInfoHeader.bitsPerPixel) {
-		24.toUShort() -> {
-			List(size = numbOfRows) {
-				List(size = numbOfColumns) {
-					Pixel(
-						buffer.get().toUByte().toInt(),
-						buffer.get().toUByte().toInt(), buffer.get().toUByte().toInt(), 0
-					)
-				}.also {
-					buffer.get(ByteArray(numbOfGarbageBytes))
-				}
-			}
-		}
-		32.toUShort() -> {
-			List(size = numbOfRows) {
-				List(numbOfColumns) {
-					Pixel(
-						buffer.get().toUByte().toInt(),
-						buffer.get().toUByte().toInt(),
-						buffer.get().toUByte().toInt(),
-						buffer.get().toUByte().toInt()
-					)
-				}
-			}
-		}
-		else -> {
-			println("Bmp file don't have 24 or 32 bits per pixel. Try again")
-			inputPrompt()
-			exitProcess(0)
-		}
-	}
-
-	file.close()
-	return Bmp(curBmpFileHeader, curBmpInfoHeader, pixels)
-}
