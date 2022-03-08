@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BMPFilters
 {
@@ -34,19 +30,19 @@ namespace BMPFilters
 		public static void Gauss(BMPImage image)
 		{
 			double[] kernel = new double[] { 0.0626, 0.1250, 0.0626, 0.1250, 0.2497, 0.1250, 0.0626, 0.1250, 0.0626 };
-			convolution(image, kernel);
+			Convolution(image, kernel);
 		}
 
 		public static void SobelX(BMPImage image)
 		{
 			double[] kernel = new double[] { 1, 0, -1, 2, 0, -2, 1, 0, -1 };
-			convolution(image, kernel);
+			Convolution(image, kernel);
 		}
 
 		public static void SobelY(BMPImage image)
 		{
 			double[] kernel = new double[] { 1, 2, 1, 0, 0, 0, -1, -2, -1 };
-			convolution(image, kernel);
+			Convolution(image, kernel);
 		}
 
 		public static void Grayscale(BMPImage image)
@@ -66,7 +62,7 @@ namespace BMPFilters
 			}
 		}
 
-		private static void convolution(BMPImage image, double[] kernel)
+		private static void Convolution(BMPImage image, double[] kernel)
 		{
 			byte[][][] copy = new byte[image.Height][][];
 			for (int i = 0; i < image.Height; i++)

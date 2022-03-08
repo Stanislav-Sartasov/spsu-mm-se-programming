@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace BMPFilters
@@ -10,11 +6,11 @@ namespace BMPFilters
     public class BMPImage
     {
 		private byte[] Header = new byte[54];
-		public int Width;
-        public int Height;
-        public ushort Bitness;
-		public int Channels;
-		public byte[][][] Bytes;
+		public int Width { get; }
+		public int Height { get; }
+		public ushort Bitness { get; }
+		public int Channels { get; }
+		public byte[][][] Bytes { get; }
 
 		public BMPImage(FileStream input)
 		{
@@ -37,7 +33,7 @@ namespace BMPFilters
 
 			if (Bitness != 32 && Bitness != 24)
             {
-				throw new Exception("Unsupported bitness of Bytes.");
+				throw new Exception("Unsupported bitness.");
             }
 
 			if (Bitness == 24)
