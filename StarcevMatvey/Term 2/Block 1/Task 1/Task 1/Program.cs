@@ -24,7 +24,7 @@ namespace Task_1
                 return;
             }
             Image image = new Image(args[0]);
-            if (!Convert.ToBoolean(image.SizesOfImage[0]))
+            if (!Convert.ToBoolean(image.Header[0]))
             {
                 WriteLine("Unable to open file for reading");
                 return;
