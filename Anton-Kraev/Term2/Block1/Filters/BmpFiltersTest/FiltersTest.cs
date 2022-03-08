@@ -5,6 +5,7 @@ namespace BmpFiltersTest
 {
     public class FiltersTest
     {
+        [Order(1)]
         [Test]
         public void GrayFilterTest()
         {
@@ -15,6 +16,7 @@ namespace BmpFiltersTest
             Assert.IsTrue(file1 == file2);
         }
 
+        [Order(2)]
         [Test]
         public void MedianFilterTest()
         {
@@ -25,6 +27,7 @@ namespace BmpFiltersTest
             Assert.IsTrue(file1 == file2);
         }
 
+        [Order(3)]
         [Test]
         public void GaussFilterTest()
         {
@@ -35,6 +38,7 @@ namespace BmpFiltersTest
             Assert.IsTrue(file1 == file2);
         }
 
+        [Order(4)]
         [Test]
         public void SobelFilterTest()
         {
@@ -45,6 +49,7 @@ namespace BmpFiltersTest
             Assert.IsTrue(file1 == file2);
         }
 
+        [Order(5)]
         [Test]
         public void SobelXFilterTest()
         {
@@ -55,6 +60,7 @@ namespace BmpFiltersTest
             Assert.IsTrue(file1 == file2);
         }
 
+        [Order(6)]
         [Test]
         public void SobelYFilterTest()
         {
