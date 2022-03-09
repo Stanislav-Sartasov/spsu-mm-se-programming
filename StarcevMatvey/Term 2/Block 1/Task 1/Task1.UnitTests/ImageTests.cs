@@ -11,7 +11,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             testImage.MakeNewFile("../../../testImage.bmp");
             Image normalImage = new Image("../../../testImage.bmp");
-            Assert.AreEqual(testImage.image, normalImage.image);
+            Assert.AreEqual(testImage.Pixels, normalImage.Pixels);
             File.Delete("../../../testImage.bmp");
             Assert.Pass();
         }
@@ -22,7 +22,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             Image greyImage = new Image("../../../greyImage.bmp");
             testImage.GreyFilter();
-            Assert.AreEqual(testImage.image, greyImage.image);
+            Assert.AreEqual(testImage.Pixels, greyImage.Pixels);
             Assert.Pass();
         }
 
@@ -32,7 +32,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             Image middleImage = new Image("../../../middleImage.bmp");
             testImage.MiddleFilter();
-            Assert.AreEqual(testImage.image, middleImage.image);
+            Assert.AreEqual(testImage.Pixels, middleImage.Pixels);
             Assert.Pass();
         }
 
@@ -42,7 +42,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             Image gaussImage = new Image("../../../gaussImage.bmp");
             testImage.GaussFilter();
-            Assert.AreEqual(testImage.image, gaussImage.image);
+            Assert.AreEqual(testImage.Pixels, gaussImage.Pixels);
             Assert.Pass();
         }
 
@@ -52,7 +52,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             Image sobelXAxisImage = new Image("../../../sobelXImage.bmp");
             testImage.SobelAxisFilter(1);
-            Assert.AreEqual(testImage.image, sobelXAxisImage.image);
+            Assert.AreEqual(testImage.Pixels, sobelXAxisImage.Pixels);
             Assert.Pass();
         }
 
@@ -62,7 +62,7 @@ namespace Task_1.UnitTests
             Image testImage = new Image("../../../normalImage.bmp");
             Image sobelYAxisImage = new Image("../../../sobelYImage.bmp");
             testImage.SobelAxisFilter(0);
-            Assert.AreEqual(testImage.image, sobelYAxisImage.image);
+            Assert.AreEqual(testImage.Pixels, sobelYAxisImage.Pixels);
             Assert.Pass();
         }
     }
