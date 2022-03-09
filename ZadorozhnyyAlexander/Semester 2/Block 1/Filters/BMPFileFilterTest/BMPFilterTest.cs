@@ -72,7 +72,7 @@ namespace BMPFileFilterTest
         [Test]
         public void TestSobelXFilter()
         {
-            Filters.ApplySobelFilter(file, "X");
+            Filters.ApplySobelFilter(file, Filters.Direction.X);
             file.WriteNewFile(savingFile);
             savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobelx_result.bmp");
@@ -81,7 +81,7 @@ namespace BMPFileFilterTest
         [Test]
         public void TestSobelYFilter()
         {
-            Filters.ApplySobelFilter(file, "Y");
+            Filters.ApplySobelFilter(file, Filters.Direction.Y);
             file.WriteNewFile(savingFile);
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobely_result.bmp");
         }
@@ -89,7 +89,7 @@ namespace BMPFileFilterTest
         [Test]
         public void TestSobelBothFilter()
         {
-            Filters.ApplySobelFilter(file, "Both");
+            Filters.ApplySobelFilter(file, Filters.Direction.Both);
             file.WriteNewFile(savingFile);
             savingFile.Close();
             TestingAlgorithm("../../../TestImages/save.bmp", "../../../TestImages/sobelboth_result.bmp");

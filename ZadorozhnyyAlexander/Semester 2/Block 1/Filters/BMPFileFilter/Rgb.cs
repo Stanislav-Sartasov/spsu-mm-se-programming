@@ -4,30 +4,30 @@
     {
         private int length;
 
-        public byte blue;
-        public byte green;
-        public byte red;
-        public byte reserved;
+        public byte Blue;
+        public byte Green;
+        public byte Red;
+        public byte Reserved;
 
         public Rgb(byte[] list)
         {
             length = list.Length;
-            blue = list[0];
-            green = list[1];
-            red = list[2];
+            Blue = list[0];
+            Green = list[1];
+            Red = list[2];
             if (length == 4)
-                reserved = list[3];
+                Reserved = list[3];
         }
 
         public byte[] GetListBytes()
         {
             if (length == 3)
             {
-                byte[] res_3 = { blue, green, red };
-                return res_3;
+                byte[] result = { Blue, Green, Red };
+                return result;
             }
-            byte[] res_4 = { blue, green, red, reserved };
-            return res_4;
+            byte[] newResult = { Blue, Green, Red, Reserved };
+            return newResult;
         }
     }
 }

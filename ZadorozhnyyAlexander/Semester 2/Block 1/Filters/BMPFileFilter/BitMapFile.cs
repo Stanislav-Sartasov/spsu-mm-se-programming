@@ -16,20 +16,20 @@ namespace BMPFileFilter
 
 		public BitMapFile(FileStream file)
         {
-			BinaryReader reader_machine = new(file);
-			header = reader_machine.ReadBytes(54);
+			BinaryReader readerMachine = new(file);
+			header = readerMachine.ReadBytes(54);
 
-			MemoryStream saved_data = new(header, 0, 54);
-			BinaryReader data_reader = new(saved_data);
+			MemoryStream savedData = new(header, 0, 54);
+			BinaryReader dataReader = new(savedData);
 
-			data_reader.ReadBytes(18); // we skip unnecessary information
-			Width = data_reader.ReadInt32();
-			Height = data_reader.ReadInt32();
-			data_reader.ReadBytes(2); // we skip unnecessary information
-			bitsPerPixel = data_reader.ReadInt16();
+			dataReader.ReadBytes(18); // we skip unnecessary information
+			Width = dataReader.ReadInt32();
+			Height = dataReader.ReadInt32();
+			dataReader.ReadBytes(2); // we skip unnecessary information
+			bitsPerPixel = dataReader.ReadInt16();
 
-			saved_data.Close();
-			data_reader.Close();
+			savedData.Close();
+			dataReader.Close();
 
 			if (bitsPerPixel == 24)
 			{
@@ -52,28 +52,28 @@ namespace BMPFileFilter
 			{
 				for (int j = CountRowRgb - 1; j >= 0; j--)
                 {
-					ImageRgb[i, j] = new Rgb(reader_machine.ReadBytes(channels));
+					ImageRgb[i, j] = new Rgb(readerMachine.ReadBytes(channels));
                 }
 			}
-			reader_machine.Close();
+			readerMachine.Close();
 		}
 
-		public void WriteNewFile(FileStream SavingFile)
+		public void WriteNewFile(FileStream savingFile)
 		{
-			if (SavingFile == null)
+			if (savingFile == null)
 				throw new Exception("Null file");
-			BinaryWriter write_machine = new(SavingFile);
-			write_machine.Write(header);
+			BinaryWriter writeMachine = new(savingFile);
+			writeMachine.Write(header);
 
 			for (int i = Height - 1; i >= 0; i--)
 			{
 				for (int j = CountRowRgb - 1; j >= 0; j--)
 				{
-					write_machine.Write(ImageRgb[i, j].GetListBytes());
+					writeMachine.Write(ImageRgb[i, j].GetListBytes());
 				}		
 			}
-			write_machine.Close();
-			SavingFile.Close();
+			writeMachine.Close();
+			savingFile.Close();
 		}
 	}
 }

@@ -16,9 +16,9 @@ namespace BMPFileFilter
 				Console.WriteLine($"Wrong count of input parameters. You must enter only 3 parameters, but you enter: {args.Length}\n");
 				return;
 			}
-			string[] ArrayFilters = { "SobelX", "SobelY", "SobelBoth", "Middle", "Gauss3x3", "Grey" };
+			string[] arrayFilters = { "SobelX", "SobelY", "SobelBoth", "Middle", "Gauss3x3", "Grey" };
 
-			if (!ArrayFilters.Contains(args[1]))
+			if (!arrayFilters.Contains(args[1]))
 			{
                 Console.WriteLine("\nYou chose non-exist filter.\n");
 				return;
@@ -36,10 +36,10 @@ namespace BMPFileFilter
 				return;
             }
 
-			FileStream SavingFile;
+			FileStream savingFile;
 			try
 			{
-				SavingFile = new FileStream(args[2], FileMode.Create, FileAccess.ReadWrite);
+				savingFile = new FileStream(args[2], FileMode.Create, FileAccess.ReadWrite);
 			}
 			catch
 			{
@@ -52,11 +52,11 @@ namespace BMPFileFilter
 			openingFile.Close();
 
 			if (args[1] == "SobelX")
-				Filters.ApplySobelFilter(file, "X");
+				Filters.ApplySobelFilter(file, Filters.Direction.X);
 			else if (args[1] == "SobelY")
-				Filters.ApplySobelFilter(file, "Y");
+				Filters.ApplySobelFilter(file, Filters.Direction.Y);
 			else if (args[1] == "SobelBoth")
-				Filters.ApplySobelFilter(file, "Both");
+				Filters.ApplySobelFilter(file, Filters.Direction.Both);
 			else if (args[1] == "Middle")
 				Filters.ApplyMiddleFilter(file);
 			else if (args[1] == "Gauss3x3")
@@ -65,8 +65,8 @@ namespace BMPFileFilter
 				Filters.ApplyGreyFilter(file);
 
 			Console.WriteLine("Your image was successfully filtered!");
-			file.WriteNewFile(SavingFile);
-			SavingFile.Close();
+			file.WriteNewFile(savingFile);
+			savingFile.Close();
 		}
-    }
+	}
 }
