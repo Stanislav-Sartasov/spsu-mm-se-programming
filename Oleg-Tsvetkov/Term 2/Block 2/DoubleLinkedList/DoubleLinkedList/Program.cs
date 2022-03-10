@@ -26,7 +26,7 @@
             testList = testList.Remove(3);
             testList.PrintElements();
             Console.WriteLine("Поиск элементов:");
-            Console.WriteLine("Поиск элемента 10: "+testList.Find(10));
+            Console.WriteLine("Поиск элемента 10: " + testList.Find(10));
             Console.WriteLine("Поиск элемента 1: " + testList.Find(1));
             Console.WriteLine("Поиск элемента -3: " + testList.Find(-3));
         }

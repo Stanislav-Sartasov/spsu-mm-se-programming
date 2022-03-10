@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using DoubleLinkedList;
+using System;
 
 namespace DoubleLinkedListTest
 {
@@ -36,6 +37,9 @@ namespace DoubleLinkedListTest
             Assert.IsTrue(currentList.Find(10));
             currentList.Remove(10);
             Assert.IsFalse(currentList.Find(10));
+            currentList.Add(10);
+            currentList = currentList.Remove(0);
+            Assert.IsFalse(currentList.Find(0));
         }
 
         [Test]
@@ -43,15 +47,19 @@ namespace DoubleLinkedListTest
         {
             Assert.IsNull(currentList.Remove(0));
             currentList.Add(10);
-            Assert.IsNotNull(currentList.Remove(10));
+            Assert.IsTrue(currentList.Find(10));
+            currentList = currentList.Remove(10);
+            Assert.IsFalse(currentList.Find(10));
         }
 
         [Test]
         public void TestToString()
         {
-            Assert.IsTrue(currentList.ToString().Equals("0 "));
+            Assert.IsTrue(currentList.ToString().Equals("0"));
             currentList.Add(10);
-            Assert.IsTrue(currentList.ToString().Equals("0 10 "));
+            Assert.IsTrue(currentList.ToString().Equals("0 10"));
+            currentList = currentList.Remove(0);
+            Assert.IsTrue(currentList.ToString().Equals("10"));
         }
     }
 }
