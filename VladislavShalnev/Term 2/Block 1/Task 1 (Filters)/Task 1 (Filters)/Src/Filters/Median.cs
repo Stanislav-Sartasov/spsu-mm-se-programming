@@ -3,7 +3,7 @@ using Task_1.Core.Image;
 
 namespace Task_1.Filters
 {
-	public class Median : KernelFilter
+	public class Median : AKernelFilter
 	{
 		protected override int[,] Kernel { get; } = new int[7, 7];
 

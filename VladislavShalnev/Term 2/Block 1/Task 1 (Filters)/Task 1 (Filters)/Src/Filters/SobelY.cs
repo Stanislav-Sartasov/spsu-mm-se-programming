@@ -3,7 +3,7 @@ using Task_1.Core.Image;
 
 namespace Task_1.Filters
 {
-	public class SobelY : KernelFilter
+	public class SobelY : AKernelFilter
 	{
 		protected override int[,] Kernel { get; } =
 		{

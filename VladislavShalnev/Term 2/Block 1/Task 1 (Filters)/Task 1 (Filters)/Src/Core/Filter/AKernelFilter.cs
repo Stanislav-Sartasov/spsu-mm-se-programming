@@ -3,7 +3,7 @@ using Task_1.Core.Image;
 
 namespace Task_1.Core.Filter
 {
-	public abstract class KernelFilter : IFilter
+	public abstract class AKernelFilter : IFilter
 	{
 		protected abstract int[,] Kernel { get; }
 		protected virtual int Divider { get; } = 1;

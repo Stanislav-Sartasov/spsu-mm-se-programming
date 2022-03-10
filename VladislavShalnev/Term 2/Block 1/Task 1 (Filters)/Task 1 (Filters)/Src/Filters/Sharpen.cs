@@ -2,7 +2,7 @@
 
 namespace Task_1.Filters
 {
-	public class Sharpen : KernelFilter
+	public class Sharpen : AKernelFilter
 	{
 		protected override int[,] Kernel { get; } =
 		{

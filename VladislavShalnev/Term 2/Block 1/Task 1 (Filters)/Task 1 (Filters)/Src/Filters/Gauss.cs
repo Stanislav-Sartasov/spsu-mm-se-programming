@@ -2,7 +2,7 @@
 
 namespace Task_1.Filters
 {
-	public class Gauss : KernelFilter
+	public class Gauss : AKernelFilter
 	{
 		protected override int[,] Kernel { get; } =
 		{
