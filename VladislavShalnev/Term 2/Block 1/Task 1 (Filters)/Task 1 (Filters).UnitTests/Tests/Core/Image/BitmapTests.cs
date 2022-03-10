@@ -61,5 +61,48 @@ namespace Task_1.UnitTests.Core.Image
 
 			Assert.Pass();
 		}
+
+		[Test]
+		public void GetPixelTest()
+		{
+			try
+			{
+				Bitmap bitmap = new Bitmap(Config.INPUT24_DIR);
+
+				Pixel pixel1 = bitmap[228, 133];
+				Pixel pixel2 = new Pixel(120, 210, 236);
+
+				Assert.AreEqual(pixel1, pixel2);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail(ex.Message);
+			}
+
+			Assert.Pass();
+		}
+
+		[Test]
+		public void SetPixelTest()
+		{
+			try
+			{
+				Bitmap bitmap = new Bitmap(Config.INPUT24_DIR);
+
+				Pixel pixel1 = new Pixel(255, 10, 15);
+
+				bitmap[66, 420] = pixel1;
+
+				Pixel pixel2 = bitmap[66, 420];
+
+				Assert.AreEqual(pixel1, pixel2);
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail(ex.Message);
+			}
+
+			Assert.Pass();
+		}
 	}
 }
