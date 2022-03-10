@@ -2,7 +2,7 @@
 
 namespace BMPFileFilter
 {
-    public class Filters
+    public partial class Filters
     {
         private static byte GreyScale(Rgb pixel)
         {
@@ -116,13 +116,6 @@ namespace BMPFileFilter
                     file.ImageRgb[i, j].Blue = Convert.ToByte(blueKoef / 16);
                 }
             }
-        }
-
-        public enum Direction
-        {
-            X,
-            Both,
-            Y
         }
     }
 }
