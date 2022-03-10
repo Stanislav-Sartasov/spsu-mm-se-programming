@@ -9,7 +9,7 @@
 #include "mman.h"
 
 
-/* Ñombining a string and its size so as not to count the same number many times */
+/* Combining a string and its size so as not to count the same number many times */
 struct line_with_length
 {
 	char* line;

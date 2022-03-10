@@ -137,36 +137,32 @@ void filter(struct image* inImage, struct image* outImage, double* matrix, bool 
 	{
 		for (int32 j = 1; j < width - 1; j++)
 		{
-			double sum_blue = 0;
-			double sum_green = 0;
-			double sum_red = 0;
+			double sumBlue = 0;
+			double sumGreen = 0;
+			double sumRed = 0;
 			for (int32 k_i = 0; k_i < 3; k_i++)
 			{
 				for (int32 k_j = 0; k_j < 3; k_j++)
 				{
-					sum_blue += inImage->pixels[i - 1 + k_i][j - 1 + k_j].blue * matrix[3 * k_i + k_j];
-					sum_green += inImage->pixels[i - 1 + k_i][j - 1 + k_j].green * matrix[3 * k_i + k_j];
-					sum_red += inImage->pixels[i - 1 + k_i][j - 1 + k_j].red * matrix[3 * k_i + k_j];
+					sumBlue += inImage->pixels[i - 1 + k_i][j - 1 + k_j].blue * matrix[3 * k_i + k_j];
+					sumGreen += inImage->pixels[i - 1 + k_i][j - 1 + k_j].green * matrix[3 * k_i + k_j];
+					sumRed += inImage->pixels[i - 1 + k_i][j - 1 + k_j].red * matrix[3 * k_i + k_j];
 				}
 			}
 
-			int32 final_sum_blue = round(sum_blue);
-			int32 final_sum_green = round(sum_green);
-			int32 final_sum_red = round(sum_red);
-
 			if (check)
 			{
-				sum_blue = sum_blue > 255 ? 255 : sum_blue;
-				sum_blue = sum_blue < 0 ? 0 : sum_blue;
-				sum_green = sum_green > 255 ? 255 : sum_green;
-				sum_green = sum_green < 0 ? 0 : sum_green;
-				sum_red = sum_red > 255 ? 255 : sum_red;
-				sum_red = sum_red < 0 ? 0 : sum_red;
+				sumBlue = sumBlue > 255 ? 255 : sumBlue;
+				sumBlue = sumBlue < 0 ? 0 : sumBlue;
+				sumGreen = sumGreen > 255 ? 255 : sumGreen;
+				sumGreen = sumGreen < 0 ? 0 : sumGreen;
+				sumRed = sumRed > 255 ? 255 : sumRed;
+				sumRed = sumRed < 0 ? 0 : sumRed;
 			}
 
-			outImage->pixels[i][j].blue = (byte)sum_blue;
-			outImage->pixels[i][j].green = (byte)sum_green;
-			outImage->pixels[i][j].red = (byte)sum_red;
+			outImage->pixels[i][j].blue = (byte)sumBlue;
+			outImage->pixels[i][j].green = (byte)sumGreen;
+			outImage->pixels[i][j].red = (byte)sumRed;
 		}
 	}
 }
