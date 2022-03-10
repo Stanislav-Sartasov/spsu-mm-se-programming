@@ -2,23 +2,27 @@
 
 namespace Task_1.Core.Image
 {
-	public class Bitmap
+	public class Bitmap : ICloneable
 	{
-		private readonly byte[] header;
+		private readonly byte[] data;
 
+		private readonly byte[] header;
 		private readonly byte[] ending;
 
 		private readonly int pixelsOffset;
-
 		private readonly short bitsPerPixel;
+
 		public int Width { get; }
 		public int Height { get; }
 
 		public Pixel[,] Pixels;
 
-		public Bitmap(string filename)
+		public Bitmap(string filename) : this(File.ReadAllBytes(filename)) { }
+
+		// Private constructor for clone method
+		private Bitmap(byte[] data)
 		{
-			byte[] data = File.ReadAllBytes(filename);
+			this.data = data;
 			Parser parser = new Parser(data);
 
 			// Parsing bitmap info
@@ -75,5 +79,6 @@ namespace Task_1.Core.Image
 			File.WriteAllBytes(filename, data);
 		}
 
+		public object Clone() => new Bitmap((byte[])data.Clone());
 	}
 }
