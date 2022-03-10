@@ -161,25 +161,25 @@ class FilterApplicationTest {
 		@Test
 		void HelpMessageShouldBePrintedIfArgumentIsFlagHelp() {
 			Main.main(new String[]{"--help"});
-			assertEquals(Main.HELP_MESSAGE + "\n", outStream.toString());
+			assertEquals(Main.HELP_MESSAGE + System.lineSeparator(), outStream.toString());
 		}
 
 		@Test
 		void ErrorMessageShouldBePrintedIfIncorrectArgumentsGiven() {
 			Main.main(new String[]{"incorrect args"});
-			assertEquals(Main.INCORRECT_ARGS_MESSAGE + "\n", errorStream.toString());
+			assertEquals(Main.INCORRECT_ARGS_MESSAGE + System.lineSeparator(), errorStream.toString());
 		}
 
 		@Test
 		void NoSuchFilterMessageShouldBePrintedIfGivenFilterIsNotAvailable() {
 			Main.main(new String[]{"src/test/resources/test.bmp", "src/test/resources/some_file_out.bmp", "unavailableFilter"});
-			assertEquals("No such filter: " + "unavailableFilter" + "\n", errorStream.toString());
+			assertEquals("No such filter: " + "unavailableFilter" + System.lineSeparator(), errorStream.toString());
 		}
 
 		@Test
 		void GivenFileUnavailableMessageShouldBePrintedIfGivenFileDoesNotExist() {
 			Main.main(new String[]{"src/test/resources/some_file.bmp", "src/test/resources/some_file_out.bmp", "grayscale"});
-			assertEquals("src/test/resources/some_file.bmp (No such file or directory)" + "\n", errorStream.toString());
+			assertEquals("src/test/resources/some_file.bmp (No such file or directory)" + System.lineSeparator(), errorStream.toString());
 		}
 
 		@Test
