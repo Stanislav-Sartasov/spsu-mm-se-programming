@@ -1,11 +1,16 @@
 package bmp
 
 import bmp.lib.*
+import java.io.File
 
 object TestUtils {
     val BMP24 = bmp(bitsPerPixel = 24)
 
     val BMP32 = bmp(bitsPerPixel = 32)
+
+    private val SEP = File.separatorChar
+
+    val TEST_RES_PATH = "src${SEP}test${SEP}resources${SEP}"
 
 
     private fun bmp(bitsPerPixel: Int): Bmp {

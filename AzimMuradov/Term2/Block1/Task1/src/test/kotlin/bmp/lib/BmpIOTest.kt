@@ -1,5 +1,6 @@
 package bmp.lib
 
+import bmp.TestUtils.TEST_RES_PATH
 import bmp.lib.ValidatedBmp.Companion.validated
 import org.junit.jupiter.api.*
 import java.io.File
@@ -35,21 +36,21 @@ internal class BmpIOTest {
                     ),
                     pixels = PIXELS
                 ),
-                actual = BmpIO.readBmp("src/test/resources/bmp_24_6.bmp").bmp
+                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6.bmp").bmp
             )
         }
 
         @Test
         fun `fail to read Bmp with short file size 1`() {
             assertFailsWith<IllegalStateException>(message = "Wrong BMP definition") {
-                BmpIO.readBmp("src/test/resources/bmp_24_6_error_1.bmp")
+                BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_error_1.bmp")
             }
         }
 
         @Test
         fun `fail to read Bmp with short file size 2`() {
             assertFailsWith<IllegalStateException>(message = "Wrong BMP definition") {
-                BmpIO.readBmp("src/test/resources/bmp_24_6_error_2.bmp")
+                BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_error_2.bmp")
             }
         }
     }
@@ -59,26 +60,26 @@ internal class BmpIOTest {
         @Test
         fun `write 24 bit Bmp`() {
             BmpIO.writeBmp(
-                path = "src/test/resources/bmp_24_6_TEST.bmp",
+                path = "${TEST_RES_PATH}bmp_24_6_TEST.bmp",
                 validatedBmp = BMP_TO_WRITE24
             )
 
             assertEquals(
                 expected = BMP_TO_WRITE24,
-                actual = BmpIO.readBmp("src/test/resources/bmp_24_6_TEST.bmp")
+                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_TEST.bmp")
             )
         }
 
         @Test
         fun `write 32 bit Bmp`() {
             BmpIO.writeBmp(
-                path = "src/test/resources/bmp_32_6_TEST.bmp",
+                path = "${TEST_RES_PATH}bmp_32_6_TEST.bmp",
                 validatedBmp = BMP_TO_WRITE32
             )
 
             assertEquals(
                 expected = BMP_TO_WRITE32,
-                actual = BmpIO.readBmp("src/test/resources/bmp_32_6_TEST.bmp")
+                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_32_6_TEST.bmp")
             )
         }
     }
@@ -88,8 +89,8 @@ internal class BmpIOTest {
         @JvmStatic
         @AfterAll
         fun cleanUp() {
-            File("src/test/resources/bmp_24_6_TEST.bmp").delete()
-            File("src/test/resources/bmp_32_6_TEST.bmp").delete()
+            File("${TEST_RES_PATH}bmp_24_6_TEST.bmp").delete()
+            File("${TEST_RES_PATH}bmp_32_6_TEST.bmp").delete()
         }
 
 

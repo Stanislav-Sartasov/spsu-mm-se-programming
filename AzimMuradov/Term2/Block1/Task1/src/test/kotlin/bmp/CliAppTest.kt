@@ -1,5 +1,6 @@
 package bmp
 
+import bmp.TestUtils.TEST_RES_PATH
 import bmp.lib.BmpIO
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import org.junit.jupiter.api.AfterEach
@@ -100,9 +101,9 @@ internal class CliAppTest {
 
     companion object {
         private const val FILTER = "sobel_x"
-        private const val INPUT_PATH = "src/test/resources/win_tulips.bmp"
-        private const val OUTPUT_PATH = "src/test/resources/win_tulips_TEST.bmp"
-        private const val EXPECTED_PATH = "src/test/resources/win_tulips_$FILTER.bmp"
+        private val INPUT_PATH = "${TEST_RES_PATH}win_tulips.bmp"
+        private val OUTPUT_PATH = "${TEST_RES_PATH}win_tulips_TEST.bmp"
+        private val EXPECTED_PATH = "${TEST_RES_PATH}win_tulips_$FILTER.bmp"
         private val INTRO_MESSAGE = joinLines(
             "This application can filter bmp files with various algorithms.",
             "",
