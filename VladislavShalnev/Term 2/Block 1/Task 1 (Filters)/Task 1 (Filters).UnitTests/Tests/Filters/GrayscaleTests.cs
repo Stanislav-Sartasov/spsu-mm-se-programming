@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Task_1.UnitTests;
 
 namespace Filters.UnitTests
 {
@@ -7,7 +8,9 @@ namespace Filters.UnitTests
 		[Test]
 		public void Grayscale24Test()
 		{
-			TestFilter.Test(new Grayscale(), "input24.bmp", "grayscale24.bmp");
+			TestFilter.Test(new Grayscale(), Config.INPUT24_DIR, Config.OUTPUT_DIR);
+
+			FileAssert.AreEqual(Config.OUTPUT_DIR, Config.GRAYSCALE24_DIR);
 
 			Assert.Pass();
 		}
@@ -15,7 +18,9 @@ namespace Filters.UnitTests
 		[Test]
 		public void Grayscale32Test()
 		{
-			TestFilter.Test(new Grayscale(), "input32.bmp", "grayscale32.bmp");
+			TestFilter.Test(new Grayscale(), Config.INPUT32_DIR, Config.OUTPUT_DIR);
+
+			FileAssert.AreEqual(Config.OUTPUT_DIR, Config.GRAYSCALE32_DIR);
 
 			Assert.Pass();
 		}

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using Task_1.UnitTests;
 
 namespace Filters.UnitTests
 {
@@ -7,7 +8,9 @@ namespace Filters.UnitTests
 		[Test]
 		public void SobelX24Test()
 		{
-			TestFilter.Test(new SobelX(), "input24.bmp", "sobelx24.bmp");
+			TestFilter.Test(new SobelX(), Config.INPUT24_DIR, Config.OUTPUT_DIR);
+
+			FileAssert.AreEqual(Config.OUTPUT_DIR, Config.SOBELX24_DIR);
 
 			Assert.Pass();
 		}
@@ -15,7 +18,9 @@ namespace Filters.UnitTests
 		[Test]
 		public void SobelX32Test()
 		{
-			TestFilter.Test(new SobelX(), "input32.bmp", "sobelx32.bmp");
+			TestFilter.Test(new SobelX(), Config.INPUT32_DIR, Config.OUTPUT_DIR);
+
+			FileAssert.AreEqual(Config.OUTPUT_DIR, Config.SOBELX32_DIR);
 
 			Assert.Pass();
 		}

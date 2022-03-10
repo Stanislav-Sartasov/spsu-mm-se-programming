@@ -1,14 +1,11 @@
 using NUnit.Framework;
 using System;
+using Task_1.UnitTests;
 
 namespace Core.Image.UnitTests
 {
 	public class BitmapTests
 	{
-		private const string WORKING_DIR = "../../../Images/";
-		private const string INPUT_DIR = WORKING_DIR + "input24.bmp";
-		private const string OUTPUT_DIR = WORKING_DIR + "output24.bmp";
-
 		private Bitmap? bitmap;
 
 		[Test]
@@ -16,7 +13,7 @@ namespace Core.Image.UnitTests
 		{
 			try
 			{
-				bitmap = new Bitmap(INPUT_DIR);
+				bitmap = new Bitmap(Config.INPUT24_DIR);
 			}
 			catch (Exception ex)
 			{
@@ -31,9 +28,9 @@ namespace Core.Image.UnitTests
 		{
 			try
 			{
-				bitmap?.Save(OUTPUT_DIR);
+				bitmap?.Save(Config.OUTPUT_DIR);
 
-				FileAssert.AreEqual(INPUT_DIR, OUTPUT_DIR);
+				FileAssert.AreEqual(Config.INPUT24_DIR, Config.OUTPUT_DIR);
 			}
 			catch (Exception ex)
 			{
