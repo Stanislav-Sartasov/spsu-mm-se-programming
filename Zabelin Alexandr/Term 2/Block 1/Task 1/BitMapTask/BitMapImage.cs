@@ -1,4 +1,7 @@
-﻿namespace BitMapTask
+﻿using System;
+using System.IO;
+
+namespace BitMapTask
 {
     public class BitMapImage
     {

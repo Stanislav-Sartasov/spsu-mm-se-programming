@@ -1,4 +1,6 @@
-﻿namespace BitMapTask
+﻿using System;
+
+namespace BitMapTask
 {
     static public class Filters
     {
