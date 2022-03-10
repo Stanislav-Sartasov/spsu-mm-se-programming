@@ -8,16 +8,15 @@ import bmp.lib.filters.*
 object CliApp {
     fun run(args: Array<String>) {
         println(
-            """
-                |This application can filter bmp files with various algorithms.
-                |
-                |To run application, please, specify input file, filter, and output file.
-                |Provided filters: ${FILTERS.keys.joinToString()}.
-                |For example:
-                |  On Windows: gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
-                |  On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'
-                |
-            """.trimMargin(marginPrefix = "|")
+            joinLines(
+                "This application can filter bmp files with various algorithms.",
+                "",
+                "To run application, please, specify input file, filter, and output file.",
+                "Provided filters: ${FILTERS.keys.joinToString()}.",
+                "For example:",
+                "    On Windows: gradlew.bat :run --args=\"input.bmp gauss_5 output.bmp\"",
+                "    On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'",
+            )
         )
 
         if (args.size != 3) {
@@ -52,6 +51,7 @@ object CliApp {
         }
     }
 
+
     private val FILTERS = mapOf(
         "gauss_3" to Gauss3Filter,
         "gauss_5" to Gauss5Filter,
@@ -60,4 +60,8 @@ object CliApp {
         "sobel_x" to SobelXFilter,
         "sobel_y" to SobelYFilter,
     )
+
+    private fun joinLines(vararg lines: String) = lines.joinToString(separator = "") {
+        "$it${System.lineSeparator()}"
+    }
 }

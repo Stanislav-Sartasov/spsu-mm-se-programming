@@ -25,11 +25,10 @@ internal class CliAppTest {
             actual = BmpIO.readBmp(OUTPUT_PATH)
         )
         assertEquals(
-            expected = """
-                |$INTRO_MESSAGE
-                |Filter $FILTER was successfully applied to the $INPUT_PATH, you should find the result here - $OUTPUT_PATH.
-                |
-            """.trimMargin(marginPrefix = "|"),
+            expected = joinLines(
+                INTRO_MESSAGE,
+                "Filter $FILTER was successfully applied to the $INPUT_PATH, you should find the result here - $OUTPUT_PATH."
+            ),
             actual = consoleOutput
         )
     }
@@ -41,12 +40,11 @@ internal class CliAppTest {
         }
         assertTrue { !File(OUTPUT_PATH).exists() }
         assertEquals(
-            expected = """
-                |$INTRO_MESSAGE
-                |Error: expected 3 arguments, got 2.
-                |Please, try again...
-                |
-            """.trimMargin(marginPrefix = "|"),
+            expected = joinLines(
+                INTRO_MESSAGE,
+                "Error: expected 3 arguments, got 2.",
+                "Please, try again..."
+            ),
             actual = consoleOutput
         )
     }
@@ -58,12 +56,11 @@ internal class CliAppTest {
         }
         assertTrue { !File(OUTPUT_PATH).exists() }
         assertEquals(
-            expected = """
-                |$INTRO_MESSAGE
-                |Error: expected 3 arguments, got 4.
-                |Please, try again...
-                |
-            """.trimMargin(marginPrefix = "|"),
+            expected = joinLines(
+                INTRO_MESSAGE,
+                "Error: expected 3 arguments, got 4.",
+                "Please, try again..."
+            ),
             actual = consoleOutput
         )
     }
@@ -75,12 +72,11 @@ internal class CliAppTest {
         }
         assertTrue { !File(OUTPUT_PATH).exists() }
         assertEquals(
-            expected = """
-                |$INTRO_MESSAGE
-                |Error: expected one of the available filters (gauss_3, gauss_5, gray_scale, median_3, sobel_x, sobel_y), got not_a_filter.
-                |Please, try again...
-                |
-            """.trimMargin(marginPrefix = "|"),
+            expected = joinLines(
+                INTRO_MESSAGE,
+                "Error: expected one of the available filters (gauss_3, gauss_5, gray_scale, median_3, sobel_x, sobel_y), got not_a_filter.",
+                "Please, try again..."
+            ),
             actual = consoleOutput
         )
     }
@@ -92,12 +88,11 @@ internal class CliAppTest {
         }
         assertTrue { !File(OUTPUT_PATH).exists() }
         assertEquals(
-            expected = """
-                |$INTRO_MESSAGE
-                |Error: not_an_input (No such file or directory).
-                |Please, try again...
-                |
-            """.trimMargin(marginPrefix = "|"),
+            expected = joinLines(
+                INTRO_MESSAGE,
+                "Error: not_an_input (No such file or directory).",
+                "Please, try again..."
+            ),
             actual = consoleOutput
         )
     }
@@ -108,15 +103,18 @@ internal class CliAppTest {
         private const val INPUT_PATH = "src/test/resources/win_tulips.bmp"
         private const val OUTPUT_PATH = "src/test/resources/win_tulips_TEST.bmp"
         private const val EXPECTED_PATH = "src/test/resources/win_tulips_$FILTER.bmp"
-        private val INTRO_MESSAGE = """
-            |This application can filter bmp files with various algorithms.
-            |
-            |To run application, please, specify input file, filter, and output file.
-            |Provided filters: gauss_3, gauss_5, gray_scale, median_3, sobel_x, sobel_y.
-            |For example:
-            |  On Windows: gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
-            |  On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'
-            |
-        """.trimMargin(marginPrefix = "|")
+        private val INTRO_MESSAGE = joinLines(
+            "This application can filter bmp files with various algorithms.",
+            "",
+            "To run application, please, specify input file, filter, and output file.",
+            "Provided filters: gauss_3, gauss_5, gray_scale, median_3, sobel_x, sobel_y.",
+            "For example:",
+            "    On Windows: gradlew.bat :run --args=\"input.bmp gauss_5 output.bmp\"",
+            "    On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'"
+        )
+
+        private fun joinLines(vararg lines: String) = lines.joinToString(separator = "") {
+            "$it${System.lineSeparator()}"
+        }
     }
 }
