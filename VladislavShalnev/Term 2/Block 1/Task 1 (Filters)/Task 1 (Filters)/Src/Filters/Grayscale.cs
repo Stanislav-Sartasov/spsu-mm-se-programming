@@ -12,10 +12,10 @@ namespace Task_1.Filters
 			{
 				for (int j = 0; j < bitmap.Width; j++)
 				{
-					(byte red, byte green, byte blue) = bitmap.Pixels[i, j];
+					(byte red, byte green, byte blue) = bitmap[i, j];
 					byte average = (byte)((red + green + blue) / 3);
 
-					bitmap.Pixels[i, j] = new Pixel(average, average, average);
+					bitmap[i, j] = new Pixel(average, average, average);
 				}
 			}
 		}

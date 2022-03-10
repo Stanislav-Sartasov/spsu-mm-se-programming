@@ -43,7 +43,7 @@ namespace Task_1.Core.Filter
 							int m = Math.Min(Math.Max(i + k - kernelHeight / 2, 0), bitmap.Height - 1);
 							int n = Math.Min(Math.Max(j + l - kernelWidth / 2, 0), bitmap.Width - 1);
 
-							matrix[k, l] = bitmap.Pixels[m, n];
+							matrix[k, l] = bitmap[m, n];
 						}
 					}
 
@@ -51,7 +51,9 @@ namespace Task_1.Core.Filter
 				}
 			}
 
-			bitmap.Pixels = buffer;
+			for (int i = 0; i < bitmap.Height; i++)
+				for (int j = 0; j < bitmap.Width; j++)
+					bitmap[i, j] = buffer[i, j];
 		}
 	}
 }
