@@ -16,33 +16,34 @@ namespace DoubleLinkedListTest
         [Test]
         public void TestListFind()
         {
-            Assert.IsTrue(currentList.Find(0) == true);
-            Assert.IsTrue(currentList.Find(10) == false);
+            Assert.IsTrue(currentList.Find(0));
+            Assert.IsFalse(currentList.Find(10));
         }
 
         [Test]
         public void TestListAdd()
         {
-            Assert.IsTrue(currentList.Find(10) == false);
+            Assert.IsFalse(currentList.Find(10));
             currentList.Add(10);
-            Assert.IsTrue(currentList.Find(10) == true);
+            Assert.IsTrue(currentList.Find(10));
         }
 
         [Test]
         public void TestListRemove()
         {
+            Assert.IsFalse(currentList.Find(10));
             currentList.Add(10);
-            Assert.IsTrue(currentList.Find(10) == true);
+            Assert.IsTrue(currentList.Find(10));
             currentList.Remove(10);
-            Assert.IsTrue(currentList.Find(10) == false);
+            Assert.IsFalse(currentList.Find(10));
         }
 
         [Test]
         public void TestIfRemoveReturningNull()
         {
-            Assert.IsTrue(currentList.Remove(0) is null);
+            Assert.IsNull(currentList.Remove(0));
             currentList.Add(10);
-            Assert.IsFalse(currentList.Remove(10) is null);
+            Assert.IsNotNull(currentList.Remove(10));
         }
 
         [Test]

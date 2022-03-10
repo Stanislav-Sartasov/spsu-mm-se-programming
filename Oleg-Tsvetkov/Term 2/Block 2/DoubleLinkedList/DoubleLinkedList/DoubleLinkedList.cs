@@ -25,7 +25,7 @@ namespace DoubleLinkedList
         {
             if (Element.CompareTo(Data) == 0)
             {
-                if (Next == null)
+                if (Next is null)
                 {
                     Next = new DoubleLinkedList<ElementType>(Data);
                     Next.Previous = this;
@@ -41,7 +41,7 @@ namespace DoubleLinkedList
             }
             else if (Element.CompareTo(Data) > 0)
             {
-                if (Previous == null)
+                if (Previous is null)
                 {
                     Previous = new DoubleLinkedList<ElementType>(Data);
                     Previous.Next = this;
@@ -61,7 +61,7 @@ namespace DoubleLinkedList
             }
             else
             {
-                if (Next == null)
+                if (Next is null)
                 {
                     Next = new DoubleLinkedList<ElementType>(Data);
                     Next.Previous = this;
@@ -88,19 +88,19 @@ namespace DoubleLinkedList
 
             //Если нет ни правого, ни левого элемента, то он в списке последний. 
             //В таком случае вернём null или текущий объект в зависимости от равенства.
-            if (Next == null && Previous == null)
+            if (Next is null && Previous is null)
             {
                 return (Element.CompareTo(Data) == 0 ? null : this);
             }
 
             if (Element.CompareTo(Data) == 0)
             {
-                if (Next == null)
+                if (Next is null)
                 {
                     Previous.Next = null;
                     return Previous;
                 }
-                else if (Previous == null)
+                else if (Previous is null)
                 {
                     Next.Previous = null;
                     return Next;
@@ -116,18 +116,18 @@ namespace DoubleLinkedList
 
             if (Element.CompareTo(Data) > 0)
             {
-                return Previous == null ? this : Previous.Remove(Data);
+                return Previous is null ? this : Previous.Remove(Data);
             }
             else
             {
-                return Next == null ? this : Next.Remove(Data);
+                return Next is null ? this : Next.Remove(Data);
             }
         }
 
         //Вернёт true, если элемент был найден, и false, если не был найден.
         public bool Find(ElementType Data)
         {
-            if (Next == null && Previous == null)
+            if (Next is null && Previous is null)
             {
                 return Element.CompareTo(Data) == 0;
             }
