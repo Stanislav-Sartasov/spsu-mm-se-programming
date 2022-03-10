@@ -1,8 +1,10 @@
 package bmpReadWriteTests
 
+import bmpEditor.bmp.Bmp
+import bmpEditor.bmp.BmpFileHeader
+import bmpEditor.bmp.BmpInfoHeader
+import bmpEditor.pixel.Pixel
 import org.junit.jupiter.api.Test
-import bmpEditor.bmp.*
-import bmpEditor.pixel.*
 
 class BmpReadWriteTests {
 	private val bmpFileHeader24 = BmpFileHeader(
@@ -62,41 +64,41 @@ class BmpReadWriteTests {
 
 	@Test
 	fun bmpReadWriteTest24() {
-		val firstBmp = readBmp("src/test/resources/bmpReadTest24.bmp")
-		firstBmp.write("src/test/resources/newBmpReadTest24.bmp")
-		val secondBmp = readBmp("src/test/resources/newBmpReadTest24.bmp")
-		assert(firstBmp.equals(secondBmp))
+		val firstBmp = Bmp.readBmp("src/test/resources/bmpReadTest24.bmp")
+		firstBmp!!.write("src/test/resources/newBmpReadTest24.bmp")
+		val secondBmp = Bmp.readBmp("src/test/resources/newBmpReadTest24.bmp")
+		assert(firstBmp.equals(secondBmp!!))
 	}
 
 	@Test
 	fun bmpReadWriteTest32() {
-		val firstBmp = readBmp("src/test/resources/bmpReadTest32.bmp")
-		firstBmp.write("src/test/resources/newBmpReadTest32.bmp")
-		val secondBmp = readBmp("src/test/resources/newBmpReadTest32.bmp")
-		assert(firstBmp.equals(secondBmp))
+		val firstBmp = Bmp.readBmp("src/test/resources/bmpReadTest32.bmp")
+		firstBmp!!.write("src/test/resources/newBmpReadTest32.bmp")
+		val secondBmp = Bmp.readBmp("src/test/resources/newBmpReadTest32.bmp")
+		assert(firstBmp.equals(secondBmp!!))
 	}
 
 	@Test
 	fun bmpReadTest24() {
-		val curBmp24 = readBmp("src/test/resources/bmpReadTest24.bmp")
-		assert(curBmp24.equals(testBmp24))
+		val curBmp24 = Bmp.readBmp("src/test/resources/bmpReadTest24.bmp")
+		assert(curBmp24!!.equals(testBmp24))
 	}
 
 	@Test
 	fun bmpReadTest32() {
-		val curBmp32 = readBmp("src/test/resources/bmpReadTest32.bmp")
-		assert(curBmp32.equals(testBmp32))
+		val curBmp32 = Bmp.readBmp("src/test/resources/bmpReadTest32.bmp")
+		assert(curBmp32!!.equals(testBmp32))
 	}
 
 	@Test
 	fun bmpWriteTest24() {
 		testBmp24.write("src/test/resources/bmpWriteTest24.bmp")
-		assert(readBmp("src/test/resources/bmpWriteTest24.bmp").equals(testBmp24))
+		assert(Bmp.readBmp("src/test/resources/bmpWriteTest24.bmp")!!.equals(testBmp24))
 	}
 
 	@Test
 	fun bmpWriteTest32() {
 		testBmp32.write("src/test/resources/bmpWriteTest32.bmp")
-		assert(readBmp("src/test/resources/bmpWriteTest32.bmp").equals(testBmp32))
+		assert(Bmp.readBmp("src/test/resources/bmpWriteTest32.bmp")!!.equals(testBmp32))
 	}
 }
