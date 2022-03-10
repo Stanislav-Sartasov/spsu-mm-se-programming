@@ -1,11 +1,11 @@
 ﻿
 namespace Task_1.Core.Image
 {
-	public class Pixel
+	public record Pixel
 	{
-		public int Red { get; set; }
-		public int Green { get; set; }
-		public int Blue { get; set; }
+		public int Red { get; }
+		public int Green { get; }
+		public int Blue { get; }
 
 		public Pixel(int red, int green, int blue)
 		{
@@ -19,13 +19,6 @@ namespace Task_1.Core.Image
 			red = (byte)Red;
 			green = (byte)Green;
 			blue = (byte)Blue;
-		}
-
-		public override bool Equals(object? obj)
-		{
-			if (obj is Pixel pixel)
-				return (Red == pixel.Red && Green == pixel.Green && Blue == pixel.Blue);
-			return false;
 		}
 
 		public static Pixel operator *(Pixel pixel, int multiplier) =>
