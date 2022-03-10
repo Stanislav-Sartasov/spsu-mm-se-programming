@@ -2,8 +2,12 @@ package bmp.lib
 
 import bmp.TestUtils.TEST_RES_PATH
 import bmp.lib.ValidatedBmp.Companion.validated
-import org.junit.jupiter.api.*
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import java.io.File
+import kotlin.io.path.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
@@ -57,43 +61,38 @@ internal class BmpIOTest {
 
     @Nested
     inner class WriteBmp {
+        private lateinit var tempFolder: File
+
+        private val tempFilePath get() = tempFolder.resolve("out.bmp").absolutePath
+
+        @BeforeEach
+        fun setUp() {
+            tempFolder = File(createTempDirectory("TEST").toUri())
+        }
+
+        @AfterEach
+        fun tearDown() {
+            tempFolder.deleteRecursively()
+        }
+
+
         @Test
         fun `write 24 bit Bmp`() {
-            BmpIO.writeBmp(
-                path = "${TEST_RES_PATH}bmp_24_6_TEST.bmp",
-                validatedBmp = BMP_TO_WRITE24
-            )
+            BmpIO.writeBmp(path = tempFilePath, validatedBmp = BMP_TO_WRITE24)
 
-            assertEquals(
-                expected = BMP_TO_WRITE24,
-                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_TEST.bmp")
-            )
+            assertEquals(expected = BMP_TO_WRITE24, actual = BmpIO.readBmp(tempFilePath))
         }
 
         @Test
         fun `write 32 bit Bmp`() {
-            BmpIO.writeBmp(
-                path = "${TEST_RES_PATH}bmp_32_6_TEST.bmp",
-                validatedBmp = BMP_TO_WRITE32
-            )
+            BmpIO.writeBmp(path = tempFilePath, validatedBmp = BMP_TO_WRITE32)
 
-            assertEquals(
-                expected = BMP_TO_WRITE32,
-                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_32_6_TEST.bmp")
-            )
+            assertEquals(expected = BMP_TO_WRITE32, actual = BmpIO.readBmp(tempFilePath))
         }
     }
 
 
     private companion object {
-        @JvmStatic
-        @AfterAll
-        fun cleanUp() {
-            File("${TEST_RES_PATH}bmp_24_6_TEST.bmp").delete()
-            File("${TEST_RES_PATH}bmp_32_6_TEST.bmp").delete()
-        }
-
-
         private val PIXELS = listOf(
             listOf(
                 Color(0x05.toUByte(), 0x05.toUByte(), 0xF6.toUByte()),

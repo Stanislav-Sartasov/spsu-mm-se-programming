@@ -4,31 +4,42 @@ import bmp.TestUtils.TEST_RES_PATH
 import bmp.lib.BmpIO
 import com.github.stefanbirkner.systemlambda.SystemLambda
 import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.io.File
+import kotlin.io.path.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 internal class CliAppTest {
+    private lateinit var tempFolder: File
+
+    private val tempFilePath get() = tempFolder.resolve("win_tulips_out.bmp").absolutePath
+
+    @BeforeEach
+    fun setUp() {
+        tempFolder = File(createTempDirectory("TEST").toUri())
+    }
+
     @AfterEach
-    fun cleanUp() {
-        File(OUTPUT_PATH).delete()
+    fun tearDown() {
+        tempFolder.deleteRecursively()
     }
 
 
     @Test
     fun `successful run`() {
         val consoleOutput = SystemLambda.tapSystemOut {
-            CliApp.run(arrayOf(INPUT_PATH, FILTER, OUTPUT_PATH))
+            CliApp.run(arrayOf(INPUT_PATH, FILTER, tempFilePath))
         }
         assertEquals(
             expected = BmpIO.readBmp(EXPECTED_PATH),
-            actual = BmpIO.readBmp(OUTPUT_PATH)
+            actual = BmpIO.readBmp(tempFilePath)
         )
         assertEquals(
             expected = joinLines(
                 INTRO_MESSAGE,
-                "Filter $FILTER was successfully applied to the $INPUT_PATH, you should find the result here - $OUTPUT_PATH."
+                "Filter $FILTER was successfully applied to the $INPUT_PATH, you should find the result here - $tempFilePath."
             ),
             actual = consoleOutput
         )
@@ -39,7 +50,7 @@ internal class CliAppTest {
         val consoleOutput = SystemLambda.tapSystemOut {
             CliApp.run(arrayOf(INPUT_PATH, FILTER))
         }
-        assertTrue { !File(OUTPUT_PATH).exists() }
+        assertTrue { !File(tempFilePath).exists() }
         assertEquals(
             expected = joinLines(
                 INTRO_MESSAGE,
@@ -53,9 +64,9 @@ internal class CliAppTest {
     @Test
     fun `fail to run with 4 arguments`() {
         val consoleOutput = SystemLambda.tapSystemOut {
-            CliApp.run(arrayOf(INPUT_PATH, FILTER, OUTPUT_PATH, OUTPUT_PATH))
+            CliApp.run(arrayOf(INPUT_PATH, FILTER, tempFilePath, tempFilePath))
         }
-        assertTrue { !File(OUTPUT_PATH).exists() }
+        assertTrue { !File(tempFilePath).exists() }
         assertEquals(
             expected = joinLines(
                 INTRO_MESSAGE,
@@ -69,9 +80,9 @@ internal class CliAppTest {
     @Test
     fun `fail to run with wrong filter`() {
         val consoleOutput = SystemLambda.tapSystemOut {
-            CliApp.run(arrayOf(INPUT_PATH, "not_a_filter", OUTPUT_PATH))
+            CliApp.run(arrayOf(INPUT_PATH, "not_a_filter", tempFilePath))
         }
-        assertTrue { !File(OUTPUT_PATH).exists() }
+        assertTrue { !File(tempFilePath).exists() }
         assertEquals(
             expected = joinLines(
                 INTRO_MESSAGE,
@@ -84,25 +95,14 @@ internal class CliAppTest {
 
     @Test
     fun `fail to run with wrong input pathname`() {
-        val consoleOutput = SystemLambda.tapSystemOut {
-            CliApp.run(arrayOf("not_an_input", FILTER, OUTPUT_PATH))
-        }
-        assertTrue { !File(OUTPUT_PATH).exists() }
-        assertEquals(
-            expected = joinLines(
-                INTRO_MESSAGE,
-                "Error: not_an_input (No such file or directory).",
-                "Please, try again..."
-            ),
-            actual = consoleOutput
-        )
+        CliApp.run(arrayOf("not_an_input", FILTER, tempFilePath))
+        assertTrue { !File(tempFilePath).exists() }
     }
 
 
     companion object {
         private const val FILTER = "sobel_x"
         private val INPUT_PATH = "${TEST_RES_PATH}win_tulips.bmp"
-        private val OUTPUT_PATH = "${TEST_RES_PATH}win_tulips_TEST.bmp"
         private val EXPECTED_PATH = "${TEST_RES_PATH}win_tulips_$FILTER.bmp"
         private val INTRO_MESSAGE = joinLines(
             "This application can filter bmp files with various algorithms.",
