@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Task1.UnitTests
 {
-    public class FilterTests
+    public class UnitTests
     {
         [SetUp]
         public void Setup()
@@ -15,9 +15,12 @@ namespace Task1.UnitTests
         [Test]
         public void ApplyFilterTest()
         {
-            Image image = new Image("test.bmp");
+            string folder = "../../../for_test/";
+
+            Image image = new Image(folder + "test.bmp");
 
             Filter filterPack = new Filter();
+            
 
             string[] filtersForTest = new string[] { "sobelX", "gray",
             "sobelY","sobelXY", "scharrX", "scharrY","scharrXY",
@@ -27,7 +30,7 @@ namespace Task1.UnitTests
             {
                 image.ApplyFilter(filterPack[filter], filter + ".bmp");
 
-                if (new Image(filter + ".test.bmp") != new Image(filter + ".bmp"))
+                if (new Image(folder + filter + ".test.bmp") != new Image(filter + ".bmp"))
                     Assert.Fail();
                 File.Delete(filter + ".bmp");
             }

@@ -202,7 +202,7 @@ namespace Task1
 
 		public static bool operator ==(Image firstImage, Image secondImage)
 		{
-			if ( ((firstImage.Type).Except(secondImage.Type).ToArray()).Length != 0 ||
+			return !(((firstImage.Type).Except(secondImage.Type).ToArray()).Length != 0 ||
 			firstImage.Size != secondImage.Size ||
 			firstImage.Somes != secondImage.Somes ||
 			firstImage.Offset != secondImage.Offset ||
@@ -210,28 +210,22 @@ namespace Task1
 			firstImage.Widht != secondImage.Widht ||
 			firstImage.Height != secondImage.Height ||
 			firstImage.Colors != secondImage.Colors ||
-			firstImage.Bits != secondImage.Bits||
-			((firstImage.Least).Except(secondImage.Least).ToArray()).Length != 0)
-				return false;
-			else
+			firstImage.Bits != secondImage.Bits ||
+			((firstImage.Least).Except(secondImage.Least).ToArray()).Length != 0);
+			
+			for (int i = 0; i < firstImage.Height; i++)
 			{
-				for (int i = 0; i < firstImage.Height; i++)
+				for (int j = 0; j < firstImage.Widht*firstImage.Bits/8; j++)
 				{
-					for (int j = 0; j < firstImage.Widht*firstImage.Bits/8; j++)
-					{
-						if (firstImage.Matrix[i, j] != secondImage.Matrix[i, j])
-							return false;
-					}
+					if (firstImage.Matrix[i, j] != secondImage.Matrix[i, j])
+						return false;
 				}
-				return true;
 			}
+			return true;
 		}
 		public static bool operator !=(Image firstImage, Image secondImage)
 		{
-			if (firstImage == secondImage)
-				return false;
-			else
-				return true;
+			return !(firstImage == secondImage);
 		}
 	}
 }
