@@ -12,10 +12,7 @@ namespace Task_1.Filters
 			{ -1, 0, 1 },
 		};
 
-		public override void ApplyTo(Bitmap bitmap)
-		{
-			base.ApplyTo(bitmap);
-			new Grayscale().ApplyTo(bitmap);
-		}
+		public override Bitmap ApplyTo(Bitmap bitmap) =>
+			new Grayscale().ApplyTo(base.ApplyTo(bitmap));
 	}
 }

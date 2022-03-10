@@ -5,8 +5,10 @@ namespace Task_1.Filters
 {
 	public class Grayscale : IFilter
 	{
-		public void ApplyTo(Bitmap bitmap)
+		public Bitmap ApplyTo(Bitmap bitmap)
 		{
+			Bitmap result = (Bitmap)bitmap.Clone();
+
 			// Going through all of the pixels and setting the average color for each pixel
 			for (int i = 0; i < bitmap.Height; i++)
 			{
@@ -15,9 +17,11 @@ namespace Task_1.Filters
 					(byte red, byte green, byte blue) = bitmap[i, j];
 					byte average = (byte)((red + green + blue) / 3);
 
-					bitmap[i, j] = new Pixel(average, average, average);
+					result[i, j] = new Pixel(average, average, average);
 				}
 			}
+
+			return result;
 		}
 	}
 }

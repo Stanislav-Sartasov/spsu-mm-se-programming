@@ -9,7 +9,7 @@ namespace Task_1.UnitTests.Filters
 		{
 			Bitmap bitmap = new Bitmap(input);
 
-			filter.ApplyTo(bitmap);
+			bitmap = filter.ApplyTo(bitmap);
 
 			bitmap.Save(output);
 		}

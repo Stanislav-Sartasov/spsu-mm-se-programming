@@ -38,29 +38,16 @@ namespace Task_1
 				Logger.Log($"Selected the {args[1]} filter.\n");
 
 				// Choosing and applying the filter
-				switch (args[1])
+				bitmap = args[1] switch
 				{
-					case "Gauss":
-						new Gauss().ApplyTo(bitmap);
-						break;
-					case "Grayscale":
-						new Grayscale().ApplyTo(bitmap);
-						break;
-					case "Median":
-						new Median().ApplyTo(bitmap);
-						break;
-					case "SobelX":
-						new SobelX().ApplyTo(bitmap);
-						break;
-					case "SobelY":
-						new SobelY().ApplyTo(bitmap);
-						break;
-					case "Sharpen":
-						new Sharpen().ApplyTo(bitmap);
-						break;
-					default:
-						throw new ArgsException("Invalid filter name. Use --help to see available filters.");
-				}
+					"Gauss" => new Gauss().ApplyTo(bitmap),
+					"Grayscale" => new Grayscale().ApplyTo(bitmap),
+					"Median" => new Median().ApplyTo(bitmap),
+					"SobelX" => new SobelX().ApplyTo(bitmap),
+					"SobelY" => new SobelY().ApplyTo(bitmap),
+					"Sharpen" => new Sharpen().ApplyTo(bitmap),
+					_ => throw new ArgsException("Invalid filter name. Use --help to see available filters.")
+				};
 
 				bitmap.Save(args[2]);
 

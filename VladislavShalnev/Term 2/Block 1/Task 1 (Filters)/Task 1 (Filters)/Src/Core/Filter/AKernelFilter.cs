@@ -21,9 +21,9 @@ namespace Task_1.Core.Filter
 			return new Pixel(normalize(result.Red), normalize(result.Green), normalize(result.Blue));
 		}
 
-		public virtual void ApplyTo(Bitmap bitmap)
+		public virtual Bitmap ApplyTo(Bitmap bitmap)
 		{
-			Pixel[,] buffer = new Pixel[bitmap.Height, bitmap.Width];
+			Bitmap result = (Bitmap)bitmap.Clone();
 
 			int kernelHeight = Kernel.GetUpperBound(0) + 1;
 			int kernelWidth = Kernel.Length / kernelHeight;
@@ -47,13 +47,11 @@ namespace Task_1.Core.Filter
 						}
 					}
 
-					buffer[i, j] = ProcessMatrix(matrix, kernelHeight, kernelWidth);
+					result[i, j] = ProcessMatrix(matrix, kernelHeight, kernelWidth);
 				}
 			}
 
-			for (int i = 0; i < bitmap.Height; i++)
-				for (int j = 0; j < bitmap.Width; j++)
-					bitmap[i, j] = buffer[i, j];
+			return result;
 		}
 	}
 }

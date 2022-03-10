@@ -4,6 +4,6 @@ namespace Task_1.Core.Filter.Interfaces
 {
 	public interface IFilter
 	{
-		public void ApplyTo(Bitmap bitmap);
+		public Bitmap ApplyTo(Bitmap bitmap);
 	}
 }
