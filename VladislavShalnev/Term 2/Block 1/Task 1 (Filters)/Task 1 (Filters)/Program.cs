@@ -24,12 +24,15 @@ namespace Task_1
 				Logger.Log("This program applies the selected filter to the given bitmap image.\n");
 
 				// Help flag
-				if (args.Any(arg => arg == "--help"))
+				if (args.Length == 1 && args[0] == "--help")
+				{
 					Logger.Log(HELP_MESSAGE);
+					return;
+				}
 
 				// Checking command line params
-				if (args.Length < 3)
-					throw new ArgsException("Not enough command line parameters. Use --help to see details.");
+				if (args.Length != 3)
+					throw new ArgsException("Not enough or too much command line parameters. Use --help to see details.");
 
 				Bitmap bitmap = new Bitmap(args[0]);
 
