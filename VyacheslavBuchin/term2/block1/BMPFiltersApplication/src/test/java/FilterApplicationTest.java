@@ -177,12 +177,6 @@ class FilterApplicationTest {
 		}
 
 		@Test
-		void GivenFileUnavailableMessageShouldBePrintedIfGivenFileDoesNotExist() {
-			Main.main(new String[]{"src/test/resources/some_file.bmp", "src/test/resources/some_file_out.bmp", "grayscale"});
-			assertEquals("src/test/resources/some_file.bmp (No such file or directory)" + System.lineSeparator(), errorStream.toString());
-		}
-
-		@Test
 		void CorrectFileShouldBeCreatedIfArgsIsCorrect() {
 			Main.main(new String[]{"src/test/resources/test.bmp", "src/test/resources/test_grayscale_testing.bmp", "grayscale"});
 			try (var inputStream = new FileInputStream("src/test/resources/test_grayscale.bmp");
