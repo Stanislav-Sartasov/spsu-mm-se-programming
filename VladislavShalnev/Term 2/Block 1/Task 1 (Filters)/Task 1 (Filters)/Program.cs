@@ -1,7 +1,6 @@
-﻿using Utils.Logger;
-using Utils.Exceptions;
-using Core.Image;
-using Filters;
+﻿using Task_1.Utils;
+using Task_1.Core.Image;
+using Task_1.Filters;
 
 namespace Task_1
 {

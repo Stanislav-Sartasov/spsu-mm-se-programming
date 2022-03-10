@@ -1,5 +1,5 @@
 ﻿
-namespace Core.Image
+namespace Task_1.Core.Image
 {
 	public class Pixel
 	{

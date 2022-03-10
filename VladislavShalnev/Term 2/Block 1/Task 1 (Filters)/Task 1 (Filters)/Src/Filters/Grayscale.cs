@@ -1,7 +1,7 @@
-﻿using Core.Filter.Interfaces;
-using Core.Image;
+﻿using Task_1.Core.Filter.Interfaces;
+using Task_1.Core.Image;
 
-namespace Filters
+namespace Task_1.Filters
 {
 	public class Grayscale : IFilter
 	{

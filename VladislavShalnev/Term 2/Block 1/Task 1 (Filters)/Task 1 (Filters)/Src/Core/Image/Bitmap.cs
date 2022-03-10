@@ -1,6 +1,6 @@
-﻿using Utils.Parser;
+﻿using Task_1.Utils;
 
-namespace Core.Image
+namespace Task_1.Core.Image
 {
 	public class Bitmap
 	{

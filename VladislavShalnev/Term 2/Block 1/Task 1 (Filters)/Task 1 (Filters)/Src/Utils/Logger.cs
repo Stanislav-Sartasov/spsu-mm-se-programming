@@ -1,5 +1,5 @@
 ﻿
-namespace Utils.Logger
+namespace Task_1.Utils
 {
 	public static class Logger
 	{

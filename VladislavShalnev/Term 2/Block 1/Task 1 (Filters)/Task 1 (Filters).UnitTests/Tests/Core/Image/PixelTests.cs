@@ -1,6 +1,7 @@
 using NUnit.Framework;
+using Task_1.Core.Image;
 
-namespace Core.Image.UnitTests
+namespace Task_1.UnitTests.Core.Image
 {
 	public class PixelTests
 	{

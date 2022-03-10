@@ -1,6 +1,6 @@
-﻿using Core.Filter;
+﻿using Task_1.Core.Filter;
 
-namespace Filters
+namespace Task_1.Filters
 {
 	public class Gauss : KernelFilter
 	{

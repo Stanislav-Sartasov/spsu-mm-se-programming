@@ -1,7 +1,8 @@
 using NUnit.Framework;
 using System;
+using Task_1.Utils;
 
-namespace Utils.Parser.UnitTests
+namespace Task_1.UnitTests.Utils
 {
 	public class ParserTests
 	{

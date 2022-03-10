@@ -1,7 +1,7 @@
-﻿using Core.Filter.Interfaces;
-using Core.Image;
+﻿using Task_1.Core.Filter.Interfaces;
+using Task_1.Core.Image;
 
-namespace Core.Filter
+namespace Task_1.Core.Filter
 {
 	public abstract class KernelFilter : IFilter
 	{

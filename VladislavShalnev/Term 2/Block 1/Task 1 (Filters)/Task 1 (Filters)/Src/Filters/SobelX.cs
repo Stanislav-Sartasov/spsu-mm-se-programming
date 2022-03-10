@@ -1,7 +1,7 @@
-﻿using Core.Filter;
-using Core.Image;
+﻿using Task_1.Core.Filter;
+using Task_1.Core.Image;
 
-namespace Filters
+namespace Task_1.Filters
 {
 	public class SobelX : KernelFilter
 	{

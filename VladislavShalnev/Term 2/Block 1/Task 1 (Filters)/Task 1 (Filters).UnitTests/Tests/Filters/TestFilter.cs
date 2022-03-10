@@ -1,8 +1,7 @@
-using NUnit.Framework;
-using Core.Image;
-using Core.Filter.Interfaces;
+using Task_1.Core.Image;
+using Task_1.Core.Filter.Interfaces;
 
-namespace Filters.UnitTests
+namespace Task_1.UnitTests.Filters
 {
 	public static class TestFilter
 	{

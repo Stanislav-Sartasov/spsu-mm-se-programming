@@ -1,5 +1,5 @@
 ﻿
-namespace Utils.Exceptions
+namespace Task_1.Utils
 {
 	public class ArgsException : Exception
 	{

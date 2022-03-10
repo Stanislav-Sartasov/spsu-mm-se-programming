@@ -1,6 +1,6 @@
-﻿using Core.Image;
+﻿using Task_1.Core.Image;
 
-namespace Core.Filter.Interfaces
+namespace Task_1.Core.Filter.Interfaces
 {
 	public interface IFilter
 	{

@@ -1,5 +1,5 @@
 ﻿
-namespace Utils.Parser
+namespace Task_1.Utils
 {
 	public class Parser
 	{
