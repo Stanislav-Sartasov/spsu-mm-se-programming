@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BmpFilters", "BmpFilters\BmpFilters.csproj", "{4389C8E0-3178-4C7C-92FA-82C08264B477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BmpFiltersTest", "BmpFiltersTest\BmpFiltersTest.csproj", "{6758F2C9-DAD5-412C-8837-66EB9837F902}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4389C8E0-3178-4C7C-92FA-82C08264B477} = {4389C8E0-3178-4C7C-92FA-82C08264B477}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4389C8E0-3178-4C7C-92FA-82C08264B477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4389C8E0-3178-4C7C-92FA-82C08264B477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4389C8E0-3178-4C7C-92FA-82C08264B477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4389C8E0-3178-4C7C-92FA-82C08264B477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6758F2C9-DAD5-412C-8837-66EB9837F902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6758F2C9-DAD5-412C-8837-66EB9837F902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6758F2C9-DAD5-412C-8837-66EB9837F902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6758F2C9-DAD5-412C-8837-66EB9837F902}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13445E38-A62D-4BDA-93E0-2645E3953D79}
+	EndGlobalSection
+EndGlobal
