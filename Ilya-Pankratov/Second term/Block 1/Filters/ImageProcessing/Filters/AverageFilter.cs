@@ -22,11 +22,11 @@
             }
         }
 
-        public AverageFilter(BMPFile fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
+        public AverageFilter(BMPFileHeader fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
         {
         }
 
-        public AverageFilter(BMPFile fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
+        public AverageFilter(BMPFileHeader fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
         {
         }
 
@@ -42,7 +42,7 @@
                 {
                     for (int rgb = 0; rgb < 3; rgb++)
                     {
-                        newData[i, j + rgb] = ByteAveragingFilter(i - offset, j - offset * bytesPerPixel, rgb);
+                        newData[i, j + rgb] = ApplyKernel(i - offset, j - offset * bytesPerPixel, rgb);
                     }
                 }
             }
@@ -67,7 +67,7 @@
             return;
         }
 
-        private byte ByteAveragingFilter(int x, int y, int rgb)
+        private byte ApplyKernel(int x, int y, int rgb)
         {
             double sum = 0;
 

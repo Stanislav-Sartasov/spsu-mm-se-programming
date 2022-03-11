@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using System;
+using System.IO;
 
 namespace ImageProcessing.UnitTests
 {
@@ -10,7 +11,10 @@ namespace ImageProcessing.UnitTests
         {
             // preparation 
 
-            BMPFile file = new BMPFile(Resource.OriginalCat);
+            FileStream inputFile = new FileStream("..\\..\\..\\Resources\\OriginalCat.bmp", FileMode.Open, FileAccess.Read);
+            byte[] temp = new byte[54];
+            inputFile.Read(temp, 0, 54);
+            BMPFileHeader file = new BMPFileHeader(temp);
 
             string expectedFileType = "BM";
             uint expectedFileSize = 4500054;
@@ -29,7 +33,7 @@ namespace ImageProcessing.UnitTests
             uint expectedColorsUsed = 0;
             uint expectedColorsImportant = 0;
             byte[] expectedByteReprezentation = new byte[expectedImageOffset];
-            Array.Copy(Resource.OriginalCat, expectedByteReprezentation, expectedImageOffset);
+            Array.Copy(temp, expectedByteReprezentation, expectedImageOffset);
 
             // checking for properties' value
 

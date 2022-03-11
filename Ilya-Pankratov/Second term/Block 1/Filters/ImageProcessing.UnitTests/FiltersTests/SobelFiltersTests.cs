@@ -15,7 +15,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SobelFilter image = new SobelFilter(bmpInfo, inputFile);
 
             // checking SobelFilter
@@ -43,7 +43,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SobelFilter image = new SobelFilter(bmpInfo, inputFile);
 
             // checking SobelFilterX
@@ -68,7 +68,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SobelFilter image = new SobelFilter(bmpInfo, inputFile);
 
             // checking SobelFilterY
@@ -80,26 +80,6 @@ namespace ImageProcessing.UnitTests
             for (uint i = 0; i < bmpInfo.FileSize; i++)
             {
                 Assert.IsTrue(outputFile[i] == (byte)expectedOutputFile.ReadByte());
-            }
-        }
-
-        [Test]
-        public void ApplySobelFilterFromByteArrayTest()
-        {
-            // preperation 
-            byte[] expectedImage = Resource.SobelFilterCat;
-            BMPFile header = new BMPFile(Resource.OriginalCat);
-            SobelFilter image = new SobelFilter(header, Resource.OriginalCat);
-
-            // checking SobelFilter
-
-            image.ApplySobelFilter(SobelFilter.FilterType.SobelFilter);
-            byte[] outputFile = new byte[header.FileSize];
-            image.WriteImage(outputFile);
-
-            for (uint i = 0; i < header.FileSize; i++)
-            {
-                Assert.IsTrue(outputFile[i] == expectedImage[i]);
             }
         }
     }

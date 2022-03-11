@@ -22,12 +22,12 @@
             }
         }
 
-        public GaussFilter(BMPFile fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
+        public GaussFilter(BMPFileHeader fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
         {
 
         }
 
-        public GaussFilter(BMPFile fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
+        public GaussFilter(BMPFileHeader fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
         {
 
         }
@@ -44,7 +44,7 @@
                 {
                     for (int rgb = 0; rgb < 3; rgb++)
                     {
-                        newData[i, j + rgb] = ApplyGaussKernel(i - offset, j - offset * bytesPerPixel, rgb);
+                        newData[i, j + rgb] = ApplyKernel(i - offset, j - offset * bytesPerPixel, rgb);
                     }
                 }
             }
@@ -86,7 +86,7 @@
             }
         }
 
-        private byte ApplyGaussKernel(int x, int y, int rgb)
+        private byte ApplyKernel(int x, int y, int rgb)
         {
             double sum = 0;
             for (int i = 0; i < kernelSize; i++)

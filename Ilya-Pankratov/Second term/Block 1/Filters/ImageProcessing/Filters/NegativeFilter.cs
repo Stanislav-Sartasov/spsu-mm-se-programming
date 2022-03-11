@@ -2,15 +2,15 @@
 {
     public class NegativeFilter : Image
     {
-        public NegativeFilter(BMPFile fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
+        public NegativeFilter(BMPFileHeader fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
         {
         }
 
-        public NegativeFilter(BMPFile fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
+        public NegativeFilter(BMPFileHeader fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
         {
         }
 
-        private byte NegativeByte(int x, int y, int rgb)
+        private byte TranserToOppositeMeaning(int x, int y, int rgb)
         {
             return (byte)(255 - bytes[x, y + rgb]);
         }
@@ -25,7 +25,7 @@
                 {
                     for (int rgb = 0; rgb < 3; rgb++)
                     {
-                        bytes[i, j + rgb] = NegativeByte(i, j , rgb);
+                        bytes[i, j + rgb] = TranserToOppositeMeaning(i, j , rgb);
                     }
                 }
             }

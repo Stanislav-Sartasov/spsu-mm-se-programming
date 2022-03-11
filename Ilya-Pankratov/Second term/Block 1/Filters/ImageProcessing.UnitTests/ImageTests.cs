@@ -17,7 +17,7 @@ namespace ImageProcessing.UnitTests
             byte[] temp = new byte[54];
             inputAndOutFile.Read(temp, 0, 54);
 
-            BMPFile fileInfo = new BMPFile(temp);
+            BMPFileHeader fileInfo = new BMPFileHeader(temp);
 
             Image image = new Image(fileInfo, inputAndOutFile);
             byte[] data = new byte[fileInfo.FileSize];
@@ -32,26 +32,5 @@ namespace ImageProcessing.UnitTests
 
             inputAndOutFile.Close();
         }
-
-        [Test]
-        public void ReadAndWriteImageFromByteArrayTest()
-        {
-            // preperation 
-
-            byte[] expectedFile = Resource.OriginalCat;
-
-            // checking that Read and Write methods work correctly
-
-            BMPFile fileInfo = new BMPFile(expectedFile);
-            Image image = new Image(fileInfo, expectedFile);
-            byte[] data = new byte[fileInfo.FileSize];
-
-            image.WriteImage(data);
-
-            for (int i = 0; i < data.Length; i++)
-            {
-                Assert.IsTrue(data[i] == expectedFile[i]);
-            }
-        }  
     }
 }

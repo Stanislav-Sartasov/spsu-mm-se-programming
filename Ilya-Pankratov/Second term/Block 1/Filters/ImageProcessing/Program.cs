@@ -6,7 +6,7 @@ using System.IO;
 
 namespace ImageProcessing
 {
-    public class ApplyFilter
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -69,7 +69,7 @@ namespace ImageProcessing
                 return;
             }
 
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
 
             if (bmpInfo.FileType != "BM")
             {

@@ -15,7 +15,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SharrFilter image = new SharrFilter(bmpInfo, inputFile);
 
             // checking
@@ -40,7 +40,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SharrFilter image = new SharrFilter(bmpInfo, inputFile);
 
             // checking
@@ -65,7 +65,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             SharrFilter image = new SharrFilter(bmpInfo, inputFile);
 
             // checking
@@ -81,27 +81,6 @@ namespace ImageProcessing.UnitTests
 
             inputFile.Close();
             expectedOutputFile.Close();
-        }
-
-        [Test]
-        public void ApplySharrFilterFromByteArrayTest()
-        {
-            // preperation 
-
-            byte[] expectedFile = Resource.SharrFilterCat;
-            BMPFile header = new BMPFile(Resource.OriginalCat);
-            SharrFilter image = new SharrFilter(header, Resource.OriginalCat);
-
-            // checking SharrFilter
-
-            image.ApplySharrFilter(SharrFilter.FilterType.SharrFilter);
-            byte[] outputFile = new byte[header.FileSize];
-            image.WriteImage(outputFile);
-
-            for (uint i = 0; i < header.FileSize; i++)
-            {
-                Assert.IsTrue(outputFile[i] == expectedFile[i]);
-            }
         }
     }
 }

@@ -15,7 +15,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             GaussFilter image = new GaussFilter(bmpInfo, inputFile);
 
             // checking
@@ -31,27 +31,6 @@ namespace ImageProcessing.UnitTests
 
             inputFile.Close();
             expectedOutputFile.Close();
-        }
-
-        [Test]
-        public void ApplyGaussFilterFromByteArrayTest()
-        {
-            // preperation 
-
-            byte[] expectedFile = Resource.GaussFilterCat;
-            BMPFile header = new BMPFile(Resource.OriginalCat);
-            GaussFilter image = new GaussFilter(header, Resource.OriginalCat);
-
-            // checking 
-
-            image.ApplyGaussFilter();
-            byte[] outputFile = new byte[header.FileSize];
-            image.WriteImage(outputFile);
-
-            for (uint i = 0; i < header.FileSize; i++)
-            {
-                Assert.IsTrue(outputFile[i] == expectedFile[i]);
-            }
         }
     }
 }

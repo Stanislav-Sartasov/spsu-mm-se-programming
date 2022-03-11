@@ -15,11 +15,11 @@
          {0, 0, 0},
          {-3, -10, -3}};
 
-        public SharrFilter(BMPFile fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
+        public SharrFilter(BMPFileHeader fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
         {
         }
 
-        public SharrFilter(BMPFile fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
+        public SharrFilter(BMPFileHeader fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
         {
         }
 
@@ -39,15 +39,15 @@
                         switch (name)
                         {
                         case FilterType.SharrFilterX:
-                            newData[i, j + rgb] = ByteSharrFilterX(i - offset, j - offset * bytesPerPixel);
+                            newData[i, j + rgb] = ApplyKernelX(i - offset, j - offset * bytesPerPixel);
                             break;
 
                         case FilterType.SharrFilterY:
-                            newData[i, j + rgb] = ByteSharrFilterY(i - offset, j - offset * bytesPerPixel);
+                            newData[i, j + rgb] = ApplyKernelY(i - offset, j - offset * bytesPerPixel);
                             break;
 
                         case FilterType.SharrFilter:
-                            newData[i, j + rgb] = ByteSharrFilter(i - offset, j - offset * bytesPerPixel);
+                            newData[i, j + rgb] = ApplyKernel(i - offset, j - offset * bytesPerPixel);
                             break;
                         }
                     }
@@ -59,7 +59,7 @@
             return;
         }
 
-        private byte ByteSharrFilterX(int x, int y)
+        private byte ApplyKernelX(int x, int y)
         {
             int sum = 0;
             int sensivity = 300;
@@ -71,7 +71,7 @@
             return (byte)(Math.Abs(sum) < sensivity ? 0 : 255);
         }
 
-        private byte ByteSharrFilterY(int x, int y)
+        private byte ApplyKernelY(int x, int y)
         {
             int sum = 0;
             int sensivity = 300;
@@ -83,7 +83,7 @@
             return (byte)(Math.Abs(sum) < sensivity ? 0 : 255);
         }
 
-        private byte ByteSharrFilter(int x, int y)
+        private byte ApplyKernel(int x, int y)
         {
             int[] sum = { 0, 0 };
             int sensivity = 300;

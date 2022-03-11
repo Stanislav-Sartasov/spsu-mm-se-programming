@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImageProcessing
 {
-    public class BMPFile
+    public class BMPFileHeader
     {
         public string FileType { get; private set;}
         public uint FileSize { get; private set; }
@@ -47,7 +47,7 @@ namespace ImageProcessing
              "\nColorsImportant: " + ColorsImportant);
         }
 
-        public BMPFile(byte[] input)
+        public BMPFileHeader(byte[] input)
         {
             FileType = Encoding.ASCII.GetString(input, 0, 2); ;
             FileSize = BitConverter.ToUInt32(input, 2);

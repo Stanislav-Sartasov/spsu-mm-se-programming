@@ -16,7 +16,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             AverageFilter image = new AverageFilter(bmpInfo, inputFile);
 
             // checking
@@ -32,26 +32,6 @@ namespace ImageProcessing.UnitTests
 
             inputFile.Close();
             expectedOutputFile.Close();
-        }
-
-        [Test]
-        public void CreateAverageFilterFromByteArrayTest()
-        {
-            // preperation 
-
-            byte[] expectedFile = Resource.OriginalCat;
-            BMPFile header = new BMPFile(Resource.OriginalCat);
-            AverageFilter image = new AverageFilter(header, Resource.OriginalCat);
-
-            // checking
-
-            byte[] outputFile = new byte[header.FileSize];
-            image.WriteImage(outputFile);
-
-            for (uint i = 0; i < header.FileSize; i++)
-            {
-                Assert.IsTrue(outputFile[i] == expectedFile[i]);
-            }
         }
     }
 }

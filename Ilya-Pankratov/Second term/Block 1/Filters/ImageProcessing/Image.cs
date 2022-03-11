@@ -15,7 +15,7 @@ namespace ImageProcessing
         protected int bytesPerPixel;
         protected byte[] byteRepresentation; // representation of BMP header in bytes
 
-        public Image(BMPFile fileInfo, FileStream inputFile)
+        public Image(BMPFileHeader fileInfo, FileStream inputFile)
         {
             byteRepresentation = fileInfo.ByteRepresentation;
             width = (int)fileInfo.Width;
@@ -35,7 +35,7 @@ namespace ImageProcessing
             }
         }
 
-        public Image(BMPFile fileInfo, byte[] inputFile)
+        public Image(BMPFileHeader fileInfo, byte[] inputFile)
         {
             byteRepresentation = fileInfo.ByteRepresentation;
             width = (int)fileInfo.Width;

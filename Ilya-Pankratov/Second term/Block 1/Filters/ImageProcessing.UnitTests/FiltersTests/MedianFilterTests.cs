@@ -15,7 +15,7 @@ namespace ImageProcessing.UnitTests
 
             byte[] temp = new byte[54];
             inputFile.Read(temp, 0, 54);
-            BMPFile bmpInfo = new BMPFile(temp);
+            BMPFileHeader bmpInfo = new BMPFileHeader(temp);
             MedianFilter image = new MedianFilter(bmpInfo, inputFile);
 
             // checking
@@ -31,27 +31,6 @@ namespace ImageProcessing.UnitTests
 
             inputFile.Close();
             expectedOutputFile.Close();
-        }
-
-        [Test]
-        public void ApplyMedianFilterFromByteArrayTest()
-        {
-            // preperation 
-
-            byte[] expectedFile = Resource.MedianFilterCat;
-            BMPFile header = new BMPFile(Resource.OriginalCat);
-            MedianFilter image = new MedianFilter(header, Resource.OriginalCat);
-
-            // checking MedianFilter
-
-            image.ApplyMedianFilter();
-            byte[] outputFile = new byte[header.FileSize];
-            image.WriteImage(outputFile);
-
-            for (uint i = 0; i < header.FileSize; i++)
-            {
-                Assert.IsTrue(outputFile[i] == expectedFile[i]);
-            }
         }
     }
 }

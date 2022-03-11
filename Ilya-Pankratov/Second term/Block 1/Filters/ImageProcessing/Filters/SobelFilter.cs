@@ -15,11 +15,11 @@
          {0, 0, 0},
          {-1, -2, -1}};
 
-        public SobelFilter(BMPFile fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
+        public SobelFilter(BMPFileHeader fileInfo, FileStream inputFile) : base(fileInfo, inputFile)
         {
         }
 
-        public SobelFilter(BMPFile fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
+        public SobelFilter(BMPFileHeader fileInfo, byte[] inputFile) : base(fileInfo, inputFile)
         {
         }
 
@@ -39,15 +39,15 @@
                         switch (name)
                         {
                             case FilterType.SobelFilterX:
-                                newData[i, j + rgb] = ByteSobelFilterX(i - offset, j - offset * bytesPerPixel);
+                                newData[i, j + rgb] = ApplyKernelX(i - offset, j - offset * bytesPerPixel);
                                 break;
 
                             case FilterType.SobelFilterY:
-                                newData[i, j + rgb] = ByteSobelFilterY(i - offset, j - offset * bytesPerPixel);
+                                newData[i, j + rgb] = ApplyKernelY(i - offset, j - offset * bytesPerPixel);
                                 break;
 
                             case FilterType.SobelFilter:
-                                newData[i, j + rgb] = ByteSobelFilter(i - offset, j - offset * bytesPerPixel);
+                                newData[i, j + rgb] = ApplyKernel(i - offset, j - offset * bytesPerPixel);
                                 break;
                         }
                     }
@@ -59,7 +59,7 @@
             return;
         }
 
-        public byte ByteSobelFilterX(int x, int y)
+        public byte ApplyKernelX(int x, int y)
         {
             int sum = 0;
             int sensivity = 60;
@@ -71,7 +71,7 @@
             return (byte)(Math.Abs(sum) < sensivity ? 0 : 255);
         }
 
-        public byte ByteSobelFilterY(int x, int y)
+        public byte ApplyKernelY(int x, int y)
         {
             int sum = 0;
             int sensivity = 60;
@@ -83,7 +83,7 @@
             return (byte)(Math.Abs(sum) < sensivity ? 0 : 255);
         }
 
-        public byte ByteSobelFilter(int x, int y)
+        public byte ApplyKernel(int x, int y)
         {
             int[] sum = {0, 0};
             int sensivity = 60;
