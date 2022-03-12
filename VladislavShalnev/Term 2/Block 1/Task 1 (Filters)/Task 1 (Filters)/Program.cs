@@ -23,7 +23,7 @@ namespace Task_1
 				Logger.Log("This program applies the selected filter to the given bitmap image.\n");
 
 				// Help flag
-				if (args.Length == 1 && args[0] == "--help")
+				if (args.Contains("--help") || args.Contains("-h"))
 				{
 					Logger.Log(HELP_MESSAGE);
 					return;

@@ -40,10 +40,13 @@ namespace Task_1.Core.Filter
 					{
 						for (int l = 0; l < kernelWidth; l++)
 						{
-							int m = Math.Min(Math.Max(i + k - kernelHeight / 2, 0), bitmap.Height - 1);
-							int n = Math.Min(Math.Max(j + l - kernelWidth / 2, 0), bitmap.Width - 1);
+							// Checking if we've gone outside the image
+							// and getting only approachable pixels
 
-							matrix[k, l] = bitmap[m, n];
+							int limitedY = Math.Min(Math.Max(i + k - kernelHeight / 2, 0), bitmap.Height - 1);
+							int limitedX = Math.Min(Math.Max(j + l - kernelWidth / 2, 0), bitmap.Width - 1);
+
+							matrix[k, l] = bitmap[limitedY, limitedX];
 						}
 					}
 
