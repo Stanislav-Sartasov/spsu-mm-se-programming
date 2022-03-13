@@ -10,7 +10,6 @@
 
         public void Add(T data)
         {
-            // TODO: Доделать сортировку объектов
             var curr = new ListElementClass<T>(data);
             var copyHead = Head;
             if (Length == 0)
