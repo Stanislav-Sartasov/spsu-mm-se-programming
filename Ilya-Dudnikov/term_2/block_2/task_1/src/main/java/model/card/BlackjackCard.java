@@ -1,5 +1,6 @@
 package model.card;
 
+
 public class BlackjackCard {
 	Card card;
 	CardStatus cardStatus;
@@ -20,6 +21,10 @@ public class BlackjackCard {
 
 	public BlackjackCard(Card card, CardStatus cardStatus) {
 		this(card);
+		this.cardStatus = cardStatus;
+	}
+
+	public void setCardStatus(CardStatus cardStatus) {
 		this.cardStatus = cardStatus;
 	}
 }

@@ -5,7 +5,11 @@ import model.card.BlackjackCard;
 import java.util.ArrayList;
 
 public class Hand {
-	ArrayList<BlackjackCard> cardsArray;
+	private ArrayList<BlackjackCard> cardsArray;
+
+	public Hand() {
+		cardsArray = new ArrayList<>();
+	}
 
 	public BlackjackCard getCardAt(int pos) {
 		return cardsArray.get(pos);
