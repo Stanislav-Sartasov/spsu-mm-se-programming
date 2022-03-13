@@ -1,9 +1,20 @@
-package model.account;
+package model.service;
 
 import java.util.HashMap;
 
 public class AccountManager implements IAccountManager {
+	private static AccountManager instance;
 	private HashMap<String, Integer> balanceMap;
+
+	private AccountManager() {}
+
+	static {
+		instance = new AccountManager();
+	}
+
+	public static AccountManager getInstance() {
+		return instance;
+	}
 
 	public void createNewAccount(String id, int initialBalance) {
 		if (balanceMap.containsKey(id))
@@ -16,7 +27,7 @@ public class AccountManager implements IAccountManager {
 		return balanceMap.get(id);
 	}
 
-	public void transfer(String from, String to, int value) {
+	protected void transfer(String from, String to, int value) {
 		if (balanceMap.get(from) < value)
 			throw new IllegalArgumentException("Insufficient balance");
 
