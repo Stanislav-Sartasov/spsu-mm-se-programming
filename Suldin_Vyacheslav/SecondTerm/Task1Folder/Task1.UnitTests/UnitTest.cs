@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace Task1.UnitTests
 {
-    public class UnitTest1
+    public class UnitTest
     {
         [SetUp]
         public void Setup()
@@ -14,10 +14,9 @@ namespace Task1.UnitTests
 
         [Test]
 
-
-        public void ImageTest()
+        public void ImageOperatorTest()
         {
-            string folder = "../../../for_test/";
+            string folder = "../../../TestFiles/";
             
             Image image = new Image(folder + "test.bmp");
             Image image1 = new Image(folder + "Yestest.bmp");
@@ -33,7 +32,7 @@ namespace Task1.UnitTests
         [Test]
         public void ApplyFilterTest()
         {
-            string folder = "../../../for_test/";
+            string folder = "../../../TestFiles/";
 
             Image image = new Image(folder + "test.bmp");
 
