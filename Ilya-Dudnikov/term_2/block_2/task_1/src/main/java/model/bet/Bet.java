@@ -8,6 +8,7 @@ public class Bet {
 	public Bet(String bettorId, int value) {
 		this.bettorId = bettorId;
 		this.value = value;
+		this.betStatus = BetStatus.PENDING;
 	}
 
 	public int getValue() {
