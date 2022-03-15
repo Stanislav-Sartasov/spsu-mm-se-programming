@@ -1,26 +1,34 @@
 package model.service;
 
-import model.Casino;
 import model.bet.Bet;
+
+import java.util.ArrayList;
 
 public class BetPool implements IBetPool {
 	private String poolId;
+	private ArrayList<Bet> betList;
+
+	public BetPool(String poolId) {
+		this.poolId = poolId;
+	}
 
 	public String getPoolId() {
 		return poolId;
 	}
 
-	public void lockBet(String bettor, Bet bet) {
-		var accountManager = AccountManager.getInstance();
-
-		accountManager.transfer(Casino.getCasinoId(), poolId, bet.getValue());
-		accountManager.transfer(bettor, poolId, bet.getValue());
+	public int getBetValueAt(int pos) {
+		return betList.get(pos).getValue();
 	}
 
-	public void unlockBet(String bettor, Bet bet, int winningAmount) {
-		var accountManager = AccountManager.getInstance();
+	public void doubleBet(int pos) {
+		betList.set(pos, new Bet(betList.get(pos).getValue() * 2));
+	}
 
-		accountManager.transfer(poolId, bettor, winningAmount);
-		accountManager.transfer(poolId, Casino.getCasinoId(), 2 * bet.getValue() - winningAmount);
+	public void addBet(Bet bet) {
+		betList.add(bet);
+	}
+
+	public void removeBet(int pos) {
+		betList.remove(pos);
 	}
 }
