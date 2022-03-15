@@ -4,14 +4,18 @@ import model.hand.Hand;
 
 public abstract class AbstractPlayer {
 	protected String id;
-	protected Hand[] hands;
+	protected Hand hand;
 
 	public AbstractPlayer(String id) {
 		this.id = id;
-		hands = new Hand[] {new Hand()};
+		hand = new Hand();
 	}
 
-	public Hand[] getHands() {
-		return hands;
+	public Hand getHand() {
+		return hand;
+	}
+
+	public String getId() {
+		return id;
 	}
 }
