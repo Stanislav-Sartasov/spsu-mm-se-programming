@@ -69,6 +69,8 @@ namespace Task1
 
 		public void ApplyFilter(double[,] filter, string newImageName)
 		{
+			byte[,] matrix = new byte[Height, Widht * Bits / 8];
+
 			if (filter == null)
 			{
 				Console.WriteLine("FilterNotFoundException");
@@ -111,14 +113,14 @@ namespace Task1
 															count++;
 														}
 													Array.Sort(mask);
-													Matrix[i, j + n] = (byte)mask[4];
+													matrix[i, j + n] = (byte)mask[4];
 												}
 										for (int i = 0; i < Height; i++)
 										{
 											for (int j = 0; j < Widht * bits; j += bits)
 											{
 												for (int p = 0; p < bits; p++)
-													writer.Write(Matrix[i, j + p]);
+													writer.Write(matrix[i, j + p]);
 											}
 										}
 										return;
@@ -202,7 +204,7 @@ namespace Task1
 
 		public static bool operator ==(Image firstImage, Image secondImage)
 		{
-			return !(((firstImage.Type).Except(secondImage.Type).ToArray()).Length != 0 ||
+			if (((firstImage.Type).Except(secondImage.Type).ToArray()).Length != 0 ||
 			firstImage.Size != secondImage.Size ||
 			firstImage.Somes != secondImage.Somes ||
 			firstImage.Offset != secondImage.Offset ||
@@ -211,7 +213,9 @@ namespace Task1
 			firstImage.Height != secondImage.Height ||
 			firstImage.Colors != secondImage.Colors ||
 			firstImage.Bits != secondImage.Bits ||
-			((firstImage.Least).Except(secondImage.Least).ToArray()).Length != 0);
+			((firstImage.Least).Except(secondImage.Least).ToArray()).Length != 0)
+				return false;
+			
 			
 			for (int i = 0; i < firstImage.Height; i++)
 			{
