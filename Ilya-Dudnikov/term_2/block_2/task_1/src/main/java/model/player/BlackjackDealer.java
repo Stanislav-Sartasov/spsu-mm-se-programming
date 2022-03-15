@@ -4,6 +4,10 @@ import model.card.CardStatus;
 import model.deck.Shoe;
 
 public class BlackjackDealer extends AbstractPlayer {
+	public BlackjackDealer(String id) {
+		super(id);
+	}
+
 	public void dealTo(BlackjackPlayer player, Shoe shoe) {
 		for (int i = 0; i < player.hands.length; i++) {
 			var newCard = shoe.dealCard();

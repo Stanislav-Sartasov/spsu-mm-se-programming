@@ -3,6 +3,10 @@ package model.player;
 import model.hand.Hand;
 
 public class BlackjackPlayer extends AbstractPlayer {
+	public BlackjackPlayer(String id) {
+		super(id);
+	}
+
 	public void split() {
 		if (hands.length >= 2) {
 			throw new IllegalArgumentException("You cannot split more than one hand");
