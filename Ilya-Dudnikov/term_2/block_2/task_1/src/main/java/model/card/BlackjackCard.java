@@ -2,8 +2,8 @@ package model.card;
 
 
 public class BlackjackCard {
-	Card card;
-	CardStatus cardStatus;
+	private Card card;
+	private CardStatus cardStatus;
 
 	public BlackjackCard(int rank, Suits suit) {
 		this.card = new Card(rank, suit);
@@ -26,5 +26,13 @@ public class BlackjackCard {
 
 	public void setCardStatus(CardStatus cardStatus) {
 		this.cardStatus = cardStatus;
+	}
+
+	public Card getCard() {
+		return card;
+	}
+
+	public CardStatus getCardStatus() {
+		return cardStatus;
 	}
 }
