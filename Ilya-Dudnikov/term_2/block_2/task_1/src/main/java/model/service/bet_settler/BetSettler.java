@@ -1,4 +1,4 @@
-package model.service;
+package model.service.bet_settler;
 
 import model.bet.Bet;
 
@@ -12,7 +12,7 @@ public class BetSettler implements IBetSettler {
 				playerWithdrawalAmount = 2 * betValue;
 			}
 			case WON_WITH_BLACKJACK -> {
-				playerWithdrawalAmount = 3 * betValue / 2;
+				playerWithdrawalAmount = 5 * betValue / 2;
 			}
 			case LOST -> {
 				playerWithdrawalAmount = 0;

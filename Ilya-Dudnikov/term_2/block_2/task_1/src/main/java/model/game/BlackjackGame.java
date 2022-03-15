@@ -4,11 +4,10 @@ import model.bet.Bet;
 import model.bet.BetStatus;
 import model.card.BlackjackCard;
 import model.deck.Shoe;
-import model.player.AbstractPlayer;
 import model.player.BlackjackDealer;
 import model.player.BlackjackPlayer;
-import model.service.AccountManager;
-import model.service.BetSettler;
+import model.service.account_manager.AccountManager;
+import model.service.bet_settler.BetSettler;
 
 public class BlackjackGame extends Game {
 	private BlackjackDealer dealer;

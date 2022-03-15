@@ -1,4 +1,4 @@
-package model.service;
+package model.service.bet_settler;
 
 import model.bet.Bet;
 

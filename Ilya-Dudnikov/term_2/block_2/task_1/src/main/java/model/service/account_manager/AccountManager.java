@@ -1,4 +1,4 @@
-package model.service;
+package model.service.account_manager;
 
 import java.util.HashMap;
 

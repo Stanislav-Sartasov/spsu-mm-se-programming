@@ -1,8 +1,8 @@
 package model.game;
 
 import model.player.AbstractPlayer;
-import model.service.AccountManager;
-import model.service.BetPool;
+import model.service.account_manager.AccountManager;
+import model.service.bet_pool.BetPool;
 
 import java.util.ArrayList;
 

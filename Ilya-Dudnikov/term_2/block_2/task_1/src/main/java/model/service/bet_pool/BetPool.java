@@ -1,4 +1,4 @@
-package model.service;
+package model.service.bet_pool;
 
 import model.bet.Bet;
 import model.bet.BetStatus;
