@@ -17,6 +17,10 @@ public class BetPool implements IBetPool {
 		return betList.size();
 	}
 
+	public Bet getBetAt(int pos) {
+		return betList.get(pos);
+	}
+
 	public String getPoolId() {
 		return poolId;
 	}
@@ -46,8 +50,8 @@ public class BetPool implements IBetPool {
 		betList.add(bet);
 	}
 
-	public void removeBet(int pos) {
-		betList.remove(pos);
+	public void clearPool() {
+		betList.clear();
 	}
 
 	public void changeBetStatus(int pos, BetStatus newBetStatus) {

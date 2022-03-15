@@ -5,5 +5,5 @@ import model.bet.Bet;
 public interface IBetPool {
 	public void addBet(Bet bet);
 
-	public void removeBet(int pos);
+	public void clearPool();
 }
