@@ -6,5 +6,5 @@ public enum Action {
 	HIT,
 	SPLIT,
 	SURRENDER,
-	INSURANCE
+	DOUBLE_DOWN
 }

@@ -18,7 +18,7 @@ public class Shoe {
 		currentDeckPointer = 0;
 	}
 
-	public Shoe createShoe() {
+	public static Shoe createShoe() {
 		Shoe shoe = new Shoe();
 		shoe.decksArray.add(new Deck());
 		shoe.shuffle();
