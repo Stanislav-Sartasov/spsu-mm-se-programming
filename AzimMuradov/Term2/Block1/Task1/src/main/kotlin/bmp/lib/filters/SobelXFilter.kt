@@ -4,7 +4,8 @@ import bmp.lib.*
 import kotlin.math.abs
 
 object SobelXFilter : ImgFilter {
-    override fun filter(rawImg: RawImg) = rawImg.convolve(KERNEL, ::abs)
+
+    override fun filter(rawImg: RawImg) = rawImg.convolve(KERNEL, postProcessing = ::abs)
 
     private val KERNEL = Kernel.fromMatrix(
         squareMatrix = listOf(

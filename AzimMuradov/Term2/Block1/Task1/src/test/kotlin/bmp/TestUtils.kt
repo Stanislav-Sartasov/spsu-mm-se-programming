@@ -3,7 +3,8 @@ package bmp
 import bmp.lib.*
 import java.io.File
 
-object TestUtils {
+internal object TestUtils {
+
     val BMP24 = bmp(bitsPerPixel = 24)
 
     val BMP32 = bmp(bitsPerPixel = 32)
@@ -21,24 +22,24 @@ object TestUtils {
         val sizeOfBitmap = (bytesPerPixel * width * height).toUInt()
         return Bmp(
             fileHeader = BmpFileHeader(
-                fileType = 19778.toUShort(),
+                fileType = Bmp.FILE_TYPE,
                 fileSize = 54u + sizeOfBitmap,
-                reserved1 = 0.toUShort(),
-                reserved2 = 0.toUShort(),
+                reserved1 = Bmp.RESERVED_1,
+                reserved2 = Bmp.RESERVED_2,
                 bitmapOffset = 54u
             ),
             infoHeader = BmpInfoHeader(
                 size = 40u,
                 width = width,
                 height = height,
-                planes = 1.toUShort(),
+                planes = Bmp.PLANES,
                 bitsPerPixel = bitsPerPixel.toUShort(),
-                compression = 0u,
+                compression = Bmp.NO_COMPRESSION,
                 sizeOfBitmap = sizeOfBitmap,
-                horzResolution = 2834,
-                vertResolution = 2834,
-                colorsUsed = 0u,
-                colorsImportant = 0u
+                horzResolution = Bmp.DEFAULT_HORZ_RESOLUTION,
+                vertResolution = Bmp.DEFAULT_VERT_RESOLUTION,
+                colorsUsed = Bmp.NO_PALETTE_COLORS_USED,
+                colorsImportant = Bmp.NO_PALETTE_COLORS_IMPORTANT
             ),
             pixels = List(size = height) { y ->
                 List(size = width) { x ->

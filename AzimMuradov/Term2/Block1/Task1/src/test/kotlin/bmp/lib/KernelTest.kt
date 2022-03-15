@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class KernelTest {
+
     @Test
     fun `create Kernel from matrix`() {
         val actualKernel = Kernel.fromMatrix(

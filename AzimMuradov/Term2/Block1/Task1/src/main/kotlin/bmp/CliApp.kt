@@ -6,17 +6,19 @@ import bmp.lib.ValidatedBmp.ValidBmpBitsPerPixel
 import bmp.lib.filters.*
 
 object CliApp {
+
     fun run(args: Array<String>) {
         println(
-            joinLines(
-                "This application can filter bmp files with various algorithms.",
-                "",
-                "To run application, please, specify input file, filter, and output file.",
-                "Provided filters: ${FILTERS.keys.joinToString()}.",
-                "For example:",
-                "    On Windows: gradlew.bat :run --args=\"input.bmp gauss_5 output.bmp\"",
-                "    On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'",
-            )
+            """
+                |This application can filter bmp files with various algorithms.
+                |
+                |To run application, please, specify input file, filter, and output file.
+                |Provided filters: ${FILTERS.keys.joinToString()}.
+                |For example:
+                |  On Windows: gradlew.bat :run --args="input.bmp gauss_5 output.bmp"
+                |  On any other system: ./gradlew :run --args='input.bmp gauss_5 output.bmp'
+                |
+            """.trimMargin(marginPrefix = "|").withSystemEndings()
         )
 
         if (args.size != 3) {
@@ -51,17 +53,12 @@ object CliApp {
         }
     }
 
-
-    private val FILTERS = mapOf(
+    val FILTERS = mapOf(
         "gauss_3" to Gauss3Filter,
         "gauss_5" to Gauss5Filter,
         "gray_scale" to GrayScaleFilter,
-        "median_3" to Median3Filter,
+        "median_3" to MedianFilter(size = 3),
         "sobel_x" to SobelXFilter,
         "sobel_y" to SobelYFilter,
     )
-
-    private fun joinLines(vararg lines: String) = lines.joinToString(separator = "") {
-        "$it${System.lineSeparator()}"
-    }
 }

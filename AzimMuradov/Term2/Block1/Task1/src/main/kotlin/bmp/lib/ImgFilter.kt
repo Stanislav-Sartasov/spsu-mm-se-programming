@@ -1,6 +1,7 @@
 package bmp.lib
 
 fun interface ImgFilter {
+
     fun filter(rawImg: RawImg): RawImg
 }
 

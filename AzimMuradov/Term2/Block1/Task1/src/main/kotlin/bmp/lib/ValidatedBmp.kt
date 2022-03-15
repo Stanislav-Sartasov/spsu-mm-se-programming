@@ -2,10 +2,11 @@ package bmp.lib
 
 @JvmInline
 value class ValidatedBmp private constructor(val bmp: Bmp) {
+
     init {
         val fileType = bmp.fileHeader.fileType
         val bitsPerPixel = bmp.infoHeader.bitsPerPixel
-        require(fileType == 0x4D42.toUShort() && bitsPerPixel in ValidBmpBitsPerPixel.values().map { it.bpp }) {
+        require(fileType == Bmp.FILE_TYPE && bitsPerPixel in ValidBmpBitsPerPixel.values().map { it.bpp }) {
             "Wrong BMP definition"
         }
     }
@@ -16,6 +17,7 @@ value class ValidatedBmp private constructor(val bmp: Bmp) {
     }
 
     companion object {
+
         fun Bmp.validated(): ValidatedBmp = ValidatedBmp(bmp = this)
     }
 }
