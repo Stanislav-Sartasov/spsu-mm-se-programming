@@ -1,6 +1,7 @@
 package model.service;
 
 import model.bet.Bet;
+import model.bet.BetStatus;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,10 @@ public class BetPool implements IBetPool {
 		this.poolId = poolId;
 	}
 
+	public int getTotalBets() {
+		return betList.size();
+	}
+
 	public String getPoolId() {
 		return poolId;
 	}
@@ -20,8 +25,21 @@ public class BetPool implements IBetPool {
 		return betList.get(pos).getValue();
 	}
 
+	public BetStatus getBetStatusAt(int pos) {
+		return betList.get(pos).getBetStatus();
+	}
+
+	public String getBettorIdAt(int pos) {
+		return betList.get(pos).getBettorId();
+	}
+
 	public void doubleBet(int pos) {
-		betList.set(pos, new Bet(betList.get(pos).getValue() * 2));
+		Bet previousBet = betList.get(pos);
+		betList.set(pos, new Bet(previousBet.getBettorId(), previousBet.getValue() * 2));
+	}
+
+	public void insertBet(Bet bet, int pos) {
+		betList.add(pos, bet);
 	}
 
 	public void addBet(Bet bet) {
@@ -30,5 +48,9 @@ public class BetPool implements IBetPool {
 
 	public void removeBet(int pos) {
 		betList.remove(pos);
+	}
+
+	public void changeBetStatus(int pos, BetStatus newBetStatus) {
+		betList.get(pos).changeBetStatus(newBetStatus);
 	}
 }
