@@ -13,7 +13,7 @@
 //										/\ formula for A graph ( without (n^2-n), its disposable)
 //	SB(k,colors)=(n^2 - n) * ( (n - 2)^5+ 2 * (n - 2)^4 + 3 * (n - 2)^3 )^ 'graphs' ( only B's)
 //										/\ formula for B graph
-//	K(ak,bk,colors) = (n^2-n) * ('formula for A')^ak * ('formula for B')^bk * C(from ak+bk by bk)
+//	K(ak,bk,colors) = (n^2 - n) * ('formula for A')^ak * ('formula for B')^bk * C(from ak+bk by bk)
 
 int get_prime_div(unsigned long long number);
 
@@ -35,9 +35,8 @@ int brute_force(int** sample, int len, int colors, int type) // creating simple 
 	int count = 0, counter[nver + 1] = { 0 };								//	1-----6----11
 																			//	|\   /|\   /|
 	while (len > 0)															//	|  2  |  7  |
-	{																		//	|  |  |  |  |
-		int i;																//	|  3  |  8  |
-		for (i = 0; i < ver; i++)											//	|  |  |  |  |
+	{																		//	|  |  |  |  |															//	|  3  |  8  |
+		for (int i = 0; i < ver; i++)										//	|  |  |  |  |
 		{																	//	|  4  |  9  |
 			if (sample[i + (ver - 2) * (graph - len)][0] >= 0)				//	|/   \|/   \|
 			{																//	0-----5-----10....
@@ -76,12 +75,13 @@ int brute_force(int** sample, int len, int colors, int type) // creating simple 
 				counter[j + 1]++;
 			}
 		}
-		int l = 0;
-		for (int l = 0; l < nver; l++)
+		for (int i = 0; i < nver; i++)
 		{
-			sample[l][max - 1] = counter[l];
+			sample[i][max - 1] = counter[i];
 		}
+
 		int flag = 1;
+
 		for (int i = 0; i < nver && flag == 1; i++)
 		{
 			for (int j = 0; j < max - 1; j++)
@@ -107,7 +107,7 @@ int main()
 	int a_subsequence[5] = { 0 }, b_subsequence[5] = { 0 };		//	getting values for formulas 
 
 	for (int t = 0; t < 2; t++)
-		for (int p = 3; p < 8; p++)
+		for (int j = 3; j < 8; j++)
 		{
 			int** sample = (int**)malloc((nver) * sizeof(int*));
 			for (int i = 0; i < nver; i++)
@@ -116,11 +116,11 @@ int main()
 			}
 			if (t == 0)
 			{
-				a_subsequence[p - 3] = brute_force(sample, graph, p, t) / (p * p - p); //  N's / (const for graph combining)
+				a_subsequence[j - 3] = brute_force(sample, graph, j, t) / (j * j - j); //  N's / (const for graph combining)
 			}
 			else
 			{
-				b_subsequence[p - 3] = brute_force(sample, graph, p, t) / (p * p - p);
+				b_subsequence[j - 3] = brute_force(sample, graph, j, t) / (j * j - j);
 			}
 			for (int i = 0; i < nver; i++)
 			{
@@ -151,8 +151,8 @@ int main()
 				}
 			}
 		}
-		int i = 1;
-		for (i = 1; i <= 5; i++)
+
+		for (int i = 1; i <= 5; i++)
 		{
 			int a_test = 0, b_test = 0;
 			for (int l = 0; l <= 4;l++)
@@ -177,17 +177,17 @@ int main()
 
 	unsigned long long a = 0, b = 0; 		// a = (n-2)^5+(n-2)^4+2*(n-2)^3-(n-2)^2+(n-2) const for n colors and graph A
 											// b = (n-2)^5+2*(n-2)^4+3*(n-2)^3 const for n colors and graph B
-	for (int l = 0; l < ver - 2;l++)
+	for (int i = 0; i < ver - 2;i++)
 	{
 		unsigned long long a_appendum = 1, b_appendum = 1;
 
-		for (int j = ver - 2 - l; j > 0;j--)
+		for (int j = ver - 2 - i; j > 0;j--)
 		{
 			a_appendum *= n - 2;
 			b_appendum *= n - 2;
 		}
-		a += a_formula[l] * a_appendum;
-		b += b_formula[l] * b_appendum;
+		a += a_formula[i] * a_appendum;
+		b += b_formula[i] * b_appendum;
 	}
 
 	unsigned long long h = n * n - n;  // n^2-n - const for this type of making graphs
@@ -257,9 +257,9 @@ int main()
 			l /= tmp;
 		}
 	}
-	for (int i = 2; i <= number_of_a; i++)
+	for (int k = 2; k <= number_of_a; k++)
 	{
-		int l = i;
+		int l = k;
 		while (l > 1)
 		{
 			int tmp = get_prime_div(l);
