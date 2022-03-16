@@ -352,8 +352,11 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# Jetbrains files
-cmake-build-debug/
+
+## Idea and Clion files
 .idea
-.gradle
+cmake-build-debug/
+
+# Gradle build and cache files
+.gradle/
 build/

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageFilters", "ImageFilters\ImageFilters.csproj", "{307E8968-67B2-4A6E-BE29-E0F1CD964188}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageFilters.UnitTests", "ImageFilters.UnitTests\ImageFilters.UnitTests.csproj", "{3AB86470-DA7D-4D80-A8EC-D6E2E2F5F487}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{307E8968-67B2-4A6E-BE29-E0F1CD964188}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{307E8968-67B2-4A6E-BE29-E0F1CD964188}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{307E8968-67B2-4A6E-BE29-E0F1CD964188}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{307E8968-67B2-4A6E-BE29-E0F1CD964188}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AB86470-DA7D-4D80-A8EC-D6E2E2F5F487}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AB86470-DA7D-4D80-A8EC-D6E2E2F5F487}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AB86470-DA7D-4D80-A8EC-D6E2E2F5F487}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AB86470-DA7D-4D80-A8EC-D6E2E2F5F487}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03A1DDAD-052D-4007-ABB7-6529FCA24C3E}
+	EndGlobalSection
+EndGlobal
