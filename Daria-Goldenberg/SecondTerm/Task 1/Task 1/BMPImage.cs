@@ -8,8 +8,7 @@ namespace Task_1
 {
 	public class BMPImage
 	{
-		byte[] Bitmap;
-
+        private byte[] Bitmap;
 		private int ImageOffset;
 		private int BitsPerPixel;
 		private int WidthAddition;

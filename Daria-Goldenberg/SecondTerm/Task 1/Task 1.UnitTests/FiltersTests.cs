@@ -3,31 +3,8 @@ using Task_1;
 
 namespace Task_1.UnitTests
 {
-	public class Task_1_Tests
+	public class FiltersTests
 	{
-		[Test]
-		public void TestReadWriteFile()
-		{
-			BMPImage image = new BMPImage("../../../TestFiles/input24.bmp");
-			image.WriteToFile("../../../TestFiles/output.bmp");
-			FileAssert.AreEqual("../../../TestFiles/input24.bmp", "../../../TestFiles/output.bmp");
-			Assert.Pass();
-		}
-
-		[Test]
-		public void TestPixel()
-		{
-			BMPImage image = new BMPImage("../../../TestFiles/input24.bmp");
-			Pixel pixel = new Pixel(24, 25, 26);
-			image.SetPixel(pixel, 0, 0);
-			Assert.AreEqual(pixel.Red, image.GetPixel(0, 0).Red);
-			Assert.AreEqual(pixel.Green, image.GetPixel(0, 0).Green);
-			Assert.AreEqual(pixel.Blue, image.GetPixel(0, 0).Blue);
-			Assert.Pass();
-		}
-
-		
-
 		[Test]
 		public void TestGrayFilter24()
 		{

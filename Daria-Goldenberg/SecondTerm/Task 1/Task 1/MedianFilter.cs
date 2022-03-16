@@ -23,9 +23,9 @@ namespace Task_1
 					for (int i = 0; i < 3; i++)
 						for (int j = 0; j < 3; j++)
 						{
-							red[3 * i + j] = (image.GetPixel(x + i - 1, y + j - 1).Red);
-							green[3 * i + j] = (image.GetPixel(x + i - 1, y + j - 1).Green);
-							blue[3 * i + j] = (image.GetPixel(x + i - 1, y + j - 1).Blue);
+							red[3 * i + j] = image.GetPixel(x + i - 1, y + j - 1).Red;
+							green[3 * i + j] = image.GetPixel(x + i - 1, y + j - 1).Green;
+							blue[3 * i + j] = image.GetPixel(x + i - 1, y + j - 1).Blue;
 						}
 					Array.Sort(red);
 					Array.Sort(green);
