@@ -2,11 +2,11 @@
 {
 	public static class Filters
 	{
-		private delegate int filter(Bitmap bmp);
-		private delegate byte converter(byte[] values);
+		private delegate int Filter(Bitmap bmp);
+		private delegate byte Converter(byte[] values);
 
 		private static string[] FilterNames = { "GRAYSCALE", "MEDIAN", "GAUSS", "SOBELY", "SOBELX" };
-		private static filter[] FiltersAvailable = { ApplyGrayscale,
+		private static Filter[] FiltersAvailable = { ApplyGrayscale,
 													ApplyMedian,
 													ApplyGauss,
 													ApplySobelY,
@@ -17,7 +17,7 @@
 		private static int[] ArrayY = { -1, -1, -1, 0, 0, 0, 1, 1, 1 };
 
 		// returns filter by its name, or ApplyNoFilter if it wasn't found
-		private static filter FindFilterByName(string filterName)
+		private static Filter FindFilterByName(string filterName)
 		{
 			int id = Array.IndexOf(FilterNames, filterName.ToUpper());
 			return id >= 0 && id < FiltersAvailable.Length ? FiltersAvailable[id] : ApplyNoFilterWithError;
@@ -74,7 +74,7 @@
 			return 0;
 		}
 
-		private static int ApplyWindowedFilter(BitmapImage img, converter windowFilter)
+		private static int ApplyWindowedFilter(BitmapImage img, Converter windowFilter)
 		{
 			byte[] toConvert = new byte[9];
 			byte[,] newImgData = new byte[img.Height, img.Width];
