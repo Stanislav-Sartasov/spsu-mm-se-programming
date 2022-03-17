@@ -3,8 +3,8 @@ using System.IO;
 
 namespace BMPFilters
 {
-    public class BMPImage
-    {
+	public class BMPImage
+	{
 		private byte[] Header = new byte[54];
 		public int Width { get; }
 		public int Height { get; }
@@ -32,9 +32,9 @@ namespace BMPFilters
 			Bitness = BitConverter.ToUInt16(arrayUshort);
 
 			if (Bitness != 32 && Bitness != 24)
-            {
+			{
 				throw new Exception("Unsupported bitness.");
-            }
+			}
 
 			if (Bitness == 24)
 			{
@@ -60,7 +60,7 @@ namespace BMPFilters
 		}
 
 		public void WriteToFile(FileStream file)
-        {
+		{
 			file.Write(Header);
 			
 			for (int i = 0; i < Height; i++)

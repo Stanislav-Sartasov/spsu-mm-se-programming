@@ -44,45 +44,45 @@ namespace BMPFiltersTests
 		}
 
 		[TestMethod]
-		public void MedianTest()
+		public void ApplyMedianTest()
 		{
-			Filters.Median(ResultImage);
+			Filters.ApplyMedian(ResultImage);
 			TargetImage = new BMPImage(new FileStream("../../../pictures/picture_median.bmp", FileMode.Open, FileAccess.Read));
 
 			Assert.IsTrue(AreEqual(ResultImage, TargetImage));
 		}
 
 		[TestMethod]
-		public void GaussTest()
+		public void ApplyGaussTest()
 		{
-			Filters.Gauss(ResultImage);
+			Filters.ApplyGauss(ResultImage);
 			TargetImage = new BMPImage(new FileStream("../../../pictures/picture_gauss.bmp", FileMode.Open, FileAccess.Read));
 
 			Assert.IsTrue(AreEqual(ResultImage, TargetImage));
 		}
 
 		[TestMethod]
-		public void SobelXTest()
+		public void ApplySobelXTest()
 		{
-			Filters.SobelX(ResultImage);
+			Filters.ApplySobelX(ResultImage);
 			TargetImage = new BMPImage(new FileStream("../../../pictures/picture_sobelX.bmp", FileMode.Open, FileAccess.Read));
 
 			Assert.IsTrue(AreEqual(ResultImage, TargetImage));
 		}
 
 		[TestMethod]
-		public void SobelYTest()
+		public void ApplySobelYTest()
 		{
-			Filters.SobelY(ResultImage);
+			Filters.ApplySobelY(ResultImage);
 			TargetImage = new BMPImage(new FileStream("../../../pictures/picture_sobelY.bmp", FileMode.Open, FileAccess.Read));
 
 			Assert.IsTrue(AreEqual(ResultImage, TargetImage));
 		}
 
 		[TestMethod]
-		public void GrayscaleTest()
+		public void ApplyGrayscaleTest()
 		{
-			Filters.Grayscale(ResultImage);
+			Filters.ApplyGrayscale(ResultImage);
 			TargetImage = new BMPImage(new FileStream("../../../pictures/picture_grayscale.bmp", FileMode.Open, FileAccess.Read));
 
 			Assert.IsTrue(AreEqual(ResultImage, TargetImage));

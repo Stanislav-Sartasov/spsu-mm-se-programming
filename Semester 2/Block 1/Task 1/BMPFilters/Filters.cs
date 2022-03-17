@@ -4,7 +4,7 @@ namespace BMPFilters
 {
 	public class Filters
 	{
-		public static void Median(BMPImage image)
+		public static void ApplyMedian(BMPImage image)
 		{
 			for (int i = 1; i < image.Height - 1; i++)
 			{
@@ -27,25 +27,25 @@ namespace BMPFilters
 			}
 		}
 
-		public static void Gauss(BMPImage image)
+		public static void ApplyGauss(BMPImage image)
 		{
 			double[] kernel = new double[] { 0.0626, 0.1250, 0.0626, 0.1250, 0.2497, 0.1250, 0.0626, 0.1250, 0.0626 };
-			Convolution(image, kernel);
+			Convolute(image, kernel);
 		}
 
-		public static void SobelX(BMPImage image)
+		public static void ApplySobelX(BMPImage image)
 		{
 			double[] kernel = new double[] { 1, 0, -1, 2, 0, -2, 1, 0, -1 };
-			Convolution(image, kernel);
+			Convolute(image, kernel);
 		}
 
-		public static void SobelY(BMPImage image)
+		public static void ApplySobelY(BMPImage image)
 		{
 			double[] kernel = new double[] { 1, 2, 1, 0, 0, 0, -1, -2, -1 };
-			Convolution(image, kernel);
+			Convolute(image, kernel);
 		}
 
-		public static void Grayscale(BMPImage image)
+		public static void ApplyGrayscale(BMPImage image)
 		{
 			for (int i = 1; i < image.Height - 1; i++)
 			{
@@ -62,7 +62,7 @@ namespace BMPFilters
 			}
 		}
 
-		private static void Convolution(BMPImage image, double[] kernel)
+		private static void Convolute(BMPImage image, double[] kernel)
 		{
 			byte[][][] copy = new byte[image.Height][][];
 			for (int i = 0; i < image.Height; i++)

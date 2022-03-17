@@ -3,10 +3,10 @@ using System.IO;
 
 namespace BMPFilters
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
+	class Program
+	{
+		static void Main(string[] args)
+		{
 			Console.WriteLine("This program applies to input 24 or 32 bit BMP image one of median, gauss, sobelX, sobelY, grayscale filters.");
 
 			if (args.Length != 3)
@@ -23,11 +23,11 @@ namespace BMPFilters
 
 			FileStream input;
 			try
-            {
+			{
 				input = new FileStream(args[0], FileMode.Open, FileAccess.Read);
 			}
 			catch (FileNotFoundException)
-            {
+			{
 				Console.WriteLine("File not found.");
 				return;
 			}
@@ -35,12 +35,12 @@ namespace BMPFilters
 			BMPImage image = new BMPImage(input);
 
 			FileStream output;
-            try
-            {
-                output = new FileStream(args[2], FileMode.OpenOrCreate, FileAccess.Write);
-            }
-            catch (Exception)
-            {
+			try
+			{
+				output = new FileStream(args[2], FileMode.OpenOrCreate, FileAccess.Write);
+			}
+			catch (Exception)
+			{
 				Console.WriteLine("Failed to create or to find output file.");
 				input.Close();
 				return;
@@ -48,23 +48,23 @@ namespace BMPFilters
 
 			if (args[1].Equals("median"))
 			{
-				Filters.Median(image);
+				Filters.ApplyMedian(image);
 			}
 			else if (args[1].Equals("gauss"))
 			{
-				Filters.Gauss(image);
+				Filters.ApplyGauss(image);
 			}
 			else if (args[1].Equals("sobelX"))
 			{
-				Filters.SobelX(image);
+				Filters.ApplySobelX(image);
 			}
 			else if (args[1].Equals("sobelY"))
 			{
-				Filters.SobelY(image);
+				Filters.ApplySobelY(image);
 			}
 			else if (args[1].Equals("grayscale"))
 			{
-				Filters.Grayscale(image);
+				Filters.ApplyGrayscale(image);
 			}
 
 			image.WriteToFile(output);
@@ -72,5 +72,5 @@ namespace BMPFilters
 			input.Close();
 			output.Close();
 		}
-    }
+	}
 }
