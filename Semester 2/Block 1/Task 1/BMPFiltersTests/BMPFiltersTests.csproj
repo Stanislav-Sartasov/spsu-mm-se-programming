@@ -7,20 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="picture.bmp" />
-    <None Remove="picture_median.bmp" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="pictures\picture.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="pictures\picture_median.bmp">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.2.3" />
     <PackageReference Include="MSTest.TestFramework" Version="2.2.3" />
@@ -28,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BMPFilrers\BMPFilters.csproj" />
+    <ProjectReference Include="..\BMPFilters\BMPFilters.csproj" />
   </ItemGroup>
 
 </Project>

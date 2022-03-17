@@ -4,9 +4,9 @@ using BMPFilters;
 
 namespace BMPFiltersTests
 {
-	[TestClass]
-	public class FiltersTests
-	{
+    [TestClass]
+    public class FiltersTests
+    {
 		private BMPImage ResultImage;
 		private BMPImage TargetImage;
 
