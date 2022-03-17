@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32002.261
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BMPFilters", "BMPFilters.csproj", "{FC055C8E-CC02-485D-8CCC-9778B6CE2E15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BMPFiltersTests", "..\BMPFiltersTests\BMPFiltersTests.csproj", "{CD133707-0FEB-4D0F-80FF-F21A1E023850}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FC055C8E-CC02-485D-8CCC-9778B6CE2E15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC055C8E-CC02-485D-8CCC-9778B6CE2E15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC055C8E-CC02-485D-8CCC-9778B6CE2E15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC055C8E-CC02-485D-8CCC-9778B6CE2E15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD133707-0FEB-4D0F-80FF-F21A1E023850}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD133707-0FEB-4D0F-80FF-F21A1E023850}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD133707-0FEB-4D0F-80FF-F21A1E023850}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD133707-0FEB-4D0F-80FF-F21A1E023850}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {40807C86-DA69-4DA2-92F5-275328481D3F}
+	EndGlobalSection
+EndGlobal
