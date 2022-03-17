@@ -221,38 +221,25 @@ namespace Task1
         {
             filterSuccess = true;
 
-            if (nameFilter is null)
+            IFilter? filter = nameFilter switch
             {
-                Console.WriteLine("The name of the filter was not entered.");
+                "GrayScale" => new GrayScale(),
+                "Median" => new Median(),
+                "GaussFive" => new Gauss(),
+                "SobelX" => new SobelX(),
+                "SobelY" => new SobelY(),
+                "Sobel" => new Sobel(),
+                _ => null
+            };
+
+            if (filter is null)
+            {
+                Console.WriteLine("The name of the filter is entered incorrectly.");
                 filterSuccess = false;
                 return;
             }
 
-            switch (nameFilter)
-            {
-                case "GrayScale":
-                    new GrayScale().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                case "Median":
-                    new Median().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                case "GaussFive":
-                    new Gauss().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                case "SobelX":
-                    new SobelX().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                case "SobelY":
-                    new SobelY().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                case "Sobel":
-                    new Sobel().PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
-                    break;
-                default:
-                    Console.WriteLine("The name of the filter is entered incorrectly.");
-                    filterSuccess = false;
-                    break;
-            }
+            filter.PixelConverse(ref pixels, bmpHeader.BiHeight, bmpHeader.BiWidth);
         }
     }
 }

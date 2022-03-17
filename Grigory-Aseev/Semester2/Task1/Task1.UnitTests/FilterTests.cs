@@ -126,5 +126,23 @@ namespace Task1.UnitTests
             FileAssert.AreEqual(WorkingDirectory + "OutImage.bmp", WorkingDirectory + "sobelY32.bmp");
             Assert.Pass();
         }
+
+        [Test]
+        public void IncorrectNameFilterTest()
+        {
+            Image image = Image.ReadBmp(WorkingDirectory + "InImage24.bmp");
+            image.ApplyFilter("1000-7?");
+            Assert.IsFalse(image.GeneralSuccess);
+            Assert.Pass();
+        }
+
+        [Test]
+        public void NullNameFilterTest()
+        {
+            Image image = Image.ReadBmp(WorkingDirectory + "InImage24.bmp");
+            image.ApplyFilter(null);
+            Assert.IsFalse(image.GeneralSuccess);
+            Assert.Pass();
+        }
     }
 }
