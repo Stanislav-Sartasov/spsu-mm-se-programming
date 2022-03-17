@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Task_1
 {
     public class Image
     {
-        private Argb[][] Pixels;
+        private Pixel[][] Pixels;
 
-        private dib_header Dheader;
+        private DibHeader Dheader;
 
-        private bitmap_header BmHeader;
+        private BitmapHeader BmHeader;
 
         private byte[] Garbage;
 
@@ -23,13 +19,13 @@ namespace Task_1
             width = Dheader.Width;
         }
 
-        public void GetArr(Argb[][] arr)
+        public void GetArr(Pixel[][] arr)
         {
             for(int i = 0; i < Dheader.Height; i++)
             {
                 for(int k = 0; k < Dheader.Width; k++)
                 {
-                    arr[i][k] = new Argb();
+                    arr[i][k] = new Pixel();
                     arr[i][k] = Pixels[i][k];
                 }
             }
@@ -41,7 +37,7 @@ namespace Task_1
             {
                 using (var stream = File.Open(fileName, FileMode.Open))
                 {
-                    using (BinaryReader reader = new BinaryReader(stream, Encoding.UTF8, false))
+                    using (BinaryReader reader = new BinaryReader(stream))
                     {
                         BmHeader.Name = reader.ReadChars(2);
                         BmHeader.Size = reader.ReadUInt32();
@@ -60,16 +56,16 @@ namespace Task_1
                             Dheader.Palette[i] = reader.ReadInt32();
                         }
                         stream.Position = BmHeader.ImageOffset;
-                        Pixels = new Argb[Dheader.Height][];
+                        Pixels = new Pixel[Dheader.Height][];
                         for (uint i = 0; i < Dheader.Height; i++)
                         {
-                            Pixels[i] = new Argb[Dheader.Width];
+                            Pixels[i] = new Pixel[Dheader.Width];
                         }
                         for (int i = 0; i < Dheader.Height; i++)
                         {
                             for (int k = 0; k < Dheader.Width; k++)
                             {
-                                Pixels[i][k] = new Argb();
+                                Pixels[i][k] = new Pixel();
                             }
                         }
                         if (Dheader.BitsPerPixel == 32)
@@ -116,7 +112,7 @@ namespace Task_1
         {
             using (var stream = File.Open(fileName, FileMode.Create))
             {
-                using (var writer = new BinaryWriter(stream, Encoding.UTF8, false))
+                using (var writer = new BinaryWriter(stream))
                 {
                     writer.Write(BmHeader.Name);
                     writer.Write(BmHeader.Size);
@@ -169,43 +165,43 @@ namespace Task_1
         public void ApplyFilters(string outputName, string filter)
         {
             uint i, j;
-            byte redd, greenn, bluee, alphaa, flag = 0;
-            Pixels ExtendedPic = new Pixels(Dheader.Height + 2, Dheader.Width + 2);
-            Pixels ExtendedPicCopy = new Pixels(Dheader.Height + 2, Dheader.Width + 2);
+            byte redCopy, greenCopy, blueCopy, alphaCopy, flag = 0;
+            Pixels extendedPic = new Pixels(Dheader.Height + 2, Dheader.Width + 2);
+            Pixels extendedPicCopy = new Pixels(Dheader.Height + 2, Dheader.Width + 2);
             for (i = 0; i < Dheader.Height + 2; ++i)
             {
                 for (j = 0; j < Dheader.Width + 2; ++j)
                 {
-                    ExtendedPicCopy.Arr[i][j] = new Argb();
-                    ExtendedPic.Arr[i][j] = new Argb();
+                    extendedPicCopy.Arr[i][j] = new Pixel();
+                    extendedPic.Arr[i][j] = new Pixel();
                 }
             }
             for (i = 0; i < Dheader.Height; i++)
             {
-                ExtendedPic.Arr[i + 1][0] = Pixels[i][0];
-                ExtendedPic.Arr[i + 1][Dheader.Width + 1] = Pixels[i][Dheader.Width - 1];
+                extendedPic.Arr[i + 1][0] = Pixels[i][0];
+                extendedPic.Arr[i + 1][Dheader.Width + 1] = Pixels[i][Dheader.Width - 1];
                 for (j = 0; j < Dheader.Width; j++)
                 {
-                    ExtendedPic.Arr[i + 1][j + 1] = Pixels[i][j];
+                    extendedPic.Arr[i + 1][j + 1] = Pixels[i][j];
                 }
             }
             for (j = 0; j < Dheader.Width + 2; j++)
             {
-                ExtendedPic.Arr[0][j] = ExtendedPic.Arr[1][j];
-                ExtendedPic.Arr[Dheader.Height + 1][j] = ExtendedPic.Arr[Dheader.Height][j];
+                extendedPic.Arr[0][j] = extendedPic.Arr[1][j];
+                extendedPic.Arr[Dheader.Height + 1][j] = extendedPic.Arr[Dheader.Height][j];
             }
             for (i = 0; i < Dheader.Height + 2; ++i)
             {
                 for (j = 0; j < Dheader.Width + 2; ++j)
                 {
-                    redd = ExtendedPic.Arr[i][j].Red; // I did it because i wanted not reference copy of the array but copy of its args
-                    bluee = ExtendedPic.Arr[i][j].Blue;
-                    greenn = ExtendedPic.Arr[i][j].Green;
-                    alphaa = ExtendedPic.Arr[i][j].Alpha;
-                    ExtendedPicCopy.Arr[i][j].Red = redd;
-                    ExtendedPicCopy.Arr[i][j].Blue = bluee;
-                    ExtendedPicCopy.Arr[i][j].Green = greenn;
-                    ExtendedPicCopy.Arr[i][j].Alpha = alphaa;
+                    redCopy = extendedPic.Arr[i][j].Red; // I did it because i wanted not reference copy of the array but copy of its args
+                    blueCopy = extendedPic.Arr[i][j].Blue;
+                    greenCopy = extendedPic.Arr[i][j].Green;
+                    alphaCopy = extendedPic.Arr[i][j].Alpha;
+                    extendedPicCopy.Arr[i][j].Red = redCopy;
+                    extendedPicCopy.Arr[i][j].Blue = blueCopy;
+                    extendedPicCopy.Arr[i][j].Green = greenCopy;
+                    extendedPicCopy.Arr[i][j].Alpha = alphaCopy;
                 } 
             }
             for (i = 1; i <= Dheader.Height; i++)
@@ -214,23 +210,23 @@ namespace Task_1
                 {
                     if (filter == "Median")
                     {
-                        ExtendedPic.MedianFilter(ExtendedPicCopy.Arr, (int)i, (int)j);
+                        extendedPic.MedianFilter(extendedPicCopy.Arr, (int)i, (int)j);
                     }
                     else if (filter == "Gauss")
                     {
-                        ExtendedPic.GaussFilter3x3(ExtendedPicCopy.Arr, (int)i, (int)j);
+                        extendedPic.GaussFilter3x3(extendedPicCopy.Arr, (int)i, (int)j);
                     }
                     else if (filter == "SobelX")
                     {
-                        ExtendedPic.SobelX(ExtendedPicCopy.Arr, (int)i, (int)j);
+                        extendedPic.SobelX(extendedPicCopy.Arr, (int)i, (int)j);
                     }
                     else if (filter == "SobelY")
                     {
-                        ExtendedPic.SobelY(ExtendedPicCopy.Arr, (int)i, (int)j);
+                        extendedPic.SobelY(extendedPicCopy.Arr, (int)i, (int)j);
                     }
                     else if (filter == "GrayScale")
                     {
-                        ExtendedPic.Arr[i][j].GrayScale();
+                        extendedPic.Arr[i][j].GrayScale();
                     }
                     else
                     {
@@ -248,30 +244,10 @@ namespace Task_1
             {
                 for (j = 1; j < Dheader.Width + 1; ++j)
                 {
-                    this.Pixels[i - 1][j - 1] = ExtendedPic.Arr[i][j];
+                    this.Pixels[i - 1][j - 1] = extendedPic.Arr[i][j];
                 }
             }
             this.WriteImage(outputName);
         }
-    }
-
-    struct dib_header
-    {
-        public uint HeaderSize;
-        public uint Width;
-        public uint Height;
-        public ushort ColorPlanes;
-        public ushort BitsPerPixel;
-        public uint Compression;
-        public uint ImageSize;
-        public int[] Palette;
-    }
-
-    struct bitmap_header
-    {
-        public char[] Name;
-        public uint Size;
-        public int Garbage;
-        public uint ImageOffset;
     }
 }

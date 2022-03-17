@@ -11,7 +11,7 @@ namespace Task_1.Tests
             return new System.Uri(path).LocalPath;
         }
     }
-    public class Tests
+    public class ImageTests
     {
         [Test]
         public void MedianTest()
@@ -26,19 +26,19 @@ namespace Task_1.Tests
         }
 
         [Test]
-        public void SobelxTest()
+        public void SobelXTest()
         {
             FilterTest("SobelX");
         }
 
         [Test]
-        public void SobelyTest()
+        public void SobelYTest()
         {
             FilterTest("SobelY");
         }
 
         [Test]
-        public void GcTest()
+        public void GsTest()
         {
             FilterTest("GrayScale");
         }
@@ -49,43 +49,44 @@ namespace Task_1.Tests
             string normalPath = TestHelper.GetTestsPath();
             if (filter == "Median")
             {
-                autumnImg = normalPath + @"\data\autumn_median.bmp";
+                autumnImg = normalPath + @"\data\autumnMedian.bmp";
             }
             else if (filter == "GrayScale")
             {
-                autumnImg = normalPath + @"\data\autumn_gc.bmp";
+                autumnImg = normalPath + @"\data\autumnGS.bmp";
             }
             else if (filter == "SobelX")
             {
-                autumnImg = normalPath + @"\data\autumn_sobelx.bmp";
+                autumnImg = normalPath + @"\data\autumnSobelX.bmp";
             }
             else if (filter == "SobelY")
             {
-                autumnImg = normalPath + @"\data\autumn_sobely.bmp";
+                autumnImg = normalPath + @"\data\autumnSobelY.bmp";
             }
             else
-                autumnImg = normalPath + @"\data\autumn_gauss.bmp";
+                autumnImg = normalPath + @"\data\autumnGauss.bmp";
             string fileName = normalPath + @"\data\tiger.bmp";
+            System.Console.WriteLine(fileName);
             string newName = normalPath + @"\data\test.bmp";
-            Image test_img = new Image();
-            Image autumn_img = new Image();
+            Image testImage = new Image();
+            Image autumnImage = new Image();
             uint height = 0, width = 0;
-            test_img.ReadImage(fileName);
-            test_img.ApplyFilters(newName, filter);
-            autumn_img.ReadImage(autumnImg);
-            test_img.GetAtrs(ref height, ref width);
-            Argb[][] pixArr = new Argb[height][];
+            testImage.ReadImage(fileName);
+            testImage.ApplyFilters(newName, filter);
+            autumnImage.ReadImage(autumnImg);
+            testImage.GetAtrs(ref height, ref width);
+            Pixel[][] pixArr = new Pixel[height][];
             for (int i = 0; i < height; i++)
             {
-                pixArr[i] = new Argb[width];
+                pixArr[i] = new Pixel[width];
             }
-            test_img.GetArr(pixArr);
-            Argb[][] autumnArr = new Argb[height][];
+            testImage.GetArr(pixArr);
+            Pixel[][] autumnArr = new Pixel[height][];
             for (int i = 0; i < height; i++)
             {
-                autumnArr[i] = new Argb[width];
+                autumnArr[i] = new Pixel[width];
             }
-            autumn_img.GetArr(autumnArr);
+            autumnImage.GetArr(autumnArr);
             for (uint i = 0; i < height; i++)
             {
                 for (uint k = 0; k < width; k++)

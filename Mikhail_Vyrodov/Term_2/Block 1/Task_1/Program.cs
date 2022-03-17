@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace Task_1
 {
@@ -17,8 +12,8 @@ namespace Task_1
                 Console.WriteLine("Not enough or more than enough args");
                 return;
             }
-            string fileName = args[0];
-            string newName = args[1];
+            string fileName = @"../../" + args[0];
+            string newName = @"../../" + args[1];
             Image img = new Image();
             if(img.ReadImage(fileName) == 1)
             {

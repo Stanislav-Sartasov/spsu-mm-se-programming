@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task_1
 {
     public class Pixels
     {
-        public Argb[][] Arr { get; set; }
+        public Pixel[][] Arr { get; set; }
 
         public Pixels(uint height, uint width)
         {
-            Arr = new Argb[height][];
+            Arr = new Pixel[height][];
             for (int i = 0; i < height; i++)
             {
-                Arr[i] = new Argb[width];
+                Arr[i] = new Pixel[width];
             }
         }
 
-        public void MedianFilter(Argb[][] pic, int i, int k)
+        public void MedianFilter(Pixel[][] pic, int i, int k)
         {
             byte[] reds = new byte[9];
             byte[] greens = new byte[9];
@@ -47,20 +43,20 @@ namespace Task_1
             Arr[i][k].Alpha = alphas[4];
         }
 
-        public void GaussFilter3x3(Argb[][] pic, int i, int k)
+        public void GaussFilter3x3(Pixel[][] pic, int i, int k)
         {
             string filter = "Gauss";
             Arr[i][k].RedactPixels(pic, filter, i, k);
         }
 
-        public void SobelX(Argb[][] pic, int i, int k)
+        public void SobelX(Pixel[][] pic, int i, int k)
         { 
             string filter = "SobelX";
             this.Arr[i][k].RedactPixels(pic, filter, i, k);
             this.Arr[i][k].GrayScale();
         }
 
-        public void SobelY(Argb[][] pic, int i, int k)
+        public void SobelY(Pixel[][] pic, int i, int k)
         {
             string filter = "SobelY";
             Arr[i][k].RedactPixels(pic, filter, i, k);

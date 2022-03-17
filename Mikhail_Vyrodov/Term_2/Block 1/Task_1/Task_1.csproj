@@ -43,14 +43,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Argb.cs" />
+    <Compile Include="Pixel.cs" />
+    <Compile Include="BitmapHeader.cs" />
+    <Compile Include="DibHeader.cs" />
     <Compile Include="Image.cs" />
     <Compile Include="Pixels.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Task_1
 {
-    public class Argb
+    public class Pixel
     {
         public byte Blue { get; set; }
 
@@ -16,7 +12,7 @@ namespace Task_1
 
         public byte Alpha { get; set; }
 
-        public Argb()
+        public Pixel()
         {
             Blue = 0;
             Green = 0;
@@ -29,7 +25,7 @@ namespace Task_1
             Red = Blue = Green = Alpha = (byte)((0.3 * Red + 0.6 * Green + 0.1 * Blue) / 3);
         }
 
-        public void RedactPixels(Argb[][] pic, string filter, int i, int k)
+        public void RedactPixels(Pixel[][] pic, string filter, int i, int k)
         {
             int firstCounter, secondCounter, dif;
             int reds = 0, greens = 0, blues = 0, alphas = 0;
