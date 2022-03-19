@@ -1,13 +1,13 @@
-using NUnit.Framework;
-using DoublyLinkedList;
+﻿using NUnit.Framework;
+using DoubleLinkedList;
 using System;
 
-namespace DoublyLinkedListTests
+namespace DoubleLinkedListTests
 {
     public class ListMethodsTests
     {
-        private DoubleLinkedListClass<int> testIntList;
-        private DoubleLinkedListClass<string> testStringList;
+        private LinkedList<int> testIntList;
+        private LinkedList<string> testStringList;
 
         private void FillTheList(int[] list)
         {
@@ -28,8 +28,8 @@ namespace DoublyLinkedListTests
         [SetUp]
         public void Setup()
         {
-            testIntList = new DoubleLinkedListClass<int>();
-            testStringList = new DoubleLinkedListClass<string>();
+            testIntList = new LinkedList<int>();
+            testStringList = new LinkedList<string>();
         }
 
         [Test]
@@ -68,7 +68,7 @@ namespace DoublyLinkedListTests
         {
             string[] result = { "Bill", "Dakota", "Meek", "Tony" };
             Array.Sort(result);
-            string[] testList = { "Bill", "Dakota", "Freddy", "Meek", "Tony"};
+            string[] testList = { "Bill", "Dakota", "Freddy", "Meek", "Tony" };
             Array.Sort(testList);
             FillTheList(testList);
             testStringList.Remove("Freddy");

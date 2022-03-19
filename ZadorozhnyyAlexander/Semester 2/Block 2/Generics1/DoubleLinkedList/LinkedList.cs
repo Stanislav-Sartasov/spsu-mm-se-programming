@@ -1,22 +1,22 @@
-﻿namespace DoublyLinkedList
+﻿namespace DoubleLinkedList
 {
     // "Александр".Length % 3 + 1 = 9 % 3 + 1 = 1 
-    public class DoubleLinkedListClass<T>
+    public class LinkedList<T>
         where T : IComparable
     {
         public int Length { get; private set; } = 0;
-        public ListElementClass<T> Head { get; private set; }
-        public ListElementClass<T> Tail { get; private set; }
+        public ListElement<T> Head { get; private set; }
+        public ListElement<T> Tail { get; private set; }
 
         public void Add(T data)
         {
-            var curr = new ListElementClass<T>(data);
+            var curr = new ListElement<T>(data);
             var copyHead = Head;
             if (Length == 0)
             {
                 Head = curr;
                 Tail = curr;
-            }   
+            }
             else
             {
                 while (copyHead.Next != null && copyHead.Next.Data.CompareTo(data) < 0)
@@ -32,7 +32,7 @@
                 }
                 else
                 {
-                    if(copyHead.Data.CompareTo(data) > 0)
+                    if (copyHead.Data.CompareTo(data) > 0)
                     {
                         Head.Previous = curr;
                         curr.Next = Head;
