@@ -68,6 +68,8 @@
             }
             if (currentNode.previous != null) currentNode.previous.next = currentNode.next;
             if (currentNode.next != null) currentNode.next.previous = currentNode.previous;
+            if (index == 0) first = currentNode.next;
+            if (index == Count - 1) last = currentNode.previous;
             Count--;
         }
 
