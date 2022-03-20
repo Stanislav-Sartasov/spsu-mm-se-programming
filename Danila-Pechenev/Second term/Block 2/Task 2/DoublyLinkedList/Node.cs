@@ -5,6 +5,7 @@
         internal readonly T data;
         internal Node<T>? previous;
         internal Node<T>? next;
+
         public Node(T value)
         {
             data = value;

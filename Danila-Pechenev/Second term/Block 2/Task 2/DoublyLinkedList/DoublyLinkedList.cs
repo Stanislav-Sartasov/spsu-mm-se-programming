@@ -31,16 +31,20 @@
         public bool Remove(T value)
         {
             var currentNode = first;
+            int index = 0;
             while (currentNode != null)
             {
                 if (currentNode.data.Equals(value))
                 {
                     if (currentNode.previous != null) currentNode.previous.next = currentNode.next;
                     if (currentNode.next != null) currentNode.next.previous = currentNode.previous;
+                    if (index == 0) first = currentNode.next;
+                    if (index == Count - 1) last = currentNode.previous;
                     Count--;
                     return true;
                 }
                 currentNode = currentNode.next;
+                index++;
             }
             return false;
         }
