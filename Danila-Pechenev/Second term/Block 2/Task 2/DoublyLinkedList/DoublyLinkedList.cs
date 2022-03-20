@@ -51,12 +51,23 @@
             {
                 throw new ArgumentOutOfRangeException("Passed argument was out of the range of the list.");
             }
-            var currentNode = first;
-            for (int i = 0; i < index; i++) currentNode = currentNode.next;
+            Node<T> currentNode;
+            if (index <= Count - index)
+            {
+                currentNode = first;
+                for (int i = 0; i < index; i++) currentNode = currentNode.next;
+            }
+            else
+            {
+                currentNode = last;
+                for (int i = Count - 1; i > index; i--) currentNode = currentNode.previous;
+            }
             if (currentNode.previous != null) currentNode.previous.next = currentNode.next;
             if (currentNode.next != null) currentNode.next.previous = currentNode.previous;
             Count--;
         }
+
+        //public void RemoveLast(int index)
 
         public int IndexOf(T value)
         {
