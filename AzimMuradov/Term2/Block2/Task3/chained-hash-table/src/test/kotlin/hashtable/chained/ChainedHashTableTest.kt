@@ -25,7 +25,7 @@ internal class ChainedHashTableTest {
     @ParameterizedTest
     @MethodSource("chainedHashTablesWithKeys")
     fun keys(table: HashTable<String, Int>, keys: Set<String>) {
-        assertEquals(expected = keys, actual = table.keys)
+        assertEquals(expected = keys, actual = table.keys.toSet())
     }
 
     @ParameterizedTest
@@ -40,7 +40,7 @@ internal class ChainedHashTableTest {
     @ParameterizedTest
     @MethodSource("chainedHashTablesWithEntries")
     fun entries(table: HashTable<String, Int>, entries: Set<Entry<String, Int>>) {
-        assertEquals(expected = entries, actual = table.entries)
+        assertEquals(expected = entries, actual = table.entries.toSet())
     }
 
 

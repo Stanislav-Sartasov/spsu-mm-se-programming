@@ -27,7 +27,7 @@ internal class MutableChainedHashTableTest {
     @ParameterizedTest
     @MethodSource("mutableChainedHashTablesWithKeys")
     fun keys(table: MutableHashTable<String, Int>, keys: Set<String>) {
-        assertEquals(expected = keys, actual = table.keys)
+        assertEquals(expected = keys, actual = table.keys.toSet())
     }
 
     @ParameterizedTest
@@ -42,7 +42,7 @@ internal class MutableChainedHashTableTest {
     @ParameterizedTest
     @MethodSource("mutableChainedHashTablesWithEntries")
     fun entries(table: MutableHashTable<String, Int>, entries: Set<Entry<String, Int>>) {
-        assertEquals(expected = entries, actual = table.entries)
+        assertEquals(expected = entries, actual = table.entries.toSet())
     }
 
 

@@ -6,7 +6,7 @@ public abstract class AbstractHashTable<K, out V> : HashTable<K, V> {
         if (this === other) return true
         if (other !is HashTable<*, *>) return false
 
-        if (entries != other.entries) return false
+        if (entries.toSet() != other.entries.toSet()) return false
 
         return true
     }

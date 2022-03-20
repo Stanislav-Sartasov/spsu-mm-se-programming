@@ -17,8 +17,8 @@ public class MutableChainedHashTable<K, V> private constructor() : AbstractHashT
     override fun get(key: K): V? = key.coords.let { (i, j) -> get(i, j) }
 
 
-    override val keys: Set<K>
-        get() = chains.flatMapTo(mutableSetOf()) { chain ->
+    override val keys: List<K>
+        get() = chains.flatMap { chain ->
             chain.map { it.key }
         }
 
@@ -27,8 +27,8 @@ public class MutableChainedHashTable<K, V> private constructor() : AbstractHashT
             chain.map { it.value }
         }
 
-    override val entries: Set<Entry<K, V>>
-        get() = chains.flatMapTo(mutableSetOf()) { it }
+    override val entries: List<Entry<K, V>>
+        get() = chains.flatten()
 
 
     override fun put(key: K, value: V): V? {
