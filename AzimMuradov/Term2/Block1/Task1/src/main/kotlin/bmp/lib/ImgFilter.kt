@@ -11,16 +11,19 @@ fun RawImg.filter(imgFilter: ImgFilter): RawImg = imgFilter.filter(rawImg = this
 inline fun RawImg.filterWithWindow(windowSize: Int, filterBody: (List<Color>) -> Color): RawImg {
     val filteredPixels = pixels.map { it.toMutableList() }
 
-    val pad = windowSize / 2
-    for (y in pad until height - pad) {
-        for (x in pad until width - pad) {
-            val window = mutableListOf<Color>()
-            for (row in y - pad..y + pad) {
-                for (col in x - pad..x + pad) {
-                    window += pixels[row][col]
+    val pad1 = windowSize / 2
+    val pad2 = (windowSize - 1) / 2
+    for (y in 0 until height) {
+        for (x in 0 until width) {
+            filteredPixels[y][x] = buildList {
+                for (i in y - pad1..y + pad2) {
+                    for (j in x - pad1..x + pad2) {
+                        val validI = i.coerceIn(range = 0 until height)
+                        val validJ = j.coerceIn(range = 0 until width)
+                        add(pixels[validI][validJ])
+                    }
                 }
-            }
-            filteredPixels[y][x] = filterBody(window)
+            }.run(filterBody)
         }
     }
 
