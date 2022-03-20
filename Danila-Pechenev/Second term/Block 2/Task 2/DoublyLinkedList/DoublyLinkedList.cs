@@ -1,108 +1,196 @@
-﻿namespace DoublyLinkedList
+﻿namespace DoublyLinkedList;
+
+public class DoublyLinkedList<T>
 {
-    public class DoublyLinkedList<T>
+    private Node<T>? first;
+    private Node<T>? last;
+
+    /// <summary>
+    /// Gets quantity of items in the list.
+    /// </summary>
+    public int Count { get; private set; }
+
+    public DoublyLinkedList()
     {
-        Node<T>? first;
-        Node<T>? last;
-        public int Count { get; private set; }
-        public DoublyLinkedList()
+        first = null;
+        last = null;
+        Count = 0;
+    }
+
+    /// <summary>
+    /// Adds a new value to the end of the list.
+    /// </summary>
+    /// <param name="value">New value.</param>
+    public void Add(T value)
+    {
+        if (first == null)
         {
-            first = null;
-            last = null;
-            Count = 0;
+            first = new Node<T>(value);
+        }
+        else if (last == null)
+        {
+            last = new Node<T>(first, value);
+            first.Next = last;
+        }
+        else
+        {
+            var newNode = new Node<T>(last, value);
+            last.Next = newNode;
         }
 
-        public void Add(T value)
-        {
-            if (first == null) first = new Node<T>(value);
-            else if (last == null)
-            {
-                last = new Node<T>(first, value);
-                first.next = last;
-            }
-            else
-            {
-                var newNode = new Node<T>(last, value);
-                last.next = newNode;
-            }
-            Count++;
-        }
+        Count++;
+    }
 
-        public bool Remove(T value)
+    /// <summary>
+    /// Removes the first item that is equal to the passed value.
+    /// </summary>
+    /// <param name="value">Value that will be removed.</param>
+    /// <returns>Whether the passed value was found and removed from the list.</returns>
+    public bool Remove(T value)
+    {
+        var currentNode = first;
+        int index = 0;
+        while (currentNode != null)
         {
-            var currentNode = first;
-            int index = 0;
-            while (currentNode != null)
+            if (currentNode.Data.Equals(value))
             {
-                if (currentNode.data.Equals(value))
+                if (currentNode.Previous != null)
                 {
-                    if (currentNode.previous != null) currentNode.previous.next = currentNode.next;
-                    if (currentNode.next != null) currentNode.next.previous = currentNode.previous;
-                    if (index == 0) first = currentNode.next;
-                    if (index == Count - 1) last = currentNode.previous;
-                    Count--;
-                    return true;
+                    currentNode.Previous.Next = currentNode.Next;
                 }
-                currentNode = currentNode.next;
-                index++;
+
+                if (currentNode.Next != null)
+                {
+                    currentNode.Next.Previous = currentNode.Previous;
+                }
+
+                if (index == 0)
+                {
+                    first = currentNode.Next;
+                }
+
+                if (index == Count - 1)
+                {
+                    last = currentNode.Previous;
+                }
+
+                Count--;
+                return true;
             }
-            return false;
+
+            currentNode = currentNode.Next;
+            index++;
         }
 
-        public void RemoveAt(int index)
+        return false;
+    }
+
+    /// <summary>
+    /// Removes an item by index.
+    /// </summary>
+    /// <param name="index">Index of the item that will be removed.</param>
+    /// <exception cref="ArgumentOutOfRangeException">Passed index is out of the range of the list.</exception>
+    public void RemoveAt(int index)
+    {
+        if (!(index >= 0 && index < Count))
         {
-            if (!(0 <= index && index < Count))
-            {
-                throw new ArgumentOutOfRangeException("Passed argument was out of the range of the list.");
-            }
-            Node<T> currentNode;
-            if (index <= Count - index)
-            {
-                currentNode = first;
-                for (int i = 0; i < index; i++) currentNode = currentNode.next;
-            }
-            else
-            {
-                currentNode = last;
-                for (int i = Count - 1; i > index; i--) currentNode = currentNode.previous;
-            }
-            if (currentNode.previous != null) currentNode.previous.next = currentNode.next;
-            if (currentNode.next != null) currentNode.next.previous = currentNode.previous;
-            if (index == 0) first = currentNode.next;
-            if (index == Count - 1) last = currentNode.previous;
-            Count--;
+            throw new ArgumentOutOfRangeException("Passed index is out of the range of the list.");
         }
 
-        public int IndexOf(T value)
+        Node<T> currentNode;
+        if (index <= Count - index)
         {
-            var currentNode = first;
-            int index = 0;
-            while (currentNode != null)
+            currentNode = first;
+            for (int i = 0; i < index; i++)
             {
-                if (currentNode.data.Equals(value)) return index;
-                currentNode = currentNode.next;
+                currentNode = currentNode.Next;
             }
-            return -1;
+        }
+        else
+        {
+            currentNode = last;
+            for (int i = Count - 1; i > index; i--)
+            {
+                currentNode = currentNode.Previous;
+            }
         }
 
-        public T Get(int index)
+        if (currentNode.Previous != null)
         {
-            if (!(0 <= index && index < Count))
-            {
-                throw new ArgumentOutOfRangeException("Passed argument was out of the range of the list.");
-            }
-            Node<T> currentNode;
-            if (index <= Count - index)
-            {
-                currentNode = first;
-                for (int i = 0; i < index; i++) currentNode = currentNode.next;
-            }
-            else
-            {
-                currentNode = last;
-                for (int i = Count - 1; i > index; i--) currentNode = currentNode.previous;
-            }
-            return currentNode.data;
+            currentNode.Previous.Next = currentNode.Next;
         }
+
+        if (currentNode.Next != null)
+        {
+            currentNode.Next.Previous = currentNode.Previous;
+        }
+
+        if (index == 0)
+        {
+            first = currentNode.Next;
+        }
+
+        if (index == Count - 1)
+        {
+            last = currentNode.Previous;
+        }
+
+        Count--;
+    }
+
+    /// <summary>
+    /// Finds index of the first item that is equal to the passed value.
+    /// </summary>
+    /// <param name="value">Value whose index will be found.</param>
+    /// <returns>Index of the item if it was found or -1 if not.</returns>
+    public int IndexOf(T value)
+    {
+        var currentNode = first;
+        int index = 0;
+        while (currentNode != null)
+        {
+            if (currentNode.Data.Equals(value))
+            {
+                return index;
+            }
+
+            currentNode = currentNode.Next;
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Finds value by the passed index.
+    /// </summary>
+    /// <param name="index">Index of the value that will be found.</param>
+    /// <returns>Found value.</returns>
+    /// <exception cref="ArgumentOutOfRangeException">Passed index is out of the range of the list.</exception>
+    public T Get(int index)
+    {
+        if (!(index >= 0 && index < Count))
+        {
+            throw new ArgumentOutOfRangeException("Passed index is out of the range of the list.");
+        }
+
+        Node<T> currentNode;
+        if (index <= Count - index)
+        {
+            currentNode = first;
+            for (int i = 0; i < index; i++)
+            {
+                currentNode = currentNode.Next;
+            }
+        }
+        else
+        {
+            currentNode = last;
+            for (int i = Count - 1; i > index; i--)
+            {
+                currentNode = currentNode.Previous;
+            }
+        }
+
+        return currentNode.Data;
     }
 }
