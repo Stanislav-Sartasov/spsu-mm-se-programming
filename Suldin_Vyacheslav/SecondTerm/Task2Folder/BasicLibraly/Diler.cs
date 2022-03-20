@@ -23,7 +23,7 @@ namespace BasicLibraly
             return deck;
         }
 
-        public void FillShoes(Shoes to, int numberOfDecks)
+        public void FillShoe(Shoes to, int numberOfDecks)
         {
             to.Queue.Clear();
             to.Current = 0;

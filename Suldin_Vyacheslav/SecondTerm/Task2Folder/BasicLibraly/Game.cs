@@ -16,7 +16,7 @@ namespace BasicLibraly
             this.Gamesters = Gamesters;
             TheShoes = new Shoes();
             TheDiler = new Diler();
-            TheDiler.FillShoes(TheShoes, 8);
+            TheDiler.FillShoe(TheShoes, 8);
             
         }
         public void Start(int shuffle)
@@ -26,7 +26,7 @@ namespace BasicLibraly
                 shuffle--;
 
                 if (this.TheShoes.Current > 300)
-                    TheDiler.FillShoes(TheShoes, 8);
+                    TheDiler.FillShoe(TheShoes, 8);
 
                 bool stop = true;
 
@@ -47,15 +47,6 @@ namespace BasicLibraly
 
                 while (TheDiler.Ask(Gamesters, TheShoes, condition))
                 {
-                    //for (int i = 0; i < 9; i++)
-                    //{
-                    //    for (int j = 0; j < 4; j++)
-                    //    {
-                    //        if (condition[i, j] == 3)
-                    //            this.ShowBroke(i);
-                    //    }
-                    //}
-
                 }
 
 
@@ -68,24 +59,6 @@ namespace BasicLibraly
                 TheDiler.GetCardsBack(Gamesters);
 
             }
-        }
-
-        private void ShowBroke(int i)
-        {
-            for (int j = 0; j < 4 && Gamesters[i].Sum[j] != 0; j++)
-            {
-                Console.Write("\n");
-                
-                Console.Write($"{j}-hand: [");
-                for (int k = 0; k < Gamesters[i].Hands[j].Count; k++)
-                {
-                    Console.Write($"{Gamesters[i].Hands[j][k].Value} ");
-                }
-                Console.Write("]  bet:");
-                Console.Write($"{Gamesters[i].Bets[j]} ");
-                Console.Write($"{Gamesters[i].Bank} ");
-            }
-            Console.Write("\n\n");
         }
 
         public static int GetCoorectAnswer(int bottom, int top)

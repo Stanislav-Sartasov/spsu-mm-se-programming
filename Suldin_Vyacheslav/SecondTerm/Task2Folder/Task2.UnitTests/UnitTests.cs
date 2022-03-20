@@ -363,7 +363,7 @@ namespace Task2.UnitTests
             Counter counter = new Counter(1);
             Shoes shoes = new Shoes();
             Diler diler = new Diler();
-            diler.FillShoes(shoes, 8);
+            diler.FillShoe(shoes, 8);
             for (int i = 1; i < 100; i++)
             {
                 shoes.Current = i;
@@ -388,7 +388,7 @@ namespace Task2.UnitTests
         {
             Shoes shoes = new Shoes();
             Diler diler = new Diler();
-            diler.FillShoes(shoes, 8);
+            diler.FillShoe(shoes, 8);
             Gamester player = new Gamester();
             List<Gamester> testPlayers = new List<Gamester> { player };
             int[,] testCondition = new int[1, 4] { { 0, 0, 0, 0 } };
