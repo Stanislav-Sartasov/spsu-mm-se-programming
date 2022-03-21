@@ -37,11 +37,11 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
         for (int i = 0; i < 10; i++)
         {
-            Assert.AreEqual(i, list.Get(i));
+            Assert.AreEqual(i * i, list.Get(i));
         }
     }
 
@@ -70,17 +70,17 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i += 2)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
         for (int i = 0; i < 10; i++)
         {
             if (i % 2 == 0)
             {
-                Assert.AreEqual(true, list.Remove(i));
+                Assert.AreEqual(true, list.Remove(i * i));
             }
             else
             {
-                Assert.AreEqual(false, list.Remove(i));
+                Assert.AreEqual(false, list.Remove(i * i));
             }
         }
     }
@@ -98,7 +98,7 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
         list.RemoveAt(0);
         list.RemoveAt(1);
@@ -113,7 +113,7 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
         Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(-5));
     }
@@ -124,7 +124,7 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
         Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(10));
     }
@@ -156,8 +156,51 @@ public class DoublyLinkedListTests
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
         {
-            list.Add(i);
+            list.Add(i * i);
         }
-        Assert.AreEqual(-1, list.IndexOf(10));
+        Assert.AreEqual(-1, list.IndexOf(50));
+    }
+
+    [Test]
+    public void GetTest1()
+    {
+        var list = new DoublyLinkedList<int>();
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.Get(0));
+    }
+
+    [Test]
+    public void GetTest2()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i * i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.AreEqual(i * i, list.Get(i));
+        }
+    }
+
+    [Test]
+    public void GetTest3()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i * i);
+        }
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.Get(-5));
+    }
+
+    [Test]
+    public void GetTest4()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i * i);
+        }
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.Get(10));
     }
 }
