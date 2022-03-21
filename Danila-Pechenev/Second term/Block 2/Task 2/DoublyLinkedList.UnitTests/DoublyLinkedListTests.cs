@@ -84,4 +84,48 @@ public class DoublyLinkedListTests
             }
         }
     }
+
+    [Test]
+    public void RemoveAtTest1()
+    {
+        var list = new DoublyLinkedList<int>();
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(0));
+    }
+
+    [Test]
+    public void RemoveAtTest2()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i);
+        }
+        list.RemoveAt(0);
+        list.RemoveAt(1);
+        list.RemoveAt(7);
+        list.RemoveAt(6);
+        Assert.AreEqual(6, list.Count);
+    }
+
+    [Test]
+    public void RemoveAtTest3()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i);
+        }
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(-5));
+    }
+
+    [Test]
+    public void RemoveAtTest4()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i);
+        }
+        Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(10));
+    }
 }
