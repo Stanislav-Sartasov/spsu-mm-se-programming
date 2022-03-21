@@ -1,5 +1,11 @@
 package hashtable
 
+public fun <K, V> HashTable<K, V>.isEmpty(): Boolean =
+    entries.isEmpty()
+
+public fun <K, V> HashTable<K, V>.isNotEmpty(): Boolean =
+    entries.isNotEmpty()
+
 public operator fun <K, V> HashTable<K, V>.contains(key: K): Boolean =
     get(key) != null
 

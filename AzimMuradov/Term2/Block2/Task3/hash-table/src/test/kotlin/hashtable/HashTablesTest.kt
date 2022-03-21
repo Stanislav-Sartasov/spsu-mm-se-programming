@@ -11,6 +11,18 @@ import hashtable.chained.MutableChainedHashTable.Companion.of as mutableHashTabl
 internal class HashTablesTest {
 
     @ParameterizedTest
+    @MethodSource("hashTablesWithIsEmptyReturns")
+    fun `is empty`(table: HashTable<String, Int>, isEmptyReturn: Boolean) {
+        assertEquals(expected = isEmptyReturn, actual = table.isEmpty())
+    }
+
+    @ParameterizedTest
+    @MethodSource("hashTablesWithIsNotEmptyReturns")
+    fun `is not empty`(table: HashTable<String, Int>, isNotEmptyReturn: Boolean) {
+        assertEquals(expected = isNotEmptyReturn, actual = table.isNotEmpty())
+    }
+
+    @ParameterizedTest
     @MethodSource("hashTablesWithContainsKeyReturns")
     fun `contains key`(table: HashTable<String, Int>, containsKeyReturns: List<Boolean>) {
         assertEquals(
@@ -74,6 +86,12 @@ internal class HashTablesTest {
 
 
     private companion object {
+
+        @JvmStatic
+        private fun hashTablesWithIsEmptyReturns() = (tables zip TestUtils.isEmptyReturns).asArguments()
+
+        @JvmStatic
+        private fun hashTablesWithIsNotEmptyReturns() = (tables zip TestUtils.isNotEmptyReturns).asArguments()
 
         @JvmStatic
         private fun hashTablesWithContainsKeyReturns() = (tables zip TestUtils.containsKeyReturns).asArguments()

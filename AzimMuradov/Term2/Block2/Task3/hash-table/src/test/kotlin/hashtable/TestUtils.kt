@@ -35,6 +35,10 @@ internal object TestUtils {
     )
 
 
+    val isEmptyReturns = listOf(true, false, false, false, false, false)
+
+    val isNotEmptyReturns = isEmptyReturns.map { !it }
+
     val containsKeyArguments = listOf(A, B, C, "X")
 
     val containsKeyReturns = listOf(
