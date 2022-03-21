@@ -128,4 +128,36 @@ public class DoublyLinkedListTests
         }
         Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(10));
     }
+
+    [Test]
+    public void IndexOfTest1()
+    {
+        var list = new DoublyLinkedList<int>();
+        Assert.AreEqual(-1, list.IndexOf(0));
+    }
+
+    [Test]
+    public void IndexOfTest2()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i * i);
+        }
+        for (int i = 0; i < 10; i++)
+        {
+            Assert.AreEqual(i, list.IndexOf(i * i));
+        }
+    }
+
+    [Test]
+    public void IndexOfTest3()
+    {
+        var list = new DoublyLinkedList<int>();
+        for (int i = 0; i < 10; i++)
+        {
+            list.Add(i);
+        }
+        Assert.AreEqual(-1, list.IndexOf(10));
+    }
 }

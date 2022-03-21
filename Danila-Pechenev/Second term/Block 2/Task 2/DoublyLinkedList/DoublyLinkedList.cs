@@ -156,6 +156,7 @@ public class DoublyLinkedList<T>
             }
 
             currentNode = currentNode.Next;
+            index++;
         }
 
         return -1;
