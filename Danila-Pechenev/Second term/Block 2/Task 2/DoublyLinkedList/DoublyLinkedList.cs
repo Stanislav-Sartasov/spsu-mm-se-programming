@@ -36,6 +36,7 @@ public class DoublyLinkedList<T>
         {
             var newNode = new Node<T>(last, value);
             last.Next = newNode;
+            last = newNode;
         }
 
         Count++;
