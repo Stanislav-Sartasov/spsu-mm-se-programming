@@ -3,45 +3,45 @@ using LibraryGeneric;
 
 namespace Task_2.UnitTests
 {
-    public class HashTabelTests
+    public class HashTableTests
     {
         [Test]
         public void GetTest()
         {
-            HashTabel<int>  hashTabel = new HashTabel<int>();
-            hashTabel.Add(1, 2);
-            Assert.AreEqual(hashTabel.Get(1), 2);
-            Assert.AreEqual(hashTabel.Get(2), default(int));
+            HashTable<int>  HashTable = new HashTable<int>();
+            HashTable.Add(1, 2);
+            Assert.AreEqual(HashTable.Get(1), 2);
+            Assert.AreEqual(HashTable.Get(2), default(int));
             Assert.Pass();
         }
 
         [Test]
         public void AddTest()
         {
-            HashTabel<int> hashTabel = new HashTabel<int>();
-            hashTabel.Add(1, 2);
-            Assert.AreEqual(hashTabel.Size, 1);
+            HashTable<int> HashTable = new HashTable<int>();
+            HashTable.Add(1, 2);
+            Assert.AreEqual(HashTable.Size, 1);
             Assert.Pass();
         }
 
         [Test]
         public void RebalanceTest()
         {
-            HashTabel<int> hashTabel = new HashTabel<int>();
-            hashTabel.Add(1, 2);
-            hashTabel.Add(3, 3);
-            Assert.AreEqual(hashTabel.Divisior, 4);
+            HashTable<int> HashTable = new HashTable<int>();
+            HashTable.Add(1, 2);
+            HashTable.Add(3, 3);
+            Assert.AreEqual(HashTable.Divisior, 4);
             Assert.Pass();
         }
 
         [Test]
         public void RemoveTest()
         {
-            HashTabel<int> hashTabel = new HashTabel<int>();
-            hashTabel.Add(1, 2);
-            hashTabel.Remove(1);
-            Assert.AreEqual(hashTabel.Get(1), default(int));
-            Assert.AreEqual(hashTabel.Size, 0);
+            HashTable<int> HashTable = new HashTable<int>();
+            HashTable.Add(1, 2);
+            HashTable.Remove(1);
+            Assert.AreEqual(HashTable.Get(1), default(int));
+            Assert.AreEqual(HashTable.Size, 0);
             Assert.Pass();
         }
     }
