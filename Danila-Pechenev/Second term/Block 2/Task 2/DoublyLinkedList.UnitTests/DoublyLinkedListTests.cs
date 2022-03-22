@@ -5,7 +5,7 @@ namespace DoublyLinkedList.UnitTests;
 public class DoublyLinkedListTests
 {
     [Test]
-    public void AddTest1()
+    public void AddCountTest()
     {
         var list = new DoublyLinkedList<int>();
         list.Add(10);
@@ -13,7 +13,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void AddTest2()
+    public void AddAndGetValueTest()
     {
         var list = new DoublyLinkedList<int>();
         list.Add(10);
@@ -21,7 +21,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void AddTest3()
+    public void AddFewValuesCountTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -32,7 +32,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void AddTest4()
+    public void AddAndGetFewValuesTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -46,14 +46,14 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void RemoveTest1()
+    public void RemoveFromEmptyListTest()
     {
         var list = new DoublyLinkedList<int>();
         Assert.AreEqual(list.Remove(123), false);
     }
 
     [Test]
-    public void RemoveTest2()
+    public void RemoveCountTest()
     {
         var list = new DoublyLinkedList<int>();
         list.Add(10);
@@ -65,7 +65,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void RemoveTest3()
+    public void RemoveFewValuesTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i += 2)
@@ -86,14 +86,14 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void RemoveAtTest1()
+    public void RemoveAtFromEmptyListTest()
     {
         var list = new DoublyLinkedList<int>();
         Assert.Catch<System.ArgumentOutOfRangeException>(() => list.RemoveAt(0));
     }
 
     [Test]
-    public void RemoveAtTest2()
+    public void RemoveAtCountTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -108,7 +108,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void RemoveAtTest3()
+    public void RemoveAtSmallerIndexTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -119,7 +119,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void RemoveAtTest4()
+    public void RemoveAtGreaterIndexTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -130,14 +130,14 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void IndexOfTest1()
+    public void IndexOfFromEmptyListTest()
     {
         var list = new DoublyLinkedList<int>();
         Assert.AreEqual(-1, list.IndexOf(0));
     }
 
     [Test]
-    public void IndexOfTest2()
+    public void IndexOfFewValuesTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -151,7 +151,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void IndexOfTest3()
+    public void IndexOfUnexistingItemTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -162,14 +162,14 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void GetTest1()
+    public void GetFromEmptyListTest()
     {
         var list = new DoublyLinkedList<int>();
         Assert.Catch<System.ArgumentOutOfRangeException>(() => list.Get(0));
     }
 
     [Test]
-    public void GetTest2()
+    public void GetFewValuesTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -183,7 +183,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void GetTest3()
+    public void GetSmallerIndexTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
@@ -194,7 +194,7 @@ public class DoublyLinkedListTests
     }
 
     [Test]
-    public void GetTest4()
+    public void GetGreaterIndexTest()
     {
         var list = new DoublyLinkedList<int>();
         for (int i = 0; i < 10; i++)
