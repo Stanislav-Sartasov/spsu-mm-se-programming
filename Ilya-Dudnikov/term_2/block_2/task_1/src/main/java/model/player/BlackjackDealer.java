@@ -8,9 +8,9 @@ public class BlackjackDealer extends AbstractPlayer {
 		super(id);
 	}
 
-	public void dealTo(AbstractPlayer player, Shoe shoe) {
+	public void dealTo(AbstractPlayer player, Shoe shoe, CardStatus status) {
 		var newCard = shoe.dealCard();
-		newCard.setCardStatus(CardStatus.FACE_UP);
+		newCard.setCardStatus(status);
 		player.hand.addCard(newCard);
 	}
 
@@ -18,7 +18,7 @@ public class BlackjackDealer extends AbstractPlayer {
 		hand.showCards();
 
 		while (hand.getHandScore() < 17) {
-			dealTo(this, shoe);
+			dealTo(this, shoe, CardStatus.FACE_UP);
 		}
 	}
 }
