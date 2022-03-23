@@ -11,14 +11,7 @@ public class BetPool implements IBetPool {
 
 	public BetPool(String poolId) {
 		this.poolId = poolId;
-	}
-
-	public int getTotalBets() {
-		return betList.size();
-	}
-
-	public Bet getBetAt(int pos) {
-		return betList.get(pos);
+		betList = new ArrayList<>();
 	}
 
 	public String getPoolId() {
@@ -31,10 +24,6 @@ public class BetPool implements IBetPool {
 
 	public BetStatus getBetStatusAt(int pos) {
 		return betList.get(pos).getBetStatus();
-	}
-
-	public String getBettorIdAt(int pos) {
-		return betList.get(pos).getBettorId();
 	}
 
 	public void doubleBet(int pos) {
