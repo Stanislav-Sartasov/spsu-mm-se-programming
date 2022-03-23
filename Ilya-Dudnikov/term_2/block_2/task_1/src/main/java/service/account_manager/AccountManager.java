@@ -11,7 +11,7 @@ public class AccountManager implements IAccountManager {
 
 	public void createNewAccount(String id, int initialBalance) {
 		if (balanceMap.containsKey(id))
-			return;
+			throw new IllegalArgumentException("Account with this id already exists");
 
 		balanceMap.put(id, initialBalance);
 	}
@@ -25,7 +25,7 @@ public class AccountManager implements IAccountManager {
 			throw new IllegalArgumentException("Insufficient balance");
 
 		balanceMap.put(to, balanceMap.get(to) + value);
-		balanceMap.put(from, balanceMap.get(from) + value);
+		balanceMap.put(from, balanceMap.get(from) - value);
 	}
 
 	public void deposit(String to, int value) {
