@@ -5,7 +5,7 @@ import model.card.BlackjackCard;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Shoe {
+public class Shoe implements IShoe {
 	private ArrayList<Deck> decksArray;
 	private int currentCardPointer;
 	private int currentDeckPointer;

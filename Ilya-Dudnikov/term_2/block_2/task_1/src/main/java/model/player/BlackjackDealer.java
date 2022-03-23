@@ -3,7 +3,7 @@ package model.player;
 import model.card.CardStatus;
 import model.deck.Shoe;
 
-public class BlackjackDealer extends AbstractPlayer {
+public class BlackjackDealer extends AbstractPlayer implements IDealer {
 	public BlackjackDealer(String id) {
 		super(id);
 	}

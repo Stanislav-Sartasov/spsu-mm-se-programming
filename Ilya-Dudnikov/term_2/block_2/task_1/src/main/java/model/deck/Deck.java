@@ -6,7 +6,7 @@ import model.card.Suits;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Deck {
+public class Deck implements IDeck {
 	private ArrayList<Card> cardsArray;
 
 	public Deck() {

@@ -12,7 +12,7 @@ import model.service.bet_settler.BetSettler;
 
 import java.util.ArrayList;
 
-public class BlackjackGame extends Game {
+public class BlackjackGame extends Game implements IBlackjackGame {
 	private BlackjackDealer dealer;
 	private Shoe shoe;
 
@@ -41,7 +41,7 @@ public class BlackjackGame extends Game {
 		accountManager.createNewAccount(controller.getPlayer().getId(), initialBalance);
 	}
 
-	private void hit(int position) {
+	protected void hit(int position) {
 		BlackjackPlayer player = (BlackjackPlayer) playerList.get(position);
 
 		dealer.dealTo(player, shoe, CardStatus.FACE_UP);
@@ -51,7 +51,7 @@ public class BlackjackGame extends Game {
 		}
 	}
 
-	private void split(int position) {
+	protected void split(int position) {
 		BlackjackPlayer player = (BlackjackPlayer) playerList.get(position);
 		BlackjackCard firstCard = player.getHand().getCardAt(0);
 		BlackjackCard secondCard = player.getHand().getCardAt(1);
@@ -77,16 +77,16 @@ public class BlackjackGame extends Game {
 		betPool.insertBet(new Bet(player.getId(), betPool.getBetValueAt(position)), position);
 	}
 
-	private void surrender(int position) {
+	protected void surrender(int position) {
 		betPool.changeBetStatus(position, BetStatus.SURRENDERED);
 	}
 
-	private void doubleDown(int position) {
+	protected void doubleDown(int position) {
 		betPool.doubleBet(position);
 		hit(position);
 	}
 
-	private BetStatus calculateBetStatus(BlackjackPlayer player) {
+	protected BetStatus calculateBetStatus(BlackjackPlayer player) {
 		if (dealer.getHand().isBlackjack() && player.getHand().isBlackjack()) {
 			return BetStatus.DRAW;
 		}
@@ -113,7 +113,7 @@ public class BlackjackGame extends Game {
 		return BetStatus.DRAW;
 	}
 
-	private ArrayList<AbstractCard> getCardsOnTable() {
+	protected ArrayList<AbstractCard> getCardsOnTable() {
 		ArrayList<AbstractCard> result = new ArrayList<>();
 		result.add(dealer.getHand().getCardAt(0));
 		for (var player : playerList) {
@@ -123,7 +123,7 @@ public class BlackjackGame extends Game {
 		return result;
 	}
 
-	public void finishRound() {
+	protected void finishRound() {
 		dealer.draw(shoe);
 		BetSettler betSettler = new BetSettler();
 
