@@ -1,12 +1,11 @@
 package model.card;
 
 
-public class BlackjackCard {
-	private Card card;
+public class BlackjackCard extends AbstractCard {
 	private CardStatus cardStatus;
 
 	public BlackjackCard(int rank, Suits suit) {
-		this.card = new Card(rank, suit);
+		super(rank, suit);
 		cardStatus = CardStatus.FACE_DOWN;
 	}
 
@@ -16,7 +15,7 @@ public class BlackjackCard {
 	}
 
 	public BlackjackCard(Card card) {
-		this(card.rank(), card.suit());
+		super(card);
 	}
 
 	public BlackjackCard(Card card, CardStatus cardStatus) {
