@@ -14,7 +14,7 @@ public class Shoe implements IShoe {
 
 	private Shoe() {
 		decksArray = new ArrayList<>();
-		currentCardPointer = 0;
+		currentCardPointer = -1;
 		currentDeckPointer = 0;
 	}
 
@@ -26,7 +26,7 @@ public class Shoe implements IShoe {
 		return shoe;
 	}
 
-	public Shoe createShoeWithNDecks(int numberOfDecks) {
+	public static Shoe createShoeWithNDecks(int numberOfDecks) {
 		if (numberOfDecks < 1 || numberOfDecks > 8)
 			throw new IllegalArgumentException("You cannot play Blackjack with given amount of decks in a shoe");
 

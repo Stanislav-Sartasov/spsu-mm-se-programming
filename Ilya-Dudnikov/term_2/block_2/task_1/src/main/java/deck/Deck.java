@@ -12,7 +12,7 @@ public class Deck implements IDeck {
 	public Deck() {
 		cardsArray = new ArrayList<>();
 		for (var cardSuit : Suits.values()) {
-			for (int rank = 1; rank <= 14; rank++) {
+			for (int rank = 2; rank <= 14; rank++) {
 				cardsArray.add(new Card(rank, cardSuit));
 			}
 		}

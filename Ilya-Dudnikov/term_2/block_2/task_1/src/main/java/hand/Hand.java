@@ -5,7 +5,7 @@ import card.CardStatus;
 
 import java.util.ArrayList;
 
-public class Hand {
+public class Hand implements IHand {
 	private ArrayList<BlackjackCard> cardsArray;
 
 	public Hand() {
@@ -13,9 +13,7 @@ public class Hand {
 	}
 
 	public BlackjackCard getCardAt(int pos) {
-		if (cardsArray.get(pos).getCardStatus() == CardStatus.FACE_UP)
-			return cardsArray.get(pos);
-		return null;
+		return cardsArray.get(pos);
 	}
 
 	public ArrayList<BlackjackCard> getVisibleCards() {
@@ -29,10 +27,6 @@ public class Hand {
 
 	public void addCard(BlackjackCard card) {
 		cardsArray.add(card);
-	}
-
-	public void clear() {
-		cardsArray.clear();
 	}
 
 	public int getHandScore() {

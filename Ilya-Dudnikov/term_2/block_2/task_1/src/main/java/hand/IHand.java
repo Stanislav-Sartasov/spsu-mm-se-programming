@@ -8,6 +8,4 @@ public interface IHand {
     public ArrayList<BlackjackCard> getVisibleCards();
 
     public void addCard(BlackjackCard card);
-
-    public void clear();
 }
