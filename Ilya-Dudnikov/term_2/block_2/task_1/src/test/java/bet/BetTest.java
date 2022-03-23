@@ -1,4 +1,4 @@
-package model.bet;
+package bet;
 
 import bet.Bet;
 import bet.BetStatus;
