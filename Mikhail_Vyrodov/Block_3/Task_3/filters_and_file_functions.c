@@ -42,7 +42,7 @@ struct image
 
 int compare(const void* p1, const void* p2)
 {
-	return (*(int*)p1 - *(int*)p2);
+	return (*(unsigned char*)p1 - *(unsigned char*)p2);
 }
 
 void grayscale(struct argb* argb)
@@ -185,7 +185,7 @@ int apply_filters(struct image input, char* output_name, char* filter, struct di
 			extended_pic[i + 1][j + 1] = input.argb[i][j];
 		}
 	}
-	for (j = 0; j < input.width; j++)
+	for (j = 0; j < input.width + 2; j++)
 	{
 		extended_pic[0][j] = extended_pic[1][j];
 		extended_pic[input.height + 1][j] = extended_pic[input.height][j];
