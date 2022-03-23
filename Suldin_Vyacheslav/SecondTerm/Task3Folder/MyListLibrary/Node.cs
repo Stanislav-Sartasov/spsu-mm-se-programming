@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyListLibraly
+namespace MyListLibrary
 {
     public class Node<T>
     {

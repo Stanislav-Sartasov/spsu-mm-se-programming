@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyListLibraly
+namespace MyListLibrary
 {
     public class MyList<T>
     {
