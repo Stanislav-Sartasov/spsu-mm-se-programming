@@ -9,18 +9,8 @@ public class BlackjackCard extends AbstractCard {
 		cardStatus = CardStatus.FACE_DOWN;
 	}
 
-	public BlackjackCard(int rank, Suits suit, CardStatus cardStatus) {
-		this(rank, suit);
-		this.cardStatus = cardStatus;
-	}
-
 	public BlackjackCard(Card card) {
-		super(card);
-	}
-
-	public BlackjackCard(Card card, CardStatus cardStatus) {
-		this(card);
-		this.cardStatus = cardStatus;
+		this(card.rank(), card.suit());
 	}
 
 	public void setCardStatus(CardStatus cardStatus) {
