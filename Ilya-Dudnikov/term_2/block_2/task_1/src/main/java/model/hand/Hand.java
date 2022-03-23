@@ -13,7 +13,18 @@ public class Hand {
 	}
 
 	public BlackjackCard getCardAt(int pos) {
-		return cardsArray.get(pos);
+		if (cardsArray.get(pos).getCardStatus() == CardStatus.FACE_UP)
+			return cardsArray.get(pos);
+		return null;
+	}
+
+	public ArrayList<BlackjackCard> getVisibleCards() {
+		ArrayList<BlackjackCard> result = new ArrayList<>();
+		for (var card : cardsArray) {
+			if (card.getCardStatus() == CardStatus.FACE_UP)
+				result.add(card);
+		}
+		return result;
 	}
 
 	public void addCard(BlackjackCard card) {

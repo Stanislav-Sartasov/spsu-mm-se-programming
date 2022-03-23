@@ -13,6 +13,8 @@ public abstract class PlayerController {
 
     public abstract Action getAction(ArrayList<AbstractCard> allCards);
 
+    public abstract int getInitialBet();
+
     public AbstractPlayer getPlayer() {
         return player;
     }

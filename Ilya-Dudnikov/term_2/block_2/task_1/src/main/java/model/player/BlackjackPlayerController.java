@@ -13,4 +13,9 @@ public class BlackjackPlayerController extends PlayerController {
     public Action getAction(ArrayList<AbstractCard> allCards) {
         return null;
     }
+
+    @Override
+    public int getInitialBet() {
+        return 0;
+    }
 }
