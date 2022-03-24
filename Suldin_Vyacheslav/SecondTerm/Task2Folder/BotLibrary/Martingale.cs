@@ -39,9 +39,5 @@ namespace BotLibrary
             LastBank = Bank;
             Bank -= bet;
         }
-        public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters, Shoes shoes)
-        {
-            return base.Answer(hand, dealerHand, gamesters, shoes);
-        }
     }
 }

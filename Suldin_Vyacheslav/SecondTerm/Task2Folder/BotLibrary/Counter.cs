@@ -13,15 +13,7 @@ namespace BotLibrary
             : base(str)
         {
         }
-        public override void MakeBet(int hand)
-        {
-            int bet = 100;
-            if (bet > Bank) bet = Bank;
-
-            Bets[hand] = bet;
-            this.Bank -= bet;
-
-        }
+        
         public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters, Shoes shoes)
         {
             double count = 2 * this.CounterWork(shoes);

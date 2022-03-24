@@ -10,7 +10,7 @@ namespace BasicLibrary
     {
         public int Bank;
         public int[] Bets = new int[4] { 0 ,0 ,0 ,0 }; 
-        public virtual int Answer(int hand, List<Card> dealerHand, List<Gamester> players, Shoes shoes)
+        public virtual int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters, Shoes shoes)
         {
             return Bets[0]/100;
         }
