@@ -2,7 +2,7 @@ import hashTable.HashTable
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class HelloJunit5Test {
+class HashTableTests {
     @Test
     fun `Test add, get function`() {
         val hashTable = HashTable<Int>(11)
