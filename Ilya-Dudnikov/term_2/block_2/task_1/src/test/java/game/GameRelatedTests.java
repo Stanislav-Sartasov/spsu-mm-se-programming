@@ -14,7 +14,7 @@ import service.account_manager.AccountManager;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameRelatedTests {
-	BlackjackGame blackjackGame;
+	private BlackjackGame blackjackGame;
 
 	@BeforeEach
 	void setUp() {

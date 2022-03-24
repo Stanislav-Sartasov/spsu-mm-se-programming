@@ -101,18 +101,18 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 			return BetStatus.WON_WITH_BLACKJACK;
 		}
 
-		if (
-				dealer.getHand().isBlackjack()
-				|| dealer.getHand().getHandScore() > player.getHand().getHandScore()
-				|| player.getHand().getHandScore() > 21
-		) {
+		if (dealer.getHand().getHandScore() > 21)
+			return BetStatus.WON;
+
+		if (player.getHand().getHandScore() > 21)
+			return BetStatus.LOST;
+
+		if (    dealer.getHand().isBlackjack() ||
+				dealer.getHand().getHandScore() > player.getHand().getHandScore()) {
 			return BetStatus.LOST;
 		}
 
-		if (
-				dealer.getHand().getHandScore() < player.getHand().getHandScore()
-				|| dealer.getHand().getHandScore() > 21
-		) {
+		if (dealer.getHand().getHandScore() < player.getHand().getHandScore()) {
 			return BetStatus.WON;
 		}
 

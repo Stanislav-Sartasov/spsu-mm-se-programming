@@ -33,4 +33,9 @@ class BlackjackDealerTest {
 		dealer.draw(shoe);
 		assertTrue(dealer.getHand().getHandScore() >= 17);
 	}
+
+	@Test
+	void getId() {
+		assertEquals("dealer1337", dealer.getId());
+	}
 }
