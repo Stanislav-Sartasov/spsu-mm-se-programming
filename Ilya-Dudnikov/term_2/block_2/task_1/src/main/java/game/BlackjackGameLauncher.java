@@ -7,21 +7,22 @@ import service.account_manager.AccountManager;
 import java.util.ArrayList;
 
 public class BlackjackGameLauncher {
-    private final int TOTAL_ROUNDS = 40;
-
-    public void run(
+    public static void run(
             String poolId,
             String dealerId,
             ArrayList<PlayerController> controllerList,
-            ArrayList<Integer> initialBalances
+            ArrayList<Integer> initialBalances,
+            int totalRounds,
+            int poolBalance
     ) {
         BlackjackGame game = new BlackjackGame(
                 poolId,
                 new AccountManager(),
-                new BlackjackDealer(dealerId)
+                new BlackjackDealer(dealerId),
+                poolBalance
         );
 
-        for (int i = 0; i < TOTAL_ROUNDS; i++) {
+        for (int i = 0; i < totalRounds; i++) {
             for (int index = 0; index < controllerList.size(); index++) {
                 game.addPlayer(controllerList.get(index), initialBalances.get(index));
             }
