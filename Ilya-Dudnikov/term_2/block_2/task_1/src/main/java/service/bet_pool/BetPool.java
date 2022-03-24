@@ -26,6 +26,10 @@ public class BetPool implements IBetPool {
 		return betList.get(pos).getBetStatus();
 	}
 
+	public String getBettorIdAt(int pos) {
+		return betList.get(pos).getBettorId();
+	}
+
 	public void doubleBet(int pos) {
 		Bet previousBet = betList.get(pos);
 		betList.set(pos, new Bet(previousBet.getBettorId(), previousBet.getValue() * 2));

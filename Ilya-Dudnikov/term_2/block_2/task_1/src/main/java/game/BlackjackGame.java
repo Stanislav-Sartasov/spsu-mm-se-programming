@@ -8,7 +8,6 @@ import card.CardStatus;
 import deck.Shoe;
 import service.account_manager.AccountManager;
 import service.bet_settler.BetSettler;
-import player.Action;
 import player.BlackjackDealer;
 import player.BlackjackPlayer;
 import player.PlayerController;
@@ -16,21 +15,25 @@ import player.PlayerController;
 import java.util.ArrayList;
 
 public class BlackjackGame extends Game implements IBlackjackGame {
-	private BlackjackDealer dealer;
-	private Shoe shoe;
+	protected BlackjackDealer dealer;
+	protected Shoe shoe;
 
 	public BlackjackGame(
 			String poolId,
 			AccountManager accountManager,
-			BlackjackDealer dealer
+			BlackjackDealer dealer,
+			int initialPoolBalance
 	) {
-		super(poolId, accountManager);
+		super(poolId, accountManager, initialPoolBalance);
 		this.dealer = dealer;
 		this.shoe = Shoe.createShoe();
 	}
 
 	protected void initialBet(int position) {
-		betPool.addBet(new Bet(playerList.get(position).getId(), controllerList.get(position).getInitialBet()));
+		Bet bet = new Bet(playerList.get(position).getId(), controllerList.get(position).getInitialBet());
+		accountManager.transfer(playerList.get(position).getId(), betPool.getPoolId(), bet.getValue());
+
+		betPool.addBet(bet);
 	}
 
 	@Override
@@ -59,7 +62,7 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 		BlackjackCard firstCard = player.getHand().getCardAt(0);
 		BlackjackCard secondCard = player.getHand().getCardAt(1);
 
-		if (firstCard != secondCard) {
+		if (firstCard.getCard().rank() != secondCard.getCard().rank()) {
 			throw new IllegalArgumentException("You are only allowed to split if the cards are the same rank");
 		}
 
@@ -137,7 +140,9 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 				betPool.changeBetStatus(i, calculateBetStatus(player));
 			}
 
-			int winningAmount = betSettler.settleBet(player.getId(), betPool.getBetAt(i));
+			Bet bet = new Bet(playerList.get(i).getId(), betPool.getBetValueAt(i));
+			bet.changeBetStatus(betPool.getBetStatusAt(i));
+			int winningAmount = betSettler.settleBet(bet);
 			accountManager.transfer(betPool.getPoolId(), player.getId(), winningAmount);
 		}
 		betPool.clearPool();
@@ -145,7 +150,15 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 		controllerList.clear();
 	}
 
+	public void getInitialBets() {
+		for (int i = 0; i < controllerList.size(); i++) {
+			initialBet(i);
+		}
+	}
+
 	public void playRound() {
+		getInitialBets();
+
 		for (int i = 0; i < 2; i++) {
 			for (var player : playerList) {
 				dealer.dealTo(player, shoe, CardStatus.FACE_UP);
@@ -172,14 +185,35 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 						mayBeSkipped[i] = true;
 						playersLeft--;
 					}
-					case HIT -> hit(i);
-					case SPLIT -> split(i);
+					case HIT -> {
+						hit(i);
+						if (betPool.getBetStatusAt(i) == BetStatus.LOST) {
+							mayBeSkipped[i] = true;
+							playersLeft--;
+						}
+					}
+					case SPLIT -> {
+						try {
+							split(i);
+						} catch (IllegalArgumentException e) {
+							mayBeSkipped[i] = true;
+							playersLeft--;
+						}
+					}
 					case SURRENDER -> {
 						surrender(i);
 						mayBeSkipped[i] = true;
 						playersLeft--;
 					}
-					case DOUBLE_DOWN -> doubleDown(i);
+					case DOUBLE_DOWN -> {
+						try {
+							doubleDown(i);
+						} catch (IllegalArgumentException e) {
+							hit(i);
+						}
+						mayBeSkipped[i] = true;
+						playersLeft--;
+					}
 				}
 			}
 		}
