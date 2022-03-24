@@ -13,21 +13,21 @@ class HashTable<Type>(_size: Int) {
     }
 
     private fun hash(key: Int): Int {
-        return key % this.cntLists;
+        return key % this.cntLists
     }
 
-    private fun isRebalance(): Boolean {
+    private fun isBalanced(): Boolean {
         for (i in listOfElement)
             if (2 * i.size > cntLists)
-                return true
-        return false
+                return false
+        return true
     }
 
     private fun rebalance() {
-        if (!isRebalance())
+        if (isBalanced())
             return
         cntLists *= cntLists + 1
-        var newListOfElement: Array<List<Node<Type>>> = Array(cntLists) { mutableListOf<Node<Type>>() }
+        val newListOfElement: Array<List<Node<Type>>> = Array(cntLists) { mutableListOf<Node<Type>>() }
         for (elements in listOfElement) {
             for (i in elements) {
                 newListOfElement[hash(i.key)] = newListOfElement[hash(i.key)] + i
@@ -61,7 +61,7 @@ class HashTable<Type>(_size: Int) {
 
     fun get(key: Int): Type? {
         val index = hash(key)
-        val temp = listOfElement[index].find {it.key == key } ?: return null
+        val temp = listOfElement[index].find { it.key == key } ?: return null
         return temp.value
     }
 }
