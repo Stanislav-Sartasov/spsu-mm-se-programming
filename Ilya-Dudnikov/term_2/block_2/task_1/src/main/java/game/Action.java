@@ -1,4 +1,4 @@
-package player;
+package game;
 
 public enum Action {
 	STAND,
