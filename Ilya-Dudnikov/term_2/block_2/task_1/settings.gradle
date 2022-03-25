@@ -1,2 +1,3 @@
 rootProject.name = 'task_1'
-include 'lib', 'bots'
+include 'lib', 'bots', 'app'
+
