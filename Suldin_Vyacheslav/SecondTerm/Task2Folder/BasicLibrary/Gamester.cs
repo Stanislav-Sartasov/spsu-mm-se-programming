@@ -14,7 +14,10 @@ namespace BasicLibrary
         {
             return Bets[0]/100;
         }
-
+        public virtual bool IsNeedResult()
+        {
+            return false;
+        }
         public virtual void MakeBet(int hand)
         {
             int bet = 100;

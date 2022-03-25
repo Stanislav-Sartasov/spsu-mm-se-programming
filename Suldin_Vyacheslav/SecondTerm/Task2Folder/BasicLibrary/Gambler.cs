@@ -19,7 +19,8 @@ namespace BasicLibrary
 
 			if (answer == 5)
 			{
-				this.OpenEyes(hand,dealerHand, gamesters);
+				Console.WriteLine($"Current hand is {hand}");
+				Game.ShowTable(dealerHand, gamesters);
 				return this.Answer(hand, dealerHand, gamesters, shoes);
 			}
 			if ((answer == 2 && this.Bank < this.Bets[hand]) ||
@@ -36,36 +37,15 @@ namespace BasicLibrary
 
 			}
 		}
+        public override bool IsNeedResult()
+        {
+			Console.WriteLine("Need result?");
+			if (Game.GetCoorectAnswer(0, 1) == 1)
+				return true;
+			else return false;
 
-		public void OpenEyes(int hand, List<Card> dealerHand, List<Gamester> gamesters)
-		{
-			Console.Write("          ");
-			for (int i = 0; i < dealerHand.Count; i++)
-			{
-				Console.Write($"{dealerHand[i].Value} ");
-			}
-			Console.Write("\n\n");
-			for (int i = 0; i < gamesters.Count; i++)
-			{
-				Console.Write($"{i}-player: ");
-				for (int j = 0; j < 4 && gamesters[i].Sum[j] != 0; j++)
-				{
-					Console.Write("\n");
-					if (hand == j) Console.Write(">>>");
-					Console.Write($"{j}-hand: [");
-					for (int k = 0; k < gamesters[i].Hands[j].Count; k++)
-					{
-						Console.Write($"{gamesters[i].Hands[j][k].Value} ");
-					}
-					Console.Write("]  bet:");
-					Console.Write($"{gamesters[i].Bets[j]} ");
-					Console.Write($"{gamesters[i].Bank} ");
-				}
-				Console.Write("\n\n");
-			}
-		}
-
-		public override void MakeBet(int hand)
+        }
+        public override void MakeBet(int hand)
 		{
 			Console.WriteLine($"Enter your bet. Bank : {this.Bank}");
 			int bet = Game.GetCoorectAnswer(0,this.Bank);

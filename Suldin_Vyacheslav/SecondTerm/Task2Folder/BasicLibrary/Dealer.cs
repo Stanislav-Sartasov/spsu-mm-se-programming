@@ -50,19 +50,30 @@ namespace BasicLibrary
 
         public void CalculateBets(List<Gamester> gamesters)
         {
-
+            bool show = false;
+            for (int i = 0; i < gamesters.Count; i++)
+            {
+                if (gamesters[i].IsNeedResult())
+                {
+                    show = true;
+                    break;
+                }
+            }
+            if (show) Game.ShowTable(this.Hands[0],gamesters);
             for (int i = 0; i < gamesters.Count; i++)
                 for (int j = 0; j<4 && gamesters[i].Bets[j] !=0 ; j++)
                 {
                     if (gamesters[i].Sum[j]>21)
                     {
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine("player's bust");                        
                         continue;
                     }
                     else if (this.Sum[0]>21)
                     {
                         gamesters[i].Bank += gamesters[i].Bets[j] * 2;
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine("dealer's bust");
                         continue;
                     }
 
@@ -72,11 +83,13 @@ namespace BasicLibrary
                         {
                             gamesters[i].Bank += gamesters[i].Bets[j];
                             gamesters[i].Bets[j] = 0;
+                            if (show) Console.WriteLine("dealer: BJ , player: BJ - draw");
                             continue;
                         }
                         else
                         {
                             gamesters[i].Bets[j] = 0;
+                            if (show) Console.WriteLine($"dealer: BJ , player: {gamesters[i].Sum[j]} - dealer won");
                             continue;
                         }
                     }
@@ -85,6 +98,7 @@ namespace BasicLibrary
                     {
                         gamesters[i].Bank += gamesters[i].Bets[j];
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: {gamesters[i].Sum[j]} - draw");
                         continue;
                     }
 
@@ -92,6 +106,7 @@ namespace BasicLibrary
                     {
                         gamesters[i].Bank += gamesters[i].Bets[j] * 5 / 2;
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: BJ - player won");
                         continue;
                     }
 
@@ -99,11 +114,13 @@ namespace BasicLibrary
                     {
                         gamesters[i].Bank += gamesters[i].Bets[j] * 2;
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} < player: {gamesters[i].Sum[j]}");
                         continue;
                     }
                     else
                     {
                         gamesters[i].Bets[j] = 0;
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} > player: {gamesters[i].Sum[j]}");
                         continue;
                     }
 
@@ -124,6 +141,7 @@ namespace BasicLibrary
 
         public bool Ask(List<Gamester> gamesters, Shoes shoes, int[,] condition )
         {
+            
             for (int i = 0; i < gamesters.Count; i++)
                 for (int j = 0; j<4 && gamesters[i].Bets[j]!=0; j++)
                 {
@@ -205,5 +223,6 @@ namespace BasicLibrary
                 to.ReceiveCard(new Card("diamonds", "Ace"), hand);
             }
         }
+
     }
 }

@@ -41,7 +41,7 @@ namespace BasicLibrary
 
 
 
-                int[,] condition = new int[9, 4];
+                int[,] condition = new int[10, 4];
 
                 TheDealer.InitialDistribution(Gamesters, TheShoes, condition);
 
@@ -67,6 +67,32 @@ namespace BasicLibrary
             while (!int.TryParse(Console.ReadLine(), out answer) || answer > top || answer < bottom)
                 Console.WriteLine($"Error, enter {bottom}-{top}");
             return answer;
+        }
+        public static void ShowTable(List<Card> dealerHand, List<Gamester> gamesters)
+        {
+            Console.Write("          ");
+            for (int i = 0; i < dealerHand.Count; i++)
+            {
+                Console.Write($"{dealerHand[i].Value} ");
+            }
+            Console.Write("\n\n");
+            for (int i = 0; i < gamesters.Count; i++)
+            {
+                Console.Write($"{i}-player: ");
+                for (int j = 0; j < 4 && gamesters[i].Sum[j] != 0; j++)
+                {
+                    Console.Write("\n");
+                    Console.Write($"{j}-hand: [");
+                    for (int k = 0; k < gamesters[i].Hands[j].Count; k++)
+                    {
+                        Console.Write($"{gamesters[i].Hands[j][k].Value} ");
+                    }
+                    Console.Write("]  bet:");
+                    Console.Write($"{gamesters[i].Bets[j]} ");
+                    Console.Write($"{gamesters[i].Bank} ");
+                }
+                Console.Write("\n\n");
+            }
         }
     }
 }

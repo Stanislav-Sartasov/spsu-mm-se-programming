@@ -14,11 +14,11 @@ namespace Task2
                 "\n0 on bet - game is end.");
 
             Bot[] set = new Bot[] { new Counter(1), new OneThreeTwoSix(1), new Martingale(1),
-            new Counter(2), new OneThreeTwoSix(2), new Martingale(3),
+            new Counter(2), new OneThreeTwoSix(2), new Martingale(2),
             new Counter(3), new OneThreeTwoSix(3), new Martingale(3)};
 
             Gambler man = new Gambler(100000);
-            List<Gamester> players = new List<Gamester>(9);
+            List<Gamester> players = new List<Gamester>(10);
 
 
 
