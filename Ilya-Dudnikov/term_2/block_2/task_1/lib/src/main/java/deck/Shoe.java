@@ -59,7 +59,7 @@ public class Shoe implements IShoe {
 			currentDeckPointer++;
 		}
 
-		if (currentDeckPointer >= decksArray.size()) {
+		if (3 * currentDeckPointer >= 2 * decksArray.size()) {
 			this.resetShoe();
 		}
 

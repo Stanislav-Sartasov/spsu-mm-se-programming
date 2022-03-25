@@ -11,7 +11,7 @@ public class AccountManager implements IAccountManager {
 
 	public void createNewAccount(String id, int initialBalance) {
 		if (balanceMap.containsKey(id))
-			throw new IllegalArgumentException("Account with this id already exists");
+			return;
 
 		balanceMap.put(id, initialBalance);
 	}

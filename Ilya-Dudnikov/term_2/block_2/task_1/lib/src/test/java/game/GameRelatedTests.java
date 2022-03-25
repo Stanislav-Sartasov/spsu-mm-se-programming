@@ -22,7 +22,8 @@ public class GameRelatedTests {
 				"pool1337",
 				new AccountManager(),
 				new BlackjackDealer("dealer1337"),
-				1000
+				1000,
+				1
 		);
 
 		StandController standController = new StandController(new BlackjackPlayer("Player1337"));
@@ -65,6 +66,8 @@ public class GameRelatedTests {
 	void split() {
 		blackjackGame.playerList.get(0).getHand().addCard(new BlackjackCard(10, Suits.CLUB));
 		blackjackGame.playerList.get(0).getHand().addCard(new BlackjackCard(10, Suits.DIAMOND));
+
+		blackjackGame.playerList.get(0).getHand().showCards();
 
 		Bet initialBet = new Bet("Player1337", 10);
 		blackjackGame.betPool.addBet(initialBet);
@@ -135,7 +138,6 @@ public class GameRelatedTests {
 
 		blackjackGame.finishRound();
 
-		assertTrue(blackjackGame.dealer.getHand().getHandScore() >= 17);
 		assertTrue(blackjackGame.playerList.isEmpty());
 		assertTrue(blackjackGame.controllerList.isEmpty());
 		assertThrows(IndexOutOfBoundsException.class, () -> blackjackGame.betPool.getBetValueAt(0));

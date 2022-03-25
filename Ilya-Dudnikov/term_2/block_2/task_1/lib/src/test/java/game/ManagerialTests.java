@@ -23,7 +23,8 @@ public class ManagerialTests {
 				"pool1337",
 				new AccountManager(),
 				new BlackjackDealer("dealer1337"),
-				1000
+				1000,
+				1
 		);
 
 		StandController standController = new StandController(new BlackjackPlayer("Player1337"));

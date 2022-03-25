@@ -14,7 +14,7 @@ public class RandomBot extends PlayerController {
 	@Override
 	public Action getAction(ArrayList<AbstractCard> allCards) {
 		Random random = new Random();
-		return Action.values()[random.nextInt() % 5];
+		return Action.values()[random.nextInt(5)];
 	}
 
 	@Override

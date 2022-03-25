@@ -16,7 +16,7 @@ class AccountManagerTest {
 
 	@Test
 	void createNewAccountThatAlreadyExists() {
-		assertThrows(IllegalArgumentException.class, () -> accountManager.createNewAccount("newcomer1337", 10));
+		assertDoesNotThrow(() -> accountManager.createNewAccount("newcomer1337", 10));
 	}
 
 	@Test

@@ -63,4 +63,8 @@ public class Hand implements IHand {
 			cardsArray.get(i).setCardStatus(CardStatus.FACE_UP);
 		}
 	}
+
+	public void clear() {
+		cardsArray.clear();
+	}
 }

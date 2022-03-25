@@ -13,6 +13,7 @@ import player.BlackjackPlayer;
 import player.PlayerController;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BlackjackGame extends Game implements IBlackjackGame {
 	protected BlackjackDealer dealer;
@@ -60,6 +61,10 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 
 	protected void split(int position) {
 		BlackjackPlayer player = (BlackjackPlayer) playerList.get(position);
+		if (player.getHand().getVisibleCards().size() != 2) {
+			throw new IllegalArgumentException("You can't split unless you have two cards of the same rank");
+		}
+
 		BlackjackCard firstCard = player.getHand().getCardAt(0);
 		BlackjackCard secondCard = player.getHand().getCardAt(1);
 
@@ -78,6 +83,9 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 
 		playerList.add(position, splittedFirstPlayer);
 		playerList.set(position + 1, splittedFirstPlayer);
+
+		dealer.dealTo(splittedFirstPlayer, shoe, CardStatus.FACE_UP);
+		dealer.dealTo(splittedSecondPlayer, shoe, CardStatus.FACE_UP);
 
 		controllerList.add(position, controllerList.get(position));
 
@@ -147,13 +155,29 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 			accountManager.transfer(betPool.getPoolId(), player.getId(), winningAmount);
 		}
 		betPool.clearPool();
+
+		for (var player : playerList)
+			player.getHand().clear();
+
 		playerList.clear();
 		controllerList.clear();
+
+		dealer.getHand().clear();
 	}
 
 	public void getInitialBets() {
+		ArrayList<Integer> toRemove = new ArrayList<>();
 		for (int i = 0; i < controllerList.size(); i++) {
-			initialBet(i);
+			try {
+				initialBet(i);
+			} catch (IllegalArgumentException e) {
+				toRemove.add(i);
+			}
+		}
+
+		for (int i = toRemove.size() - 1; i >= 0; i--) {
+			playerList.remove(toRemove.get(i).intValue());
+			controllerList.remove(toRemove.get(i).intValue());
 		}
 	}
 
@@ -171,39 +195,40 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 			}
 		}
 
-		boolean[] mayBeSkipped = new boolean[playerList.size()];
+		ArrayList<Boolean> mayBeSkipped = new ArrayList<>(Collections.nCopies(playerList.size(), false));
 		int playersLeft = playerList.size();
 
 		while (playersLeft > 0) {
 			for (int i = 0; i < playerList.size(); i++) {
-				if (mayBeSkipped[i])
+				if (mayBeSkipped.get(i))
 					continue;
 
 				Action actionToPlay = controllerList.get(i).getAction(getCardsOnTable());
 
 				switch (actionToPlay) {
 					case STAND ->  {
-						mayBeSkipped[i] = true;
+						mayBeSkipped.set(i, true);
 						playersLeft--;
 					}
 					case HIT -> {
 						hit(i);
 						if (betPool.getBetStatusAt(i) == BetStatus.LOST) {
-							mayBeSkipped[i] = true;
+							mayBeSkipped.set(i, true);
 							playersLeft--;
 						}
 					}
 					case SPLIT -> {
 						try {
 							split(i);
+							mayBeSkipped.add(i, false);
 						} catch (IllegalArgumentException e) {
-							mayBeSkipped[i] = true;
+							mayBeSkipped.set(i, true);
 							playersLeft--;
 						}
 					}
 					case SURRENDER -> {
 						surrender(i);
-						mayBeSkipped[i] = true;
+						mayBeSkipped.set(i, true);
 						playersLeft--;
 					}
 					case DOUBLE_DOWN -> {
@@ -212,7 +237,7 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 						} catch (IllegalArgumentException e) {
 							hit(i);
 						}
-						mayBeSkipped[i] = true;
+						mayBeSkipped.set(i, true);
 						playersLeft--;
 					}
 				}
