@@ -15,7 +15,9 @@ public class Pair<K, V> {
 		return value;
 	}
 
-	public boolean equals(Pair<K, V> other) {
-		return this.key == other.key && this.value == other.value;
+	public boolean equals(Object other) {
+		if (other instanceof Pair<?, ?>)
+			return this.key.equals(((Pair<?, ?>) other).key)  && this.value.equals(((Pair<?, ?>) other).value);
+		return false;
 	}
 }
