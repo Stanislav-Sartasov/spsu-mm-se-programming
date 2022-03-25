@@ -1,11 +1,11 @@
 ﻿namespace Roulette;
 using System.Security.Cryptography;
 
-public class RouletteWheel
+internal class RouletteWheel
 {
     private readonly List<int> pockets;
 
-    public RouletteWheel()
+    internal RouletteWheel()
     {
         int[] pocketsCopy =
             { 0, 32, 15, 19, 4, 21, 2, 25, 17, 34, 6, 27, 13,
@@ -15,15 +15,15 @@ public class RouletteWheel
         pockets = new List<int>(pocketsCopy);
     }
 
-    public int ThrowBall()
+    internal int ThrowBall()
     {
         int nextIndex = RandomNumberGenerator.GetInt32(37);
         return pockets[nextIndex];
     }
 
-    public Parity GetParity(int number) => (Parity)(number % 2);
+    internal Parity GetParity(int number) => (Parity)(number % 2);
 
-    public Colour GetColour(int number) => (Colour)(pockets.IndexOf(number) % 2);
+    internal Colour GetColour(int number) => (Colour)(pockets.IndexOf(number) % 2);
 
-    public Dozen GetDozen(int number) => (Dozen)((number - 1) / 12);
+    internal Dozen GetDozen(int number) => (Dozen)((number - 1) / 12);
 }

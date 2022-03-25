@@ -2,7 +2,7 @@
 
 public struct Bet
 {
-    BetType betType;
-    int betNumber;
-    int sumOfMoney;
+    public readonly BetType type;
+    public readonly int number;
+    public readonly int sum;
 }
