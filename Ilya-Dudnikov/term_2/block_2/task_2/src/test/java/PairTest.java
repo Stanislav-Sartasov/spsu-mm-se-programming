@@ -65,4 +65,12 @@ class PairTest {
 
 		assertFalse(firstPair.equals(secondPair));
 	}
+
+	@Test
+	void testEqualsWithDifferentTypesExpectFalse() {
+		Pair<Integer, String> firstPair = new Pair<>(1, "Putin");
+		String second = "Putin";
+
+		assertFalse(firstPair.equals(second));
+	}
 }
