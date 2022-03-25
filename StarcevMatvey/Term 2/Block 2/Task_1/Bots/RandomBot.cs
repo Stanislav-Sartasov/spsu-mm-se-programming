@@ -4,7 +4,7 @@ namespace Bots
 {
     public class RandomBot : Player
     {
-        Random random;
+        private Random random;
 
         public RandomBot(string name, int balance) : base(name, balance)
         {
