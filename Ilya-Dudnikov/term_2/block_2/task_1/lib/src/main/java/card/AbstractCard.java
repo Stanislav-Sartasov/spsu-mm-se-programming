@@ -6,4 +6,8 @@ public abstract class AbstractCard {
     public AbstractCard(int rank, Suits suit) {
         this.card = new Card(rank, suit);
     }
+
+    public Card getCard() {
+        return card;
+    }
 }
