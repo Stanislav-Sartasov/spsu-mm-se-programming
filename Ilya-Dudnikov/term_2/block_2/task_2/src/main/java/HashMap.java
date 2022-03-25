@@ -1,11 +1,11 @@
 import java.util.ArrayList;
 
 public class HashMap<K, V> implements Map<K, V> {
-	private final int INITIAL_SIZE = 1091;
-	private final int MAX_BUCKET_SIZE = 40;
+	protected final int INITIAL_SIZE = 1091;
+	protected final int MAX_BUCKET_SIZE = 40;
 
-	private ArrayList<Pair<K, V>>[] hashTable;
-	private int size;
+	protected ArrayList<Pair<K, V>>[] hashTable;
+	protected int size;
 
 	public HashMap() {
 		hashTable = new ArrayList[INITIAL_SIZE];
@@ -14,9 +14,14 @@ public class HashMap<K, V> implements Map<K, V> {
 		size = INITIAL_SIZE;
 	}
 
+	private int hash(K key) {
+		int hash = key.hashCode();
+		return (hash % size + size) % size;
+	}
+
 	@Override
 	public V get(K key) {
-		for (var pair : hashTable[key.hashCode() % size]) {
+		for (var pair : hashTable[hash(key)]) {
 			if (key == pair.first())
 				return pair.second();
 		}
@@ -27,7 +32,9 @@ public class HashMap<K, V> implements Map<K, V> {
 	public void set(K key, V value) {
 		boolean found = false;
 
-		for (var pair : hashTable[key.hashCode() % size]) {
+		int keyHash = hash(key);
+
+		for (var pair : hashTable[keyHash]) {
 			if (key == pair.first()) {
 				pair = new Pair<>(key, value);
 				found = true;
@@ -35,15 +42,15 @@ public class HashMap<K, V> implements Map<K, V> {
 		}
 
 		if (!found)
-			hashTable[key.hashCode() % size].add(new Pair<>(key, value));
+			hashTable[keyHash].add(new Pair<>(key, value));
 
-		if (hashTable[key.hashCode() % size].size() > MAX_BUCKET_SIZE)
+		if (hashTable[keyHash].size() > MAX_BUCKET_SIZE)
 			rebalance();
 	}
 
 	@Override
 	public boolean containsKey(K key) {
-		for (var pair : hashTable[key.hashCode() % size]) {
+		for (var pair : hashTable[hash(key)]) {
 			if (key == pair.first())
 				return true;
 		}
@@ -57,7 +64,8 @@ public class HashMap<K, V> implements Map<K, V> {
 
 		if (value == null)
 			return;
-		hashTable[key.hashCode() % size].remove(new Pair<>(key, value));
+
+		hashTable[hash(key)].remove(new Pair<>(key, value));
 	}
 
 	@Override
