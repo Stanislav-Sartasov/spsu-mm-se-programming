@@ -89,16 +89,18 @@ public class HashMap<K, V> implements Map<K, V> {
 	}
 
 	private void rebalance() {
-		int newSize = findNextSize();
+		int prevSize = size;
+		size = findNextSize();
 		var tmpHashTable = hashTable.clone();
-		hashTable = new ArrayList[newSize];
+		hashTable = new ArrayList[size];
 
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < size; i++)
+			hashTable[i] = new ArrayList<>();
+
+		for (int i = 0; i < prevSize; i++) {
 			for (var pair : tmpHashTable[i]) {
 				set(pair.first(), pair.second());
 			}
 		}
-
-		size = newSize;
 	}
 }
