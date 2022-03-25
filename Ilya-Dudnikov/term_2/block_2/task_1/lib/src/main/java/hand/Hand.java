@@ -5,7 +5,7 @@ import card.CardStatus;
 
 import java.util.ArrayList;
 
-public class Hand implements IHand {
+public class Hand {
 	private ArrayList<BlackjackCard> cardsArray;
 
 	public Hand() {

@@ -15,7 +15,7 @@ import player.PlayerController;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BlackjackGame extends Game implements IBlackjackGame {
+public class BlackjackGame extends Game {
 	protected BlackjackDealer dealer;
 	protected Shoe shoe;
 
@@ -165,7 +165,7 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 		dealer.getHand().clear();
 	}
 
-	public void getInitialBets() {
+	protected void getInitialBets() {
 		ArrayList<Integer> toRemove = new ArrayList<>();
 		for (int i = 0; i < controllerList.size(); i++) {
 			try {
