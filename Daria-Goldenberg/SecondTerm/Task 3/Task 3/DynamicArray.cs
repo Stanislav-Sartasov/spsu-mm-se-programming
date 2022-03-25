@@ -19,13 +19,13 @@ namespace Task_3
 			get
 			{
 				if (!(index >= 0 && index < Count))
-					throw new ArgumentOutOfRangeException();
+					throw new IndexOutOfRangeException();
 				return Items[index];
 			}
 			set
 			{
 				if (!(index >= 0 && index < Count))
-					throw new ArgumentOutOfRangeException();
+					throw new IndexOutOfRangeException();
 				Items[index] = value;
 			}
 		}
@@ -51,7 +51,7 @@ namespace Task_3
 		public void RemoveAt(int index)
 		{
 			if (!(index >= 0 && index < Count))
-				throw new ArgumentOutOfRangeException();
+				throw new IndexOutOfRangeException();
 
 			for (int i = index + 1; i < Count; i++)
 				Items[i - 1] = Items[i];

@@ -40,7 +40,7 @@ namespace Task_3.UnitTests
 			Assert.AreEqual(currentArray.Count, 2);
 			currentArray.RemoveAt(1);
 			Assert.AreEqual(currentArray.Count, 1);
-			Assert.Throws<ArgumentOutOfRangeException>(() => currentArray.RemoveAt(10));
+			Assert.Throws<IndexOutOfRangeException>(() => currentArray.RemoveAt(10));
 
 			Assert.Pass();
 		}
@@ -103,8 +103,8 @@ namespace Task_3.UnitTests
 			for (int i = 2; i <= 32; i *= 2)
 				currentArray.Add(i);
 
-			Assert.Throws<ArgumentOutOfRangeException>(() => { var tmp = currentArray[5]; });
-			Assert.Throws<ArgumentOutOfRangeException>(() => { currentArray[5] = 64; });
+			Assert.Throws<IndexOutOfRangeException>(() => { var tmp = currentArray[5]; });
+			Assert.Throws<IndexOutOfRangeException>(() => { currentArray[5] = 64; });
 			currentArray[4] = 64;
 			Assert.AreEqual(currentArray[4], 64);
 
