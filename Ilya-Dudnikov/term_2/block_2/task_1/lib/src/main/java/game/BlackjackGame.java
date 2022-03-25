@@ -22,11 +22,12 @@ public class BlackjackGame extends Game implements IBlackjackGame {
 			String poolId,
 			AccountManager accountManager,
 			BlackjackDealer dealer,
-			int initialPoolBalance
+			int initialPoolBalance,
+			int numberOfDecks
 	) {
 		super(poolId, accountManager, initialPoolBalance);
 		this.dealer = dealer;
-		this.shoe = Shoe.createShoe();
+		this.shoe = Shoe.createShoeWithNDecks(numberOfDecks);
 	}
 
 	protected void initialBet(int position) {

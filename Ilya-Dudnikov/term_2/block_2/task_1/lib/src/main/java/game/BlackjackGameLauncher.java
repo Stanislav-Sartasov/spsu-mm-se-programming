@@ -11,26 +11,29 @@ public class BlackjackGameLauncher {
             String poolId,
             String dealerId,
             ArrayList<PlayerController> controllerList,
-            ArrayList<Integer> initialBalances,
+            ArrayList<Integer> balances,
             int totalRounds,
-            int poolBalance
+            int poolBalance,
+            int numberOfDecks
     ) {
         BlackjackGame game = new BlackjackGame(
                 poolId,
                 new AccountManager(),
                 new BlackjackDealer(dealerId),
-                poolBalance
+                poolBalance,
+                numberOfDecks
         );
 
         for (int i = 0; i < totalRounds; i++) {
             for (int index = 0; index < controllerList.size(); index++) {
-                game.addPlayer(controllerList.get(index), initialBalances.get(index));
+                game.addPlayer(controllerList.get(index), balances.get(index));
             }
+            game.playRound();
         }
 
         for (int i = 0; i < controllerList.size(); i++) {
-            game.initialBet(i);
+            balances.set(i, game.accountManager.getBalanceById(controllerList.get(i).getPlayer().getId()));
         }
-        game.playRound();
+        balances.add(game.accountManager.getBalanceById(poolId));
     }
 }
