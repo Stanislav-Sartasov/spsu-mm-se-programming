@@ -37,7 +37,7 @@ internal class TableTest {
     inner class PlaySession {
 
         @Test
-        fun `play 1 session 1`() {
+        fun `play 1 session with TABLE_1`() {
             val (newBankroll, results) = TABLE_1.playSession(
                 strategy = simpleStrategy(bet = 50u),
                 bankroll = 5000u
@@ -57,7 +57,7 @@ internal class TableTest {
         }
 
         @Test
-        fun `play 1 session 2`() {
+        fun `play 1 session with TABLE_2`() {
             val (newBankroll, results) = TABLE_2.playSession(
                 strategy = simpleStrategy(bet = 50u),
                 bankroll = 5000u
