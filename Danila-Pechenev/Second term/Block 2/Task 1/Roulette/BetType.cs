@@ -7,4 +7,3 @@ public enum BetType
     Colour,
     Dozen
 }
-

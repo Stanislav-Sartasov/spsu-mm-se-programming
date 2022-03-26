@@ -1,5 +1,5 @@
-﻿namespace Roulette;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+namespace Roulette;
 
 internal class RouletteWheel
 {
