@@ -360,6 +360,3 @@ cmake-build-debug/
 # Gradle build and cache files
 .gradle/
 build/
-
-# Visual Studio Properties
-Properties/
