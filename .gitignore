@@ -9,6 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+**/Debug
+**.filters
+**.user
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -348,6 +351,15 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+
+## Idea and Clion files
+.idea
+cmake-build-debug/
+
+# Gradle build and cache files
+.gradle/
+build/
 
 # Visual Studio Properties
 Properties/
