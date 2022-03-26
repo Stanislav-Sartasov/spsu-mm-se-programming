@@ -14,22 +14,31 @@ public class Program
 
         BotOleg botOleg;
         BotIgor botIgor;
+        BotAndrei botAndrei;
 
         int sumOleg = 0;
         int sumIgor = 0;
+        int sumAndrei = 0;
+
         for (int trial = 0; trial < countTrials; trial++)
         {
             botOleg = new BotOleg(startAmountOfMoney, casino);
             botIgor = new BotIgor(startAmountOfMoney, casino);
+            botAndrei = new BotAndrei(startAmountOfMoney, casino);
+
             for (int i = 0; i < countBets; i++)
             {
                 casino.PlayWith(botOleg);
                 casino.PlayWith(botIgor);
+                casino.PlayWith(botAndrei);
             }
+
             sumOleg += botOleg.AmountOfMoney;
             sumIgor += botIgor.AmountOfMoney;
+            sumAndrei += botAndrei.AmountOfMoney;
         }
         Console.WriteLine($"Олег: {(double)sumOleg / countTrials}");
         Console.WriteLine($"Игорь: {(double)sumIgor / countTrials}");
+        Console.WriteLine($"Андрей: {(double)sumAndrei / countTrials}");
     }
 }

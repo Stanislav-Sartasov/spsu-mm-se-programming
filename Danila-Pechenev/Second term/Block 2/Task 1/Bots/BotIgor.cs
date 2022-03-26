@@ -24,7 +24,7 @@ public class BotIgor : APlayer
             Math.Max(minBetAmount, strategyList[0] + strategyList[strategyList.Count - 1]));
     }
 
-    protected override void GiveResult(bool won)
+    protected override void GiveResult(bool won, int result)
     {
         if (won)
         {

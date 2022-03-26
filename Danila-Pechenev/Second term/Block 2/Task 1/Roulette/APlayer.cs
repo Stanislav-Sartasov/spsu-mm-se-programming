@@ -26,5 +26,5 @@ public abstract class APlayer
 
     protected internal abstract Bet MakeBet();
 
-    protected internal abstract void GiveResult(bool won);
+    protected internal abstract void GiveResult(bool won, int result);
 }

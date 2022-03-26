@@ -48,7 +48,7 @@ public class Casino
             }
         }
 
-        player.GiveResult(player.AmountOfMoney >= lastAmountOfMoney);
+        player.GiveResult(player.AmountOfMoney >= lastAmountOfMoney, result);
         return true;
     }
 
@@ -58,6 +58,7 @@ public class Casino
             bet.sum > maxBetAmount ||
             bet.sum < minBetAmount) return false;
         if (bet.number < 0) return false;
+        if (bet.type == BetType.Number && bet.number == 0) return false;
         if (bet.type == BetType.Number && (bet.number > 36 || bet.number == 0)) return false;
         if (bet.type == BetType.Dozen && bet.number > 2) return false;
         if ((bet.type == BetType.Colour || bet.type == BetType.Parity) && bet.number > 1) return false;

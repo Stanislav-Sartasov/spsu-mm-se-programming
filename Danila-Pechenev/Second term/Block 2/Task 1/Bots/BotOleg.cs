@@ -28,7 +28,7 @@ public class BotOleg : APlayer
         return new Bet(BetType.Colour, (int)currentColour, currentBetSum);
     }
 
-    protected override void GiveResult(bool won)
+    protected override void GiveResult(bool won, int result)
     {
         if (won)
         {
