@@ -6,37 +6,30 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        int countTrials = 10000;
+        int countTrials = 100000;
         int countBets = 40;
+        int startAmountOfMoney = 15000;
 
         Casino casino = new Casino(100, 20000);
 
         BotOleg botOleg;
         BotIgor botIgor;
 
-        int tmpSum = 0;
+        int sumOleg = 0;
+        int sumIgor = 0;
         for (int trial = 0; trial < countTrials; trial++)
         {
-            botOleg = new BotOleg(15000, casino);
+            botOleg = new BotOleg(startAmountOfMoney, casino);
+            botIgor = new BotIgor(startAmountOfMoney, casino);
             for (int i = 0; i < countBets; i++)
             {
                 casino.PlayWith(botOleg);
-            }
-            tmpSum += botOleg.AmountOfMoney;
-        }
-        Console.WriteLine($"Олег: {(double)tmpSum / countTrials}");
-
-
-        tmpSum = 0;
-        for (int trial = 0; trial < countTrials; trial++)
-        {
-            botIgor = new BotIgor(15000, casino);
-            for (int i = 0; i < countBets; i++)
-            {
                 casino.PlayWith(botIgor);
             }
-            tmpSum += botIgor.AmountOfMoney;
+            sumOleg += botOleg.AmountOfMoney;
+            sumIgor += botIgor.AmountOfMoney;
         }
-        Console.WriteLine($"Игорь: {(double)tmpSum / countTrials}");
+        Console.WriteLine($"Олег: {(double)sumOleg / countTrials}");
+        Console.WriteLine($"Игорь: {(double)sumIgor / countTrials}");
     }
 }
