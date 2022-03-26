@@ -2,67 +2,82 @@
 
 public class Casino
 {
-    public readonly int minBetAmount;
-    public readonly int maxBetAmount;
     private readonly RouletteWheel wheel;
+
+    public int MinBetAmount { get; init; }
+
+    public int MaxBetAmount { get; init; }
 
     public Casino(int minBet, int maxBet)
     {
-        minBetAmount = minBet;
-        maxBetAmount = maxBet;
+        MinBetAmount = minBet;
+        MaxBetAmount = maxBet;
         wheel = new RouletteWheel();
     }
 
     public bool PlayWith(APlayer player)
     {
-        if (!player.WantsToPlay()) return false;
-        if (player.AmountOfMoney < minBetAmount) return false;
+        if (!player.WantsToPlay())
+        {
+            return false;
+        }
+
+        if (player.AmountOfMoney < MinBetAmount)
+        {
+            return false;
+        }
 
         int lastAmountOfMoney = player.AmountOfMoney;
 
         Bet bet = player.MakeBet();
-        if (!validateBet(bet, lastAmountOfMoney)) return false;
+        if (!ValidateBet(bet, lastAmountOfMoney))
+        {
+            return false;
+        }
 
         int result = wheel.ThrowBall();
 
         if (result == 0)
         {
-            player.AmountOfMoney -= bet.sum;
+            player.AmountOfMoney -= bet.Sum;
         }
         else
         {
-            switch (bet.type)
+            switch (bet.Type)
             {
                 case BetType.Number:
-                    player.AmountOfMoney += (bet.number == result ? 35 : -1) * bet.sum;
+                    player.AmountOfMoney += (bet.Number == result ? 35 : -1) * bet.Sum;
                     break;
                 case BetType.Dozen:
-                    player.AmountOfMoney += (bet.number == (int)wheel.GetDozen(result) ? 2 : -1) * bet.sum;
+                    player.AmountOfMoney += (bet.Number == (int)wheel.GetDozen(result) ? 2 : -1) * bet.Sum;
                     break;
                 case BetType.Colour:
-                    player.AmountOfMoney += (bet.number == (int)wheel.GetColour(result) ? 1 : -1) * bet.sum;
+                    player.AmountOfMoney += (bet.Number == (int)wheel.GetColour(result) ? 1 : -1) * bet.Sum;
                     break;
                 case BetType.Parity:
-                    player.AmountOfMoney += (bet.number == (int)wheel.GetParity(result) ? 1 : -1) * bet.sum;
+                    player.AmountOfMoney += (bet.Number == (int)wheel.GetParity(result) ? 1 : -1) * bet.Sum;
                     break;
             }
         }
 
-        player.GiveResult(player.AmountOfMoney >= lastAmountOfMoney, result);
+        player.GiveResult(player.AmountOfMoney >= lastAmountOfMoney);
         return true;
     }
 
-    private bool validateBet(Bet bet, int playerAmountOfMoney)
+    private bool ValidateBet(Bet bet, int playerAmountOfMoney)
     {
-        if (bet.sum > playerAmountOfMoney || 
-            bet.sum > maxBetAmount ||
-            bet.sum < minBetAmount) return false;
-        if (bet.number < 0) return false;
-        if (bet.type == BetType.Number && bet.number == 0) return false;
-        if (bet.type == BetType.Number && (bet.number > 36 || bet.number == 0)) return false;
-        if (bet.type == BetType.Dozen && bet.number > 2) return false;
-        if ((bet.type == BetType.Colour || bet.type == BetType.Parity) && bet.number > 1) return false;
-  
+        if (bet.Sum > playerAmountOfMoney ||
+            bet.Sum > MaxBetAmount ||
+            bet.Sum < MinBetAmount ||
+            bet.Number < 0 ||
+            (bet.Type == BetType.Number && bet.Number == 0) ||
+            (bet.Type == BetType.Number && (bet.Number > 36 || bet.Number == 0)) ||
+            (bet.Type == BetType.Dozen && bet.Number > 2) ||
+            ((bet.Type == BetType.Colour || bet.Type == BetType.Parity) && bet.Number > 1))
+        {
+            return false;
+        }
+
         return true;
     }
 }

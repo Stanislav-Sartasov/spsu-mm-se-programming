@@ -1,5 +1,5 @@
-﻿using Roulette;
-namespace Bots;
+﻿namespace Bots;
+using Roulette;
 
 public class BotOleg : APlayer
 {
@@ -7,19 +7,20 @@ public class BotOleg : APlayer
     private Colour currentColour;
     private bool firstBetInSequence;
 
-    public BotOleg(int sum, Casino casino) : base(sum, casino)
+    public BotOleg(int sum, Casino casino)
+        : base(sum, casino)
     {
-        currentBetSum = minBetAmount;
+        currentBetSum = MinBetAmount;
         currentColour = Colour.Black;
         firstBetInSequence = true;
     }
 
     public override void GiveNewRules(Casino casino)
     {
-        minBetAmount = casino.minBetAmount;
-        maxBetAmount = casino.maxBetAmount;
+        MinBetAmount = casino.MinBetAmount;
+        MaxBetAmount = casino.MaxBetAmount;
 
-        currentBetSum = minBetAmount;
+        currentBetSum = MinBetAmount;
         firstBetInSequence = true;
     }
 
@@ -28,11 +29,11 @@ public class BotOleg : APlayer
         return new Bet(BetType.Colour, (int)currentColour, currentBetSum);
     }
 
-    protected override void GiveResult(bool won, int result)
+    protected override void GiveResult(bool won)
     {
         if (won)
         {
-            currentBetSum = minBetAmount;
+            currentBetSum = MinBetAmount;
         }
         else
         {
@@ -42,7 +43,7 @@ public class BotOleg : APlayer
                 firstBetInSequence = false;
             }
 
-            currentBetSum = Math.Min(Math.Min(currentBetSum * 2, maxBetAmount), AmountOfMoney);
+            currentBetSum = Math.Min(Math.Min(currentBetSum * 2, MaxBetAmount), AmountOfMoney);
         }
     }
 }

@@ -1,36 +1,40 @@
-﻿using System.Security.Cryptography;
+﻿namespace Bots;
+using System.Security.Cryptography;
 using Roulette;
-namespace Bots;
 
 public class BotAndrei : APlayer
 {
-    private int lastResult;
+    private int currentNumber;
 
-    public BotAndrei(int sum, Casino casino) : base(sum, casino)
+    public BotAndrei(int sum, Casino casino)
+        : base(sum, casino)
     {
-        lastResult = 0;
+        currentNumber = 0;
     }
 
     public override void GiveNewRules(Casino casino)
     {
-        minBetAmount = casino.minBetAmount;
-        maxBetAmount = casino.maxBetAmount;
+        MinBetAmount = casino.MinBetAmount;
+        MaxBetAmount = casino.MaxBetAmount;
 
-        lastResult = 0;
+        currentNumber = 0;
     }
 
     protected override Bet MakeBet()
     {
-        if (lastResult == 0)
+        if (currentNumber == 0)
         {
-            return new Bet(BetType.Number, RandomNumberGenerator.GetInt32(36) + 1, minBetAmount);
+            return new Bet(BetType.Number, RandomNumberGenerator.GetInt32(36) + 1, MinBetAmount);
         }
 
-        return new Bet(BetType.Number, lastResult, minBetAmount);
+        return new Bet(BetType.Number, currentNumber, MinBetAmount);
     }
 
-    protected override void GiveResult(bool won, int result)
+    protected override void GiveResult(bool won)
     {
-        lastResult = result;
+        if (won)
+        {
+            currentNumber = RandomNumberGenerator.GetInt32(36) + 1;
+        }
     }
 }

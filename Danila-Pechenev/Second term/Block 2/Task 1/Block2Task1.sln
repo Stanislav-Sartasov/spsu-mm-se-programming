@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roulette", "Roulette\Roulet
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bots", "Bots\Bots.csproj", "{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trials", "Trials\Trials.csproj", "{378DEE99-2F12-494A-A778-E05BAD97F3D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Trials", "Trials\Trials.csproj", "{378DEE99-2F12-494A-A778-E05BAD97F3D8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.UnitTests", "Roulette.UnitTests\Roulette.UnitTests.csproj", "{EADB5FE4-87A1-43B6-A40C-9F4C8CDBF37E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bots.UnitTests", "Bots.UnitTests\Bots.UnitTests.csproj", "{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EADB5FE4-87A1-43B6-A40C-9F4C8CDBF37E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EADB5FE4-87A1-43B6-A40C-9F4C8CDBF37E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EADB5FE4-87A1-43B6-A40C-9F4C8CDBF37E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EADB5FE4-87A1-43B6-A40C-9F4C8CDBF37E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

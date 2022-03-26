@@ -1,30 +1,33 @@
-﻿using Roulette;
-namespace Bots;
+﻿namespace Bots;
+using Roulette;
 
 public class BotIgor : APlayer
 {
-    List<int> strategyList;
+    private List<int> strategyList;
 
-    public BotIgor(int sum, Casino casino) : base(sum, casino)
+    public BotIgor(int sum, Casino casino)
+        : base(sum, casino)
     {
-        strategyList = CreateNewStrategyList(minBetAmount);
+        strategyList = CreateNewStrategyList(MinBetAmount);
     }
 
     public override void GiveNewRules(Casino casino)
     {
-        minBetAmount = casino.minBetAmount;
-        maxBetAmount = casino.maxBetAmount;
+        MinBetAmount = casino.MinBetAmount;
+        MaxBetAmount = casino.MaxBetAmount;
 
-        strategyList = CreateNewStrategyList(minBetAmount);
+        strategyList = CreateNewStrategyList(MinBetAmount);
     }
 
     protected override Bet MakeBet()
     {
-        return new Bet(BetType.Parity, (int)Parity.Odd, 
-            Math.Max(minBetAmount, strategyList[0] + strategyList[strategyList.Count - 1]));
+        return new Bet(
+            BetType.Parity,
+            (int)Parity.Odd,
+            Math.Max(MinBetAmount, strategyList[0] + strategyList[^1]));
     }
 
-    protected override void GiveResult(bool won, int result)
+    protected override void GiveResult(bool won)
     {
         if (won)
         {
@@ -32,18 +35,18 @@ public class BotIgor : APlayer
             strategyList.RemoveAt(0);
             if (strategyList.Count < 2)
             {
-                strategyList = CreateNewStrategyList(minBetAmount);
+                strategyList = CreateNewStrategyList(MinBetAmount);
             }
         }
         else
         {
-            if (strategyList[0] + strategyList[strategyList.Count - 1] <= AmountOfMoney)
+            if (strategyList[0] + strategyList[^1] <= AmountOfMoney)
             {
-                strategyList.Add(strategyList[0] + strategyList[strategyList.Count - 1]);
+                strategyList.Add(strategyList[0] + strategyList[^1]);
             }
             else
             {
-                strategyList = CreateNewStrategyList(minBetAmount);
+                strategyList = CreateNewStrategyList(MinBetAmount);
             }
         }
     }
@@ -55,7 +58,7 @@ public class BotIgor : APlayer
         strategyList = new List<int>();
         for (int i = 0; i < size; i++)
         {
-            strategyList.Add(minBetAmount / 2 + (i - 3));
+            strategyList.Add((minBetAmount / 2) + (i - 3));
         }
 
         return strategyList;
