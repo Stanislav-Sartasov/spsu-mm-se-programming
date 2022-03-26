@@ -3,14 +3,14 @@ package casino.lib.blackjack
 import casino.lib.blackjack.BlackJackConstants.BJ
 import casino.lib.blackjack.BlackJackConstants.BJ_WIN_MULTIPLIER
 import casino.lib.blackjack.BlackJackConstants.WIN_MULTIPLIER
-import casino.lib.card.Card
+import casino.lib.blackjack.states.*
 import casino.lib.shoe.Shoe
 import casino.lib.shoe.ShoesFabric
 import kotlin.math.sign
 
 class Table private constructor(val info: TableInfo, private val shoeFabric: (numberOfDecks: Int) -> Shoe) {
 
-    fun playSession(strategy: PlayerStrategy, bankroll: UInt): Pair<UInt, List<GameState.Ended>> {
+    fun playSession(strategy: PlayerStrategy, bankroll: UInt): Pair<UInt, List<GameState.AfterGame>> {
         var newBankroll = bankroll
         val shoe = shoeFabric(info.numberOfDecks)
         val gameResults = buildList {
@@ -18,7 +18,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
                 if (newBankroll > 0u) {
                     val bet = strategy.getNextBet(
                         playerBankroll = newBankroll,
-                        gameState = GameState.BeforeGame(info, shoe.dealt)
+                        gameState = BeforeGameState(info, shoe.dealt)
                     )
                     require(bet <= newBankroll) { "Player's bet must not exceed his bankroll" }
 
@@ -35,7 +35,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
     }
 
 
-    private fun play(strategy: PlayerStrategy, bet: UInt, shoe: Shoe): GameState.Ended {
+    private fun play(strategy: PlayerStrategy, bet: UInt, shoe: Shoe): GameState.AfterGame {
         require(bet in info.allowedBets) { "Player's bet must be in the 'allowed bets' range" }
 
         val (initDealer, initPlayer) = shoe.dealInitCards()
@@ -58,12 +58,11 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
                     bet = bet,
                     shoe = shoe
                 )
-                is GameState.Ended -> null
-                is GameState.BeforeGame -> error("impossible")
+                is GameState.AfterGame -> null
             }
         }
 
-        return states.last() as GameState.Ended
+        return states.last() as GameState.AfterGame
     }
 
     private fun PlayerMove.applyMove(gameHands: GameHands, bet: UInt, shoe: Shoe): GameState {
@@ -73,7 +72,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
             PlayerMove.HIT -> {
                 val newPlayer = Hand(cards = player.cards + shoe.dealCard())
                 when {
-                    newPlayer.isBust() -> GameState.Ended.Lost
+                    newPlayer.isBust() -> GameState.AfterGame.Lost
                     newPlayer.total() == BJ -> endGame(
                         gameHands = GameHands(initDealer, player = newPlayer),
                         shoe = shoe,
@@ -105,17 +104,9 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
         )
 
 
-        // Private utilities
-
-        private data class GameHands(val initDealer: InitDealerHand, val player: Hand)
-
-        private data class InitDealerHand(val openCard: Card, val holeCard: Card) {
-
-            val hand = Hand(listOf(openCard, holeCard))
-        }
-
-
-        private val Shoe.publiclyDealt get() = dealt.toMutableList().apply { removeAt(index = 3) }.toList()
+        // Dealt cards from the shoe, but without the dealer's hole card
+        private val Shoe.publiclyDealt
+            get() = dealt.toMutableList().apply { removeAt(index = 3) }.toList()
 
         private fun Shoe.dealInitCards(): GameHands {
             val cards = List(size = 2 + 2) { dealCard() }
@@ -125,7 +116,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
             )
         }
 
-        private fun endGame(gameHands: GameHands, shoe: Shoe, bet: UInt): GameState.Ended {
+        private fun endGame(gameHands: GameHands, shoe: Shoe, bet: UInt): GameState.AfterGame {
             val (dealerHand, playerHand) = gameHands
             val finalDealerHand = Hand(
                 cards = buildList {
@@ -136,11 +127,11 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
             return cmpHandsAndGetEndState(finalDealerHand, playerHand, bet)
         }
 
-        private fun cmpHandsAndGetEndState(dealer: Hand, player: Hand, bet: UInt): GameState.Ended =
+        private fun cmpHandsAndGetEndState(dealer: Hand, player: Hand, bet: UInt): GameState.AfterGame =
             when (player.compareTo(dealer).sign) {
-                +1 -> GameState.Ended.Won(amount = player.calcWin(bet))
-                0 -> GameState.Ended.Push(amount = bet)
-                else -> GameState.Ended.Lost
+                +1 -> GameState.AfterGame.Won(amount = player.calcWin(bet))
+                0 -> GameState.AfterGame.Push(amount = bet)
+                else -> GameState.AfterGame.Lost
             }
 
         private fun Hand.calcWin(bet: UInt) =

@@ -2,11 +2,13 @@ package casino.lib.blackjack.bots.hilo
 
 import casino.lib.blackjack.*
 import casino.lib.blackjack.bots.basic.BasicStrategy
+import casino.lib.blackjack.states.BeforeGameState
+import casino.lib.blackjack.states.GameState
 import casino.lib.card.*
 
 object HiLoStrategy : PlayerStrategy {
 
-    override fun getNextBet(playerBankroll: UInt, gameState: GameState.BeforeGame): UInt {
+    override fun getNextBet(playerBankroll: UInt, gameState: BeforeGameState): UInt {
         val (table, discard) = gameState
         val tc = trueCount(
             runningCount = runningCount(cards = discard),

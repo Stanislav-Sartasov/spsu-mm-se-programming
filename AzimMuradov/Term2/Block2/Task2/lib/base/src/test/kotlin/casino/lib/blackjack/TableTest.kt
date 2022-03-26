@@ -1,5 +1,7 @@
 package casino.lib.blackjack
 
+import casino.lib.blackjack.states.BeforeGameState
+import casino.lib.blackjack.states.GameState
 import casino.lib.card.Card
 import casino.lib.shoe.StackShoe
 import org.junit.jupiter.api.Nested
@@ -44,11 +46,11 @@ internal class TableTest {
             assertEquals(expected = 5025u, actual = newBankroll)
             assertEquals(
                 expected = listOf(
-                    GameState.Ended.Push(amount = 50u),
-                    GameState.Ended.Lost,
-                    GameState.Ended.Won(amount = 125u),
-                    GameState.Ended.Lost,
-                    GameState.Ended.Won(amount = 100u),
+                    GameState.AfterGame.Push(amount = 50u),
+                    GameState.AfterGame.Lost,
+                    GameState.AfterGame.Won(amount = 125u),
+                    GameState.AfterGame.Lost,
+                    GameState.AfterGame.Won(amount = 100u),
                 ),
                 actual = results
             )
@@ -64,11 +66,11 @@ internal class TableTest {
             assertEquals(expected = 4975u, actual = newBankroll)
             assertEquals(
                 expected = listOf(
-                    GameState.Ended.Won(amount = 100u),
-                    GameState.Ended.Lost,
-                    GameState.Ended.Won(amount = 125u),
-                    GameState.Ended.Lost,
-                    GameState.Ended.Lost,
+                    GameState.AfterGame.Won(amount = 100u),
+                    GameState.AfterGame.Lost,
+                    GameState.AfterGame.Won(amount = 125u),
+                    GameState.AfterGame.Lost,
+                    GameState.AfterGame.Lost,
                 ),
                 actual = results
             )
@@ -94,8 +96,8 @@ internal class TableTest {
             assertEquals(expected = 0u, actual = newBankroll)
             assertEquals(
                 expected = listOf(
-                    GameState.Ended.Push(amount = 10u),
-                    GameState.Ended.Lost,
+                    GameState.AfterGame.Push(amount = 10u),
+                    GameState.AfterGame.Lost,
                 ),
                 actual = results
             )
@@ -145,7 +147,7 @@ internal class TableTest {
 
         fun simpleStrategy(bet: UInt) = object : PlayerStrategy {
 
-            override fun getNextBet(playerBankroll: UInt, gameState: GameState.BeforeGame) = bet
+            override fun getNextBet(playerBankroll: UInt, gameState: BeforeGameState) = bet
 
             override fun getNextMove(gameState: GameState.InGame): PlayerMove =
                 if (gameState.player.hand.total() < 16) PlayerMove.HIT else PlayerMove.STAND

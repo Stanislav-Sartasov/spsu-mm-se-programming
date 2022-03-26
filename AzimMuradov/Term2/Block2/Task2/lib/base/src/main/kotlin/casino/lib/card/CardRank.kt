@@ -17,10 +17,7 @@ enum class CardRank {
 
     override fun toString(): String = when (this) {
         ACE -> "A"
-        TWO, THREE, FOUR,
-        FIVE, SIX, SEVEN,
-        EIGHT, NINE, TEN,
-        -> (ordinal + 1).toString()
+        TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN -> (ordinal + 1).toString()
         JACK -> "J"
         QUEEN -> "Q"
         KING -> "K"
