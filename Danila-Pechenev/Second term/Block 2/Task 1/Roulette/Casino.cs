@@ -15,12 +15,12 @@ public class Casino
 
     public bool PlayWith(APlayer player)
     {
-        if (player.amountOfMoney <= 0) return false;
+        if (player.amountOfMoney < minBetAmount) return false;
 
+        int lastAmountOfMoney = player.amountOfMoney;
         Bet bet = player.MakeBet();
-
         int result = wheel.ThrowBall();
-        if (!validateBet(bet, player.amountOfMoney)) return false;
+        if (!validateBet(bet, lastAmountOfMoney)) return false;
 
         switch (bet.type)
         {
@@ -38,12 +38,15 @@ public class Casino
                 break;
         }
 
+        player.GiveResult(player.amountOfMoney >= lastAmountOfMoney);
         return true;
     }
 
     private bool validateBet(Bet bet, int playerAmountOfMoney)
     {
-        if (bet.sum >= playerAmountOfMoney || bet.sum <= 0) return false;
+        if (bet.sum >= playerAmountOfMoney || 
+            bet.sum > maxBetAmount ||
+            bet.sum < minBetAmount) return false;
         if (bet.number <= 0) return false;
         if (bet.type == BetType.Number && bet.number > 36) return false;
         if (bet.type == BetType.Dozen && bet.number > 2) return false;
