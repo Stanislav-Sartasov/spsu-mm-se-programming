@@ -12,6 +12,7 @@ public class Program
         Casino casino = new Casino(100, 20000);
 
         BotOleg botOleg;
+        BotIgor botIgor;
 
         int tmpSum = 0;
         for (int trial = 0; trial < countTrials; trial++)
@@ -23,6 +24,19 @@ public class Program
             }
             tmpSum += botOleg.AmountOfMoney;
         }
-        Console.WriteLine((double)tmpSum / countTrials);
+        Console.WriteLine($"Олег: {(double)tmpSum / countTrials}");
+
+
+        tmpSum = 0;
+        for (int trial = 0; trial < countTrials; trial++)
+        {
+            botIgor = new BotIgor(15000, casino);
+            for (int i = 0; i < countBets; i++)
+            {
+                casino.PlayWith(botIgor);
+            }
+            tmpSum += botIgor.AmountOfMoney;
+        }
+        Console.WriteLine($"Игорь: {(double)tmpSum / countTrials}");
     }
 }

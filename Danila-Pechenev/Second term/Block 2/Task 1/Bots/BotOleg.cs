@@ -6,6 +6,7 @@ public class BotOleg : APlayer
     private int currentBetSum;
     private Colour currentColour;
     private bool firstBetInSequence;
+
     public BotOleg(int sum, Casino casino) : base(sum, casino)
     {
         currentBetSum = minBetAmount;
@@ -24,7 +25,7 @@ public class BotOleg : APlayer
 
     protected override Bet MakeBet()
     {
-        return new Bet(BetType.Parity, (int)currentColour, currentBetSum);
+        return new Bet(BetType.Colour, (int)currentColour, currentBetSum);
     }
 
     protected override void GiveResult(bool won)
@@ -44,5 +45,4 @@ public class BotOleg : APlayer
             currentBetSum = Math.Min(Math.Min(currentBetSum * 2, maxBetAmount), AmountOfMoney);
         }
     }
-
 }
