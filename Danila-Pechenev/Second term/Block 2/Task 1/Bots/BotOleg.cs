@@ -13,7 +13,7 @@ public class BotOleg : APlayer
         firstBetInSequence = true;
     }
 
-    protected override void GiveNewRules(Casino casino)
+    public override void GiveNewRules(Casino casino)
     {
         minBetAmount = casino.minBetAmount;
         maxBetAmount = casino.maxBetAmount;
@@ -41,7 +41,7 @@ public class BotOleg : APlayer
                 firstBetInSequence = false;
             }
 
-            currentBetSum = Math.Min(Math.Min(currentBetSum * 2, maxBetAmount), amountOfMoney);
+            currentBetSum = Math.Min(Math.Min(currentBetSum * 2, maxBetAmount), AmountOfMoney);
         }
     }
 

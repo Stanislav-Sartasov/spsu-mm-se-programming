@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roulette", "Roulette\Roulette.csproj", "{D237A20C-F60A-4521-ACCC-CFA17C6826CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bots", "Bots\Bots.csproj", "{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bots", "Bots\Bots.csproj", "{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Trials", "Trials\Trials.csproj", "{378DEE99-2F12-494A-A778-E05BAD97F3D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{34BBFDAC-8B13-4CFE-8EE5-D11B01C0035C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{378DEE99-2F12-494A-A778-E05BAD97F3D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

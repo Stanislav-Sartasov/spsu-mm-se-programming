@@ -2,18 +2,18 @@
 
 public abstract class APlayer
 {
-    protected internal int amountOfMoney;
+    public int AmountOfMoney { get; protected internal set; }
     protected int minBetAmount;
     protected int maxBetAmount;
 
     public APlayer(int sum, Casino casino)
     {
-        amountOfMoney = sum;
+        AmountOfMoney = sum;
         minBetAmount = casino.minBetAmount;
         maxBetAmount = casino.maxBetAmount;
     }
 
-    protected internal virtual void GiveNewRules(Casino casino)
+    public virtual void GiveNewRules(Casino casino)
     {
         minBetAmount = casino.minBetAmount;
         maxBetAmount = casino.maxBetAmount;
@@ -21,7 +21,7 @@ public abstract class APlayer
 
     protected internal virtual bool WantsToPlay()
     {
-        return amountOfMoney >= minBetAmount;
+        return AmountOfMoney >= minBetAmount;
     }
 
     protected internal abstract Bet MakeBet();
