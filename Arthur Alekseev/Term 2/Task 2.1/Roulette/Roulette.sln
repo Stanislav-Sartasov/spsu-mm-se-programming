@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.Common", "Roulette.Common\Roulette.Common.csproj", "{94B163BD-E6BD-47C0-B183-7BCB378C7606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.Bot", "Roulette.Bot\Roulette.Bot.csproj", "{42DD0573-B2F5-4D30-89A2-4C1966AB3667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette", "Roulette\Roulette.csproj", "{B0A154D4-4272-4B3E-A0CB-964156DEDDEC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Roulette.UnitTests", "Roulette.UnitTests\Roulette.UnitTests.csproj", "{6E77F243-B2A9-490D-865A-C61EBCCC850E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94B163BD-E6BD-47C0-B183-7BCB378C7606}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94B163BD-E6BD-47C0-B183-7BCB378C7606}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94B163BD-E6BD-47C0-B183-7BCB378C7606}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94B163BD-E6BD-47C0-B183-7BCB378C7606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42DD0573-B2F5-4D30-89A2-4C1966AB3667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42DD0573-B2F5-4D30-89A2-4C1966AB3667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42DD0573-B2F5-4D30-89A2-4C1966AB3667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42DD0573-B2F5-4D30-89A2-4C1966AB3667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0A154D4-4272-4B3E-A0CB-964156DEDDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0A154D4-4272-4B3E-A0CB-964156DEDDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0A154D4-4272-4B3E-A0CB-964156DEDDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0A154D4-4272-4B3E-A0CB-964156DEDDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E77F243-B2A9-490D-865A-C61EBCCC850E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E77F243-B2A9-490D-865A-C61EBCCC850E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E77F243-B2A9-490D-865A-C61EBCCC850E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E77F243-B2A9-490D-865A-C61EBCCC850E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
