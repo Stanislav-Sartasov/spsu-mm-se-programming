@@ -25,7 +25,7 @@ internal class BasicStrategyTest {
                 playerBankroll = 10000u,
                 gameState = BeforeGameState(
                     table = TABLE_INFO,
-                    discard = listOf()
+                    dealt = listOf()
                 )
             )
 
@@ -38,7 +38,7 @@ internal class BasicStrategyTest {
                 playerBankroll = 1u,
                 gameState = BeforeGameState(
                     table = TABLE_INFO,
-                    discard = listOf()
+                    dealt = listOf()
                 )
             )
 
@@ -88,7 +88,7 @@ internal class BasicStrategyTest {
             table = TABLE_INFO,
             dealer = DealerState(openCard = dealer),
             player = PlayerState(hand = Hand(cards = player)),
-            discard = listOf()
+            dealt = listOf()
         )
     }
 }

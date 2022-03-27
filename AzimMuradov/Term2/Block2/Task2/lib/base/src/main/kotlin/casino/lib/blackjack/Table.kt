@@ -49,7 +49,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
                 table = info,
                 dealer = DealerState(initDealer.openCard),
                 player = PlayerState(initPlayer),
-                discard = shoe.publiclyDealt
+                dealt = shoe.publiclyDealt
             )
         ) { state ->
             when (state) {
@@ -82,7 +82,7 @@ class Table private constructor(val info: TableInfo, private val shoeFabric: (nu
                         table = info,
                         dealer = DealerState(initDealer.openCard),
                         player = PlayerState(newPlayer),
-                        discard = shoe.publiclyDealt
+                        dealt = shoe.publiclyDealt
                     )
                 }
             }

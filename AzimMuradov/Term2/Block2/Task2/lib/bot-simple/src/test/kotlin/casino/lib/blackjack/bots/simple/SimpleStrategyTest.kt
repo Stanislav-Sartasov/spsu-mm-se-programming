@@ -26,7 +26,7 @@ internal class SimpleStrategyTest {
                 playerBankroll = 10000u,
                 gameState = BeforeGameState(
                     table = TABLE_INFO,
-                    discard = listOf()
+                    dealt = listOf()
                 )
             )
 
@@ -39,7 +39,7 @@ internal class SimpleStrategyTest {
                 playerBankroll = 1u,
                 gameState = BeforeGameState(
                     table = TABLE_INFO,
-                    discard = listOf()
+                    dealt = listOf()
                 )
             )
 
@@ -61,7 +61,7 @@ internal class SimpleStrategyTest {
                         }
                     )
                 ),
-                discard = listOf()
+                dealt = listOf()
             )
         )
 

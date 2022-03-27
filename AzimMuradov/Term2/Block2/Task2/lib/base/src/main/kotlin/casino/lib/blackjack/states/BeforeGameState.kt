@@ -5,5 +5,5 @@ import casino.lib.card.Card
 
 data class BeforeGameState(
     val table: TableInfo,
-    val discard: List<Card>,
+    val dealt: List<Card>,
 )

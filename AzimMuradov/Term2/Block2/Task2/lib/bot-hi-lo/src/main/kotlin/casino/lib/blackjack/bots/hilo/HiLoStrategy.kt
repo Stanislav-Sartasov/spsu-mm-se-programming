@@ -9,10 +9,10 @@ import casino.lib.card.*
 object HiLoStrategy : PlayerStrategy {
 
     override fun getNextBet(playerBankroll: UInt, gameState: BeforeGameState): UInt {
-        val (table, discard) = gameState
+        val (table, dealt) = gameState
         val tc = trueCount(
-            runningCount = runningCount(cards = discard),
-            seenCardsSize = discard.size,
+            runningCount = runningCount(cards = dealt),
+            seenCardsSize = dealt.size,
             numberOfDecks = table.numberOfDecks
         )
         val betUnit = BasicStrategy.getNextBet(playerBankroll, gameState)
@@ -24,10 +24,10 @@ object HiLoStrategy : PlayerStrategy {
     }
 
     override fun getNextMove(gameState: GameState.InGame): PlayerMove {
-        val (table, dealer, player, discard) = gameState
+        val (table, dealer, player, dealt) = gameState
 
-        val rc = runningCount(cards = discard)
-        val tc = trueCount(runningCount = rc, seenCardsSize = discard.size, numberOfDecks = table.numberOfDecks)
+        val rc = runningCount(cards = dealt)
+        val tc = trueCount(runningCount = rc, seenCardsSize = dealt.size, numberOfDecks = table.numberOfDecks)
 
         val total = player.hand.total()
         val i = dealerIndex[dealer.openCard.rank]

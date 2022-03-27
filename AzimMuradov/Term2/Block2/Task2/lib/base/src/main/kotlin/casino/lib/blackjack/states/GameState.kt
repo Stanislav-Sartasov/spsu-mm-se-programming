@@ -9,7 +9,7 @@ sealed interface GameState {
         val table: TableInfo,
         val dealer: DealerState,
         val player: PlayerState,
-        val discard: List<Card>,
+        val dealt: List<Card>,
     ) : GameState
 
     sealed interface AfterGame : GameState {
