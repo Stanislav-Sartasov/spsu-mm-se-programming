@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import java.io.File.separatorChar as sep
 
 plugins {
     kotlin("jvm") version "1.6.10"
@@ -18,7 +19,7 @@ val libsNames = listOf(
 
 dependencies {
     for (libName in libsNames) {
-        implementation(files(projectDir.resolve(relative = "src/main/resources/$libName.jar").absolutePath))
+        implementation(files(projectDir.resolve(relative = "src${sep}main${sep}resources$sep$libName.jar").absolutePath))
     }
 }
 
@@ -29,7 +30,7 @@ val copyLibs by tasks.registering {
     doFirst {
         for (libName in libsNames) {
             tasks.findByPath(":lib:$libName:jar")!!.outputs.files.files.first().copyTo(
-                target = projectDir.resolve(relative = "src/main/resources/$libName.jar"),
+                target = projectDir.resolve(relative = "src${sep}main${sep}resources$sep$libName.jar"),
                 overwrite = true
             )
         }
