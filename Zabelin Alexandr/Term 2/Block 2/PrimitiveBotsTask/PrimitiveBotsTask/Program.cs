@@ -26,7 +26,7 @@ namespace PrimitiveBotsTask
                 averageBalance[2] += game.GetPlayerBalance() / 1000F;
             }
 
-            Console.WriteLine($"Star balance was {game.StartBalance}$");
+            Console.WriteLine($"Start balance was {game.StartBalance}$");
             Console.WriteLine($"Risky bot balance: {averageBalance[0]}$");
             Console.WriteLine($"Ordinary bot balance: {averageBalance[1]}$");
             Console.WriteLine($"Conservative bot balance: {averageBalance[2]}$");
