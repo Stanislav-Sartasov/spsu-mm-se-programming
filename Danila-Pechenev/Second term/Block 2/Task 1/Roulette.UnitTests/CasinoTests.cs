@@ -114,4 +114,22 @@ public class CasinoTests
         Assert.AreEqual(200, bot.GetMinimal());
         Assert.AreEqual(17000, bot.GetMaximal());
     }
+
+    public void PlayManyGamesTest()
+    {
+        Casino casino = new Casino(100, 5000);
+        BotAndrei bot = new BotAndrei(6000, casino);
+
+        try
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                casino.PlayWith(bot);
+            }
+        }
+        catch
+        {
+            Assert.Fail();
+        }
+    }
 }
