@@ -24,7 +24,7 @@ public class BotIgor : APlayer
         return new Bet(
             BetType.Parity,
             (int)Parity.Odd,
-            Math.Max(MinBetAmount, strategyList[0] + strategyList[^1]));
+            Math.Min(Math.Max(MinBetAmount, strategyList[0] + strategyList[^1]), MaxBetAmount));
     }
 
     protected override void GiveResult(bool won)
@@ -48,6 +48,11 @@ public class BotIgor : APlayer
             {
                 strategyList = CreateNewStrategyList(MinBetAmount);
             }
+        }
+
+        if (strategyList[0] + strategyList[^1] > AmountOfMoney)
+        {
+            strategyList = CreateNewStrategyList(MinBetAmount);
         }
     }
 

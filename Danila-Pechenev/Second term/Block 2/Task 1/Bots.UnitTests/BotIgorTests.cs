@@ -1,15 +1,15 @@
-namespace Bots.UnitTests;
+﻿namespace Bots.UnitTests;
 using NUnit.Framework;
 using Roulette;
 using Bots;
 
-public class BotAndreiTests
+public class BotIgorTests
 {
     [Test]
     public void PlayManyGamesTest()
     {
         Casino casino = new Casino(100, 5000);
-        BotAndrei bot = new BotAndrei(6000, casino);
+        BotIgor bot = new BotIgor(6000, casino);
 
         for (int i = 0; i < 10000; i++)
         {
@@ -21,14 +21,14 @@ public class BotAndreiTests
             {
                 Assert.AreEqual(false, casino.PlayWith(bot));
             }
-        } 
+        }
     }
 
     [Test]
     public void GiveNewRulesTest()
     {
         Casino casino = new Casino(300, 30000);
-        BotAndrei bot = new BotAndrei(3000, casino);
+        BotIgor bot = new BotIgor(3000, casino);
 
         for (int i = 0; i < 10; i++)
         {

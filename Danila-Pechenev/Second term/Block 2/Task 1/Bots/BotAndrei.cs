@@ -24,7 +24,8 @@ public class BotAndrei : APlayer
     {
         if (currentNumber == 0)
         {
-            return new Bet(BetType.Number, RandomNumberGenerator.GetInt32(36) + 1, MinBetAmount);
+            currentNumber = RandomNumberGenerator.GetInt32(36) + 1;
+            return new Bet(BetType.Number, currentNumber, MinBetAmount);
         }
 
         return new Bet(BetType.Number, currentNumber, MinBetAmount);
