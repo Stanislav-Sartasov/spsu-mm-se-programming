@@ -8,7 +8,7 @@ public class Program
     {
         int minBet = 100;
         int maxBet = 20000;
-        int countTrials = 100000;
+        int countTrials = 20000;
         int countBets = 40;
         int startAmountOfMoney = 12000;
 

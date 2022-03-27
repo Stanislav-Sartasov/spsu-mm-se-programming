@@ -1,6 +1,6 @@
 ﻿namespace Roulette;
 
-public struct Bet
+public class Bet
 {
     public BetType Type { get; init; }
 
