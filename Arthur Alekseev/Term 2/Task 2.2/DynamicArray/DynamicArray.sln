@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicArray", "DynamicArray\DynamicArray.csproj", "{E1F93D3D-79D7-4655-894D-3BA39EDEF990}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicArray.UnitTests", "DynamicArray.UnitTests\DynamicArray.UnitTests.csproj", "{EC98B361-1F9F-47C4-938E-9B76470B9A83}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1F93D3D-79D7-4655-894D-3BA39EDEF990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1F93D3D-79D7-4655-894D-3BA39EDEF990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1F93D3D-79D7-4655-894D-3BA39EDEF990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1F93D3D-79D7-4655-894D-3BA39EDEF990}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC98B361-1F9F-47C4-938E-9B76470B9A83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC98B361-1F9F-47C4-938E-9B76470B9A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC98B361-1F9F-47C4-938E-9B76470B9A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC98B361-1F9F-47C4-938E-9B76470B9A83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
