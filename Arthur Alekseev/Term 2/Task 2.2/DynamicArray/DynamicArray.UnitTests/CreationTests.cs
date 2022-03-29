@@ -2,7 +2,7 @@ using NUnit.Framework;
 
 namespace DynamicArray.UnitTests
 {
-	public class Tests
+	public class CreationTests
 	{
 		[Test]
 		public void StringArrayCreate()
