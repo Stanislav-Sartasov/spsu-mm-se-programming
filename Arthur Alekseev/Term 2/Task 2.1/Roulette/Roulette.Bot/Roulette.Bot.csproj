@@ -5,7 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Roulette.Common\Roulette.Common.csproj" />
+        <ProjectReference Include="..\Roulette.Common\Roulette.Common.csproj"/>
     </ItemGroup>
 
 </Project>

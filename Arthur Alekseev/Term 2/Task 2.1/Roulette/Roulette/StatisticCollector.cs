@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Roulette.Bot;
+using Roulette.Common.GamePlay;
 
 namespace Roulette
 {
@@ -11,14 +12,12 @@ namespace Roulette
 		private const int BotTypeAmount = 500;
 		private const int BotMoney = 10000;
 		private const int TurnAmount = 40;
-		private readonly Common.GamePlay.Roulette _roulette;
-		private readonly List<Bot.Bot> _players;
+
+		private readonly Game _game;
 
 		public StatisticCollector()
 		{
-			_players = new List<Bot.Bot>();
-			_roulette = new Common.GamePlay.Roulette();
-
+			_game = new Game();
 			FillPlayers();
 		}
 
@@ -26,26 +25,20 @@ namespace Roulette
 		{
 			for (var i = 0; i < BotAmount; i++)
 			{
-				_players.Add(new RandomBot(BotMoney));
-				_players.Add(new AllInBot(BotMoney));
-				_players.Add(new IntelligentBot(BotMoney));
-				_players.Add(new CautiousBot(BotMoney));
-				_players.Add(new AllInOneWinBot(BotMoney));
-				_players.Add(new LuckyBot(BotMoney));
-				_players.Add(new RedBetBot(BotMoney));
-				_players.Add(new BlackBetBot(BotMoney));
+				_game.AddPlayer(new RandomBot(BotMoney));
+				_game.AddPlayer(new AllInBot(BotMoney));
+				_game.AddPlayer(new IntelligentBot(BotMoney));
+				_game.AddPlayer(new CautiousBot(BotMoney));
+				_game.AddPlayer(new AllInOneWinBot(BotMoney));
+				_game.AddPlayer(new LuckyBot(BotMoney));
+				_game.AddPlayer(new RedBetBot(BotMoney));
+				_game.AddPlayer(new BlackBetBot(BotMoney));
 			}
 		}
 
 		public void CollectStatistics()
 		{
-			for (var i = 0; i < TurnAmount; i++)
-				PlayTurn();
-		}
-
-		private void PlayTurn()
-		{
-			foreach (var bet in _players.SelectMany(player => player.MakeBets())) bet.Play(_roulette.GetRandomField());
+			_game.PlayGame(TurnAmount);
 		}
 
 		public void LogStatistics()
@@ -81,7 +74,8 @@ namespace Roulette
 
 			foreach (var bot in types)
 			{
-				var average = (int) _players.FindAll(b => b.Name == bot.Name).Select(b => b.Money).Average();
+				var average = (int) _game.Players.FindAll(b => ((Bot.Bot) b).Name == bot.Name)
+					.Select(b => ((Bot.Bot) b).Money).Average();
 				StatisticsLogger.LogBotName(bot.Name);
 				StatisticsLogger.LogMessageNoNewLine(": ");
 				StatisticsLogger.LogMoney(average, BotMoney);
@@ -92,7 +86,8 @@ namespace Roulette
 			StatisticsLogger.LogHeader("Best bot results:");
 			foreach (var bot in types)
 			{
-				var maximum = _players.FindAll(b => b.Name == bot.Name).Select(b => b.Money).Max();
+				var maximum = _game.Players.FindAll(b => ((Bot.Bot) b).Name == bot.Name)
+					.Select(b => ((Bot.Bot) b).Money).Max();
 				StatisticsLogger.LogBotName(bot.Name);
 				StatisticsLogger.LogMessageNoNewLine(": ");
 				StatisticsLogger.LogMoney(maximum, BotMoney);
