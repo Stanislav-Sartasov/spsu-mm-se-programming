@@ -19,8 +19,8 @@ namespace CasinoLibTest
         public void TestRouletteSpin()
         {
             Assert.IsTrue(roulette.LastNumber == -1);
-            RouletteBet bet = new(testBet, BetType.Color);
-            bet.SetColor(0);
+            ColorRouletteBet bet = new ColorRouletteBet(testBet);
+            bet.SetColor(BetColorType.Black);
             roulette.Play(bet);
             Assert.IsTrue(roulette.LastNumber >= 0 && roulette.LastNumber <= 36);
         }
@@ -28,12 +28,12 @@ namespace CasinoLibTest
         [Test]
         public void TestGetColorCode()
         {
-            Assert.IsTrue(roulette.GetColorCode(1) == 1);
-            Assert.IsTrue(roulette.GetColorCode(2) == 0);
-            Assert.IsTrue(roulette.GetColorCode(0) == 2);
+            Assert.IsTrue(roulette.GetColorType(1) == BetColorType.Red);
+            Assert.IsTrue(roulette.GetColorType(2) == BetColorType.Black);
+            Assert.IsTrue(roulette.GetColorType(0) == BetColorType.Green);
             try
             {
-                roulette.GetColorCode(999);
+                roulette.GetColorType(999);
             }
             catch (Exception ex)
             {
@@ -44,12 +44,11 @@ namespace CasinoLibTest
         [Test]
         public void TestColorBet()
         {
-            Int64 testColor = 0;
-            RouletteBet bet = new(testBet, BetType.Color);
-            bet.SetColor(testColor);
+            ColorRouletteBet bet = new(testBet);
+            bet.SetColor(BetColorType.Black);
             Int64 result = roulette.Play(bet);
 
-            if (roulette.GetColorCode(roulette.LastNumber) == testColor)
+            if (roulette.GetColorType(roulette.LastNumber) == bet.Color)
             {
                 Assert.IsTrue(result == testBet);
             }
@@ -63,7 +62,7 @@ namespace CasinoLibTest
         public void TestSingleBet()
         {
             Int64 testNumber = 1;
-            RouletteBet bet = new(testBet, BetType.Single);
+            SingleRouletteBet bet = new(testBet);
             bet.SetSingle(testNumber);
             Int64 result = roulette.Play(bet);
 
@@ -80,9 +79,8 @@ namespace CasinoLibTest
         [Test]
         public void TestDozenBet()
         {
-            Int64 testDozen = 1;
-            RouletteBet bet = new(testBet, BetType.Dozen);
-            bet.SetDozen(testDozen);
+            DozenRouletteBet bet = new(testBet);
+            bet.SetDozen(BetDozenType.First);
             Int64 result = roulette.Play(bet);
 
             if (roulette.LastNumber <= 12 && roulette.LastNumber > 0)
@@ -98,9 +96,8 @@ namespace CasinoLibTest
         [Test]
         public void TestParityBet()
         {
-            Int64 testNumber = 1;
-            RouletteBet bet = new(testBet, BetType.Parity);
-            bet.SetParity(testNumber);
+            ParityRouletteBet bet = new(testBet);
+            bet.SetParity(BetParityType.Odd);
             Int64 result = roulette.Play(bet);
 
             if (roulette.LastNumber % 2 == 1)
@@ -119,17 +116,7 @@ namespace CasinoLibTest
             Int64 result;
             try
             {
-                RouletteBet bet = new(testBet, (CasinoLib.BetType)55);
-                roulette.Play(bet);
-                result = roulette.Play(bet);
-            }
-            catch (Exception ex)
-            {
-                Assert.IsTrue(ex.Message.Contains("Bet type is out of allowed range"));
-            }
-            try
-            {
-                RouletteBet bet = new(testBet, BetType.Single);
+                SingleRouletteBet bet = new(testBet);
                 bet.SetSingle(64);
             }
             catch (Exception ex)
@@ -138,30 +125,30 @@ namespace CasinoLibTest
             }
             try
             {
-                RouletteBet bet = new(testBet, BetType.Color);
-                bet.SetColor(64);
+                ColorRouletteBet bet = new(testBet);
+                bet.SetColor((BetColorType)64);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Argument can be between 0 and 2"));
+                Assert.IsTrue(ex.Message.Contains("Invalid color argument"));
             }
             try
             {
-                RouletteBet bet = new(testBet, BetType.Parity);
-                bet.SetParity(64);
+                ParityRouletteBet bet = new(testBet);
+                bet.SetParity((BetParityType)64);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Argument can be either 0 or 1"));
+                Assert.IsTrue(ex.Message.Contains("Invalid parity argument"));
             }
             try
             {
-                RouletteBet bet = new(testBet, BetType.Dozen);
-                bet.SetDozen(64);
+                DozenRouletteBet bet = new(testBet);
+                bet.SetDozen((BetDozenType)64);
             }
             catch (Exception ex)
             {
-                Assert.IsTrue(ex.Message.Contains("Argument can be between 1 and 3"));
+                Assert.IsTrue(ex.Message.Contains("Invalid dozen argument"));
             }
         }
     }

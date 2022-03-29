@@ -15,22 +15,23 @@
             LastNumber = new Random().Next(0, 36);
         }
 
-        public Int64 GetColorCode(Int64 number)
+        public BetColorType GetColorType(Int64 number)
         {
             if (number == 0)
             {
-                return 2;
+                return BetColorType.Green;
             }
             if (RedNumbers.Contains(number))
             {
-                return 1;
+                return BetColorType.Red;
             }
             if (BlackNumbers.Contains(number))
             {
-                return 0;
+                return BetColorType.Black;
             }
             throw new ArgumentOutOfRangeException("Ошибка! Тип ставки за пределом разрешённых значений.");
         }
+
         //Вернёт изменение баланса после ставки
         public Int64 Play(RouletteBet bet)
         {
@@ -38,16 +39,17 @@
             switch (bet.Type)
             {
                 //0 - чёрный, 1 - красный, 2 - зелёный 
-                case BetType.Color: 
-                    if (bet.Color is null)
+                case BetType.Color:
+                    BetColorType? betColor = ((ColorRouletteBet) bet).Color;
+                    if (betColor is null)
                     {
                         throw new ArgumentNullException("Color is null");
                     }
-                    if (GetColorCode(LastNumber) == bet.Color && bet.Color != 2)
+                    if (GetColorType(LastNumber) == betColor && betColor != BetColorType.Green)
                     {
                         return bet.Value;
                     }
-                    else if (GetColorCode(LastNumber) == bet.Color && bet.Color == 2)
+                    else if (GetColorType(LastNumber) == betColor && betColor == BetColorType.Green)
                     {
                         return bet.Value * 35;
                     }
@@ -58,11 +60,12 @@
                     break;
                 //0 - чётный, 1 - нечётный
                 case BetType.Parity:
-                    if (bet.Parity is null)
+                    BetParityType? betParity = ((ParityRouletteBet)bet).Parity;
+                    if (betParity is null)
                     {
                         throw new ArgumentNullException("Parity is null");
                     }
-                    if (bet.Parity % 2 != LastNumber % 2 || LastNumber == 0)
+                    if ((int)betParity != LastNumber % 2 || LastNumber == 0)
                     {
                         return -bet.Value;
                     }
@@ -73,11 +76,12 @@
                     break;
                 //Числа от 1 до 3 обозначают соотв. дюжину чисел (1-12, 13-24, 25-36) 
                 case BetType.Dozen:
-                    if (bet.Dozen is null)
+                    BetDozenType? betDozen = ((DozenRouletteBet)bet).Dozen;
+                    if (betDozen is null)
                     {
                         throw new ArgumentNullException("Dozen is null");
                     }
-                    if ((LastNumber <= 12 && LastNumber > 0 && bet.Dozen == 1) || (13 <= LastNumber && LastNumber <= 24 && bet.Dozen == 2) || (LastNumber > 24 && bet.Dozen == 3))
+                    if ((LastNumber <= 12 && LastNumber > 0 && (int)betDozen == 0) || (13 <= LastNumber && LastNumber <= 24 && (int)betDozen == 1) || (LastNumber > 24 && (int)betDozen == 2))
                     {
                         return bet.Value*2;
                     }
@@ -87,11 +91,12 @@
                     }
                     break;
                 case BetType.Single:
-                    if (bet.Single is null)
+                    Int64? betSingle = ((SingleRouletteBet)bet).Single;
+                    if (betSingle is null)
                     {
                         throw new ArgumentNullException("Single is null");
                     }
-                    if (LastNumber == bet.Single)
+                    if (LastNumber == betSingle)
                     {
                         return bet.Value * 35;
                     }

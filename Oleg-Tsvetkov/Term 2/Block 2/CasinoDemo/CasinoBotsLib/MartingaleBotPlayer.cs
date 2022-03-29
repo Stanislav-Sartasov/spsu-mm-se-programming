@@ -15,13 +15,13 @@ namespace CasinoBotsLib
                 return 10;
             }
         }
-        public Int64 LastColor { get; private set; }
+        public BetColorType LastColor { get; private set; }
 
         public MartingaleBotPlayer(Int64 money) : base(money) 
         {
             LastBetValue = BaseBetValue;
             IsLastWon = true;
-            LastColor = new Random().NextInt64(0, 1);
+            LastColor = (BetColorType)new Random().NextInt64(0, 1);
         }
 
         public override bool PlaceBetAndPlay(Roulette game)
@@ -32,10 +32,10 @@ namespace CasinoBotsLib
             }
             if (IsLastWon)
             {
-                LastColor = LastColor == 0 ? 1 : 0;
+                LastColor = LastColor == BetColorType.Black ? BetColorType.Red : BetColorType.Black;
                 LastBetValue = BaseBetValue;
                 Int64 betValue = Balance >= LastBetValue ? LastBetValue : Balance;
-                RouletteBet bet = new(betValue, BetType.Color);
+                ColorRouletteBet bet = new(betValue);
                 bet.SetColor(LastColor);
                 Int64 betResult = game.Play(bet);
                 Balance += betResult;
@@ -44,7 +44,7 @@ namespace CasinoBotsLib
             else
             {
                 LastBetValue = Balance >= LastBetValue*2 ? LastBetValue*2 : Balance;
-                RouletteBet bet = new(LastBetValue, BetType.Color);
+                ColorRouletteBet bet = new(LastBetValue);
                 bet.SetColor(LastColor);
                 Int64 betResult = game.Play(bet);
                 Balance += betResult;

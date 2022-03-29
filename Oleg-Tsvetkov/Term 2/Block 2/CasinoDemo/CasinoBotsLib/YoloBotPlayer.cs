@@ -31,7 +31,7 @@ namespace CasinoBotsLib
             {
                 LastNumber = new Random().NextInt64(0, 36);
             }
-            RouletteBet bet = new(BaseBetValue, BetType.Single);
+            SingleRouletteBet bet = new(BaseBetValue);
             bet.SetSingle(LastNumber);
             Int64 betResult = game.Play(bet);
             Balance += betResult;
