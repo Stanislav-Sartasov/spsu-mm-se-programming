@@ -12,7 +12,7 @@ namespace BasicLibrary
 		{
 			this.Bank = bank;
 		}
-		public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters, Shoes shoes)
+		public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
 		{
 
 			int answer = Game.GetCoorectAnswer(0,5);
@@ -21,14 +21,14 @@ namespace BasicLibrary
 			{
 				Console.WriteLine($"Current hand is {hand}");
 				Game.ShowTable(dealerHand, gamesters);
-				return this.Answer(hand, dealerHand, gamesters, shoes);
+				return this.Answer(hand, dealerHand, gamesters);
 			}
 			if ((answer == 2 && this.Bank < this.Bets[hand]) ||
 				(answer == 3 && 
-				(this.Hands[hand].Count != 2 || this.Hands[hand][0].Value != this.Hands[hand][1].Value)))
+				(this.Hands[hand].Count != 2 || this.Hands[hand][0].GetCardInfo()[2] != this.Hands[hand][1].GetCardInfo()[2])))
 				{
 					Console.WriteLine("Not available answer!");
-					return this.Answer(hand, dealerHand, gamesters, shoes);
+					return this.Answer(hand, dealerHand, gamesters);
 				}
 			else
 			{

@@ -12,31 +12,24 @@ namespace BasicLibrary
 
         public Deck()
         {
-            for (int i = 0; i<52; i++)
+            for (int i = 0; i < 52; i++)
             {
-                Cards[i] = new Card("","");
-                Cards[i].Suit = SuitFromInt(i % 4);
-                Cards[i].Rank = RankFromInt(i % 13);
-                Cards[i].Value = Cards[i].CalculateValue(Cards[i].Rank);
+                Cards[i] = new Card(i % 4 + 1, i % 13 + 1);
             }
         }
         
-        private string SuitFromInt(int suit)
+        public void Mix()
         {
-            if (suit == 0) return "Clubs";
-            else if (suit == 1) return "Diamonds";
-            else if (suit == 2) return "Hearts";
-            else return "Spades";
-        }
-        private string RankFromInt(int rank)
-        {
-            if (rank <= 8) return (rank + 2).ToString();
-            else if (rank == 9) return "Jack";
-            else if (rank == 10) return "Queen";
-            else if (rank == 11) return "King";
-            else return "Ace";
-        }
+            Random rand = new Random(DateTime.Now.Millisecond);
 
-        
+            for (int i = this.Cards.Length - 1; i >= 1; i--)
+            {
+                int j = rand.Next(i + 1);
+
+                Card tmp = this.Cards[j];
+                this.Cards[j] = this.Cards[i];
+                this.Cards[i] = tmp;
+            }
+        }
     }
 }

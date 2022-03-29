@@ -10,7 +10,7 @@ namespace BasicLibrary
     {
         public List<Card>[] Hands = new List<Card>[4];
         public int[] Sum = new int[4] { 0, 0, 0, 0};
-        public bool[] BlackJack = new bool[] { };
+        
             
         public Player()
         {
@@ -22,12 +22,12 @@ namespace BasicLibrary
         public void ReceiveCard(Card card, int hand)
         {
             this.Hands[hand].Add(card);
-            this.Sum[hand] += card.Value;
+            this.Sum[hand] += card.GetCardInfo()[2];
         }
 
         public bool IsBlackJack(int hand)
         {
-            if (Sum[hand] == 11 && Hands[hand].Exists(x => x.Rank == "Ace") && Hands[hand].Count == 2)
+            if (Sum[hand] == 11 && Hands[hand].Exists(x => x.GetCardInfo()[0] == 1) && Hands[hand].Count == 2)
             {
                 return true;
             }

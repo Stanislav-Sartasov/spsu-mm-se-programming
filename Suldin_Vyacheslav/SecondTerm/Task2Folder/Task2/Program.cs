@@ -8,14 +8,14 @@ namespace Task2
     class Program
     {
         static void Main(string[] args)
-        {
+       {
             Console.WriteLine("Choose program mode: 1 = task mode,  2 = with bots mode, 3 = solo mode\n" +
                 "if 3: 1 - call, 2 - double, 3 - split, 4 - surrender, 5 - show your cards" +
                 "\n0 on bet - game is end.");
 
-            Bot[] set = new Bot[] { new Counter(1), new OneThreeTwoSix(1), new Martingale(1),
-            new Counter(2), new OneThreeTwoSix(2), new Martingale(2),
-            new Counter(3), new OneThreeTwoSix(3), new Martingale(3)};
+            Bot[] set = new Bot[] { new Oscar(1), new OneThreeTwoSix(1), new Martingale(1),
+            new Oscar(2), new OneThreeTwoSix(2), new Martingale(2),
+            new Oscar(3), new OneThreeTwoSix(3), new Martingale(3)};
 
             Gambler man = new Gambler(100000);
             List<Gamester> players = new List<Gamester>(10);
@@ -30,19 +30,19 @@ namespace Task2
                         players.AddRange(set);
 
                         Game JackBlack = new Game(players);
-
-                        for (int j = 0; j < 100; j++)
+                        int j;
+                        for ( j = 0; j < 30; j++)
                         {
                             for (int i = 0; i < set.Length; i++)
                                 set[i].Bank = 10000;
                             JackBlack.Start(40);
 
                             for (int i = 0; i < set.Length; i++)
-                                taskAnswer[i] += set[i].Bank - 10000;
+                                set[i].Difference += (set[i].Bank - 10000)/100;
                         }
 
                         for (int i = 0; i < set.Length; i++)
-                            Console.WriteLine(taskAnswer[i] / 100);
+                            Console.WriteLine(set[i].Difference);
 
                         break;
                     }
@@ -65,11 +65,6 @@ namespace Task2
                         break;
                     }
             }
-
-
-            Console.WriteLine();
         }
-
-
     }
 }

@@ -8,34 +8,21 @@ namespace BasicLibrary
 {
     public class Card
     {
-        public string Suit;
-        public string Rank;
-        public int Value;
+        private int Suit;
+        private int Rank;
+        private int Value;
 
-        public Card(string suit, string rank)
+        public Card(int suit, int rank)
         {
             Suit = suit;
             Rank = rank;
             Value = CalculateValue(rank);
         }
-        public int CalculateValue(string rank)
+        public int CalculateValue(int rank)
         {
-            switch (rank.Length)
-            {
-                case 1:
-                    {
-                        return rank[0] - '0';
-                    }
-                case 3: 
-                    {
-                        return 1;
-                    }
-                default:
-                    {
-                        return 10;
-                    }   
-            }
-
+            if (rank > 10) return 10;
+            else return rank;
+                 
         }
         public static bool operator ==(Card firstCard,Card secondCard)
         {
@@ -51,5 +38,16 @@ namespace BasicLibrary
         {
             return !(firstCard == secondCard);
         }
+
+        public int[] GetCardInfo()
+        {
+            int[] cardInfo = new int[3] {this.Rank, this.Suit, this.Value };
+            return cardInfo;
+        }
     }
+
+    //1 - Ase
+    //11 - Jack
+    //12 - Queen
+    //13 - King
 }

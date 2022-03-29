@@ -22,7 +22,7 @@ namespace BotLibrary
                 LoseStreak++;
             else LoseStreak = 0;
             int bet = Cycle;
-            for (int i = 0; i< LoseStreak; i++)
+            for (int i = 0; i < LoseStreak; i++)
             {
                 bet *= 2;
             }

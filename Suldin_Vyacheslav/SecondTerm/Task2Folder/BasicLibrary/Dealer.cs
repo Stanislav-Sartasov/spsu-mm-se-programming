@@ -8,34 +8,7 @@ namespace BasicLibrary
 {
     public class Dealer : Player
     {
-        public Deck MixDeck(Deck deck)
-        {
-            Random rand = new Random();
-
-            for (int i = deck.Cards.Length - 1; i >= 1; i--)
-            {
-                int j = rand.Next(i + 1);
-
-                Card tmp = deck.Cards[j];
-                deck.Cards[j] = deck.Cards[i];
-                deck.Cards[i] = tmp;
-            }
-            return deck;
-        }
-
-        public void FillShoe(Shoes to, int numberOfDecks)
-        {
-            to.Queue.Clear();
-            to.Current = 0;
-            for (int i = 0; i < numberOfDecks; i++)
-            {
-                Deck deck = new Deck();
-                this.MixDeck(deck);
-                to.Queue.AddRange(deck.Cards); 
-            }
-            
-        }
-
+        
         public void InitialDistribution(List<Gamester> gamesters, Shoes shoes, int[,] condition)
         {
             for (int k = 0; k < 2; k++)
@@ -61,15 +34,15 @@ namespace BasicLibrary
             }
             if (show) Game.ShowTable(this.Hands[0],gamesters);
             for (int i = 0; i < gamesters.Count; i++)
-                for (int j = 0; j<4 && gamesters[i].Bets[j] !=0 ; j++)
+                for (int j = 0; j < 4 && gamesters[i].Bets[j] != 0 ; j++)
                 {
-                    if (gamesters[i].Sum[j]>21)
+                    if (gamesters[i].Sum[j] > 21)
                     {
                         gamesters[i].Bets[j] = 0;
                         if (show) Console.WriteLine("player's bust");                        
                         continue;
                     }
-                    else if (this.Sum[0]>21)
+                    else if (this.Sum[0] > 21)
                     {
                         gamesters[i].Bank += gamesters[i].Bets[j] * 2;
                         gamesters[i].Bets[j] = 0;
@@ -143,14 +116,14 @@ namespace BasicLibrary
         {
             
             for (int i = 0; i < gamesters.Count; i++)
-                for (int j = 0; j<4 && gamesters[i].Bets[j]!=0; j++)
+                for (int j = 0; j < 4 && gamesters[i].Bets[j] != 0; j++)
                 {
-                    if (gamesters[i].Sum[j]>=21 || gamesters[i].IsBlackJack(j))
+                    if (gamesters[i].Sum[j] >= 21 || gamesters[i].IsBlackJack(j))
                         condition[i, j] = 0;
 
                     if (condition[i, j] != 0)
                     {
-                        condition[i, j] = gamesters[i].Answer(j,this.Hands[0],gamesters, shoes);
+                        condition[i, j] = gamesters[i].Answer(j,this.Hands[0],gamesters);
                         switch (condition[i, j])
                         {
                             case 0: // stand on cards
@@ -200,7 +173,7 @@ namespace BasicLibrary
                     }
 
                     else if (gamesters[i].Sum[j] + 10 < 21 &&
-                        gamesters[i].Hands[j].Exists(x => x.Rank == "Ace"))
+                        gamesters[i].Hands[j].Exists(x => x.GetCardInfo()[0] == 1))
                     {
                         gamesters[i].Sum[j] += 10;
                     }
@@ -212,15 +185,14 @@ namespace BasicLibrary
         }
         public void GiveCard(Player to, int hand, Shoes from)
         {
-            to.ReceiveCard(from.Queue[from.Current], hand);
-            from.Current++;
+            to.ReceiveCard(from.Withdraw(), hand);
         }
         public void GiveBlackJack(Player to, int hand)
         {
             if (to.Hands[hand].Count == 0)
             {
-                to.ReceiveCard(new Card("diamonds", "Jack"), hand);
-                to.ReceiveCard(new Card("diamonds", "Ace"), hand);
+                to.ReceiveCard(new Card(1, 11), hand);
+                to.ReceiveCard(new Card(1, 1), hand);
             }
         }
 

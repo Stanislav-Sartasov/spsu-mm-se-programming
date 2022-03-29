@@ -24,16 +24,16 @@ namespace Task3.UnitTests
             }
 
                 
-            for (int i = 0; i<12; i++)
+            for (int i = 0; i < 12; i++)
             {
                 if ((i - 2) % 3 == 0)
                 {
                     if (firstTestList.Find(i) != null || secondTestList.Find(i) != null) 
-                        Assert.Fail(i.ToString());
+                        Assert.Fail();
                 }
                     
                 else
-                    if (firstTestList.Find(i) == null || secondTestList.Find(i) == null) Assert.Fail(i.ToString());
+                    if (firstTestList.Find(i) == null || secondTestList.Find(i) == null) Assert.Fail();
             }
         }
 
@@ -42,7 +42,7 @@ namespace Task3.UnitTests
         {
             MyList<int> testList = new MyList<int>();
 
-            for (int i = 3; i <= 9; i +=2)
+            for (int i = 3; i <= 9; i += 2)
             {
                 testList.AddFirst(i);
                 testList.AddLast(i + 1);
@@ -50,9 +50,9 @@ namespace Task3.UnitTests
 
             for (int i = 12; i >= 7; i--)
             {
-                if (i>10 && testList.Delete(i)) Assert.Fail("0");
+                if (i > 10 && testList.Delete(i)) Assert.Fail();
 
-                else if(i<=10)
+                else if(i <= 10)
                 {
                     Node<int> sampleNode;
                     if (i % 2 == 1)
@@ -64,17 +64,17 @@ namespace Task3.UnitTests
                         sampleNode = testList.Tail;
                     }
 
-                    if (!( testList.Length() == 8 + i - 10 && testList.Delete(i)))  Assert.Fail("1123");
+                    if (!( testList.Length() == 8 + i - 10 && testList.Delete(i)))  Assert.Fail();
 
                     if (i % 2 == 1)
                     {
                         if (testList.Head.Previous != null || sampleNode.Next != testList.Head)
-                            Assert.Fail("2");
+                            Assert.Fail();
                     }
                     else
                     {
                         if (testList.Tail.Next != null)
-                            Assert.Fail(i.ToString());
+                            Assert.Fail();
                     }
                     
                 }
@@ -97,15 +97,15 @@ namespace Task3.UnitTests
             for (int i = 0; i <= 10; i ++)
             {
                 testList.AddFirst(i);
-                if (testList.Length() != i + 1) Assert.Fail("1");
+                if (testList.Length() != i + 1) Assert.Fail();
             }            
     
-            Node<int> tmp = testList.Head;
+            Node<int> temporary = testList.Head;
 
             for (int i = 0; i < 10; i++)
             {
-                if (tmp.Next.Item - tmp.Item != -1) Assert.Fail(i.ToString()+"as");
-                tmp = tmp.Next;
+                if (temporary.Next.Item - temporary.Item != -1) Assert.Fail();
+                temporary = temporary.Next;
             }
             Assert.Pass();
         }
@@ -117,15 +117,15 @@ namespace Task3.UnitTests
             for (int i = 0; i <= 10; i++)
             {
                 testList.AddLast(i);
-                if (testList.Length() != i + 1) Assert.Fail("1");
+                if (testList.Length() != i + 1) Assert.Fail();
             }
 
-            Node<int> tmp = testList.Tail;
+            Node<int> temporary = testList.Tail;
 
             for (int i = 0; i < 10; i++)
             {
-                if (tmp.Previous.Item - tmp.Item != -1) Assert.Fail(i.ToString() + "as");
-                tmp = tmp.Previous;
+                if (temporary.Previous.Item - temporary.Item != -1) Assert.Fail();
+                temporary = temporary.Previous;
             }
             Assert.Pass();
         }
@@ -135,13 +135,13 @@ namespace Task3.UnitTests
         public void AddRange()
         {
             MyList<int> testList = new MyList<int>();
-            int[] arr = new int[10];
-            for (int i = 0; i < arr.Length; i++)
-                arr[i] = i;
+            int[] array = new int[10];
+            for (int i = 0; i < array.Length; i++)
+                array[i] = i;
 
-            testList.AddRange(arr);
+            testList.AddRange(array);
 
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (testList.Find(i) == null) Assert.Fail();
             }

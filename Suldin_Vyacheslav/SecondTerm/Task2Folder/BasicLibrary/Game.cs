@@ -7,16 +7,16 @@ namespace BasicLibrary
     public class Game
     {
         public List<Gamester> Gamesters;
-        public Dealer TheDealer;
-        public Shoes TheShoes;
+        private Dealer GameDealer;
+        private Shoes GameShoes;
 
         
-        public Game(List<Gamester> Gamesters)
+        public Game(List<Gamester> gamesters)
         {
-            this.Gamesters = Gamesters;
-            TheShoes = new Shoes();
-            TheDealer = new Dealer();
-            TheDealer.FillShoe(TheShoes, 8);
+            this.Gamesters = gamesters;
+            GameShoes = new Shoes();
+            GameDealer = new Dealer();
+            GameShoes.Fill(8);
             
         }
         public void Start(int shuffle)
@@ -25,8 +25,8 @@ namespace BasicLibrary
             {
                 shuffle--;
 
-                if (this.TheShoes.Current > 300)
-                    TheDealer.FillShoe(TheShoes, 8);
+
+                GameShoes.Check();
 
                 bool stop = true;
 
@@ -43,20 +43,20 @@ namespace BasicLibrary
 
                 int[,] condition = new int[10, 4];
 
-                TheDealer.InitialDistribution(Gamesters, TheShoes, condition);
+                GameDealer.InitialDistribution(Gamesters, GameShoes, condition);
 
-                while (TheDealer.Ask(Gamesters, TheShoes, condition))
+                while (GameDealer.Ask(Gamesters, GameShoes, condition))
                 {
                 }
 
 
-                while (TheDealer.Sum[0] < 17 && !TheDealer.IsBlackJack(0))
-                    TheDealer.GiveCard(TheDealer, 0, TheShoes);
+                while (GameDealer.Sum[0] < 17 && !GameDealer.IsBlackJack(0))
+                    GameDealer.GiveCard(GameDealer, 0, GameShoes);
 
 
-                TheDealer.CalculateBets(Gamesters);
+                GameDealer.CalculateBets(Gamesters);
 
-                TheDealer.GetCardsBack(Gamesters);
+                GameDealer.GetCardsBack(Gamesters);
 
             }
         }
@@ -73,7 +73,7 @@ namespace BasicLibrary
             Console.Write("          ");
             for (int i = 0; i < dealerHand.Count; i++)
             {
-                Console.Write($"{dealerHand[i].Value} ");
+                Console.Write($"{dealerHand[i].GetCardInfo()[2]} ");
             }
             Console.Write("\n\n");
             for (int i = 0; i < gamesters.Count; i++)
@@ -85,7 +85,7 @@ namespace BasicLibrary
                     Console.Write($"{j}-hand: [");
                     for (int k = 0; k < gamesters[i].Hands[j].Count; k++)
                     {
-                        Console.Write($"{gamesters[i].Hands[j][k].Value} ");
+                        Console.Write($"{gamesters[i].Hands[j][k].GetCardInfo()[2]} ");
                     }
                     Console.Write("]  bet:");
                     Console.Write($"{gamesters[i].Bets[j]} ");

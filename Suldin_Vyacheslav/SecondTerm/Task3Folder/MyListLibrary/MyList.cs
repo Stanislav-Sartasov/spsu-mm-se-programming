@@ -33,11 +33,11 @@ namespace MyListLibrary
         public void AddFirst(T item)
         {
             Node<T> newNode = new Node<T>(item);
-            Node<T> tmpNode = Head;
-            newNode.Next = tmpNode;
+            Node<T> temporaryNode = Head;
+            newNode.Next = temporaryNode;
             Head = newNode;
             if (Lenght == 0) Tail = Head;
-            else tmpNode.Previous = newNode;
+            else temporaryNode.Previous = newNode;
             Lenght++;
         }
 
