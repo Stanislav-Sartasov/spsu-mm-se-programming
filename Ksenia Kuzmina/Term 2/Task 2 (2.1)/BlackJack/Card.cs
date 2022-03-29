@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Casino;
 
-namespace Casino
+namespace Blackjack
 {
 	public class Card
 	{
-		public CardSuit Suit;
-		public CardNumber Number;
+		public readonly CardSuit Suit;
+		public readonly CardNumber Number;
 
 		public Card(CardSuit suit, CardNumber number)
 		{

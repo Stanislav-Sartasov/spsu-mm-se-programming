@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Casino
+namespace Blackjack
 {
 	public class Game
 	{
@@ -19,8 +19,7 @@ namespace Casino
 			Deck.Shuffle();
 
 			Players = new List<Player>();
-
-			Console.WriteLine("All players will have " + sum + "$");
+			WriteStartSum(sum);
 		}
 
 		public void PlayGame()
@@ -28,7 +27,6 @@ namespace Casino
 			int count = 0;
 			while (count != 40)
 			{
-
 				Deck = new Deck();
 				Deck.Shuffle();
 
@@ -36,7 +34,7 @@ namespace Casino
 				{
 					if (Players[i].Money <= 0)
 					{
-						Console.WriteLine(Players[i].Name + " doesn't have enight money. They are out of game.");
+						WriteOutOfGameMessage(Players[i]);
 						Players.Remove(Players[i]);
 						i--;
 					}
@@ -44,14 +42,14 @@ namespace Casino
 
 				if (Players.Count == 0)
 				{
-					Console.WriteLine("There are no solvent players. The game is over.");
+					WriteGameOverMessage();
 					return;
 				}
 
 				foreach (Player player in Players)
 				{
 					player.MakeBet();
-					Console.WriteLine(player.Name + " made a bet of " + player.Hands[0].Bet + "$");
+					WritePlayerBet(player);
 				}
 
 				Dealer.Begin(Deck);
@@ -60,17 +58,12 @@ namespace Casino
 				{
 					player.Hands[0].Hit(Deck.GetCard());
 					player.Hands[0].Hit(Deck.GetCard());
-					Console.Write(player.Name + " received the following cards: ");
-					for (int i = 0; i < 2; i++)
-					{
-						Console.Write(player.Hands[0].Cards[i].FindOutTheNameOfTheCard() + " ");
-					}
-					Console.WriteLine("\n" + player.Name + " has " + player.Hands[0].Score + " points\n");
+					WritePlayerCards(player);
 				}
 
 				if (Dealer.Cards[0].Number == CardNumber.Ace)
 				{
-					Console.WriteLine("Dealer has an ace.");
+					WriteDealerAce();
 					foreach (Player player in Players)
 						player.GetInsurance(Dealer);
 
@@ -97,13 +90,7 @@ namespace Casino
 				}
 
 				Dealer.Play(Deck);
-
-				Console.Write("Dealer has the following cards: ");
-				foreach (Card card in Dealer.Cards)
-				{
-					Console.Write(card.FindOutTheNameOfTheCard() + " ");
-				}
-				Console.WriteLine("\nDealer has got " + Dealer.Score + " points.\n");
+				WriteDealerCards();
 
 				foreach (Player player in Players)
 				{
@@ -115,11 +102,7 @@ namespace Casino
 
 				count++;
 			}
-			foreach (Player player in Players)
-			{
-				Console.WriteLine(player.Name + " has " + player.Money + "$");
-			}
-			Console.WriteLine("All other players spent all their money and they are out of game.");
+			WriteResults();
 
 		}
 
@@ -136,6 +119,60 @@ namespace Casino
 				return true;
 			}
 			return false;
+		}
+
+		public void WriteOutOfGameMessage(Player player)
+		{
+			Console.WriteLine(player.Name + " doesn't have enough money. They are out of game.");
+		}
+
+		public void WriteGameOverMessage()
+		{
+			Console.WriteLine("There are no solvent players. The game is over.");
+		}
+
+		public void WritePlayerBet(Player player)
+		{
+			Console.WriteLine(player.Name + " made a bet of " + player.Hands[0].Bet + "$");
+		}
+
+		public void WritePlayerCards(Player player)
+		{
+			Console.Write(player.Name + " received the following cards: ");
+			for (int i = 0; i < 2; i++)
+			{
+				Console.Write(player.Hands[0].Cards[i].FindOutTheNameOfTheCard() + " ");
+			}
+			Console.WriteLine("\n" + player.Name + " has " + player.Hands[0].Score + " points\n");
+		}
+
+		public void WriteDealerAce()
+		{
+			Console.WriteLine("Dealer has an ace.");
+		}
+
+		public void WriteDealerCards()
+		{
+			Console.Write("Dealer has the following cards: ");
+			foreach (Card card in Dealer.Cards)
+			{
+				Console.Write(card.FindOutTheNameOfTheCard() + " ");
+			}
+			Console.WriteLine("\nDealer has got " + Dealer.Score + " points.\n");
+		}
+
+		public void WriteResults()
+		{
+			foreach (Player player in Players)
+			{
+				Console.WriteLine(player.Name + " has " + player.Money + "$");
+			}
+			Console.WriteLine("All other players spent all their money and they are out of game.");
+		}
+
+		public void WriteStartSum(int sum)
+		{
+			Console.WriteLine("All players will have " + sum + "$");
 		}
 	}
 }

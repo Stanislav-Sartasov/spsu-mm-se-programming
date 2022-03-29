@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Casino;
 
-namespace Casino
+namespace Blackjack
 {
 	public class Deck
 	{
-		public List<Card> Cards;
-		public Random Rnd = new Random();
+		public List<Card> Cards { get; private set; }
+		public Random Rnd = new Random(DateTime.Now.Millisecond);
 
 		public Deck()
 		{

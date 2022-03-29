@@ -1,7 +1,8 @@
 using NUnit.Framework;
 using System;
+using Bots;
 
-namespace Casino.UnitTests
+namespace Blackjack.UnitTests
 {
 	public class Tests
 	{
