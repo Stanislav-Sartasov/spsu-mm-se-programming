@@ -15,7 +15,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BlackjackBots\BlackjackBots.csproj" />
+    <ProjectReference Include="..\..\BlackjackBots\BlackjackBots.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BlackjackBots">
+      <HintPath>..\..\BlackjackBots\bin\Debug\net6.0\BlackjackBots.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>
