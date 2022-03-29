@@ -9,24 +9,22 @@ namespace Filters
 {
 	public class Image
 	{
-		public byte[] HeaderInfo;
+		private byte[] HeaderInfo;
 		public Pixel[,] Pixels;
 		public int Width;
 		public int Height;
-		public int Size;
-		public short BitCount;
-		public int OffBits;
+		private int Size;
+		private short BitCount;
+		private int OffBits;
 
-		public void BitMapping(string Name)
+		public void BitMap(string name)
 		{
-			int Counter1;
-			int Counter2;
-			int Adds, Position;
-			byte[] Data = File.ReadAllBytes(Name);
+			int adds, position;
+			byte[] data = File.ReadAllBytes(name);
 
-			OffBits = BitConverter.ToInt32(Data, 10);
+			OffBits = BitConverter.ToInt32(data, 10);
 			HeaderInfo = new byte[OffBits];
-			Array.Copy(Data, HeaderInfo, OffBits);
+			Array.Copy(data, HeaderInfo, OffBits);
 			BitCount = BitConverter.ToInt16(HeaderInfo, 28);
 			Width = BitConverter.ToInt32(HeaderInfo, 18);
 			Height = BitConverter.ToInt32(HeaderInfo, 22);
@@ -34,62 +32,61 @@ namespace Filters
 
 			Pixels = new Pixel[Height, Width];
 
-			Adds = (4 - (Width * (BitCount / 8) % 4)) % 4;
-			for (Counter1 = 0; Counter1 < Height; Counter1++)
+			adds = (4 - (Width * (BitCount / 8) % 4)) % 4;
+			for (int x = 0; x < Height; x++)
 			{
-				for (Counter2 = 0; Counter2 < Width; Counter2++)
+				for (int y = 0; y < Width; y++)
 				{
-					Pixels[Counter1, Counter2] = new Pixel();
-					Position = OffBits + ((BitCount / 8) * Width + Adds) * Counter1 + Counter2 * (BitCount / 8);
-					Pixels[Counter1, Counter2].B = Data[Position];
-					Pixels[Counter1, Counter2].G = Data[Position + 1];
-					Pixels[Counter1, Counter2].R = Data[Position + 2];
+					Pixels[x, y] = new Pixel();
+					position = OffBits + ((BitCount / 8) * Width + adds) * x + y * (BitCount / 8);
+					Pixels[x, y].B = data[position];
+					Pixels[x, y].G = data[position + 1];
+					Pixels[x, y].R = data[position + 2];
 				}
 			}
 		}
 
-		public void SavingFile(string Name)
+		public void SaveFile(string Name)
 		{
-			int Counter1, Counter2;
-			int Adds, Position = OffBits;
+			int adds, position = OffBits;
 
-			byte[] Data = new byte[Size];
-			Array.Copy(HeaderInfo, Data, OffBits);
+			byte[] data = new byte[Size];
+			Array.Copy(HeaderInfo, data, OffBits);
 
 			if (BitCount == 24)
 			{
-				Adds = (4 - (Width * (BitCount / 8) % 4)) % 4;
-				for (Counter1 = 0; Counter1 < Height; Counter1++)
+				adds = (4 - (Width * (BitCount / 8) % 4)) % 4;
+				for (int x = 0; x < Height; x++)
 				{
-					for (Counter2 = 0; Counter2 < Width; Counter2++)
+					for (int y = 0; y < Width; y++)
 					{
-						Data[Position] = Pixels[Counter1, Counter2].B;
-						Data[Position + 1] = Pixels[Counter1, Counter2].G;
-						Data[Position + 2] = Pixels[Counter1, Counter2].R;
-						Position += 3;
+						data[position] = Pixels[x, y].B;
+						data[position + 1] = Pixels[x, y].G;
+						data[position + 2] = Pixels[x, y].R;
+						position += 3;
 					}
-					for (Counter2 = 0; Counter2 < Adds; Counter2++)
+					for (int y = 0; y < adds; y++)
 					{
-						Data[Position + 3 + Counter2] = (byte)'\0';
+						data[position + 3 + y] = (byte)'\0';
 					}
-					Position += Adds;
+					position += adds;
 				}
 			}
 			else if (BitCount == 32)
 			{
-				for (Counter1 = 0; Counter1 < Height; Counter1++)
+				for (int x = 0; x < Height; x++)
 				{
-					for (Counter2 = 0; Counter2 < Width; Counter2++)
+					for (int y = 0; y < Width; y++)
 					{
-						Data[Position] = Pixels[Counter1, Counter2].B;
-						Data[Position + 1] = Pixels[Counter1, Counter2].G;
-						Data[Position + 2] = Pixels[Counter1, Counter2].R;
-						Data[Position + 3] = (byte)'\0';
-						Position += 4;
+						data[position] = Pixels[x, y].B;
+						data[position + 1] = Pixels[x, y].G;
+						data[position + 2] = Pixels[x, y].R;
+						data[position + 3] = (byte)'\0';
+						position += 4;
 					}
 				}
 			}
-			File.WriteAllBytes(Name, Data);
+			File.WriteAllBytes(Name, data);
 		}
 	}
 }

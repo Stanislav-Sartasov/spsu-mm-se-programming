@@ -8,49 +8,48 @@ namespace Filters
 {
 	public class MedianFilter
 	{
-		public void ApplyingMedianFilter(Image Image, int Scale)
+		public void ApplyMedianFilter(Image image, int scale)
 		{
-			byte[] Red = new byte[Scale * Scale], Green = new byte[Scale * Scale], Blue = new byte[Scale * Scale];
-			Pixel[,] Buffer = new Pixel[Image.Height, Image.Width];
-			int Counter1, Counter2, Counter3, Counter4, Counter5;
-			int OffSet = Scale / 2, Row, Column;
+			byte[] red = new byte[scale * scale], green = new byte[scale * scale], blue = new byte[scale * scale];
+			Pixel[,] buffer = new Pixel[image.Height, image.Width];
+			int offSet = scale / 2, row, column;
 
-			for (Counter1 = 0; Counter1 < Image.Height; Counter1++)
+			for (int imageX = 0; imageX < image.Height; imageX++)
 			{
-				for (Counter2 = 0; Counter2 < Image.Width; Counter2++)
+				for (int imageY = 0; imageY < image.Width; imageY++)
 				{
-					Counter5 = 0;
-					for (Counter3 = -OffSet; Counter3 < OffSet + 1; Counter3++)
+					int counter = 0;
+					for (int matrixX = -offSet; matrixX < offSet + 1; matrixX++)
 					{
-						Row = Counter1 + Counter3;
-						for (Counter4 = -OffSet; Counter4 < OffSet + 1; Counter4++)
+						row = imageX + matrixX;
+						for (int matrixY = -offSet; matrixY < offSet + 1; matrixY++)
 						{
-							Column = Counter2 + Counter4;
+							column = imageY + matrixY;
 
-							if (Row < 0 || Row > Image.Height - 1)
+							if (row < 0 || row > image.Height - 1)
 							{
-								Row -= Counter3;
+								row -= matrixX;
 							}
-							if (Column < 0 || Column > Image.Width - 1)
+							if (column < 0 || column > image.Width - 1)
 							{
-								Column -= Counter4;
+								column -= matrixY;
 							}
-							Blue[Counter5] = Image.Pixels[Row, Column].B;
-							Green[Counter5] = Image.Pixels[Row, Column].G;
-							Red[Counter5] = Image.Pixels[Row, Column].R;
-							Counter5++;
+							blue[counter] = image.Pixels[row, column].B;
+							green[counter] = image.Pixels[row, column].G;
+							red[counter] = image.Pixels[row, column].R;
+							counter++;
 						}
 					}
-					Array.Sort(Blue);
-					Array.Sort(Green);
-					Array.Sort(Red);
-					Buffer[Counter1, Counter2] = new Pixel();
-					Buffer[Counter1, Counter2].B = Blue[4];
-					Buffer[Counter1, Counter2].G = Green[4];
-					Buffer[Counter1, Counter2].R = Red[4];
+					Array.Sort(blue);
+					Array.Sort(green);
+					Array.Sort(red);
+					buffer[imageX, imageY] = new Pixel();
+					buffer[imageX, imageY].B = blue[4];
+					buffer[imageX, imageY].G = green[4];
+					buffer[imageX, imageY].R = red[4];
 				}
 			}
-			Array.Copy(Buffer, Image.Pixels, Image.Height * Image.Width);
+			Array.Copy(buffer, image.Pixels, image.Height * image.Width);
 		}
 	}
 }
