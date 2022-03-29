@@ -21,10 +21,11 @@ namespace CasinoBotsLib
             {
                 return false;
             }
-            BetType betType = BetType.Parity;
             LastBetValue = Balance >= BaseBetValue ? BaseBetValue : Balance;
             Int64 betNumber = new Random().NextInt64(0, 1);
-            Int64 betResult = game.Play(betType, betNumber, LastBetValue);
+            RouletteBet bet = new(LastBetValue, BetType.Parity);
+            bet.SetParity(betNumber);
+            Int64 betResult = game.Play(bet);
             Balance += betResult;
             IsLastWon = betResult > 0;
             return true;

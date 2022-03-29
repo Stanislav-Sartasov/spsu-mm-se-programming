@@ -35,15 +35,18 @@ namespace CasinoBotsLib
                 LastColor = LastColor == 0 ? 1 : 0;
                 LastBetValue = BaseBetValue;
                 Int64 betValue = Balance >= LastBetValue ? LastBetValue : Balance;
-                Int64 betNumber = LastColor;
-                Int64 betResult = game.Play(BetType.Color, betNumber, betValue);
+                RouletteBet bet = new(betValue, BetType.Color);
+                bet.SetColor(LastColor);
+                Int64 betResult = game.Play(bet);
                 Balance += betResult;
                 IsLastWon = betResult > 0;
             }
             else
             {
                 LastBetValue = Balance >= LastBetValue*2 ? LastBetValue*2 : Balance;
-                Int64 betResult = game.Play(BetType.Color, LastColor, LastBetValue);
+                RouletteBet bet = new(LastBetValue, BetType.Color);
+                bet.SetColor(LastColor);
+                Int64 betResult = game.Play(bet);
                 Balance += betResult;
                 IsLastWon = betResult > 0;
             }

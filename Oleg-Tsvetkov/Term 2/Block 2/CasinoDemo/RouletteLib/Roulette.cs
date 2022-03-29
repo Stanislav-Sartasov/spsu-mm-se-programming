@@ -31,78 +31,77 @@
             }
             throw new ArgumentOutOfRangeException("Ошибка! Тип ставки за пределом разрешённых значений.");
         }
-
         //Вернёт изменение баланса после ставки
-        public Int64 Play(BetType type, Int64 number, Int64 bet)
+        public Int64 Play(RouletteBet bet)
         {
             SpinRoulette();
-            switch (type)
+            switch (bet.Type)
             {
                 //0 - чёрный, 1 - красный, 2 - зелёный 
                 case BetType.Color: 
-                    if (number < 0 || number > 2)
+                    if (bet.Color is null)
                     {
-                        throw new ArgumentOutOfRangeException("Ошибка! При ставке на цвет число выбор должен равняться 1 или 0.");
+                        throw new ArgumentNullException("Color is null");
                     }
-                    if (GetColorCode(LastNumber) == number && number != 2)
+                    if (GetColorCode(LastNumber) == bet.Color && bet.Color != 2)
                     {
-                        return bet;
+                        return bet.Value;
                     }
-                    else if (GetColorCode(LastNumber) == number && number == 2)
+                    else if (GetColorCode(LastNumber) == bet.Color && bet.Color == 2)
                     {
-                        return bet * 35;
+                        return bet.Value * 35;
                     }
                     else
                     {
-                        return -bet;
+                        return -bet.Value;
                     }
                     break;
                 //0 - чётный, 1 - нечётный
                 case BetType.Parity:
-                    if (number != 0 && number != 1)
+                    if (bet.Parity is null)
                     {
-                        throw new ArgumentOutOfRangeException("Ошибка! При ставке на чётность выбор должен равняться 1 или 0.");
+                        throw new ArgumentNullException("Parity is null");
                     }
-                    if (number % 2 != LastNumber % 2 || LastNumber == 0)
+                    if (bet.Parity % 2 != LastNumber % 2 || LastNumber == 0)
                     {
-                        return -bet;
+                        return -bet.Value;
                     }
                     else
                     {
-                        return bet;
+                        return bet.Value;
                     }
                     break;
                 //Числа от 1 до 3 обозначают соотв. дюжину чисел (1-12, 13-24, 25-36) 
                 case BetType.Dozen:
-                    if (number < 1 || number > 3)
+                    if (bet.Dozen is null)
                     {
-                        throw new ArgumentOutOfRangeException("Ошибка! При ставке на дюжину выбор должен быть от 1 до 3.");
+                        throw new ArgumentNullException("Dozen is null");
                     }
-                    if ((LastNumber <= 12 && LastNumber != 0 && number == 1) || (13 <= LastNumber && LastNumber <= 24 && number == 2) || (LastNumber > 24 && number == 3))
+                    if ((LastNumber <= 12 && LastNumber > 0 && bet.Dozen == 1) || (13 <= LastNumber && LastNumber <= 24 && bet.Dozen == 2) || (LastNumber > 24 && bet.Dozen == 3))
                     {
-                        return bet*2;
+                        return bet.Value*2;
                     }
                     else
                     {
-                        return -bet;
+                        return -bet.Value;
                     }
                     break;
                 case BetType.Single:
-                    if (number < 0 || number > 36)
+                    if (bet.Single is null)
                     {
-                        throw new ArgumentOutOfRangeException("Ошибка! При ставке на одно число выбор должен быть от 0 до 36.");
+                        throw new ArgumentNullException("Single is null");
                     }
-                    if (LastNumber == number)
+                    if (LastNumber == bet.Single)
                     {
-                        return bet * 35;
+                        return bet.Value * 35;
                     }
                     else
                     {
-                        return -bet;
+                        return -bet.Value;
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("Ошибка! Тип ставки за пределом разрешённых значений.");
+                    throw new ArgumentOutOfRangeException("Bet type is out of allowed range");
             }
         }
     }
