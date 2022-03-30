@@ -1,5 +1,7 @@
 using System;
 using NUnit.Framework;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Task_2.UnitTests
 {
@@ -139,6 +141,106 @@ namespace Task_2.UnitTests
             Assert.AreEqual(testNode.Value, testValue);
             Assert.AreEqual(testNode.Previous, testPreviousNode);
             Assert.AreEqual(testNode.Next, testNextNode);
+        }
+
+        [Test]
+        public void EnumeratorTest()
+        {
+            int[] values = new int[6] { 1, 2, 3, 4, 5, 6 };
+            DoublyLinkedList<int> testList = new DoublyLinkedList<int>();
+            uint i;
+            for (i = 0; i < 6; i++)
+            {
+                testList.Add(values[i]);
+            }
+            i = 0;
+            foreach(int value in testList)
+            {
+                Assert.AreEqual(value, values[i]);
+                i += 1;
+            }
+            i = 0;
+            foreach (object value in (IEnumerable)testList)
+            {
+                Assert.AreEqual(value, values[i]);
+                i += 1;
+            }
+            
+        }
+
+        [Test]
+        public void IEnumerableGetEnumeratorTest()
+        {
+            int[] values = new int[6] { 1, 2, 3, 4, 5, 6 };
+            DoublyLinkedList<int> testList = new DoublyLinkedList<int>();
+            uint i;
+            for (i = 0; i < 6; i++)
+            {
+                testList.Add(values[i]);
+            }
+            IEnumerator listEnumerator;
+            IEnumerable list = (IEnumerable)testList;
+            listEnumerator = list.GetEnumerator();
+            DoublyLinkedListEnumerator<int> testListEnumerator = (DoublyLinkedListEnumerator<int>)listEnumerator;
+            Assert.AreEqual(testListEnumerator.List.Beginning, testList.Beginning);
+            Assert.AreEqual(testListEnumerator.List.Ending, testList.Ending);
+            Assert.AreEqual(testListEnumerator.List.Length, testList.Length);
+        }
+
+        [Test]
+        public void DisposingTest()
+        {
+            int[] values = new int[6] { 1, 2, 3, 4, 5, 6 };
+            DoublyLinkedList<int> testList = new DoublyLinkedList<int>();
+            uint i;
+            for (i = 0; i < 6; i++)
+            {
+                testList.Add(values[i]);
+            }
+            i = 0;
+            foreach (int value in testList)
+            {
+                Assert.AreEqual(value, values[i]);
+                i += 1;
+            }
+            var listEnumerator = testList.GetEnumerator();
+            DoublyLinkedListEnumerator<int> testListEnumerator = (DoublyLinkedListEnumerator<int>)listEnumerator;
+            Assert.AreEqual(testListEnumerator.Disposed, false);
+            testListEnumerator.Dispose();
+            Assert.AreEqual(testListEnumerator.Disposed, true);
+            Assert.AreEqual(testListEnumerator.List.Beginning, null);
+            Assert.AreEqual(testListEnumerator.List.Ending, null);
+            testListEnumerator.Dispose();
+            Assert.AreEqual(testListEnumerator.Disposed, true);
+        }
+
+        [Test]
+        public void ResettingTest()
+        {
+            int[] values = new int[6] { 1, 2, 3, 4, 5, 6 };
+            DoublyLinkedList<int> testList = new DoublyLinkedList<int>();
+            uint i;
+            for (i = 0; i < 6; i++)
+            {
+                testList.Add(values[i]);
+            }
+            i = 0;
+            var listEnumerator = testList.GetEnumerator();
+            DoublyLinkedListEnumerator<int> testListEnumerator = (DoublyLinkedListEnumerator<int>)listEnumerator;
+            foreach (int value in testList)
+            {
+                Assert.AreEqual(value, values[i]);
+                i += 1;
+            }
+            Assert.AreEqual(testListEnumerator.Position, -1);
+            testListEnumerator.Reset();
+            Assert.AreEqual(testListEnumerator.Position, -1);
+            i = 0;
+            foreach (int value in testList)
+            {
+                Assert.AreEqual(value, values[i]);
+                i += 1;
+            }
         }
     }
 }

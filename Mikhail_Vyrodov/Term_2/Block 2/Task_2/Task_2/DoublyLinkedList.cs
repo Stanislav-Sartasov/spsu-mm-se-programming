@@ -1,17 +1,35 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 namespace Task_2
 {
-    public class DoublyLinkedList<T>
+    public class DoublyLinkedList<T> : IEnumerable<T>, IEnumerable
     {
         public Node<T> Beginning { get; private set; }
         public Node<T> Ending { get; private set; }
         public uint Length { get; private set; }
 
-        public DoublyLinkedList()
+        public DoublyLinkedList(Node<T> beginning = null, Node<T> ending = null, uint len = 0)
         {
-            Beginning = null;
-            Ending = null;
-            Length = 0;
+            Beginning = beginning;
+            Ending = ending;
+            Length = len;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumeratorGeneric();
+        }
+
+        private IEnumerator GetEnumeratorGeneric()
+        {
+            return this.GetEnumerator();
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            DoublyLinkedListEnumerator<T> enumerator = new DoublyLinkedListEnumerator<T>(Beginning, Ending, Length);
+            return enumerator;
         }
 
         public T Add(T element)
@@ -50,6 +68,7 @@ namespace Task_2
             if (Length == 1)
             {
                 Beginning = null;
+                Ending = null;
                 Length -= 1;
             }
             else if (Length == 2 && index == 1)

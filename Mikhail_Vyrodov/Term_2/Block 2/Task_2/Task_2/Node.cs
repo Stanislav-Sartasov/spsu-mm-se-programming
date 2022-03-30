@@ -6,8 +6,6 @@
         public Node<T> Previous { get; private set; }
         public Node<T> Next { get; private set; }
 
-        public Node() { }
-
         public Node(T element,  Node<T> prevNode = null, Node<T> nextNode = null)
         {
             Value = element;
