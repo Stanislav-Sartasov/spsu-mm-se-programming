@@ -13,11 +13,7 @@
 
         public int GetValue()
         {
-            if (Value == CardValue.Ace)
-            {
-                return 1;
-            }
-            else if (Value < CardValue.Jack)
+            if (Value < CardValue.Jack)
             {
                 return (int)Value;
             }
