@@ -8,7 +8,7 @@ namespace BlackJack.UnitTests
         public void TookCardTest()
         {
             Player player = new Player("SomeName", 1000);
-            player.TookCard(new Card("H", "A"));
+            player.TookCard(new Card(0, 1));
             Assert.AreEqual(player.Cards.Count, 1);
 
             Assert.Pass();
@@ -28,12 +28,12 @@ namespace BlackJack.UnitTests
         public void GetScoreTest()
         {
             Player player = new Player("SomeName", 1000);
-            player.TookCard(new Card("H", "A"));
-            player.TookCard(new Card("H", "5"));
+            player.TookCard(new Card(0, 1));
+            player.TookCard(new Card(0, 5));
             Assert.AreEqual(player.GetScore(), 16);
-            player.TookCard(new Card("H", "10"));
+            player.TookCard(new Card(0, 10));
             Assert.AreEqual(player.GetScore(), 16);
-            player.TookCard(new Card("H", "10"));
+            player.TookCard(new Card(0, 10));
             Assert.AreEqual(player.GetScore(), 0);
 
             Assert.Pass();
@@ -57,7 +57,7 @@ namespace BlackJack.UnitTests
         {
             Player player = new Player("SomeName", 1000);
             player.MakeBet(100);
-            player.Double(new Card("H", "A"));
+            player.Double(new Card(0, 1));
             Assert.AreEqual(player.Bet, 200);
             Assert.AreEqual(player.Cards.Count, 1);
 

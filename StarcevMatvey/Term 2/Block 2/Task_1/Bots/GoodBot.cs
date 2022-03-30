@@ -18,28 +18,28 @@ namespace Bots
             return standartBet;
         }
 
-        public override string GetMove()
+        public override PlayerMove GetMove()
         {
             int score = GetScore();
             if (score == 11)
             {
                 if (Balance > startBalance / 2)
                 {
-                    return "double";
+                    return PlayerMove.Double;
                 }
                 else
                 {
-                    return "hit";
+                    return PlayerMove.Hit;
                 }
 
             }
             else if (Enumerable.Range(1, 17).Contains(score))
             {
-                return "hit";
+                return PlayerMove.Hit;
             }
             else
             {
-                return "stand";
+                return PlayerMove.Stand;
             }
         }
     }

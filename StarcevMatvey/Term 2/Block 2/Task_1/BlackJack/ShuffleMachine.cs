@@ -16,7 +16,7 @@
 
         public void Shuffle()
         {
-            Random random = new Random();
+            Random random = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < Cards.Count; i++)
             {
                 (Cards[i], Cards[random.Next(i)]) = (Cards[random.Next(i)], Cards[i]);

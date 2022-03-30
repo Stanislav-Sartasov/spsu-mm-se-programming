@@ -14,17 +14,38 @@
             Bet = 0;
         }
 
-        public virtual string GetMove()
+        //public virtual string GetMove()
+        //{
+        //    string[] possibleOptions = { "hit", "double", "stand" };
+        //    string action;
+        //    do
+        //    {
+        //        Console.WriteLine("Your action: ");
+        //        action = Console.ReadLine();
+        //    } while (!possibleOptions.Contains(action));
+
+        //    return action;
+        //}
+
+        public virtual PlayerMove GetMove()
         {
-            string[] possibleOptions = { "hit", "double", "stand" };
             string action;
-            do
+            int playerMove;
+            while (true)
             {
                 Console.WriteLine("Your action: ");
                 action = Console.ReadLine();
-            } while (!possibleOptions.Contains(action));
+                if (action.ToCharArray().All(x => Char.IsDigit(x)))
+                {
+                    playerMove = Int32.Parse(action);
+                    if (Enumerable.Range(0, 3).Contains(playerMove))
+                    {
+                        break;
+                    }
+                }
+            }
 
-            return action;
+            return (PlayerMove)playerMove;
         }
 
         public virtual int GetNewBet()

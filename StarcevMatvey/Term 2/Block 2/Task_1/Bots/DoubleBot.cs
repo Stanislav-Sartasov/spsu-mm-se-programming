@@ -26,17 +26,17 @@ namespace Bots
             }
         }
 
-        public override string GetMove()
+        public override PlayerMove GetMove()
         {
             if (Enumerable.Range(1, 17).Contains(GetScore()))
             {
-                return "hit";
+                return PlayerMove.Hit;
             }
             else
             {
                 oldBalance = Balance;
                 oldBet = Bet;
-                return "stand";
+                return PlayerMove.Stand;
             }
         }
     }

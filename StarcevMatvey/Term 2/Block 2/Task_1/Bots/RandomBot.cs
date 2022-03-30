@@ -8,7 +8,7 @@ namespace Bots
 
         public RandomBot(string name, int balance) : base(name, balance)
         {
-            random = new Random();
+            random = new Random(DateTime.Now.Millisecond);
         }
 
         public override int GetNewBet()
@@ -16,10 +16,9 @@ namespace Bots
             return random.Next(Balance);
         }
 
-        public override string GetMove()
+        public override PlayerMove GetMove()
         {
-            string[] possibleOptions = { "hit", "double", "stand" };
-            return possibleOptions[random.Next(possibleOptions.Length)];
+            return (PlayerMove)random.Next(3);
         }
 
     }

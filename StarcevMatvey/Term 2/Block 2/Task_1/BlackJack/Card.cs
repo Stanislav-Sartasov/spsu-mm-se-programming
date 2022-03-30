@@ -2,24 +2,24 @@
 {
     public class Card
     {
-        public string Suit { get; private set; }
-        public string Value { get; private set; }
+        public CardSuit Suit { get; private set; }
+        public CardValue Value { get; private set; }
 
-        public Card(string suit, string value)
+        public Card(int suit, int value)
         {
-            Suit = suit;
-            Value = value;
+            Suit = (CardSuit)suit;
+            Value = (CardValue)value;
         }
 
         public int GetValue()
         {
-            if (Value == "A")
+            if (Value == CardValue.Ace)
             {
                 return 1;
             }
-            else if (Value.ToCharArray().All(x => Char.IsDigit(x)))
+            else if (Value < CardValue.Jack)
             {
-                return Int32.Parse(Value);
+                return (int)Value;
             }
             else
             {

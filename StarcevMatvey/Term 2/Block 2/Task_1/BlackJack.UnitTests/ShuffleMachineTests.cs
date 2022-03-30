@@ -8,8 +8,8 @@ namespace BlackJack.UnitTests
         public void TrowCardTest()
         {
             ShuffleMachine machine = new ShuffleMachine();
-            Assert.IsTrue(machine.TrowCard() == new Card("H", "2"));
-            Assert.IsTrue(machine.TrowCard() == new Card("D", "3"));
+            Assert.IsTrue(machine.TrowCard() == new Card(0, 1));
+            Assert.IsTrue(machine.TrowCard() == new Card(1, 2));
 
             Assert.Pass();
         }
@@ -19,8 +19,8 @@ namespace BlackJack.UnitTests
         {
             ShuffleMachine machine = new ShuffleMachine();
             machine.Shuffle();
-            Assert.IsFalse(machine.TrowCard() == new Card("H", "2"));
-            Assert.IsFalse(machine.TrowCard() == new Card("D", "3"));
+            Assert.IsFalse(machine.TrowCard() == new Card(0, 1));
+            Assert.IsFalse(machine.TrowCard() == new Card(1, 2));
 
             Assert.Pass();
         }

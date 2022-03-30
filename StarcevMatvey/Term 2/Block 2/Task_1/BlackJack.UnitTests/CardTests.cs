@@ -7,11 +7,11 @@ namespace BlackJack.UnitTests
         [Test]
         public void GetValueTest()
         {
-            Card card = new Card("H", "A");
+            Card card = new Card(0, 1);
             Assert.AreEqual(card.GetValue(), 1);
-            card = new Card("H", "9");
+            card = new Card(0, 9);
             Assert.AreEqual(card.GetValue(), 9);
-            card = new Card("H", "Q");
+            card = new Card(0, 12);
             Assert.AreEqual(card.GetValue(), 10);
 
             Assert.Pass();
@@ -20,8 +20,8 @@ namespace BlackJack.UnitTests
         [Test]
         public void EqualityTest()
         {
-            Card leftCard = new Card("H", "A");
-            Card rightCard = new Card("H", "A");
+            Card leftCard = new Card(0, 1);
+            Card rightCard = new Card(0, 1);
             Assert.IsTrue(leftCard == rightCard);
 
             Assert.Pass();
@@ -30,8 +30,8 @@ namespace BlackJack.UnitTests
         [Test]
         public void InequalityTest()
         {
-            Card leftCard = new Card("H", "A");
-            Card rightCard = new Card("D", "A");
+            Card leftCard = new Card(0, 1);
+            Card rightCard = new Card(1, 1);
             Assert.IsTrue(leftCard != rightCard);
 
             Assert.Pass();
