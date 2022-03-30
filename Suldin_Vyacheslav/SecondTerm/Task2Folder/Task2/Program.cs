@@ -38,7 +38,7 @@ namespace Task2
                             JackBlack.Start(40);
 
                             for (int i = 0; i < set.Length; i++)
-                                set[i].Difference += (set[i].Bank - 10000)/100;
+                                set[i].Difference += (set[i].Bank - 10000)/30;
                         }
 
                         for (int i = 0; i < set.Length; i++)

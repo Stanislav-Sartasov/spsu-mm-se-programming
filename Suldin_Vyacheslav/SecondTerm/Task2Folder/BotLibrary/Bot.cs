@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Resources;
 using System.Reflection;
+using System.Threading;
+using System.Globalization;
 
 namespace BotLibrary
 {
@@ -22,7 +24,7 @@ namespace BotLibrary
         }
         public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
         {
-
+            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); 
             ResourceManager rm = new ResourceManager("BotLibrary.resources.strategyPack.strategy" + Strategy.ToString(),
                 Assembly.GetExecutingAssembly());
 
