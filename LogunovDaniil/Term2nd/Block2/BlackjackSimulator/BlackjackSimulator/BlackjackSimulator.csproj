@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blackjack.Dealers\Blackjack.Dealers.csproj" />
+    <ProjectReference Include="..\Blackjack.Players\Blackjack.Players.csproj" />
+    <ProjectReference Include="..\Blackjack.StatCollector\Blackjack.StatCollector.csproj" />
+  </ItemGroup>
+
+</Project>
