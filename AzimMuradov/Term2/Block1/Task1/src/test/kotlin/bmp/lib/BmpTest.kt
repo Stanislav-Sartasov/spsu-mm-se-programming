@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
 internal class BmpTest {
+
     @Test
     fun `convert 24 bit Bmp to RawImg`() {
         assertEquals(

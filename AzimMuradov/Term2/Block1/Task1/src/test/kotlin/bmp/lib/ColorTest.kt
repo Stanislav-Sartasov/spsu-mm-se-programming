@@ -5,6 +5,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class ColorTest {
+
     @Test
     fun `create Color from list`() {
         assertEquals(

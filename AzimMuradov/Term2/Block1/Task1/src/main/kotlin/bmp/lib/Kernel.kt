@@ -1,7 +1,9 @@
 package bmp.lib
 
 class Kernel private constructor(val elements: List<Double>, val size: Int) {
+
     companion object {
+
         fun fromMatrix(squareMatrix: List<List<Number>>): Kernel {
             val colSize = squareMatrix.size
 

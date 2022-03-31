@@ -3,6 +3,7 @@ package bmp.lib.filters
 import bmp.lib.*
 
 object Gauss5Filter : ImgFilter {
+
     override fun filter(rawImg: RawImg) = rawImg.convolve(KERNEL, postProcessing = { it / 273.0 })
 
     private val KERNEL = Kernel.fromMatrix(

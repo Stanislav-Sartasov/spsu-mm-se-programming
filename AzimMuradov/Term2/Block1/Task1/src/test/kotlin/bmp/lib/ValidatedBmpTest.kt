@@ -7,6 +7,7 @@ import org.junit.jupiter.api.assertDoesNotThrow
 import kotlin.test.assertFailsWith
 
 internal class ValidatedBmpTest {
+
     @Test
     fun `successfully validated 24 bit Bmp`() {
         assertDoesNotThrow {

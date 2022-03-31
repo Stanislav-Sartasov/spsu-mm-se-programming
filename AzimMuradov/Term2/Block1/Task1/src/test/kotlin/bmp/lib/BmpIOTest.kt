@@ -2,72 +2,72 @@ package bmp.lib
 
 import bmp.TestUtils.TEST_RES_PATH
 import bmp.lib.ValidatedBmp.Companion.validated
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.*
 import java.io.File
 import kotlin.io.path.createTempDirectory
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class BmpIOTest {
+
     @Nested
     inner class ReadBmp {
+
         @Test
         fun `successfully read bmp`() {
             assertEquals(
                 expected = Bmp(
                     fileHeader = BmpFileHeader(
-                        fileType = 19778.toUShort(),
+                        fileType = Bmp.FILE_TYPE,
                         fileSize = 258u,
-                        reserved1 = 0.toUShort(),
-                        reserved2 = 0.toUShort(),
+                        reserved1 = Bmp.RESERVED_1,
+                        reserved2 = Bmp.RESERVED_2,
                         bitmapOffset = 138u
                     ),
                     infoHeader = BmpInfoHeader(
                         size = 124u,
                         width = 6,
                         height = 6,
-                        planes = 1.toUShort(),
-                        bitsPerPixel = 24.toUShort(),
-                        compression = 0u,
+                        planes = Bmp.PLANES,
+                        bitsPerPixel = Bmp.BitsPerPixel.BPP_24.bits,
+                        compression = Bmp.NO_COMPRESSION,
                         sizeOfBitmap = 120u,
-                        horzResolution = 2834,
-                        vertResolution = 2834,
-                        colorsUsed = 0u,
-                        colorsImportant = 0u
+                        horzResolution = Bmp.DEFAULT_HORZ_RESOLUTION,
+                        vertResolution = Bmp.DEFAULT_VERT_RESOLUTION,
+                        colorsUsed = Bmp.NO_PALETTE_COLORS_USED,
+                        colorsImportant = Bmp.NO_PALETTE_COLORS_IMPORTANT
                     ),
                     pixels = PIXELS
                 ),
-                actual = BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6.bmp").bmp
+                actual = BmpIO.readBmp(INPUT_PATH).bmp
             )
         }
 
         @Test
         fun `fail to read Bmp with short file size 1`() {
-            assertFailsWith<IllegalStateException>(message = "Wrong BMP definition") {
-                BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_error_1.bmp")
+            assertFailsWith<IllegalStateException>(message = WRONG_BMP_MSG) {
+                BmpIO.readBmp(ERR_INPUT_1_PATH)
             }
         }
 
         @Test
         fun `fail to read Bmp with short file size 2`() {
-            assertFailsWith<IllegalStateException>(message = "Wrong BMP definition") {
-                BmpIO.readBmp("${TEST_RES_PATH}bmp_24_6_error_2.bmp")
+            assertFailsWith<IllegalStateException>(message = WRONG_BMP_MSG) {
+                BmpIO.readBmp(ERR_INPUT_2_PATH)
             }
         }
     }
 
     @Nested
     inner class WriteBmp {
+
         private lateinit var tempFolder: File
 
-        private val tempFilePath get() = tempFolder.resolve("out.bmp").absolutePath
+        private val tempFilePath get() = tempFolder.resolve(OUTPUT_PATH).absolutePath
 
         @BeforeEach
         fun setUp() {
-            tempFolder = File(createTempDirectory("TEST").toUri())
+            tempFolder = File(createTempDirectory(TEMP_TEST_DIR_PREFIX).toUri())
         }
 
         @AfterEach
@@ -93,6 +93,24 @@ internal class BmpIOTest {
 
 
     private companion object {
+
+        private const val FILE_PREFIX = "bmp_24_6"
+
+        private const val FILE_POSTFIX = ".bmp"
+
+
+        private val INPUT_PATH = "$TEST_RES_PATH$FILE_PREFIX$FILE_POSTFIX"
+
+        private val ERR_INPUT_1_PATH = "$TEST_RES_PATH${FILE_PREFIX}_error_1$FILE_POSTFIX"
+
+        private val ERR_INPUT_2_PATH = "$TEST_RES_PATH${FILE_PREFIX}_error_2$FILE_POSTFIX"
+
+        private const val TEMP_TEST_DIR_PREFIX = "TEST"
+
+        private const val OUTPUT_PATH = "${FILE_PREFIX}_out$FILE_POSTFIX"
+
+        private const val WRONG_BMP_MSG = "Wrong BMP definition"
+
         private val PIXELS = listOf(
             listOf(
                 Color(0x05.toUByte(), 0x05.toUByte(), 0xF6.toUByte()),

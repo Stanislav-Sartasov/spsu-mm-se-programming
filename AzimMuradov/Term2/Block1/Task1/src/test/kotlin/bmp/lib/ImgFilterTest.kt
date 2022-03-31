@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
 
 internal class ImgFilterTest {
+
     @Test
     fun `filter with window`() {
         assertEquals(
@@ -34,6 +35,7 @@ internal class ImgFilterTest {
 
     @Nested
     inner class Transpose {
+
         @Test
         fun `valid matrix transposed`() {
             assertEquals(
@@ -79,6 +81,7 @@ internal class ImgFilterTest {
 
 
     private companion object {
+
         private val RAW_IMG = RawImg(
             width = 4,
             height = 3,
@@ -92,27 +95,28 @@ internal class ImgFilterTest {
                 }
             }
         )
+
         private val FILTERED_RAW_IMG = RawImg(
             width = 4,
             height = 3,
             pixels = listOf(
                 listOf(
                     Color(0.toUByte(), 0.toUByte(), 0.toUByte()),
+                    Color(0.toUByte(), 0.toUByte(), 0.toUByte()),
                     Color(0.toUByte(), 1.toUByte(), 1.toUByte()),
                     Color(0.toUByte(), 2.toUByte(), 2.toUByte()),
-                    Color(0.toUByte(), 3.toUByte(), 3.toUByte()),
+                ),
+                listOf(
+                    Color(0.toUByte(), 0.toUByte(), 0.toUByte()),
+                    Color(0.toUByte(), 0.toUByte(), 0.toUByte()),
+                    Color(0.toUByte(), 1.toUByte(), 1.toUByte()),
+                    Color(0.toUByte(), 2.toUByte(), 2.toUByte()),
                 ),
                 listOf(
                     Color(10.toUByte(), 0.toUByte(), 10.toUByte()),
-                    Color(0.toUByte(), 0.toUByte(), 0.toUByte()),
-                    Color(0.toUByte(), 1.toUByte(), 1.toUByte()),
-                    Color(10.toUByte(), 3.toUByte(), 13.toUByte()),
-                ),
-                listOf(
-                    Color(20.toUByte(), 0.toUByte(), 20.toUByte()),
-                    Color(20.toUByte(), 1.toUByte(), 21.toUByte()),
-                    Color(20.toUByte(), 2.toUByte(), 22.toUByte()),
-                    Color(20.toUByte(), 3.toUByte(), 23.toUByte()),
+                    Color(10.toUByte(), 0.toUByte(), 10.toUByte()),
+                    Color(10.toUByte(), 1.toUByte(), 11.toUByte()),
+                    Color(10.toUByte(), 2.toUByte(), 12.toUByte()),
                 ),
             )
         )

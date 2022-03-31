@@ -7,6 +7,7 @@ import java.nio.*
 import java.nio.channels.FileChannel
 
 object BmpIO {
+
     fun readBmp(path: String): ValidatedBmp {
         RandomAccessFile(path, "r").use { file ->
             val channel = file.channel
