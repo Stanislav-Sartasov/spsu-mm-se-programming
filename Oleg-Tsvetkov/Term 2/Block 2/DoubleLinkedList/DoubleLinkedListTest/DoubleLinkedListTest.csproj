@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoubleLinkedList\DoubleLinkedList.csproj" />
+    <ProjectReference Include="..\DoubleLinkedListLib\DoubleLinkedListLib.csproj" />
   </ItemGroup>
 
 </Project>
