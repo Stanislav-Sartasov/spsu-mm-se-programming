@@ -2,7 +2,7 @@
 {
 	public class Deck
 	{
-		public List<Card> Cards;
+		public readonly List<Card> Cards;
 
 		public Deck()
 		{

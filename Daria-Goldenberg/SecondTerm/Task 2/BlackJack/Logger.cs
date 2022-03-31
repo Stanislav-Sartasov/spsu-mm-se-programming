@@ -63,7 +63,7 @@
 
 		public void WriteOutOfGameMessage(Player player)
 		{
-			Console.WriteLine(player.Name + " doesn't have enough money. He's out of game.");
+			Console.WriteLine(player.Name + " doesn't have enough money. He's out of game.\n");
 		}
 
 		public void WriteResults()
