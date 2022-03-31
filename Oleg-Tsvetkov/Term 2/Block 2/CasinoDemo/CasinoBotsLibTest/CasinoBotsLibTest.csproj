@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoubleLinkedListLib\DoubleLinkedListLib.csproj" />
+    <ProjectReference Include="..\CasinoBotsLib\CasinoBotsLib.csproj" />
+    <ProjectReference Include="..\RouletteLib\CasinoLib.csproj" />
   </ItemGroup>
 
 </Project>

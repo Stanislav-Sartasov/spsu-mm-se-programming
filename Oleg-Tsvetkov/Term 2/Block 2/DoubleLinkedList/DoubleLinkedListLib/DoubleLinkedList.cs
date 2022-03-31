@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DoubleLinkedList
+﻿namespace DoubleLinkedListLib
 {
 
     //ElementType должен быть сравним, т.к. хранимые элементы хранятся отсортированными для упрощения поиска.
@@ -111,7 +105,7 @@ namespace DoubleLinkedList
                     Next.Previous = Previous;
                     return Next;
                 }
-                
+
             }
 
             if (Element.CompareTo(Data) > 0)
@@ -161,11 +155,6 @@ namespace DoubleLinkedList
             }
         }
 
-        public void PrintElements()
-        {
-            Console.WriteLine(ToString());
-        }
-
         public override string ToString()
         {
             string result = "";
@@ -176,7 +165,11 @@ namespace DoubleLinkedList
             }
             while (temp != null)
             {
-                result = result + temp.Element.ToString() + " ";
+                result += temp.Element.ToString();
+                if (temp.Next != null)
+                {
+                    result += " ";
+                }
                 temp = temp.Next;
             }
             return result;
