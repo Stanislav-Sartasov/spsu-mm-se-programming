@@ -2,7 +2,7 @@
 
 namespace BotStructure
 {
-    public abstract class Bot
+    public abstract class Bot : IBot
     {
         public int Balance { get; set; }
 
@@ -76,7 +76,7 @@ namespace BotStructure
 
             if (hand.ContainsAce())
             {
-                if (handValue == 18 && "910A".Contains(croupierOpenCard.Name))
+                if (handValue == 18 && (int)croupierOpenCard.Rank >= 9)
                     return true;
                 if (handValue >= 12 && handValue <= 17)
                     return true;
@@ -84,9 +84,9 @@ namespace BotStructure
 
             if (handValue >= 4 && handValue <= 11)
                 return true;
-            if (handValue == 12 && !"456".Contains(croupierOpenCard.Name))
+            if (handValue == 12 && ((int)croupierOpenCard.Rank < 4 || (int)croupierOpenCard.Rank > 6))
                 return true;
-            if (handValue >= 13 && handValue <= 16 && !"23456".Contains(croupierOpenCard.Name))
+            if (handValue >= 13 && handValue <= 16 && (int)croupierOpenCard.Rank > 6)
                 return true;
 
             return false;
@@ -106,32 +106,32 @@ namespace BotStructure
 
         private bool SplitCondition(Hand hand, Card croupierOpenCard)
         {
-            if (hand.Cards[0].Name != hand.Cards[1].Name || hand.Bet > Balance)
+            if (hand.Cards[0].Rank != hand.Cards[1].Rank || hand.Bet > Balance)
                 return false;
 
-            switch (hand.Cards[0].GetCardValue())
+            switch (hand.Cards[0].GetCardRank())
             {
                 case 11:
                 case 8:
-                    if (croupierOpenCard.Name != "A")
+                    if (croupierOpenCard.Rank != CardRank.Ace)
                         return true;
                     break;
                 case 9:
-                    if (!"710A".Contains(croupierOpenCard.Name))
+                    if ((int)croupierOpenCard.Rank != 7 && (int)croupierOpenCard.Rank < 10)
                         return true;
                     break;
                 case 7:
                 case 3:
                 case 2:
-                    if ("234567".Contains(croupierOpenCard.Name))
+                    if ((int)croupierOpenCard.Rank < 8)
                         return true;
                     break;
                 case 6:
-                    if ("23456".Contains(croupierOpenCard.Name))
+                    if ((int)croupierOpenCard.Rank < 7)
                         return true;
                     break;
                 case 4:
-                    if ("56".Contains(croupierOpenCard.Name))
+                    if (croupierOpenCard.Rank == CardRank.Five || croupierOpenCard.Rank == CardRank.Six)
                         return true;
                     break;
             }
@@ -152,11 +152,11 @@ namespace BotStructure
 
             int handValue = hand.GetHandValue();
 
-            if (handValue == 9 && "3456".Contains(croupierOpenCard.Name))
+            if (handValue == 9 && (int)croupierOpenCard.Rank > 2 && (int)croupierOpenCard.Rank < 7)
                 return true;
-            if (handValue == 10 && !"10A".Contains(croupierOpenCard.Name))
+            if (handValue == 10 && (int)croupierOpenCard.Rank < 10)
                 return true;
-            if (handValue >= 13 && handValue <= 17 && hand.ContainsAce() && "56".Contains(croupierOpenCard.Name))
+            if (handValue >= 13 && handValue <= 17 && hand.ContainsAce() && (croupierOpenCard.Rank == CardRank.Five || croupierOpenCard.Rank == CardRank.Six))
                 return true;
 
             return false;

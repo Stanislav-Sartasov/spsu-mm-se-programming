@@ -16,7 +16,7 @@ namespace CardsLibraryTests
                 cardList.Add(shoes.GetCard());
 
             Assert.AreEqual(cardList.Count, 416);
-            Assert.AreEqual(cardList.Count(c => c.Name.Equals("A")), 32);
+            Assert.AreEqual(cardList.Count(c => c.Rank == CardRank.Ace), 32);
             Assert.AreEqual(shoes.AllCardsCount, 0);
         }
     }

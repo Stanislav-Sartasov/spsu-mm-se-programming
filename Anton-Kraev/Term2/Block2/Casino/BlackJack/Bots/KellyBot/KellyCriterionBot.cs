@@ -20,11 +20,11 @@ namespace KellyBot
         private double CardsCounting(Shoes shoes)
         {
             double count = 0;
-            count += 0.5 * (64 - (shoes.Decks["2"] + shoes.Decks["7"]));
-            count += 96 - (shoes.Decks["3"] + shoes.Decks["4"] + shoes.Decks["6"]);
-            count += 1.5 * (32 - shoes.Decks["5"]);
-            count -= 0.5 * (32 - shoes.Decks["9"]);
-            count -= 160 - (shoes.Decks["10"] + shoes.Decks["A"]);
+            count += 0.5 * (64 - (shoes.Decks[CardRank.Two] + shoes.Decks[CardRank.Seven]));
+            count += 96 - (shoes.Decks[CardRank.Three] + shoes.Decks[CardRank.Four] + shoes.Decks[CardRank.Six]);
+            count += 1.5 * (32 - shoes.Decks[CardRank.Five]);
+            count -= 0.5 * (32 - shoes.Decks[CardRank.Nine]);
+            count -= 160 - (shoes.Decks[CardRank.Ten] + shoes.Decks[CardRank.Jack] + shoes.Decks[CardRank.Queen] + shoes.Decks[CardRank.King] + shoes.Decks[CardRank.Ace]);
             return count;
         }
 

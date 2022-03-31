@@ -29,14 +29,14 @@
 
             foreach (var card in Cards)
             {
-                if (card.Name == "A")
+                if (card.Rank == CardRank.Ace)
                     acesCount++;
-                handValue += card.GetCardValue();
+                handValue += card.GetCardRank();
             }
 
             foreach (var card in Cards)
             {
-                if (card.Name == "A" && handValue > 21)
+                if (card.Rank == CardRank.Ace && handValue > 21)
                 {
                     handValue -= 10;
                     acesCount--;

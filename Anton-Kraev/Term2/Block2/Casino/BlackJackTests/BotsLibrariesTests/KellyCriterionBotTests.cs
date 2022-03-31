@@ -11,11 +11,11 @@ namespace BotsLibrariesTests
         public void BotPlayTest()
         {
             Bot bot = new KellyCriterionBot(1000);
-            bot.Hands[0].Cards.Add(new Card("9"));
-            bot.Hands[0].Cards.Add(new Card("10"));
+            bot.Hands[0].Cards.Add(new Card(CardRank.Nine));
+            bot.Hands[0].Cards.Add(new Card(CardRank.Queen));
             var shoes = new Shoes();
-            shoes.Decks["3"] = 0;
-            bot.Play(new Card("7"), shoes);
+            shoes.Decks[CardRank.Three] = 0;
+            bot.Play(new Card(CardRank.Seven), shoes);
             Assert.AreEqual(40, bot.CurrentBet);
         }
     }

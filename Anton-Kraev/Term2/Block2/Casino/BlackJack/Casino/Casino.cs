@@ -53,12 +53,13 @@ namespace Casino
                     continue;
                 }
 
-                if (croupier.HandValue > 21 && handValue <= 21)
+                if ((croupier.HandValue > 21 || croupier.HandValue < handValue) && handValue <= 21)
+                {
                     bot.Balance += hand.Bet;
+                    continue;
+                }
 
-                if (handValue > croupier.HandValue && handValue <= 21)
-                    bot.Balance += hand.Bet;
-                else if (handValue < croupier.HandValue || handValue > 21)
+                if (handValue < croupier.HandValue || handValue > 21)
                     bot.Balance -= hand.Bet;
             }
         }

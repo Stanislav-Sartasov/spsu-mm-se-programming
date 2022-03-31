@@ -12,7 +12,7 @@ namespace CasinoTests
         public void GameTest()
         {
             var shoes = new Shoes();
-            shoes.Decks = new Dictionary<string, int>() {{"4", 32}};
+            shoes.Decks = new Dictionary<CardRank, int>() {{CardRank.Four, 32}};
             shoes.AllCardsCount = 32;
             IBot bot = new BaseStrategyBot(100);
             Casino.Casino.Game(bot, 1, shoes);

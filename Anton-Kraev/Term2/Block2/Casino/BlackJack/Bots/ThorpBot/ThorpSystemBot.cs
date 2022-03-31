@@ -21,16 +21,16 @@ namespace ThorpBot
         private int CardsCounting(Shoes shoes)
         {
             int count = 0;
-            count += 8 * (32 - shoes.Decks["2"]);
-            count += 9 * (32 - shoes.Decks["3"]);
-            count += 12 * (32 - shoes.Decks["4"]);
-            count += 15 * (32 - shoes.Decks["5"]);
-            count += 9 * (32 - shoes.Decks["6"]);
-            count += 5 * (32 - shoes.Decks["7"]);
-            count -= 32 - shoes.Decks["8"];
-            count -= 5 * (32 - shoes.Decks["9"]);
-            count -= 10 * (128 - shoes.Decks["10"]);
-            count -= 12 * (32 - shoes.Decks["A"]);
+            count += 8 * (32 - shoes.Decks[CardRank.Two]);
+            count += 9 * (32 - shoes.Decks[CardRank.Three]);
+            count += 12 * (32 - shoes.Decks[CardRank.Four]);
+            count += 15 * (32 - shoes.Decks[CardRank.Five]);
+            count += 9 * (32 - shoes.Decks[CardRank.Six]);
+            count += 5 * (32 - shoes.Decks[CardRank.Seven]);
+            count -= 32 - shoes.Decks[CardRank.Eight];
+            count -= 5 * (32 - shoes.Decks[CardRank.Nine]);
+            count -= 10 * (128 - shoes.Decks[CardRank.Ten] - shoes.Decks[CardRank.Jack] - shoes.Decks[CardRank.Queen] - shoes.Decks[CardRank.King]);
+            count -= 12 * (32 - shoes.Decks[CardRank.Ace]);
             return count;
         }
     }

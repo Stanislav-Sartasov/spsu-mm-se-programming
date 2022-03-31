@@ -2,20 +2,18 @@
 {
     public class Card
     {
-        public string Name { get; }
+        public CardRank Rank { get; }
 
-        public Card(string name)
+        public Card(CardRank rank)
         {
-            Name = name;
+            Rank = rank;
         }
 
-        public int GetCardValue()
+        public int GetCardRank()
         {
-            if (!"2 3 4 5 6 7 8 9 10 A".Contains(Name))
-                return 0;
-            if (Name == "A")
-                return 11;
-            return int.Parse(Name);
+            if (Rank == CardRank.Jack || Rank == CardRank.Queen || Rank == CardRank.King)
+                return 10;
+            return (int)Rank;
         }
     }
 }

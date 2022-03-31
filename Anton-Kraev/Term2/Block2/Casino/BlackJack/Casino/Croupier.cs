@@ -13,27 +13,27 @@ namespace Casino
         {
             HandValue = 0;
             Hand = new List<Card>();
-            OpenCard = new Card("0");
         }
 
         public void Play(Shoes shoes)
         {
+            HandValue = 0;
+
             foreach (var card in Hand)
             {
-                HandValue += card.GetCardValue();
+                HandValue += card.GetCardRank();
             }
 
             while (HandValue < 17)
             {
                 Card newCard = shoes.GetCard();
                 Hand.Add(newCard);
-                HandValue += newCard.GetCardValue();
-            }
-
-            foreach (var card in Hand)
-            {
-                if (card.Name == "A" && HandValue > 21)
-                    HandValue -= 10;
+                HandValue += newCard.GetCardRank();
+                foreach (var card in Hand)
+                {
+                    if (card.Rank == CardRank.Ace && HandValue > 21)
+                        HandValue -= 10;
+                }
             }
         }
     }

@@ -8,12 +8,12 @@ namespace CardsLibraryTests
         [Test]
         public void GetCardValueTest()
         {
-            var ace = new Card("A");
-            var ten = new Card("10");
-            var unknown = new Card("X");
-            Assert.AreEqual(0, unknown.GetCardValue());
-            Assert.AreEqual(11, ace.GetCardValue());
-            Assert.AreEqual(10, ten.GetCardValue());
+            var ace = new Card(CardRank.Ace);
+            var six = new Card(CardRank.Six);
+            var jack = new Card(CardRank.Jack);
+            Assert.AreEqual(6, six.GetCardRank());
+            Assert.AreEqual(11, ace.GetCardRank());
+            Assert.AreEqual(10, jack.GetCardRank());
         }
     }
 }
