@@ -3,11 +3,11 @@
 	public class Croupier
 	{
 		public Hand Hand;
-		private readonly Game Game;
+		private readonly Game game;
 
 		public Croupier(Game game)
 		{
-			Game = game;
+			this.game = game;
 			Hand = new Hand();
 		}
 
@@ -15,7 +15,7 @@
 		{
 			Logger logger = new Logger(this);
 			for (int i = 0; i < 2; i++)
-				Hand.TakeCard(Game.Deck);
+				Hand.TakeCard(game.Deck);
 
 			logger.WriteFirstCroupierCard();
 		}

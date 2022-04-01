@@ -2,31 +2,31 @@
 {
 	public class Logger
 	{
-		private readonly Game Game;
-		private readonly Player Player;
-		private readonly Croupier Croupier;
+		private readonly Game game;
+		private readonly Player player;
+		private readonly Croupier croupier;
 
 		public Logger(Game game)
 		{
-			Game = game;
+			this.game = game;
 		}
 
 		public Logger(Game game, Player player)
 		{
-			Game = game;
-			Player = player;
+			this.game = game;
+			this.player = player;
 		}
 
 		public Logger(Croupier croupier)
 		{
-			Croupier = croupier;
+			this.croupier = croupier;
 		}
 
 		public void WriteStartMessage()
 		{
 			Console.WriteLine("Three bots start playing blackjack.");
-			for (int i = 0; i < Game.Players.Count; i++)
-				Console.WriteLine(Game.Players[i].Name + " has " + Game.Players[i].Balance + "$.");
+			for (int i = 0; i < game.Players.Count; i++)
+				Console.WriteLine(game.Players[i].Name + " has " + game.Players[i].Balance + "$.");
 			Console.WriteLine();
 		}
 
@@ -49,16 +49,16 @@
 		{
 			Console.Write(player.Name + " receives cards: ");
 			for (int j = 0; j < 2; j++)
-				Console.Write(player.Hand.Cards[j].Name + " ");
+				Console.Write(player.Hand.Cards[j].GetName() + " ");
 			Console.WriteLine("(" + player.Hand.CountPoints() + " points)\n");
 		}
 
 		public void WriteCroupierCards()
 		{
 			Console.Write("\nDealer has the cards: ");
-			foreach (Card card in Game.Croupier.Hand.Cards)
-				Console.Write(card.Name + " ");
-			Console.WriteLine("(" + Game.Croupier.Hand.CountPoints() + " points)\n");
+			foreach (Card card in game.Croupier.Hand.Cards)
+				Console.Write(card.GetName() + " ");
+			Console.WriteLine("(" + game.Croupier.Hand.CountPoints() + " points)\n");
 		}
 
 		public void WriteOutOfGameMessage(Player player)
@@ -69,66 +69,66 @@
 		public void WriteResults()
 		{
 			Console.WriteLine("---Results---");
-			foreach (Player player in Game.Players)
+			foreach (Player player in game.Players)
 				Console.WriteLine(player.Name + " has " + player.Balance + "$");
-			if (Game.Players.Count != 3)
+			if (game.Players.Count != 3)
 				Console.WriteLine("Other players are out of game, because they spent their money.");
 		}
 
 		public void WriteTakeCardMessage()
 		{
-			Console.WriteLine(Player.Name + " takes card.");
+			Console.WriteLine(player.Name + " takes card.");
 		}
 
 		public void WriteStandMessage()
 		{
-			Console.WriteLine(Player.Name + " decides to stand.");
+			Console.WriteLine(player.Name + " decides to stand.");
 		}
 
 		public void WriteHandCards()
 		{
-			Console.Write(Player.Name + " has the cards: ");
-			foreach (Card card in Player.Hand.Cards)
-				Console.Write(card.Name + " ");
-			Console.WriteLine("(" + Player.Hand.CountPoints() + " points)");
+			Console.Write(player.Name + " has the cards: ");
+			foreach (Card card in player.Hand.Cards)
+				Console.Write(card.GetName() + " ");
+			Console.WriteLine("(" + player.Hand.CountPoints() + " points)");
 		}
 
 		public void WriteBlackJackMessage()
 		{
-			Console.WriteLine(Player.Name + " has blackjack and won.");
+			Console.WriteLine(player.Name + " has blackjack and won.");
 		}
 
 		public void WriteFinishMessage()
 		{
-			int pointsOfCroupier = Game.Croupier.Hand.CountPoints();
-			int pointsOfPlayer = Player.Hand.CountPoints();
+			int pointsOfCroupier = game.Croupier.Hand.CountPoints();
+			int pointsOfPlayer = player.Hand.CountPoints();
 
 			if (pointsOfPlayer > 21)
-				Console.WriteLine(Player.Name + " got too much and lost.");
+				Console.WriteLine(player.Name + " got too much and lost.");
 			else if (pointsOfPlayer == 21)
-				if (pointsOfCroupier == 21 && Game.Croupier.Hand.Cards.Count == 2)
-					Console.WriteLine(Player.Name + " has 21 points, but it's push.");
+				if (pointsOfCroupier == 21 && game.Croupier.Hand.Cards.Count == 2)
+					Console.WriteLine(player.Name + " has 21 points, but it's push.");
 				else
-					Console.WriteLine(Player.Name + " has 21 points and won.");
+					Console.WriteLine(player.Name + " has 21 points and won.");
 			else
 			{
 				if (pointsOfCroupier > pointsOfPlayer && pointsOfCroupier <= 21)
-					Console.WriteLine(Player.Name + " has few points and lost.");
+					Console.WriteLine(player.Name + " has few points and lost.");
 				else if (pointsOfCroupier > 21 || pointsOfCroupier < pointsOfPlayer)
-					Console.WriteLine(Player.Name + " has " + Player.Hand.CountPoints() + " points and won.");
+					Console.WriteLine(player.Name + " has " + player.Hand.CountPoints() + " points and won.");
 				else if (pointsOfCroupier == pointsOfPlayer)
-					Console.WriteLine(Player.Name + " got push.");
+					Console.WriteLine(player.Name + " got push.");
 			}
 		}
 
 		public void WriteBalance()
 		{
-			Console.WriteLine("Now " + Player.Name + " has " + Player.Balance + "$\n");
+			Console.WriteLine("Now " + player.Name + " has " + player.Balance + "$\n");
 		}
 
 		public void WriteFirstCroupierCard()
 		{
-			Console.WriteLine("\nDealer's first card is " + Croupier.Hand.Cards[0].Name + "\n");
+			Console.WriteLine("\nDealer's first card is " + croupier.Hand.Cards[0].GetName() + "\n");
 		}
 	}
 }

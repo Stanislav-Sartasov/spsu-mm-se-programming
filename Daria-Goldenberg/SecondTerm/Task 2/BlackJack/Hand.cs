@@ -23,7 +23,7 @@
 		{
 			int score = 0;
 			foreach (Card card in Cards)
-				score += Card.GetValue(card.Rank, score);
+				score += card.GetValue(score);
 
 			return score;
 		}
