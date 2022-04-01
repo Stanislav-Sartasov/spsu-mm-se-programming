@@ -1,0 +1,8 @@
+src/main/kotlin/lib/base/.gradle
+src/main/kotlin/lib/base/.idea
+src/main/kotlin/lib/base/build
+src/main/kotlin/lib/base/gradle
+src/main/kotlin/lib/bots/.gradle
+src/main/kotlin/lib/bots/.idea
+src/main/kotlin/lib/bots/build
+src/main/kotlin/lib/bots/gradle
