@@ -9,17 +9,17 @@
 
         public void Add(T data)
         {
-            DoublyNode<T> doublyNode = new DoublyNode<T>(data);
+            DoublyNode<T> node = new DoublyNode<T>(data);
 
             if (_head is null)
-                _head = doublyNode;
+                _head = node;
             else
             {
-                _tail!.Next = doublyNode;
-                doublyNode.Prev = _tail;
+                _tail!.Next = node;
+                node.Prev = _tail;
             }
             
-            _tail = doublyNode;
+            _tail = node;
             
             Length++;
         }
