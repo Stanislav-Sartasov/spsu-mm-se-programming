@@ -4,9 +4,9 @@ namespace BlackjackMechanics.Cards
 {
     public class AceCard : ACard
     {
-        public AceCard(string suit)
+        public AceCard(CardSuits suit)
         {
-            CardName = "Ace";
+            CardName = CardNames.Ace;
             CardSuit = suit;
             CardNumber = 11;
         }
@@ -19,7 +19,7 @@ namespace BlackjackMechanics.Cards
 
             foreach (ACard card in allCards)
             {
-                if (card.CardName == "Ace" || sum + this.CardNumber > 21)
+                if (card.CardName == CardNames.Ace && sum > 21)
                 {
                     this.CardNumber = 1;
                     break;

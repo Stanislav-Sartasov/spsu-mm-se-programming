@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackjackMechanics", "Black
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackackTests", "BlackackTests\BlackackTests.csproj", "{372EF41C-48FF-4174-B1CC-385C1A68330B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlackjackBots", "BlackjackBots\BlackjackBots.csproj", "{9712389C-5CDD-4B38-AAAB-4EFDBC215C93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackjackBots", "BlackjackBots\BlackjackBots.csproj", "{9712389C-5CDD-4B38-AAAB-4EFDBC215C93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AbstractClasses", "AbstractClasses\AbstractClasses.csproj", "{3B64407D-9D13-4C9E-A86C-69DBCE0E6600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AbstractClasses", "AbstractClasses\AbstractClasses.csproj", "{3B64407D-9D13-4C9E-A86C-69DBCE0E6600}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

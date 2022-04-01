@@ -4,12 +4,12 @@ namespace BlackjackMechanics.Cards
 {
     public class FaceCard : ACard
     {
-        public FaceCard(int data, string suit)
+        public FaceCard(CardNames name, CardSuits suit)
         {
-            string[] cardNames = { "Jack", "Queen", "King" };
-            CardName = cardNames[data];
+            CardName = name;
             CardSuit = suit;
             CardNumber = 10;
         }
+
     }
 }

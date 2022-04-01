@@ -3,15 +3,13 @@ using BlackjackMechanics.Cards;
 
 namespace BlackjackMechanics.Players
 {
-    internal class Dealer : AParticipant
+    public class Dealer : AParticipant
     {
         public ACard VisibleCard;
 
-        private void TakeCard(ACard card)
+        public Dealer()
         {
-            if (VisibleCard == null)
-                VisibleCard = card;
-            this.CardsInHand.Add(card);
+            CardsInHand = new List<ACard>();
         }
 
         public override bool GetNextCard()
@@ -19,11 +17,23 @@ namespace BlackjackMechanics.Players
             return this.GetSumOfCards() < 17;
         }
 
+        public void TakeCard(ACard card)
+        {
+            if (VisibleCard == null)
+                VisibleCard = card;
+            this.CardsInHand.Add(card);
+        }
+
+        public void GiveCard(ACard card, AParticipant player)
+        {
+            player.CardsInHand.Add(card);
+        }
+
         public void HandOutCards(DeckOfCards deck, AParticipant player)
         {
             for (int i = 0; i < 2; i++)
             {
-                player.CardsInHand.Add(deck.GetOneCard(player));
+                GiveCard(deck.GetOneCard(player), player);
                 TakeCard(deck.GetOneCard(this));
             }
         }

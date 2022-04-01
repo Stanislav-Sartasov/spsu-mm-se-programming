@@ -2,9 +2,9 @@
 {
     public abstract class AParticipant
     {
-        public List<ACard> CardsInHand;
         public int CountGames;
         public int CountWinGames;
+        public List<ACard> CardsInHand;
 
         public abstract bool GetNextCard();
 

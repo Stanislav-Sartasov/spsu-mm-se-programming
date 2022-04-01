@@ -6,7 +6,7 @@ namespace BlackjackMechanics.Cards
     public class DeckOfCards
     {
         public List<ACard> Deck;
-        public int CountDecksInOne;
+        private int CountDecksInOne;
 
         public DeckOfCards(int data)
         {
@@ -18,32 +18,23 @@ namespace BlackjackMechanics.Cards
 
         private void CreateCardNewDeckOfCard()
         {
-            string[] CardSuits = { "Heart", "Diamond", "Club", "Spade" };
-
-            foreach (var suit in CardSuits)
+            for (int deck = 0; deck < CountDecksInOne; deck++)
             {
-                for (int i = 0; i < 9 * CountDecksInOne; i++)
+                for (int suit = 0; suit < 4; suit++)
                 {
-                    Deck.Add(new NumberCard(i % 9 + 2, suit));
-                }
+                    for (int i = 0; i < 9; i++)
+                    {
+                        Deck.Add(new NumberCard((CardNames)i, (CardSuits)suit));
+                    }
 
-                for (int i = 0; i < 3 * CountDecksInOne; i++)
-                {
-                    Deck.Add(new FaceCard(i % 3, suit));
-                }
+                    for (int i = 9; i < 12; i++)
+                    {
+                        Deck.Add(new FaceCard((CardNames)i, (CardSuits)suit));
+                    }
 
-                for (int i = 0; i < CountDecksInOne; i++)
-                {
-                    Deck.Add(new AceCard(suit));
+                    Deck.Add(new AceCard((CardSuits)suit));
                 }
             }
-                
-        }
-
-        public void ShuffleDeck()
-        {
-            Random rnd = new Random();
-            Deck = Deck.OrderBy(x => rnd.Next()).ToList();
         }
 
         private void RemoveCard(ACard card)
@@ -54,17 +45,22 @@ namespace BlackjackMechanics.Cards
         public ACard GetOneCard(AParticipant player)
         {
             ACard card = this.Deck.First();
-            if (card.CardName == "Ace")
+            if (card.CardName == CardNames.Ace)
                 ((AceCard)card).CheckIsMoreThenTwentyOne(player.CardsInHand);
             RemoveCard(card);
             return card;
+        }
+
+        public void ShuffleDeck()
+        {
+            Random rnd = new Random();
+            Deck = Deck.OrderBy(x => rnd.Next()).ToList();
         }
 
         public void ResetDeckOfCards()
         {
             Deck.Clear();
             CreateCardNewDeckOfCard();
-            ShuffleDeck();
         }
     }
 }

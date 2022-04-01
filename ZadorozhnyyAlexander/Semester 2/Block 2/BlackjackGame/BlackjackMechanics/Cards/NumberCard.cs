@@ -4,11 +4,11 @@ namespace BlackjackMechanics.Cards
 {
     public class NumberCard : ACard
     {
-        public NumberCard(int data, string suit)
+        public NumberCard(CardNames name, CardSuits suit)
         {
-            CardName = data.ToString();
+            CardName = name;
             CardSuit = suit;
-            CardNumber = data;
+            CardNumber = (int)name + 2;
         }
     }
 }
