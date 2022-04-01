@@ -2,29 +2,34 @@
 {
 	public class Deck
 	{
-		public readonly List<Card> Cards;
+		private readonly List<Card> cards;
 
 		public Deck()
 		{
-			Cards = new List<Card>();
+			cards = new List<Card>();
 
-			Suit[] Suits = new Suit[] { Suit.Diamonds, Suit.Hearts, Suit.Clubs, Suit.Spades };
-			Rank[] Ranks = new Rank[] { Rank.Ace, Rank.Two, Rank.Three, Rank.Four, Rank.Five, Rank.Six, Rank.Seven, 
-										Rank.Eight, Rank.Nine, Rank.Ten, Rank.Jack, Rank.Queen, Rank.King };
+			CardSuit[] Suits = new CardSuit[] { CardSuit.Diamonds, CardSuit.Hearts, CardSuit.Clubs, CardSuit.Spades };
+			CardRank[] Ranks = new CardRank[] { CardRank.Ace, CardRank.Two, CardRank.Three, CardRank.Four, CardRank.Five, CardRank.Six, CardRank.Seven, 
+												CardRank.Eight, CardRank.Nine, CardRank.Ten, CardRank.Jack, CardRank.Queen, CardRank.King };
 
 			for (int i = 1; i <= 8; i++)
-				foreach (Suit suit in Suits)
-					foreach (Rank rank in Ranks)
-						Cards.Add(new Card(rank, suit));
+				foreach (CardSuit suit in Suits)
+					foreach (CardRank rank in Ranks)
+						cards.Add(new Card(rank, suit));
 
-			Cards = Cards.OrderBy(a => new Random().Next()).ToList();
+			cards = cards.OrderBy(a => new Random().Next()).ToList();
 		}
 
 		public Card TakeCard()
 		{
-			Card card = Cards[0];
-			Cards.Remove(card);
+			Card card = cards[0];
+			cards.RemoveAt(0);
 			return card;
+		}
+
+		public int CountCards()
+		{
+			return cards.Count;
 		}
 	}
 }

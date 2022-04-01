@@ -1,6 +1,6 @@
 ﻿namespace BlackJack
 {
-	public enum Rank
+	public enum CardRank
 	{
 		Ace,
 		Two,

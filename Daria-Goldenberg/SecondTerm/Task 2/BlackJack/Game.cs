@@ -22,7 +22,7 @@
 			{
 				logger.WriteCurrentBet(i);
 
-				if (Deck.Cards.Count < 140)
+				if (Deck.CountCards() < 140)
 					Deck = new Deck();
 
 				foreach (Player player in Players)

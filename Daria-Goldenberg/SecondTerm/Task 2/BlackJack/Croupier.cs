@@ -2,7 +2,7 @@
 {
 	public class Croupier
 	{
-		public Hand Hand;
+		public Hand Hand { get; private set; }
 		private readonly Game game;
 
 		public Croupier(Game game)
@@ -27,9 +27,7 @@
 
 		public bool IsBlackJack()
 		{
-			if (Hand.CountPoints() == 21 && Hand.Cards.Count == 2)
-				return true;
-			return false;
+			return Hand.CountPoints() == 21 && Hand.Cards.Count == 2;
 		}
 	}
 }

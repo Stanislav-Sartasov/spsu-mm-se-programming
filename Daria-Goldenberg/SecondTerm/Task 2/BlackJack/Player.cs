@@ -46,9 +46,7 @@
 
 		public bool IsBlackJack()
 		{
-			if (Hand.CountPoints() == 21 && Hand.Cards.Count == 2)
-				return true;
-			return false;
+			return Hand.CountPoints() == 21 && Hand.Cards.Count == 2;
 		}
 
 		public void Finish()

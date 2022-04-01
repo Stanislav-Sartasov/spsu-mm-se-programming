@@ -9,12 +9,12 @@ namespace Task_2.UnitTests
 		[Test]
 		public void GetValueTest()
 		{
-			Assert.AreEqual(new Card(Rank.Three, Suit.Diamonds).GetValue(10), 3);
-			Assert.AreEqual(new Card(Rank.Eight, Suit.Diamonds).GetValue(15), 8);
-			Assert.AreEqual(new Card(Rank.Ace, Suit.Clubs).GetValue(10), 11);
-			Assert.AreEqual(new Card(Rank.Ace, Suit.Clubs).GetValue(15), 1);
-			Assert.AreEqual(new Card(Rank.King, Suit.Spades).GetValue(10), 10);
-			Assert.AreEqual(new Card(Rank.Jack, Suit.Hearts).GetValue(15), 10);
+			Assert.AreEqual(new Card(CardRank.Three, CardSuit.Diamonds).GetValue(10), 3);
+			Assert.AreEqual(new Card(CardRank.Eight, CardSuit.Diamonds).GetValue(15), 8);
+			Assert.AreEqual(new Card(CardRank.Ace, CardSuit.Clubs).GetValue(10), 11);
+			Assert.AreEqual(new Card(CardRank.Ace, CardSuit.Clubs).GetValue(15), 1);
+			Assert.AreEqual(new Card(CardRank.King, CardSuit.Spades).GetValue(10), 10);
+			Assert.AreEqual(new Card(CardRank.Jack, CardSuit.Hearts).GetValue(15), 10);
 
 			Assert.Pass();
 		}
@@ -46,8 +46,8 @@ namespace Task_2.UnitTests
 		public void CountPointsTest()
 		{
 			Hand hand = new Hand();
-			hand.Cards.Add(new Card(Rank.Three, Suit.Diamonds));
-			hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
+			hand.Cards.Add(new Card(CardRank.Three, CardSuit.Diamonds));
+			hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
 			Assert.AreEqual(hand.CountPoints(), 14);
 
 			Assert.Pass();
@@ -140,20 +140,20 @@ namespace Task_2.UnitTests
 			Game game = new Game();
 			FirstBot bot = new FirstBot(game, 1000);
 
-			bot.Hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Eight, Suit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Eight, CardSuit.Diamonds));
 			bot.PlayTurn();
 
 			bot = new FirstBot(game, 1000);
 
-			bot.Hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Jack, Suit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Jack, CardSuit.Diamonds));
 			bot.PlayTurn();
 
 			bot = new FirstBot(game, 1000);
 
-			bot.Hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Four, Suit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Diamonds));
 			bot.PlayTurn();
 
 			Assert.Pass();
@@ -167,20 +167,20 @@ namespace Task_2.UnitTests
 			Croupier croupier = game.Croupier;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Seven, Suit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Diamonds));
 			bot.Finish();
 			Assert.AreEqual(bot.Balance, 950);
 
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Six, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Ten, Suit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Six, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ten, CardSuit.Clubs));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
@@ -188,10 +188,10 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			bot.Hand.Cards.Add(new Card(Rank.Ten, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.Ten, Suit.Spades));
+			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			bot.Hand.Cards.Add(new Card(CardRank.Ten, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ten, CardSuit.Spades));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
@@ -199,10 +199,10 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			bot.Hand.Cards.Add(new Card(Rank.Ten, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.Seven, Suit.Spades));
+			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			bot.Hand.Cards.Add(new Card(CardRank.Ten, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Spades));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
@@ -210,12 +210,12 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Six, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Four, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.Six, Suit.Spades));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Six, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.Six, CardSuit.Spades));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
@@ -223,11 +223,11 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Six, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Seven, Suit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Six, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Clubs));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
@@ -235,11 +235,11 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Four, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Eight, Suit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Eight, CardSuit.Clubs));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
@@ -247,12 +247,12 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Four, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Five, Suit.Clubs));
-			croupier.Hand.Cards.Add(new Card(Rank.King, Suit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Clubs));
+			croupier.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Diamonds));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
@@ -260,11 +260,11 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			bot.Hand.Cards.Add(new Card(Rank.Four, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Seven, Suit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Clubs));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
@@ -272,10 +272,10 @@ namespace Task_2.UnitTests
 			bot.Balance = 1000;
 
 			bot.MakeBet();
-			bot.Hand.Cards.Add(new Card(Rank.King, Suit.Clubs));
-			bot.Hand.Cards.Add(new Card(Rank.Five, Suit.Diamonds));
-			croupier.Hand.Cards.Add(new Card(Rank.Ace, Suit.Spades));
-			croupier.Hand.Cards.Add(new Card(Rank.Seven, Suit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
+			bot.Hand.Cards.Add(new Card(CardRank.Five, CardSuit.Diamonds));
+			croupier.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
+			croupier.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Clubs));
 			bot.Finish();
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 950);

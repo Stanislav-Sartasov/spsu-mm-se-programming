@@ -2,7 +2,7 @@
 {
 	public class Hand
 	{
-		public List<Card> Cards;
+		public List<Card> Cards { get; private set; }
 
 		public Hand()
 		{
