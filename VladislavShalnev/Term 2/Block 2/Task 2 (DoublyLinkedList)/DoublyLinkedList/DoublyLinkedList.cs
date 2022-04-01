@@ -1,103 +1,102 @@
 ﻿namespace DoublyLinkedList
 {
-    public class DoublyLinkedList<T>
-    {
-        private DoublyNode<T>? _head;
-        private DoublyNode<T>? _tail;
+	public class DoublyLinkedList<T>
+	{
+		private DoublyNode<T>? _head;
+		private DoublyNode<T>? _tail;
 
-        public int Length { get; private set; }
+		public int Length { get; private set; }
 
-        public void Add(T data)
-        {
-            DoublyNode<T> node = new DoublyNode<T>(data);
+		public void Add(T data)
+		{
+			DoublyNode<T> node = new DoublyNode<T>(data);
 
-            if (_head is null)
-                _head = node;
-            else
-            {
-                _tail!.Next = node;
-                node.Prev = _tail;
-            }
+			if (_head is null)
+				_head = node;
+			else
+			{
+				_tail!.Next = node;
+				node.Prev = _tail;
+			}
             
-            _tail = node;
+			_tail = node;
             
-            Length++;
-        }
+			Length++;
+		}
 
-        public void Remove(T data)
-        {
-            DoublyNode<T>? current = _head;
+		public void Remove(T data)
+		{
+			DoublyNode<T>? current = _head;
 
-            while (current is not null)
-            {
-                if (Equals(current.Data, data)) break;
-                current = current.Next;
-            }
+			while (current is not null)
+			{
+				if (Equals(current.Data, data)) break;
+				current = current.Next;
+			}
             
-            // Not found
-            if (current is null) return;
+			// Not found
+			if (current is null) return;
 
-            // If last
-            if (current.Next is null)
-                _tail = current.Prev;
-            else
-                current.Next.Prev = current.Prev;
+			// If last
+			if (current.Next is null)
+				_tail = current.Prev;
+			else
+				current.Next.Prev = current.Prev;
             
-            // If first
-            if (current.Prev is null)
-                _head = current.Next;
-            else
-                current.Prev.Next = current.Next;
+			// If first
+			if (current.Prev is null)
+				_head = current.Next;
+			else
+				current.Prev.Next = current.Next;
 
-            Length--;
-        }
+			Length--;
+		}
 
-        public int Find(T data)
-        {
-            DoublyNode<T>? current = _head;
-            int index = 0;
+		public int Find(T data)
+		{
+			DoublyNode<T>? current = _head;
+			int index = 0;
 
-            while (current is not null)
-            {
-                if (Equals(current.Data, data)) return index;
+			while (current is not null)
+			{
+				if (Equals(current.Data, data)) return index;
                 
-                index++;
-                current = current.Next;
-            }
+				index++;
+				current = current.Next;
+			}
 
-            return -1;
-        }
+			return -1;
+		}
         
-        public T this[int index]
-        {
-            get
-            {
-                DoublyNode<T>? current = _head;
+		public T this[int index]
+		{
+			get
+			{
+				DoublyNode<T>? current = _head;
                 
-                // Checking the index
-                // If the list is empty this will also work
-                if (index < 0 || index >= Length)
-                    throw new IndexOutOfRangeException("Index was out of range");
+				// Checking the index
+				// If the list is empty this will also work
+				if (index < 0 || index >= Length)
+					throw new IndexOutOfRangeException("Index was out of range");
                 
-                for (int i = 0; i < index; i++)
-                    current = current!.Next;
+				for (int i = 0; i < index; i++)
+					current = current!.Next;
                 
-                return current!.Data;
-            }
+				return current!.Data;
+			}
 
-            set
-            {
-                DoublyNode<T>? current = _head;
+			set
+			{
+				DoublyNode<T>? current = _head;
                 
-                if (index < 0 || index >= Length)
-                    throw new IndexOutOfRangeException("Index was out of range");
+				if (index < 0 || index >= Length)
+					throw new IndexOutOfRangeException("Index was out of range");
                 
-                for (int i = 0; i < index; i++)
-                    current = current!.Next;
+				for (int i = 0; i < index; i++)
+					current = current!.Next;
                 
-                current!.Data = value;
-            }
-        }
-    }
+				current!.Data = value;
+			}
+		}
+	}
 }
-
