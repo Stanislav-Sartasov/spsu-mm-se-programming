@@ -15,5 +15,5 @@
         Queen,
         King,
         Ace
-   }
+    }
 }

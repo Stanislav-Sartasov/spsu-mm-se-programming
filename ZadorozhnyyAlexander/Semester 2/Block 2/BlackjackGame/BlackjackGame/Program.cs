@@ -1,57 +1,75 @@
 ﻿using BlackjackMechanics.GameTools;
-using BlackjackMechanics.Players;
 using BlackjackBots;
 
 namespace BlackjackGame
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main(string[] agrs)
         {
-            int sum = 0;
-            int loseAllBalanceGames = 0;
-            for (int i = 0; i < 50000; i++)
-            {
-                PrimitiveManchetanStrategyBot bot = new PrimitiveManchetanStrategyBot(1000, 50);
-                Game game = new Game(bot);
-                game.CreateGame(8);
-                game.StartGame();
-                sum += (int)bot.Money;
-                if (bot.Money <= 0)
-                    loseAllBalanceGames++;
-            }
-            Console.WriteLine(sum / 50000);
-            Console.WriteLine(loseAllBalanceGames);
+            Console.WriteLine("This program show what balance you'll have after play Blackjack" +
+                "with one of the strategies: \n");
 
-            sum = 0;
-            loseAllBalanceGames = 0;
-            for (int i = 0; i < 50000; i++)
-            {
-                MartingaleBot bot = new MartingaleBot(1000, 50);
-                Game game = new Game(bot);
-                game.CreateGame(8);
-                game.StartGame();
-                sum += (int)bot.Money;
-                if (bot.Money <= 0)
-                    loseAllBalanceGames++;
-            }
-            Console.WriteLine(sum / 50000);
-            Console.WriteLine(loseAllBalanceGames);
+            int countGames = 50000;
+            int startMoney = 10000;
+            int startRate = 500;
+            int sumAfterGame = 0;
+            int countLoseAllBalanceGames = 0;
 
-            sum = 0;
-            loseAllBalanceGames = 0;
-            for (int i = 0; i < 50000; i++)
+            // PrimitiveManchetanStrategyBot statistic
+
+            for (int i = 0; i < countGames; i++)
             {
-                OneThreeTwoSixBot bot = new OneThreeTwoSixBot(1000, 50);
+                PrimitiveManchetanStrategyBot bot = new PrimitiveManchetanStrategyBot(startMoney, startRate);
                 Game game = new Game(bot);
                 game.CreateGame(8);
                 game.StartGame();
-                sum += (int)bot.Money;
+                sumAfterGame += (int)bot.Money;
                 if (bot.Money <= 0)
-                    loseAllBalanceGames++;
+                    countLoseAllBalanceGames++;
             }
-            Console.WriteLine(sum / 50000);
-            Console.WriteLine(loseAllBalanceGames);
+            Console.WriteLine("1) PrimitiveManchetanStrategyBot statistic: ");
+            Console.WriteLine($"Average winnings over 40 games ---> {sumAfterGame / 50000}/{startMoney} <--- Your start balance");
+            Console.WriteLine("The number of games when a player loses his entire balance ---> " + countLoseAllBalanceGames);
+
+            // MartingaleBot statistic
+            sumAfterGame = 0;
+            countLoseAllBalanceGames = 0;
+
+            for (int i = 0; i < countGames; i++)
+            {
+                MartingaleBot bot = new MartingaleBot(startMoney, startRate);
+                Game game = new Game(bot);
+                game.CreateGame(8);
+                game.StartGame();
+                sumAfterGame += (int)bot.Money;
+                if (bot.Money <= 0)
+                    countLoseAllBalanceGames++;
+            }
+            Console.WriteLine("2) MartingaleBot statistic: ");
+            Console.WriteLine($"Average winnings over 40 games ---> {sumAfterGame / 50000}/{startMoney} <--- Your start balance");
+            Console.WriteLine("The number of games when a player loses his entire balance ---> " + countLoseAllBalanceGames);
+
+            // OneThreeTwoSixBot statistic
+            sumAfterGame = 0;
+            countLoseAllBalanceGames = 0;
+
+            for (int i = 0; i < countGames; i++)
+            {
+                OneThreeTwoSixBot bot = new OneThreeTwoSixBot(startMoney, startRate);
+                Game game = new Game(bot);
+                game.CreateGame(8);
+                game.StartGame();
+                sumAfterGame += (int)bot.Money;
+                if (bot.Money <= 0)
+                    countLoseAllBalanceGames++;
+            }
+            Console.WriteLine("3) OneThreeTwoSixBot statistic: ");
+            Console.WriteLine($"Average winnings over 40 games ---> {sumAfterGame / 50000}/{startMoney} <--- Your start balance");
+            Console.WriteLine("The number of games when a player loses his entire balance ---> " + countLoseAllBalanceGames);
+
+            Console.WriteLine("<----------------------------------------------->");
+            return;
         }
     }
 }

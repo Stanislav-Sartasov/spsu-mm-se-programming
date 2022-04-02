@@ -5,7 +5,7 @@ namespace BlackjackMechanics.Players
 {
     public class Dealer : AParticipant
     {
-        public ACard VisibleCard;
+        public ACard VisibleCard { get; private set; }
 
         public Dealer()
         {
@@ -36,6 +36,12 @@ namespace BlackjackMechanics.Players
                 GiveCard(deck.GetOneCard(player), player);
                 TakeCard(deck.GetOneCard(this));
             }
+        }
+
+        public void ClearHands()
+        {
+            CardsInHand.Clear();
+            VisibleCard = null;
         }
     }
 }

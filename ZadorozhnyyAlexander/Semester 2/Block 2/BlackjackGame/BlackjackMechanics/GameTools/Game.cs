@@ -32,15 +32,13 @@ namespace BlackjackMechanics.GameTools
             switch (playerTurn)
             {
                 case PlayerTurn.Hit:
-                    Bot.IsWantNextCard = true;
                     GetAnotherCard(Bot);
                     break;
                 case PlayerTurn.Stand:
                     GetAnotherCard(Dealer);
                     break;
                 case PlayerTurn.Double:
-                    Bot.IsWantNextCard = true;
-                    Bot.Rate *= 2;
+                    Bot.DoubleRate();
                     GetAnotherCard(Bot);
                     break;
                 default:
@@ -63,7 +61,7 @@ namespace BlackjackMechanics.GameTools
                 if (Dealer.GetSumOfCards() != 21)
                     Bot.Win();
                 else
-                    Bot.CountGames++;
+                    Bot.Push();
 
                 ResetGame();
             }
@@ -81,7 +79,7 @@ namespace BlackjackMechanics.GameTools
                 else if (Bot.GetSumOfCards() < Dealer.GetSumOfCards())
                     Bot.Lose();
                 else
-                    Bot.CountGames++; // Push
+                    Bot.Push();
 
                 ResetGame();
             }
@@ -124,14 +122,14 @@ namespace BlackjackMechanics.GameTools
                     return PlayerTurn.Take;
                 else
                 {
-                    Bot.Multiplier = 1.5;
+                    Bot.MakeBlackjackMultiplayer();
                     return PlayerTurn.Stand;
                 }
             }
 
             else
             {
-                Bot.Multiplier = 1.5;
+                Bot.MakeBlackjackMultiplayer();
                 return Dealer.VisibleCard.CardNumber == 10 ? PlayerTurn.Stand : PlayerTurn.Blackjack;
             }
         }
@@ -152,8 +150,7 @@ namespace BlackjackMechanics.GameTools
         public void ResetGameParams()
         {
             Bot.CardsInHand.Clear();
-            Dealer.CardsInHand.Clear();
-            Dealer.VisibleCard = null;
+            Dealer.ClearHands();
             NumberOfMoves = 0;
             if (Deck.Deck.Count() < 2 * 52)
             {

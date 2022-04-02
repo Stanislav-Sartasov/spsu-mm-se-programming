@@ -13,23 +13,18 @@ namespace BlackjackMechanics.Cards
             CountDecksInOne = data;
             Deck = new List<ACard>();
 
-            CreateCardNewDeckOfCard();
+            CreateNewDeckOfCard();
         }
 
-        private void CreateCardNewDeckOfCard()
+        private void CreateNewDeckOfCard()
         {
             for (int deck = 0; deck < CountDecksInOne; deck++)
             {
                 for (int suit = 0; suit < 4; suit++)
                 {
-                    for (int i = 0; i < 9; i++)
+                    for (int i = 0; i < 12; i++)
                     {
-                        Deck.Add(new NumberCard((CardNames)i, (CardSuits)suit));
-                    }
-
-                    for (int i = 9; i < 12; i++)
-                    {
-                        Deck.Add(new FaceCard((CardNames)i, (CardSuits)suit));
+                        Deck.Add(new UsualCard((CardNames)i, (CardSuits)suit));
                     }
 
                     Deck.Add(new AceCard((CardSuits)suit));
@@ -60,7 +55,7 @@ namespace BlackjackMechanics.Cards
         public void ResetDeckOfCards()
         {
             Deck.Clear();
-            CreateCardNewDeckOfCard();
+            CreateNewDeckOfCard();
         }
     }
 }

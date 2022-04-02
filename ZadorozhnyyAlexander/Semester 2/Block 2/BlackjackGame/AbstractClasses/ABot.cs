@@ -2,28 +2,40 @@
 {
     public abstract class ABot : AParticipant
     {
-        public double Money;
-        public double Multiplier = 1;
-        public double Rate;
-
-        public bool IsWantNextCard;
-        public bool IsWantNextGame = true;
-        public bool IsStandAfterFirstBlackjack;
-
         protected double StartRate;
         protected bool IsWonLastGame = false;
+
+        public double Money { get; private set; }
+        public double Multiplier { get; private set; }
+        public double Rate { get; protected set; }
+
+        public bool IsWantNextGame { get; private set; }
+        public bool IsWantNextCard { get; protected set; }
+        public bool IsStandAfterFirstBlackjack { get; protected set; }
 
         public ABot(double money, double startRate)
         {
             Money = money;
             StartRate = startRate;
             Rate = StartRate;
+            Multiplier = 1;
             CardsInHand = new List<ACard>();
+            CheckIsWantNextGame();
         }
 
         public abstract PlayerTurn GetNextTurn(ACard dealerCard);
 
         protected abstract void PrepareToNextGame();
+
+        public void DoubleRate()
+        {
+            Rate *= 2;
+        }
+
+        public void MakeBlackjackMultiplayer()
+        {
+            Multiplier = 1.5;
+        }
 
         private void CheckIsWantNextGame()
         {
@@ -67,9 +79,9 @@
         public override void Win()
         {
             Money += Rate * Multiplier;
+            Multiplier = 1;
             CountGames++;
             CountWinGames++;
-            Multiplier = 1;
             IsWonLastGame = true;
             CheckIsWantNextGame();
             PrepareToNextGame();

@@ -4,7 +4,7 @@ namespace BlackjackBots
 {
     public class UsualBaseStrategyBot : ABot
     {
-        PlayerTurn[,] HardTotals =
+        private PlayerTurn[,] HardTotals =
         {
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit},
@@ -14,7 +14,7 @@ namespace BlackjackBots
             {PlayerTurn.Hit, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit},
             {PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit}
         };
-        PlayerTurn[,] SoftTotals =
+        private PlayerTurn[,] SoftTotals =
         {
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Double, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
@@ -44,7 +44,10 @@ namespace BlackjackBots
                 _ => 0
             };
 
-            return HardTotals[hardTotalIndex, dealerIndex];
+            PlayerTurn turn = HardTotals[hardTotalIndex, dealerIndex];
+            IsWantNextCard = turn == PlayerTurn.Hit || turn == PlayerTurn.Double;
+
+            return turn;
         }
 
         private PlayerTurn GetTurnSoftHand(ACard dealerCard, int sumCards)
@@ -63,7 +66,14 @@ namespace BlackjackBots
                 _ => -1
             };
 
-            return softTotalIndex != -1 ? SoftTotals[softTotalIndex, dealerIndex] : GetTurnHardHand(dealerCard, sumCards);
+            if (softTotalIndex != -1)
+            {
+                PlayerTurn turn = SoftTotals[softTotalIndex, dealerIndex];
+                IsWantNextCard = turn == PlayerTurn.Hit || turn == PlayerTurn.Double;
+                return turn;
+            }
+                
+            return GetTurnHardHand(dealerCard, sumCards);
         }
 
         protected override void PrepareToNextGame()

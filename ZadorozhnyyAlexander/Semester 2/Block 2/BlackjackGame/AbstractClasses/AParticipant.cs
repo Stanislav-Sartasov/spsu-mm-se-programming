@@ -2,9 +2,9 @@
 {
     public abstract class AParticipant
     {
-        public int CountGames;
-        public int CountWinGames;
-        public List<ACard> CardsInHand;
+        public int CountGames { get; protected set; }
+        public int CountWinGames { get; protected set; }
+        public List<ACard> CardsInHand { get; protected set; }
 
         public abstract bool GetNextCard();
 
@@ -18,12 +18,18 @@
 
         public virtual void Win()
         {
-            throw new MissingMethodException();
+            CountGames++;
+            CountWinGames++;
         }
 
         public virtual void Lose()
         {
-            throw new MissingMethodException();
+            CountGames++;
+        }
+
+        public virtual void Push()
+        {
+            CountGames++;
         }
     }
 }
