@@ -15,34 +15,41 @@ object CasinoCliApp {
 
         if (strategies.isEmpty()) {
             println("No bots were found.")
-        } else {
-            println("${strategies.size} bots were found.")
+            return
+        }
 
-            println("Average of $averageN runs:")
-            for (strategy in strategies) {
-                val (initBankroll, resBankroll) = playSessionAverage(
+
+        println("${strategies.size} bots were found.")
+
+        println("Average of $averageN runs:")
+
+        for (strategy in strategies) {
+            try {
+                val resBankroll = playSessionAverage(
                     table = Table.standard(),
                     strategy = strategy,
                     bankroll = bankroll,
                     averageN = averageN
                 )
-                println("${strategy::class.simpleName} : score = $initBankroll / $resBankroll")
+                println("- ${strategy::class.simpleName} : score = $resBankroll / $bankroll")
+            } catch (e: Throwable) {
+                println("- ${strategy::class.simpleName} : error \"${e::class.qualifiedName}: ${e.message}\"")
             }
         }
     }
 
 
-    private const val averageN = 1000
-
     private const val bankroll = 5000u
+
+    private const val averageN = 1000
 
     private fun playSessionAverage(
         table: Table, strategy: PlayerStrategy, bankroll: UInt,
         averageN: Int,
-    ): Pair<Double, Int> = sequence {
+    ): Double = sequence {
         repeat(times = averageN) {
             val (newBankroll, _) = table.playSession(strategy, bankroll)
             yield(newBankroll)
         }
-    }.map(UInt::toInt).average() to bankroll.toInt()
+    }.map(UInt::toInt).average()
 }
