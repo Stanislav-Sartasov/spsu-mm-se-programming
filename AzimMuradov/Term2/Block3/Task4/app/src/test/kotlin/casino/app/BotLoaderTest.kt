@@ -56,7 +56,7 @@ internal class BotLoaderTest {
 
     private companion object {
 
-        val SEP = File.pathSeparatorChar
+        val SEP = File.separatorChar
 
         val ROOT = "src${SEP}test${SEP}resources${SEP}jars"
 
