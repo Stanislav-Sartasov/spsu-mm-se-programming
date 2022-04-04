@@ -31,8 +31,8 @@ namespace BasicLibrary
         }
         public static bool operator ==(Card firstCard, Card secondCard)
         {
-            if (!String.Equals(firstCard.Rank, secondCard.Rank) ||
-                !String.Equals(firstCard.Suit, secondCard.Suit) ||
+            if (firstCard.Rank != secondCard.Rank ||
+                firstCard.Suit != secondCard.Suit ||
                 firstCard.Value != secondCard.Value)
                 return false;
             else return true;
@@ -50,9 +50,4 @@ namespace BasicLibrary
             return cardInfo;
         }
     }
-
-    //1 - Ase
-    //11 - Jack
-    //12 - Queen
-    //13 - King
 }

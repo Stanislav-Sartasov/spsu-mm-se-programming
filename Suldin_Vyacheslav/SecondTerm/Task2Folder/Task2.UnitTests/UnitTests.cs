@@ -273,7 +273,7 @@ namespace Task2.UnitTests
                 justPlayer.ChangeBank(-justPlayer.GiveResponce());
                 justPlayer.ChangeBank(10000);
                 justPlayer.MakeBet(j);
-                if (justPlayer.GetBet(j) != 100 || justPlayer.GiveResponce() != 10000 - 100) Assert.Fail("1");
+                if (justPlayer.GetBet(j) != 100 || justPlayer.GiveResponce() != 10000 - 100) Assert.Fail();
                 for (int k = 0; k < 5; k++) 
                 {
                     marty.ChangeBank(10000);
@@ -370,21 +370,21 @@ namespace Task2.UnitTests
 
                                 dealer.Ask(testPlayers, shoes, testCondition);
                                 if (player.ScanHand(j).Count != 1 ||
-                                     player.GetBet(j) != i * 100) Assert.Fail("1");
+                                     player.GetBet(j) != i * 100) Assert.Fail();
                                 break;
                             }
                         case 1:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
                                 if (player.ScanHand(j).Count != 2 ||
-                                     player.GetBet(j) != i * 100) Assert.Fail("2");
+                                     player.GetBet(j) != i * 100) Assert.Fail();
                                 break;
                             }
                         case 2:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
                                 if (player.ScanHand(j).Count != 2 ||
-                                     player.GetBet(j) != i * 200) Assert.Fail("3");
+                                     player.GetBet(j) != i * 200) Assert.Fail();
 
                                 break;
                             }
@@ -395,14 +395,14 @@ namespace Task2.UnitTests
                                 if (player.GetBet(j + 1) != i * 100 ||
                                     player.ScanHand(j)[0] == new Card(CardSuit.Clubs, (CardRank)10) ||
                                     player.ScanHand(j + 1)[0] == new Card(CardSuit.Diamonds, (CardRank)10) ||
-                                    player.ScanHand(j).Count != player.ScanHand(j + 1).Count) Assert.Fail("4");
+                                    player.ScanHand(j).Count != player.ScanHand(j + 1).Count) Assert.Fail();
                                 break;
                             }
                         default:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
                                 if (player.ScanHand(j).Count != 1 ||
-                                     player.GetBet(j) != 0) Assert.Fail("5");
+                                     player.GetBet(j) != 0) Assert.Fail();
                                 break;
                             }
 

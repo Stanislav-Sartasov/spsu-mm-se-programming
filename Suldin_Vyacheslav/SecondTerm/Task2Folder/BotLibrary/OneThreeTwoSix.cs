@@ -9,7 +9,6 @@ namespace BotLibrary
 {
     public class OneThreeTwoSix : Bot
     {
-
         public OneThreeTwoSix(int str)
             : base(str)
         {

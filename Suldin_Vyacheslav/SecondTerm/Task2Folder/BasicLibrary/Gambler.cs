@@ -17,14 +17,14 @@ namespace BasicLibrary
 
 			int answer = Game.GetCoorectAnswer(0,5);
 
-            if (answer == 5)
-            {
-                Console.WriteLine($"Current hand is {hand}");
-                Game.ShowTable(dealerHand, gamesters);
-                return this.Answer(hand, dealerHand, gamesters);
-            }
+			if (answer == 5)
+			{
+				Console.WriteLine($"Current hand is {hand}");
+				Game.ShowTable(dealerHand, gamesters);
+				return this.Answer(hand, dealerHand, gamesters);
+			}
 
-            if ((answer == 2 && this.Bank < this.Bets[hand]) ||
+			if ((answer == 2 && this.Bank < this.Bets[hand]) ||
 				(answer == 3 && 
 				(this.ScanHand(hand).Count != 2 || this.ScanHand(hand)[0].GetCardInfo()[2] != this.ScanHand(hand)[1].GetCardInfo()[2])))
 				{
@@ -38,16 +38,16 @@ namespace BasicLibrary
 
 			}
 		}
-        public override bool IsNeedResult()
-        {
+		public override bool IsNeedResult()
+		{
 			Console.WriteLine($"Your current bank: {this.Bank}");
 			Console.WriteLine("Need result?");
 			if (Game.GetCoorectAnswer(0, 1) == 1)
 				return true;
 			else return false;
 
-        }
-        public override void MakeBet(int hand)
+		}
+		public override void MakeBet(int hand)
 		{
 			Console.WriteLine($"Enter your bet. Bank : {this.Bank}");
 			int bet = Game.GetCoorectAnswer(0,this.Bank);

@@ -11,6 +11,7 @@ namespace Task2
        {
             Console.WriteLine("Choose program mode: 1 = task mode,  2 = with bots mode, 3 = solo mode\n" +
                 "if 3: 1 - call, 2 - double, 3 - split, 4 - surrender, 5 - show your cards" +
+                "\nIs need result: 0 - no, 1 - yes"+
                 "\n0 on bet - game is end.");
 
             Bot[] set = new Bot[] { new Oscar(1), new OneThreeTwoSix(1), new Martingale(1),

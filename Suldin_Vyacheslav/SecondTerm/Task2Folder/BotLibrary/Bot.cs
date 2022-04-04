@@ -17,7 +17,6 @@ namespace BotLibrary
 
         public double Difference = 0;
 
-        // 1 - medium, 2 - risky, 3 - save
         public Bot(int str)
         {
             Strategy = str;
@@ -57,7 +56,6 @@ namespace BotLibrary
 
 
         }
-
         public int GiveResponce()
         {
             return this.Bank;

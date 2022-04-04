@@ -32,9 +32,9 @@ namespace BasicLibrary
             {
                 int j = rand.Next(i + 1);
 
-                Card tmp = this.Cards[j];
+                Card temporaryCard = this.Cards[j];
                 this.Cards[j] = this.Cards[i];
-                this.Cards[i] = tmp;
+                this.Cards[i] = temporaryCard;
             }
         }
     }

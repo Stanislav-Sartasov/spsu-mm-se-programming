@@ -122,11 +122,11 @@ namespace BasicLibrary
                         condition[i, j] = gamesters[i].Answer(j,this.ScanHand(0), gamesters);
                         switch (condition[i, j])
                         {
-                            case 0: // stand on cards
+                            case 0: //stand
                                 {
                                     break;
                                 }
-                            case 1: //h it me
+                            case 1: //call
                                 {
                                     this.GiveCard(gamesters[i], j, shoes);
                                     break;
@@ -152,7 +152,7 @@ namespace BasicLibrary
                                         }
                                     break;
                                 }
-                            default: //sorendo
+                            default: //surrender
                                 {
                                     condition[i, j] = 0;
                                     gamesters[i].ChangeBank(gamesters[i].GetBet(j) / 2);

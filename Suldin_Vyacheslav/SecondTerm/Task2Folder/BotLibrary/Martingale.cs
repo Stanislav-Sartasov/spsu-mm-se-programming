@@ -29,7 +29,6 @@ namespace BotLibrary
 
             if (bet <= Bank)
             {
-                
             }
             else
             {
