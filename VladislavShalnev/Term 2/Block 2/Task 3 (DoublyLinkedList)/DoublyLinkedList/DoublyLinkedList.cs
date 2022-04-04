@@ -67,36 +67,27 @@
 
 			return -1;
 		}
-        
+
+		private DoublyNode<T> Get(int index)
+		{
+			DoublyNode<T>? current = _head;
+                
+			// Checking the index
+			// If the list is empty this will also work
+			if (index < 0 || index >= Length)
+				throw new IndexOutOfRangeException("Index was out of range");
+                
+			for (int i = 0; i < index; i++)
+				current = current!.Next;
+
+			return current!;
+		}
+
 		public T this[int index]
 		{
-			get
-			{
-				DoublyNode<T>? current = _head;
-                
-				// Checking the index
-				// If the list is empty this will also work
-				if (index < 0 || index >= Length)
-					throw new IndexOutOfRangeException("Index was out of range");
-                
-				for (int i = 0; i < index; i++)
-					current = current!.Next;
-                
-				return current!.Data;
-			}
+			get => this.Get(index).Data;
 
-			set
-			{
-				DoublyNode<T>? current = _head;
-                
-				if (index < 0 || index >= Length)
-					throw new IndexOutOfRangeException("Index was out of range");
-                
-				for (int i = 0; i < index; i++)
-					current = current!.Next;
-                
-				current!.Data = value;
-			}
+			set => this.Get(index).Data = value;
 		}
 	}
 }
