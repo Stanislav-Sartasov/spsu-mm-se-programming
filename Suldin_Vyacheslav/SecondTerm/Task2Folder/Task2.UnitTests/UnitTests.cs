@@ -160,7 +160,7 @@ namespace Task2.UnitTests
             for (int k = 0; k < gamesters.Count; k++)
                 for (int j = 0; j < 4; j++)
                     for (int i = 0; i < 50; i += 10)
-                        gamester.ReceiveCard(deck.Cards[i], j);
+                        gamester.ReceiveCard(deck.GetCards()[i], j);
 
             dealer.GetCardsBack(gamesters);
             for (int k = 0; k < gamesters.Count; k++)
@@ -418,12 +418,12 @@ namespace Task2.UnitTests
             new Oscar(3), new OneThreeTwoSix(3), new Martingale(3)};
             List<Gamester> players = new List<Gamester>(10);
             players.AddRange(set);
-            Game JackBlack = new Game(players);
+            Game jackBlack = new Game(players);
             try
             {
                 for (int i = 0; i < set.Length; i++)
                     set[i].Bank = 100000;
-                JackBlack.Start(100);
+                jackBlack.Start(100);
             }
             catch (Exception)
             {

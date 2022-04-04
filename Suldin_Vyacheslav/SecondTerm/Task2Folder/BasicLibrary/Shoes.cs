@@ -20,7 +20,7 @@ namespace BasicLibrary
             {
                 Deck deck = new Deck();
                 deck.Mix();
-                this.Queue.AddRange(deck.Cards);
+                this.Queue.AddRange(deck.GetCards());
             }
         }
         public Card Withdraw()

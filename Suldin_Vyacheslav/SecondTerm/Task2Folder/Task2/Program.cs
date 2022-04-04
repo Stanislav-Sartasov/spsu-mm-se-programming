@@ -29,13 +29,13 @@ namespace Task2
                         int[] taskAnswer = new int[9];
                         players.AddRange(set);
 
-                        Game JackBlack = new Game(players);
+                        Game jackBlack = new Game(players);
                         int j;
                         for ( j = 0; j < 30; j++)
                         {
                             for (int i = 0; i < set.Length; i++)
                                 set[i].Bank = 10000;
-                            JackBlack.Start(40);
+                            jackBlack.Start(40);
 
                             for (int i = 0; i < set.Length; i++)
                                 set[i].Difference += (set[i].Bank - 10000)/30;
@@ -53,15 +53,15 @@ namespace Task2
 
                         players.Add(man);
                         players.AddRange(set);
-                        Game JackBlack = new Game(players);
-                        JackBlack.Start(10000);
+                        Game jackBlack = new Game(players);
+                        jackBlack.Start(10000);
                         break;
                     }
                 default:
                     {
                         players.Add(man);
-                        Game JackBlack = new Game(players);
-                        JackBlack.Start(10000);
+                        Game jackBlack = new Game(players);
+                        jackBlack.Start(10000);
                         break;
                     }
             }

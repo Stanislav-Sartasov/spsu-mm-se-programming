@@ -8,7 +8,7 @@ namespace BasicLibrary
 {
     public class Deck
     {
-        public Card[] Cards = new Card[52];
+        private Card[] Cards = new Card[52];
 
         public Deck()
         {
@@ -18,6 +18,10 @@ namespace BasicLibrary
             }
         }
         
+        public Card[] GetCards()
+        {
+            return Cards;
+        }
         public void Mix()
         {
             Random rand = new Random(DateTime.Now.Millisecond);

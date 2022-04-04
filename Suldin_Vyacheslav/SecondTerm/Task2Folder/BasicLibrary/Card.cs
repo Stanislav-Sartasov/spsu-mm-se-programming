@@ -24,7 +24,7 @@ namespace BasicLibrary
             else return rank;
                  
         }
-        public static bool operator ==(Card firstCard,Card secondCard)
+        public static bool operator ==(Card firstCard, Card secondCard)
         {
             if (!String.Equals(firstCard.Rank, secondCard.Rank) ||
                 !String.Equals(firstCard.Suit, secondCard.Suit) ||
