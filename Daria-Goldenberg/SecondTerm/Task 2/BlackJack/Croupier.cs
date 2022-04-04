@@ -20,6 +20,15 @@
 			logger.WriteFirstCroupierCard();
 		}
 
+		public void DrawCards()
+		{
+			Logger logger = new Logger(this);
+			while (Hand.CountPoints() < 17)
+				Hand.TakeCard(game.Deck);
+
+			logger.WriteCroupierCards(this);
+		}
+
 		public void Finish()
 		{
 			Hand.Clear();

@@ -8,9 +8,7 @@ namespace Bots
 		{
 			Name = "Third Bot";
 			Game = game;
-			Hand = new Hand();
 			Balance = balance;
-			Bet = 0;
 		}
 
 		public override void MakeBet()

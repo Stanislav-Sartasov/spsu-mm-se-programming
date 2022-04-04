@@ -34,18 +34,12 @@
 				Croupier.BeginGame();
 
 				foreach (Player player in Players)
-				{
-					for (int j = 0; j < 2; j++)
-						player.Hit();
-					logger.WriteReceivedCards(player);
-				}
+					player.BeginGame();
 
 				foreach (Player player in Players)
 					player.PlayTurn();
 
-				while (Croupier.Hand.CountPoints() < 17)
-					Croupier.Hand.TakeCard(Deck);
-				logger.WriteCroupierCards();
+				Croupier.DrawCards();
 
 				foreach (Player player in Players)
 					player.Finish();

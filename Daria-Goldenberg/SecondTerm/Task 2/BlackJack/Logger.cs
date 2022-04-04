@@ -53,12 +53,12 @@
 			Console.WriteLine("(" + player.Hand.CountPoints() + " points)\n");
 		}
 
-		public void WriteCroupierCards()
+		public void WriteCroupierCards(Croupier croupier)
 		{
 			Console.Write("\nDealer has the cards: ");
-			foreach (Card card in game.Croupier.Hand.Cards)
+			foreach (Card card in croupier.Hand.Cards)
 				Console.Write(card.GetName() + " ");
-			Console.WriteLine("(" + game.Croupier.Hand.CountPoints() + " points)\n");
+			Console.WriteLine("(" + croupier.Hand.CountPoints() + " points)\n");
 		}
 
 		public void WriteOutOfGameMessage(Player player)

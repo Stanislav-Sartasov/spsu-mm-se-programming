@@ -2,15 +2,14 @@
 {
 	public abstract class Player
 	{
-		public string Name;
-		public Hand Hand;
-		public Game Game;
-		public int Balance;
-		public int Bet;
+		public string Name { get; protected set; }
+		public Hand Hand { get; protected set; }
+		protected Game Game;
+		public int Balance { get; protected set; }
+		public int Bet { get; protected set; }
 
 		public Player(Game game, int balance)
 		{
-			Name = "";
 			Game = game;
 			Hand = new Hand();
 			Balance = balance;
@@ -18,6 +17,15 @@
 		}
 
 		public abstract void MakeBet();
+
+		public void BeginGame()
+		{
+			Logger logger = new Logger(Game, this);
+			for (int j = 0; j < 2; j++)
+				Hit();
+
+			logger.WriteReceivedCards(this);
+		}
 
 		public void PlayTurn()
 		{
@@ -51,10 +59,9 @@
 
 		public void Finish()
 		{
+			Logger logger = new Logger(Game, this);
 			int pointsOfCroupier = Game.Croupier.Hand.CountPoints();
 			int pointsOfPlayer = Hand.CountPoints();
-			Logger logger = new Logger(Game, this);
-
 
 			if (IsBlackJack())
 			{

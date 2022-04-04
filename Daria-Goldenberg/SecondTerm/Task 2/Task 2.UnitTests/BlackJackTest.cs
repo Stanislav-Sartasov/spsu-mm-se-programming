@@ -65,73 +65,48 @@ namespace Task_2.UnitTests
 			Assert.Pass();
 		}
 
-		[Test]
-		public void FirstBotMakeBetTst()
+		[TestCase(1000, 950)]
+		[TestCase(20, 15)]
+		public void FirstBotMakeBetTest(int balance, int result)
 		{
 			Game game = new Game();
-			FirstBot bot = new FirstBot(game, 1000);
+			FirstBot bot = new FirstBot(game, balance);
 			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 950);
-
-			bot.Balance = 20;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 15);
+			Assert.AreEqual(bot.Balance, result);
 
 			Assert.Pass();
 		}
 
-		[Test]
-		public void SecondBotMakeBetTest()
+		[TestCase(1000, 875)]
+		[TestCase(800, 750)]
+		[TestCase(204, 153)]
+		[TestCase(198, 99)]
+		[TestCase(37, 27)]
+		public void SecondBotMakeBetTest(int balance, int result)
 		{
 			Game game = new Game();
 
-			SecondBot bot = new SecondBot(game, 1000);
+			SecondBot bot = new SecondBot(game, balance);
 			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 875);
-
-			bot.Balance = 800;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 750);
-
-			bot.Balance = 204;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 153);
-
-			bot.Balance = 198;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 99);
-
-			bot.Balance = 37;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 27);
+			Assert.AreEqual(bot.Balance, result);
 
 			Assert.Pass();
 		}
 
-		[Test]
-		public void ThirdBotMakeBetTest()
+		[TestCase(1000, 880)]
+		[TestCase(700, 640)]
+		[TestCase(500, 470)]
+		[TestCase(300, 285)]
+		[TestCase(100, 95)]
+		public void ThirdBotMakeBetTest(int balance, int result)
 		{
 			Game game = new Game();
 
-			ThirdBot bot = new ThirdBot(game, 1000);
+			ThirdBot bot = new ThirdBot(game, balance);
 			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 880);
+			Assert.AreEqual(bot.Balance, result);
 
-			bot.Balance = 700;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 640);
-
-			bot.Balance = 500;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 470);
-
-			bot.Balance = 300;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 285);
-
-			bot.Balance = 100;
-			bot.MakeBet();
-			Assert.AreEqual(bot.Balance, 95);
+			Assert.Pass();
 		}
 
 		[Test]
@@ -143,18 +118,23 @@ namespace Task_2.UnitTests
 			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
 			bot.Hand.Cards.Add(new Card(CardRank.Eight, CardSuit.Diamonds));
 			bot.PlayTurn();
+			Assert.AreEqual(bot.Hand.CountPoints(), 19);
+			Assert.AreEqual(bot.Hand.Cards.Count, 2);
 
 			bot = new FirstBot(game, 1000);
 
 			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
 			bot.Hand.Cards.Add(new Card(CardRank.Jack, CardSuit.Diamonds));
 			bot.PlayTurn();
+			Assert.AreEqual(bot.Hand.CountPoints(), 21);
+			Assert.AreEqual(bot.Hand.Cards.Count, 2);
 
 			bot = new FirstBot(game, 1000);
 
 			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Clubs));
-			bot.Hand.Cards.Add(new Card(CardRank.Four, CardSuit.Diamonds));
+			bot.Hand.Cards.Add(new Card(CardRank.Seven, CardSuit.Diamonds));
 			bot.PlayTurn();
+			Assert.AreEqual(bot.Hand.Cards.Count, 3);
 
 			Assert.Pass();
 		}
@@ -173,7 +153,7 @@ namespace Task_2.UnitTests
 			bot.Finish();
 			Assert.AreEqual(bot.Balance, 950);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -185,7 +165,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
@@ -196,7 +176,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.Ace, CardSuit.Spades));
@@ -207,7 +187,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -220,7 +200,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -232,7 +212,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -244,7 +224,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1000);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -257,7 +237,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -269,7 +249,7 @@ namespace Task_2.UnitTests
 			croupier.Finish();
 			Assert.AreEqual(bot.Balance, 1025);
 
-			bot.Balance = 1000;
+			bot = new FirstBot(game, 1000);
 
 			bot.MakeBet();
 			bot.Hand.Cards.Add(new Card(CardRank.King, CardSuit.Clubs));
@@ -302,14 +282,15 @@ namespace Task_2.UnitTests
 			game.Start();
 			Assert.AreEqual(game.Players.Count, 0);
 
-			ThirdBot bot = new ThirdBot(game, 1000);
 			game = new Game();
 			game.Players.Add(new FirstBot(game, 800));
-			game.Players.Add(new SecondBot(game, 800));
-			game.Players.Add(bot);
+			game.Players.Add(new SecondBot(game, 0));
+			game.Players.Add(new ThirdBot(game, 1000));
 			Assert.AreEqual(game.Players.Count, 3);
-			bot.Balance = 0;
 			game.Start();
+			Assert.AreEqual(game.Players.Count, 2);
+
+			Assert.Pass();
 		}
 	}
 }
