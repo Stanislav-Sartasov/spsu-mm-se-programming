@@ -1,13 +1,13 @@
 ﻿namespace DoublyLinkedList
 {
-	public class DoublyNode<T>
+	internal class DoublyNode<T>
 	{
-		public T Data { get; set; }
+		internal T Data { get; set; }
 
-		public DoublyNode<T>? Next;
-		public DoublyNode<T>? Prev;
+		internal DoublyNode<T>? Next;
+		internal DoublyNode<T>? Prev;
 
-		public DoublyNode(T data)
+		internal DoublyNode(T data)
 		{
 			Data = data;
 		}
