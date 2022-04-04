@@ -5,11 +5,11 @@ namespace MyHashTable
     public class MyHashTable<KeyType, ValueType>
         where  KeyType : IEquatable<KeyType>
     {
-        private ListForHT<KeyType, ValueType>[] buckets;
+        private HashTableList<KeyType, ValueType>[] buckets;
 
         public MyHashTable(int numOfBuckets)
         {
-            this.buckets = new ListForHT<KeyType, ValueType>[numOfBuckets];
+            this.buckets = new HashTableList<KeyType, ValueType>[numOfBuckets];
         }
 
         public ValueType? this[KeyType key]
@@ -103,7 +103,7 @@ namespace MyHashTable
 
                 if (this.buckets[ind] == null)
                 {
-                    this.buckets[ind] = new ListForHT<KeyType, ValueType>(key, value);
+                    this.buckets[ind] = new HashTableList<KeyType, ValueType>(key, value);
                 }
                 else
                 {

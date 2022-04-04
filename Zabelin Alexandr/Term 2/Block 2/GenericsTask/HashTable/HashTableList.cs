@@ -2,12 +2,12 @@
 
 namespace MyHashTable
 {
-    internal class ListForHT<KeyType, ValueType>
+    internal class HashTableList<KeyType, ValueType>
         where KeyType : IEquatable<KeyType>
     {
         internal Node<KeyType, ValueType>? Head { get; private set; }
         
-        internal ListForHT(KeyType key, ValueType value)
+        internal HashTableList(KeyType key, ValueType value)
         {
             this.Head = new Node<KeyType, ValueType>(key, value);
         }
