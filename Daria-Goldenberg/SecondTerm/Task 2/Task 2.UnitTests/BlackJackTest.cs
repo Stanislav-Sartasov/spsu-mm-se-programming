@@ -284,11 +284,10 @@ namespace Task_2.UnitTests
 
 			game = new Game();
 			game.Players.Add(new FirstBot(game, 800));
-			game.Players.Add(new SecondBot(game, 0));
+			game.Players.Add(new SecondBot(game, 10));
 			game.Players.Add(new ThirdBot(game, 1000));
 			Assert.AreEqual(game.Players.Count, 3);
 			game.Start();
-			Assert.AreEqual(game.Players.Count, 2);
 
 			Assert.Pass();
 		}
