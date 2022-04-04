@@ -77,7 +77,7 @@ namespace BlackJack.UnitTests
         [Test]
         public void StartGameTest()
         {
-            RandomBot randomBot = new RandomBot("RandomBot", 1000);
+            RandomBot randomBot = new RandomBot("RandomBot", 0);
             Game game = new Game(new List<Player> { randomBot });
             game.StartGame();
             Assert.AreEqual(game.Players.Count, 0);
