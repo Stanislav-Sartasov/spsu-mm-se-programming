@@ -14,12 +14,14 @@ namespace Task2.UnitTests
         public void Setup()
         {
         }
-        [Test]
 
+
+
+        [Test]
         public void CalculateBetsTest()
         {
-            Gamester gamester = new Gamester();
-            List<Gamester> gamesters = new List<Gamester> { gamester };
+            Bot testBot = new Bot(1);
+            List<Gamester> gamesters = new List<Gamester> { testBot };
             Dealer dealer = new Dealer();
 
 
@@ -27,15 +29,21 @@ namespace Task2.UnitTests
             {
                 for (int j = 3; j < 30; j++)
                 {
-                    gamester.Bank = 0;
-                    gamester.Bets[0] = 100;
-                    gamester.Sum[0] = i;
-                    dealer.Sum[0] = j;
+                    GiveBotMoney(testBot);
+                    for (int k = 0; k < i; k++)
+                    {
+                        testBot.ReceiveCard(new Card(CardSuit.Clubs,CardRank.Ace),0);
+                    }
+                    for (int k = 0; k < j; k++)
+                    {
+                        dealer.ReceiveCard(new Card(CardSuit.Clubs, CardRank.Ace), 0);
+                    }
+
                     dealer.CalculateBets(gamesters);
 
-                    if (gamester.Bets[0] != 0) Assert.Fail();
+                    if (testBot.GetBet(0) != 0) Assert.Fail();
 
-                    switch (gamester.Bank)
+                    switch (testBot.GiveResponce())
                     {
                         case 0:
                             {
@@ -59,44 +67,58 @@ namespace Task2.UnitTests
                             }
                     }
 
+                    testBot.Discard();
+                    dealer.Discard();
+
                 }
             }
 
-            gamester.Sum[0] = 0;
-            dealer.GiveBlackJack(gamester, 0);
+            testBot.Discard();
+            dealer.GiveBlackJack(testBot, 0);
 
             for (int i = 2; i < 21; i++)
             {
-                dealer.Sum[0] = i;
-                gamester.Bank = 0;
-                gamester.Bets[0] = 100;
+                for (int k = 0; k < i; k++)
+                {
+                    dealer.ReceiveCard(new Card(CardSuit.Clubs, CardRank.Ace), 0);
+                }
+                GiveBotMoney(testBot);
                 dealer.CalculateBets(gamesters);
-                if ((gamester.Bank != 250 || gamester.Bets[0] != 0) && i != 11) Assert.Fail();
+                if ((testBot.GiveResponce() != 250 || testBot.GetBet(0) != 0) && i != 11) Assert.Fail();
+                dealer.Discard();
             }
 
-            dealer.Sum[0] = 0;
+            dealer.Discard();
             dealer.GiveBlackJack(dealer, 0);
 
-            gamester.Bank = 0;
-            gamester.Bets[0] = 100;
+            GiveBotMoney(testBot);
+
             dealer.CalculateBets(gamesters);
-            if (gamester.Bank != 100 || gamester.Bets[0] != 0) Assert.Fail();
+            if (testBot.GiveResponce() != 100 || testBot.GetBet(0) != 0) Assert.Fail();
 
             dealer.GetCardsBack(gamesters);
             dealer.GiveBlackJack(dealer, 0);
 
             for (int i = 2; i < 21; i++)
             {
-                gamester.Sum[0] = i;
-                gamester.Bank = 0;
-                gamester.Bets[0] = 100;
+                for (int k = 0; k < i; k++)
+                {
+                    testBot.ReceiveCard(new Card(CardSuit.Clubs, CardRank.Ace), 0);
+                }
+                GiveBotMoney(testBot);
                 dealer.CalculateBets(gamesters);
-                if (gamester.Bank != 0 || gamester.Bets[0] != 0) Assert.Fail(i.ToString());
+                if (testBot.GiveResponce() != 0 || testBot.GetBet(0) != 0) Assert.Fail();
+                testBot.Discard();
             }
             Assert.Pass();
         }
 
-
+        public void GiveBotMoney(Bot testBot)
+        {
+            testBot.ChangeBank(-testBot.GiveResponce());
+            testBot.ChangeBank(100);
+            testBot.MakeBet(0);
+        }
         [Test]
 
         public void BotAnswerTest()
@@ -108,13 +130,13 @@ namespace Task2.UnitTests
                 Bot bot = new Bot(str);
                 List<Gamester> gamesters = new List<Gamester> { bot };
 
-                for (int j = 1; j < 14; j++)
-                    for (int k = 1; k < 14; k++)
+                for (int j = 0; j < 13; j++)
+                    for (int k = 0; k < 13; k++)
                     {
-                        bot.ReceiveCard(new Card(1, j), 0);
-                        bot.ReceiveCard(new Card(1, k), 0);
-                        for (int i = 1; i < 14; i++)
-                            if (bot.Answer(0, new List<Card> { new Card(1, i) }, gamesters) == -1)
+                        bot.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)j), 0);
+                        bot.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)k), 0);
+                        for (int i = 0; i < 13; i++)
+                            if (bot.Answer(0, new List<Card> { new Card(CardSuit.Clubs, (CardRank)i) }, gamesters) == -1)
                                 Assert.Fail();
                         dealer.GetCardsBack(gamesters);
                     }
@@ -128,17 +150,17 @@ namespace Task2.UnitTests
             Dealer dealer = new Dealer();
 
             Gamester gamester = new Gamester();
-            for (int j = 1; j < 5; j++)
+            for (int j = 0; j < 4; j++)
             {
-                for (int i = 1; i < 14; i++)
+                for (int i = 0; i < 13; i++)
                 {
-                    Card testCard = new Card(j, i);
+                    Card testCard = new Card((CardSuit)j, (CardRank)i);
                     gamester.ReceiveCard(testCard, 0);
-                    if (gamester.Hands[0][0].GetCardInfo()[0] != i ||
-                    gamester.Hands[0][0].GetCardInfo()[1] != j ||
-                    (gamester.Sum[0] != i && i <= 10) ||
-                    (gamester.Sum[0] != 10 && i > 10) ||
-                    gamester.Hands[0][0].GetCardInfo()[2] != gamester.Sum[0])
+                    if (gamester.ScanHand(0)[0].GetCardInfo()[0] != i + 1 ||
+                    gamester.ScanHand(0)[0].GetCardInfo()[1] != j + 1 ||
+                    (gamester.GetSum(0) != i + 1 && i <= 9) ||
+                    (gamester.GetSum(0) != 10 && i > 9) ||
+                    gamester.ScanHand(0)[0].GetCardInfo()[2] != gamester.GetSum(0))
                     {
                         Assert.Fail(i.ToString());
                     }
@@ -165,7 +187,7 @@ namespace Task2.UnitTests
             dealer.GetCardsBack(gamesters);
             for (int k = 0; k < gamesters.Count; k++)
                 for (int j = 0; j < 4; j++)
-                    if (gamesters[k].Hands[j].Count != 0)
+                    if (gamesters[k].ScanHand(j).Count != 0)
                         Assert.Fail();
 
             Assert.Pass();
@@ -177,9 +199,9 @@ namespace Task2.UnitTests
         {
             Card[] testSet = new Card[13];
 
-            for (int i = 1; i < 14; i++)
+            for (int i = 0; i < 13; i++)
             {
-                testSet[i - 1] = new Card(1, i);
+                testSet[i] = new Card(CardSuit.Clubs, (CardRank)i);
             }
 
             Player player = new Player();
@@ -193,7 +215,7 @@ namespace Task2.UnitTests
                         player.ReceiveCard(testSet[i], 0);
                         if (player.IsBlackJack(0)) Assert.Fail();
                         player.ReceiveCard(testSet[j], 0);
-                        if ((player.Sum[0] != 11)
+                        if ((player.GetSum(0) != 11)
                             && player.IsBlackJack(0)) Assert.Fail();
                         player.ReceiveCard(testSet[k], 0);
                         if (player.IsBlackJack(0)) Assert.Fail();
@@ -221,9 +243,9 @@ namespace Task2.UnitTests
             int result = 1;
 
 
-            for (int i = 1; i < 14; i++)
+            for (int i = 0; i < 13; i++)
             {
-                Card testCard = new Card(1, i);
+                Card testCard = new Card(CardSuit.Clubs, (CardRank)i);
 
                 testCard.GetCardInfo()[2] = testCard.CalculateValue(testCard.GetCardInfo()[0]);
                 if (testCard.GetCardInfo()[2] != result)
@@ -248,23 +270,24 @@ namespace Task2.UnitTests
             Bot[] botSet = new Bot[] { testBot, marty, oscar };
             for (int j = 0; j < 4; j++)
             {
-                justPlayer.Bank = 10000;
+                justPlayer.ChangeBank(-justPlayer.GiveResponce());
+                justPlayer.ChangeBank(10000);
                 justPlayer.MakeBet(j);
-                if (justPlayer.Bets[j] != 100 || justPlayer.Bank != 10000 - 100) Assert.Fail();
+                if (justPlayer.GetBet(j) != 100 || justPlayer.GiveResponce() != 10000 - 100) Assert.Fail("1");
                 for (int k = 0; k < 5; k++) 
                 {
-                    marty.Bank = 10000;
-                    marty.LastBank = marty.Bank + 1;
+                    marty.ChangeBank(10000);
+                    marty.LastBank = marty.GiveResponce() + 1;
                     marty.LoseStreak = k;
                     marty.MakeBet(j);
 
-                    testBot.Bank = 10000;
+                    testBot.ChangeBank(10000);
                     testBot.Step = k;
                     testBot.LastBank = 0;
                     testBot.MakeBet(j);
 
                     oscar.Wins = k;
-                    oscar.Bank = 10000;
+                    oscar.ChangeBank(10000);
                     oscar.LastBank = 10001;
                     oscar.MakeBet(j);
 
@@ -272,46 +295,50 @@ namespace Task2.UnitTests
                     {
                         case 0:
                             {
-                                if (marty.Bank != 9800 || marty.Bets[j] != 200
-                                    || testBot.Bets[j] != 50 || testBot.Bank != 9950
-                                    || oscar.Bets[j] != 100 || oscar.Bank != 9900) Assert.Fail();
+                                if (marty.GiveResponce() != 9800 || marty.GetBet(j) != 200
+                                    || testBot.GetBet(j) != 50 || testBot.GiveResponce() != 9950
+                                    || oscar.GetBet(j) != 100 || oscar.GiveResponce() != 9900) Assert.Fail();
                                 break;
                             }
                         case 1:
                             {
-                                if (marty.Bank != 9600 || marty.Bets[j] != 400
-                                    || testBot.Bank != 9850 || testBot.Bets[j] != 150
-                                    || oscar.Bets[j] != 103 || oscar.Bank != 9897) Assert.Fail();
+                                if (marty.GiveResponce() != 9600 || marty.GetBet(j) != 400
+                                    || testBot.GiveResponce() != 9850 || testBot.GetBet(j) != 150
+                                    || oscar.GetBet(j) != 103 || oscar.GiveResponce() != 9897) Assert.Fail();
                                 break;
                             }
                         case 2:
                             {
-                                if (marty.Bank != 9200 || marty.Bets[j] != 800
-                                    || testBot.Bets[j] != 100 || testBot.Bank != 9900
-                                    || oscar.Bets[j] != 106 || oscar.Bank != 9894) Assert.Fail();
+                                if (marty.GiveResponce() != 9200 || marty.GetBet(j) != 800
+                                    || testBot.GetBet(j) != 100 || testBot.GiveResponce() != 9900
+                                    || oscar.GetBet(j) != 106 || oscar.GiveResponce() != 9894) Assert.Fail();
                                 break;
                             }
                         case 3:
                             {
-                                if (marty.Bank != 8400 || marty.Bets[j] != 1600
-                                    || testBot.Bank != 9700 | testBot.Bets[j] != 300
-                                    || oscar.Bets[j] != 109 || oscar.Bank != 9891) Assert.Fail();
+                                if (marty.GiveResponce() != 8400 || marty.GetBet(j) != 1600
+                                    || testBot.GiveResponce() != 9700 | testBot.GetBet(j) != 300
+                                    || oscar.GetBet(j) != 109 || oscar.GiveResponce() != 9891) Assert.Fail();
                                 break;
                             }
                         case 4:
                             {
-                                if (marty.Bank != 6800 || marty.Bets[j] != 3200
-                                    || testBot.Step != 0 || testBot.Bets[j] != 50 || testBot.Bank != 9950
-                                    || oscar.Bets[j] != 112 || oscar.Bank != 9888) Assert.Fail();
+                                if (marty.GiveResponce() != 6800 || marty.GetBet(j) != 3200
+                                    || testBot.Step != 0 || testBot.GetBet(j) != 50 || testBot.GiveResponce() != 9950
+                                    || oscar.GetBet(j) != 112 || oscar.GiveResponce() != 9888) Assert.Fail();
                                 break;
                             }
                         default:
                             {
-                                if (marty.Bank != 3600 | marty.Bets[j] != 6400) Assert.Fail();
+                                if (marty.GiveResponce() != 3600 | marty.GetBet(j) != 6400) Assert.Fail();
                                 break;
 
                             }
                     }
+                    marty.ChangeBank(-marty.GiveResponce());
+                    testBot.ChangeBank(-testBot.GiveResponce());
+                    oscar.ChangeBank(-oscar.GiveResponce());
+
                 }
             }
             Assert.Pass();
@@ -332,9 +359,9 @@ namespace Task2.UnitTests
                 for (int i = 0; i <= 4; i++)
                 {
                     testCondition[0, j] = i;
-                    player.Bank = 1000;
-                    player.ReceiveCard(new Card(1, 10), j);
-                    for (int k = 0; k < 4; k++) player.Bets[k] = i * 100;
+                    player.ChangeBank(1000);
+                    player.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)10), j);
+                    for (int k = 0; k < 4; k++) player.SetBet(k, i * 100);
 
                     switch (i)
                     {
@@ -342,45 +369,40 @@ namespace Task2.UnitTests
                             {
 
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.Hands[j].Count != 1 ||
-                                     player.Bank != 1000 - i * 100 ||
-                                     player.Bets[j] != i * 100) Assert.Fail("1");
+                                if (player.ScanHand(j).Count != 1 ||
+                                     player.GetBet(j) != i * 100) Assert.Fail("1");
                                 break;
                             }
                         case 1:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.Hands[j].Count != 2 ||
-                                     player.Bank != 1000 ||
-                                     player.Bets[j] != i * 100) Assert.Fail("2");
+                                if (player.ScanHand(j).Count != 2 ||
+                                     player.GetBet(j) != i * 100) Assert.Fail("2");
                                 break;
                             }
                         case 2:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.Hands[j].Count != 2 ||
-                                     player.Bank != 1000 - i * 100 ||
-                                     player.Bets[j] != i * 200) Assert.Fail("3");
+                                if (player.ScanHand(j).Count != 2 ||
+                                     player.GetBet(j) != i * 200) Assert.Fail("3");
 
                                 break;
                             }
                         case 3:
                             {
-                                player.ReceiveCard(new Card(2, 10), j);
+                                player.ReceiveCard(new Card(CardSuit.Diamonds, (CardRank)10), j);
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.Bank != 1000 - i * 100 ||
-                                    player.Bets[j + 1] != i * 100 ||
-                                    player.Hands[j][0] == new Card(1, 10) ||
-                                    player.Hands[j + 1][0] == new Card(2, 10) ||
-                                    player.Hands[j].Count != player.Hands[j + 1].Count) Assert.Fail("4");
+                                if (player.GetBet(j + 1) != i * 100 ||
+                                    player.ScanHand(j)[0] == new Card(CardSuit.Clubs, (CardRank)10) ||
+                                    player.ScanHand(j + 1)[0] == new Card(CardSuit.Diamonds, (CardRank)10) ||
+                                    player.ScanHand(j).Count != player.ScanHand(j + 1).Count) Assert.Fail("4");
                                 break;
                             }
                         default:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.Hands[j].Count != 1 ||
-                                     player.Bank != 1000 + i * 50 ||
-                                     player.Bets[j] != 0) Assert.Fail("5");
+                                if (player.ScanHand(j).Count != 1 ||
+                                     player.GetBet(j) != 0) Assert.Fail("5");
                                 break;
                             }
 
@@ -395,13 +417,13 @@ namespace Task2.UnitTests
 
         public void EqualCardTest()
         {
-            for (int i = 1; i < 5; i++)
-                for (int j = 1; j < 5; j++)
-                    for (int k = 1; k < 14; k++)
-                        for (int p = 1; p < 14; p++)
+            for (int i = 0; i < 4; i++)
+                for (int j = 0; j < 4; j++)
+                    for (int k = 0; k < 13; k++)
+                        for (int p = 0; p < 13; p++)
                         {
-                            Card firstCard = new Card(i, k);
-                            Card secondCard = new Card(j, p);
+                            Card firstCard = new Card((CardSuit)i, (CardRank)k);
+                            Card secondCard = new Card((CardSuit)j, (CardRank)p);
                             if (firstCard == secondCard && (i != j || k != p)) Assert.Fail();
                             if (firstCard != secondCard && (i == j && k == p)) Assert.Fail();
                          }
@@ -422,7 +444,7 @@ namespace Task2.UnitTests
             try
             {
                 for (int i = 0; i < set.Length; i++)
-                    set[i].Bank = 100000;
+                    set[i].ChangeBank(100000);
                 jackBlack.Start(100);
             }
             catch (Exception)
@@ -451,7 +473,7 @@ namespace Task2.UnitTests
                 dealer.InitialDistribution(gamesters, shoes, condition);
                 try
                 {
-                    Game.ShowTable(dealer.Hands[0], gamesters);
+                    Game.ShowTable(dealer.ScanHand(0), gamesters);
                 }
                 catch (Exception)
                 {

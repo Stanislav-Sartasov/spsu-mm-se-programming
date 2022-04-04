@@ -31,14 +31,14 @@ namespace BotLibrary
             int dealerSum = dealerHand[0].GetCardInfo()[2];
             int sum = this.Sum[hand];
             int i = -1;
-
-            if (this.Hands[hand].Count == 2 && this.Hands[hand][0].GetCardInfo()[2] == this.Hands[hand][1].GetCardInfo()[2] && this.Hands[3].Count == 0)
+            List<Card> botHand = this.ScanHand(hand);
+            if (botHand.Count == 2 && botHand[0].GetCardInfo()[2] == botHand[1].GetCardInfo()[2] && this.ScanHand(3).Count == 0)
             {
-                if (this.Hands[hand].Exists(x => x.GetCardInfo()[0] == 1)) i = 10;
-                else i = 20 - 2 + this.Hands[hand][0].GetCardInfo()[2];
+                if (botHand.Exists(x => x.GetCardInfo()[0] == 1)) i = 10;
+                else i = 20 - 2 + botHand[0].GetCardInfo()[2];
             }
 
-            else if (this.Hands[hand].Exists(x => x.GetCardInfo()[0] == 1))
+            else if (botHand.Exists(x => x.GetCardInfo()[0] == 1))
             {
                 i = 10 - 2 + this.Sum[hand];
                 if (i >= 19) i = 19;
@@ -51,11 +51,16 @@ namespace BotLibrary
 
             int result = Convert.ToInt32(h[-1 + dealerHand[0].GetCardInfo()[2]]) - 48;
 
-            if (result == 3 && this.Hands[3].Count != 0) return 1;
+            if (result == 3 && this.ScanHand(3).Count != 0) return 1;
             return result;
+
+
 
         }
 
-
+        public int GiveResponce()
+        {
+            return this.Bank;
+        }
     }
 }

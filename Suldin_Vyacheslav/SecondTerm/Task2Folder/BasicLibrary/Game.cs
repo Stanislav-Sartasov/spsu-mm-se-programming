@@ -34,8 +34,8 @@ namespace BasicLibrary
                     Gamesters[i].MakeBet(0);
 
                 for (int i = 0; i < Gamesters.Count; i++)
-                    for (int j = 0; j < Gamesters[i].Hands.Length; j++)
-                        if (Gamesters[i].Bets[j] != 0) stop = false;
+                    for (int j = 0; j < Gamesters[i].GetHandsLenght(); j++)
+                        if (Gamesters[i].GetBet(j) != 0) stop = false;
 
                 if (stop) break;
 
@@ -50,7 +50,7 @@ namespace BasicLibrary
                 }
 
 
-                while (GameDealer.Sum[0] < 17 && !GameDealer.IsBlackJack(0))
+                while (GameDealer.GetSum(0) < 17 && !GameDealer.IsBlackJack(0))
                     GameDealer.GiveCard(GameDealer, 0, GameShoes);
 
 
@@ -79,17 +79,16 @@ namespace BasicLibrary
             for (int i = 0; i < gamesters.Count; i++)
             {
                 Console.Write($"{i}-player: ");
-                for (int j = 0; j < 4 && gamesters[i].Sum[j] != 0; j++)
+                for (int j = 0; j < 4 && gamesters[i].GetSum(j) != 0; j++)
                 {
                     Console.Write("\n");
                     Console.Write($"{j}-hand: [");
-                    for (int k = 0; k < gamesters[i].Hands[j].Count; k++)
+                    for (int k = 0; k < gamesters[i].ScanHand(j).Count; k++)
                     {
-                        Console.Write($"{gamesters[i].Hands[j][k].GetCardInfo()[2]} ");
+                        Console.Write($"{gamesters[i].ScanHand(j)[k].GetCardInfo()[2]} ");
                     }
                     Console.Write("]  bet:");
-                    Console.Write($"{gamesters[i].Bets[j]} ");
-                    Console.Write($"{gamesters[i].Bank} ");
+                    Console.Write($"{gamesters[i].GetBet(j)} ");
                 }
                 Console.Write("\n\n");
             }

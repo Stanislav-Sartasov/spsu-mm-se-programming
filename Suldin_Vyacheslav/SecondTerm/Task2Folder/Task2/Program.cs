@@ -34,11 +34,14 @@ namespace Task2
                         for ( j = 0; j < 30; j++)
                         {
                             for (int i = 0; i < set.Length; i++)
-                                set[i].Bank = 10000;
+                            {
+                                set[i].ChangeBank(-set[i].GiveResponce() + 10000);
+                            }
+                                
                             jackBlack.Start(40);
 
                             for (int i = 0; i < set.Length; i++)
-                                set[i].Difference += (set[i].Bank - 10000)/30;
+                                set[i].Difference += (set[i].GiveResponce() - 10000)/30;
                         }
 
                         for (int i = 0; i < set.Length; i++)
@@ -49,7 +52,7 @@ namespace Task2
                 case 2:
                     {
                         for (int i = 0; i < set.Length; i++)
-                            set[i].Bank = 100000;
+                            set[i].ChangeBank(100000);
 
                         players.Add(man);
                         players.AddRange(set);

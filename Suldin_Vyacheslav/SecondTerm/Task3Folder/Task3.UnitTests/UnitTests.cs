@@ -66,25 +66,13 @@ namespace Task3.UnitTests
 
                     if (!( testList.Length() == 8 + i - 10 && testList.Delete(i)))  Assert.Fail();
 
-                    if (i % 2 == 1)
-                    {
-                        if (testList.Head.Previous != null || sampleNode.Next != testList.Head)
-                            Assert.Fail();
-                    }
-                    else
-                    {
-                        if (testList.Tail.Next != null)
-                            Assert.Fail();
-                    }
-                    
                 }
             }
             for (int i = 3; i <= 4; i++)
             {
                 Node<int> deletable = testList.Find(i);
                 if (!testList.Delete(i) || testList.Length() != 3 - (i - 3)) Assert.Fail();
-                if ( deletable.Next.Previous != deletable.Previous ||
-                    deletable.Previous.Next != deletable.Next) Assert.Fail();
+
             }
             Assert.Pass();
         }
@@ -99,14 +87,7 @@ namespace Task3.UnitTests
                 testList.AddFirst(i);
                 if (testList.Length() != i + 1) Assert.Fail();
             }            
-    
-            Node<int> temporary = testList.Head;
 
-            for (int i = 0; i < 10; i++)
-            {
-                if (temporary.Next.Item - temporary.Item != -1) Assert.Fail();
-                temporary = temporary.Next;
-            }
             Assert.Pass();
         }
         [Test]
@@ -120,13 +101,6 @@ namespace Task3.UnitTests
                 if (testList.Length() != i + 1) Assert.Fail();
             }
 
-            Node<int> temporary = testList.Tail;
-
-            for (int i = 0; i < 10; i++)
-            {
-                if (temporary.Previous.Item - temporary.Item != -1) Assert.Fail();
-                temporary = temporary.Previous;
-            }
             Assert.Pass();
         }
 

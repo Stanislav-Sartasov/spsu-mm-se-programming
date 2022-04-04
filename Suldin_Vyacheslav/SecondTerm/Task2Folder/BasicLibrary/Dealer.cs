@@ -32,20 +32,20 @@ namespace BasicLibrary
                     break;
                 }
             }
-            if (show) Game.ShowTable(this.Hands[0],gamesters);
+            if (show) Game.ShowTable(this.ScanHand(0), gamesters);
             for (int i = 0; i < gamesters.Count; i++)
-                for (int j = 0; j < 4 && gamesters[i].Bets[j] != 0 ; j++)
+                for (int j = 0; j < 4 && gamesters[i].GetBet(j) != 0 ; j++)
                 {
-                    if (gamesters[i].Sum[j] > 21)
+                    if (gamesters[i].GetSum(j) > 21)
                     {
-                        gamesters[i].Bets[j] = 0;
+                        this.CollectBets(gamesters[i], j);
                         if (show) Console.WriteLine("player's bust");                        
                         continue;
                     }
                     else if (this.Sum[0] > 21)
                     {
-                        gamesters[i].Bank += gamesters[i].Bets[j] * 2;
-                        gamesters[i].Bets[j] = 0;
+                        gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 2);
+                        this.CollectBets(gamesters[i], j);
                         if (show) Console.WriteLine("dealer's bust");
                         continue;
                     }
@@ -54,46 +54,46 @@ namespace BasicLibrary
                     {
                         if (gamesters[i].IsBlackJack(j))
                         {
-                            gamesters[i].Bank += gamesters[i].Bets[j];
-                            gamesters[i].Bets[j] = 0;
+                            gamesters[i].ChangeBank(gamesters[i].GetBet(j));
+                            this.CollectBets(gamesters[i], j);
                             if (show) Console.WriteLine("dealer: BJ , player: BJ - draw");
                             continue;
                         }
                         else
                         {
-                            gamesters[i].Bets[j] = 0;
-                            if (show) Console.WriteLine($"dealer: BJ , player: {gamesters[i].Sum[j]} - dealer won");
+                            this.CollectBets(gamesters[i], j);
+                            if (show) Console.WriteLine($"dealer: BJ , player: {gamesters[i].GetSum(j)} - dealer won");
                             continue;
                         }
                     }
 
-                    if (this.Sum[0] == gamesters[i].Sum[j])
+                    if (this.Sum[0] == gamesters[i].GetSum(j))
                     {
-                        gamesters[i].Bank += gamesters[i].Bets[j];
-                        gamesters[i].Bets[j] = 0;
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: {gamesters[i].Sum[j]} - draw");
+                        gamesters[i].ChangeBank(gamesters[i].GetBet(j));
+                        this.CollectBets(gamesters[i], j);
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: {gamesters[i].GetSum(j)} - draw");
                         continue;
                     }
 
                     if (gamesters[i].IsBlackJack(j))
                     {
-                        gamesters[i].Bank += gamesters[i].Bets[j] * 5 / 2;
-                        gamesters[i].Bets[j] = 0;
+                        gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 5 / 2);
+                        this.CollectBets(gamesters[i], j);
                         if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: BJ - player won");
                         continue;
                     }
 
-                    if (this.Sum[0] < gamesters[i].Sum[j])
+                    if (this.Sum[0] < gamesters[i].GetSum(j))
                     {
-                        gamesters[i].Bank += gamesters[i].Bets[j] * 2;
-                        gamesters[i].Bets[j] = 0;
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} < player: {gamesters[i].Sum[j]}");
+                        gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 2);
+                        this.CollectBets(gamesters[i], j);
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} < player: {gamesters[i].GetSum(j)}");
                         continue;
                     }
                     else
                     {
-                        gamesters[i].Bets[j] = 0;
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} > player: {gamesters[i].Sum[j]}");
+                        this.CollectBets(gamesters[i], j);
+                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} > player: {gamesters[i].GetSum(j)}");
                         continue;
                     }
 
@@ -103,27 +103,23 @@ namespace BasicLibrary
         public void GetCardsBack(List<Gamester> gamesters)
         {
             for (int i = 0; i < gamesters.Count; i++)
-                for (int j = 0; j < 4; j++)
-                {
-                    gamesters[i].Hands[j].Clear();
-                    gamesters[i].Sum[j] = 0;
-                }
-            this.Hands[0].Clear();
-            this.Sum[0] = 0;
+                    gamesters[i].Discard();
+
+            this.Discard();
         }
 
         public bool Ask(List<Gamester> gamesters, Shoes shoes, int[,] condition )
         {
             
             for (int i = 0; i < gamesters.Count; i++)
-                for (int j = 0; j < 4 && gamesters[i].Bets[j] != 0; j++)
+                for (int j = 0; j < 4 && gamesters[i].GetBet(j) != 0; j++)
                 {
-                    if (gamesters[i].Sum[j] >= 21 || gamesters[i].IsBlackJack(j))
+                    if (gamesters[i].GetSum(j) >= 21 || gamesters[i].IsBlackJack(j))
                         condition[i, j] = 0;
 
                     if (condition[i, j] != 0)
                     {
-                        condition[i, j] = gamesters[i].Answer(j,this.Hands[0],gamesters);
+                        condition[i, j] = gamesters[i].Answer(j,this.ScanHand(0), gamesters);
                         switch (condition[i, j])
                         {
                             case 0: // stand on cards
@@ -137,8 +133,8 @@ namespace BasicLibrary
                                 }
                             case 2: //double
                                 {
-                                    gamesters[i].Bank -= gamesters[i].Bets[j];
-                                    gamesters[i].Bets[j] *= 2;
+                                    gamesters[i].ChangeBank(-gamesters[i].GetBet(j));
+                                    gamesters[i].SetBet(j, gamesters[i].GetBet(j) * 2);
                                     this.GiveCard(gamesters[i], j, shoes);
                                     condition[i, j] = 0;
                                     break;
@@ -148,12 +144,7 @@ namespace BasicLibrary
                                     for (int k = j + 1; k < 4; k++)
                                         if (condition[i, k] == 0)
                                         {
-                                            gamesters[i].Hands[k].Add(gamesters[i].Hands[j][0]);
-                                            gamesters[i].Hands[j].Remove(gamesters[i].Hands[j][0]);
-                                            gamesters[i].Sum[j] /= 2;
-                                            gamesters[i].Sum[k] += gamesters[i].Sum[j];
-                                            gamesters[i].Bets[k] = gamesters[i].Bets[j];
-                                            gamesters[i].Bank -= gamesters[i].Bets[j];
+                                            gamesters[i].SplitCards(j, k);
                                             condition[i, k] = 1;
                                             this.GiveCard(gamesters[i], j, shoes);
                                             this.GiveCard(gamesters[i], k, shoes);
@@ -164,18 +155,18 @@ namespace BasicLibrary
                             default: //sorendo
                                 {
                                     condition[i, j] = 0;
-                                    gamesters[i].Bank += gamesters[i].Bets[j] / 2;
-                                    gamesters[i].Bets[j] = 0;
+                                    gamesters[i].ChangeBank(gamesters[i].GetBet(j) / 2);
+                                    this.CollectBets(gamesters[i], j);
                                     break;
                                 }
                         }
                         return true;
                     }
 
-                    else if (gamesters[i].Sum[j] + 10 < 21 &&
-                        gamesters[i].Hands[j].Exists(x => x.GetCardInfo()[0] == 1))
+                    else if (gamesters[i].GetSum(j) + 10 < 21 &&
+                        gamesters[i].ScanHand(j).Exists(x => x.GetCardInfo()[0] == 1))
                     {
-                        gamesters[i].Sum[j] += 10;
+                        gamesters[i].ConfirmBlackJack(j);
                     }
 
                 }
@@ -189,11 +180,16 @@ namespace BasicLibrary
         }
         public void GiveBlackJack(Player to, int hand)
         {
-            if (to.Hands[hand].Count == 0)
+            if (to.ScanHand(hand).Count == 0)
             {
-                to.ReceiveCard(new Card(1, 11), hand);
-                to.ReceiveCard(new Card(1, 1), hand);
+                to.ReceiveCard(new Card(CardSuit.Clubs, CardRank.King), hand);
+                to.ReceiveCard(new Card(CardSuit.Clubs, CardRank.Ace), hand);
             }
+        }
+
+        public void CollectBets(Gamester gamester, int hand)
+        {
+            gamester.ReturnBet(hand);
         }
 
     }

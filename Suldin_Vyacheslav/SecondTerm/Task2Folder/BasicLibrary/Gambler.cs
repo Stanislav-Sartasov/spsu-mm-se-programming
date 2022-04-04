@@ -17,15 +17,16 @@ namespace BasicLibrary
 
 			int answer = Game.GetCoorectAnswer(0,5);
 
-			if (answer == 5)
-			{
-				Console.WriteLine($"Current hand is {hand}");
-				Game.ShowTable(dealerHand, gamesters);
-				return this.Answer(hand, dealerHand, gamesters);
-			}
-			if ((answer == 2 && this.Bank < this.Bets[hand]) ||
+            if (answer == 5)
+            {
+                Console.WriteLine($"Current hand is {hand}");
+                Game.ShowTable(dealerHand, gamesters);
+                return this.Answer(hand, dealerHand, gamesters);
+            }
+
+            if ((answer == 2 && this.Bank < this.Bets[hand]) ||
 				(answer == 3 && 
-				(this.Hands[hand].Count != 2 || this.Hands[hand][0].GetCardInfo()[2] != this.Hands[hand][1].GetCardInfo()[2])))
+				(this.ScanHand(hand).Count != 2 || this.ScanHand(hand)[0].GetCardInfo()[2] != this.ScanHand(hand)[1].GetCardInfo()[2])))
 				{
 					Console.WriteLine("Not available answer!");
 					return this.Answer(hand, dealerHand, gamesters);
@@ -39,6 +40,7 @@ namespace BasicLibrary
 		}
         public override bool IsNeedResult()
         {
+			Console.WriteLine($"Your current bank: {this.Bank}");
 			Console.WriteLine("Need result?");
 			if (Game.GetCoorectAnswer(0, 1) == 1)
 				return true;
