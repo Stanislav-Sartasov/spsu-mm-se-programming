@@ -11,7 +11,7 @@ object CasinoCliApp {
             return
         }
 
-        val strategies = args.flatMap(BotsLoader::loadAllBots)
+        val strategies = args.flatMap(::loadBotsRecursively)
 
         if (strategies.isEmpty()) {
             println("No bots were found.")
@@ -52,4 +52,9 @@ object CasinoCliApp {
             yield(newBankroll)
         }
     }.map(UInt::toInt).average()
+
+
+    private fun loadBotsRecursively(path: String): List<PlayerStrategy> = BotLoader.run {
+        findJarFilesRecursively(path).flatMap(::loadBotsFromJarFile)
+    }
 }
