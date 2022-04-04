@@ -24,18 +24,9 @@
 			Length++;
 		}
 
-		public void Remove(T data)
+		public void Remove(int index)
 		{
-			DoublyNode<T>? current = _head;
-
-			while (current is not null)
-			{
-				if (Equals(current.Data, data)) break;
-				current = current.Next;
-			}
-            
-			// Not found
-			if (current is null) return;
+			DoublyNode<T>? current = this.Get(index);
 
 			// If last
 			if (current.Next is null)

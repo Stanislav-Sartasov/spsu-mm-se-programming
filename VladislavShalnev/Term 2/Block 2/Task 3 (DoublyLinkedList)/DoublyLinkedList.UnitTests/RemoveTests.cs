@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace DoublyLinkedList.UnitTests
@@ -18,10 +19,7 @@ namespace DoublyLinkedList.UnitTests
 		[Test]
 		public void RemoveOutOfRangeTest()
 		{
-			_list.Remove(99);
-			
-			for (int i = 0; i < 10; i++)
-				Assert.AreEqual(_list[i], i);
+			Assert.Throws<IndexOutOfRangeException>(() => _list.Remove(99));
 		}
 
 		[Test]
