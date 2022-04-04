@@ -26,7 +26,7 @@
 
 		public void Remove(int index)
 		{
-			DoublyNode<T>? current = this.Get(index);
+			DoublyNode<T> current = this.Get(index);
 
 			// If last
 			if (current.Next is null)
@@ -57,6 +57,33 @@
 			}
 
 			return -1;
+		}
+
+		public void Insert(int index, T data)
+		{
+			// Insert in the end
+			if (index == Length)
+			{
+				this.Add(data);
+				return;
+			}
+			
+			DoublyNode<T> current = this.Get(index);
+			DoublyNode<T> node = new DoublyNode<T>(data);
+
+			// If before first
+			if (current.Prev is null)
+				_head = node;
+			else
+				current.Prev.Next = node;
+
+			// Inserting node before current
+			node.Prev = current.Prev;
+			node.Next = current;
+			current.Prev = node;
+			
+			
+			Length++;
 		}
 
 		private DoublyNode<T> Get(int index)
