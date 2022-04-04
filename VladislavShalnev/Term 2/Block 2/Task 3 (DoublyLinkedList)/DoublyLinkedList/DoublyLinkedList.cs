@@ -81,24 +81,23 @@
 			node.Prev = current.Prev;
 			node.Next = current;
 			current.Prev = node;
-			
-			
+
 			Length++;
 		}
 
 		private DoublyNode<T> Get(int index)
 		{
-			DoublyNode<T>? current = _head;
-                
 			// Checking the index
 			// If the list is empty this will also work
 			if (index < 0 || index >= Length)
 				throw new IndexOutOfRangeException("Index was out of range");
-                
-			for (int i = 0; i < index; i++)
-				current = current!.Next;
+			
+			DoublyNode<T> current = _head!;
 
-			return current!;
+			for (int i = 0; i < index; i++)
+				current = current.Next!;
+
+			return current;
 		}
 
 		public T this[int index]
