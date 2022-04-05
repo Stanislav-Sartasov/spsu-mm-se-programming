@@ -5,7 +5,7 @@ namespace DoublyLinkedList.UnitTests
 {
 	public class DoublyLinkedListTests
 	{
-		public DoublyLinkedList<int> List;
+		private DoublyLinkedList<int> List;
 
 		[Test]
 		public void AddTest()
@@ -21,57 +21,60 @@ namespace DoublyLinkedList.UnitTests
 				List.Add(counter);
 			}
 
-			DoublyLinkedNode<int> node = List.First;
 			for (int counter = 0; counter < 10; counter++)
 			{
-				Assert.AreEqual(node.Data, counter);
-				node = node.Next;
+				Assert.AreEqual(List.FindData(counter + 1), counter);
 			}
-			for (int counter = 100; counter < 120; counter++)
+			for (int counter = 10; counter < 30; counter++)
 			{
-				Assert.AreEqual(node.Data, counter);
-				node = node.Next;
+				Assert.AreEqual(List.FindData(counter + 1), 90 + counter);
 			}
-
-			Assert.AreEqual(List.First.Data, 0);
-			Assert.AreEqual(List.Last.Data, 119);
 			Assert.Pass();
 		}
 
 		[Test]
-		public void FindTest()
+		public void FindDataTest()
 		{
-			DoublyLinkedNode<int> node = List.Find(0);
-			Assert.AreEqual(node.Data, 0);
-			Assert.AreEqual(node.Data, List.First.Data);
+			Assert.AreEqual(List.FindData(1), 0);
+			Assert.AreEqual(List.FindData(10), 9);
+			Assert.AreEqual(List.FindData(5), 4);
+			Assert.AreEqual(List.FindData(24), 113);
+			Assert.AreEqual(List.FindData(30), 119);
+			Assert.Pass();
+		}
 
-			node = List.Find(107);
-			Assert.AreEqual(node.Data, 107);
-
-			node = List.Find(10);
-			Assert.AreEqual(node, null);
-
-			node = List.Find(120);
-			Assert.AreEqual(node, null);
-
-			node = List.Find(100);
-			Assert.AreEqual(node.Data, 100);
+		[Test]
+		public void FindIndexTest()
+		{
+			Assert.AreEqual(List.FindIndex(0), 1);
+			Assert.AreEqual(List.FindIndex(3), 4);
+			Assert.AreEqual(List.FindIndex(100), 11);
+			Assert.AreEqual(List.FindIndex(116), 27);
+			Assert.AreEqual(List.FindIndex(119), 30);
 			Assert.Pass();
 		}
 
 		[Test]
 		public void RemoveTest()
 		{
-			List.Remove(0);
-			Assert.AreEqual(List.First.Data, 1);
+			List.Remove(1);
+			Assert.AreEqual(List.FindData(1), 1);
 
-			List.Remove(100);
-			Assert.AreEqual(List.Find(100), null);
+			List.Remove(10);
+			Assert.AreEqual(List.FindData(10), 101);
 
-			List.Remove(119);
-			Assert.AreEqual(List.Last.Data, 118);
+			List.Remove(28);
+			Assert.AreEqual(List.FindData(27), 118);
 
-			Assert.AreEqual(List.Remove(10), null);
+			List.Remove(1);
+			Assert.AreEqual(List.FindData(1), 2);
+			List.Remove(1);
+			Assert.AreEqual(List.FindData(1), 3);
+			List.Remove(1);
+			Assert.AreEqual(List.FindData(1), 4);
+			List.Remove(1);
+			Assert.AreEqual(List.FindData(1), 5);
+
 			Assert.Pass();
 		}
 	}

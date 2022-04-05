@@ -4,17 +4,20 @@ namespace DoublyLinkedList
 {
 	public class DoublyLinkedList<T>
 	{
-		public DoublyLinkedNode<T> First;
-		public DoublyLinkedNode<T> Last;
+		private DoublyLinkedNode<T> First;
+		private DoublyLinkedNode<T> Last;
+		public int Length;
 		
 		public DoublyLinkedList()
 		{
 			First = null;
 			Last = null;
+			Length = 0;
 		}
 		
-		public int? Add(T data)
+		public void Add(T data)
 		{
+			Length++;
 			DoublyLinkedNode<T> node = new DoublyLinkedNode<T>(data);
 
 			if (First != null)
@@ -22,49 +25,74 @@ namespace DoublyLinkedList
 				Last.Next = node;
 				node.Prev = Last;
 				Last = node;
-				return 1;
 			}
 			else
 			{
 				First = node;
 				Last = node;
-				return 1;
 			}
 		}
 
-		public DoublyLinkedNode<T> Find(T data)
+		public int? FindIndex(T data)
 		{
+			var index = 1;
 			DoublyLinkedNode<T> node = First;
 			while (node != null)
 			{
-				if (Equals(node.Data, data)) return node;
+				if (Equals(node.Data, data)) return index;
 				node = node.Next;
+				index++;
 			}
+			Console.WriteLine("Data \"", data + "\" was nor found.");
 			return null;
 		}
 
-		public int? Remove(T data)
+		public T FindData(int index)
 		{
-			DoublyLinkedNode<T> node = Find(data);
-			if (Equals(node, First))
+			if (index > 0 && index < Length + 1)
 			{
-				First = node.Next;
+				DoublyLinkedNode<T> node = First;
+				while (index > 1)
+				{
+					node = node.Next;
+					index--;
+				}
+				return node.Data;
+			}
+			else
+			{
+				throw new IndexOutOfRangeException("Index  is out of the range.");
+			}
+		}
+
+		public void Remove(int index)
+		{
+			Length--;
+			if (index == 1)
+			{
+				First = First.Next;
 				First.Prev = null;
-				return 1;
 			}
-			else if (Equals(node, Last))
+			else if (index == Length + 1)
 			{
-				Last = node.Prev;
+				Last = Last.Prev;
 				Last.Next = null;
-				return 1;
 			}
-			else if (!Equals(node, null))
+			else if (index > 1 && index < Length + 1)
 			{
+				DoublyLinkedNode<T> node = First.Next;
+				while (index > 2)
+				{
+					node = node.Next;
+					index--;
+				}
 				node.Prev.Next = node.Next;
 				node.Next.Prev = node.Prev;
-				return 1;
 			}
-			return null;
+			else
+			{
+				throw new IndexOutOfRangeException("Index  is out of the range.");
+			}
 		}
 	}
 }

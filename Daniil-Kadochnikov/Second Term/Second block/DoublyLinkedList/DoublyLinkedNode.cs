@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DoublyLinkedList
 {
-	public class DoublyLinkedNode<T>
+	internal class DoublyLinkedNode<T>
 	{
-		public DoublyLinkedNode<T> Prev;
-		public T Data;
-		public DoublyLinkedNode<T> Next;
+		internal DoublyLinkedNode<T> Prev;
+		internal T Data;
+		internal DoublyLinkedNode<T> Next;
 
-		public DoublyLinkedNode(T data)
+		internal DoublyLinkedNode(T data)
 		{
 			Prev = null;
 			Data = data;
