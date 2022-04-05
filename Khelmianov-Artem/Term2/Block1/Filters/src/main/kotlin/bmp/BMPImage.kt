@@ -10,52 +10,61 @@ import java.nio.channels.FileChannel
 typealias PixelArray = Array<Array<Pixel>>
 
 class BMPImage(
-    val header: BMPHeader,
+    var header: BMPHeader,
     var data: PixelArray
 ) {
     companion object {
-        fun open(path: String): BMPImage {
-            RandomAccessFile(path, "r").use { file ->
-                val buffer = file.channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length())
-                    .apply { order(ByteOrder.LITTLE_ENDIAN) }
+        fun open(path: String): BMPImage? {
+            try {
 
-                val header = BMPHeader(
-                    type = buffer.short,
-                    fileSize = buffer.int,
-                    reserved = buffer.int,
-                    offset = buffer.int,
-                    headerSize = buffer.int,
-                    width = buffer.int,
-                    height = buffer.int,
-                    planes = buffer.short,
-                    bitsPerPixel = buffer.short,
-                    compression = buffer.int,
-                    imageSize = buffer.int,
-                    xResolution = buffer.int,
-                    yResolution = buffer.int,
-                    numColors = buffer.int,
-                    numImportantColors = buffer.int
-                )
+                RandomAccessFile(path, "r").use { file ->
+                    val buffer = file.channel.map(FileChannel.MapMode.READ_ONLY, 0, file.length())
+                        .apply { order(ByteOrder.LITTLE_ENDIAN) }
 
-                buffer.position(header.offset)
-                val data = Array(header.height) { Array(header.width) { Pixel() } }
-                val isAlpha = header.bitsPerPixel == 32.toShort()
-                val isPadding = header.bitsPerPixel == 24.toShort()
-                val padding = if (isPadding) (-3 * header.width) % 4 else 0
+                    val header = BMPHeader(
+                        type = buffer.short,
+                        fileSize = buffer.int,
+                        reserved = buffer.int,
+                        offset = buffer.int,
+                        headerSize = buffer.int,
+                        width = buffer.int,
+                        height = buffer.int,
+                        planes = buffer.short,
+                        bitsPerPixel = buffer.short,
+                        compression = buffer.int,
+                        imageSize = buffer.int,
+                        xResolution = buffer.int,
+                        yResolution = buffer.int,
+                        numColors = buffer.int,
+                        numImportantColors = buffer.int
+                    )
 
-                for (y in header.height - 1 downTo 0) {
-                    for (x in 0 until header.width) {
-                        data[y][x] = Pixel(
-                            buffer.get().toUByte(),
-                            buffer.get().toUByte(),
-                            buffer.get().toUByte()
-                        )
-                        if (isAlpha) buffer.get()
+                    if (!header.isValid) {
+                        return null
                     }
-                    if (isPadding) buffer.get(padding)
-                }
 
-                return BMPImage(header, data)
+                    buffer.position(header.offset)
+                    val data = Array(header.height) { Array(header.width) { Pixel() } }
+                    val isAlpha = header.bitsPerPixel == 32.toShort()
+                    val isPadding = header.bitsPerPixel == 24.toShort()
+                    val padding = if (isPadding) (-3 * header.width) % 4 else 0
+
+                    for (y in header.height - 1 downTo 0) {
+                        for (x in 0 until header.width) {
+                            data[y][x] = Pixel(
+                                buffer.get().toUByte(),
+                                buffer.get().toUByte(),
+                                buffer.get().toUByte()
+                            )
+                            if (isAlpha) buffer.get()
+                        }
+                        if (isPadding) buffer.get(padding)
+                    }
+
+                    return BMPImage(header, data)
+                }
+            } catch (exception: Exception) {
+                return null
             }
         }
     }

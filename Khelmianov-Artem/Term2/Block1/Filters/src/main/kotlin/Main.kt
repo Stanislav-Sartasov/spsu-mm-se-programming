@@ -15,9 +15,9 @@ fun main(args: Array<String>) {
         else Pair(map + (lastKey to map.getOrDefault(lastKey, emptyList()) + elem), lastKey)
     }.first
 
-    val input: String? = arguments["-i"]?.getOrNull(0)
-    val output: String? = arguments["-o"]?.getOrNull(0)
-    val filter: String? = arguments["-f"]?.getOrNull(0)
+    val input: String = arguments["-i"]?.getOrNull(0) ?: throw Error("Не указан входной файл")
+    val output: String = arguments["-o"]?.getOrNull(0) ?: throw Error("Не указан выходной файл")
+    val _filter: String = arguments["-f"]?.getOrNull(0) ?: throw Error("Не указан фильтр")
     val radius: Int = arguments["-f"]?.getOrNull(1)?.toIntOrNull() ?: 1
 
     val filters = mapOf(
@@ -28,10 +28,8 @@ fun main(args: Array<String>) {
         "gauss" to GaussianFilter(radius)
     )
 
-    if (input != null && output != null && filter != null) {
-        val filter = filters.getOrElse(filter){throw IllegalArgumentException("Неверное имя фильтра")}
-        val bmp = BMPImage.open(input)
-        bmp.applyFilter(filter)
-        bmp.save(output)
-    }
+    val filter = filters.getOrElse(_filter) { throw IllegalArgumentException("Неверное имя фильтра") }
+    val bmp = BMPImage.open(input) ?: throw Error("Не удалось открыть изображение")
+    bmp.applyFilter(filter)
+    bmp.save(output)
 }
