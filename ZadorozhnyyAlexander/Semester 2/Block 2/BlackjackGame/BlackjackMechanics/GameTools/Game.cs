@@ -6,10 +6,10 @@ namespace BlackjackMechanics.GameTools
 {
     public class Game
     {
-        private int NumberOfMoves = 0;
-        public DeckOfCards Deck;
-        public ABot Bot;
-        public Dealer Dealer;
+        private int numberOfMoves = 0;
+        private DeckOfCards Deck;
+        private ABot Bot;
+        private Dealer Dealer;
 
         public Game(ABot bot)
         {
@@ -21,7 +21,7 @@ namespace BlackjackMechanics.GameTools
         {
             while (player.GetNextCard())
             {
-                player.CardsInHand.Add(Deck.GetOneCard(player));
+                Dealer.GiveCard(Deck.GetOneCard(player), player);
             }
         }
 
@@ -92,7 +92,7 @@ namespace BlackjackMechanics.GameTools
 
             else
             {
-                NumberOfMoves++;
+                numberOfMoves++;
                 MakeTurn();
             }
         }
@@ -112,7 +112,7 @@ namespace BlackjackMechanics.GameTools
 
         public PlayerTurn GetNextPlayerTurn()
         {
-            if (!(NumberOfMoves == 0 && Bot.GetSumOfCards() == 21))
+            if (!(numberOfMoves == 0 && Bot.GetSumOfCards() == 21))
                 return Bot.GetNextTurn(Dealer.VisibleCard);
 
             if (Dealer.VisibleCard.CardName == CardNames.Ace)
@@ -151,7 +151,7 @@ namespace BlackjackMechanics.GameTools
         {
             Bot.CardsInHand.Clear();
             Dealer.ClearHands();
-            NumberOfMoves = 0;
+            numberOfMoves = 0;
             if (Deck.Deck.Count() < 2 * 52)
             {
                 Deck.ResetDeckOfCards();

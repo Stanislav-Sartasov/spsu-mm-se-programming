@@ -4,7 +4,7 @@ namespace BlackjackBots
 {
     public class UsualBaseStrategyBot : ABot
     {
-        private PlayerTurn[,] HardTotals =
+        private PlayerTurn[,] hardTotals =
         {
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit},
@@ -14,7 +14,7 @@ namespace BlackjackBots
             {PlayerTurn.Hit, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Double, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit},
             {PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit, PlayerTurn.Hit}
         };
-        private PlayerTurn[,] SoftTotals =
+        private PlayerTurn[,] softTotals =
         {
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
             {PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Double, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand, PlayerTurn.Stand},
@@ -44,7 +44,7 @@ namespace BlackjackBots
                 _ => 0
             };
 
-            PlayerTurn turn = HardTotals[hardTotalIndex, dealerIndex];
+            PlayerTurn turn = hardTotals[hardTotalIndex, dealerIndex];
             IsWantNextCard = turn == PlayerTurn.Hit || turn == PlayerTurn.Double;
 
             return turn;
@@ -68,7 +68,7 @@ namespace BlackjackBots
 
             if (softTotalIndex != -1)
             {
-                PlayerTurn turn = SoftTotals[softTotalIndex, dealerIndex];
+                PlayerTurn turn = softTotals[softTotalIndex, dealerIndex];
                 IsWantNextCard = turn == PlayerTurn.Hit || turn == PlayerTurn.Double;
                 return turn;
             }
@@ -78,7 +78,7 @@ namespace BlackjackBots
 
         protected override void PrepareToNextGame()
         {
-            Rate = StartRate;
+            Rate = startRate;
         }
 
         public override PlayerTurn GetNextTurn(ACard dealerCard)

@@ -17,7 +17,7 @@ namespace BlackjackMechanics.Players
             return this.GetSumOfCards() < 17;
         }
 
-        public void TakeCard(ACard card)
+        public override void TakeCard(ACard card)
         {
             if (VisibleCard == null)
                 VisibleCard = card;
@@ -26,7 +26,7 @@ namespace BlackjackMechanics.Players
 
         public void GiveCard(ACard card, AParticipant player)
         {
-            player.CardsInHand.Add(card);
+            player.TakeCard(card);
         }
 
         public void HandOutCards(DeckOfCards deck, AParticipant player)

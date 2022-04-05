@@ -4,7 +4,7 @@ namespace BlackjackBots
 {
     public class PrimitiveManchetanStrategyBot : ABot
     {
-        private bool IsDoubledRate = false;
+        private bool isDoubledRate = false;
 
         public PrimitiveManchetanStrategyBot(double money, double startRate) : base(money, startRate)
         {
@@ -13,15 +13,15 @@ namespace BlackjackBots
 
         protected override void PrepareToNextGame()
         {
-            if (IsWonLastGame)
+            if (isWonLastGame)
             {
-                Rate = IsDoubledRate ? StartRate : StartRate * 2;
-                IsDoubledRate = !IsDoubledRate;
+                Rate = isDoubledRate ? startRate : startRate * 2;
+                isDoubledRate = !isDoubledRate;
             }
             else
             {
-                Rate = StartRate;
-                IsDoubledRate = false;
+                Rate = startRate;
+                isDoubledRate = false;
             }
         }
 

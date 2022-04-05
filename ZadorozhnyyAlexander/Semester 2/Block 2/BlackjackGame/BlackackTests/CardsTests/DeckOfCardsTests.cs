@@ -8,7 +8,7 @@ namespace BlackackTests.CardsTests
 {
     public class DeckOfCardsTests
     {
-        private const int CountDecksInOne = 1;
+        private const int countDecksInOne = 1;
 
         private bool CheckIsCardsEqual(ACard first, ACard second)
         {
@@ -28,7 +28,7 @@ namespace BlackackTests.CardsTests
         [Test]
         public void DeckOfCardsConstructorTest()
         {
-            var deck = new DeckOfCards(CountDecksInOne);
+            var deck = new DeckOfCards(countDecksInOne);
 
             Assert.IsNotNull(deck);
             Assert.IsTrue(deck.Deck.Count() == 52);
@@ -58,7 +58,7 @@ namespace BlackackTests.CardsTests
         public void TakeCardTest()
         {
             var dealer = new Dealer();
-            var deck = new DeckOfCards(CountDecksInOne);
+            var deck = new DeckOfCards(countDecksInOne);
             deck.ShuffleDeck();
 
             ACard takenCard = deck.GetOneCard(dealer);
@@ -72,9 +72,9 @@ namespace BlackackTests.CardsTests
         public void ResetDeckOfCardsTest()
         {
             var dealer = new Dealer();
-            var deck = new DeckOfCards(CountDecksInOne);
+            var deck = new DeckOfCards(countDecksInOne);
 
-            var changingDeck = new DeckOfCards(CountDecksInOne);
+            var changingDeck = new DeckOfCards(countDecksInOne);
             changingDeck.ShuffleDeck();
             changingDeck.GetOneCard(dealer);
             changingDeck.GetOneCard(dealer);

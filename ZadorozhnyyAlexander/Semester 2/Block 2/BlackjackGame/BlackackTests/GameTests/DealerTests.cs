@@ -9,7 +9,7 @@ namespace BlackackTests.GameTests
 {
     public class DealerTests
     {
-        private const int CountDecksInOne = 8;
+        private const int countDecksInOne = 8;
 
         [Test]
         public void DealerConstructorTest()
@@ -36,7 +36,7 @@ namespace BlackackTests.GameTests
         {
             var dealer = new Dealer();
             var bot = new UsualBaseStrategyBot(10, 1);
-            var gameDeck = new DeckOfCards(CountDecksInOne);
+            var gameDeck = new DeckOfCards(countDecksInOne);
 
             dealer.HandOutCards(gameDeck, bot);
             Assert.IsNotNull(bot.CardsInHand);

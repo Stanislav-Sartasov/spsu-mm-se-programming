@@ -2,8 +2,8 @@
 {
     public class OneThreeTwoSixBot : UsualBaseStrategyBot
     {
-        private int[] MultipleOThreeTwoSixStrategy = { 1, 3, 2, 6 };
-        private int NowIndex = 0;
+        private int[] multipleOThreeTwoSixStrategy = { 1, 3, 2, 6 };
+        private int nowIndex = 0;
 
         public OneThreeTwoSixBot(double money, double startRate) : base(money, startRate)
         {
@@ -12,8 +12,8 @@
 
         protected override void PrepareToNextGame()
         {
-            NowIndex = IsWonLastGame ? (NowIndex + 1) % 4 : 0;
-            Rate = StartRate * MultipleOThreeTwoSixStrategy[NowIndex];
+            nowIndex = isWonLastGame ? (nowIndex + 1) % 4 : 0;
+            Rate = startRate * multipleOThreeTwoSixStrategy[nowIndex];
         }
     }
 }

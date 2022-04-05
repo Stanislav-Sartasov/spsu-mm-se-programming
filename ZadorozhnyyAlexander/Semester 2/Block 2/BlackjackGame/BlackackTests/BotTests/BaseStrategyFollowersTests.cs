@@ -8,13 +8,13 @@ namespace BlackackTests.BotTests
 {
     public class BaseStrategyFollowersTests
     {
-        private const double ExampleStartMoney = 1000;
-        private const double ExampleStartRate = 50;
+        private const double exampleStartMoney = 1000;
+        private const double exampleStartRate = 50;
 
         [Test]
         public void MartingaleBotActionAfterBlackjackTest()
         {
-            var bot = new MartingaleBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new MartingaleBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(1);
             game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
@@ -26,7 +26,7 @@ namespace BlackackTests.BotTests
         [Test]
         public void OneThreeTwoSixBotActionAfterBlackjackTest()
         {
-            var bot = new OneThreeTwoSixBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new OneThreeTwoSixBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(1);
             game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
@@ -38,31 +38,31 @@ namespace BlackackTests.BotTests
         [Test]
         public void MartingaleBotNextGamePreparationTest()
         {
-            var bot = new MartingaleBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new MartingaleBot(exampleStartMoney, exampleStartRate);
 
             bot.Lose();
-            Assert.IsTrue(bot.Rate == ExampleStartRate * 2);
+            Assert.IsTrue(bot.Rate == exampleStartRate * 2);
 
             bot.Lose();
-            Assert.IsTrue(bot.Rate == ExampleStartRate * 4);
+            Assert.IsTrue(bot.Rate == exampleStartRate * 4);
 
             bot.Win();
-            Assert.IsTrue(bot.Rate == ExampleStartRate);
+            Assert.IsTrue(bot.Rate == exampleStartRate);
         }
 
         [Test]
         public void OneThreeTwoSixBotNextGamePreparationTest()
         {
-            var bot = new OneThreeTwoSixBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new OneThreeTwoSixBot(exampleStartMoney, exampleStartRate);
 
             bot.Win();
-            Assert.IsTrue(bot.Rate == ExampleStartRate * 3);
+            Assert.IsTrue(bot.Rate == exampleStartRate * 3);
 
             bot.Win();
-            Assert.IsTrue(bot.Rate == ExampleStartRate * 2);
+            Assert.IsTrue(bot.Rate == exampleStartRate * 2);
 
             bot.Lose();
-            Assert.IsTrue(bot.Rate == ExampleStartRate);
+            Assert.IsTrue(bot.Rate == exampleStartRate);
         }
     }
 }

@@ -6,7 +6,7 @@
 
         protected override void PrepareToNextGame()
         {
-            Rate = IsWonLastGame ? StartRate : Rate * 2;
+            Rate = isWonLastGame ? startRate : Rate * 2;
         }
     }
 }

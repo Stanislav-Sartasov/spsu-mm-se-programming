@@ -16,6 +16,11 @@
             return sum;
         }
 
+        public virtual void TakeCard(ACard card)
+        {
+            this.CardsInHand.Add(card);
+        }
+
         public virtual void Win()
         {
             CountGames++;

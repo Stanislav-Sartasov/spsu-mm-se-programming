@@ -6,11 +6,11 @@ namespace BlackjackMechanics.Cards
     public class DeckOfCards
     {
         public List<ACard> Deck;
-        private int CountDecksInOne;
+        private int countDecksInOne;
 
         public DeckOfCards(int data)
         {
-            CountDecksInOne = data;
+            countDecksInOne = data;
             Deck = new List<ACard>();
 
             CreateNewDeckOfCard();
@@ -18,7 +18,7 @@ namespace BlackjackMechanics.Cards
 
         private void CreateNewDeckOfCard()
         {
-            for (int deck = 0; deck < CountDecksInOne; deck++)
+            for (int deck = 0; deck < countDecksInOne; deck++)
             {
                 for (int suit = 0; suit < 4; suit++)
                 {

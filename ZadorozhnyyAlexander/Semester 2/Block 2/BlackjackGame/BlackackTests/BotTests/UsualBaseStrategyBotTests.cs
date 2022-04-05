@@ -9,13 +9,13 @@ namespace BlackackTests.BotTests
 {
     public class UsualBaseStrategyBotTests
     {
-        private const double ExampleStartMoney = 1000;
-        private const double ExampleStartRate = 50;
+        private const double exampleStartMoney = 1000;
+        private const double exampleStartRate = 50;
 
         [Test]
         public void GetNextTurnAfterSoftTotalsTest()
         {
-            var bot = new UsualBaseStrategyBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(8);
 
@@ -65,7 +65,7 @@ namespace BlackackTests.BotTests
         [Test]
         public void GetNextTurnAfterHardTotalsTest()
         {
-            var bot = new UsualBaseStrategyBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(8);
 
@@ -94,7 +94,7 @@ namespace BlackackTests.BotTests
         [Test]
         public void ActionAfterBlackjackTest()
         {
-            var bot = new UsualBaseStrategyBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(1);
 
@@ -107,13 +107,13 @@ namespace BlackackTests.BotTests
         [Test]
         public void NextGamePreparationTest()
         {
-            var bot = new UsualBaseStrategyBot(ExampleStartMoney, ExampleStartRate);
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
 
             bot.Win();
-            Assert.IsTrue(bot.Rate == ExampleStartRate);
+            Assert.IsTrue(bot.Rate == exampleStartRate);
 
             bot.Lose();
-            Assert.IsTrue(bot.Rate == ExampleStartRate);
+            Assert.IsTrue(bot.Rate == exampleStartRate);
         }
     }
 }

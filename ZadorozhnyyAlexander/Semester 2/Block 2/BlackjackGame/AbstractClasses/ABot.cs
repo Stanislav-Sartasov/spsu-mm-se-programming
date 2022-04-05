@@ -2,8 +2,8 @@
 {
     public abstract class ABot : AParticipant
     {
-        protected double StartRate;
-        protected bool IsWonLastGame = false;
+        protected double startRate;
+        protected bool isWonLastGame = false;
 
         public double Money { get; private set; }
         public double Multiplier { get; private set; }
@@ -16,8 +16,8 @@
         public ABot(double money, double startRate)
         {
             Money = money;
-            StartRate = startRate;
-            Rate = StartRate;
+            startRate = startRate;
+            Rate = startRate;
             Multiplier = 1;
             CardsInHand = new List<ACard>();
             CheckIsWantNextGame();
@@ -82,7 +82,7 @@
             Multiplier = 1;
             CountGames++;
             CountWinGames++;
-            IsWonLastGame = true;
+            isWonLastGame = true;
             CheckIsWantNextGame();
             PrepareToNextGame();
         }
@@ -92,7 +92,7 @@
             Money -= Rate;
             Multiplier = 1;
             CountGames++;
-            IsWonLastGame = false;
+            isWonLastGame = false;
             CheckIsWantNextGame();
             PrepareToNextGame();
         }
