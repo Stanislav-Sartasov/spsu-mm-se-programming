@@ -14,7 +14,7 @@ class RndDozenPlayer(
     private val bet = balance.div(20)
 
     override fun placeBet(): ABet {
-        return DozenBet(this, Integer.min(bet, balance), Dozens.fromInt(Random.nextInt(0..2)))
+        return DozenBet(this, Integer.min(bet, balance), Dozens.fromInt(Random.nextInt(1..36)))
     }
 
 }

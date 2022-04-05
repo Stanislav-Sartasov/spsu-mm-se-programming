@@ -1,6 +1,7 @@
 import bots.MartingalePlayer
 import bots.RndDozenPlayer
 import bots.RndNumberPlayer
+import roulette.APlayer
 import roulette.Game
 
 fun main() {
@@ -15,18 +16,18 @@ fun main() {
     println("RndDozen - ставит 5% изначального баланса на случайную дюжину")
     println("Martingale - ставит 2$ на чётное, следующая ставка: 2$ на случайную чётность при выигрыше, предыдущая * 2 при проигрыше")
 
-    val bots = listOf(
-        RndNumberPlayer("Rnd Number", startBalance),
-        RndDozenPlayer("Rand Number", startBalance),
-        MartingalePlayer("Martingale", startBalance)
-    )
+    var bots: List<APlayer> = listOf()
     for (i in 0 until games) {
+        bots = listOf(
+            RndNumberPlayer("Rnd Number", startBalance),
+            RndDozenPlayer("Rnd Dozen", startBalance),
+            MartingalePlayer("Martingale", startBalance)
+        )
         roulette.players.clear()
         bots.forEach { roulette.addPlayer(it) }
         roulette.play(turns)
         bots.forEachIndexed { index, aPlayer ->
             finalBalanceSum[index] += aPlayer.balance
-            aPlayer.balance = startBalance
         }
     }
 

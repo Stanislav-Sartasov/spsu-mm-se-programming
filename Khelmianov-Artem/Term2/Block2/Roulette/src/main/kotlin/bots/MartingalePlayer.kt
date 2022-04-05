@@ -5,6 +5,7 @@ import roulette.bets.ABet
 import roulette.bets.ParityBet
 import roulette.enums.Parity
 import kotlin.random.Random
+import kotlin.random.nextInt
 
 class MartingalePlayer(
     name: String,
@@ -14,7 +15,7 @@ class MartingalePlayer(
 
     override fun placeBet(): ABet {
         return if (isLastBetWin) {
-            lastBet = ParityBet(this, 2, Parity.fromInt(Random.nextInt(2)))
+            lastBet = ParityBet(this, 2, Parity.fromInt(Random.nextInt(1..2)))
             lastBet
         } else {
             lastBet.betAmount *= 2
