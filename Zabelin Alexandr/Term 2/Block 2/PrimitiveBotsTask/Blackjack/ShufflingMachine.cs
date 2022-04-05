@@ -33,6 +33,11 @@ namespace Blackjack
             Update();
         }
 
+        internal byte GetBlackjackCardWeight()
+        {
+            return ConvertCardWeightForBlackjack(TakeCard());
+        }
+
         internal Card TakeCard()
         {
             int index = RandomInt.RandInt(this.Length);
@@ -66,6 +71,24 @@ namespace Blackjack
             for (int i = 0; i < this.Length; i++)
             {
                 this.shoe.Add(new Deck());
+            }
+        }
+
+        private byte ConvertCardWeightForBlackjack(Card card)
+        {
+            byte weight = card.Weight;
+
+            if (weight < 11)
+            {
+                return weight;
+            }
+            else if (weight < 14)
+            {
+                return 10;
+            }
+            else
+            {
+                return 11;
             }
         }
     }

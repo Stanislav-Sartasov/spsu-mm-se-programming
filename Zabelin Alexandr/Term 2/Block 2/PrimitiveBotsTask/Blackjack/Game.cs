@@ -19,32 +19,32 @@ namespace Blackjack
                 shufMachine.Shuffle();
                 player.ResetScore();
 
-                croupier.GetInitCardWeight(GiveCardWeight(shufMachine));
-                croupier.GetCardWeight(GiveCardWeight(shufMachine));
+                croupier.InitSetScore(shufMachine.GetBlackjackCardWeight());
+                croupier.IncreaseScore(shufMachine.GetBlackjackCardWeight());
 
-                if (IsBlackjack(croupier.Score))
+                if (croupier.IsBlackjack())
                 {
                     player.Lose(betValue);
 
                     continue;
                 }
 
-                player.GetCardWeight(GiveCardWeight(shufMachine));
-                player.GetCardWeight(GiveCardWeight(shufMachine));
+                player.IncreaseScore(shufMachine.GetBlackjackCardWeight());
+                player.IncreaseScore(shufMachine.GetBlackjackCardWeight());
 
-                if (IsBlackjack(player.Score))
+                if (player.IsBlackjack())
                 {
                     player.WinBlackjack(betValue);
 
                     continue;
                 }
 
-                while (player.DoesHit(croupier.VisibleCardWeight) && player.Score < 22)
+                while (player.DoesHit(croupier.VisibleCardWeight) && !player.IsBust())
                 {
-                    player.GetCardWeight(GiveCardWeight(shufMachine));
+                    player.IncreaseScore(shufMachine.GetBlackjackCardWeight());
                 }
 
-                if (IsBust(player.Score))
+                if (player.IsBust())
                 {
                     player.Lose(betValue);
 
@@ -53,10 +53,10 @@ namespace Blackjack
 
                 while (croupier.Score < 17)
                 {
-                    croupier.GetCardWeight(GiveCardWeight(shufMachine));
+                    croupier.IncreaseScore(shufMachine.GetBlackjackCardWeight());
                 }
 
-                if (IsBust(croupier.Score))
+                if (croupier.IsBust())
                 {
                     player.WinCasual(betValue);
 
@@ -73,32 +73,5 @@ namespace Blackjack
                 }
             }
         }
-
-        private byte ConvertCardWeight(Card card)
-        {
-            byte weight = card.Weight;
-
-            if (weight < 11)
-            {
-                return weight;
-            }
-            else if (weight < 14)
-            {
-                return 10;
-            }
-            else
-            {
-                return 11;
-            }
-        }
-
-        private byte GiveCardWeight(ShufflingMachine sm)
-        {
-            return ConvertCardWeight(sm.TakeCard());
-        }
-
-        private bool IsBlackjack(byte balance) => balance == 21;
-
-        private bool IsBust(byte balance) => balance > 21;
     }
 }

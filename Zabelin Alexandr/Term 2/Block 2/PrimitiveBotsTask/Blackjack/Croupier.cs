@@ -7,7 +7,7 @@ namespace Blackjack
         internal byte Score { get; private set; }
         internal byte VisibleCardWeight { get; private set; }
 
-        internal void GetCardWeight(byte weight)
+        internal void IncreaseScore(byte weight)
         {
             if (weight == 11 && this.Score > 10)
             {
@@ -19,10 +19,14 @@ namespace Blackjack
             }
         }
 
-        internal void GetInitCardWeight(byte weight)
+        internal void InitSetScore(byte weight)
         {
             this.Score = weight;
             this.VisibleCardWeight = weight;
         }
+
+        internal bool IsBlackjack() => this.Score == 21;
+
+        internal bool IsBust() => this.Score > 21;
     }
 }

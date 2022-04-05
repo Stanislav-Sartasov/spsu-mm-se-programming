@@ -6,7 +6,7 @@ namespace Blackjack
     {
         static internal int RandInt(int max)
         {
-            var random = new Random();
+            var random = new Random(DateTime.Now.Millisecond);
 
             return random.Next(max);
         }

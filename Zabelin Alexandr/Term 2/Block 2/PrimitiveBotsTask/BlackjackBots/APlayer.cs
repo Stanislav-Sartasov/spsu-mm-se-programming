@@ -33,7 +33,7 @@
             this.Balance -= betValue;
         }
 
-        public void GetCardWeight(byte weight)
+        public void IncreaseScore(byte weight)
         {
             if (weight == 11 && this.Score > 10) 
             {
@@ -44,5 +44,8 @@
                 this.Score += weight;
             }
         }
+        public bool IsBlackjack() => this.Score == 21;
+
+        public bool IsBust() => this.Score > 21;
     }
 }
