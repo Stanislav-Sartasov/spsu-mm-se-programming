@@ -18,7 +18,7 @@ namespace BotLibrary
         public override void MakeBet(int hand)
         {
 
-            if (LastBank > Bank)
+            if (LastBank > bank)
                 LoseStreak++;
             else LoseStreak = 0;
             int bet = Cycle;
@@ -27,16 +27,16 @@ namespace BotLibrary
                 bet *= 2;
             }
 
-            if (bet <= Bank)
+            if (bet <= bank)
             {
             }
             else
             {
-                bet = Bank;
+                bet = bank;
             }
-            Bets[hand] = bet;
-            LastBank = Bank;
-            Bank -= bet;
+            bets[hand] = bet;
+            LastBank = bank;
+            bank -= bet;
         }
     }
 }

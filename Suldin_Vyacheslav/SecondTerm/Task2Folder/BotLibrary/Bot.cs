@@ -23,12 +23,12 @@ namespace BotLibrary
         }
         public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
         {
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US"); 
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US"); 
             ResourceManager rm = new ResourceManager("BotLibrary.resources.strategyPack.strategy" + Strategy.ToString(),
                 Assembly.GetExecutingAssembly());
 
             int dealerSum = dealerHand[0].GetCardInfo()[2];
-            int sum = this.Sum[hand];
+            int sum = this.sum[hand];
             int i = -1;
             List<Card> botHand = this.ScanHand(hand);
             if (botHand.Count == 2 && botHand[0].GetCardInfo()[2] == botHand[1].GetCardInfo()[2] && this.ScanHand(3).Count == 0)
@@ -39,11 +39,11 @@ namespace BotLibrary
 
             else if (botHand.Exists(x => x.GetCardInfo()[0] == 1))
             {
-                i = 10 - 2 + this.Sum[hand];
+                i = 10 - 2 + this.sum[hand];
                 if (i >= 19) i = 19;
             }
             else if (sum <= 8) i = 0;
-            else if (sum > 8 && sum < 17) i = -8 + this.Sum[hand];
+            else if (sum > 8 && sum < 17) i = -8 + this.sum[hand];
             else i = 9;
 
             char[] h = rm.GetString("String" + i.ToString()).ToCharArray();
@@ -58,7 +58,7 @@ namespace BotLibrary
         }
         public int GiveResponce()
         {
-            return this.Bank;
+            return this.bank;
         }
     }
 }

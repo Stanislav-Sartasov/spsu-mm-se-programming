@@ -5,13 +5,13 @@ namespace MyListLibrary
 {
     public class MyList<T>
     {
-        private int Lenght;
+        private int lenght;
         public Node<T> Head;
         public Node<T> Tail;
 
         public int Length()
         {
-            return this.Lenght;
+            return this.lenght;
         }
         public void AddLast(T item)
         {
@@ -23,22 +23,22 @@ namespace MyListLibrary
             }
             else
             {
-                Tail.Next = newNode;
-                newNode.Previous = Tail;
+                Tail.next = newNode;
+                newNode.previous = Tail;
             }
 
             Tail = newNode;
-            Lenght++;
+            lenght++;
         }
         public void AddFirst(T item)
         {
             Node<T> newNode = new Node<T>(item);
             Node<T> temporaryNode = Head;
-            newNode.Next = temporaryNode;
+            newNode.next = temporaryNode;
             Head = newNode;
-            if (Lenght == 0) Tail = Head;
-            else temporaryNode.Previous = newNode;
-            Lenght++;
+            if (lenght == 0) Tail = Head;
+            else temporaryNode.previous = newNode;
+            lenght++;
         }
 
         public void AddRange(T[] items)
@@ -53,24 +53,24 @@ namespace MyListLibrary
             Node<T> deletableNode = this.Find(item);
             if (deletableNode == null) return false;
 
-            Lenght--;
+            lenght--;
 
-            if (deletableNode.Next == null)
+            if (deletableNode.next == null)
             {
-                deletableNode.Previous.Next = null;
-                Tail = deletableNode.Previous;
+                deletableNode.previous.next = null;
+                Tail = deletableNode.previous;
                 return true;
             }
-            if (deletableNode.Previous == null)
+            if (deletableNode.previous == null)
             {
-                deletableNode.Next.Previous = null;
-                Head = deletableNode.Next;
+                deletableNode.next.previous = null;
+                Head = deletableNode.next;
                 return true;
             }
             else
             {
-                deletableNode.Next.Previous = deletableNode.Previous;
-                deletableNode.Previous.Next = deletableNode.Next;
+                deletableNode.next.previous = deletableNode.previous;
+                deletableNode.previous.next = deletableNode.next;
                 return true;
             }
             
@@ -82,17 +82,17 @@ namespace MyListLibrary
             Node<T> currentTail = Tail;
             while (currentHead != currentTail)
             {
-                if (currentHead.Item.Equals(item)) return currentHead;
-                if (currentTail.Item.Equals(item)) return currentTail;
+                if (currentHead.item.Equals(item)) return currentHead;
+                if (currentTail.item.Equals(item)) return currentTail;
 
                 if (turn)
                 {
-                    currentHead = currentHead.Next;
+                    currentHead = currentHead.next;
                     turn = false;
                 }
                 else
                 {
-                    currentTail = currentTail.Previous;
+                    currentTail = currentTail.previous;
                     turn = true;
                 }
             }

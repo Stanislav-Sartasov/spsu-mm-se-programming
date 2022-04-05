@@ -18,18 +18,18 @@ namespace BotLibrary
         public override void MakeBet(int hand)
         {
 
-            if (LastBank < Bank)
+            if (LastBank < bank)
                 Wins++;
             int bet = 100 + Wins*3;
 
-            if (bet < Bank)
+            if (bet < bank)
             {
             }
-            else bet = Bank;
+            else bet = bank;
 
-            Bets[hand] = bet;
-            LastBank = Bank;
-            Bank -= bet;
+            bets[hand] = bet;
+            LastBank = bank;
+            bank -= bet;
 
         }
     }

@@ -12,31 +12,24 @@ namespace Task5
     {
         HttpWebRequest Request;
 
-        HttpRequestHeaders Headers;
-
         public string ResponseAsString;
-        public GetRequest(string address)
-        {
-            Request = (HttpWebRequest)WebRequest.Create(address);
-            Request.Method = "Get";
-        }
         public GetRequest(string address, string[] headers)
         {
 
             Request = (HttpWebRequest)WebRequest.Create(address);
             Request.Method = "Get";
 
-            foreach (string header in headers)
+            if (headers != null)
             {
-                string[] splittedHeader = header.Split(":");
-                Request.Headers.Add(splittedHeader[0], splittedHeader[1]);
-            }
-            
-            
+                foreach (string header in headers)
+                {
+                    string[] splittedHeader = header.Split(":");
+                    Request.Headers.Add(splittedHeader[0], splittedHeader[1]);
+                }
+            }    
         }
 
-
-        public void Start()
+        public void Send()
         {
             try
             {
@@ -49,10 +42,10 @@ namespace Task5
                     ResponseAsString = new StreamReader(stream).ReadToEnd();
                 }
             }
-            catch (global::System.Exception)
+            catch (global::System.Exception exc)
             {
 
-                throw;
+                Console.Write(exc.Message);
             }  
         }
     }

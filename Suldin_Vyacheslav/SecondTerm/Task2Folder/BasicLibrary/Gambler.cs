@@ -10,7 +10,7 @@ namespace BasicLibrary
 	{
 		public Gambler(int bank)
 		{
-			this.Bank = bank;
+			this.bank = bank;
 		}
 		public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
 		{
@@ -24,7 +24,7 @@ namespace BasicLibrary
 				return this.Answer(hand, dealerHand, gamesters);
 			}
 
-			if ((answer == 2 && this.Bank < this.Bets[hand]) ||
+			if ((answer == 2 && this.bank < this.bets[hand]) ||
 				(answer == 3 && 
 				(this.ScanHand(hand).Count != 2 || this.ScanHand(hand)[0].GetCardInfo()[2] != this.ScanHand(hand)[1].GetCardInfo()[2])))
 				{
@@ -40,7 +40,7 @@ namespace BasicLibrary
 		}
 		public override bool IsNeedResult()
 		{
-			Console.WriteLine($"Your current bank: {this.Bank}");
+			Console.WriteLine($"Your current bank: {this.bank}");
 			Console.WriteLine("Need result?");
 			if (Game.GetCoorectAnswer(0, 1) == 1)
 				return true;
@@ -49,11 +49,11 @@ namespace BasicLibrary
 		}
 		public override void MakeBet(int hand)
 		{
-			Console.WriteLine($"Enter your bet. Bank : {this.Bank}");
-			int bet = Game.GetCoorectAnswer(0,this.Bank);
+			Console.WriteLine($"Enter your bet. Bank : {this.bank}");
+			int bet = Game.GetCoorectAnswer(0,this.bank);
 
-			Bets[hand] = bet;
-			this.Bank -= bet;
+			bets[hand] = bet;
+			this.bank -= bet;
 
 		}
 	}

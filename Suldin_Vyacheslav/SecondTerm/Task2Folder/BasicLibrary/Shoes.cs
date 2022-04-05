@@ -8,30 +8,30 @@ namespace BasicLibrary
 {
     public class Shoes
     {
-        private List<Card> Queue = new List<Card>();
-        private int Current = 0;
+        private List<Card> queue = new List<Card>();
+        private int current = 0;
 
 
         public void Fill(int numberOfDecks)
         {
-            this.Queue.Clear();
-            this.Current = 0;
+            this.queue.Clear();
+            this.current = 0;
             for (int i = 0; i < numberOfDecks; i++)
             {
                 Deck deck = new Deck();
                 deck.Mix();
-                this.Queue.AddRange(deck.GetCards());
+                this.queue.AddRange(deck.GetCards());
             }
         }
         public Card Withdraw()
         {
-            this.Current++;
-            return this.Queue[Current - 1];
+            this.current++;
+            return this.queue[current - 1];
         }
 
         public void Check()
         {
-            if (this.Current > 300)
+            if (this.current > 300)
                 this.Fill(8);
         }
     }

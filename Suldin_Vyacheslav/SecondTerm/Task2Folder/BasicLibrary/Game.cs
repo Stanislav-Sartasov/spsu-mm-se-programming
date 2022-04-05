@@ -7,16 +7,16 @@ namespace BasicLibrary
     public class Game
     {
         public List<Gamester> Gamesters;
-        private Dealer GameDealer;
-        private Shoes GameShoes;
+        private Dealer gameDealer;
+        private Shoes gameShoes;
 
         
         public Game(List<Gamester> gamesters)
         {
             this.Gamesters = gamesters;
-            GameShoes = new Shoes();
-            GameDealer = new Dealer();
-            GameShoes.Fill(8);
+            gameShoes = new Shoes();
+            gameDealer = new Dealer();
+            gameShoes.Fill(8);
             
         }
         public void Start(int shuffle)
@@ -26,7 +26,7 @@ namespace BasicLibrary
                 shuffle--;
 
 
-                GameShoes.Check();
+                gameShoes.Check();
 
                 bool stop = true;
 
@@ -43,20 +43,20 @@ namespace BasicLibrary
 
                 int[,] condition = new int[10, 4];
 
-                GameDealer.InitialDistribution(Gamesters, GameShoes, condition);
+                gameDealer.InitialDistribution(Gamesters, gameShoes, condition);
 
-                while (GameDealer.Ask(Gamesters, GameShoes, condition))
+                while (gameDealer.Ask(Gamesters, gameShoes, condition))
                 {
                 }
 
 
-                while (GameDealer.GetSum(0) < 17 && !GameDealer.IsBlackJack(0))
-                    GameDealer.GiveCard(GameDealer, 0, GameShoes);
+                while (gameDealer.GetSum(0) < 17 && !gameDealer.IsBlackJack(0))
+                    gameDealer.GiveCard(gameDealer, 0, gameShoes);
 
 
-                GameDealer.CalculateBets(Gamesters);
+                gameDealer.CalculateBets(Gamesters);
 
-                GameDealer.GetCardsBack(Gamesters);
+                gameDealer.GetCardsBack(Gamesters);
 
             }
         }

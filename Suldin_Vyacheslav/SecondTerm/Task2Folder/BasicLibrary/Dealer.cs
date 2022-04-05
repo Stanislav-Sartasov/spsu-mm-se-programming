@@ -42,7 +42,7 @@ namespace BasicLibrary
                         if (show) Console.WriteLine("player's bust");                        
                         continue;
                     }
-                    else if (this.Sum[0] > 21)
+                    else if (this.sum[0] > 21)
                     {
                         gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 2);
                         this.CollectBets(gamesters[i], j);
@@ -67,11 +67,11 @@ namespace BasicLibrary
                         }
                     }
 
-                    if (this.Sum[0] == gamesters[i].GetSum(j))
+                    if (this.sum[0] == gamesters[i].GetSum(j))
                     {
                         gamesters[i].ChangeBank(gamesters[i].GetBet(j));
                         this.CollectBets(gamesters[i], j);
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: {gamesters[i].GetSum(j)} - draw");
+                        if (show) Console.WriteLine($"dealer: {this.sum[0]} , player: {gamesters[i].GetSum(j)} - draw");
                         continue;
                     }
 
@@ -79,21 +79,21 @@ namespace BasicLibrary
                     {
                         gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 5 / 2);
                         this.CollectBets(gamesters[i], j);
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} , player: BJ - player won");
+                        if (show) Console.WriteLine($"dealer: {this.sum[0]} , player: BJ - player won");
                         continue;
                     }
 
-                    if (this.Sum[0] < gamesters[i].GetSum(j))
+                    if (this.sum[0] < gamesters[i].GetSum(j))
                     {
                         gamesters[i].ChangeBank(gamesters[i].GetBet(j) * 2);
                         this.CollectBets(gamesters[i], j);
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} < player: {gamesters[i].GetSum(j)}");
+                        if (show) Console.WriteLine($"dealer: {this.sum[0]} < player: {gamesters[i].GetSum(j)}");
                         continue;
                     }
                     else
                     {
                         this.CollectBets(gamesters[i], j);
-                        if (show) Console.WriteLine($"dealer: {this.Sum[0]} > player: {gamesters[i].GetSum(j)}");
+                        if (show) Console.WriteLine($"dealer: {this.sum[0]} > player: {gamesters[i].GetSum(j)}");
                         continue;
                     }
 

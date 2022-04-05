@@ -18,7 +18,7 @@ namespace BotLibrary
         public override void MakeBet(int hand)
         {
 
-            bool win = LastBank < Bank;
+            bool win = LastBank < bank;
             int bet;
 
             if (!win || Step == 4)
@@ -57,14 +57,14 @@ namespace BotLibrary
                     }
             }
             
-            if (bet < Bank)
+            if (bet < bank)
             {
             }
-            else bet = Bank;
+            else bet = bank;
 
-            Bets[hand] = bet;
-            LastBank = Bank;
-            Bank -= bet;
+            bets[hand] = bet;
+            LastBank = bank;
+            bank -= bet;
 
         }
     }

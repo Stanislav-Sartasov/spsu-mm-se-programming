@@ -8,12 +8,12 @@ namespace MyListLibrary
 {
     public class Node<T>
     {
-        internal T Item { get; }
-        internal Node<T> Next;
-        internal Node<T> Previous;
+        internal T item { get; }
+        internal Node<T> next;
+        internal Node<T> previous;
         public Node(T item)
         {
-            Item = item;
+            this.item = item;
         }
 
     }

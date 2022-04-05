@@ -8,41 +8,41 @@ namespace BasicLibrary
 {
     public class Player
     {
-        protected List<Card>[] Hands = new List<Card>[4];
-        protected int[] Sum = new int[4] { 0, 0, 0, 0 };
+        protected List<Card>[] hands = new List<Card>[4];
+        protected int[] sum = new int[4] { 0, 0, 0, 0 };
 
 
         public Player()
         {
             for (int i = 0; i < 4;  i++ )
             {
-                Hands[i] = new List<Card>();
+                hands[i] = new List<Card>();
             }
         }
 
         public int GetSum(int hand)
         {
-            return Sum[hand];
+            return sum[hand];
         }
         public List<Card> ScanHand(int hand)
         {
             List<Card> handCopy = new List<Card>();
-            handCopy.AddRange(Hands[hand]);
+            handCopy.AddRange(hands[hand]);
             return handCopy;
         }
         public int GetHandsLenght()
         {
-            return Hands.Length;
+            return hands.Length;
         }
         public void ReceiveCard(Card card, int hand)
         {
-            this.Hands[hand].Add(card);
-            this.Sum[hand] += card.GetCardInfo()[2];
+            this.hands[hand].Add(card);
+            this.sum[hand] += card.GetCardInfo()[2];
         }
 
         public bool IsBlackJack(int hand)
         {
-            if (Sum[hand] == 11 && Hands[hand].Exists(x => x.GetCardInfo()[0] == 1) && Hands[hand].Count == 2)
+            if (sum[hand] == 11 && hands[hand].Exists(x => x.GetCardInfo()[0] == 1) && hands[hand].Count == 2)
             {
                 return true;
             }
@@ -51,15 +51,15 @@ namespace BasicLibrary
         }
         public void ConfirmBlackJack(int hand)
         {
-            Sum[hand] += 10;
+            sum[hand] += 10;
         }
 
         public void Discard()
         {
             for (int j = 0; j < 4; j++)
             {
-                this.Hands[j].Clear();
-                this.Sum[j] = 0;
+                this.hands[j].Clear();
+                this.sum[j] = 0;
             }
         }
     }
