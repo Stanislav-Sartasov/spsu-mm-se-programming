@@ -4,14 +4,14 @@ namespace DoublyLinkedList
 {
 	public class DoublyLinkedList<T>
 	{
-		private DoublyLinkedNode<T> First;
-		private DoublyLinkedNode<T> Last;
+		private DoublyLinkedNode<T> first;
+		private DoublyLinkedNode<T> last;
 		public int Length;
 		
 		public DoublyLinkedList()
 		{
-			First = null;
-			Last = null;
+			first = null;
+			last = null;
 			Length = 0;
 		}
 		
@@ -20,27 +20,27 @@ namespace DoublyLinkedList
 			Length++;
 			DoublyLinkedNode<T> node = new DoublyLinkedNode<T>(data);
 
-			if (First != null)
+			if (first != null)
 			{
-				Last.Next = node;
-				node.Prev = Last;
-				Last = node;
+				last.next = node;
+				node.prev = last;
+				last = node;
 			}
 			else
 			{
-				First = node;
-				Last = node;
+				first = node;
+				last = node;
 			}
 		}
 
 		public int? FindIndex(T data)
 		{
 			var index = 1;
-			DoublyLinkedNode<T> node = First;
+			DoublyLinkedNode<T> node = first;
 			while (node != null)
 			{
-				if (Equals(node.Data, data)) return index;
-				node = node.Next;
+				if (Equals(node.data, data)) return index;
+				node = node.next;
 				index++;
 			}
 			Console.WriteLine("Data \"", data + "\" was nor found.");
@@ -51,13 +51,13 @@ namespace DoublyLinkedList
 		{
 			if (index > 0 && index < Length + 1)
 			{
-				DoublyLinkedNode<T> node = First;
+				DoublyLinkedNode<T> node = first;
 				while (index > 1)
 				{
-					node = node.Next;
+					node = node.next;
 					index--;
 				}
-				return node.Data;
+				return node.data;
 			}
 			else
 			{
@@ -70,24 +70,24 @@ namespace DoublyLinkedList
 			Length--;
 			if (index == 1)
 			{
-				First = First.Next;
-				First.Prev = null;
+				first = first.next;
+				first.prev = null;
 			}
 			else if (index == Length + 1)
 			{
-				Last = Last.Prev;
-				Last.Next = null;
+				last = last.prev;
+				last.next = null;
 			}
 			else if (index > 1 && index < Length + 1)
 			{
-				DoublyLinkedNode<T> node = First.Next;
+				DoublyLinkedNode<T> node = first.next;
 				while (index > 2)
 				{
-					node = node.Next;
+					node = node.next;
 					index--;
 				}
-				node.Prev.Next = node.Next;
-				node.Next.Prev = node.Prev;
+				node.prev.next = node.next;
+				node.next.prev = node.prev;
 			}
 			else
 			{
