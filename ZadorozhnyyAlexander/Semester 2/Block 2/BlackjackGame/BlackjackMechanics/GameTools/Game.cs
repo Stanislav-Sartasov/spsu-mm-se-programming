@@ -6,10 +6,9 @@ namespace BlackjackMechanics.GameTools
 {
     public class Game
     {
-        private int numberOfMoves = 0;
-        private DeckOfCards Deck;
-        private ABot Bot;
-        private Dealer Dealer;
+        public DeckOfCards Deck { get; private set; }
+        public ABot Bot { get; private set; }
+        public Dealer Dealer { get; private set; }
 
         public Game(ABot bot)
         {
@@ -19,7 +18,7 @@ namespace BlackjackMechanics.GameTools
 
         private void GetAnotherCard(AParticipant player)
         {
-            while (player.GetNextCard())
+            while (player.IsNeedNextCard())
             {
                 Dealer.GiveCard(Deck.GetOneCard(player), player);
             }
@@ -27,9 +26,9 @@ namespace BlackjackMechanics.GameTools
 
         private void MakeTurn()
         {
-            PlayerTurn playerTurn = GetNextPlayerTurn();
+            Bot.MakeNextPlayerTurn(Dealer.VisibleCard);
 
-            switch (playerTurn)
+            switch (Bot.PlayerTurnNow)
             {
                 case PlayerTurn.Hit:
                     GetAnotherCard(Bot);
@@ -44,7 +43,7 @@ namespace BlackjackMechanics.GameTools
                 default:
                     break;
             }
-            CheckGameStatus(playerTurn);
+            CheckGameStatus(Bot.PlayerTurnNow);
         }
 
         private void CheckGameStatus(PlayerTurn playerTurn)
@@ -92,7 +91,7 @@ namespace BlackjackMechanics.GameTools
 
             else
             {
-                numberOfMoves++;
+                Bot.NextGameRound();
                 MakeTurn();
             }
         }
@@ -101,38 +100,15 @@ namespace BlackjackMechanics.GameTools
         {
             if (!(Bot.IsWantNextGame))
                 return;
-            ResetGameParams();
+            Bot.CardsInHand.Clear();
+            Dealer.ClearHands();
+            if (Deck.Deck.Count() < 2 * 52)
+            {
+                Deck.ResetDeckOfCards();
+                Deck.ShuffleDeck();
+            }
             StartGame();
-        }
-
-        public PlayerTurn GetAnswerAfterFirstBlackjack()
-        {
-            return Bot.IsStandAfterFirstBlackjack ? PlayerTurn.Stand : PlayerTurn.Take;
-        }
-
-        public PlayerTurn GetNextPlayerTurn()
-        {
-            if (!(numberOfMoves == 0 && Bot.GetSumOfCards() == 21))
-                return Bot.GetNextTurn(Dealer.VisibleCard);
-
-            if (Dealer.VisibleCard.CardName == CardNames.Ace)
-            {
-                PlayerTurn answer = GetAnswerAfterFirstBlackjack();
-                if (answer == PlayerTurn.Take)
-                    return PlayerTurn.Take;
-                else
-                {
-                    Bot.MakeBlackjackMultiplayer();
-                    return PlayerTurn.Stand;
-                }
-            }
-
-            else
-            {
-                Bot.MakeBlackjackMultiplayer();
-                return Dealer.VisibleCard.CardNumber == 10 ? PlayerTurn.Stand : PlayerTurn.Blackjack;
-            }
-        }
+        }     
 
         public void CreateGame(int countDecks)
         {
@@ -145,18 +121,6 @@ namespace BlackjackMechanics.GameTools
             Dealer.HandOutCards(Deck, Bot);
             if (Bot.IsWantNextGame)
                 MakeTurn();
-        }
-
-        public void ResetGameParams()
-        {
-            Bot.CardsInHand.Clear();
-            Dealer.ClearHands();
-            numberOfMoves = 0;
-            if (Deck.Deck.Count() < 2 * 52)
-            {
-                Deck.ResetDeckOfCards();
-                Deck.ShuffleDeck();
-            }
         }
     }
 }

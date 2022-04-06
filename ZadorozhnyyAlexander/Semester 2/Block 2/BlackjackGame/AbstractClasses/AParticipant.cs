@@ -5,8 +5,9 @@
         public int CountGames { get; protected set; }
         public int CountWinGames { get; protected set; }
         public List<ACard> CardsInHand { get; protected set; }
+        public PlayerTurn PlayerTurnNow { get; protected set; }
 
-        public abstract bool GetNextCard();
+        public abstract bool IsNeedNextCard();
 
         public int GetSumOfCards()
         {

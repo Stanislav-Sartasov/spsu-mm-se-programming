@@ -10,9 +10,10 @@ namespace BlackjackMechanics.Players
         public Dealer()
         {
             CardsInHand = new List<ACard>();
+            PlayerTurnNow = PlayerTurn.NotPlayer;
         }
 
-        public override bool GetNextCard()
+        public override bool IsNeedNextCard()
         {
             return this.GetSumOfCards() < 17;
         }

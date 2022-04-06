@@ -4,6 +4,7 @@
     {
         protected double startRate;
         protected bool isWonLastGame = false;
+        protected int numberOfMoves = 0;
 
         public double Money { get; private set; }
         public double Multiplier { get; private set; }
@@ -16,16 +17,50 @@
         public ABot(double money, double startRate)
         {
             Money = money;
-            startRate = startRate;
+            this.startRate = startRate;
             Rate = startRate;
             Multiplier = 1;
             CardsInHand = new List<ACard>();
             CheckIsWantNextGame();
         }
 
+        public void NextGameRound()
+        {
+            numberOfMoves++;
+        }
+
         public abstract PlayerTurn GetNextTurn(ACard dealerCard);
 
         protected abstract void PrepareToNextGame();
+
+        private PlayerTurn GetAnswerAfterFirstBlackjack()
+        {
+            return IsStandAfterFirstBlackjack ? PlayerTurn.Stand : PlayerTurn.Take;
+        }
+
+        public void MakeNextPlayerTurn(ACard dealerCard)
+        {
+            if (!(numberOfMoves == 0 && GetSumOfCards() == 21))
+                PlayerTurnNow = GetNextTurn(dealerCard);
+
+            else if (dealerCard.CardName == CardNames.Ace)
+            {
+                PlayerTurn answer = GetAnswerAfterFirstBlackjack();
+                if (answer == PlayerTurn.Take)
+                    PlayerTurnNow = PlayerTurn.Take;
+                else
+                {
+                    MakeBlackjackMultiplayer();
+                    PlayerTurnNow = PlayerTurn.Stand;
+                }
+            }
+
+            else
+            {
+                MakeBlackjackMultiplayer();
+                PlayerTurnNow = dealerCard.CardNumber == 10 ? PlayerTurn.Stand : PlayerTurn.Blackjack;
+            }
+        }
 
         public void DoubleRate()
         {
@@ -70,7 +105,7 @@
             }
         }
 
-        public override bool GetNextCard()
+        public override bool IsNeedNextCard()
         {
             IsWantNextCard = !IsWantNextCard;
             return !IsWantNextCard;
@@ -78,10 +113,9 @@
 
         public override void Win()
         {
+            base.Win();
             Money += Rate * Multiplier;
             Multiplier = 1;
-            CountGames++;
-            CountWinGames++;
             isWonLastGame = true;
             CheckIsWantNextGame();
             PrepareToNextGame();
@@ -89,12 +123,18 @@
 
         public override void Lose()
         {
+            base.Lose();
             Money -= Rate;
             Multiplier = 1;
-            CountGames++;
             isWonLastGame = false;
             CheckIsWantNextGame();
             PrepareToNextGame();
+        }
+
+        public override void Push()
+        {
+            base.Push();
+            Multiplier = 1;
         }
     }
 }

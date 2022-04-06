@@ -36,10 +36,12 @@ namespace BlackackTests.BotTests
             var bot = new PrimitiveManchetanStrategyBot(exampleStartMoney, exampleStartRate);
             var game = new Game(bot);
             game.CreateGame(1);
+            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
             game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ace, CardSuits.Diamond), bot);
+            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), bot);
+            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
 
-            Assert.IsTrue(game.GetAnswerAfterFirstBlackjack() == PlayerTurn.Stand);
+            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
         }
 
         [Test]

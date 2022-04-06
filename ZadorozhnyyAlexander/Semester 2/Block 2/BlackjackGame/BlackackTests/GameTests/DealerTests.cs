@@ -54,7 +54,7 @@ namespace BlackackTests.GameTests
             int dealerStartCardCount = dealer.CardsInHand.Count();
 
             // game simulation 
-            while (dealer.GetNextCard())
+            while (dealer.IsNeedNextCard())
                 dealer.TakeCard(new UsualCard(CardNames.Two, CardSuits.Diamond));
 
             Assert.IsTrue(dealer.CardsInHand.Count > 2);

@@ -7,6 +7,7 @@
         Double,
         Take,
         Blackjack,
+        NotPlayer,
         Exit
     }
 }
