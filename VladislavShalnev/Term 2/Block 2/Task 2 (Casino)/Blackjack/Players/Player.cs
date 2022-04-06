@@ -40,6 +40,7 @@ public abstract class Player : BasePlayer
 
 	public void Finish(Dealer dealer)
 	{
+		base.Finish();
 		if (Score > 21)
 		{
 			// Loss
@@ -50,7 +51,6 @@ public abstract class Player : BasePlayer
 		{
 			if (HasBlackjack)
 			{
-				OnBlackjack?.Invoke();
 				if (dealer.HasBlackjack)
 				{
 					// Tie

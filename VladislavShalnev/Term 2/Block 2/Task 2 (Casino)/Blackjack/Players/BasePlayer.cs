@@ -12,7 +12,7 @@ public abstract class BasePlayer
 		Score == 21 && Cards.Count == 2;
 
 	// BasePlayer events
-	public Action? OnBlackjack;
+	public event Action? OnBlackjack;
 
 	public void TakeCard(Card card)
 	{
@@ -26,4 +26,11 @@ public abstract class BasePlayer
 		Cards.Clear();
 		Score = 0;
 	}
+
+	public void Finish()
+	{
+		if (HasBlackjack)
+			OnBlackjack?.Invoke();
+	}
+
 }

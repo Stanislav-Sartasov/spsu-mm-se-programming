@@ -40,7 +40,6 @@ public class Game
 		// If dealer blackjack
 		if (Dealer.HasBlackjack)
 		{
-			Dealer.OnBlackjack?.Invoke();
 			OnEnd?.Invoke();
 			Finish();
 			KickBankrupts();
@@ -68,6 +67,7 @@ public class Game
 
 	private void Finish()
 	{
+		Dealer.Finish();
 		foreach (Player player in Players)
 			player.Finish(Dealer);
 	}
