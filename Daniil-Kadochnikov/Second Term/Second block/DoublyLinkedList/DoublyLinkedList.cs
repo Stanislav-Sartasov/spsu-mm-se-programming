@@ -6,15 +6,15 @@ namespace DoublyLinkedList
 	{
 		private DoublyLinkedNode<T> first;
 		private DoublyLinkedNode<T> last;
-		public int Length;
-		
+		public int Length { get; private set; }
+
 		public DoublyLinkedList()
 		{
 			first = null;
 			last = null;
 			Length = 0;
 		}
-		
+
 		public void Add(T data)
 		{
 			Length++;
@@ -33,9 +33,9 @@ namespace DoublyLinkedList
 			}
 		}
 
-		public int? FindIndex(T data)
+		public int FindIndex(T data)
 		{
-			var index = 1;
+			var index = 0;
 			DoublyLinkedNode<T> node = first;
 			while (node != null)
 			{
@@ -43,45 +43,43 @@ namespace DoublyLinkedList
 				node = node.next;
 				index++;
 			}
-			Console.WriteLine("Data \"", data + "\" was nor found.");
-			return null;
+			return -1;
 		}
 
 		public T FindData(int index)
 		{
-			if (index > 0 && index < Length + 1)
+			if (index >= 0 && index < Length)
 			{
 				DoublyLinkedNode<T> node = first;
-				while (index > 1)
+				while (index > 0)
 				{
 					node = node.next;
 					index--;
 				}
 				return node.data;
 			}
-			else
-			{
-				throw new IndexOutOfRangeException("Index  is out of the range.");
-			}
+			throw new IndexOutOfRangeException("Index  is out of the range.");
 		}
 
 		public void Remove(int index)
 		{
-			Length--;
-			if (index == 1)
+			if (index < 0 || index >= Length)
+				throw new IndexOutOfRangeException("Index  is out of the range.");
+
+			if (index == 0)
 			{
 				first = first.next;
 				first.prev = null;
 			}
-			else if (index == Length + 1)
+			else if (index == Length - 1)
 			{
 				last = last.prev;
 				last.next = null;
 			}
-			else if (index > 1 && index < Length + 1)
+			else
 			{
-				DoublyLinkedNode<T> node = first.next;
-				while (index > 2)
+				DoublyLinkedNode<T> node = first;
+				while (index > 0)
 				{
 					node = node.next;
 					index--;
@@ -89,10 +87,8 @@ namespace DoublyLinkedList
 				node.prev.next = node.next;
 				node.next.prev = node.prev;
 			}
-			else
-			{
-				throw new IndexOutOfRangeException("Index  is out of the range.");
-			}
+
+			Length--;
 		}
 	}
 }
