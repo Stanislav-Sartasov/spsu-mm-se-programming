@@ -13,12 +13,12 @@ namespace Task5
         public TomorrowIO()
         {
             Site = "api.tomorrow.io";
-            this.SetKey();
+            Key = Environment.GetEnvironmentVariable("TomorrowAPI");
             this.TimeUpdate();
             Headers = null;
             Params = "temperature,cloudCover,humidity,precipitationType,precipitationIntensity,windSpeed,windDirection";
         }
-        protected override void SetAddress(Units unit)
+        public override void SetAddress(Units unit)
         {
             Address = $"https://{Site}/v4/timelines?location={Latitude},{Longitude}&fields={Params}&timesteps=current&units={unit}&apikey={Key}";
         }
@@ -31,7 +31,7 @@ namespace Task5
 
             var json = GetJSON();
 
-            if (json != null)
+            if (json["ERROR"] == null)
             {
                 var values = json["data"]["timelines"][0]["intervals"][0]["values"];
 
@@ -44,7 +44,7 @@ namespace Task5
                     {
                         if (String.Equals(field, "precipitationType"))
                         {
-                            answer[k] = ((PercType)Convert.ToInt32(values[$"{field}"])).ToString();
+                            answer[k] = ((PrecipitationType)Convert.ToInt32(values[$"{field}"])).ToString();
                             
                         }
                         else
@@ -69,7 +69,7 @@ namespace Task5
                     answer[0] = "???";
                 return answer;
             }
-            else return new string[] { "" };
+            else return new string[1] { json["ERROR"].ToString() };
         }
     }
 }

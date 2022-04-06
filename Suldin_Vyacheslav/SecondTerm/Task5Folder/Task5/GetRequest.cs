@@ -29,7 +29,7 @@ namespace Task5
             }    
         }
 
-        public void Send()
+        public string Send()
         {
             try
             {
@@ -41,11 +41,12 @@ namespace Task5
                 {
                     ResponseAsString = new StreamReader(stream).ReadToEnd();
                 }
+
+                return "AllFine";
             }
             catch (global::System.Exception exc)
             {
-
-                Console.Write(exc.Message);
+                return exc.Message;
             }  
         }
     }

@@ -1,8 +1,8 @@
 ﻿namespace Task5
 {
-    public enum PercType
+    public enum PrecipitationType
     {
-        NoPeprs,
+        NoPrecip,
         Rain,
         Snow,
         RainWthSnow

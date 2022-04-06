@@ -6,17 +6,16 @@ using System.Threading.Tasks;
 
 namespace Task5
 {
-    class GisMeteo : WeatherRequest
+    public class GisMeteo : WeatherRequest
     {
         public GisMeteo()
         {
             Site = "api.gismeteo.net";
-            this.SetKey();
             this.TimeUpdate();
             Headers = new string[] { $"X-Gismeteo-Token: {Key}" };
             Params = "airTemperature,cloudCover,humidity,precipitation,windSpeed,windDirection";
         }
-        protected override void SetAddress(Units unit)
+        public override void SetAddress(Units unit)
         {
             Address = $"https://{Site}/v2/weather/current/?latitude={Latitude}&longitude={Longitude}";
         }   
@@ -26,10 +25,10 @@ namespace Task5
             string[] answer = new string[7];
 
             SetAddress((Units)0);
-
+                
             var json = GetJSON();
 
-            if (json != null)
+            if (json["ERROR"] == null)
             {
                 string[] fields = Params.Split(",");
 
@@ -38,13 +37,13 @@ namespace Task5
                 answer[2] = json["cloudiness"]["percent"].ToString();
                 answer[3] = json["humidity"]["percent"].ToString();
                 var perpInfo = json["precipitation"];
-                answer[4] = (PercType)(Convert.ToInt32(perpInfo["type"])) + perpInfo["intensity"].ToString() + "/3";
+                answer[4] = (PrecipitationType)(Convert.ToInt32(perpInfo["type"])) + perpInfo["intensity"].ToString() + "/3";
                 answer[5] = json["wind"]["degree"].ToString();
                 answer[6] = json["wind"]["speed"]["m_s"].ToString();
 
                 return answer;
             }
-            else return new string[] { "" };
+            else return new string[1] { json["ERROR"].ToString() };
         }
     }
 }

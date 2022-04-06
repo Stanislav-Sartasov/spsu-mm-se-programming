@@ -11,11 +11,11 @@ namespace Task5
         public OpenWeather()
         {
             Site = "api.openweathermap.org";
-            this.SetKey();
+            Key = Environment.GetEnvironmentVariable("OpenWeatherAPI");
             this.TimeUpdate();
             Headers = null;
         }
-        protected override void SetAddress(Units unit)
+        public override void SetAddress(Units unit)
         {
             Address = $"https://{Site}/data/2.5/weather?lat={Latitude}&lon={Longitude}&appid={Key}&units={unit}";
         }
@@ -28,14 +28,14 @@ namespace Task5
 
             var json = GetJSON();
 
-            if (json != null)
+            if (json["ERROR"] == null)
             {
                 answer[1] = json["main"]["temp"].ToString();
                 answer[2] = json["clouds"]["all"].ToString();
                 answer[3] = json["main"]["humidity"].ToString();
                 if (json["snow"] != null) answer[4] = "snow:" + json["snow"]["1h"].ToString();
                 else if (json["rain"] != null) answer[4] = "rain:" + json["rain"]["1h"].ToString();
-                else answer[4] = "no per. info =(";
+                else answer[4] = PrecipitationType.NoPrecip.ToString();
 
                 answer[5] = json["wind"]["speed"].ToString();
                 answer[6] = json["wind"]["deg"].ToString();
@@ -52,7 +52,7 @@ namespace Task5
                     answer[0] = "???";  
                 return answer;
             }
-            else return new string[] { "" };
+            else return new string[1] { json["ERROR"].ToString() };
         }
     }
 }

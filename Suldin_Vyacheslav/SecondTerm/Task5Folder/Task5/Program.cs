@@ -3,19 +3,13 @@ using Newtonsoft.Json.Linq;
 
 namespace Task5
 {
-    /* Web services links
-     https://stormglass.io
-     https://www.tomorrow.io
-     https://openweathermap.org
-     https://www.gismeteo.ru
-     */
-
+   
     class Program
     {
         static void Main(string[] args)
         {
 
-            WeatherRequest[] Set = new WeatherRequest[] { new StormGlass(), new OpenWeather(), new TomorrowIO(),  new GisMeteo() };
+            WeatherRequest[] Set = new WeatherRequest[] {/* new StormGlass(), new OpenWeather(), new TomorrowIO(),*/ new GisMeteo() };
             Console.WriteLine("This app shows weather using web services\n If error (401) you can reset your invalid key: " +
                 "For that on qustion ask: 'Number of your site to key reset' ('0' - just refresh, '-1' - kill)");
             string[] tableInfo = new string[] { "Web Service", "Temp (C)", "Temp (F)", "Cloud Cover", "Humidity", "Precipitation", "Wind Speed", "Wnid Direction" };
@@ -34,24 +28,32 @@ namespace Task5
                     n++;
                     Fill(web.ToString().Replace("Task5.", "").Length);
                     string[] answers = web.GetInfo();
-                    foreach (string answer in answers)
+                    if (answers.Length == 1)
                     {
-                        Console.Write(answer);
-                        Fill(answer.Length);
+                        Console.Write((ErrorType)Convert.ToInt32(answers[0]));
                     }
+                    else
+                    {
+                        foreach (string answer in answers)
+                        {
+                            Console.Write(answer);
+                            Fill(answer.Length);
+                        }
+                    }
+   
                 }
                 Console.WriteLine("\nRefresh?");
 
                 int userAnswer = GetCoorectAnswer(-1, n);
 
-                if (userAnswer == -1) 
+                if (userAnswer == -1)
                     break;
                 else if (userAnswer != 0)
                 {
                     Set[userAnswer - 1].SetKey();
                 }
             }
-                
+
 
             static void Fill(int n)
             {
@@ -68,5 +70,6 @@ namespace Task5
             }
 
         }
+        
     }
 }

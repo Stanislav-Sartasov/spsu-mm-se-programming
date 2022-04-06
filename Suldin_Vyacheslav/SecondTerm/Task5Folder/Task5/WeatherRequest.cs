@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 
 namespace Task5
 {
-    public class WeatherRequest
+    public abstract class WeatherRequest
     {
         protected string Key;
         protected string Latitude = "59.873703";
@@ -24,23 +25,23 @@ namespace Task5
         }
 
 
-        public JObject GetJSON()
+        public virtual JObject GetJSON()
         {
-            
+
             var request = new GetRequest(this.Address, this.Headers);
 
-            request.Send();
+            string errorCondition = request.Send();
             var response = request.ResponseAsString;
             if (response != null)
             {
                 JObject json = JObject.Parse(response);
                 return json;
             }
-            else return null;
+            else return JObject.Parse("{\"ERROR\":\"" + $"{Convert.ToInt32(Regex.Replace(errorCondition, @"[^\d]+", ""))}\"" + "}");
             
         }   
 
-        public void SetKey()
+        public virtual void SetKey()
         {
             Console.WriteLine(this.Site + ": Enter your key");
 
@@ -54,7 +55,7 @@ namespace Task5
             Key = replacement;
             
         }
-        protected virtual void SetAddress(Units unit)
+        public virtual void SetAddress(Units unit)
         {
         }
 

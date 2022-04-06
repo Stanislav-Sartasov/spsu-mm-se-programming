@@ -12,12 +12,12 @@ namespace Task5
         public StormGlass()
         {
             Site = "api.stormglass.io";
-            this.SetKey();
+            Key = Environment.GetEnvironmentVariable("StromGlassAPI");
             this.TimeUpdate();
             Headers = new string[] { $"Authorization:{Key}" };
             Params = "airTemperature,cloudCover,humidity,precipitation,windSpeed,windDirection";
         }
-        protected override void SetAddress(Units unit)
+        public override void SetAddress(Units unit)
         {
             Address = $"https://{Site}/v2/weather/point?lat={Latitude}&lng={Longitude}&params={Params}&start={Time}&end={Time}";
         }
@@ -30,7 +30,7 @@ namespace Task5
 
             var json = GetJSON();
 
-            if (json != null)
+            if (json["ERROR"] == null)
             {
 
                 string[] fields = Params.Split(",");
@@ -39,6 +39,7 @@ namespace Task5
                 foreach (string field in fields)
                 {
                     answer[k] = json["hours"][0][$"{field}"]["noaa"].ToString();
+                    if ($"{field}" == "precipitation" && answer[k] == "0") answer[k] = PrecipitationType.NoPrecip.ToString();
                     k++;
                 }
 
@@ -49,7 +50,7 @@ namespace Task5
 
                 return answer;
             }
-            else return new string[] { "" };
+            else return new string[1] { json["ERROR"].ToString() };
         }
     }
 }
