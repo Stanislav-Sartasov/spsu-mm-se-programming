@@ -23,9 +23,14 @@ namespace BotLibrary
         }
         public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
         {
+
+            string userCulture = Thread.CurrentThread.CurrentUICulture.Name;
+
             Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-US"); 
             ResourceManager rm = new ResourceManager("BotLibrary.resources.strategyPack.strategy" + Strategy.ToString(),
                 Assembly.GetExecutingAssembly());
+
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(userCulture);
 
             int dealerSum = dealerHand[0].GetCardInfo()[2];
             int sum = this.sum[hand];
