@@ -9,13 +9,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="resources\strategyPack\strategy1.en-US.resx">
+    <EmbeddedResource Update="resources\strategyPack\strategy1.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Update="resources\strategyPack\strategy2.en-US.resx">
+    <EmbeddedResource Update="resources\strategyPack\strategy2.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Update="resources\strategyPack\strategy3.en-US.resx">
+    <EmbeddedResource Update="resources\strategyPack\strategy3.resx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
