@@ -13,20 +13,20 @@ namespace BotsLibrary
         protected override void Hit(byte[] hand, byte handFlag = 0)
         {
             uint sum = 0;
-            AceFlag = 0;
+            aceFlag = false;
             for (uint counter = 0; counter < 21; counter++)
             {
                 sum += hand[counter];
                 if (hand[counter] == 1)
                 {
-                    AceFlag = 1;
+                    aceFlag = true;
                 }
             }
-            if (AceFlag == 1 && sum + 10 <= 21)
+            if (aceFlag && sum + 10 <= 21)
             {
                 sum += 10;
             }
-            if (handFlag == 0 && FirstHandDoublingFlag)
+            if (handFlag == 0 && firstHandDoublingFlag)
             {
                 PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
                 if (sum <= 10)
@@ -39,9 +39,9 @@ namespace BotsLibrary
                     }
                 }
                 DecisionsCounter += 1;
-                FirstHandDoublingFlag = true;
+                firstHandDoublingFlag = true;
             }
-            else if (handFlag == 1 && SecondHandDoublingFlag)
+            else if (handFlag == 1 && secondHandDoublingFlag)
             {
                 PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
                 if (sum <= 10)
@@ -54,13 +54,13 @@ namespace BotsLibrary
                     }
                 }
                 DecisionsCounter += 1;
-                SecondHandDoublingFlag = true;
+                secondHandDoublingFlag = true;
             }
             int i = 0;
             while (hand[i] != 0)
                 i++;
             hand[i] = PlayingDecks.GetCard();
-            FirstDecision = false;
+            firstDecision = false;
             PlayersTurn(hand, handFlag);
         }
 
@@ -68,16 +68,16 @@ namespace BotsLibrary
         {
             PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
             uint sum = 0;
-            AceFlag = 0;
+            aceFlag = false;
             for (uint counter = 0; counter < 21; counter++)
             {
                 sum += hand[counter];
                 if (hand[counter] == 1)
                 {
-                    AceFlag = 1;
+                    aceFlag = true;
                 }
             }
-            if (AceFlag == 1 && sum + 10 <= 21)
+            if (aceFlag && sum + 10 <= 21)
             {
                 sum += 10;
             }
@@ -103,14 +103,14 @@ namespace BotsLibrary
             }
             if (handFlag == 0)
             {
-                FirstHandDoublingFlag = false;
+                firstHandDoublingFlag = false;
             }
             else
             {
-                SecondHandDoublingFlag = false;
+                secondHandDoublingFlag = false;
             }
             DecisionsCounter += 1;
-            FirstDecision = false;
+            firstDecision = false;
             Hit(hand, handFlag);
         }
     }

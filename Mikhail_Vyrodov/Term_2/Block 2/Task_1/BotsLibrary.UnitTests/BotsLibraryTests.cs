@@ -12,7 +12,8 @@ namespace BotsLibrary.UnitTests
             playingDecks.FillCards();
             byte[] gameCards = new byte[416];
             Decisions[] playersDecisions = new Decisions[21];
-            byte bjFlag = 0, surrenderFlag = 0, decisionsCounter, dealersCard;
+            byte bjFlag = 0, decisionsCounter, dealersCard;
+            bool surrenderFlag = false;
             uint balance, initialMoney, firstWager, secondWager, firstSum, secondSum, initialWager;
             for (int i = 0; i < 21; i++)
             {
@@ -51,7 +52,7 @@ namespace BotsLibrary.UnitTests
                 playersDecisions[i] = Decisions.Nothing;
             // Player surrenders
             gameCards[0] = 10; gameCards[1] = 6; dealersCard = 9; playersDecisions[0] = Decisions.Surrendering;
-            firstWager = 3; balance = 57; secondWager = 0; firstSum = 16; secondSum = 0; surrenderFlag = 1;
+            firstWager = 3; balance = 57; secondWager = 0; firstSum = 16; secondSum = 0; surrenderFlag = true;
             decisionsCounter = 1; bjFlag = 0;
             SomePlayersTurnTest(dealersCard, initialMoney, initialWager, playingDecks, decisionsCounter, firstSum, firstWager,
                 secondSum, secondWager, playersDecisions, balance, bjFlag, surrenderFlag);
@@ -62,8 +63,8 @@ namespace BotsLibrary.UnitTests
             gameCards = playingDecks.Cards;
             bool CardsCounterStrategyFlag = true;
             gameCards[0] = 3; gameCards[1] = 5; gameCards[2] = 10; dealersCard = 9;
-            firstWager = 12; balance = 48; secondWager = 0; firstSum = 18; secondSum = 0; surrenderFlag = 0;
-            playersDecisions[0] = Decisions.Doubling; surrenderFlag = 0; decisionsCounter = 1; bjFlag = 0;
+            firstWager = 12; balance = 48; secondWager = 0; firstSum = 18; secondSum = 0; surrenderFlag = false;
+            playersDecisions[0] = Decisions.Doubling; decisionsCounter = 1; bjFlag = 0;
             SomePlayersTurnTest(dealersCard, initialMoney, initialWager, playingDecks, decisionsCounter, firstSum, firstWager,
                 secondSum, secondWager, playersDecisions, balance, bjFlag, surrenderFlag, CardsCounterStrategyFlag);
 
@@ -111,59 +112,44 @@ namespace BotsLibrary.UnitTests
 
         public void SomePlayersTurnTest(byte dealerCard, uint initialMoney, uint initialWager, Decks playingDecks, byte decisionsCounter, uint firstSum,
             uint firstWager, uint secondSum, uint secondWager, Decisions[] playerDecisions, uint balance, byte bjFlag = 0,
-            byte surrenderFlag = 0, bool cardsCounterStrategyFlag = false, bool simpleStrategyFlag = false)
+            bool surrenderFlag = false, bool cardsCounterStrategyFlag = false, bool simpleStrategyFlag = false)
         {
             if (cardsCounterStrategyFlag)
             {
                 CardsCounterStrategy somePlayer = new CardsCounterStrategy(dealerCard, initialMoney, playingDecks, initialWager);
-                somePlayer.PlayersTurn(somePlayer.FirstHand);
-                for (int i = 0; i < 21; i++)
-                {
-                    Assert.AreEqual(somePlayer.PlayersDecisions[i], playerDecisions[i]);
-                }
-                Assert.AreEqual(somePlayer.DecisionsCounter, decisionsCounter);
-                Assert.AreEqual(somePlayer.Money, balance);
-                Assert.AreEqual(somePlayer.FirstSum, firstSum);
-                Assert.AreEqual(somePlayer.SecondSum, secondSum);
-                Assert.AreEqual(somePlayer.FirstWager, firstWager);
-                Assert.AreEqual(somePlayer.SecondWager, secondWager);
-                Assert.AreEqual(somePlayer.BjFlag, bjFlag);
-                Assert.AreEqual(somePlayer.SurrFlag, surrenderFlag);
+                SomeStrategyTest(somePlayer, decisionsCounter, firstSum, firstWager, secondSum, secondWager,
+                    playerDecisions, balance, bjFlag, surrenderFlag);
             }
             else if (simpleStrategyFlag)
             {
                 SimpleStrategy somePlayer = new SimpleStrategy(dealerCard, initialMoney, playingDecks, initialWager);
-                somePlayer.PlayersTurn(somePlayer.FirstHand);
-                for (int i = 0; i < 21; i++)
-                {
-                    Assert.AreEqual(somePlayer.PlayersDecisions[i], playerDecisions[i]);
-                }
-                Assert.AreEqual(somePlayer.DecisionsCounter, decisionsCounter);
-                Assert.AreEqual(somePlayer.Money, balance);
-                Assert.AreEqual(somePlayer.FirstSum, firstSum);
-                Assert.AreEqual(somePlayer.SecondSum, secondSum);
-                Assert.AreEqual(somePlayer.FirstWager, firstWager);
-                Assert.AreEqual(somePlayer.SecondWager, secondWager);
-                Assert.AreEqual(somePlayer.BjFlag, bjFlag);
-                Assert.AreEqual(somePlayer.SurrFlag, surrenderFlag);
+                SomeStrategyTest(somePlayer, decisionsCounter, firstSum, firstWager, secondSum, secondWager,
+                    playerDecisions, balance, bjFlag, surrenderFlag);
             }
             else
             {
                 Player somePlayer = new Player(dealerCard, initialMoney, playingDecks, initialWager);
-                somePlayer.PlayersTurn(somePlayer.FirstHand);
-                for (int i = 0; i < 21; i++)
-                {
-                    Assert.AreEqual(somePlayer.PlayersDecisions[i], playerDecisions[i]);
-                }
-                Assert.AreEqual(somePlayer.DecisionsCounter, decisionsCounter);
-                Assert.AreEqual(somePlayer.Money, balance);
-                Assert.AreEqual(somePlayer.FirstSum, firstSum);
-                Assert.AreEqual(somePlayer.SecondSum, secondSum);
-                Assert.AreEqual(somePlayer.FirstWager, firstWager);
-                Assert.AreEqual(somePlayer.SecondWager, secondWager);
-                Assert.AreEqual(somePlayer.BjFlag, bjFlag);
-                Assert.AreEqual(somePlayer.SurrFlag, surrenderFlag);
+                SomeStrategyTest(somePlayer, decisionsCounter, firstSum, firstWager, secondSum, secondWager,
+                    playerDecisions, balance, bjFlag, surrenderFlag);
             }
+        }
+        public void SomeStrategyTest(Player somePlayer, byte decisionsCounter, uint firstSum,
+            uint firstWager, uint secondSum, uint secondWager, Decisions[] playerDecisions, uint balance, byte bjFlag = 0,
+            bool surrenderFlag = false)
+        {
+            somePlayer.PlayersTurn(somePlayer.FirstHand);
+            for (int i = 0; i < 21; i++)
+            {
+                Assert.AreEqual(somePlayer.PlayersDecisions[i], playerDecisions[i]);
+            }
+            Assert.AreEqual(somePlayer.DecisionsCounter, decisionsCounter);
+            Assert.AreEqual(somePlayer.Money, balance);
+            Assert.AreEqual(somePlayer.FirstSum, firstSum);
+            Assert.AreEqual(somePlayer.SecondSum, secondSum);
+            Assert.AreEqual(somePlayer.FirstWager, firstWager);
+            Assert.AreEqual(somePlayer.SecondWager, secondWager);
+            Assert.AreEqual(somePlayer.BjFlag, bjFlag);
+            Assert.AreEqual(somePlayer.SurrFlag, surrenderFlag);
         }
     }
 }

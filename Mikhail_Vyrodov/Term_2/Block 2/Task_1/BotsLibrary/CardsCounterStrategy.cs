@@ -35,14 +35,14 @@ namespace BotsLibrary
             }
             if (handFlag == 0)
             {
-                FirstHandDoublingFlag = false;
+                firstHandDoublingFlag = false;
             }
             else
             {
-                SecondHandDoublingFlag = false;
+                secondHandDoublingFlag = false;
             }
             DecisionsCounter += 1;
-            FirstDecision = false;
+            firstDecision = false;
             Hit(hand, handFlag);
         }
 
@@ -50,7 +50,7 @@ namespace BotsLibrary
         {
             if (handFlag == 0)
             {
-                if (FirstHandDoublingFlag)
+                if (firstHandDoublingFlag)
                 {
                     PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
                     if (PlayingDecks.CountOfCards >= 2.0)
@@ -64,11 +64,11 @@ namespace BotsLibrary
                     }
                     DecisionsCounter += 1;
                 }
-                FirstHandDoublingFlag = true;
+                firstHandDoublingFlag = true;
             }
             else if (handFlag == 1)
             {
-                if (SecondHandDoublingFlag)
+                if (secondHandDoublingFlag)
                 {
                     PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
                     if (PlayingDecks.CountOfCards >= 2.0)
@@ -82,13 +82,13 @@ namespace BotsLibrary
                     }
                     DecisionsCounter += 1;
                 }
-                SecondHandDoublingFlag = true;
+                secondHandDoublingFlag = true;
             }
             int i = 0;
             while (hand[i] != 0)
                 i++;
             hand[i] = PlayingDecks.GetCard();
-            FirstDecision = false;
+            firstDecision = false;
             PlayersTurn(hand, handFlag);
         }
     }

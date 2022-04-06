@@ -9,23 +9,24 @@ namespace BlackjackLibrary
         public Decks PlayingDecks { get; private set; }
         public byte[] DealerCards { get; private set; } // dealers cards
         public byte[] DealerCardsCopy { get; private set; } // for correct testing
-        private uint InitialMoney; // initial balance of player
-        private Bots PlayerStrategy; // what strategy player uses
-        private byte BjFlag; // if player has blackjack
-        private byte SurrenderFlag;
-        private uint FirstAmount; // players score in first hand
-        private uint SecondAmount; // players score in secon hand
-        private int FirstWager; // players wager in first hand after his turn
-        private int SecondWager; // players wager in second hand after his turn
+
+        private uint initialMoney; // initial balance of player
+        private Bots playerStrategy; // what strategy player uses
+        private byte bjFlag; // if player has blackjack
+        private bool surrenderFlag;
+        private uint firstAmount; // players score in first hand
+        private uint secondAmount; // players score in secon hand
+        private int firstWager; // players wager in first hand after his turn
+        private int secondWager; // players wager in second hand after his turn
 
         public Dealer(Decks Cards, uint initialMoney, Bots strategy = 0, byte bjFlag = 0)
         {
             PlayingDecks = new Decks();
             PlayingDecks = Cards;
             DealerCards = new byte[21];
-            PlayerStrategy = strategy;
-            InitialMoney = initialMoney;
-            BjFlag = bjFlag;
+            playerStrategy = strategy;
+            this.initialMoney = initialMoney;
+            this.bjFlag = bjFlag;
         }
 
         public int Game()
@@ -34,73 +35,73 @@ namespace BlackjackLibrary
             byte firstResult, secondResult;
             int sum = 0; 
             uint wager = 16; // we choose the initial wager for player
-            if (PlayerStrategy == Bots.BasicStrategy)
+            if (playerStrategy == Bots.BasicStrategy)
             {
-                Player player = new Player(DealerCards[0], InitialMoney, PlayingDecks, wager);
+                Player player = new Player(DealerCards[0], initialMoney, PlayingDecks, wager);
                 player.PlayersTurn(player.FirstHand);
-                FirstAmount = player.FirstSum;
-                SecondAmount = player.SecondSum;
-                SurrenderFlag = player.SurrFlag;
-                BjFlag = player.BjFlag;
-                player.GetWagers(ref FirstWager, ref SecondWager);
+                firstAmount = player.FirstSum;
+                secondAmount = player.SecondSum;
+                surrenderFlag = player.SurrFlag;
+                bjFlag = player.BjFlag;
+                player.GetWagers(ref firstWager, ref secondWager);
             }
-            else if (PlayerStrategy == Bots.CardsCounterStrategy)
+            else if (playerStrategy == Bots.CardsCounterStrategy)
             {
-                CardsCounterStrategy player = new CardsCounterStrategy(DealerCards[0], InitialMoney, PlayingDecks, wager);
+                CardsCounterStrategy player = new CardsCounterStrategy(DealerCards[0], initialMoney, PlayingDecks, wager);
                 player.PlayersTurn(player.FirstHand);
-                FirstAmount = player.FirstSum;
-                SecondAmount = player.SecondSum;
-                SurrenderFlag = player.SurrFlag;
-                BjFlag = player.BjFlag;
-                player.GetWagers(ref FirstWager, ref SecondWager);
+                firstAmount = player.FirstSum;
+                secondAmount = player.SecondSum;
+                surrenderFlag = player.SurrFlag;
+                bjFlag = player.BjFlag;
+                player.GetWagers(ref firstWager, ref secondWager);
             }
             else
             {
-                SimpleStrategy player = new SimpleStrategy(DealerCards[0], InitialMoney, PlayingDecks, wager);
+                SimpleStrategy player = new SimpleStrategy(DealerCards[0], initialMoney, PlayingDecks, wager);
                 player.PlayersTurn(player.FirstHand);
-                FirstAmount = player.FirstSum;
-                SecondAmount = player.SecondSum;
-                SurrenderFlag = player.SurrFlag;
-                BjFlag = player.BjFlag;
-                player.GetWagers(ref FirstWager, ref SecondWager);
+                firstAmount = player.FirstSum;
+                secondAmount = player.SecondSum;
+                surrenderFlag = player.SurrFlag;
+                bjFlag = player.BjFlag;
+                player.GetWagers(ref firstWager, ref secondWager);
             }
             // Console.Write("Players result - {0} {1} ", first_amount, second_amount);
-            InitialMoney = (uint)(InitialMoney - (int)(FirstWager + SecondWager)); // that is players balance after his turn
+            initialMoney = (uint)(initialMoney - (int)(firstWager + secondWager)); // that is players balance after his turn
             DealerCardsCopy = new byte[21];
-            if (SurrenderFlag == 1)
+            if (surrenderFlag)
             {
                 for (int i = 0; i < 21; i++)
                 {
                     DealerCardsCopy[i] = DealerCards[i];
                 }
-                InitialMoney += (uint)FirstWager;
-                return FirstWager;
+                initialMoney += (uint)firstWager;
+                return firstWager;
             }
-            firstResult = DealersTurn(FirstAmount);
-            if (SecondAmount != 0)
+            firstResult = DealersTurn(firstAmount);
+            if (secondAmount != 0)
             {
-                secondResult = DealersTurn(SecondAmount);
+                secondResult = DealersTurn(secondAmount);
                 if (secondResult == 1) // If dealer wins
                 {
-                    SecondWager = (-1) * SecondWager;
+                    secondWager = (-1) * secondWager;
                 }
                 else if (secondResult == 0) // If player wins
                 {
-                    SecondWager = SecondWager * 2;
+                    secondWager = secondWager * 2;
                 }
-                sum += SecondWager; // If we have draw than we just add player wagers to sum
+                sum += secondWager; // If we have draw than we just add player wagers to sum
             }
             // Console.WriteLine();
             if (firstResult == 1)
             {
-                FirstWager = (-1) * FirstWager;
+                firstWager = (-1) * firstWager;
             }
             else if (firstResult == 0)
             {
-                FirstWager = FirstWager * 2;
+                firstWager = firstWager * 2;
             }
-            sum += FirstWager;
-            InitialMoney = (uint)((int)InitialMoney + sum); // that is players balance after one game
+            sum += firstWager;
+            initialMoney = (uint)((int)initialMoney + sum); // that is players balance after one game
             for (int i = 0; i < 21; i++)
             {
                 DealerCardsCopy[i] = DealerCards[i];
@@ -134,12 +135,12 @@ namespace BlackjackLibrary
                 }
                 if (flag != 0 && sum < 17)
                 {
-                    if (sum + 10 == 21 && BjFlag != 0)
+                    if (sum + 10 == 21 && bjFlag != 0)
                     {
-                        if (BjFlag == 2)
-                            BjFlag = 0;
+                        if (bjFlag == 2)
+                            bjFlag = 0;
                         else
-                            BjFlag -= 1;
+                            bjFlag -= 1;
                         if (DealerCards[2] == 0)
                         {
                             return 2;
@@ -147,7 +148,7 @@ namespace BlackjackLibrary
                         else
                             return 0;
                     }
-                    else if (sum + 10 == 21 && BjFlag == 0 && playerScore == 21)
+                    else if (sum + 10 == 21 && bjFlag == 0 && playerScore == 21)
                     {
                         if (DealerCards[2] == 0)
                             return 1;
