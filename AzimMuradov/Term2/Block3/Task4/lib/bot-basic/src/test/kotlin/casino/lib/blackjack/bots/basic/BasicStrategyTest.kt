@@ -7,7 +7,6 @@ import casino.lib.blackjack.states.*
 import casino.lib.card.Card
 import casino.lib.card.CardRank.*
 import casino.lib.card.CardSuite.*
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -16,35 +15,34 @@ import kotlin.test.assertEquals
 
 internal class BasicStrategyTest {
 
-    @Nested
-    inner class GetNextBet {
+    // Get next bet
 
-        @Test
-        fun `get next bet with big enough bankroll`() {
-            val bet = BasicStrategy.getNextBet(
-                playerBankroll = 10000u,
-                gameState = BeforeGameState(
-                    table = TABLE_INFO,
-                    dealt = listOf()
-                )
+    @Test
+    fun `get next bet with big enough bankroll`() {
+        val bet = BasicStrategy.getNextBet(
+            playerBankroll = 10000u,
+            gameState = BeforeGameState(
+                table = TABLE_INFO,
+                dealt = listOf()
             )
+        )
 
-            assertEquals(expected = 20u, actual = bet)
-        }
-
-        @Test
-        fun `get next bet with small bankroll`() {
-            val bet = BasicStrategy.getNextBet(
-                playerBankroll = 1u,
-                gameState = BeforeGameState(
-                    table = TABLE_INFO,
-                    dealt = listOf()
-                )
-            )
-
-            assertEquals(expected = 1u, actual = bet)
-        }
+        assertEquals(expected = 20u, actual = bet)
     }
+
+    @Test
+    fun `get next bet with small bankroll`() {
+        val bet = BasicStrategy.getNextBet(
+            playerBankroll = 1u,
+            gameState = BeforeGameState(
+                table = TABLE_INFO,
+                dealt = listOf()
+            )
+        )
+
+        assertEquals(expected = 1u, actual = bet)
+    }
+
 
     @ParameterizedTest
     @MethodSource("gameStatesWithNextMoves")

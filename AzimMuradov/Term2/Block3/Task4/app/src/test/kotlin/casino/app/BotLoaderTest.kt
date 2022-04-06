@@ -1,7 +1,6 @@
 package casino.app
 
 import casino.lib.blackjack.bots.basic.BasicStrategy
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
@@ -25,32 +24,31 @@ internal class BotLoaderTest {
         )
     }
 
-    @Nested
-    inner class LoadBotsFromJarFile {
 
-        @Test
-        fun `load basic strategy from bot-basic lib`() {
-            val botBasic = BotLoader.loadBotsFromJarFile(
-                JarFile("$ROOT${SEP}bot-basic.jar")
-            ).first()
-            assertIs<BasicStrategy>(botBasic)
-        }
+    // Load bots from jar file
 
-        @Test
-        fun `load no bots from base lib`() {
-            val bots = BotLoader.loadBotsFromJarFile(
-                JarFile("$ROOT${SEP}base.jar")
-            )
-            assertEquals(expected = emptyList(), actual = bots)
-        }
+    @Test
+    fun `load basic strategy from bot-basic lib`() {
+        val botBasic = BotLoader.loadBotsFromJarFile(
+            JarFile("$ROOT${SEP}bot-basic.jar")
+        ).first()
+        assertIs<BasicStrategy>(botBasic)
+    }
 
-        @Test
-        fun `load no bots from empty jar`() {
-            val bots = BotLoader.loadBotsFromJarFile(
-                JarFile("$ROOT${SEP}empty.jar")
-            )
-            assertEquals(expected = emptyList(), actual = bots)
-        }
+    @Test
+    fun `load no bots from base lib`() {
+        val bots = BotLoader.loadBotsFromJarFile(
+            JarFile("$ROOT${SEP}base.jar")
+        )
+        assertEquals(expected = emptyList(), actual = bots)
+    }
+
+    @Test
+    fun `load no bots from empty jar`() {
+        val bots = BotLoader.loadBotsFromJarFile(
+            JarFile("$ROOT${SEP}empty.jar")
+        )
+        assertEquals(expected = emptyList(), actual = bots)
     }
 
 

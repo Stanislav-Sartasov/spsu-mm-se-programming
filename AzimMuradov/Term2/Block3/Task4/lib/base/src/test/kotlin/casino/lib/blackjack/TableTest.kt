@@ -4,7 +4,6 @@ import casino.lib.blackjack.states.BeforeGameState
 import casino.lib.blackjack.states.GameState
 import casino.lib.card.Card
 import casino.lib.shoe.StackShoe
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
@@ -13,105 +12,102 @@ import kotlin.test.assertFailsWith
 
 internal class TableTest {
 
-    @Nested
-    inner class TableInfo {
+    // Table info
 
-        @Test
-        fun `get standard table info`() {
-            assertEquals(
-                expected = STANDARD_TABLE_INFO,
-                actual = Table.standard().info
-            )
-        }
+    @Test
+    fun `get standard table info`() {
+        assertEquals(
+            expected = STANDARD_TABLE_INFO,
+            actual = Table.standard().info
+        )
+    }
 
-        @Test
-        fun `get custom table info`() {
-            assertEquals(
-                expected = CUSTOM_TABLE_INFO,
-                actual = Table.custom(info = CUSTOM_TABLE_INFO).info
+    @Test
+    fun `get custom table info`() {
+        assertEquals(
+            expected = CUSTOM_TABLE_INFO,
+            actual = Table.custom(info = CUSTOM_TABLE_INFO).info
+        )
+    }
+
+
+    // Play session
+
+    @Test
+    fun `play 1 session with TABLE_1`() {
+        val (newBankroll, results) = TABLE_1.playSession(
+            strategy = simpleStrategy(bet = 50u),
+            bankroll = 5000u
+        )
+
+        assertEquals(expected = 5025u, actual = newBankroll)
+        assertEquals(
+            expected = listOf(
+                GameState.AfterGame.Push(amount = 50u),
+                GameState.AfterGame.Lost,
+                GameState.AfterGame.Won(amount = 125u),
+                GameState.AfterGame.Lost,
+                GameState.AfterGame.Won(amount = 100u),
+            ),
+            actual = results
+        )
+    }
+
+    @Test
+    fun `play 1 session with TABLE_2`() {
+        val (newBankroll, results) = TABLE_2.playSession(
+            strategy = simpleStrategy(bet = 50u),
+            bankroll = 5000u
+        )
+
+        assertEquals(expected = 4975u, actual = newBankroll)
+        assertEquals(
+            expected = listOf(
+                GameState.AfterGame.Won(amount = 100u),
+                GameState.AfterGame.Lost,
+                GameState.AfterGame.Won(amount = 125u),
+                GameState.AfterGame.Lost,
+                GameState.AfterGame.Lost,
+            ),
+            actual = results
+        )
+    }
+
+    @Test
+    fun `fail to play 1 session with bets that exceeds player's bankroll`() {
+        assertFailsWith<IllegalArgumentException>(message = "Player's bet must not exceed his bankroll") {
+            TABLE_1.playSession(
+                strategy = simpleStrategy(bet = 10000u),
+                bankroll = 5000u
             )
         }
     }
 
-    @Nested
-    inner class PlaySession {
+    @Test
+    fun `stop to play 1 session early with zero bankroll`() {
+        val (newBankroll, results) = TABLE_1.playSession(
+            strategy = simpleStrategy(bet = 10u),
+            bankroll = 10u
+        )
 
-        @Test
-        fun `play 1 session with TABLE_1`() {
-            val (newBankroll, results) = TABLE_1.playSession(
-                strategy = simpleStrategy(bet = 50u),
-                bankroll = 5000u
+        assertEquals(expected = 0u, actual = newBankroll)
+        assertEquals(
+            expected = listOf(
+                GameState.AfterGame.Push(amount = 10u),
+                GameState.AfterGame.Lost,
+            ),
+            actual = results
+        )
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 5001, 10000])
+    fun `fail to play 1 session with not allowed bets`(bet: Int) {
+        assertFailsWith<IllegalArgumentException>(message = "Player's bet must be in the 'allowed bets' range") {
+            TABLE_1.playSession(
+                strategy = simpleStrategy(bet = bet.toUInt()),
+                bankroll = 50000u
             )
-
-            assertEquals(expected = 5025u, actual = newBankroll)
-            assertEquals(
-                expected = listOf(
-                    GameState.AfterGame.Push(amount = 50u),
-                    GameState.AfterGame.Lost,
-                    GameState.AfterGame.Won(amount = 125u),
-                    GameState.AfterGame.Lost,
-                    GameState.AfterGame.Won(amount = 100u),
-                ),
-                actual = results
-            )
-        }
-
-        @Test
-        fun `play 1 session with TABLE_2`() {
-            val (newBankroll, results) = TABLE_2.playSession(
-                strategy = simpleStrategy(bet = 50u),
-                bankroll = 5000u
-            )
-
-            assertEquals(expected = 4975u, actual = newBankroll)
-            assertEquals(
-                expected = listOf(
-                    GameState.AfterGame.Won(amount = 100u),
-                    GameState.AfterGame.Lost,
-                    GameState.AfterGame.Won(amount = 125u),
-                    GameState.AfterGame.Lost,
-                    GameState.AfterGame.Lost,
-                ),
-                actual = results
-            )
-        }
-
-        @Test
-        fun `fail to play 1 session with bets that exceeds player's bankroll`() {
-            assertFailsWith<IllegalArgumentException>(message = "Player's bet must not exceed his bankroll") {
-                TABLE_1.playSession(
-                    strategy = simpleStrategy(bet = 10000u),
-                    bankroll = 5000u
-                )
-            }
-        }
-
-        @Test
-        fun `stop to play 1 session early with zero bankroll`() {
-            val (newBankroll, results) = TABLE_1.playSession(
-                strategy = simpleStrategy(bet = 10u),
-                bankroll = 10u
-            )
-
-            assertEquals(expected = 0u, actual = newBankroll)
-            assertEquals(
-                expected = listOf(
-                    GameState.AfterGame.Push(amount = 10u),
-                    GameState.AfterGame.Lost,
-                ),
-                actual = results
-            )
-        }
-
-        @ParameterizedTest
-        @ValueSource(ints = [0, 5001, 10000])
-        fun `fail to play 1 session with not allowed bets`(bet: Int) {
-            assertFailsWith<IllegalArgumentException>(message = "Player's bet must be in the 'allowed bets' range") {
-                TABLE_1.playSession(
-                    strategy = simpleStrategy(bet = bet.toUInt()),
-                    bankroll = 50000u
-                )
-            }
         }
     }
 

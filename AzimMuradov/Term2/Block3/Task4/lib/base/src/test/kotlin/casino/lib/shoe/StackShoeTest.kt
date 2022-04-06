@@ -9,7 +9,7 @@ import kotlin.test.*
 
 internal class StackShoeTest {
 
-    lateinit var shoe: Shoe
+    private lateinit var shoe: Shoe
 
     @BeforeEach
     fun init() {
@@ -24,36 +24,34 @@ internal class StackShoeTest {
         assertEquals(expected = cards, actual = shoe.dealt)
     }
 
-    @Nested
-    inner class DealCard {
 
-        @ParameterizedTest
-        @ValueSource(ints = [0, 1, 2, 3, 52])
-        fun `successfully deal several cards from a shoe`(times: Int) {
-            val cards = assertDoesNotThrow { List(times) { shoe.dealCard() } }
-            assertEquals(expected = Card.deck.take(times), actual = cards)
-        }
+    // Deal card
 
-        @Test
-        fun `fail to deal a card from an empty shoe`() {
-            assertFails { repeat(times = 53) { shoe.dealCard() } }
-        }
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2, 3, 52])
+    fun `successfully deal several cards from a shoe`(times: Int) {
+        val cards = assertDoesNotThrow { List(times) { shoe.dealCard() } }
+        assertEquals(expected = Card.deck.take(times), actual = cards)
     }
 
-    @Nested
-    inner class IsNotEmpty {
+    @Test
+    fun `fail to deal a card from an empty shoe`() {
+        assertFails { repeat(times = 53) { shoe.dealCard() } }
+    }
 
-        @ParameterizedTest
-        @ValueSource(ints = [0, 1, 2, 3, 51])
-        fun `check if non-empty shoe is not empty`(times: Int) {
-            repeat(times) { shoe.dealCard() }
-            assertTrue { shoe.isNotEmpty() }
-        }
 
-        @Test
-        fun `check if empty shoe is empty`() {
-            repeat(times = 52) { shoe.dealCard() }
-            assertFalse { shoe.isNotEmpty() }
-        }
+    // Is not empty
+
+    @ParameterizedTest
+    @ValueSource(ints = [0, 1, 2, 3, 51])
+    fun `check if non-empty shoe is not empty`(times: Int) {
+        repeat(times) { shoe.dealCard() }
+        assertTrue { shoe.isNotEmpty() }
+    }
+
+    @Test
+    fun `check if empty shoe is empty`() {
+        repeat(times = 52) { shoe.dealCard() }
+        assertFalse { shoe.isNotEmpty() }
     }
 }
