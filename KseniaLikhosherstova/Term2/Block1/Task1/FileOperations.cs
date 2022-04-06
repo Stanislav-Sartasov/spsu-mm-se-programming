@@ -3,94 +3,99 @@
     public class FileOperations
     {
 
-        public void Rat(ref BitmapFile.BitmapFileHeader BMPFH, ref BitmapFile.BitmapInfoHeader BMPIH, BitmapFile.Pixel[,] mas)
+        public void Rat(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
         {
             mas[0, 0] = mas[2, 2];
             mas[1, 1] = mas[2, 2];
-            mas[0, BMPIH.Width + 3] = mas[2, BMPIH.Width + 1];
-            mas[1, BMPIH.Width + 2] = mas[2, BMPIH.Width + 1];
-            mas[BMPIH.Hight + 3, 0] = mas[BMPIH.Hight + 1, 2];
-            mas[BMPIH.Hight + 2, 1] = mas[BMPIH.Hight + 1, 2];
-            mas[BMPIH.Hight + 3, BMPIH.Width + 3] = mas[BMPIH.Hight + 1, BMPIH.Width + 1];
-            mas[BMPIH.Hight + 2, BMPIH.Width + 2] = mas[BMPIH.Hight + 1, BMPIH.Width + 1];
+            mas[0, bMPIH.Width + 3] = mas[2, bMPIH.Width + 1];
+            mas[1, bMPIH.Width + 2] = mas[2, bMPIH.Width + 1];
+            mas[bMPIH.Hight + 3, 0] = mas[bMPIH.Hight + 1, 2];
+            mas[bMPIH.Hight + 2, 1] = mas[bMPIH.Hight + 1, 2];
+            mas[bMPIH.Hight + 3, bMPIH.Width + 3] = mas[bMPIH.Hight + 1, bMPIH.Width + 1];
+            mas[bMPIH.Hight + 2, bMPIH.Width + 2] = mas[bMPIH.Hight + 1, bMPIH.Width + 1];
 
-            for (int i = 2; i < BMPIH.Hight + 2; ++i)
+            for (int i = 2; i < bMPIH.Hight + 2; ++i)
             {
                 mas[i, 1] = mas[i, 2];
             }
-            for (int i = 1; i < BMPIH.Hight + 3; ++i)
+
+            for (int i = 1; i < bMPIH.Hight + 3; ++i)
             {
                 mas[i, 0] = mas[i, 2];
             }
 
-            for (int i = 2; i < BMPIH.Hight + 2; ++i)
+            for (int i = 2; i < bMPIH.Hight + 2; ++i)
             {
-                mas[i, BMPIH.Width + 2] = mas[i, BMPIH.Width + 1];
-            }
-            for (int i = 1; i < BMPIH.Hight + 3; ++i)
-            {
-                mas[i, BMPIH.Width + 3] = mas[i, BMPIH.Width + 1];
+                mas[i, bMPIH.Width + 2] = mas[i, bMPIH.Width + 1];
             }
 
-            for (int j = 2; j < BMPIH.Width + 2; ++j)
+            for (int i = 1; i < bMPIH.Hight + 3; ++i)
+            {
+                mas[i, bMPIH.Width + 3] = mas[i, bMPIH.Width + 1];
+            }
+
+            for (int j = 2; j < bMPIH.Width + 2; ++j)
             {
                 mas[1, j] = mas[2, j];
             }
-            for (int j = 1; j < BMPIH.Width + 3; ++j)
+
+            for (int j = 1; j < bMPIH.Width + 3; ++j)
             {
                 mas[0, j] = mas[2, j];
             }
 
-            for (int j = 2; j < BMPIH.Width + 2; ++j)
+            for (int j = 2; j < bMPIH.Width + 2; ++j)
             {
-                mas[BMPIH.Hight + 2, j] = mas[BMPIH.Hight + 1, j];
+                mas[bMPIH.Hight + 2, j] = mas[bMPIH.Hight + 1, j];
             }
-            for (int j = 1; j < BMPIH.Width + 3; ++j)
+
+            for (int j = 1; j < bMPIH.Width + 3; ++j)
             {
-                mas[BMPIH.Hight + 3, j] = mas[BMPIH.Hight + 1, j];
+                mas[bMPIH.Hight + 3, j] = mas[bMPIH.Hight + 1, j];
             }
 
         }
 
-        public void ReadFile(ref BitmapFile.BitmapFileHeader BMPFH, ref BitmapFile.BitmapInfoHeader BMPIH, ref BinaryReader bR)
+        public void ReadFile(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, ref BinaryReader bR)
         {
-            BMPFH.TypeFile = bR.ReadByte();
-            BMPFH.TypeSize = bR.ReadByte();
-            BMPFH.SizeFile = bR.ReadUInt32();
-            BMPFH.ReservedOne = bR.ReadUInt16();
-            BMPFH.ReservedTwo = bR.ReadUInt16();
-            BMPFH.OffsetBits = bR.ReadUInt32();
+            bMPFH.TypeFile = bR.ReadByte();
+            bMPFH.TypeSize = bR.ReadByte();
+            bMPFH.SizeFile = bR.ReadUInt32();
+            bMPFH.ReservedOne = bR.ReadUInt16();
+            bMPFH.ReservedTwo = bR.ReadUInt16();
+            bMPFH.OffsetBits = bR.ReadUInt32();
 
-            BMPIH.Size = bR.ReadUInt32();
-            BMPIH.Width = bR.ReadUInt32();
-            BMPIH.Hight = bR.ReadUInt32();
-            BMPIH.Planes = bR.ReadUInt16();
-            BMPIH.BitCount = bR.ReadUInt16();
-            BMPIH.Compression = bR.ReadUInt16();
-            BMPIH.SizeImage = bR.ReadUInt32();
-            BMPIH.XPelsPerMeter = bR.ReadUInt32();
-            BMPIH.YPelsPerMeter = bR.ReadUInt32();
-            BMPIH.ColorUsed = bR.ReadUInt32();
-            BMPIH.ColorImportant = bR.ReadUInt32();
+            bMPIH.Size = bR.ReadUInt32();
+            bMPIH.Width = bR.ReadUInt32();
+            bMPIH.Hight = bR.ReadUInt32();
+            bMPIH.Planes = bR.ReadUInt16();
+            bMPIH.BitCount = bR.ReadUInt16();
+            bMPIH.Compression = bR.ReadUInt16();
+            bMPIH.SizeImage = bR.ReadUInt32();
+            bMPIH.XPelsPerMeter = bR.ReadUInt32();
+            bMPIH.YPelsPerMeter = bR.ReadUInt32();
+            bMPIH.ColorUsed = bR.ReadUInt32();
+            bMPIH.ColorImportant = bR.ReadUInt32();
         }
 
-        public void ReadPixel(ref BitmapFile.BitmapFileHeader BMPFH, ref BitmapFile.BitmapInfoHeader BMPIH, BitmapFile.Pixel[,] mas, ref BinaryReader bR)
+        public void ReadPixel(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas, ref BinaryReader bR)
         {
 
-            bR.BaseStream.Position = BMPFH.OffsetBits;
+            bR.BaseStream.Position = bMPFH.OffsetBits;
 
-            if (BMPIH.BitCount == 32)
+            if (bMPIH.BitCount == 32)
             {
-                for (int i = 0; i < BMPIH.Hight + 4; ++i)
+                for (int i = 0; i < bMPIH.Hight + 4; ++i)
                 {
-                    for (int j = 0; j < BMPIH.Width + 4; ++j)
+                    for (int j = 0; j < bMPIH.Width + 4; ++j)
                     {
-                        if (i <= 1 || j <= 1 || i >= BMPIH.Hight + 2 || j >= BMPIH.Width + 2)
+                        if (i <= 1 || j <= 1 || i >= bMPIH.Hight + 2 || j >= bMPIH.Width + 2)
                         {
                             mas[i, j].Blue = 0;
                             mas[i, j].Green = 0;
                             mas[i, j].Red = 0;
                         }
+
                         else
                         {
                             mas[i, j].Blue = bR.ReadByte();
@@ -101,18 +106,20 @@
                     }
                 }
             }
+
             else
             {
-                for (int i = 0; i < BMPIH.Hight + 4; ++i)
+                for (int i = 0; i < bMPIH.Hight + 4; ++i)
                 {
-                    for (int j = 0; j < BMPIH.Width + 4; ++j)
+                    for (int j = 0; j < bMPIH.Width + 4; ++j)
                     {
-                        if (i <= 1 || j <= 1 || i >= BMPIH.Hight + 2 || j >= BMPIH.Width + 2)
+                        if (i <= 1 || j <= 1 || i >= bMPIH.Hight + 2 || j >= bMPIH.Width + 2)
                         {
                             mas[i, j].Blue = 0;
                             mas[i, j].Green = 0;
                             mas[i, j].Red = 0;
                         }
+
                         else
                         {
                             mas[i, j].Blue = bR.ReadByte();
@@ -122,39 +129,40 @@
                     }
                 }
             }
-            Rat(ref BMPFH, ref BMPIH, mas);
+
+            Rat(ref bMPFH, ref bMPIH, mas);
         }
 
-        public void Save(ref BitmapFile.BitmapFileHeader BMPFH, ref BitmapFile.BitmapInfoHeader BMPIH, BitmapFile.Pixel[,] mas, ref BinaryWriter bW)
+        public void Save(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas, ref BinaryWriter bW)
         {
-            bW.Write(BMPFH.TypeFile);
-            bW.Write(BMPFH.TypeSize);
-            bW.Write(BMPFH.SizeFile);
-            bW.Write(BMPFH.ReservedOne);
-            bW.Write(BMPFH.ReservedTwo);
-            bW.Write(BMPFH.OffsetBits);
+            bW.Write(bMPFH.TypeFile);
+            bW.Write(bMPFH.TypeSize);
+            bW.Write(bMPFH.SizeFile);
+            bW.Write(bMPFH.ReservedOne);
+            bW.Write(bMPFH.ReservedTwo);
+            bW.Write(bMPFH.OffsetBits);
 
 
 
-            bW.Write(BMPIH.Size);
-            bW.Write(BMPIH.Width);
-            bW.Write(BMPIH.Hight);
-            bW.Write(BMPIH.Planes);
-            bW.Write(BMPIH.BitCount);
-            bW.Write(BMPIH.Compression);
-            bW.Write(BMPIH.SizeImage);
-            bW.Write(BMPIH.XPelsPerMeter);
-            bW.Write(BMPIH.YPelsPerMeter);
-            bW.Write(BMPIH.ColorUsed);
-            bW.Write(BMPIH.ColorImportant);
+            bW.Write(bMPIH.Size);
+            bW.Write(bMPIH.Width);
+            bW.Write(bMPIH.Hight);
+            bW.Write(bMPIH.Planes);
+            bW.Write(bMPIH.BitCount);
+            bW.Write(bMPIH.Compression);
+            bW.Write(bMPIH.SizeImage);
+            bW.Write(bMPIH.XPelsPerMeter);
+            bW.Write(bMPIH.YPelsPerMeter);
+            bW.Write(bMPIH.ColorUsed);
+            bW.Write(bMPIH.ColorImportant);
 
 
 
-            if (BMPIH.BitCount == 32)
+            if (bMPIH.BitCount == 32)
             {
-                for (int i = 2; i < BMPIH.Hight + 2; ++i)
+                for (int i = 2; i < bMPIH.Hight + 2; ++i)
                 {
-                    for (int j = 2; j < BMPIH.Width + 2; ++j)
+                    for (int j = 2; j < bMPIH.Width + 2; ++j)
                     {
                         bW.Write(mas[i, j].Blue);
                         bW.Write(mas[i, j].Green);
@@ -163,11 +171,12 @@
                     }
                 }
             }
+
             else
             {
-                for (int i = 2; i < BMPIH.Hight + 2; ++i)
+                for (int i = 2; i < bMPIH.Hight + 2; ++i)
                 {
-                    for (int j = 2; j < BMPIH.Width + 2; ++j)
+                    for (int j = 2; j < bMPIH.Width + 2; ++j)
                     {
                         bW.Write(mas[i, j].Blue);
                         bW.Write(mas[i, j].Green);
@@ -178,7 +187,5 @@
 
             bW.Close();
         }
-
     }
-
 }

@@ -2,28 +2,30 @@
 {
     public class Program
     {
- 
+
         static void Main(string[] args)
         {
-            BitmapFile bmp = new BitmapFile();
-            BitmapFile.BitmapFileHeader BMPFH = new BitmapFile.BitmapFileHeader();
-            BitmapFile.BitmapInfoHeader BMPIH = new BitmapFile.BitmapInfoHeader();
+            BitmapFileHeader bMPFH = new BitmapFileHeader();
+            BitmapInfoHeader bMPIH = new BitmapInfoHeader();
             FileOperations image = new FileOperations();
             Filters filters = new Filters();
 
-            string filePath;
-            string fileNewPath;
+            Console.WriteLine("The program processes files allowing the user to change the image filter.");
+            Console.WriteLine("Available filters: grayscale, median, gaussian, sobelX, sobelY.");
 
-            Console.WriteLine("The program processes files allowing the user to add image filter.");
-            Console.Write("Enter a file path: ");
+            if (args.Length != 3)
+            {
+                Console.WriteLine("You need to enter three arguments.");
+                return;
+            }
 
-            filePath = Console.ReadLine();
             FileStream fS;
 
             try
             {
-                fS = new FileStream(filePath, FileMode.Open);
+                fS = new FileStream(args[0], FileMode.Open);
             }
+
             catch (FileNotFoundException)
             {
                 Console.WriteLine("Could not find file.");
@@ -32,54 +34,53 @@
 
             BinaryReader bR = new BinaryReader(fS, System.Text.Encoding.Default);
 
-            image.ReadFile(ref BMPFH, ref BMPIH, ref bR);
+            image.ReadFile(ref bMPFH, ref bMPIH, ref bR);
 
-            BitmapFile.Pixel[,] mas = new BitmapFile.Pixel[BMPIH.Hight + 4, BMPIH.Width + 4];
+            Pixel[,] mas = new Pixel[bMPIH.Hight + 4, bMPIH.Width + 4];
 
-            image.Rat(ref BMPFH, ref BMPIH, mas);
+            image.Rat(ref bMPFH, ref bMPIH, mas);
 
-            image.ReadPixel(ref BMPFH, ref BMPIH, mas, ref bR);
+            image.ReadPixel(ref bMPFH, ref bMPIH, mas, ref bR);
 
             bR.Close();
 
-            int filter;
+            string filter = args[1];
 
-            Console.WriteLine("Select filter: ");
-            Console.WriteLine("1) greyscale \n2) median 3x3 \n3) gaussian 3х3 \n4) sobelX \n5) sobelY \nInput: ");
-
-            filter = Convert.ToInt32(Console.ReadLine());
 
             switch (filter)
             {
-                case 1:
-                    filters.Gray(ref BMPFH, ref BMPIH, mas);
+                case "grayscale":
+                    filters.Gray(ref bMPFH, ref bMPIH, mas);
                     break;
-                case 2:
-                    filters.Median(ref BMPFH, ref BMPIH, mas);
+
+                case "median":
+                    filters.Median(ref bMPFH, ref bMPIH, mas);
                     break;
-                case 3:
-                    filters.Gauss(ref BMPFH, ref BMPIH, mas);
+
+                case "gaussian":
+                    filters.Gauss(ref bMPFH, ref bMPIH, mas);
                     break;
-                case 4:
-                    filters.SobelX(ref BMPFH, ref BMPIH, mas);
+
+                case "sobelX":
+                    filters.SobelX(ref bMPFH, ref bMPIH, mas);
                     break;
-                case 5:
-                    filters.SobelY(ref BMPFH, ref BMPIH, mas);
+
+                case "sobelY":
+                    filters.SobelY(ref bMPFH, ref bMPIH, mas);
                     break;
+
                 default:
                     Console.WriteLine("Could not find filter.");
                     Environment.Exit(-123214);
                     break;
             }
 
-            Console.Write("Enter a path to save file: ");
 
-            fileNewPath = Console.ReadLine();
-
-            FileStream fO = new FileStream(fileNewPath, FileMode.Create);
+            FileStream fO = new FileStream(args[2], FileMode.Create);
             BinaryWriter bW = new BinaryWriter(fO, System.Text.Encoding.Default);
+            image.Save(ref bMPFH, ref bMPIH, mas, ref bW);
 
-            image.Save(ref BMPFH, ref BMPIH, mas, ref bW);
+            Console.WriteLine("Filter has been applied.");
         }
     }
 }
