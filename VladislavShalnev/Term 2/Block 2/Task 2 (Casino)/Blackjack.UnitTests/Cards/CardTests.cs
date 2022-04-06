@@ -12,4 +12,12 @@ public class CardTests
 	{
 		Assert.AreEqual(result, new Card(suit, type).ToString());
 	}
+	
+	[TestCase(CardSuit.Hearts, CardType.Four, 1, 4)]
+	[TestCase(CardSuit.Hearts, CardType.Ace, 3, 11)]
+	[TestCase(CardSuit.Spades, CardType.Ace, 13, 1)]
+	public void GetValueTest(CardSuit suit, CardType type, int score, int result)
+	{
+		Assert.AreEqual(result, new Card(suit, type).GetValue(score));
+	}
 }

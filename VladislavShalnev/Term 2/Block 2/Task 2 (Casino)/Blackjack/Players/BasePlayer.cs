@@ -18,10 +18,7 @@ public abstract class BasePlayer
 	{
 		Cards.Add(card);
 		
-		if (card.Type == CardType.Ace)
-			Score += Score + 11 > 21 ? 1 : 11;
-		else
-			Score += card.Value;
+		Score += card.GetValue(Score);
 	}
 
 	public virtual void Clear()

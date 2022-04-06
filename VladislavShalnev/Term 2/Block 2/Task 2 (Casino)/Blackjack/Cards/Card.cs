@@ -11,7 +11,7 @@ public record Card
 		Type = type;
 	}
 
-	internal int Value => Type switch
+	public int GetValue(int score) => Type switch
 	{
 		CardType.Two => 2,
 		CardType.Three => 3,
@@ -25,6 +25,8 @@ public record Card
 		CardType.Jack => 10,
 		CardType.Queen => 10,
 		CardType.King => 10,
+		CardType.Ace when score <= 10 => 11,
+		CardType.Ace => 1,
 		_ => 0
 	};
 
