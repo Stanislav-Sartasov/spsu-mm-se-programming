@@ -29,10 +29,7 @@ public class ProgramTests
 			Assert.IsNull(bot.OnKick);
 			Assert.IsNull(bot.OnBet);
 		}
-		
-		Assert.IsNull(game.OnStart);
-		Assert.IsNull(game.OnEnd);
-		
+
 		Program.SubscribeToEvents(game);
 
 		foreach (Player bot in game.Players)
@@ -45,10 +42,7 @@ public class ProgramTests
 			Assert.IsNotNull(bot.OnKick);
 			Assert.IsNotNull(bot.OnBet);
 		}
-		
-		Assert.IsNotNull(game.OnStart);
-		Assert.IsNotNull(game.OnEnd);
-		
+
 		foreach (Player bot in game.Players)
 		{
 			bot.OnLoss?.Invoke();
@@ -59,8 +53,5 @@ public class ProgramTests
 			bot.OnKick?.Invoke();
 			bot.OnBet?.Invoke();
 		}
-		
-		game.OnStart?.Invoke();
-		game.OnEnd?.Invoke();
 	}
 }

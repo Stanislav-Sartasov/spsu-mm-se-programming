@@ -10,8 +10,8 @@ public class Game
 	private Deck _deck;
 	
 	// Game events
-	public Action? OnStart;
-	public Action? OnEnd;
+	public event Action? OnStart;
+	public event Action? OnEnd;
 	
 	public Game()
 	{
