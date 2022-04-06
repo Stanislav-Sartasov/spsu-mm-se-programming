@@ -24,14 +24,8 @@ namespace BotLibrary
         public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
         {
 
-            //string userCulture = Thread.CurrentThread.CurrentUICulture.Name;
-
-            //Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture("en-GB"); 
-
             ResourceManager rm = new ResourceManager("BotLibrary.resources.strategyPack.strategy" + Strategy.ToString(),
                 Assembly.GetExecutingAssembly());
-
-            //Thread.CurrentThread.CurrentUICulture = CultureInfo.CreateSpecificCulture(userCulture);
 
             int dealerSum = dealerHand[0].GetCardInfo()[2];
             int sum = this.sum[hand];
@@ -58,9 +52,6 @@ namespace BotLibrary
 
             if (result == 3 && this.ScanHand(3).Count != 0) return 1;
             return result;
-
-
-
         }
         public int GiveResponce()
         {
