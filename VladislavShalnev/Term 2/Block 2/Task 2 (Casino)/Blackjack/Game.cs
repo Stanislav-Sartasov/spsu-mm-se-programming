@@ -50,11 +50,8 @@ public class Game
 		foreach (Player player in Players)
 		{
 			while (player.Action == PlayerAction.Hit)
-			{
-				player.TakeCard(_deck.GetCard());
-				player.OnHit?.Invoke();
-			}
-			player.OnStand?.Invoke();
+				player.Hit(_deck.GetCard());
+			player.Stand();
 		}
 		
 		// Take cards while the score is less than 17
@@ -77,7 +74,7 @@ public class Game
 		Players = Players.Where(player =>
 		{
 			if (player.Money == 0)
-				player.OnKick?.Invoke();
+				player.Kick();
 			return player.Money > 0;
 		}).ToList();
 	}

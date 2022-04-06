@@ -79,7 +79,7 @@ public class Program
 				Logger.Log($"{player.Name} bet {player.Bet}$");
 			
 			player.OnBlackjack += () =>
-				Logger.Log($"{player.Name} got a blackjack and now has {player.Money}$!");
+				Logger.Log($"{player.Name} got a blackjack!");
 			
 			player.OnWin += () =>
 				Logger.Log($"{player.Name} won and now has {player.Money}$");

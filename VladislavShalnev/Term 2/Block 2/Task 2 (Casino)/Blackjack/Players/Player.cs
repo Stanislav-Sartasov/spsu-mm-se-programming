@@ -1,4 +1,6 @@
-﻿namespace Blackjack.Players;
+﻿using Blackjack.Cards;
+
+namespace Blackjack.Players;
 
 public abstract class Player : BasePlayer
 {
@@ -21,13 +23,13 @@ public abstract class Player : BasePlayer
 		Score > 18 ? PlayerAction.Stand : PlayerAction.Hit;
 	
 	// Player events
-	public Action? OnLoss;
-	public Action? OnWin;
-	public Action? OnTie;
-	public Action? OnKick;
-	public Action? OnHit;
-	public Action? OnStand;
-	public Action? OnBet;
+	public event Action? OnLoss;
+	public event Action? OnWin;
+	public event Action? OnTie;
+	public event Action? OnKick;
+	public event Action? OnHit;
+	public event Action? OnStand;
+	public event Action? OnBet;
 
 	public virtual void MakeBet() =>
 		OnBet?.Invoke();
@@ -37,6 +39,18 @@ public abstract class Player : BasePlayer
 		base.Clear();
 		Bet = 0;
 	}
+
+	public void Hit(Card card)
+	{
+		OnHit?.Invoke();
+		TakeCard(card);
+	}
+	
+	public void Stand() =>
+		OnStand?.Invoke();
+	
+	public void Kick() =>
+		OnKick?.Invoke();
 
 	public void Finish(Dealer dealer)
 	{
