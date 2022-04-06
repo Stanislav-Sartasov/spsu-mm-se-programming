@@ -84,5 +84,35 @@ namespace DoublyLinkedListLibrary.UnitTests
 			list.RemoveLast(0);
 			Assert.AreEqual(0, list.GetIndexLast(0));
 		}
+
+		[Test]
+		public void RemoveAllElementsTest()
+		{
+			DoublyLinkedList<int> list = new();
+			for (int i = 0; i < 5; i++)
+			{
+				list.Add(i);
+			}
+			for (int i = 0; i < 5; i++)
+			{
+				list.Remove(i);
+			}
+			for (int i = 0; i < 5; i++)
+				Assert.AreEqual(-1, list.GetIndexLast(i));
+		}
+
+		[Test]
+		public void RemoveNonExistingElementTest()
+		{
+			DoublyLinkedList<int> list = new();
+			for (int i = 0; i < 5; i++)
+			{
+				list.Add(i);
+			}
+			list.Remove(5);
+			for (int i = 0; i < 5; i++)
+				Assert.AreEqual(i, list.GetIndex(i));
+			Assert.AreEqual(5, list.Count);
+		}
 	}
 }

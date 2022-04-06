@@ -5,7 +5,7 @@
 		private Node<T>? head = null;
 		private Node<T>? tail = null;
 
-		public int Count = 0;
+		public int Count { get; private set; } = 0;
 
 		public void Add(T value)
 		{
@@ -50,23 +50,23 @@
 		// leaves the list unaffected if index is incorrect
 		public void RemoveAt(int index)
 		{
-			Count--;
-			if (index < 0 || index > Count)
+			if (index < 0 || index >= Count)
 				return;
+			Count--;
 			if (index == 0) // removing head
 			{
 				head = head.Next;
 				if (head != null)
 					head.Previous = null;
-				return;
 			}
 			if (index == Count) // removing tail
 			{
 				tail = tail.Previous;
 				if (tail != null)
 					tail.Next = null;
-				return;
 			}
+			if (index == 0 || index == Count)
+				return;
 			Node<T>? cur = head;
 			for (int i = 0; i < index && cur != null; i++)
 			{
