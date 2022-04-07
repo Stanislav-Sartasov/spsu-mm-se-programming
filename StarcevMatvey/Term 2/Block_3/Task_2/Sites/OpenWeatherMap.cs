@@ -50,8 +50,8 @@ namespace Sites
 
             Weather.Weather weather = new Parser.Parser(request.Response).Parse(patternsForPasrsing);
             WriteLine("Openweathermap:");
-            WriteLine($"Temp in C°: {weather.TempC}°");
-            WriteLine($"Temp in F°: {weather.TempF}°");
+            WriteLine($"Temp in C°: {weather.TempC}");
+            WriteLine($"Temp in F°: {weather.TempF}");
             WriteLine($"Clouds in %: {weather.Clouds}");
             WriteLine($"Humidity in %: {weather.Humidity}");
             WriteLine($"Wind speed in m/s: {weather.WindSpeed}");
