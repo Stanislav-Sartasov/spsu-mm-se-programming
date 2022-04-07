@@ -14,7 +14,7 @@ namespace BasicLibrary
 		}
 		public override PlayerMove Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
 		{
-
+			Console.WriteLine("Make your move");
 			PlayerMove answer = GetCorectAnswer<PlayerMove>();
 
 			if (answer == PlayerMove.Show)
@@ -66,10 +66,18 @@ namespace BasicLibrary
 		}
 
 		public static int GetCorectInt(int bottom, int top)
-		{
-			int answer;
-			while (!int.TryParse(Console.ReadLine(), out answer) || answer > top || answer < bottom)
+        {
+            int answer;
+			string input = Console.ReadLine();
+
+			if (String.Equals(input, "Exit"))
+				return -1;
+
+			while (!int.TryParse(input, out answer) || answer > top || answer < bottom)
+            {
 				Console.WriteLine($"Error, enter {bottom}-{top}");
+				input = Console.ReadLine();
+			}    
 			return answer;
 		}
 

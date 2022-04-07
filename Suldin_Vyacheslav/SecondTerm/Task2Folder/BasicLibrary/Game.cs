@@ -35,7 +35,11 @@ namespace BasicLibrary
 
                 for (int i = 0; i < Gamesters.Count; i++)
                     for (int j = 0; j < Gamesters[i].GetHandsLenght(); j++)
+                    {
                         if (Gamesters[i].GetBet(j) != 0) stop = false;
+                        if (Gamesters[i].GetBet(j) == -1) return;
+                    }
+                        
 
                 if (stop) break;
 

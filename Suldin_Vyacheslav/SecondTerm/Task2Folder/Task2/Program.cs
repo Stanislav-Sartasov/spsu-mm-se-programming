@@ -12,7 +12,7 @@ namespace Task2
             Console.WriteLine("Choose program mode: 'Task', 'WithBots', 'Solo'\n" +
                 "if !Task mode: 'Call', 'Double', 'Split', 'Surrender', 'Show'" +
                 "\nIs need result: 'No', 'Yes'" +
-                "\n0 on bet - game is end.");
+                "\n'Exit' on bet - game is end.");
 
             Bot[] set = new Bot[] { new Oscar(1), new OneThreeTwoSix(1), new Martingale(1),
             new Oscar(2), new OneThreeTwoSix(2), new Martingale(2),
