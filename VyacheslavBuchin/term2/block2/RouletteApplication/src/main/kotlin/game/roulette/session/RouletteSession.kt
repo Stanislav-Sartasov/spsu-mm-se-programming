@@ -10,7 +10,7 @@ import util.BetStatus
 
 class RouletteSession(
 	private val rouletteWheel: RouletteWheel,
-	val casinoAccount: Account
+	casinoAccount: Account
 ) : Session {
 
 	private val betManager: BetManager = ListBetManager(casinoAccount)
