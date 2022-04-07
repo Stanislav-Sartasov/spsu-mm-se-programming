@@ -15,7 +15,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DoublyLinkedList\DoublyLinkedList.csproj" />
+    <ProjectReference Include="..\AbstractClasses\AbstractClasses.csproj" />
+    <ProjectReference Include="..\BlackjackBots\BlackjackBots.csproj" />
+    <ProjectReference Include="..\BlackjackGame\BlackjackGame.csproj" />
+    <ProjectReference Include="..\BlackjackMechanics\BlackjackMechanics.csproj" />
   </ItemGroup>
 
 </Project>
