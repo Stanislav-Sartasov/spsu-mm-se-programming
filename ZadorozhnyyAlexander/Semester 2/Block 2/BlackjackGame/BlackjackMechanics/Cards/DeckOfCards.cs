@@ -5,7 +5,7 @@ namespace BlackjackMechanics.Cards
 {
     public class DeckOfCards
     {
-        public List<ACard> Deck;
+        public List<ACard> Deck { get; private set; }
         private int countDecksInOne;
 
         public DeckOfCards(int data)
