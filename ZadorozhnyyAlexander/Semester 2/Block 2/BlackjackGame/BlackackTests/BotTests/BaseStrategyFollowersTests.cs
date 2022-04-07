@@ -15,13 +15,10 @@ namespace BlackackTests.BotTests
         public void MartingaleBotActionAfterBlackjackTest()
         {
             var bot = new MartingaleBot(exampleStartMoney, exampleStartRate);
-            var game = new Game(bot);
-            game.CreateGame(1);
 
-            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), bot);
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new AceCard(CardSuits.Diamond));
 
             Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
         }
@@ -30,13 +27,10 @@ namespace BlackackTests.BotTests
         public void OneThreeTwoSixBotActionAfterBlackjackTest()
         {
             var bot = new OneThreeTwoSixBot(exampleStartMoney, exampleStartRate);
-            var game = new Game(bot);
-            game.CreateGame(1);
 
-            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), bot);
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new AceCard(CardSuits.Diamond));
 
             Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Take);
         }

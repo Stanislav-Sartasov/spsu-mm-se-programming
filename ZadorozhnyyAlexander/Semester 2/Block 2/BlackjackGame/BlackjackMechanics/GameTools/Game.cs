@@ -6,8 +6,8 @@ namespace BlackjackMechanics.GameTools
 {
     public class Game
     {
-        public DeckOfCards Deck { get; private set; }
         public ABot Bot { get; private set; }
+        public DeckOfCards Deck { get; private set; }
         public Dealer Dealer { get; private set; }
 
         public Game(ABot bot)

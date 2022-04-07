@@ -17,16 +17,16 @@ namespace BlackackTests.BotTests
         {
             var bot = new PrimitiveManchetanStrategyBot(exampleStartMoney, exampleStartRate);
 
-            bot.CardsInHand.Add(new UsualCard(CardNames.Six, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Six, CardSuits.Diamond));
             Assert.IsTrue(bot.GetNextTurn(exapleDealerCard) == PlayerTurn.Hit);
 
-            bot.CardsInHand.Add(new UsualCard(CardNames.Six, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Six, CardSuits.Diamond));
             Assert.IsTrue(bot.GetNextTurn(exapleDealerCard) == PlayerTurn.Double);
 
-            bot.CardsInHand.Add(new UsualCard(CardNames.Six, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Six, CardSuits.Diamond));
             Assert.IsTrue(bot.GetNextTurn(exapleDealerCard) == PlayerTurn.Stand);
 
-            bot.CardsInHand.Add(new UsualCard(CardNames.Three, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Three, CardSuits.Diamond));
             Assert.IsTrue(bot.GetNextTurn(exapleDealerCard) == PlayerTurn.Blackjack);
         }
 
@@ -34,14 +34,12 @@ namespace BlackackTests.BotTests
         public void ActionAfterBlackjackTest()
         {
             var bot = new PrimitiveManchetanStrategyBot(exampleStartMoney, exampleStartRate);
-            var game = new Game(bot);
-            game.CreateGame(1);
-            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), bot);
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), bot);
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
 
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new AceCard(CardSuits.Diamond));
+
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
         }
 
         [Test]

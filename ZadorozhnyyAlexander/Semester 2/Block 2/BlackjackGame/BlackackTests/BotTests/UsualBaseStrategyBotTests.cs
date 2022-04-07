@@ -15,105 +15,83 @@ namespace BlackackTests.BotTests
         [Test]
         public void GetNextTurnAfterSoftTotalsTest()
         {
-            var game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
 
             // Expected Player: 11 + 2 && Dealer: 2 => Hit
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Two, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Two, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Hit);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Two, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Two, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Hit);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 5 && Dealer: 5 => Double
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Five, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Five, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Double);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Five, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Five, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Double);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 9 && Dealer: 8 => Stand
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Nine, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Eight, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Nine, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Eight, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 10 && Dealer: 9 => Blackjack
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Nine, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Blackjack);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Nine, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Blackjack);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 10 && Dealer: 10 => Blackjack, but dealer have 10
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 10 && Dealer: 10 => Stand
-            game.Dealer.GiveCard(new AceCard(CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Ten, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new AceCard(CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
         }
 
         [Test]
         public void GetNextTurnAfterHardTotalsTest()
         {
-            var game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
-
+            var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 5 + 2 && Dealer: 2 => Hit
-            game.Dealer.GiveCard(new UsualCard(CardNames.Five, CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Two, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Two, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Hit);
+            bot.TakeCard(new UsualCard(CardNames.Five, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Two, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Two, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Hit);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 5 && Dealer: 5 => Double
-            game.Dealer.GiveCard(new UsualCard(CardNames.Six, CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Five, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Five, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Double);
+            bot.TakeCard(new UsualCard(CardNames.Six, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Five, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Five, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Double);
 
-            game = new Game(new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate));
-            game.CreateGame(1);
+            bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
             // Expected Player: 11 + 9 && Dealer: 8 => Stand
-            game.Dealer.GiveCard(new UsualCard(CardNames.Nine, CardSuits.Diamond), game.Bot);
-            game.Dealer.GiveCard(new UsualCard(CardNames.Nine, CardSuits.Diamond), game.Bot);
-            game.Dealer.TakeCard(new UsualCard(CardNames.Eight, CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
-            Assert.IsTrue(game.Bot.PlayerTurnNow == PlayerTurn.Stand);
+            bot.TakeCard(new UsualCard(CardNames.Nine, CardSuits.Diamond));
+            bot.TakeCard(new UsualCard(CardNames.Nine, CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new UsualCard(CardNames.Eight, CardSuits.Diamond));
+            Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
         }
 
         [Test]
         public void ActionAfterBlackjackTest()
         {
             var bot = new UsualBaseStrategyBot(exampleStartMoney, exampleStartRate);
-            var game = new Game(bot);
-            game.CreateGame(1);
 
-            game.Dealer.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
-            game.Bot.TakeCard(new AceCard(CardSuits.Diamond));
-            game.Bot.MakeNextPlayerTurn(game.Dealer.VisibleCard);
+            bot.TakeCard(new UsualCard(CardNames.Ten, CardSuits.Diamond));
+            bot.TakeCard(new AceCard(CardSuits.Diamond));
+            bot.MakeNextPlayerTurn(new AceCard(CardSuits.Diamond));
 
             Assert.IsTrue(bot.PlayerTurnNow == PlayerTurn.Stand);
         }
