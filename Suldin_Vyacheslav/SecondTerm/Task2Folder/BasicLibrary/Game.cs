@@ -41,7 +41,7 @@ namespace BasicLibrary
 
 
 
-                int[,] condition = new int[10, 4];
+                PlayerMove[,] condition = new PlayerMove[10, 4];
 
                 gameDealer.InitialDistribution(Gamesters, gameShoes, condition);
 
@@ -60,20 +60,12 @@ namespace BasicLibrary
 
             }
         }
-
-        public static int GetCoorectAnswer(int bottom, int top)
-        {
-            int answer;
-            while (!int.TryParse(Console.ReadLine(), out answer) || answer > top || answer < bottom)
-                Console.WriteLine($"Error, enter {bottom}-{top}");
-            return answer;
-        }
         public static void ShowTable(List<Card> dealerHand, List<Gamester> gamesters)
         {
             Console.Write("          ");
             for (int i = 0; i < dealerHand.Count; i++)
             {
-                Console.Write($"{dealerHand[i].GetCardInfo()[2]} ");
+                Console.Write($"{dealerHand[i].GetCardValue()} ");
             }
             Console.Write("\n\n");
             for (int i = 0; i < gamesters.Count; i++)
@@ -83,9 +75,9 @@ namespace BasicLibrary
                 {
                     Console.Write("\n");
                     Console.Write($"{j}-hand: [");
-                    for (int k = 0; k < gamesters[i].ScanHand(j).Count; k++)
+                    for (int k = 0; k < gamesters[i][j].Count; k++)
                     {
-                        Console.Write($"{gamesters[i].ScanHand(j)[k].GetCardInfo()[2]} ");
+                        Console.Write($"{gamesters[i][j][k].GetCardValue()} ");
                     }
                     Console.Write("]  bet:");
                     Console.Write($"{gamesters[i].GetBet(j)} ");

@@ -8,10 +8,10 @@ namespace Task2
     class Program
     {
         static void Main(string[] args)
-       {
-            Console.WriteLine("Choose program mode: 1 = task mode,  2 = with bots mode, 3 = solo mode\n" +
-                "if 3: 1 - call, 2 - double, 3 - split, 4 - surrender, 5 - show your cards" +
-                "\nIs need result: 0 - no, 1 - yes"+
+        {
+            Console.WriteLine("Choose program mode: 'Task', 'WithBots', 'Solo'\n" +
+                "if !Task mode: 'Call', 'Double', 'Split', 'Surrender', 'Show'" +
+                "\nIs need result: 'No', 'Yes'" +
                 "\n0 on bet - game is end.");
 
             Bot[] set = new Bot[] { new Oscar(1), new OneThreeTwoSix(1), new Martingale(1),
@@ -23,26 +23,26 @@ namespace Task2
 
 
 
-            switch (Game.GetCoorectAnswer(1, 3))
+            switch (Gambler.GetCorectAnswer<GameMode>())
             {
-                case 1:
+                case GameMode.Task:
                     {
                         int[] taskAnswer = new int[9];
                         players.AddRange(set);
 
                         Game jackBlack = new Game(players);
                         int j;
-                        for ( j = 0; j < 30; j++)
+                        for (j = 0; j < 30; j++)
                         {
                             for (int i = 0; i < set.Length; i++)
                             {
                                 set[i].ChangeBank(-set[i].GiveResponce() + 10000);
                             }
-                                
+
                             jackBlack.Start(40);
 
                             for (int i = 0; i < set.Length; i++)
-                                set[i].Difference += (set[i].GiveResponce() - 10000)/30;
+                                set[i].Difference += (set[i].GiveResponce() - 10000) / 30;
                         }
 
                         for (int i = 0; i < set.Length; i++)
@@ -50,7 +50,7 @@ namespace Task2
 
                         break;
                     }
-                case 2:
+                case GameMode.WithBots:
                     {
                         for (int i = 0; i < set.Length; i++)
                             set[i].ChangeBank(100000);
@@ -61,13 +61,29 @@ namespace Task2
                         jackBlack.Start(10000);
                         break;
                     }
-                default:
+                case GameMode.Solo:
                     {
                         players.Add(man);
                         Game jackBlack = new Game(players);
                         jackBlack.Start(10000);
                         break;
                     }
+            }
+        }
+        public static Type GetCorectMode(Type enumType)
+        {
+            while (true)
+            {
+                string answer = Console.ReadLine();
+
+                foreach (Type mode in Enum.GetValues(enumType) )
+                {
+                    if (String.Equals(answer, mode))
+                    {
+                        return mode;
+                    }
+                }
+                Console.WriteLine("Wrong input");
             }
         }
     }

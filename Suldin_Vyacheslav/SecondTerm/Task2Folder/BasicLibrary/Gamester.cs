@@ -10,10 +10,10 @@ namespace BasicLibrary
     {
         protected int bank = 0;
         protected int[] bets = new int[4] { 0, 0, 0, 0 }; 
-        public virtual int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
+        public virtual PlayerMove Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
         {
-            return bets[0]/100;
-        }
+            return (PlayerMove)(bets[0]/100);
+        }   
         public virtual bool IsNeedResult()
         {
             return false;

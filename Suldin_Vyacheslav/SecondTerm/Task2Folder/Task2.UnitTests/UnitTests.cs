@@ -130,13 +130,13 @@ namespace Task2.UnitTests
                 Bot bot = new Bot(str);
                 List<Gamester> gamesters = new List<Gamester> { bot };
 
-                for (int j = 0; j < 13; j++)
-                    for (int k = 0; k < 13; k++)
+                for (int j = 1; j < 14; j++)
+                    for (int k = 1; k < 14; k++)
                     {
                         bot.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)j), 0);
                         bot.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)k), 0);
-                        for (int i = 0; i < 13; i++)
-                            if (bot.Answer(0, new List<Card> { new Card(CardSuit.Clubs, (CardRank)i) }, gamesters) == -1)
+                        for (int i = 1; i < 14; i++)
+                            if (bot.Answer(0, new List<Card> { new Card(CardSuit.Clubs, (CardRank)i) }, gamesters) == (PlayerMove)(-1) )
                                 Assert.Fail();
                         dealer.GetCardsBack(gamesters);
                     }
@@ -150,17 +150,17 @@ namespace Task2.UnitTests
             Dealer dealer = new Dealer();
 
             Gamester gamester = new Gamester();
-            for (int j = 0; j < 4; j++)
+            for (int j = 1; j < 5; j++)
             {
-                for (int i = 0; i < 13; i++)
+                for (int i = 1; i < 14; i++)
                 {
                     Card testCard = new Card((CardSuit)j, (CardRank)i);
                     gamester.ReceiveCard(testCard, 0);
-                    if (gamester.ScanHand(0)[0].GetCardInfo()[0] != i + 1 ||
-                    gamester.ScanHand(0)[0].GetCardInfo()[1] != j + 1 ||
-                    (gamester.GetSum(0) != i + 1 && i <= 9) ||
-                    (gamester.GetSum(0) != 10 && i > 9) ||
-                    gamester.ScanHand(0)[0].GetCardInfo()[2] != gamester.GetSum(0))
+                    if (//gamester.ScanHand(0)[0].GetCardInfo()[0] != i + 1 ||
+                    //gamester.ScanHand(0)[0].GetCardInfo()[1] != j + 1 ||
+                    (gamester.GetSum(0) != i && i <= 10) ||
+                    (gamester.GetSum(0) != 10 && i > 10) ||
+                    gamester[0][0].GetCardValue() != gamester.GetSum(0))
                     {
                         Assert.Fail(i.ToString());
                     }
@@ -182,12 +182,12 @@ namespace Task2.UnitTests
             for (int k = 0; k < gamesters.Count; k++)
                 for (int j = 0; j < 4; j++)
                     for (int i = 0; i < 50; i += 10)
-                        gamester.ReceiveCard(deck.GetCards()[i], j);
+                        gamester.ReceiveCard(deck[i], j);
 
             dealer.GetCardsBack(gamesters);
             for (int k = 0; k < gamesters.Count; k++)
                 for (int j = 0; j < 4; j++)
-                    if (gamesters[k].ScanHand(j).Count != 0)
+                    if (gamesters[k][j].Count != 0)
                         Assert.Fail();
 
             Assert.Pass();
@@ -243,12 +243,11 @@ namespace Task2.UnitTests
             int result = 1;
 
 
-            for (int i = 0; i < 13; i++)
+            for (int i = 1; i < 14; i++)
             {
                 Card testCard = new Card(CardSuit.Clubs, (CardRank)i);
 
-                testCard.GetCardInfo()[2] = testCard.CalculateValue(testCard.GetCardInfo()[0]);
-                if (testCard.GetCardInfo()[2] != result)
+                if (testCard.GetCardValue() != result)
                     Assert.Fail();
 
                 if (result < 10)
@@ -354,55 +353,56 @@ namespace Task2.UnitTests
             shoes.Fill(8);
             Gamester player = new Gamester();
             List<Gamester> testPlayers = new List<Gamester> { player };
-            int[,] testCondition = new int[1, 4] { { 0, 0, 0, 0 } };
+            PlayerMove[,] testCondition = new PlayerMove[1, 4] { { 0, 0, 0, 0 } };
             for (int j = 0; j < 3; j++)
-                for (int i = 0; i <= 4; i++)
+                foreach (PlayerMove move in Enum.GetValues(typeof(PlayerMove)))
                 {
-                    testCondition[0, j] = i;
+                    if (move == PlayerMove.Show) continue;
+                    testCondition[0, j] = move;
                     player.ChangeBank(1000);
                     player.ReceiveCard(new Card(CardSuit.Clubs, (CardRank)10), j);
-                    for (int k = 0; k < 4; k++) player.SetBet(k, i * 100);
+                    for (int k = 0; k < 4; k++) player.SetBet(k, (int)move * 100);
 
-                    switch (i)
+                    switch (move)
                     {
-                        case 0:
+                        case PlayerMove.Pass:
                             {
 
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.ScanHand(j).Count != 1 ||
-                                     player.GetBet(j) != i * 100) Assert.Fail();
+                                if (player[j].Count != 1 ||
+                                     player.GetBet(j) != (int)move * 100) Assert.Fail("1");
                                 break;
                             }
-                        case 1:
+                        case PlayerMove.Call:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.ScanHand(j).Count != 2 ||
-                                     player.GetBet(j) != i * 100) Assert.Fail();
+                                if (player[j].Count != 2 ||
+                                     player.GetBet(j) != (int)move * 100) Assert.Fail("2");
                                 break;
                             }
-                        case 2:
+                        case PlayerMove.Double:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.ScanHand(j).Count != 2 ||
-                                     player.GetBet(j) != i * 200) Assert.Fail();
+                                if (player[j].Count != 2 ||
+                                     player.GetBet(j) != (int)move * 200) Assert.Fail("3");
 
                                 break;
                             }
-                        case 3:
+                        case PlayerMove.Split:
                             {
                                 player.ReceiveCard(new Card(CardSuit.Diamonds, (CardRank)10), j);
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.GetBet(j + 1) != i * 100 ||
-                                    player.ScanHand(j)[0] == new Card(CardSuit.Clubs, (CardRank)10) ||
-                                    player.ScanHand(j + 1)[0] == new Card(CardSuit.Diamonds, (CardRank)10) ||
-                                    player.ScanHand(j).Count != player.ScanHand(j + 1).Count) Assert.Fail();
+                                if (player.GetBet(j + 1) != (int)move * 100 ||
+                                    player[j][0] == new Card(CardSuit.Clubs, (CardRank)10) ||
+                                    player[j+1][0] == new Card(CardSuit.Diamonds, (CardRank)10) ||
+                                    player[j].Count != player[j+1].Count) Assert.Fail("4");
                                 break;
                             }
-                        default:
+                        case PlayerMove.Surrender:
                             {
                                 dealer.Ask(testPlayers, shoes, testCondition);
-                                if (player.ScanHand(j).Count != 1 ||
-                                     player.GetBet(j) != 0) Assert.Fail();
+                                if (player[j].Count != 1 ||
+                                     player.GetBet(j) != 0) Assert.Fail("5");
                                 break;
                             }
 
@@ -459,7 +459,7 @@ namespace Task2.UnitTests
         {
             Dealer dealer = new Dealer();
             List<Gamester> gamesters = new List<Gamester>(10);
-            int[,] condition = new int[10, 4];
+            PlayerMove[,] condition = new PlayerMove[10, 4];
 
             Shoes shoes = new Shoes();
             shoes.Fill(8);
@@ -473,7 +473,7 @@ namespace Task2.UnitTests
                 dealer.InitialDistribution(gamesters, shoes, condition);
                 try
                 {
-                    Game.ShowTable(dealer.ScanHand(0), gamesters);
+                    Game.ShowTable(dealer[0], gamesters);
                 }
                 catch (Exception)
                 {

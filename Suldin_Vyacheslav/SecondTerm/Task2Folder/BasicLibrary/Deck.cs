@@ -14,15 +14,13 @@ namespace BasicLibrary
         {
             for (int i = 0; i < 52; i++)
             {
-                cards[i] = new Card((CardSuit)(i % 4),(CardRank)(i % 13));
+                cards[i] = new Card((CardSuit)(i % 4 + 1),(CardRank)(i % 13 + 1));
             }
         }
         
-        public Card[] GetCards()
+        public Card this[int index]
         {
-            Card[] cardsCopy = new Card[cards.Length];
-            Array.Copy(cards,cardsCopy, cards.Length);
-            return cardsCopy;
+            get => cards[index];
         }
         public void Mix()
         {

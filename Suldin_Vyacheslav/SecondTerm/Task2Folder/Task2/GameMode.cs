@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BasicLibrary
+namespace Task2
 {
-    public enum CardSuit
+    public enum GameMode
     {
-        Diamonds = 1,
-        Hearts,
-        Clubs,
-        Spades
+        Task = 1,
+        WithBots = 2,
+        Solo = 3
     }
 }

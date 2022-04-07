@@ -9,13 +9,13 @@ namespace BasicLibrary
     public class Dealer : Player
     {
         
-        public void InitialDistribution(List<Gamester> gamesters, Shoes shoes, int[,] condition)
+        public void InitialDistribution(List<Gamester> gamesters, Shoes shoes, PlayerMove[,] condition)
         {
             for (int k = 0; k < 2; k++)
                 for (int i = 0; i < gamesters.Count; i++)
                 {
                     this.GiveCard(gamesters[i], 0, shoes);
-                    condition[i , 0] = 1;
+                    condition[i , 0] = PlayerMove.Call;
                 }
                     
             this.GiveCard(this, 0, shoes);
@@ -32,7 +32,7 @@ namespace BasicLibrary
                     break;
                 }
             }
-            if (show) Game.ShowTable(this.ScanHand(0), gamesters);
+            if (show) Game.ShowTable(this[0], gamesters);
             for (int i = 0; i < gamesters.Count; i++)
                 for (int j = 0; j < 4 && gamesters[i].GetBet(j) != 0 ; j++)
                 {
@@ -108,53 +108,53 @@ namespace BasicLibrary
             this.Discard();
         }
 
-        public bool Ask(List<Gamester> gamesters, Shoes shoes, int[,] condition )
+        public bool Ask(List<Gamester> gamesters, Shoes shoes, PlayerMove[,] condition )
         {
             
             for (int i = 0; i < gamesters.Count; i++)
                 for (int j = 0; j < 4 && gamesters[i].GetBet(j) != 0; j++)
                 {
                     if (gamesters[i].GetSum(j) >= 21 || gamesters[i].IsBlackJack(j))
-                        condition[i, j] = 0;
+                        condition[i, j] = PlayerMove.Pass;
 
-                    if (condition[i, j] != 0)
+                    if (condition[i, j] != PlayerMove.Pass)
                     {
-                        condition[i, j] = gamesters[i].Answer(j,this.ScanHand(0), gamesters);
+                        condition[i, j] = gamesters[i].Answer(j,this[0], gamesters);
                         switch (condition[i, j])
                         {
-                            case 0: //stand
+                            case PlayerMove.Pass:
                                 {
                                     break;
                                 }
-                            case 1: //call
+                            case PlayerMove.Call:
                                 {
                                     this.GiveCard(gamesters[i], j, shoes);
                                     break;
                                 }
-                            case 2: //double
+                            case PlayerMove.Double:
                                 {
                                     gamesters[i].ChangeBank(-gamesters[i].GetBet(j));
                                     gamesters[i].SetBet(j, gamesters[i].GetBet(j) * 2);
                                     this.GiveCard(gamesters[i], j, shoes);
-                                    condition[i, j] = 0;
+                                    condition[i, j] = PlayerMove.Pass;
                                     break;
                                 }
-                            case 3: //split
+                            case PlayerMove.Split:
                                 {
                                     for (int k = j + 1; k < 4; k++)
-                                        if (condition[i, k] == 0)
+                                        if (condition[i, k] == PlayerMove.Pass)
                                         {
                                             gamesters[i].SplitCards(j, k);
-                                            condition[i, k] = 1;
+                                            condition[i, k] = PlayerMove.Call;
                                             this.GiveCard(gamesters[i], j, shoes);
                                             this.GiveCard(gamesters[i], k, shoes);
                                             break;
                                         }
                                     break;
                                 }
-                            default: //surrender
+                            case PlayerMove.Surrender:
                                 {
-                                    condition[i, j] = 0;
+                                    condition[i, j] = PlayerMove.Pass;
                                     gamesters[i].ChangeBank(gamesters[i].GetBet(j) / 2);
                                     this.CollectBets(gamesters[i], j);
                                     break;
@@ -164,7 +164,7 @@ namespace BasicLibrary
                     }
 
                     else if (gamesters[i].GetSum(j) + 10 < 21 &&
-                        gamesters[i].ScanHand(j).Exists(x => x.GetCardInfo()[0] == 1))
+                        gamesters[i][j].Exists(x => x.GetCardValue() == 1))
                     {
                         gamesters[i].ConfirmBlackJack(j);
                     }
@@ -180,13 +180,12 @@ namespace BasicLibrary
         }
         public void GiveBlackJack(Player to, int hand)
         {
-            if (to.ScanHand(hand).Count == 0)
+            if (to[hand].Count == 0)
             {
                 to.ReceiveCard(new Card(CardSuit.Clubs, CardRank.King), hand);
                 to.ReceiveCard(new Card(CardSuit.Clubs, CardRank.Ace), hand);
             }
         }
-
         public void CollectBets(Gamester gamester, int hand)
         {
             gamester.ReturnBet(hand);

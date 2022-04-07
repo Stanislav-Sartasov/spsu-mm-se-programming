@@ -24,11 +24,10 @@ namespace BasicLibrary
         {
             return sum[hand];
         }
-        public List<Card> ScanHand(int hand)
+
+        public List<Card> this[int index]
         {
-            List<Card> handCopy = new List<Card>();
-            handCopy.AddRange(hands[hand]);
-            return handCopy;
+            get => hands[index];
         }
         public int GetHandsLenght()
         {
@@ -37,12 +36,12 @@ namespace BasicLibrary
         public void ReceiveCard(Card card, int hand)
         {
             this.hands[hand].Add(card);
-            this.sum[hand] += card.GetCardInfo()[2];
+            this.sum[hand] += card.GetCardValue();
         }
 
         public bool IsBlackJack(int hand)
         {
-            if (sum[hand] == 11 && hands[hand].Exists(x => x.GetCardInfo()[0] == 1) && hands[hand].Count == 2)
+            if (sum[hand] == 11 && hands[hand].Exists(x => x.GetCardValue() == 1) && hands[hand].Count == 2)
             {
                 return true;
             }

@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace BasicLibrary
 {
-    public enum CardSuit
+    public enum AnswerType
     {
-        Diamonds = 1,
-        Hearts,
-        Clubs,
-        Spades
+        Yes,
+        No
     }
 }

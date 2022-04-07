@@ -13,15 +13,15 @@ namespace BasicLibrary
     
     public class Card
     {
-        private int suit;
-        private int rank;
+        private CardSuit suit;
+        private CardRank rank;
         private int value;
 
         public Card(CardSuit suit, CardRank rank)
         {
-            this.suit = (int)suit + 1;
-            this.rank = (int)rank + 1;
-            value = CalculateValue(this.rank);
+            this.suit = suit;
+            this.rank = rank;
+            value = CalculateValue((int)rank);
         }
         public int CalculateValue(int rank)
         {
@@ -44,10 +44,9 @@ namespace BasicLibrary
             return !(firstCard == secondCard);
         }
 
-        public int[] GetCardInfo()
+        public int GetCardValue()
         {
-            int[] cardInfo = new int[3] { this.rank, this.suit, this.value };
-            return cardInfo;
+            return value;
         }
     }
 }

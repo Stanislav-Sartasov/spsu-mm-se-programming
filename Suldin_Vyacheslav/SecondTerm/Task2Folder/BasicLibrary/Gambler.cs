@@ -12,21 +12,21 @@ namespace BasicLibrary
 		{
 			this.bank = bank;
 		}
-		public override int Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
+		public override PlayerMove Answer(int hand, List<Card> dealerHand, List<Gamester> gamesters)
 		{
 
-			int answer = Game.GetCoorectAnswer(0,5);
+			PlayerMove answer = GetCorectAnswer<PlayerMove>();
 
-			if (answer == 5)
+			if (answer == PlayerMove.Show)
 			{
 				Console.WriteLine($"Current hand is {hand}");
 				Game.ShowTable(dealerHand, gamesters);
 				return this.Answer(hand, dealerHand, gamesters);
 			}
 
-			if ((answer == 2 && this.bank < this.bets[hand]) ||
-				(answer == 3 && 
-				(this.ScanHand(hand).Count != 2 || this.ScanHand(hand)[0].GetCardInfo()[2] != this.ScanHand(hand)[1].GetCardInfo()[2])))
+			if ((answer == PlayerMove.Double && this.bank < this.bets[hand]) ||
+				(answer == PlayerMove.Split && 
+				(this[hand].Count != 2 || this[hand][0].GetCardValue() != this[hand][1].GetCardValue())))
 				{
 					Console.WriteLine("Not available answer!");
 					return this.Answer(hand, dealerHand, gamesters);
@@ -35,26 +35,53 @@ namespace BasicLibrary
 			{
 				Console.WriteLine("Answer taken	");
 				return answer;
-
 			}
 		}
 		public override bool IsNeedResult()
 		{
 			Console.WriteLine($"Your current bank: {this.bank}");
 			Console.WriteLine("Need result?");
-			if (Game.GetCoorectAnswer(0, 1) == 1)
+			if (GetCorectAnswer<AnswerType>() == AnswerType.Yes)
 				return true;
 			else return false;
 
 		}
+
+		public static enumType GetCorectAnswer<enumType>()
+			where enumType : Enum
+		{
+			while (true)
+			{
+				string answer = Console.ReadLine();
+
+				foreach (enumType key in Enum.GetValues(typeof(enumType)))
+				{
+					if (String.Equals(answer, key.ToString()))
+					{
+						return key;
+					}
+				}
+				Console.WriteLine("Wrong input");
+			}
+		}
+
+		public static int GetCorectInt(int bottom, int top)
+		{
+			int answer;
+			while (!int.TryParse(Console.ReadLine(), out answer) || answer > top || answer < bottom)
+				Console.WriteLine($"Error, enter {bottom}-{top}");
+			return answer;
+		}
+
 		public override void MakeBet(int hand)
 		{
 			Console.WriteLine($"Enter your bet. Bank : {this.bank}");
-			int bet = Game.GetCoorectAnswer(0,this.bank);
+			int bet = GetCorectInt(0,this.bank);
 
 			bets[hand] = bet;
 			this.bank -= bet;
 
 		}
+
 	}
 }
