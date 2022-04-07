@@ -1,8 +1,8 @@
-import bots.MartingalePlayer
-import bots.RndDozenPlayer
-import bots.RndNumberPlayer
 import roulette.APlayer
 import roulette.Game
+import roulette.bots.MartingalePlayer
+import roulette.bots.RndDozenPlayer
+import roulette.bots.RndNumberPlayer
 
 fun main() {
     val startBalance = 1000
@@ -23,7 +23,7 @@ fun main() {
             RndDozenPlayer("Rnd Dozen", startBalance),
             MartingalePlayer("Martingale", startBalance)
         )
-        roulette.players.clear()
+        roulette.removeAllPlayers()
         bots.forEach { roulette.addPlayer(it) }
         roulette.play(turns)
         bots.forEachIndexed { index, aPlayer ->

@@ -11,23 +11,28 @@ repositories {
 }
 
 dependencies {
-    implementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation(kotlin("test"))
+
+    implementation(project(":game"))
+    implementation(project(":bots:RndNumberBot"))
+    implementation(project(":bots:RndDozenBot"))
+    implementation(project(":bots:MartingaleBot"))
 }
 
-//tasks.koverHtmlReport {
-//    isEnabled = true
-//    htmlReportDir.set(layout.buildDirectory.dir("kover-report/html-result"))
-//}
-//
-//tasks.koverVerify {
-//    rule {
-//        name = "Minimal line coverage rate in percent"
-//        bound {
-//            minValue = 80
-//        }
-//    }
-//}
+tasks.koverHtmlReport {
+    isEnabled = true
+    htmlReportDir.set(layout.buildDirectory.dir("kover-report/html-result"))
+}
+
+tasks.koverVerify {
+    rule {
+        name = "Minimal line coverage rate in percent"
+        bound {
+            minValue = 75
+        }
+    }
+}
 
 tasks.test {
     useJUnitPlatform()
