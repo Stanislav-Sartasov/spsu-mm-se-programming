@@ -21,7 +21,7 @@ namespace Task_1.Core.Image
 		}
 
 		private int Offset(int i, int j) =>
-			pixelsOffset + (i * Width + j) * (bitsPerPixel / 8);
+			pixelsOffset + (i * Width + j) * (bitsPerPixel / 8) + Width % 4 * i;
 
 		public Bitmap(string filename) : this(File.ReadAllBytes(filename)) { }
 
