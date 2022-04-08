@@ -1,0 +1,16 @@
+{
+  "reports": [ 
+        {"ic": "C:\\Users\\132\\IdeaProjects\\Vector\\build\\kover\\test.ic"}
+    ], 
+  "html": "C:\\Users\\132\\IdeaProjects\\Vector\\build\\reports\\kover\\html",
+  "modules": [
+    {
+      "output": [
+        "C:\\Users\\132\\IdeaProjects\\Vector\\build\\classes\\kotlin\\main"
+      ],
+      "sources": [
+        "C:\\Users\\132\\IdeaProjects\\Vector\\src\\main\\kotlin"
+      ]
+    }
+  ]
+}

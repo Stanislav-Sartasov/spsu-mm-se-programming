@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="vectorTests.VectorTests" tests="25" skipped="0" failures="0" errors="0" timestamp="2022-04-08T02:37:40" hostname="DESKTOP-GP8BOQD" time="0.549">
+  <properties/>
+  <testcase name="constructorTest()" classname="vectorTests.VectorTests" time="0.43"/>
+  <testcase name="reserveTest()" classname="vectorTests.VectorTests" time="0.013"/>
+  <testcase name="emptyTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="atTest()" classname="vectorTests.VectorTests" time="0.015"/>
+  <testcase name="atOutOfBoundsTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="nullEqualsTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="popBackEmptyTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="notEmptyTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="clearTest()" classname="vectorTests.VectorTests" time="0.041"/>
+  <testcase name="findTest()" classname="vectorTests.VectorTests" time="0.0"/>
+  <testcase name="pushBackTest()" classname="vectorTests.VectorTests" time="0.007"/>
+  <testcase name="getTest()" classname="vectorTests.VectorTests" time="0.003"/>
+  <testcase name="notVectorEqualsTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="frontTest()" classname="vectorTests.VectorTests" time="0.002"/>
+  <testcase name="backEmptyTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="equalsTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="noElementFindTest()" classname="vectorTests.VectorTests" time="0.0"/>
+  <testcase name="iteratorTest()" classname="vectorTests.VectorTests" time="0.0"/>
+  <testcase name="toStringTest()" classname="vectorTests.VectorTests" time="0.002"/>
+  <testcase name="notEqualTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="toListTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="frontEmptyTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="popBackTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <testcase name="resizeTest()" classname="vectorTests.VectorTests" time="0.002"/>
+  <testcase name="backTest()" classname="vectorTests.VectorTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
