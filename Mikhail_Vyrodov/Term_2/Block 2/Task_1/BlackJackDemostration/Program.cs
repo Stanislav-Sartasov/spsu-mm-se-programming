@@ -26,10 +26,10 @@ namespace BlackJackDemostration
             Decks playingDecks = new Decks();
             playingDecks.FillCards();
             double win = 0;
-            Dealer playingDealer = new Dealer(playingDecks, 1600, botsStrategy); // 1600 is initial players money
+            BlackjackGame game = new BlackjackGame(playingDecks, 1600, botsStrategy); // 1600 is initial players money
             for (int i = 0; i < 40; i++)
             {
-                win += playingDealer.Game();
+                win += game.Game();
             }
             Console.WriteLine("Approximate sum with 40 played rounds is {0}", win / 40.0);
             Console.WriteLine("Press enter button to exit");

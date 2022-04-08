@@ -49,10 +49,56 @@ namespace BotsLibrary
             {
                 FirstHand[i] = 0;
             }
+            SecondHand = new byte[21];
+            for (int i = 0; i < 21; i++)
+            {
+                SecondHand[i] = 0;
+            }
             FirstHand[0] = PlayingDecks.GetCard();
             FirstHand[1] = PlayingDecks.GetCard();
             FirstSum = 0;
             SecondSum = 0;
+        }
+
+        public void ClearAttrs()
+        {
+            for (int i = 0; i < 21; i++)
+            {
+                PlayersDecisions[i] = 0;
+            }
+            for (int i = 2; i < 21; i++)
+            {
+                FirstHand[i] = 0;
+            }
+            for (int i = 0; i < 21; i++)
+            {
+                SecondHand[i] = 0;
+            }
+            FirstSum = 0;
+            SecondSum = 0;
+            firstDecision = true;
+            aceFlag = false;
+            isNotSplitted = true;
+            firstHandDoublingFlag = true;
+            secondHandDoublingFlag = true;
+            DecisionsCounter = 0;
+            BjFlag = 0;
+            SurrFlag = false;
+        }
+
+        public void FillAttrs(byte dealersFirst, uint money, uint wager = 0)
+        {
+            Money = money;
+            FirstWager = wager;
+            Money -= FirstWager;
+            dealerCard = dealersFirst;
+            FirstHand[0] = PlayingDecks.GetCard();
+            FirstHand[1] = PlayingDecks.GetCard();
+        }
+
+        public void FirstPlayersTurn()
+        {
+            PlayersTurn(FirstHand);
         }
 
         protected virtual void Hit(byte[] hand, byte handFlag = 0)
@@ -69,7 +115,7 @@ namespace BotsLibrary
             }
             PlayersTurn(hand, handFlag);
         }
-
+        
         protected virtual void Doubled(byte[] hand, byte handFlag = 0)
         {
             if (handFlag == 0)
@@ -92,11 +138,6 @@ namespace BotsLibrary
 
         protected void SplitCards()
         {
-            SecondHand = new byte[21];
-            for (int i = 1; i < 21; i++)
-            {
-                SecondHand[i] = 0;
-            }
             SecondHand[0] = FirstHand[1];
             FirstHand[1] = 0;
             SecondWager = FirstWager;
@@ -118,6 +159,8 @@ namespace BotsLibrary
             DecisionsCounter += 1;
         }
 
+        // handFlag = 0 if we play with first hand, 1 if we play with second hand.
+        // It is made to make correct wagers on both hands.
         public void PlayersTurn(byte[] hand, byte handFlag = 0)
         {
             uint sum = 0;
