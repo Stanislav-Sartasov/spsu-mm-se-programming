@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Bots;
 using Roulette;
-using Bots;
+using System;
 
 namespace Casino
 {
@@ -14,10 +14,10 @@ namespace Casino
 			RouletteTable tableOne = new RouletteTable();
 
 			Player bot;
-			bot = new BotLabouchere("BotLabouchere", 1000);
+			bot = new BotDAlembert("BotDAlembert", 1000);
 			tableOne.AddPlayer(bot);
 
-			bot = new BotDAlembert("BotDAlembert", 1000);
+			bot = new BotLabouchere("BotLabouchere", 1000);
 			tableOne.AddPlayer(bot);
 
 			bot = new BotMartingale("BotMartingale", 1000);

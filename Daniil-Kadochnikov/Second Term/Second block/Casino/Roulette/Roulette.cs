@@ -8,7 +8,7 @@ namespace Roulette
 		public readonly Cell[] Numbers;
 		public List<Player> Players { get; private set; }
 		public List<Player> Observers { get; private set; }
-		private List<Bet> Bets;
+		private List<Bet> bets;
 
 		public RouletteTable()
 		{
@@ -41,24 +41,26 @@ namespace Roulette
 
 		public void Spin()
 		{
-			Bets = new List<Bet>();
+			bets = new List<Bet>();
 			for (int x = 0; x < Players.Count; x++)
 			{
-				if (Players[x].Flag == 0)
+				if (Players[x].flag == 0)
 				{
 					Player playerObserver = Players[x];
 					Players.RemoveAt(x);
 					Observers.Add(playerObserver);
-					continue;
+					x--;
 				}
+				else
+				{
+					List<Bet> playersBets = Players[x].MakeBet(x);
 
-				List<Bet> playersBets = Players[x].MakeBet(x);
+					if (playersBets == null)
+						continue;
 
-				if (playersBets == null)
-					continue;
-
-				foreach (Bet oneBet in playersBets)
-					Bets.Add(oneBet);
+					foreach (Bet oneBet in playersBets)
+						bets.Add(oneBet);
+				}
 			}
 
 			Random rnd = new Random();
@@ -85,20 +87,20 @@ namespace Roulette
 			else if (Numbers[number].Dozen == 3)
 				wins.Add("dozen 3");
 
-			for (int x = 0; x < Bets.Count; x++)
+			for (int x = 0; x < bets.Count; x++)
 			{
-				if (wins.Contains(Bets[x].BetCell))
+				if (wins.Contains(bets[x].BetCell))
 				{
-					if (Bets[x].BetCell == wins[0])
-						Players[Bets[x].Player].Balance += Bets[x].Money * 36;
-					else if (Bets[x].BetCell == wins[1] || Bets[x].BetCell == wins[2])
-						Players[Bets[x].Player].Balance += Bets[x].Money * 2;
+					if (bets[x].BetCell == wins[0])
+						Players[bets[x].Player].Balance += bets[x].Money * 36;
+					else if (bets[x].BetCell == wins[1] || bets[x].BetCell == wins[2])
+						Players[bets[x].Player].Balance += bets[x].Money * 2;
 					else
-						Players[Bets[x].Player].Balance += Bets[x].Money * 3;
+						Players[bets[x].Player].Balance += bets[x].Money * 3;
 
-					Players[Bets[x].Player].betsWin++;
+					Players[bets[x].Player].BetsWin++;
 				}
-				Players[Bets[x].Player].profit = Players[Bets[x].Player].Balance - Players[Bets[x].Player].Deposit;
+				Players[bets[x].Player].Profit = Players[bets[x].Player].Balance - Players[bets[x].Player].Deposit;
 			}
 		}
 

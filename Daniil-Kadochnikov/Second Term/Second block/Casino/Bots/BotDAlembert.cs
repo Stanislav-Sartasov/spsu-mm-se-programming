@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Roulette;
+using System;
 using System.Collections.Generic;
-using Roulette;
 
 namespace Bots
 {
@@ -33,7 +33,7 @@ namespace Bots
 			if (Balance == 0)
 			{
 				Console.WriteLine("BotDAlembert lost all his money.");
-				Flag = 0;
+				flag = 0;
 				return null;
 			}
 
@@ -49,7 +49,7 @@ namespace Bots
 			}
 			else
 			{
-				if (wins < betsWin)
+				if (wins < BetsWin)
 				{
 					wins++;
 
@@ -60,7 +60,7 @@ namespace Bots
 					if (money > Balance)
 					{
 						Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
-						Flag = 0;
+						flag = 0;
 						return null;
 					}
 
@@ -74,7 +74,7 @@ namespace Bots
 					if (money > Balance)
 					{
 						Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
-						Flag = 0;
+						flag = 0;
 						return null;
 					}
 

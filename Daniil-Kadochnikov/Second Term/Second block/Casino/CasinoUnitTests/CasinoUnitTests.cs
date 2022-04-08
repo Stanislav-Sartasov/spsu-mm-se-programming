@@ -1,17 +1,12 @@
+using Bots;
 using NUnit.Framework;
 using Roulette;
-using Bots;
 using System.Collections.Generic;
 
 namespace CasinoUnitTests
 {
 	public class Tests
 	{
-		[SetUp]
-		public void Setup()
-		{
-		}
-
 		private RouletteTable tableOne;
 
 		[Test]
@@ -63,20 +58,23 @@ namespace CasinoUnitTests
 		{
 			tableOne = new RouletteTable();
 
-			Player playerTwo = new BotDAlembert("TestBotDAlembert", 27000);
-			tableOne.AddPlayer(playerTwo);
-			Assert.AreEqual(tableOne.Players[0], playerTwo);
+			Player playerOne = new BotDAlembert("TestBotDAlembert", 27000);
+			tableOne.AddPlayer(playerOne);
+			Assert.AreEqual(tableOne.Players[0], playerOne);
 			Assert.AreEqual(tableOne.Players[0].Deposit, 27000);
+			playerOne.GetInfo();
 
-			Player playerThree = new BotLabouchere("TestBotLabouchere", 3000);
-			tableOne.AddPlayer(playerThree);
-			Assert.AreEqual(tableOne.Players[1], playerThree);
+			Player playerTwo = new BotLabouchere("TestBotLabouchere", 3000);
+			tableOne.AddPlayer(playerTwo);
+			Assert.AreEqual(tableOne.Players[1], playerTwo);
 			Assert.AreEqual(tableOne.Players[1].Deposit, 3000);
+			playerTwo.GetInfo();
 
-			Player playerFour = new BotMartingale("TestBotMartingale", 7000);
-			tableOne.AddPlayer(playerFour);
-			Assert.AreEqual(tableOne.Players[2], playerFour);
+			Player playerThree = new BotMartingale("TestBotMartingale", 7000);
+			tableOne.AddPlayer(playerThree);
+			Assert.AreEqual(tableOne.Players[2], playerThree);
 			Assert.AreEqual(tableOne.Players[2].Deposit, 7000);
+			playerThree.GetInfo();
 		}
 
 		[Test]
@@ -86,20 +84,18 @@ namespace CasinoUnitTests
 			Player playerOne = new BotDAlembert("TestBotDAlembertOne", 10000);
 			tableOne.AddPlayer(playerOne);
 
-			for(int x = 0; x < 39; x++)
-			{
-				tableOne.Spin();
-			}
+
+			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotDAlembertOne");
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 39);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 40);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);
 		}
 
@@ -110,21 +106,17 @@ namespace CasinoUnitTests
 			Player playerOne = new BotLabouchere("TestBotLabouchereOne", 20000);
 			tableOne.AddPlayer(playerOne);
 
-			for (int x = 0; x < 25; x++)
-			{
-				tableOne.Spin();
-			}
-			tableOne.GetInfoAboutPlayers();
+			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotLabouchereOne");
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 25);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 26);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);
 		}
 
@@ -135,21 +127,17 @@ namespace CasinoUnitTests
 			Player playerOne = new BotMartingale("TestBotMartingaleOne", 3000);
 			tableOne.AddPlayer(playerOne);
 
-			for (int x = 0; x < 13; x++)
-			{
-				tableOne.Spin();
-			}
-			tableOne.GetInfoAboutPlayers();
+			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotMartingaleOne");
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 13);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
 			tableOne.GetInfoAboutPlayers();
 
-			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 14);
+			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);
 		}
 
