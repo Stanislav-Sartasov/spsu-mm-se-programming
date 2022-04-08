@@ -1,4 +1,4 @@
-﻿namespace Task5
+﻿namespace WebLibrary
 {
     public enum ErrorType
     {
@@ -20,5 +20,6 @@
         UnsupportedMediaType = 415,
         RequestedRangeNotSatisfiable = 416,
         ExpectationFailed = 417,
+        BadGateway = 502,
     }
 }

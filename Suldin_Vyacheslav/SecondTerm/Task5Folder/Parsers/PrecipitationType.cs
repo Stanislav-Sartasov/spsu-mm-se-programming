@@ -1,4 +1,4 @@
-﻿namespace Task5
+﻿namespace Parsers
 {
     public enum PrecipitationType
     {
