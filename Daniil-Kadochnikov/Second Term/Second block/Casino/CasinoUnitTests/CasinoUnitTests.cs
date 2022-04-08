@@ -62,19 +62,19 @@ namespace CasinoUnitTests
 			tableOne.AddPlayer(playerOne);
 			Assert.AreEqual(tableOne.Players[0], playerOne);
 			Assert.AreEqual(tableOne.Players[0].Deposit, 27000);
-			playerOne.GetInfo();
+			playerOne.ShowInfo();
 
 			Player playerTwo = new BotLabouchere("TestBotLabouchere", 3000);
 			tableOne.AddPlayer(playerTwo);
 			Assert.AreEqual(tableOne.Players[1], playerTwo);
 			Assert.AreEqual(tableOne.Players[1].Deposit, 3000);
-			playerTwo.GetInfo();
+			playerTwo.ShowInfo();
 
 			Player playerThree = new BotMartingale("TestBotMartingale", 7000);
 			tableOne.AddPlayer(playerThree);
 			Assert.AreEqual(tableOne.Players[2], playerThree);
 			Assert.AreEqual(tableOne.Players[2].Deposit, 7000);
-			playerThree.GetInfo();
+			playerThree.ShowInfo();
 		}
 
 		[Test]
@@ -86,14 +86,14 @@ namespace CasinoUnitTests
 
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotDAlembertOne");
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);
@@ -107,14 +107,14 @@ namespace CasinoUnitTests
 			tableOne.AddPlayer(playerOne);
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotLabouchereOne");
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);
@@ -128,14 +128,14 @@ namespace CasinoUnitTests
 			tableOne.AddPlayer(playerOne);
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].Name, "TestBotMartingaleOne");
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 1);
 			int oldBalance = tableOne.Players[0].Balance;
 
 			tableOne.Spin();
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 
 			Assert.AreEqual(tableOne.Players[0].AmountOfBets, 2);
 			Assert.AreNotEqual(tableOne.Players[0].Balance, oldBalance);

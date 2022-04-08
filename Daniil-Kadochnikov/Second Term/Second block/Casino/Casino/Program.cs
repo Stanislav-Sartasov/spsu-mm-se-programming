@@ -13,21 +13,15 @@ namespace Casino
 
 			RouletteTable tableOne = new RouletteTable();
 
-			Player bot;
-			bot = new BotDAlembert("BotDAlembert", 1000);
-			tableOne.AddPlayer(bot);
-
-			bot = new BotLabouchere("BotLabouchere", 1000);
-			tableOne.AddPlayer(bot);
-
-			bot = new BotMartingale("BotMartingale", 1000);
-			tableOne.AddPlayer(bot);
+			tableOne.AddPlayer(new BotDAlembert("BotDAlembert", 1000));
+			tableOne.AddPlayer(new BotLabouchere("BotLabouchere", 1000));
+			tableOne.AddPlayer(new BotMartingale("BotMartingale", 1000));
 
 			for (int x = 0; x < 40; x++)
 				tableOne.Spin();
 
 			Console.WriteLine("");
-			tableOne.GetInfoAboutPlayers();
+			tableOne.ShowInfoAboutPlayers();
 		}
 	}
 }

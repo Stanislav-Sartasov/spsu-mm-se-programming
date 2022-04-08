@@ -104,15 +104,15 @@ namespace Roulette
 			}
 		}
 
-		public void GetInfoAboutPlayers()
+		public void ShowInfoAboutPlayers()
 		{
 			for (int x = 0; x < Players.Count; x++)
 			{
-				Players[x].GetInfo();
+				Players[x].ShowInfo();
 			}
 			for (int x = 0; x < Observers.Count; x++)
 			{
-				Observers[x].GetInfo();
+				Observers[x].ShowInfo();
 			}
 		}
 	}

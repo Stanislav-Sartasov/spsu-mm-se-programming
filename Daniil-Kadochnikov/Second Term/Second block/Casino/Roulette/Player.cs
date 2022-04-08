@@ -14,16 +14,8 @@ namespace Roulette
 		protected internal int flag;
 		private static string[] PossibleBets;
 
-		public Player(string name, int deposit)
+		static Player()
 		{
-			Name = name;
-			Deposit = deposit;
-			Balance = deposit;
-			Profit = 0;
-			AmountOfBets = 0;
-			BetsWin = 0;
-			flag = 1;
-
 			PossibleBets = new string[44];
 			for (int x = 0; x < 37; x++)
 			{
@@ -38,9 +30,20 @@ namespace Roulette
 			PossibleBets[43] = "dozen 3";
 		}
 
+		public Player(string name, int deposit)
+		{
+			Name = name;
+			Deposit = deposit;
+			Balance = deposit;
+			Profit = 0;
+			AmountOfBets = 0;
+			BetsWin = 0;
+			flag = 1;
+		}
+
 		public abstract List<Bet> MakeBet(int player);
 
-		public void GetInfo()
+		public void ShowInfo()
 		{
 			Console.WriteLine("Player {0} made a deposit of {1} units.\nCurrent balance is {2}.", Name, Deposit, Balance);
 			Console.WriteLine("Current Profit is {0}. {1} bets were made and {2} of them won.", Profit, AmountOfBets, BetsWin);
