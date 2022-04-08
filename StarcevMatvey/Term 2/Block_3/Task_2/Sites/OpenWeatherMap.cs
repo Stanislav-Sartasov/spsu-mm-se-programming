@@ -1,5 +1,6 @@
 ﻿using ISites;
 using Requests;
+using Tools;
 using static System.Console;
 
 namespace Sites
@@ -19,7 +20,7 @@ namespace Sites
             new List<string> { "Sec-Fetch-Mode", "cors" },
             new List<string> { "Sec-Fetch-Site", "same-origin" }
         };
-        private GetRequest request;
+        private IGetRequest request;
         readonly List<string> patternsForPasrsing = new List<string>
         {
             @"(?<=temp.:)-?\d+\.\d+",
@@ -39,24 +40,38 @@ namespace Sites
             }
         }
 
-        public void ShowWeather()
+        // only for testing
+        public OpenWeatherMap(IGetRequest getRequest)
+        {
+            request = getRequest;
+        }
+
+        public Weather.Weather GetWeather()
         {
             request.Run();
             if (!request.Connect)
             {
                 WriteLine("Openweathermap is down.");
-                return;
+                return null;
             }
 
-            Weather.Weather weather = new Parser.Parser(request.Response).Parse(patternsForPasrsing);
-            WriteLine("Openweathermap:");
-            WriteLine($"Temp in C°: {weather.TempC}");
-            WriteLine($"Temp in F°: {weather.TempF}");
-            WriteLine($"Clouds in %: {weather.Clouds}");
-            WriteLine($"Humidity in %: {weather.Humidity}");
-            WriteLine($"Wind speed in m/s: {weather.WindSpeed}");
-            WriteLine($"Wind degree in °: {(Int32.Parse(weather.WindDegree) + 180) % 360}");
-            WriteLine($"Fallout: {weather.FallOut}");
+            Weather.Weather weather = new Parser(request.Response).Parse(patternsForPasrsing);
+            Weather.Weather weatherWithPara = new Weather.Weather(
+                weather.TempC + "°C",
+                weather.TempF + "°F",
+                weather.Clouds + "%",
+                weather.Humidity + "%",
+                weather.WindSpeed + " m/s",
+                weather.WindDegree != "No data" ? (Int32.Parse(weather.WindDegree) + 180) % 360 + "°": "No data",
+                weather.FallOut);
+            return weatherWithPara;
+        }
+
+        public void ShowWeather()
+        {
+            Painter painter = new Painter("Openweathermap");
+            Weather.Weather weather = GetWeather();
+            painter.DrawWeather(weather);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ISites;
 using Requests;
+using Tools;
 using static System.Console;
 
 namespace Sites
@@ -21,7 +22,7 @@ namespace Sites
             new List<string> { "Sec-Fetch-User", "?1" },
             new List<string> { "Upgrade-Insecure-Requests", "1" }
         };
-        private GetRequest request;
+        private IGetRequest request;
         readonly List<string> patternsForPasrsing = new List<string>
         {
             @"(?<=temperature.:)\d+\.\d+",
@@ -41,24 +42,38 @@ namespace Sites
             }
         }
 
-        public void ShowWeather()
+        // only for testing
+        public TomorrowIo(IGetRequest getRequest)
+        {
+            request = getRequest;
+        }
+
+        public Weather.Weather GetWeather()
         {
             request.Run();
             if (!request.Connect)
             {
                 WriteLine("Tomorrow.io is down.");
-                return;
+                return null;
             }
 
-            Weather.Weather weather = new Parser.Parser(request.Response).Parse(patternsForPasrsing);
-            WriteLine("Tomorrow.io:");
-            WriteLine($"Temp in C°: {weather.TempC}");
-            WriteLine($"Temp in F°: {weather.TempF}");
-            WriteLine($"Clouds in %: {weather.Clouds}");
-            WriteLine($"Humidity in %: {weather.Humidity}");
-            WriteLine($"Wind speed in km/h: {weather.WindSpeed}");
-            WriteLine($"Wind degree in °: {Int32.Parse(weather.WindDegree) % 360}");
-            WriteLine($"Fallout: {weather.FallOut}");
+            Weather.Weather weather = new Parser(request.Response).Parse(patternsForPasrsing);
+            Weather.Weather weatherWithPara = new Weather.Weather(
+                weather.TempC + "°C",
+                weather.TempF + "°F",
+                weather.Clouds + "%",
+                weather.Humidity + "%",
+                weather.WindSpeed + " km/h",
+                weather.WindDegree != "No data" ? Int32.Parse(weather.WindDegree) % 360 + "°" : "No data",
+                weather.FallOut);
+            return weatherWithPara;
+        }
+
+        public void ShowWeather()
+        {
+            Painter painter = new Painter("Tomorrowio");
+            Weather.Weather weather = GetWeather();
+            painter.DrawWeather(weather);
         }
     }
 }
