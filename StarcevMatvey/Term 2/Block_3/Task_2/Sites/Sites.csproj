@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ISites\ISites.csproj" />
-    <ProjectReference Include="..\Parser\Parser.csproj" />
+    <ProjectReference Include="..\Parser\Tools.csproj" />
     <ProjectReference Include="..\Requests\Requests.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />
   </ItemGroup>
