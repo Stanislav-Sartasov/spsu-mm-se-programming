@@ -2,4 +2,4 @@
 
 ### UML class diagram
 
-![Blackjack UML class diagram](src/main/resources/BlackjackUML.png)
+![Blackjack UML class diagram](blackjack-base-lib/src/main/resources/BlackjackUML.png)
