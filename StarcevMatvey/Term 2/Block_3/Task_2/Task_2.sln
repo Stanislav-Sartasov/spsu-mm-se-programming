@@ -13,13 +13,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ISites", "ISites\ISites.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather", "Weather\Weather.csproj", "{8F1D6D56-1B7A-4F1C-9FE1-13A25E87D211}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser", "Parser\Parser.csproj", "{FCD53647-9186-481A-994B-95F35EE377A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Parser\Tools.csproj", "{FCD53647-9186-481A-994B-95F35EE377A7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{187AD7FF-0196-487C-B563-A51C8BAAFCE6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser.UnitTests", "UnitTests\Parser.UnitTests\Parser.UnitTests.csproj", "{2F25447C-D6DA-4CF7-8D97-63211172CC39}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Request.UnitTests", "UnitTests\GetRequest.UnitTests\Request.UnitTests.csproj", "{9B741C2F-3764-4640-9EB9-6F7CF6A48D66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sites.UnitTests", "Sites.UnitTests\Sites.UnitTests.csproj", "{192B6BE8-75D6-4CDA-882E-7E60613252FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{9B741C2F-3764-4640-9EB9-6F7CF6A48D66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B741C2F-3764-4640-9EB9-6F7CF6A48D66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B741C2F-3764-4640-9EB9-6F7CF6A48D66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{192B6BE8-75D6-4CDA-882E-7E60613252FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{192B6BE8-75D6-4CDA-882E-7E60613252FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{192B6BE8-75D6-4CDA-882E-7E60613252FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{192B6BE8-75D6-4CDA-882E-7E60613252FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2F25447C-D6DA-4CF7-8D97-63211172CC39} = {187AD7FF-0196-487C-B563-A51C8BAAFCE6}
 		{9B741C2F-3764-4640-9EB9-6F7CF6A48D66} = {187AD7FF-0196-487C-B563-A51C8BAAFCE6}
+		{192B6BE8-75D6-4CDA-882E-7E60613252FC} = {187AD7FF-0196-487C-B563-A51C8BAAFCE6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3E81F410-F542-4FC1-BEB5-2C5107E6F8FB}
