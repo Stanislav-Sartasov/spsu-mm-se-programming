@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BasicLibrary\BasicLibrary.csproj" />
+    <ProjectReference Include="..\Task4.sdk\Task4.sdk.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BotPlugins\" />
+  </ItemGroup>
+
+</Project>
