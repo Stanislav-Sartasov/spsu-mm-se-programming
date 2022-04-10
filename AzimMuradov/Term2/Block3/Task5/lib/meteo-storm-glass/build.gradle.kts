@@ -33,8 +33,5 @@ tasks.test {
 }
 
 tasks.koverMergedHtmlReport {
-    excludes = listOf(
-        "meteo.stormglass.data.model.*",
-        "meteo.stormglass.data.StormGlassRepository*",
-    )
+    excludes = listOf("meteo.stormglass.data.model.*")
 }

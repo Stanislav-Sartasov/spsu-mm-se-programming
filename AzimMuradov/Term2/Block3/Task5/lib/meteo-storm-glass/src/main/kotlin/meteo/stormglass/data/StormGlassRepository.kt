@@ -14,15 +14,13 @@ import java.net.http.HttpClient
 class StormGlassRepository(
     private val client: HttpClient,
     private val api: MeteoApi,
+    private val key: String,
     private val json: Json,
 ) : MeteoRepository {
 
     override suspend fun getWeather(location: Location): Result<Weather> = try {
         client.send<StormGlassModel>(
-            request = api.createGetWeatherRequest(
-                location = location,
-                key = System.getenv("stormglass.key")
-            ),
+            request = api.createGetWeatherRequest(location = location, key = key),
             json = json,
             convertErrorBody = {
                 json.decodeFromString<StormGlassErrorModel>(it).errors.toList().joinToString { (k, v) ->

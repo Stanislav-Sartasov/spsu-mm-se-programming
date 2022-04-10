@@ -33,8 +33,5 @@ tasks.test {
 }
 
 tasks.koverMergedHtmlReport {
-    excludes = listOf(
-        "meteo.openweather.data.model.*",
-        "meteo.openweather.data.OpenWeatherRepository*"
-    )
+    excludes = listOf("meteo.openweather.data.model.*")
 }
