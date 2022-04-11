@@ -20,7 +20,7 @@ namespace Task4
             Gambler man = new Gambler(100000);
             List<Gamester> players = new List<Gamester>(10);
 
-            Console.WriteLine("Wanna add extensios?");
+            Console.WriteLine("Add extensios? ('Yes', 'No'");
             switch (man.confirmer.GetCorectAnswer<AnswerType>())
             {
                 case AnswerType.Yes:
@@ -43,7 +43,7 @@ namespace Task4
 
                         players.AddRange(plugin.LoadBots(loader.GetAsm(plugin.GetType().Name)));
 
-                        Console.WriteLine("Wats your game mode");
+                        Console.WriteLine("Whats your game mode?");
                         switch (man.confirmer.GetCorectAnswer<GameMode>())
                         {
                             case GameMode.Task:
@@ -75,7 +75,7 @@ namespace Task4
                                 }
                             case GameMode.Solo:
                                 {
-                                    Console.WriteLine("Solo mode requirs no extensions\n");
+                                    Console.WriteLine("Solo mode requires no extensions\n");
                                     break;
                                 }
                         }
@@ -102,7 +102,7 @@ namespace Task4
                 
                 if (!Directory.Exists(libPath))
                 {
-                    Console.WriteLine("No such directory, try aganin (or 'stop')");
+                    Console.WriteLine("No such directory, try again (or 'stop')");
                 }
                 else
                 {
@@ -115,37 +115,20 @@ namespace Task4
         }
         static public T Find<T>(List<T> collection)
         {
-            var namee = Console.ReadLine();
-            while (namee != "stop")
+            var itemName = Console.ReadLine();
+            while (itemName != "stop")
             {
                 foreach (var item in collection)
                 {
-                    if (namee == item.GetType().Name)
+                    if (itemName == item.GetType().Name)
                     {
                         return item;
                     }
                 }
                 Console.WriteLine("Cannot find, try again");
-                namee = Console.ReadLine();
+                itemName = Console.ReadLine();
             }
             return default(T);
         }
-        //public Type GetCorectMode(Type enumType)
-        //{
-        //    while (true)
-        //    {
-        //        string answer = Console.ReadLine();
-
-        //        foreach (Type mode in Enum.GetValues(enumType))
-        //        {
-        //            if (String.Equals(answer, mode))
-        //            {
-        //                return mode;
-        //            }
-        //        }
-        //        Console.WriteLine("Wrong input");
-        //    }
-        //}
-
     }
 }

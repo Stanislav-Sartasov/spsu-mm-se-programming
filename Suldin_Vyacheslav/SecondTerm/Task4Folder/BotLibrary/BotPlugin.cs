@@ -24,7 +24,7 @@ namespace BotLibrary
                 }
             }
 
-             return bots;
+            return bots;
         }
     }
 }

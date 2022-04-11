@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Task4.sdk\Task4.sdk.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="BotPlugins\" />
-  </ItemGroup>
-
 </Project>

@@ -58,25 +58,16 @@ namespace Task4
 
             var findedDlls = Directory.EnumerateFiles(path, path.Split("\\").Last() + "*.dll", SearchOption.AllDirectories);
 
-
             var assembly = Assembly.LoadFile(Path.Combine(Directory.GetCurrentDirectory(), findedDlls.First()));
 
             libraries[path] = assembly;
 
-            try
+            var pluginTypes = assembly.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface).ToArray();
+            foreach (var pluginType in pluginTypes)
             {
-                var pluginTypes = assembly.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface).ToArray();
-                foreach (var pluginType in pluginTypes)
-                {
-                    var pluginInstance = Activator.CreateInstance(pluginType) as T;
-                    plugins.Add(pluginInstance);
-                }
+                var pluginInstance = Activator.CreateInstance(pluginType) as T;
+                plugins.Add(pluginInstance);
             }
-            catch(ReflectionTypeLoadException ext)
-            {
-                Console.WriteLine(ext.Types);
-            }
-            
 
             return plugins;
         }

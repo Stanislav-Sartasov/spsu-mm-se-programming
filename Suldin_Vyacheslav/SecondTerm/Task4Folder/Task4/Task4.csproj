@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="bin\Debug\net5.0\BotExtensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Task4.sdk\Task4.sdk.csproj" />
   </ItemGroup>
 
