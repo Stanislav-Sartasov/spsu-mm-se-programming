@@ -64,15 +64,15 @@ namespace Task5.UnitTests
 
             tomorrowTest.Parse(jsonGenerator.Object.GetJSON());
 
-            if (tomorrowTest.WeatherInfo.Name != "TomorrowIO" ||
-                tomorrowTest.WeatherInfo.ImperialTemp != "35.38" ||
-                tomorrowTest.WeatherInfo.MetricTemp != "3.38" ||
-                tomorrowTest.WeatherInfo.CloudCover != "24" ||
-                tomorrowTest.WeatherInfo.Humidity != "71" ||
-                tomorrowTest.WeatherInfo.Precipipations != "NoPrecip:0" ||
-                tomorrowTest.WeatherInfo.WindDegree != "258.63" ||
-                tomorrowTest.WeatherInfo.WindSpeed != "2.63" ||
-                tomorrowTest.WeatherInfo.Error != null) Assert.Fail();
+            if (tomorrowTest.GetWeatherInfo().Name != "TomorrowIO" ||
+                tomorrowTest.GetWeatherInfo().ImperialTemp != "35.38" ||
+                tomorrowTest.GetWeatherInfo().MetricTemp != "3.38" ||
+                tomorrowTest.GetWeatherInfo().CloudCover != "24" ||
+                tomorrowTest.GetWeatherInfo().Humidity != "71" ||
+                tomorrowTest.GetWeatherInfo().Precipipations != "NoPrecip:0" ||
+                tomorrowTest.GetWeatherInfo().WindDegree != "258.63" ||
+                tomorrowTest.GetWeatherInfo().WindSpeed != "2.63" ||
+                tomorrowTest.GetWeatherInfo().Error != null) Assert.Fail();
 
             Assert.Pass();
         }
@@ -91,15 +91,15 @@ namespace Task5.UnitTests
 
             stormGlassTest.Parse(jsonGenerator.Object.GetJSON());
 
-            if (stormGlassTest.WeatherInfo.Name != "StormGlass" ||
-                stormGlassTest.WeatherInfo.ImperialTemp != "33.78" ||
-                stormGlassTest.WeatherInfo.MetricTemp != "1.78" ||
-                stormGlassTest.WeatherInfo.CloudCover != "0" ||
-                stormGlassTest.WeatherInfo.Humidity != "84.3" ||
-                stormGlassTest.WeatherInfo.Precipipations != ":0.02" ||
-                stormGlassTest.WeatherInfo.WindDegree != "261.87" ||
-                stormGlassTest.WeatherInfo.WindSpeed != "2.92" ||
-                stormGlassTest.WeatherInfo.Error != null) Assert.Fail();
+            if (stormGlassTest.GetWeatherInfo().Name != "StormGlass" ||
+                stormGlassTest.GetWeatherInfo().ImperialTemp != "33.78" ||
+                stormGlassTest.GetWeatherInfo().MetricTemp != "1.78" ||
+                stormGlassTest.GetWeatherInfo().CloudCover != "0" ||
+                stormGlassTest.GetWeatherInfo().Humidity != "84.3" ||
+                stormGlassTest.GetWeatherInfo().Precipipations != ":0.02" ||
+                stormGlassTest.GetWeatherInfo().WindDegree != "261.87" ||
+                stormGlassTest.GetWeatherInfo().WindSpeed != "2.92" ||
+                stormGlassTest.GetWeatherInfo().Error != null) Assert.Fail();
 
             Assert.Pass();
         }
@@ -119,15 +119,15 @@ namespace Task5.UnitTests
 
             openWeatherTest.Parse(jsonGenerator.Object.GetJSON());
 
-            if (openWeatherTest.WeatherInfo.Name != "OpenWeather" ||
-                openWeatherTest.WeatherInfo.ImperialTemp != "36.8" ||
-                openWeatherTest.WeatherInfo.MetricTemp != "4.8" ||
-                openWeatherTest.WeatherInfo.CloudCover != "49" ||
-                openWeatherTest.WeatherInfo.Humidity != "87" ||
-                openWeatherTest.WeatherInfo.Precipipations != "NoPrecip" ||
-                openWeatherTest.WeatherInfo.WindDegree != "243" ||
-                openWeatherTest.WeatherInfo.WindSpeed != "1.65" ||
-                openWeatherTest.WeatherInfo.Error != null) Assert.Fail();
+            if (openWeatherTest.GetWeatherInfo().Name != "OpenWeather" ||
+                openWeatherTest.GetWeatherInfo().ImperialTemp != "36.8" ||
+                openWeatherTest.GetWeatherInfo().MetricTemp != "4.8" ||
+                openWeatherTest.GetWeatherInfo().CloudCover != "49" ||
+                openWeatherTest.GetWeatherInfo().Humidity != "87" ||
+                openWeatherTest.GetWeatherInfo().Precipipations != "NoPrecip" ||
+                openWeatherTest.GetWeatherInfo().WindDegree != "243" ||
+                openWeatherTest.GetWeatherInfo().WindSpeed != "1.65" ||
+                openWeatherTest.GetWeatherInfo().Error != null) Assert.Fail();
 
             Assert.Pass();
         }
@@ -148,15 +148,15 @@ namespace Task5.UnitTests
 
             gismeteoTest.Parse(jsonGenerator.Object.GetJSON());
 
-            if (gismeteoTest.WeatherInfo.Name != "GisMeteo" ||
-                gismeteoTest.WeatherInfo.ImperialTemp != "39.6" ||
-                gismeteoTest.WeatherInfo.MetricTemp != "4.2" ||
-                gismeteoTest.WeatherInfo.CloudCover != "10" ||
-                gismeteoTest.WeatherInfo.Humidity != "76" ||
-                gismeteoTest.WeatherInfo.Precipipations != "NoPrecip:0" ||
-                gismeteoTest.WeatherInfo.WindDegree != "260" ||
-                gismeteoTest.WeatherInfo.WindSpeed != "1" ||
-                gismeteoTest.WeatherInfo.Error != null) Assert.Fail();
+            if (gismeteoTest.GetWeatherInfo().Name != "GisMeteo" ||
+                gismeteoTest.GetWeatherInfo().ImperialTemp != "39.6" ||
+                gismeteoTest.GetWeatherInfo().MetricTemp != "4.2" ||
+                gismeteoTest.GetWeatherInfo().CloudCover != "10" ||
+                gismeteoTest.GetWeatherInfo().Humidity != "76" ||
+                gismeteoTest.GetWeatherInfo().Precipipations != "NoPrecip:0" ||
+                gismeteoTest.GetWeatherInfo().WindDegree != "260" ||
+                gismeteoTest.GetWeatherInfo().WindSpeed != "1" ||
+                gismeteoTest.GetWeatherInfo().Error != null) Assert.Fail();
 
             Assert.Pass();
         }
@@ -176,7 +176,7 @@ namespace Task5.UnitTests
             ConsoleWriter cs = new ConsoleWriter();
             try
             {
-                ConsoleWriter.ShowWeatherInfo(gismeteoTest.WeatherInfo);
+                ConsoleWriter.ShowWeatherInfo(gismeteoTest.GetWeatherInfo());
 
             }
             catch (Exception)

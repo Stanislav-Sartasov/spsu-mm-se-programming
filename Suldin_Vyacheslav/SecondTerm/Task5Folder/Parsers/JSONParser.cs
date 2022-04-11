@@ -12,7 +12,8 @@ namespace Parsers
 
         protected string[] parsingParams;
         public IReadOnlyList<string> Headers { get; protected set; }
-        public WeatherInformation WeatherInfo { get; protected set; }
+
+        protected WeatherInformation weatherInfo;
         public string Link { get; protected set; }
 
         public virtual WeatherInformation Parse(JObject json)
@@ -20,6 +21,9 @@ namespace Parsers
             return null;
         }
 
-        
+        public WeatherInformation GetWeatherInfo()
+        {
+            return weatherInfo;
+        }
     }
 }

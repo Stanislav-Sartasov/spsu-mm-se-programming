@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace TomorrowIO
 {
 
     public class TIORoot
     {
-        public Data data { get; set; }
+        [JsonPropertyName("data")]
+        public Data Data { get; set; }
     }
 
 }

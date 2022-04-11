@@ -14,7 +14,7 @@ namespace Parsers
         {
             Name =  name;
         }
-        public string Name { get; set; }
+        public string Name { get; private set; }
         public string MetricTemp {get; set;}
         public string ImperialTemp { get; set; }
         public string CloudCover { get; set; }
