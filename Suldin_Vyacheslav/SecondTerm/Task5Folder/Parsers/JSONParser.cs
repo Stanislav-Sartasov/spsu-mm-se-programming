@@ -9,13 +9,17 @@ namespace Parsers
 {
     public abstract class JSONParser
     {
-        public IReadOnlyList<string> ParsedInfo { get; protected set; }
+
         protected string[] parsingParams;
+        public IReadOnlyList<string> Headers { get; protected set; }
+        public WeatherInformation WeatherInfo { get; protected set; }
+        public string Link { get; protected set; }
 
-
-        public virtual IReadOnlyList<string> Parse(JObject json)
+        public virtual WeatherInformation Parse(JObject json)
         {
             return null;
         }
+
+        
     }
 }

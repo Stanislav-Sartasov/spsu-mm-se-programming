@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NUnit.Framework;
 using WebLibrary;
 using Parsers;
-using System.Text.RegularExpressions;
+using TomorrowIO;
+using StormGlass;
+using GisMeteo;
+using OpenWeather;
+
 
 namespace Task5.UnitTests
 {
@@ -17,24 +18,7 @@ namespace Task5.UnitTests
         {
         }
 
-        [Test]
-
-        public void ConsoleWriterTest()
-        {
-            ConsoleWriter cs = new ConsoleWriter();
-            try
-            {
-                ConsoleWriter.WtireLines(null);
-                ConsoleWriter.WtireLines(new List<string>() { "string1" , null});
-                ConsoleWriter.WtireLines(new string[1] { ((int)ErrorType.NotAcceptable).ToString() + ".Service"});
-                ConsoleWriter.WtireLines(new string[] {"string1","string2"});
-            }
-            catch (Exception)
-            {
-                Assert.Fail();
-            }
-            Assert.Pass();
-        }
+        
         [Test]
         public void LinksTest()
         {
@@ -42,10 +26,9 @@ namespace Task5.UnitTests
 
             foreach (var service in services)
             {
-                var data = new Data(service.GetType());
-                var link = data.Link;
+                var link = service.Link;
                 if (!link.Contains("https://api.")) Assert.Fail();
-                var header = data.Headers;
+                var header = service.Headers;
             }
 
             Assert.Pass();

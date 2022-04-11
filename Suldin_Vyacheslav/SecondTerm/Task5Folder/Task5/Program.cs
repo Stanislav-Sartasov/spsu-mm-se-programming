@@ -2,7 +2,11 @@
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using WebLibrary;
+using OpenWeather;
+using GisMeteo;
+using StormGlass;
 using Parsers;
+using TomorrowIO;
 
 namespace Task5
 {
@@ -19,7 +23,10 @@ namespace Task5
                 ConsoleWriter.Fill(infoBar.Length);
             }
 
-            var services = new List<JSONParser> { new TomorrowIOParser(), new OpenWeatherParser(), new StormGlassParser() };
+            var services = new List<JSONParser> { new TomorrowIOParser(),
+                new OpenWeatherParser(),
+                new StormGlassParser(),
+                new GisMeteoParser() };
 
             while (true)
             {
@@ -28,15 +35,16 @@ namespace Task5
 
                 foreach (var service in services)
                 {
-                    var link = new Data(service.GetType());
-                    var gr = new GetRequest(link.Link,link.Headers);
+                    var gr = new GetRequest(service.Link, service.Headers);
                     var jg = new JsonGetter(gr);
                     var json = jg.GetJSON();
                     var info = service.Parse(json);
-                    ConsoleWriter.WtireLines(info);
+                    ConsoleWriter.ShowWeatherInfo(info);
                     Console.Beep();
                 }
             }
+
+
         }
     }
 }

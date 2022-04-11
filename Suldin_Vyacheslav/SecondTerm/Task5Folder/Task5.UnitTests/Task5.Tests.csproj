@@ -16,8 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GisMeteo\GisMeteo.csproj" />
+    <ProjectReference Include="..\OpenWeather\OpenWeather.csproj" />
     <ProjectReference Include="..\Parsers\Parsers.csproj" />
+    <ProjectReference Include="..\StormGlass\StormGlass.csproj" />
     <ProjectReference Include="..\Task5\Task5.csproj" />
+    <ProjectReference Include="..\TomorrowIO\TomorrowIO.csproj" />
   </ItemGroup>
 
   <ItemGroup>

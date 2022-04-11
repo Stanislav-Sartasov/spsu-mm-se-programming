@@ -11,36 +11,23 @@ namespace Task5
 {
 	public class ConsoleWriter
 	{
-		public static void WtireLines(IReadOnlyList<string> lines)
+		public static void ShowWeatherInfo(WeatherInformation info)
 		{
-			if (lines == null)
-            {
-				return;
-            }
-			Console.WriteLine("\n");
 
-			try
-			{
-				var trigger = lines[1];
-			}
-			catch (ArgumentOutOfRangeException)
-			{
-				Console.Write( lines[0].Split(".")[1] + ": " + (ErrorType)Convert.ToInt32(Regex.Replace(lines[0].Split(".")[0], @"[^\d]+", "")));
-				return;
-			}
-
-			foreach (var line in lines)
+			if (info.Error != null)
             {
-                try
-                {
-                    Console.Write(line);
-                    Fill(line.Length);
-                }
-                catch (NullReferenceException)
-                {
-					return;
-                }
+				Console.WriteLine(info.Name + ": " + (ErrorType)Convert.ToInt32(Regex.Replace(info.Error, @"[^\d]+", "")));
             }
+			else
+            {
+				foreach (var item in info.GetType().GetProperties().Where(x=>x.Name != "Error"))
+				{
+					string value = item.GetValue(info).ToString();
+					Console.Write(value);
+					Fill(value.Length);
+				}
+			}
+			Console.WriteLine();
         }
 		public static void Fill(int n)
 		{

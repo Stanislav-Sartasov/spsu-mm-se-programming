@@ -9,7 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task5.Tests", "..\Task5.Uni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebLibrary", "..\WebLibrary\WebLibrary.csproj", "{6B2E8FA7-35D3-47CC-984D-0128C57D172B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsers", "..\Parsers\Parsers.csproj", "{8987AA67-864D-46E7-9B91-BF842FBE84E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parsers", "..\Parsers\Parsers.csproj", "{8987AA67-864D-46E7-9B91-BF842FBE84E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomorrowIO", "..\TomorrowIO\TomorrowIO.csproj", "{583CE03C-E01F-4DF7-8AE9-5A22AB98C2EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeather", "..\OpenWeather\OpenWeather.csproj", "{70BF99DC-8AFA-4C0E-A696-F18B8ACC7D2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StormGlass", "..\StormGlass\StormGlass.csproj", "{ED53828C-4843-49F3-8042-79E2E25D6530}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GisMeteo", "..\GisMeteo\GisMeteo.csproj", "{80F956D0-FA6F-440B-9150-762A5587682E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{8987AA67-864D-46E7-9B91-BF842FBE84E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8987AA67-864D-46E7-9B91-BF842FBE84E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8987AA67-864D-46E7-9B91-BF842FBE84E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583CE03C-E01F-4DF7-8AE9-5A22AB98C2EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583CE03C-E01F-4DF7-8AE9-5A22AB98C2EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583CE03C-E01F-4DF7-8AE9-5A22AB98C2EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583CE03C-E01F-4DF7-8AE9-5A22AB98C2EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70BF99DC-8AFA-4C0E-A696-F18B8ACC7D2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70BF99DC-8AFA-4C0E-A696-F18B8ACC7D2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70BF99DC-8AFA-4C0E-A696-F18B8ACC7D2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70BF99DC-8AFA-4C0E-A696-F18B8ACC7D2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED53828C-4843-49F3-8042-79E2E25D6530}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED53828C-4843-49F3-8042-79E2E25D6530}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED53828C-4843-49F3-8042-79E2E25D6530}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED53828C-4843-49F3-8042-79E2E25D6530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80F956D0-FA6F-440B-9150-762A5587682E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F956D0-FA6F-440B-9150-762A5587682E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F956D0-FA6F-440B-9150-762A5587682E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F956D0-FA6F-440B-9150-762A5587682E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
