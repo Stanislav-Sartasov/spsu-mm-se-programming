@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BasicLibrary
 {
-    public class Gambler : Gamester
+	public class Gambler : Gamester
 	{
 		public Confirmer confirmer = new Confirmer();
 		public Gambler(int bank)

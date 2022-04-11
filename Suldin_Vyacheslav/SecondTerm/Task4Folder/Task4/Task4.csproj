@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Task4.sdk\Task4.sdk.csproj" />
+    <ProjectReference Include="..\BasicLibrary\BasicLibrary.csproj" />
+    <ProjectReference Include="..\Task4.Sdk\Task4.Sdk.csproj" />
   </ItemGroup>
 
 </Project>

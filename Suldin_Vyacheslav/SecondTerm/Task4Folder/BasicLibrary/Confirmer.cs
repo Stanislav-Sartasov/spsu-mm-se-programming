@@ -4,14 +4,14 @@ namespace BasicLibrary
 {
     public class Confirmer
     {
-		public virtual enumType GetCorectAnswer<enumType>()
-			where enumType : Enum
+		public virtual EnumType GetCorectAnswer<EnumType>()
+			where EnumType : Enum
 		{
 			while (true)
 			{
 				string answer = Console.ReadLine();
 
-				foreach (enumType key in Enum.GetValues(typeof(enumType)))
+				foreach (EnumType key in Enum.GetValues(typeof(EnumType)))
 				{
 					if (String.Equals(answer, key.ToString()))
 					{

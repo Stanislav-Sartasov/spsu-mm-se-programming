@@ -54,7 +54,7 @@ namespace Task4.UnitTests
         {
             var mock = new Mock<Confirmer>();
             Dealer dealer = new Dealer(22);
-            mock.Setup(x => x.GetCorectAnswer<PlayerMove>()).Returns((PlayerMove)0);
+            mock.Setup(x => x.GetCorectAnswer<PlayerMove>()).Returns(PlayerMove.Pass);
             mock.Setup(x => x.GetCorectInt(It.IsAny<int>(), It.IsAny<int>())).Returns(100);
             Gambler man = new Gambler(10000);
             man.confirmer = mock.Object;

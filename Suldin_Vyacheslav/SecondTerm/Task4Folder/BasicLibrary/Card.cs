@@ -1,7 +1,6 @@
 ﻿namespace BasicLibrary
 {
 
-
     public class Card
     {
         private CardSuit suit;

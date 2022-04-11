@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using Task4.sdk;
+using Task4.Sdk;
 using System.IO;
 
 namespace Task4
@@ -63,6 +63,7 @@ namespace Task4
             libraries[path] = assembly;
 
             var pluginTypes = assembly.GetTypes().Where(x => typeof(T).IsAssignableFrom(x) && !x.IsInterface).ToArray();
+
             foreach (var pluginType in pluginTypes)
             {
                 var pluginInstance = Activator.CreateInstance(pluginType) as T;
