@@ -1,6 +1,8 @@
 package meteo.app.presentation
 
+import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.flow.MutableStateFlow
 import meteo.app.presentation.MeteoCliMessagesWizard.CLOSING_APP_MESSAGE
 import meteo.app.presentation.MeteoCliMessagesWizard.GREETINGS_MESSAGE
 import meteo.app.presentation.MeteoCliMessagesWizard.HELP_MESSAGE
@@ -19,6 +21,9 @@ internal class MeteoCliAppTest {
     @Test
     fun `run app`() {
         val mockedStore = mockk<MviStore<MeteoWish, MeteoState>>(relaxUnitFun = true)
+
+        every { mockedStore.state } returns MutableStateFlow(MeteoState.Uninitialised)
+
         val mockedView = mockk<MviView<MeteoState>>(relaxUnitFun = true)
 
         val inputStream = ByteArrayInputStream(
