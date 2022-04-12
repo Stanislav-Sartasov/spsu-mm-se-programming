@@ -1,6 +1,7 @@
 package meteo.app.presentation
 
 import meteo.domain.entity.Weather
+import meteo.ln
 import meteo.presentation.state.*
 import org.junit.jupiter.api.*
 import org.junit.jupiter.params.ParameterizedTest
@@ -149,15 +150,15 @@ internal class MeteoCliViewTest {
                     )
                 ),
                 second = buildString {
-                    appendLine("Сервис service:")
-                    appendLine("  погода            : Данных нет")
-                    appendLine("  температура       : Данных нет")
-                    appendLine("  облачность        : Данных нет")
-                    appendLine("  влажность         : Данных нет")
-                    appendLine("  осадки            : Данных нет")
-                    appendLine("  направление ветра : Данных нет")
-                    appendLine("  скорость ветра    : Данных нет")
-                    appendLine()
+                    append("Сервис service:".ln())
+                    append("  погода            : Данных нет".ln())
+                    append("  температура       : Данных нет".ln())
+                    append("  облачность        : Данных нет".ln())
+                    append("  влажность         : Данных нет".ln())
+                    append("  осадки            : Данных нет".ln())
+                    append("  направление ветра : Данных нет".ln())
+                    append("  скорость ветра    : Данных нет".ln())
+                    append(System.lineSeparator())
                 },
                 third = ""
             ),

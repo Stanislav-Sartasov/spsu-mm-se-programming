@@ -5,6 +5,7 @@ import meteo.app.presentation.MeteoCliMessagesWizard.CLOSING_APP_MESSAGE
 import meteo.app.presentation.MeteoCliMessagesWizard.GREETINGS_MESSAGE
 import meteo.app.presentation.MeteoCliMessagesWizard.HELP_MESSAGE
 import meteo.app.presentation.MeteoCliMessagesWizard.WRONG_COMMAND_MESSAGE
+import meteo.ln
 import meteo.presentation.mvi.MviStore
 import meteo.presentation.mvi.MviView
 import meteo.presentation.state.MeteoState
@@ -22,10 +23,10 @@ internal class MeteoCliAppTest {
 
         val inputStream = ByteArrayInputStream(
             buildString {
-                appendLine("refresh")
-                appendLine("help")
-                appendLine("not a command")
-                appendLine("exit")
+                append("refresh".ln())
+                append("help".ln())
+                append("not a command".ln())
+                append("exit".ln())
             }.toByteArray()
         )
         val byteArrayOutputStream = ByteArrayOutputStream()
@@ -37,10 +38,10 @@ internal class MeteoCliAppTest {
 
         assertEquals(
             expected = buildString {
-                appendLine(GREETINGS_MESSAGE)
-                appendLine(HELP_MESSAGE)
-                appendLine(WRONG_COMMAND_MESSAGE)
-                appendLine(CLOSING_APP_MESSAGE)
+                append(GREETINGS_MESSAGE.ln())
+                append(HELP_MESSAGE.ln())
+                append(WRONG_COMMAND_MESSAGE.ln())
+                append(CLOSING_APP_MESSAGE.ln())
             },
             actual = byteArrayOutputStream.toString()
         )

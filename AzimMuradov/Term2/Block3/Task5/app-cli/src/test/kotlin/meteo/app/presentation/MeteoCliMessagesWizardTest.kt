@@ -2,6 +2,7 @@ package meteo.app.presentation
 
 import meteo.app.presentation.MeteoCliMessagesWizard.toHumanReadable
 import meteo.domain.entity.*
+import meteo.ln
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
@@ -32,14 +33,14 @@ internal class MeteoCliMessagesWizardTest {
                 windDirection = null,
                 windSpeed = null
             ) to buildString {
-                appendLine("Сервис service:")
-                appendLine("  погода            : Данных нет")
-                appendLine("  температура       : Данных нет")
-                appendLine("  облачность        : Данных нет")
-                appendLine("  влажность         : Данных нет")
-                appendLine("  осадки            : Данных нет")
-                appendLine("  направление ветра : Данных нет")
-                appendLine("  скорость ветра    : Данных нет")
+                append("Сервис service:".ln())
+                append("  погода            : Данных нет".ln())
+                append("  температура       : Данных нет".ln())
+                append("  облачность        : Данных нет".ln())
+                append("  влажность         : Данных нет".ln())
+                append("  осадки            : Данных нет".ln())
+                append("  направление ветра : Данных нет".ln())
+                append("  скорость ветра    : Данных нет".ln())
             },
             Weather(
                 description = "sample",
@@ -50,14 +51,14 @@ internal class MeteoCliMessagesWizardTest {
                 windDirection = WindDirection.inDegrees(value = 42),
                 windSpeed = WindSpeed.inMetersPerSecond(value = 42.0)
             ) to buildString {
-                appendLine("Сервис service:")
-                appendLine("  погода            : sample")
-                appendLine("  температура       : -231.15 °C / -384.07 °F")
-                appendLine("  облачность        : 42%")
-                appendLine("  влажность         : 42%")
-                appendLine("  осадки            : 42.00 мм/час")
-                appendLine("  направление ветра : 42°")
-                appendLine("  скорость ветра    : 42.00 м/сек")
+                append("Сервис service:".ln())
+                append("  погода            : sample".ln())
+                append("  температура       : -231.15 °C / -384.07 °F".ln())
+                append("  облачность        : 42%".ln())
+                append("  влажность         : 42%".ln())
+                append("  осадки            : 42.00 мм/час".ln())
+                append("  направление ветра : 42°".ln())
+                append("  скорость ветра    : 42.00 м/сек".ln())
             },
         ).map { (a, b) -> arguments(a, b) }
     }

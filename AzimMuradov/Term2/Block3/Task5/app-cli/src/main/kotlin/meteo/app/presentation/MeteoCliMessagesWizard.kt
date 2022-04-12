@@ -6,16 +6,16 @@ import meteo.ln
 object MeteoCliMessagesWizard {
 
     val GREETINGS_MESSAGE = buildString {
-        appendLine("Добро пожаловать в Meteo!")
-        appendLine("Для просмотра списка команд исполните \"помощь\".")
+        append("Добро пожаловать в Meteo!".ln())
+        append("Для просмотра списка команд исполните \"помощь\".".ln())
     }
 
     val HELP_MESSAGE = buildString {
-        appendLine("Помощь:")
-        appendLine("  - Команды:")
-        appendLine("    * Обновить данные о погоде           : ${MeteoCliApp.REFRESH.joinToString()}.")
-        appendLine("    * Вызов текущего сообщения с помощью : ${MeteoCliApp.HELP.joinToString()}.")
-        appendLine("    * Выход из приложения                : ${MeteoCliApp.EXIT.joinToString()}.")
+        append("Помощь:".ln())
+        append("  - Команды:".ln())
+        append("    * Обновить данные о погоде           : ${MeteoCliApp.REFRESH.joinToString()}.".ln())
+        append("    * Вызов текущего сообщения с помощью : ${MeteoCliApp.HELP.joinToString()}.".ln())
+        append("    * Выход из приложения                : ${MeteoCliApp.EXIT.joinToString()}.".ln())
     }
 
     val WRONG_COMMAND_MESSAGE = "Неверная команда! Для просмотра списка команд исполните \"помощь\".".ln()
@@ -23,14 +23,14 @@ object MeteoCliMessagesWizard {
     fun loadingServiceMessage(serviceName: String) = "Сервис $serviceName: Загрузка...".ln()
 
     fun Weather.toHumanReadable(serviceName: String) = buildString {
-        appendLine("Сервис $serviceName:")
-        appendLine("  погода            : ${description.takeUnless(String?::isNullOrBlank) ?: NO_DATA}")
-        appendLine("  температура       : ${temperature?.toHumanReadable() ?: NO_DATA}")
-        appendLine("  облачность        : ${cloudCoverage?.toHumanReadable() ?: NO_DATA}")
-        appendLine("  влажность         : ${humidity?.toHumanReadable() ?: NO_DATA}")
-        appendLine("  осадки            : ${precipitation?.toHumanReadable() ?: NO_DATA}")
-        appendLine("  направление ветра : ${windDirection?.toHumanReadable() ?: NO_DATA}")
-        appendLine("  скорость ветра    : ${windSpeed?.toHumanReadable() ?: NO_DATA}")
+        append("Сервис $serviceName:".ln())
+        append("  погода            : ${description.takeUnless(String?::isNullOrBlank) ?: NO_DATA}".ln())
+        append("  температура       : ${temperature?.toHumanReadable() ?: NO_DATA}".ln())
+        append("  облачность        : ${cloudCoverage?.toHumanReadable() ?: NO_DATA}".ln())
+        append("  влажность         : ${humidity?.toHumanReadable() ?: NO_DATA}".ln())
+        append("  осадки            : ${precipitation?.toHumanReadable() ?: NO_DATA}".ln())
+        append("  направление ветра : ${windDirection?.toHumanReadable() ?: NO_DATA}".ln())
+        append("  скорость ветра    : ${windSpeed?.toHumanReadable() ?: NO_DATA}".ln())
     }
 
     fun errorWithLoadingServiceMessage(serviceName: String, errorMessage: String) =
