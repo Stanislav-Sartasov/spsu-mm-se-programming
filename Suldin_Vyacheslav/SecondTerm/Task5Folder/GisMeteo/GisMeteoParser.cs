@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -21,19 +22,20 @@ namespace GisMeteo
 
         public override WeatherInformation Parse(JObject json)
         {
+
             if (json["ERROR"] == null)
             {
                 var root = JsonSerializer.Deserialize<GMRoot>(json.ToString());
                 var responce = root.Response;
 
                 var asd = weatherInfo.ImperialTemp;
-                weatherInfo.ImperialTemp = responce.Temperature.Air.F.ToString();
-                weatherInfo.MetricTemp = responce.Temperature.Air.C.ToString();
-                weatherInfo.CloudCover = responce.Cloudiness.Percent.ToString();
-                weatherInfo.Humidity = responce.Humidity.Percent.ToString();
-                weatherInfo.Precipipations = ((PrecipitationType)(responce.Precipitation.Type)).ToString() + ":" + responce.Precipitation.Intensity.ToString();
-                weatherInfo.WindDegree = responce.Wind.Direction.Degree.ToString();
-                weatherInfo.WindSpeed = responce.Wind.Speed.Meters.ToString();
+                weatherInfo.ImperialTemp = responce.Temperature.Air.F.ToString(local);
+                weatherInfo.MetricTemp = responce.Temperature.Air.C.ToString(local);
+                weatherInfo.CloudCover = responce.Cloudiness.Percent.ToString(local);
+                weatherInfo.Humidity = responce.Humidity.Percent.ToString(local);
+                weatherInfo.Precipipations = ((PrecipitationType)(responce.Precipitation.Type)).ToString() + ":" + responce.Precipitation.Intensity.ToString(local);
+                weatherInfo.WindDegree = responce.Wind.Direction.Degree.ToString(local);
+                weatherInfo.WindSpeed = responce.Wind.Speed.Meters.ToString(local);
             }
             else weatherInfo.Error = json["ERROR"].ToString() + this.ToString().Split(".")[1];
             return weatherInfo;

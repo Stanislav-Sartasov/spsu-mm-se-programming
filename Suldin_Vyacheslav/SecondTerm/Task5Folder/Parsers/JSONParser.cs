@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,8 @@ namespace Parsers
         public IReadOnlyList<string> Headers { get; protected set; }
 
         protected WeatherInformation weatherInfo;
+
+        protected CultureInfo local = new CultureInfo("ru-RU");
         public string Link { get; protected set; }
 
         public virtual WeatherInformation Parse(JObject json)

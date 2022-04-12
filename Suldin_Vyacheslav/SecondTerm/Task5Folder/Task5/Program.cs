@@ -7,6 +7,8 @@ using GisMeteo;
 using StormGlass;
 using Parsers;
 using TomorrowIO;
+using System.Threading;
+using System.Globalization;
 
 namespace Task5
 {
@@ -33,6 +35,7 @@ namespace Task5
                 Console.WriteLine("\n");
                 if (Console.ReadLine() != "Show") break;
 
+
                 foreach (var service in services)
                 {
                     var gr = new GetRequest(service.Link, service.Headers);
@@ -43,8 +46,6 @@ namespace Task5
                     Console.Beep();
                 }
             }
-
-
         }
     }
 }

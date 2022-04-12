@@ -23,21 +23,21 @@ namespace OpenWeather
             {
                 var root = JsonSerializer.Deserialize<OWRoot>(json.ToString());
 
-                weatherInfo.MetricTemp = root.Main.Temperature.ToString();
-                weatherInfo.ImperialTemp = Math.Round(root.Main.Temperature * (9 / 5) + 32, 3).ToString();
-                weatherInfo.CloudCover = root.Clouds.All.ToString();
-                weatherInfo.Humidity = root.Main.Humidity.ToString();
+                weatherInfo.MetricTemp = root.Main.Temperature.ToString(local);
+                weatherInfo.ImperialTemp = Math.Round(root.Main.Temperature * (9 / 5) + 32, 3).ToString(local);
+                weatherInfo.CloudCover = root.Clouds.All.ToString(local);
+                weatherInfo.Humidity = root.Main.Humidity.ToString(local);
 
                 if (root.Rain != null)
-                    weatherInfo.Precipipations = PrecipitationType.Rain.ToString() + ":" + root.Rain.ToString();
+                    weatherInfo.Precipipations = PrecipitationType.Rain.ToString() + ":" + root.Rain.OneHour.ToString(local);
                 else if (root.Snow != null)
-                    weatherInfo.Precipipations = PrecipitationType.Snow.ToString() + ":" + root.Snow.ToString();
+                    weatherInfo.Precipipations = PrecipitationType.Snow.ToString() + ":" + root.Snow.OneHour.ToString(local);
                 else
                     weatherInfo.Precipipations = PrecipitationType.NoPrecip.ToString();
 
-                weatherInfo.WindDegree = root.Wind.Degree.ToString();
+                weatherInfo.WindDegree = root.Wind.Degree.ToString(local);
 
-                weatherInfo.WindSpeed = root.Wind.Speed.ToString();
+                weatherInfo.WindSpeed = root.Wind.Speed.ToString(local);
             }
             else weatherInfo.Error = json["ERROR"].ToString() + this.ToString().Split(".")[1];
             return this.weatherInfo;
