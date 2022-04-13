@@ -2,6 +2,7 @@ package meteo.app.presentation
 
 import meteo.domain.entity.*
 import meteo.ln
+import java.util.*
 
 object MeteoCliMessagesWizard {
 
@@ -54,7 +55,11 @@ object MeteoCliMessagesWizard {
     private fun WindSpeed.toHumanReadable() = "${metersPerSecond.toHumanReadable()} м/сек"
 
 
-    private fun Double.toHumanReadable() = String.format("%.2f", this)
+    private fun Double.toHumanReadable() = String.format(
+        locale = Locale.Builder().setLanguage("ru").setRegion("RU").build(),
+        format = "%.2f",
+        args = arrayOf(this)
+    )
 
     private const val NO_DATA = "Данных нет"
 }

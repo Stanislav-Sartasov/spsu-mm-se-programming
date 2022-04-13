@@ -53,12 +53,12 @@ internal class MeteoCliMessagesWizardTest {
             ) to buildString {
                 append("Сервис service:".ln())
                 append("  погода            : sample".ln())
-                append("  температура       : -231.15 °C / -384.07 °F".ln())
+                append("  температура       : -231,15 °C / -384,07 °F".ln())
                 append("  облачность        : 42%".ln())
                 append("  влажность         : 42%".ln())
-                append("  осадки            : 42.00 мм/час".ln())
+                append("  осадки            : 42,00 мм/час".ln())
                 append("  направление ветра : 42°".ln())
-                append("  скорость ветра    : 42.00 м/сек".ln())
+                append("  скорость ветра    : 42,00 м/сек".ln())
             },
         ).map { (a, b) -> arguments(a, b) }
     }
