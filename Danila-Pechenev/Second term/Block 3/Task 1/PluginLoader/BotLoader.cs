@@ -4,7 +4,7 @@ using Roulette;
 
 public static class BotLoader
 {
-    public static APlayer[]? LoadBots(String pathToFolder, object[] parameters)
+    public static APlayer[]? LoadBots(string pathToFolder, object[] parameters)
     {
         if (!Directory.Exists(pathToFolder))
         {
