@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractClasses\AbstractClasses.csproj" />
+    <ProjectReference Include="..\MartingaleBotLibrary\MartingaleBotLibrary.csproj" />
+    <ProjectReference Include="..\OneThreeTwoSixBotLibrary\OneThreeTwoSixBotLibrary.csproj" />
+    <ProjectReference Include="..\PrimitiveManchetanStrategyBot\PrimitiveManchetanStrategyBotLibrary.csproj" />
+    <ProjectReference Include="..\UsualBaseStrategyBotLibrary\UsualBaseStrategyBotLibrary.csproj" />
+  </ItemGroup>
+
+</Project>
