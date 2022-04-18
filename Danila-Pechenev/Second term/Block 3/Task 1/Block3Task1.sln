@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bots.UnitTests", "Bots.Unit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginLoader", "PluginLoader\PluginLoader.csproj", "{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdditionalBots", "AdditionalBots\AdditionalBots.csproj", "{087E96AC-6B80-42B3-977D-8D2721731A97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdditionalBots", "AdditionalBots\AdditionalBots.csproj", "{087E96AC-6B80-42B3-977D-8D2721731A97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdditionalBots.UnitTests", "AdditionalBots.UnitTests\AdditionalBots.UnitTests.csproj", "{FDD2CA2F-1A1F-4DB4-8480-F4D60864E3C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{087E96AC-6B80-42B3-977D-8D2721731A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{087E96AC-6B80-42B3-977D-8D2721731A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{087E96AC-6B80-42B3-977D-8D2721731A97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD2CA2F-1A1F-4DB4-8480-F4D60864E3C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD2CA2F-1A1F-4DB4-8480-F4D60864E3C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD2CA2F-1A1F-4DB4-8480-F4D60864E3C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD2CA2F-1A1F-4DB4-8480-F4D60864E3C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
