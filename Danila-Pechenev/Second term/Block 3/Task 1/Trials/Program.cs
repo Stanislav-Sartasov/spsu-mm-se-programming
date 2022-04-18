@@ -50,7 +50,7 @@ public class Program
 
             for (int botNumber = 0; botNumber < bots.Length; botNumber++)
             {
-                Console.WriteLine($"{ bots[botNumber].GetType().Name } has { Math.Round((double)sums[botNumber] / countTrials)}");
+                Console.WriteLine($"{ bots[botNumber].GetType().Name } has { Math.Round((double)sums[botNumber] / countTrials)}.");
             }
         }
     }
