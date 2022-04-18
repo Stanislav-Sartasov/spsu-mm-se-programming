@@ -6,7 +6,6 @@ public class BotRobert : APlayer
     public BotRobert(int sum, Casino casino)
         : base(sum, casino)
     {
-
     }
 
     protected override Bet MakeBet()
