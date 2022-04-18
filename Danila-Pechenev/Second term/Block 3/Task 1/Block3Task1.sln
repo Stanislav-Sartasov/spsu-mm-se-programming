@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roulette.UnitTests", "Roule
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bots.UnitTests", "Bots.UnitTests\Bots.UnitTests.csproj", "{BA90BCF2-1DBD-4F0F-B75A-AB85E9A2373F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryLoader", "LibraryLoader\LibraryLoader.csproj", "{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginLoader", "PluginLoader\PluginLoader.csproj", "{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdditionalBots", "AdditionalBots\AdditionalBots.csproj", "{087E96AC-6B80-42B3-977D-8D2721731A97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9B113D9-157C-41F7-BC2E-19F99AC2BAE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{087E96AC-6B80-42B3-977D-8D2721731A97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{087E96AC-6B80-42B3-977D-8D2721731A97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{087E96AC-6B80-42B3-977D-8D2721731A97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{087E96AC-6B80-42B3-977D-8D2721731A97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
