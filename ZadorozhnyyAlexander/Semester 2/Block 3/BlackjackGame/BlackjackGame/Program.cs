@@ -26,6 +26,8 @@ namespace BlackjackGame
             }
 
             PlaginLoader loader = new PlaginLoader(args[0], startMoney, startRate);
+            if (loader.AllBots == null)
+                return;
 
             for (int botNumber = 0; botNumber < loader.AllBots.Count; botNumber++)
             {

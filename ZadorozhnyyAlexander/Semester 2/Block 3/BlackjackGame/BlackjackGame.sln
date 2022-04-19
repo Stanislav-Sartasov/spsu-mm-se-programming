@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MartingaleBotLibrary", "Mar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneThreeTwoSixBotLibrary", "OneThreeTwoSixBotLibrary\OneThreeTwoSixBotLibrary.csproj", "{F25A6D7D-5FD8-47CD-8F79-F7BE77F28490}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimitiveManchetanStrategyBotLibrary", "PrimitiveManchetanStrategyBot\PrimitiveManchetanStrategyBotLibrary.csproj", "{890052EC-0D18-4A57-A963-CBB3A668B794}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UsualBaseStrategyBotLibrary", "UsualBaseStrategyBotLibrary\UsualBaseStrategyBotLibrary.csproj", "{234EBCBB-1E52-4665-B3F8-B64BAC0DEF28}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaginLoaderLibrary", "PluginLoader\PlaginLoaderLibrary.csproj", "{4A0E2075-2AF7-403C-A58D-14CDE61F30E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaginLoaderTests", "PlaginLoaderTests\PlaginLoaderTests.csproj", "{66676FA4-8E10-4716-B145-FA285753ED64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlaginLoaderTests", "PlaginLoaderTests\PlaginLoaderTests.csproj", "{66676FA4-8E10-4716-B145-FA285753ED64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrimitiveManchetanStrategyBotLibrary", "PrimitiveManchetanStrategyBotLibrary\PrimitiveManchetanStrategyBotLibrary.csproj", "{96650E58-0A96-458C-8C72-503DD03873BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlaginLoaderLibrary", "PluginLoaderLibrary\PlaginLoaderLibrary.csproj", "{CC6D41EF-191F-40D3-9B3F-CB63C948E58E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,22 +53,22 @@ Global
 		{F25A6D7D-5FD8-47CD-8F79-F7BE77F28490}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F25A6D7D-5FD8-47CD-8F79-F7BE77F28490}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F25A6D7D-5FD8-47CD-8F79-F7BE77F28490}.Release|Any CPU.Build.0 = Release|Any CPU
-		{890052EC-0D18-4A57-A963-CBB3A668B794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{890052EC-0D18-4A57-A963-CBB3A668B794}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{890052EC-0D18-4A57-A963-CBB3A668B794}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{890052EC-0D18-4A57-A963-CBB3A668B794}.Release|Any CPU.Build.0 = Release|Any CPU
 		{234EBCBB-1E52-4665-B3F8-B64BAC0DEF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{234EBCBB-1E52-4665-B3F8-B64BAC0DEF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{234EBCBB-1E52-4665-B3F8-B64BAC0DEF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{234EBCBB-1E52-4665-B3F8-B64BAC0DEF28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A0E2075-2AF7-403C-A58D-14CDE61F30E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A0E2075-2AF7-403C-A58D-14CDE61F30E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A0E2075-2AF7-403C-A58D-14CDE61F30E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A0E2075-2AF7-403C-A58D-14CDE61F30E7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{66676FA4-8E10-4716-B145-FA285753ED64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{66676FA4-8E10-4716-B145-FA285753ED64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66676FA4-8E10-4716-B145-FA285753ED64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66676FA4-8E10-4716-B145-FA285753ED64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96650E58-0A96-458C-8C72-503DD03873BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96650E58-0A96-458C-8C72-503DD03873BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96650E58-0A96-458C-8C72-503DD03873BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96650E58-0A96-458C-8C72-503DD03873BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC6D41EF-191F-40D3-9B3F-CB63C948E58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC6D41EF-191F-40D3-9B3F-CB63C948E58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC6D41EF-191F-40D3-9B3F-CB63C948E58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC6D41EF-191F-40D3-9B3F-CB63C948E58E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PluginLoader\PlaginLoaderLibrary.csproj" />
+    <ProjectReference Include="..\PluginLoaderLibrary\PlaginLoaderLibrary.csproj" />
   </ItemGroup>
 
 </Project>

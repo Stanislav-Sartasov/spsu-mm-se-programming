@@ -20,7 +20,7 @@
     <ProjectReference Include="..\BlackjackMechanics\BlackjackMechanics.csproj" />
     <ProjectReference Include="..\MartingaleBotLibrary\MartingaleBotLibrary.csproj" />
     <ProjectReference Include="..\OneThreeTwoSixBotLibrary\OneThreeTwoSixBotLibrary.csproj" />
-    <ProjectReference Include="..\PrimitiveManchetanStrategyBot\PrimitiveManchetanStrategyBotLibrary.csproj" />
+    <ProjectReference Include="..\PrimitiveManchetanStrategyBotLibrary\PrimitiveManchetanStrategyBotLibrary.csproj" />
     <ProjectReference Include="..\UsualBaseStrategyBotLibrary\UsualBaseStrategyBotLibrary.csproj" />
   </ItemGroup>
 
