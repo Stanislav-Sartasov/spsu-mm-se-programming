@@ -40,19 +40,15 @@ namespace StormGlassWeatherServiceLib
             if (response.IsSuccessStatusCode)
             {
                 string result = response.Content.ReadAsStringAsync().Result;
-                LastTemperatureCelsius = GetJsonValue(result, "airTemperature");
-                LastTemperatureFahrenheit = LastTemperatureCelsius * 1.8f + 32f;
-                LastCloudCover = GetJsonValue(result, "cloudCover");
-                LastPrecipitation = GetJsonValue(result, "precipitation");
-                LastHumidity = GetJsonValue(result, "humidity");
-                LastWindDirection = GetJsonValue(result, "windDirection");
-                LastWindSpeed = GetJsonValue(result, "windSpeed");
-                return true;
+                lastTemperatureCelsius = GetJsonValue(result, "airTemperature");
+                lastTemperatureFahrenheit = lastTemperatureCelsius * 1.8f + 32f;
+                lastCloudCover = GetJsonValue(result, "cloudCover");
+                lastPrecipitation = GetJsonValue(result, "precipitation");
+                lastHumidity = GetJsonValue(result, "humidity");
+                lastWindDirection = GetJsonValue(result, "windDirection");
+                lastWindSpeed = GetJsonValue(result, "windSpeed");
             }
-            else
-            {
-                return false;
-            }
+            return response.IsSuccessStatusCode;
         }
     }
 }

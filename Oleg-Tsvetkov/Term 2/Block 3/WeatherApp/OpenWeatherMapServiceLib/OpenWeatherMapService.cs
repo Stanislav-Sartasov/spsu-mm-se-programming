@@ -25,18 +25,14 @@ namespace OpenWeatherMapServiceLib
             {
                 string result = response.Content.ReadAsStringAsync().Result;
                 var res = JsonConvert.DeserializeObject<IDictionary<string, object>>(result);
-                LastTemperatureCelsius = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["main"].ToString())["temp"];
-                LastTemperatureFahrenheit = LastTemperatureCelsius * 1.8f + 32f;
-                LastHumidity = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["main"].ToString())["humidity"];
-                LastWindDirection = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["wind"].ToString())["deg"];
-                LastWindSpeed = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["wind"].ToString())["speed"];
-                LastCloudCover = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["clouds"].ToString())["all"];
-                return true;
+                lastTemperatureCelsius = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["main"].ToString())["temp"];
+                lastTemperatureFahrenheit = lastTemperatureCelsius * 1.8f + 32f;
+                lastHumidity = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["main"].ToString())["humidity"];
+                lastWindDirection = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["wind"].ToString())["deg"];
+                lastWindSpeed = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["wind"].ToString())["speed"];
+                lastCloudCover = JsonConvert.DeserializeObject<IDictionary<string, float>>(res["clouds"].ToString())["all"];
             }
-            else
-            {
-                return false;
-            }
+            return response.IsSuccessStatusCode;
         }
     }
 }
