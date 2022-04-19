@@ -2,6 +2,7 @@ rootProject.name = "MeteoGUI"
 
 include(":app-cli")
 include(":app-compose-desktop")
+include(":app-tornadofx")
 
 include(":lib:meteo")
 include(":lib:meteo-open-weather")
