@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="botHardTests.BotHardTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-04-19T11:58:30" hostname="DESKTOP-GP8BOQD" time="0.074">
+  <properties/>
+  <testcase name="getDecisionTest()" classname="botHardTests.BotHardTests" time="0.074"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="dealerTests.DealerTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-04-19T11:58:36" hostname="DESKTOP-GP8BOQD" time="0.007">
+  <properties/>
+  <testcase name="acceptBetsAndDealCardsTest()" classname="dealerTests.DealerTests" time="0.001"/>
+  <testcase name="dealersHandTest()" classname="dealerTests.DealerTests" time="0.0"/>
+  <testcase name="playWithBoxesAndSplitBoxesTest()" classname="dealerTests.DealerTests" time="0.0"/>
+  <testcase name="sumUpTheGameTest()" classname="dealerTests.DealerTests" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

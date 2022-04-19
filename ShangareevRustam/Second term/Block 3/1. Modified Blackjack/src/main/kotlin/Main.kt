@@ -5,10 +5,10 @@ import botLoader.BotLoader
 fun main() {
 	val botEasyFilePath = "file:///lib/botEasy/src/main/kotlin/botEasy/"
 	val botEasyImportPath = "botEasy.BotEasy"
-	val botMediumFilePath = botEasyFilePath.replace("Easy", "Medium")
-	val botMediumImportPath = botEasyImportPath.replace("Easy", "Medium")
-	val botHardFilePath = botEasyFilePath.replace("Easy", "Hard")
-	val botHardImportPath = botEasyImportPath.replace("Easy", "Hard")
+	val botMediumFilePath = "file:///lib/botMedium/src/main/kotlin/botMedium/"
+	val botMediumImportPath = "botMedium.BotMedium"
+	val botHardFilePath = "file:///lib/botHard/src/main/kotlin/botHard/"
+	val botHardImportPath = "botHard.BotHard"
 	val classes = BotLoader.load(
 		listOf(
 			Pair(botEasyFilePath, botEasyImportPath),

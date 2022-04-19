@@ -1,1 +1,1 @@
-C:\Users\132\IdeaProjects\BlackjackGame\lib\botMedium\build\classes\kotlin\main\botMedium\BotMedium.class
+C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 3\1. Modified Blackjack\lib\botMedium\build\classes\kotlin\main\botMedium\BotMedium.class

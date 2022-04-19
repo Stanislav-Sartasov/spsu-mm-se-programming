@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="blackjackPlayerTests.BlackjackPlayerTests" tests="4" skipped="0" failures="0" errors="0" timestamp="2022-04-19T11:58:36" hostname="DESKTOP-GP8BOQD" time="0.009">
+  <properties/>
+  <testcase name="getBetTestWithEnoughMoney()" classname="blackjackPlayerTests.BlackjackPlayerTests" time="0.004"/>
+  <testcase name="balanceTestAfterGetBetWithNotEnoughMoney()" classname="blackjackPlayerTests.BlackjackPlayerTests" time="0.002"/>
+  <testcase name="getBetTestWithNotEnoughMoney()" classname="blackjackPlayerTests.BlackjackPlayerTests" time="0.001"/>
+  <testcase name="balanceTestAfterGetBetWithEnoughMoney()" classname="blackjackPlayerTests.BlackjackPlayerTests" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

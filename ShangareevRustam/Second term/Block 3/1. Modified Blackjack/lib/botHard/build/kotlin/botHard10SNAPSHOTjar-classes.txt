@@ -1,1 +1,1 @@
-C:\Users\132\IdeaProjects\BlackjackGame\lib\botHard\build\classes\kotlin\main\botHard\BotHard.class
+C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 3\1. Modified Blackjack\lib\botHard\build\classes\kotlin\main\botHard\BotHard.class
