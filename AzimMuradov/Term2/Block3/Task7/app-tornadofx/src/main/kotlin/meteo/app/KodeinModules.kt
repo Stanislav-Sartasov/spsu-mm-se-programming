@@ -34,12 +34,6 @@ object KodeinModules {
 
 
     private val presentationModule = DI.Module(name = "presentation") {
-        // bindFactory { services: List<Service> ->
-        //     MeteoComposeApp(
-        //         store = instance(arg = services),
-        //     )
-        // }
-
         bindFactory<List<Service>, MviStore<MeteoWish, MeteoState>> { services: List<Service> ->
             MeteoStore(
                 interactors = services.map { instance(arg = it) },
@@ -79,8 +73,7 @@ object KodeinModules {
             StormGlassRepository(
                 client = instance(),
                 api = instance(arg = Service.StormGlass),
-                // key = getEnvOrNull(name = "stormglass.key") ?: "NOT_FOUND",
-                key = "",
+                key = getEnvOrNull(name = "stormglass.key") ?: "NOT_FOUND",
                 json = instance()
             )
         }

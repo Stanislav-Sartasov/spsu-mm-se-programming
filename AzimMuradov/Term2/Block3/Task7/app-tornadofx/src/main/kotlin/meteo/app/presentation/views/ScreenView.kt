@@ -5,11 +5,13 @@ import javafx.scene.layout.Priority
 import meteo.app.presentation.MeteoTornadoFxMessagesWizard.METEO
 import meteo.app.presentation.MeteoTornadoFxStore
 import meteo.presentation.wish.MeteoWish
+import org.kodein.di.instance
+import org.kodein.di.tornadofx.kodeinDI
 import tornadofx.*
 
 class ScreenView : View(title = METEO) {
 
-    private val store: MeteoTornadoFxStore by inject()
+    private val store: MeteoTornadoFxStore by kodeinDI().instance()
 
     override val root: Parent = vbox {
         this += find<HeaderView>(HeaderView::onLoad to { store.consume(MeteoWish.Load) })

@@ -4,29 +4,16 @@ import javafx.beans.property.SimpleObjectProperty
 import kotlinx.coroutines.*
 import kotlinx.coroutines.javafx.JavaFx
 import meteo.app.Service
-import meteo.app.kodeinDI
 import meteo.presentation.mvi.MviStore
 import meteo.presentation.state.MeteoState
 import meteo.presentation.wish.MeteoWish
-import org.kodein.di.direct
-import org.kodein.di.erasedList
-import org.kodein.type.erased
+import org.kodein.di.instance
+import org.kodein.di.tornadofx.kodeinDI
 import tornadofx.*
-import kotlin.reflect.KClass
 
 class MeteoTornadoFxStore : ViewModel() {
 
-    init {
-        FX.dicontainer = object : DIContainer {
-            override fun <T : Any> getInstance(type: KClass<T>): T = kodeinDI.direct.Instance(
-                argType = erasedList(),
-                type = erased(type),
-                arg = Service.values().toList()
-            )
-        }
-    }
-
-    private val store: MviStore<MeteoWish, MeteoState> by di()
+    private val store: MviStore<MeteoWish, MeteoState> by kodeinDI().instance(arg = parseArgs(app.parameters.raw))
 
     val state = SimpleObjectProperty<MeteoState>(MeteoState.Uninitialised)
 
@@ -38,5 +25,19 @@ class MeteoTornadoFxStore : ViewModel() {
                 state.value = it
             }
         }
+    }
+
+
+    private fun parseArgs(args: List<String>): List<Service> {
+        val servicesMap = mapOf(
+            "ow" to Service.OpenWeather,
+            "sg" to Service.StormGlass
+        )
+
+        val resArgs = args.filter(servicesMap.keys::contains).toSet().ifEmpty {
+            servicesMap.keys
+        }
+
+        return resArgs.map(servicesMap::getValue)
     }
 }
