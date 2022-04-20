@@ -48,15 +48,15 @@ public class BotLoader {
 		ArrayList<JarFile> result = new ArrayList<>();
 		File file = new File(path);
 
-		for (var fileIterator : file.listFiles()) {
-			if (fileIterator.isDirectory()) {
+		if (file.isDirectory()) {
+			for (var fileIterator : file.listFiles()) {
 				result.addAll(loadJarFilesFromPath(fileIterator.getPath()));
-			} else if (fileIterator.getName().endsWith(".jar")) {
-				try {
-					result.add(new JarFile(fileIterator.getPath()));
-				} catch (IOException e) {
-					System.err.println(e.getMessage());
-				}
+			}
+		} else if (file.getName().endsWith(".jar")) {
+			try {
+				result.add(new JarFile(file.getPath()));
+			} catch (IOException e) {
+				System.err.println(e.getMessage());
 			}
 		}
 		return result;
