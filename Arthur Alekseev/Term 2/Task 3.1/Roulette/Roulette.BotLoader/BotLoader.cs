@@ -7,7 +7,7 @@ namespace Roulette.BotLoader
 	{
 		private List<Type> types;
 		public readonly List<string> BotNames;
-		
+
 		public BotLoader(string botLibraryLocation)
 		{
 			types = new List<Type>();
@@ -28,7 +28,18 @@ namespace Roulette.BotLoader
 			foreach (var type in types)
 			{
 				if (type.Name == name)
-					return (IPlayer)type.GetConstructors()[0].Invoke(new object[] { startingMoney });
+				{
+					object foundBot = type.GetConstructors()[0].Invoke(new object[] { startingMoney });
+
+					if (foundBot is IPlayer)
+					{
+						return (IPlayer)foundBot;
+					}
+					else
+					{
+						Console.WriteLine("One bot was not added. " + type.Name + " is not inheirited from the IPlayer interface");
+					}
+				}
 			}
 
 			return null;

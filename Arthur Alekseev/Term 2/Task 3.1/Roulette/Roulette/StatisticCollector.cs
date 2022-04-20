@@ -30,7 +30,11 @@ namespace Roulette
 			for (var i = 0; i < BotAmount; i++)
 			{
 				foreach (var name in loader.BotNames)
-					_game.Players.Add(loader.GetBot(name, BotMoney));
+				{
+					IPlayer bot = loader.GetBot(name, BotMoney);
+					if (bot!= null)
+						_game.Players.Add(bot);
+				}
 			}
 		}
 
