@@ -18,7 +18,7 @@ namespace Parser.UnitTests
                 @"(?<=windDegree)\d+",
                 @"(?<=fallout.)\w+"
             };
-            Weather.Weather weather = new Parser(messenge).Parse(patterns);
+            Weather.Weather weather = new Tools.Parser(messenge).Parse(patterns);
             Assert.AreEqual(weather.TempC, "-1,23");
             Assert.AreEqual(weather.TempF, "29,79");
             Assert.AreEqual(weather.Clouds, "45");
