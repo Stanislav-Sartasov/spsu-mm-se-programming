@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser.UnitTests", "UnitTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Request.UnitTests", "UnitTests\GetRequest.UnitTests\Request.UnitTests.csproj", "{9B741C2F-3764-4640-9EB9-6F7CF6A48D66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sites.UnitTests", "Sites.UnitTests\Sites.UnitTests.csproj", "{192B6BE8-75D6-4CDA-882E-7E60613252FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sites.UnitTests", "UnitTests\Sites.UnitTests\Sites.UnitTests.csproj", "{192B6BE8-75D6-4CDA-882E-7E60613252FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
