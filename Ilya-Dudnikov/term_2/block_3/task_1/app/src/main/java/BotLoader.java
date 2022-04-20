@@ -5,7 +5,6 @@ import player.PlayerController;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
@@ -49,16 +48,17 @@ public class BotLoader {
 		ArrayList<JarFile> result = new ArrayList<>();
 		File file = new File(path);
 
-		if (file.isDirectory()) {
-			result.addAll(loadJarFilesFromPath(file.getPath()));
-		} else if (file.getName().endsWith(".jar")) {
-			try {
-				result.add(new JarFile(file.getPath()));
-			} catch (IOException e) {
-				System.err.println(e.getMessage());
+		for (var fileIterator : file.listFiles()) {
+			if (fileIterator.isDirectory()) {
+				result.addAll(loadJarFilesFromPath(fileIterator.getPath()));
+			} else if (fileIterator.getName().endsWith(".jar")) {
+				try {
+					result.add(new JarFile(fileIterator.getPath()));
+				} catch (IOException e) {
+					System.err.println(e.getMessage());
+				}
 			}
 		}
-
 		return result;
 	}
 
