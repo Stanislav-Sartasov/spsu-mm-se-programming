@@ -28,7 +28,14 @@ namespace Plugin
 
 			foreach (Type type in library.GetExportedTypes())
 			{
-				Bots.Add((Player)type.GetConstructors()[0].Invoke(new object[] { sum }));
+				try
+				{
+					Bots.Add((Player)type.GetConstructors()[0].Invoke(new object[] { sum }));
+				}
+				catch
+				{
+					continue;
+				}
 			}
 
 			return Bots;

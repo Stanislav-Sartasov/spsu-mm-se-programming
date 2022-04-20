@@ -21,9 +21,12 @@ namespace Blackjack
 			Players = new List<Player>();
 		}
 
-		public void PlayGame()
+		public void PlayGame(int money)
 		{
 			int count = 0;
+
+			WriteStartSum(money);
+
 			while (count != 40)
 			{
 				Deck = new Deck();
@@ -167,6 +170,11 @@ namespace Blackjack
 				Console.WriteLine(player.Name + " has " + player.Money + "$");
 			}
 			Console.WriteLine("All other players spent all their money and they are out of game.");
+		}
+
+		public void WriteStartSum(int sum)
+		{
+			Console.WriteLine("Each player has " + sum + "$\n");
 		}
 	}
 }

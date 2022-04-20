@@ -335,7 +335,7 @@ namespace Blackjack.UnitTests
 		{
 			Game game = new Game();
 			game.Players.Add(new Bot(0));
-			game.PlayGame();
+			game.PlayGame(500);
 			Assert.AreEqual(game.Players.Count, 0);
 
 			game.Players.Add(new Bot(500));
@@ -348,7 +348,7 @@ namespace Blackjack.UnitTests
 
 			for (int i = 0; i < 10; i++)
 			{
-				game.PlayGame();
+				game.PlayGame(500);
 			}
 
 			Assert.Pass();

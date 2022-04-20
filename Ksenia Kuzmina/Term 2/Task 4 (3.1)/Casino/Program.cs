@@ -18,8 +18,12 @@ namespace Casino
 
 			int sum = 500;
 			Game game = new Game();
+			
 			game.Players = BotLoader.LoadBots("../../../../Bots/Bots.dll", sum);
-			game.PlayGame();
+			Console.WriteLine(game.Players.Count + " bots were found in the libary.\n");
+			Console.WriteLine("The game starts here.");
+
+			game.PlayGame(sum);
 		}
 	}
 }
