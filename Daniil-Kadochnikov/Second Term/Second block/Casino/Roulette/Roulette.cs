@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Roulette
 {
@@ -9,29 +10,46 @@ namespace Roulette
 		public List<Player> Players { get; private set; }
 		public List<Player> Observers { get; private set; }
 		private List<Bet> bets;
+		private readonly string[] possibleBets;
+		private Random rnd;
 
 		public RouletteTable()
 		{
 			Numbers = new Cell[37];
 
 			Numbers[0] = new Cell(2, 2, 0);
-			byte a = 1;
-			for (byte x = 0; x < 2; x++)
+			int a = 1;
+			for (int x = 0; x < 2; x++)
 			{
-				for (byte y = 0; y < 10; y++)
+				for (int y = 0; y < 10; y++)
 				{
-					Numbers[a] = new Cell((byte)(a % 2), (byte)(a % 2), (byte)(((a - 1) / 12) + 1));
+					Numbers[a] = new Cell(a % 2, a % 2, ((a - 1) / 12) + 1);
 					a++;
 				}
-				for (byte z = 0; z < 8; z++)
+				for (int z = 0; z < 8; z++)
 				{
-					Numbers[a] = new Cell((byte)((a + 1) % 2), (byte)(a % 2), (byte)(((a - 1) / 12) + 1));
+					Numbers[a] = new Cell((a + 1) % 2, a % 2, ((a - 1) / 12) + 1);
 					a++;
 				}
 			}
 
 			Players = new List<Player>();
 			Observers = new List<Player>();
+
+			possibleBets = new string[44];
+			for (int x = 0; x < 37; x++)
+			{
+				possibleBets[x] = x.ToString();
+			}
+			possibleBets[37] = "red";
+			possibleBets[38] = "black";
+			possibleBets[39] = "odd";
+			possibleBets[40] = "even";
+			possibleBets[41] = "dozen 1";
+			possibleBets[42] = "dozen 2";
+			possibleBets[43] = "dozen 3";
+
+			Random rnd = new Random();
 		}
 
 		public void AddPlayer(Player newPlayer)
@@ -44,6 +62,9 @@ namespace Roulette
 			bets = new List<Bet>();
 			for (int x = 0; x < Players.Count; x++)
 			{
+
+				List<Bet> playersBets = Players[x].MakeBet(x);
+
 				if (Players[x].flag == 0)
 				{
 					Player playerObserver = Players[x];
@@ -51,57 +72,59 @@ namespace Roulette
 					Observers.Add(playerObserver);
 					x--;
 				}
-				else
-				{
-					List<Bet> playersBets = Players[x].MakeBet(x);
 
-					if (playersBets == null)
-						continue;
+				if (playersBets == null)
+					continue;
 
-					foreach (Bet oneBet in playersBets)
-						bets.Add(oneBet);
-				}
+				foreach (Bet oneBet in playersBets)
+					bets.Add(oneBet);
 			}
 
 			Random rnd = new Random();
-			int number = rnd.Next(0, 37);
-
-			List<string> wins = new List<string>();
-
-			wins.Add(rnd.ToString());
-
-			if (Numbers[number].Colour == 0)
-				wins.Add("black");
-			else if (Numbers[number].Colour == 1)
-				wins.Add("red");
-
-			if (Numbers[number].Parity == 0)
-				wins.Add("even");
-			else if (Numbers[number].Parity == 1)
-				wins.Add("odd");
-
-			if (Numbers[number].Dozen == 1)
-				wins.Add("dozen 1");
-			else if (Numbers[number].Dozen == 2)
-				wins.Add("dozen 2");
-			else if (Numbers[number].Dozen == 3)
-				wins.Add("dozen 3");
+			int number = rnd.Next(37);
 
 			for (int x = 0; x < bets.Count; x++)
 			{
-				if (wins.Contains(bets[x].BetCell))
+				if (!(possibleBets.Contains(bets[x].BetCell)))
 				{
-					if (bets[x].BetCell == wins[0])
-						Players[bets[x].Player].Balance += bets[x].Money * 36;
-					else if (bets[x].BetCell == wins[1] || bets[x].BetCell == wins[2])
-						Players[bets[x].Player].Balance += bets[x].Money * 2;
-					else
-						Players[bets[x].Player].Balance += bets[x].Money * 3;
+					Players[bets[x].Player].Balance += bets[x].Money;
+					Console.WriteLine("The player \"{0}\" made a non-existent bet on \"{1}\". Staked money \"{2}\" have been returned. Balance is \"{3}\".", Players[bets[x].Player].Name, bets[x].BetCell, bets[x].Money, Players[bets[x].Player].Balance);
+					break;
+				}
 
-					Players[bets[x].Player].BetsWin++;
+				Players[bets[x].Player].AmountOfBets++;
+				try
+				{
+					int numberBet = Convert.ToInt32(bets[x].BetCell);
+
+					if (numberBet == number)
+						Win(36, x);
+				}
+				catch (FormatException)
+				{
+					if (Numbers[number].Colour == 0 && bets[x].BetCell == "black")
+						Win(2, x);
+					else if (Numbers[number].Colour == 1 && bets[x].BetCell == "red")
+						Win(2, x);
+					else if (Numbers[number].Parity == 0 && bets[x].BetCell == "even")
+						Win(2, x);
+					else if (Numbers[number].Parity == 1 && bets[x].BetCell == "odd")
+						Win(2, x);
+					else if (Numbers[number].Dozen == 1 && bets[x].BetCell == "dozen 1")
+						Win(3, x);
+					else if (Numbers[number].Dozen == 2 && bets[x].BetCell == "dozen 2")
+						Win(3, x);
+					else if (Numbers[number].Dozen == 3 && bets[x].BetCell == "dozen 3")
+						Win(3, x);
 				}
 				Players[bets[x].Player].Profit = Players[bets[x].Player].Balance - Players[bets[x].Player].Deposit;
 			}
+		}
+
+		private void Win(int coefficient, int x)
+		{
+			Players[bets[x].Player].Balance += bets[x].Money * coefficient;
+			Players[bets[x].Player].BetsWin++;
 		}
 
 		public void ShowInfoAboutPlayers()

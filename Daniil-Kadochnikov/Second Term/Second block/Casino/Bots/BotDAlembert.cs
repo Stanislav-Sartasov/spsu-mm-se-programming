@@ -45,7 +45,6 @@ namespace Bots
 				wins = 0;
 				playersBets.Add(new Bet(player, bet, money));
 				Balance -= money;
-				AmountOfBets++;
 			}
 			else
 			{
@@ -66,7 +65,6 @@ namespace Bots
 
 					playersBets.Add(new Bet(player, bet, money));
 					Balance -= money;
-					AmountOfBets++;
 				}
 				else
 				{
@@ -80,7 +78,6 @@ namespace Bots
 
 					playersBets.Add(new Bet(player, bet, money));
 					Balance -= money;
-					AmountOfBets++;
 				}
 			}
 			return playersBets;
