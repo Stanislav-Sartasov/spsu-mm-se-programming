@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormGlass", "..\StormGlass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TomorrowIO", "..\TomorrowIO\TomorrowIO.csproj", "{2E8F9D56-4102-4579-9A08-D5DF06D3AAD5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UILogicLibrary", "..\UILogicLibrary\UILogicLibrary.csproj", "{5D446704-F1DE-4416-BD2E-DFB4680646AD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -195,26 +193,6 @@ Global
 		{2E8F9D56-4102-4579-9A08-D5DF06D3AAD5}.Release|x64.Build.0 = Release|Any CPU
 		{2E8F9D56-4102-4579-9A08-D5DF06D3AAD5}.Release|x86.ActiveCfg = Release|Any CPU
 		{2E8F9D56-4102-4579-9A08-D5DF06D3AAD5}.Release|x86.Build.0 = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|ARM.Build.0 = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|ARM64.ActiveCfg = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|ARM64.Build.0 = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|x64.Build.0 = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Debug|x86.Build.0 = Debug|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|ARM.ActiveCfg = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|ARM.Build.0 = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|ARM64.ActiveCfg = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|ARM64.Build.0 = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|x64.ActiveCfg = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|x64.Build.0 = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|x86.ActiveCfg = Release|Any CPU
-		{5D446704-F1DE-4416-BD2E-DFB4680646AD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

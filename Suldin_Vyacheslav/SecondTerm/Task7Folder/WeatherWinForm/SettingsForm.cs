@@ -1,33 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using UILogicLibrary;
+using Parsers;
 
 namespace WeatherWinForm
 {
     public partial class SettingsForm : Form
     {
-        private readonly WeatherModel model = new WeatherModel();
-        public SettingsForm(WeatherModel inputModel)
+        public List<JSONParser> services;
+        public SettingsForm(List<JSONParser> services)
         {
+            this.services = services;
             InitializeComponent();
-            model = inputModel;
-            foreach (var service in model.services)
+            foreach (var service in services)
             {
                 ServiceBox.Items.Add(service.GetType().Name);
             }
-            
+
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
-            foreach (var service in model.services)
+            foreach (var service in services)
             {
                 if (service.GetType().Name == ServiceBox.Text)
                 {
@@ -37,16 +31,6 @@ namespace WeatherWinForm
                 }
             }
             KeyLabel.Text = "Wrong service";
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SettingsForm_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

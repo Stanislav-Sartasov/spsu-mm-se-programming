@@ -7,11 +7,30 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\wallpaper1.jpg" />
+    <None Remove="wallpaper1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UILogicLibrary\UILogicLibrary.csproj" />
+    <ProjectReference Include="..\GisMeteo\GisMeteo.csproj" />
+    <ProjectReference Include="..\OpenWeather\OpenWeather.csproj" />
+    <ProjectReference Include="..\Parsers\Parsers.csproj" />
+    <ProjectReference Include="..\StormGlass\StormGlass.csproj" />
+    <ProjectReference Include="..\TomorrowIO\TomorrowIO.csproj" />
+    <ProjectReference Include="..\WebLibrary\WebLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Debug\net5.0-windows\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\wallpaper1.jpg" />
+    <Resource Include="wallpaper1.jpg" />
   </ItemGroup>
 
 </Project>

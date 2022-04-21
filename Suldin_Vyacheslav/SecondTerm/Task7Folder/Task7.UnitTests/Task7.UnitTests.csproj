@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -21,7 +21,6 @@
     <ProjectReference Include="..\Parsers\Parsers.csproj" />
     <ProjectReference Include="..\StormGlass\StormGlass.csproj" />
     <ProjectReference Include="..\TomorrowIO\TomorrowIO.csproj" />
-    <ProjectReference Include="..\UILogicLibrary\UILogicLibrary.csproj" />
     <ProjectReference Include="..\WebLibrary\WebLibrary.csproj" />
   </ItemGroup>
 

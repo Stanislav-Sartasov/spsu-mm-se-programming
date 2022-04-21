@@ -17,9 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StormGlass", "..\StormGlass
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenWeather", "..\OpenWeather\OpenWeather.csproj", "{AF69049E-1302-4C9C-AFD9-CB0AF8486A65}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UILogicLibrary", "..\UILogicLibrary\UILogicLibrary.csproj", "{E07B72CB-F48C-45A6-BDE0-B00758193FE3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Task7.UnitTests", "..\Task7.UnitTests\Task7.UnitTests.csproj", "{E8B784F0-82BD-47BB-9C07-01C051CC9E3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task7.UnitTests", "..\Task7.UnitTests\Task7.UnitTests.csproj", "{E8B784F0-82BD-47BB-9C07-01C051CC9E3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,10 +53,6 @@ Global
 		{AF69049E-1302-4C9C-AFD9-CB0AF8486A65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF69049E-1302-4C9C-AFD9-CB0AF8486A65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF69049E-1302-4C9C-AFD9-CB0AF8486A65}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E07B72CB-F48C-45A6-BDE0-B00758193FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E07B72CB-F48C-45A6-BDE0-B00758193FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E07B72CB-F48C-45A6-BDE0-B00758193FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E07B72CB-F48C-45A6-BDE0-B00758193FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E8B784F0-82BD-47BB-9C07-01C051CC9E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E8B784F0-82BD-47BB-9C07-01C051CC9E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8B784F0-82BD-47BB-9C07-01C051CC9E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU

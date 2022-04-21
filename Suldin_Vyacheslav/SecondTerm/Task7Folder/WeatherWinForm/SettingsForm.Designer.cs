@@ -95,7 +95,6 @@ namespace WeatherWinForm
             this.MinimumSize = new System.Drawing.Size(328, 265);
             this.Name = "SettingsForm";
             this.Text = "SettingsForm";
-            this.Load += new System.EventHandler(this.SettingsForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

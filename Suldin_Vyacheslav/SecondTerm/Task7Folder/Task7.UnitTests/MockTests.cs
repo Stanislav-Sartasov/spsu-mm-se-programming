@@ -11,7 +11,6 @@ using OpenWeather;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Resources;
-using UILogicLibrary;
 
 namespace Task7.UnitTests
 {
@@ -21,18 +20,7 @@ namespace Task7.UnitTests
         public void Setup()
         {
         }
-        [Test]
-        public void ModelTest()
-        {
-            var model = new WeatherModel();
-            if (model.GetWeather() == null) Assert.Fail();
-            foreach (ErrorType error in Enum.GetValues(typeof(ErrorType)))
-            {
-                if (model.GetError("service:" + error.ToString()) != ((int)error).ToString()) Assert.Fail();
 
-            }
-            Assert.Pass();
-        }
         [Test]
 
         public void WebTests()
