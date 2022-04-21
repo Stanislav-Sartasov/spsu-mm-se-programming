@@ -27,7 +27,7 @@
             <RowDefinition Height="583*"/>
             <RowDefinition Height="89*"/>
         </Grid.RowDefinitions>
-        <Image Source="wallpaper1.jpg" Grid.RowSpan="2" Margin="0,0,-1,0" Grid.Row="5" Grid.ColumnSpan="8" Stretch="Fill"/>
+        <Image Source="Resources/wallpaper1.jpg" Grid.RowSpan="2" Margin="0,0,-1,0" Grid.Row="5" Grid.ColumnSpan="8" Stretch="Fill"/>
         <Border Background="SkyBlue" Grid.ColumnSpan="8" Margin="0,0,0,1"/>
         <Border Background="#FF111B1D" Margin="0,45,0,1" Grid.ColumnSpan="8"/>
         <Border Background="#FF111B1D" Margin="0,0,160,0" Grid.RowSpan="5" Grid.Column="1"/>

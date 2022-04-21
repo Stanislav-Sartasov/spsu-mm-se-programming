@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <None Remove="Resources\wallpaper1.jpg" />
-    <None Remove="wallpaper1.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +29,6 @@
 
   <ItemGroup>
     <Resource Include="Resources\wallpaper1.jpg" />
-    <Resource Include="wallpaper1.jpg" />
   </ItemGroup>
 
 </Project>
