@@ -14,7 +14,7 @@ namespace LibraryLoader
 				if (botType.BaseType == typeof(Player))
 					bots.Add((Player)botType.GetConstructors()[0].Invoke(new object[] { game, 1000 }));
 				else
-					Console.WriteLine("Object is not an heir of type Player.\n");
+					Console.WriteLine("Object is not an heir of class Player.\n");
 
 			return bots;
 		}
