@@ -22,7 +22,7 @@ namespace Task7.UnitTests
         {
         }
         [Test]
-        public void asdst()
+        public void ModelTest()
         {
             var model = new WeatherModel();
             if (model.GetWeather() == null) Assert.Fail();

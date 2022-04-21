@@ -17,7 +17,7 @@ namespace UILogicLibrary
 {
     public class WeatherModel
     {
-        private ResourceManager rm = new ResourceManager("UILogicLibrary.Keys.BaseKeysSet", Assembly.GetExecutingAssembly());
+        private ResourceManager rm = new ResourceManager("UILogicLibrary.BaseKeysSet", Assembly.GetExecutingAssembly());
 
         public List<JSONParser> services = new List<JSONParser>();
         public WeatherModel()
