@@ -11,26 +11,28 @@ object CasinoCliApp {
     fun run() {
         println("Average of $averageN runs:")
         for (strategy in listOf(SimpleStrategy, BasicStrategy, HiLoStrategy)) {
-            val (initBankroll, resBankroll) = playSessionAverage(
+            val resBankroll = playSessionAverage(
                 table = Table.standard(),
-                strategy,
-                bankroll = 5000u,
+                strategy = strategy,
+                bankroll = bankroll,
                 averageN = averageN
             )
-            println("${strategy::class.simpleName} : score = $initBankroll / $resBankroll")
+            println("- ${strategy::class.simpleName} : score = $resBankroll / $bankroll")
         }
     }
 
 
-    private const val averageN = 50_000
+    private const val bankroll = 5000u
+
+    private const val averageN = 1000
 
     private fun playSessionAverage(
         table: Table, strategy: PlayerStrategy, bankroll: UInt,
         averageN: Int,
-    ): Pair<Double, Int> = sequence {
+    ): Double = sequence {
         repeat(times = averageN) {
             val (newBankroll, _) = table.playSession(strategy, bankroll)
             yield(newBankroll)
         }
-    }.map(UInt::toInt).average() to bankroll.toInt()
+    }.map(UInt::toInt).average()
 }
