@@ -49,7 +49,7 @@ namespace Roulette
 			possibleBets[42] = "dozen 2";
 			possibleBets[43] = "dozen 3";
 
-			Random rnd = new Random();
+			rnd = new Random();
 		}
 
 		public void AddPlayer(Player newPlayer)
@@ -80,7 +80,6 @@ namespace Roulette
 					bets.Add(oneBet);
 			}
 
-			Random rnd = new Random();
 			int number = rnd.Next(37);
 
 			for (int x = 0; x < bets.Count; x++)
