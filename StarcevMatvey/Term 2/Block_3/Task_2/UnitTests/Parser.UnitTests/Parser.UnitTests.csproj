@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Parser\Parser.csproj" />
+    <ProjectReference Include="..\..\Parser\Tools.csproj" />
     <ProjectReference Include="..\..\Weather\Weather.csproj" />
   </ItemGroup>
 

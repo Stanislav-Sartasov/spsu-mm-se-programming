@@ -2,7 +2,7 @@
 
 namespace Requests
 {
-    public class GetRequest
+    public class GetRequest : IGetRequest
     {
         private HttpWebRequest request;
         private WebProxy proxy;
