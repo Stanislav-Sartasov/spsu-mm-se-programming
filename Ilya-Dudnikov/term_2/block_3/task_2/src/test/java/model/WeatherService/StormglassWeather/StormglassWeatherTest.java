@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.net.URI;
 import java.net.http.HttpHeaders;
 import java.net.http.HttpRequest;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -32,10 +33,14 @@ class StormglassWeatherTest {
 		HttpRequest request = requestCreator.createRequest(lat, lon, key);
 
 		assertEquals("GET", request.method());
-		assertEquals(
-				URI.create("https://api.stormglass.io/v2/weather/point?lat=60.0&lng=30.0&params=airTemperature,cloudCover,humidity,precipitation,windDirection,windSpeed"),
-				request.uri()
+
+		URI expected = URI.create(
+				"https://api.stormglass.io/v2/weather/point?lat=60.0&lng=30.0&params=airTemperature,cloudCover,humidity,precipitation,windDirection,windSpeed&start="
+						+ Instant.now().toString().substring(0, 10)
+						+ "&end=" + Instant.now().toString().substring(0, 10)
 		);
+
+		assertEquals(expected, request.uri());
 
 		assertEquals(HttpHeaders.of(
 				new HashMap<String, List<String>>() {{
