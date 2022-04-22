@@ -84,8 +84,8 @@ namespace WeatherWinForm
                 }
                 else
                 {
-                    content.SubItems.Add(information.ImperialTemp);
                     content.SubItems.Add(information.MetricTemp);
+                    content.SubItems.Add(information.ImperialTemp);
                     content.SubItems.Add(information.CloudCover);
                     content.SubItems.Add(information.Humidity);
                     content.SubItems.Add(information.Precipipations);

@@ -73,8 +73,8 @@ namespace WeatherWPF
                 }
                 else
                 {
-                    labels[++i].Content = information.ImperialTemp;
                     labels[++i].Content = information.MetricTemp;
+                    labels[++i].Content = information.ImperialTemp;
                     labels[++i].Content = information.CloudCover;
                     labels[++i].Content = information.Humidity;
                     labels[++i].Content = information.Precipipations;
