@@ -26,7 +26,7 @@ class StormglassParserTest {
 			put("windSpeed", 1.94);
 		}};
 
-		var actual = jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH +"goodStormglassJson.json")));
+		var actual = jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH + "StormglassJSONs/goodStormglassJson.json")));
 
 		assertEquals(expected, actual);
 	}
@@ -44,7 +44,7 @@ class StormglassParserTest {
 			put("windSpeed", null);
 		}};
 
-		var actual = jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH + "StormglassJsonWithNulls.json")));
+		var actual = jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH + "StormglassJSONs/StormglassJsonWithNulls.json")));
 
 		assertEquals(expected, actual);
 	}
@@ -53,6 +53,6 @@ class StormglassParserTest {
 	void parseBrokenJsonExpectParseException() throws IOException, ParseException {
 		JSONParser jsonParser = new StormglassParser();
 
-		assertThrows(ParseException.class, () -> jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH +"brokenJson.json"))));
+		assertThrows(ParseException.class, () -> jsonParser.parse(Files.readString(Path.of(RESOURCES_PATH + "StormglassJSONs/brokenJson.json"))));
 	}
 }
