@@ -51,7 +51,6 @@ namespace Sites
             request.Run();
             if (!request.Connect)
             {
-                WriteLine("Openweathermap is down.");
                 return null;
             }
 
