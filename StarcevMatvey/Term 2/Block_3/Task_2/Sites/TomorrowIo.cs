@@ -53,7 +53,6 @@ namespace Sites
             request.Run();
             if (!request.Connect)
             {
-                WriteLine("Tomorrow.io is down.");
                 return null;
             }
 
