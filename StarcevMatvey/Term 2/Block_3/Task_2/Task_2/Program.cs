@@ -1,5 +1,4 @@
 ﻿using ISites;
-using Sites;
 using static System.Console;
 
 namespace Task_2
@@ -10,11 +9,7 @@ namespace Task_2
         {
             WriteLine("This programm show weather in Saint-Petersburg.\n");
 
-            List<ISite> sites = new List<ISite>
-            {
-                new OpenWeatherMap(),
-                new TomorrowIo()
-            };
+            List<ISite> sites = new IoCContainer().GetSites();
 
             while (true)
             {
