@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherWPF", "WeatherWPF.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task6.UnitTests", "..\Task6.UnitTests\Task6.UnitTests.csproj", "{C00A3B70-CD15-4700-AA9D-1514BAD67011}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "..\IoC\IoC.csproj", "{D894BFCB-1FC3-4214-9FC7-08B796BECA47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC", "..\IoC\IoC.csproj", "{7232DF1F-5044-4C0B-BC9B-A24D14A9C076}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,10 +59,10 @@ Global
 		{C00A3B70-CD15-4700-AA9D-1514BAD67011}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C00A3B70-CD15-4700-AA9D-1514BAD67011}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C00A3B70-CD15-4700-AA9D-1514BAD67011}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D894BFCB-1FC3-4214-9FC7-08B796BECA47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D894BFCB-1FC3-4214-9FC7-08B796BECA47}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D894BFCB-1FC3-4214-9FC7-08B796BECA47}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D894BFCB-1FC3-4214-9FC7-08B796BECA47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7232DF1F-5044-4C0B-BC9B-A24D14A9C076}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7232DF1F-5044-4C0B-BC9B-A24D14A9C076}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7232DF1F-5044-4C0B-BC9B-A24D14A9C076}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7232DF1F-5044-4C0B-BC9B-A24D14A9C076}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
