@@ -29,12 +29,12 @@ class OpenWeatherMapModelTest {
 
 		WeatherModel expectedModel = new OpenWeatherMapModel();
 		expectedModel.data = new WeatherData(
-				10,
-				10,
-				12,
-				4,
-				51,
-				1
+				10.0,
+				10.0,
+				12.0,
+				4.0,
+				51.0,
+				1.0
 		);
 		weatherModel.updateState(newStats);
 
