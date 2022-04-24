@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Task_2
 {
-    class RequestURLGetter
+    public class RequestURLGetter
     {
         private const string latitude = "59.57";
         private const string longitude = "30.19";

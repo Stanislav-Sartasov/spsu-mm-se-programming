@@ -7,9 +7,9 @@ using Newtonsoft.Json;
 
 namespace JsonParsingLibrary
 {
-    public class TomorrowData
+    public class TomorrowioDataHolder
     {
-        [JsonProperty("timelines")]
-        public List<TimeLine> TimeLines { get; set; }
+        [JsonProperty("data")]
+        public TomorrowioData Data { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace JsonParsingLibrary
             Parameters = new Dictionary<string, string>();
             if (site == "tomorrow.io")
             {
-                TomorrowDataHolder tomorrowDataHolder = JsonConvert.DeserializeObject<TomorrowDataHolder>(Json);
+                TomorrowioDataHolder tomorrowDataHolder = JsonConvert.DeserializeObject<TomorrowioDataHolder>(Json);
                 Dictionary<string, string> tempDict = tomorrowDataHolder.Data.TimeLines[0].Intervals[0].Values;
                 foreach (var field in tempDict)
                 {
@@ -35,8 +35,8 @@ namespace JsonParsingLibrary
             }
             else
             {
-                StormGlassDataHolder stormGlassDataHolder = JsonConvert.DeserializeObject<StormGlassDataHolder>(Json);
-                Hour hour = stormGlassDataHolder.Hours[0];
+                StormGlassioDataHolder stormGlassDataHolder = JsonConvert.DeserializeObject<StormGlassioDataHolder>(Json);
+                StormGlassioHour hour = stormGlassDataHolder.Hours[0];
                 Parameters.Add("cloudCover", hour.CloudCover["noaa"]);
                 Parameters.Add("temperature", hour.Temperature["noaa"]);
                 Parameters.Add("humidity", hour.Humidity["noaa"]);

@@ -1,7 +1,7 @@
 using NUnit.Framework;
 using JsonParsingLibrary;
+using System;
 using System.Collections.Generic;
-
 namespace Task_2.Tests
 {
     public class WeatherAppTests
@@ -76,6 +76,21 @@ namespace Task_2.Tests
             answer = consoleWriter.ShowSiteWeather(stormglassParser.Object);
             Assert.AreEqual(testAnswer, answer);
             Assert.AreEqual(testParameters, consoleWriter.Parameters);
+        }
+
+        [Test]
+        public void GetRequestURLTest()
+        {
+            Uri correctTomorrowioRequestURL = new Uri("https://api.tomorrow.io/v4/timelines?location=59.57,30.19&fields=temperature,cloudCover,humidity,precipitationIntensity,windDirection,windSpeed&timesteps=current&units=metric&apikey=AVMNJMtSlSrsgXtt1gIB6x2MrgKqIqxO");
+            RequestURLGetter urlGetter = new RequestURLGetter();
+            Uri testTomorrowioRequestURL = urlGetter.GetRequestURL("tomorrow.io");
+            Assert.AreEqual(correctTomorrowioRequestURL, testTomorrowioRequestURL);
+            var timeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds();
+            Uri initialStormglassioRequestURL = new Uri("https://api.stormglass.io/v2/weather/point");
+            string stormglassParameters = string.Format("?lat=59.57&lng=30.19&params=airTemperature,cloudCover,humidity,precipitation,windDirection,windSpeed&start={0}&end={1}&source=noaa", timeStamp, timeStamp);
+            Uri correctStormglassioRequestURL = new Uri(initialStormglassioRequestURL, stormglassParameters);
+            Uri testStormglassioRequestURL = urlGetter.GetRequestURL("stormglass.io");
+            Assert.AreEqual(correctStormglassioRequestURL, testStormglassioRequestURL);
         }
     }
 }

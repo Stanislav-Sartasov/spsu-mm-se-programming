@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 
 namespace JsonParsingLibrary
 {
-    public class StormGlassDataHolder
+    public class StormGlassioDataHolder
     {
         [JsonProperty("hours")]
-        public List<Hour> Hours { get; set; }
+        public List<StormGlassioHour> Hours { get; set; }
         [JsonProperty("meta")]
         public Dictionary<string, object> Meta { get; set; }
     }
