@@ -31,9 +31,9 @@ class WeatherServiceTest {
 
 		HttpClient client = Mockito.mock(HttpClient.class);
 		OpenWeatherMap requestCreator = new OpenWeatherMap();
-		Mockito.when(client.send(requestCreator.createRequest(lat, lon, APIKey), HttpResponse.BodyHandlers.ofString())).thenReturn(response);
+		Mockito.when(client.send(requestCreator.createRequest(lat, lon), HttpResponse.BodyHandlers.ofString())).thenReturn(response);
 
-		WeatherService weatherService = new WeatherService(requestCreator, APIKey);
+		WeatherService weatherService = new WeatherService(requestCreator);
 		assertEquals(json, weatherService.requestData(lat, lon, client));
 	}
 }

@@ -18,7 +18,6 @@ class StormglassWeatherTest {
 	void createRequest() {
 		double lat = 60;
 		double lon = 30;
-		String key = "hahahahaPutinPutin";
 
 		ArrayList<String> params = new ArrayList<>();
 		params.add("airTemperature");
@@ -30,7 +29,7 @@ class StormglassWeatherTest {
 
 		StormglassWeather requestCreator = new StormglassWeather(params);
 
-		HttpRequest request = requestCreator.createRequest(lat, lon, key);
+		HttpRequest request = requestCreator.createRequest(lat, lon);
 
 		assertEquals("GET", request.method());
 
@@ -44,7 +43,7 @@ class StormglassWeatherTest {
 
 		assertEquals(HttpHeaders.of(
 				new HashMap<String, List<String>>() {{
-					put("Authorization", Collections.singletonList(key));
+					put("Authorization", Collections.singletonList(System.getenv("STORMGLASS_API_KEY")));
 				}}, (first, second) -> true),
 				request.headers()
 		);
