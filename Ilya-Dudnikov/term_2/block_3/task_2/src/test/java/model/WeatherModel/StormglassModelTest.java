@@ -18,14 +18,14 @@ class StormglassModelTest {
 	void updateState() {
 		WeatherModel weatherModel = new StormglassModel();
 
-		HashMap<String, Integer> newStats = new HashMap<>();
+		HashMap<String, Double> newStats = new HashMap<>();
 
-		newStats.put("airTemperature", 10);
-		newStats.put("cloudCover", 10);
-		newStats.put("humidity", 12);
-		newStats.put("precipitation", 4);
-		newStats.put("windDirection", 51);
-		newStats.put("windSpeed", 1);
+		newStats.put("airTemperature", 10.0);
+		newStats.put("cloudCover", 10.0);
+		newStats.put("humidity", 12.0);
+		newStats.put("precipitation", 4.0);
+		newStats.put("windDirection", 51.0);
+		newStats.put("windSpeed", 1.0);
 
 		WeatherModel expectedModel = new StormglassModel();
 		expectedModel.data = new WeatherData(

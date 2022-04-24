@@ -12,7 +12,7 @@ public abstract class WeatherModel {
 		this.data = null;
 	}
 
-	public abstract void updateState(Map<String, Integer> newStats);
+	public abstract void updateState(Map<String, Double> newStats);
 
 	@Override
 	public boolean equals(Object o) {

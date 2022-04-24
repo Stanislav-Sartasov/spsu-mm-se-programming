@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class StormglassModel extends WeatherModel {
 	@Override
-	public void updateState(Map<String, Integer> newStats) {
+	public void updateState(Map<String, Double> newStats) {
 		data = new WeatherData(
 				newStats.get("airTemperature"),
 				newStats.get("cloudCover"),

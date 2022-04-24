@@ -1,12 +1,10 @@
 package model.WeatherData;
 
-import java.util.Objects;
-
 public record WeatherData(
-		int airTemperature,
-		int cloudCover,
-		int humidity,
-		int precipitation,
-		int windDirection,
-		int windSpeed) {
+		Double airTemperature,
+		Double cloudCover,
+		Double humidity,
+		Double precipitation,
+		Double windDirection,
+		Double windSpeed) {
 }
