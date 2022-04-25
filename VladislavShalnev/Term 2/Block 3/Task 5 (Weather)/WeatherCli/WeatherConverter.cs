@@ -8,7 +8,11 @@ public static class WeatherConverter
 	
 	public static string WeatherToString(Weather weather)
 	{
-		string result = $"Дата: {ValueToString(weather.Date)}\n";
+		DateTime? localDate = weather.Date is DateTime date
+			? TimeZoneInfo.ConvertTimeFromUtc(date, TimeZoneInfo.Local)
+			: null;
+		
+		string result = $"Дата: {ValueToString(localDate)}\n";
 		result += $"Описание: {ValueToString(weather.Description)}\n";
 		result += $"Температура (°C): {ValueToString(weather.Temperature)}°C\n";
 		result += $"Температура (°F): {ValueToString((weather.Temperature * 1.8 + 32 ?? 0).ToString("#.##"))}°F\n";
