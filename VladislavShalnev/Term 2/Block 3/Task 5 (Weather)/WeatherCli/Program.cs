@@ -24,8 +24,12 @@ public class Program
 			
 			var tomorrowIoTask = tomorrowIo.GetCurrentAsync(location);
 			var openWeatherMapTask = openWeatherMap.GetCurrentAsync(location, lang: "ru");
-			await Task.WhenAll(tomorrowIoTask, openWeatherMapTask);
-
+			try
+			{
+				await Task.WhenAll(tomorrowIoTask, openWeatherMapTask);
+			}
+			catch {} // Catching it later
+			
 			Console.WriteLine("--Tomorrow.io--");
 			try
 			{
