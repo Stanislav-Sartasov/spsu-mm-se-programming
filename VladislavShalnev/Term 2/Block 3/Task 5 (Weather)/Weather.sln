@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherCli", "WeatherCli\WeatherCli.csproj", "{A252A76D-11F0-424F-9355-C15DBC4E7A39}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherApi", "WeatherApi\WeatherApi.csproj", "{DB54B7C0-9AF1-4B1D-8ACB-78ECF8823A40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherMapApi", "OpenWeatherMapApi\OpenWeatherMapApi.csproj", "{9F27650E-76D9-479B-9457-A2EB3D63FD47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomorrowIoApi", "TomorrowIoApi\TomorrowIoApi.csproj", "{C4C4C66B-4013-4276-8CFB-751CB6E105BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TomorrowIoApi.UnitTests", "TomorrowIoApi.UnitTests\TomorrowIoApi.UnitTests.csproj", "{567D30DA-C803-4F78-A67C-D11BC5DD2580}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherMapApi.UnitTests", "OpenWeatherMapApi.UnitTests\OpenWeatherMapApi.UnitTests.csproj", "{22F6CCCF-FBA6-46B7-80D6-B92F63745CC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockHttp", "MockHttp\MockHttp.csproj", "{C128886E-0BF8-4D12-8D60-F3BDA468C1F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherCli.UnitTests", "WeatherCli.UnitTests\WeatherCli.UnitTests.csproj", "{C10CD1D3-6C5D-40AD-B9E3-4EDBF9E3AC0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A252A76D-11F0-424F-9355-C15DBC4E7A39}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A252A76D-11F0-424F-9355-C15DBC4E7A39}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A252A76D-11F0-424F-9355-C15DBC4E7A39}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A252A76D-11F0-424F-9355-C15DBC4E7A39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DB54B7C0-9AF1-4B1D-8ACB-78ECF8823A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB54B7C0-9AF1-4B1D-8ACB-78ECF8823A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB54B7C0-9AF1-4B1D-8ACB-78ECF8823A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB54B7C0-9AF1-4B1D-8ACB-78ECF8823A40}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F27650E-76D9-479B-9457-A2EB3D63FD47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F27650E-76D9-479B-9457-A2EB3D63FD47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F27650E-76D9-479B-9457-A2EB3D63FD47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F27650E-76D9-479B-9457-A2EB3D63FD47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4C4C66B-4013-4276-8CFB-751CB6E105BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4C4C66B-4013-4276-8CFB-751CB6E105BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4C4C66B-4013-4276-8CFB-751CB6E105BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4C4C66B-4013-4276-8CFB-751CB6E105BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{567D30DA-C803-4F78-A67C-D11BC5DD2580}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{567D30DA-C803-4F78-A67C-D11BC5DD2580}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{567D30DA-C803-4F78-A67C-D11BC5DD2580}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{567D30DA-C803-4F78-A67C-D11BC5DD2580}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22F6CCCF-FBA6-46B7-80D6-B92F63745CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F6CCCF-FBA6-46B7-80D6-B92F63745CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22F6CCCF-FBA6-46B7-80D6-B92F63745CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22F6CCCF-FBA6-46B7-80D6-B92F63745CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C128886E-0BF8-4D12-8D60-F3BDA468C1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C128886E-0BF8-4D12-8D60-F3BDA468C1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C128886E-0BF8-4D12-8D60-F3BDA468C1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C128886E-0BF8-4D12-8D60-F3BDA468C1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10CD1D3-6C5D-40AD-B9E3-4EDBF9E3AC0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10CD1D3-6C5D-40AD-B9E3-4EDBF9E3AC0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10CD1D3-6C5D-40AD-B9E3-4EDBF9E3AC0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10CD1D3-6C5D-40AD-B9E3-4EDBF9E3AC0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
