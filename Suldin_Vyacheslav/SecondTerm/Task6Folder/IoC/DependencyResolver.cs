@@ -76,5 +76,17 @@ namespace IoC
         {
             Setup[typeof(T)] = ServiceName.Disabled;
         }
+        public void Restore<T>()
+            where T : JSONParser
+        {
+            foreach (ServiceName name in Enum.GetValues(typeof(ServiceName)))
+            {
+                if (typeof(T).Name == name.ToString())
+                {
+                    Setup[typeof(T)] = name;
+                    return;
+                }
+            }
+        }
     }
 }

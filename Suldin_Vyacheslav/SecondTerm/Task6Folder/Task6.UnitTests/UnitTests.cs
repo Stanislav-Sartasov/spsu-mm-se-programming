@@ -25,8 +25,8 @@ namespace Task6.UnitTests
         public void JsonHolderTest()
         {
             var test = new JSONParser();
-            Assert.AreEqual(test.GetAddres(), null);
-            Assert.AreEqual(test.GetHeaders(), null);
+            Assert.AreEqual(null, test.GetAddres());
+            Assert.AreEqual(null, test.GetHeaders());
         }
 
         [Test]
@@ -38,7 +38,11 @@ namespace Task6.UnitTests
             
             dp.Remove<TomorrowIOParser>();
 
-            Assert.AreEqual(dp.GetParsers().Count, 3);
+            Assert.AreEqual(3, dp.GetParsers().Count);
+
+            dp.Restore<TomorrowIOParser>();
+
+            Assert.AreEqual(4, dp.GetParsers().Count);
         }
 
 

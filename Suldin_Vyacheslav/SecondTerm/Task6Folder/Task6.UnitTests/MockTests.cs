@@ -10,8 +10,6 @@ using GisMeteo;
 using OpenWeather;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Resources;
-using System.Linq;
 
 namespace Task6.UnitTests
 {
@@ -44,8 +42,8 @@ namespace Task6.UnitTests
                     {
                         case "https://www.amazon.com/":
                             {
-                                Assert.AreEqual(statement, "AllFine");
-                                Assert.AreNotEqual(gr.GetResponce(), null);
+                                Assert.AreEqual("AllFine", statement);
+                                Assert.AreNotEqual(null, gr.GetResponce());
                                 break;
                             }
                         case "http://hwproj.me/courses/65":
@@ -55,7 +53,7 @@ namespace Task6.UnitTests
                             }
                         default:
                             {
-                                Assert.AreEqual(statement, "Invalid URI: The URI is empty.");
+                                Assert.AreEqual("Invalid URI: The URI is empty.",statement);
                                 break;
                             }
                     }
@@ -76,14 +74,14 @@ namespace Task6.UnitTests
             JObject json = correct.GetJSON();
             mock.Verify(gr => gr.Send());
 
-            Assert.AreEqual(json["some"].ToString(), "json".ToString());
+            Assert.AreEqual("json", json["some"].ToString());
 
             mock = new Mock<IGetRequest>();
             mock.Setup(x => x.Send()).Returns("very danger error (822)");
             correct = new JsonHolder(mock.Object);
             json = correct.GetJSON();
 
-            Assert.AreEqual(json["ERROR"].ToString(), "very danger error (822)");
+            Assert.AreEqual("very danger error (822)", json["ERROR"].ToString());
            
 
             Assert.Pass();
@@ -103,24 +101,24 @@ namespace Task6.UnitTests
 
             var tomorrowTest = new TomorrowIOParser("");
 
-            Assert.AreEqual(tomorrowTest.Headers, null);
-            Assert.AreEqual(tomorrowTest.Key, "null");
-            Assert.AreEqual(tomorrowTest.Link, $"https://api.tomorrow.io/v4/timelines?location=59.873703,29.828038&fields=temperature,cloudCover,humidity,precipitationType,precipitationIntensity,windSpeed,windDirection&timesteps=current&units=metric&apikey=null");
+            Assert.AreEqual(null, tomorrowTest.Headers);
+            Assert.AreEqual("null", tomorrowTest.Key);
+            Assert.AreEqual($"https://api.tomorrow.io/v4/timelines?location=59.873703,29.828038&fields=temperature,cloudCover,humidity,precipitationType,precipitationIntensity,windSpeed,windDirection&timesteps=current&units=metric&apikey=null", tomorrowTest.Link);
 
             tomorrowTest = new TomorrowIOParser(jsonGenerator.Object.GetJSON());
 
             var result = tomorrowTest.GetWeatherInfo();
 
 
-            Assert.AreEqual(result.Name, "TomorrowIO");
-            Assert.AreEqual(result.ImperialTemp, "35,38");
-            Assert.AreEqual(result.MetricTemp, "3,38");
-            Assert.AreEqual(result.CloudCover, "24");
-            Assert.AreEqual(result.Humidity, "71");
-            Assert.AreEqual(result.Precipipations, "NoPrecip:0");
-            Assert.AreEqual(result.WindDegree, "258,63");
-            Assert.AreEqual(result.WindSpeed, "2,63");
-            Assert.AreEqual(result.Error, null);
+            Assert.AreEqual("TomorrowIO", result.Name);
+            Assert.AreEqual("35,38", result.ImperialTemp);
+            Assert.AreEqual("3,38", result.MetricTemp);
+            Assert.AreEqual("24", result.CloudCover);
+            Assert.AreEqual("71", result.Humidity);
+            Assert.AreEqual("NoPrecip:0", result.Precipipations);
+            Assert.AreEqual("258,63", result.WindDegree);
+            Assert.AreEqual("2,63", result.WindSpeed);
+            Assert.AreEqual(null, result.Error);
 
             Assert.Pass();
         }
@@ -137,25 +135,24 @@ namespace Task6.UnitTests
 
             var stormGlassTest = new StormGlassParser("");
 
-            Assert.AreEqual(stormGlassTest.Headers[0], $"Authorization: null");
-            Assert.AreEqual(stormGlassTest.Key, "null");
-            Assert.AreEqual(stormGlassTest.Link, $"https://api.stormglass.io/v2/weather/point?lat=59.873703&lng=29.828038&params=airTemperature,cloudCover,humidity,precipitation,windSpeed,windDirection&start={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}&end={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}");
+            Assert.AreEqual("Authorization: null", stormGlassTest.Headers[0]);
+            Assert.AreEqual("null", stormGlassTest.Key);
+            Assert.AreEqual($"https://api.stormglass.io/v2/weather/point?lat=59.873703&lng=29.828038&params=airTemperature,cloudCover,humidity,precipitation,windSpeed,windDirection&start={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}&end={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}", stormGlassTest.Link);
 
 
             stormGlassTest = new StormGlassParser(jsonGenerator.Object.GetJSON());
 
             var result = stormGlassTest.GetWeatherInfo();
 
-
-            Assert.AreEqual(result.Name, "StormGlass");
-            Assert.AreEqual(result.ImperialTemp, "33,78");
-            Assert.AreEqual(result.MetricTemp, "1,78");
-            Assert.AreEqual(result.CloudCover, "0");
-            Assert.AreEqual(result.Humidity, "84,3");
-            Assert.AreEqual(result.Precipipations, ":0,02");
-            Assert.AreEqual(result.WindDegree, "261,87");
-            Assert.AreEqual(result.WindSpeed, "2,92");
-            Assert.AreEqual(result.Error, null);
+            Assert.AreEqual("StormGlass", result.Name);
+            Assert.AreEqual("33,78", result.ImperialTemp);
+            Assert.AreEqual("1,78", result.MetricTemp);
+            Assert.AreEqual("0", result.CloudCover);
+            Assert.AreEqual("84,3", result.Humidity);
+            Assert.AreEqual(":0,02", result.Precipipations);
+            Assert.AreEqual("261,87", result.WindDegree);
+            Assert.AreEqual("2,92", result.WindSpeed);
+            Assert.AreEqual(null, result.Error);
 
             Assert.Pass();
         }
@@ -174,24 +171,25 @@ namespace Task6.UnitTests
 
             var openWeatherTest = new OpenWeatherParser("");
 
-            Assert.AreEqual(openWeatherTest.Headers, null);
-            Assert.AreEqual(openWeatherTest.Key, "null");
-            Assert.AreEqual(openWeatherTest.Link, "https://api.openweathermap.org/data/2.5/weather?lat=59.873703&lon=29.828038&appid=null&units=metric");
+            Assert.AreEqual(null, openWeatherTest.Headers);
+            Assert.AreEqual("null", openWeatherTest.Key);
+            Assert.AreEqual("https://api.openweathermap.org/data/2.5/weather?lat=59.873703&lon=29.828038&appid=null&units=metric", openWeatherTest.Link);
 
 
             openWeatherTest = new OpenWeatherParser(jsonGenerator.Object.GetJSON());
 
             var result = openWeatherTest.GetWeatherInfo();
 
-            Assert.AreEqual(result.Name, "OpenWeather");
-            Assert.AreEqual(result.ImperialTemp, "36,8");
-            Assert.AreEqual(result.MetricTemp, "4,8");
-            Assert.AreEqual(result.CloudCover, "49");
-            Assert.AreEqual(result.Humidity, "87");
-            Assert.AreEqual(result.Precipipations, "NoPrecip");
-            Assert.AreEqual(result.WindDegree, "243");
-            Assert.AreEqual(result.WindSpeed, "1,65");
-            Assert.AreEqual(result.Error, null);
+
+            Assert.AreEqual("OpenWeather", result.Name);
+            Assert.AreEqual("36,8", result.ImperialTemp);
+            Assert.AreEqual("4,8", result.MetricTemp);
+            Assert.AreEqual("49", result.CloudCover);
+            Assert.AreEqual("87", result.Humidity);
+            Assert.AreEqual("NoPrecip", result.Precipipations);
+            Assert.AreEqual("243", result.WindDegree);
+            Assert.AreEqual("1,65", result.WindSpeed);
+            Assert.AreEqual(null, result.Error);
 
             Assert.Pass();
         }
@@ -210,22 +208,24 @@ namespace Task6.UnitTests
 
             var gismeteoTest = new GisMeteoParser("");
 
-            Assert.AreEqual(gismeteoTest.Headers[0], $"X-Gismeteo-Token: null");
-            Assert.AreEqual(gismeteoTest.Key, "null");
-            Assert.AreEqual(gismeteoTest.Link, "https://api.gismeteo.net/v2/weather/current/?latitude=59.873703&longitude=29.828038");
+            Assert.AreEqual("X-Gismeteo-Token: null", gismeteoTest.Headers[0]);
+            Assert.AreEqual("null", gismeteoTest.Key);
+            Assert.AreEqual("https://api.gismeteo.net/v2/weather/current/?latitude=59.873703&longitude=29.828038", gismeteoTest.Link);
 
             gismeteoTest = new GisMeteoParser(jsonGenerator.Object.GetJSON());
 
             var result = gismeteoTest.GetWeatherInfo();
-            Assert.AreEqual(result.Name,"GisMeteo");
-            Assert.AreEqual(result.ImperialTemp, "39,6");
-            Assert.AreEqual(result.MetricTemp, "4,2");
-            Assert.AreEqual(result.CloudCover, "10");
-            Assert.AreEqual(result.Humidity, "76");
-            Assert.AreEqual(result.Precipipations, "NoPrecip:0");
-            Assert.AreEqual(result.WindDegree, "260");
-            Assert.AreEqual(result.WindSpeed, "1");
-            Assert.AreEqual(result.Error, null);
+
+
+            Assert.AreEqual("GisMeteo", result.Name);
+            Assert.AreEqual("39,6", result.ImperialTemp);
+            Assert.AreEqual("4,2", result.MetricTemp);
+            Assert.AreEqual("10", result.CloudCover);
+            Assert.AreEqual("76", result.Humidity);
+            Assert.AreEqual("NoPrecip:0", result.Precipipations);
+            Assert.AreEqual("260", result.WindDegree);
+            Assert.AreEqual("1", result.WindSpeed);
+            Assert.AreEqual(null, result.Error);
 
             Assert.Pass();
         }
