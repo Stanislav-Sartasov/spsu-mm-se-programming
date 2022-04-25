@@ -24,17 +24,17 @@ namespace WeatherUIOpenGL.Drawing.UI
 		// Renderables
 		private Sprite sprite;
 
-        public TextSprite(float[] coordinates, string text)
+        public TextSprite(Bounds bounds, string text)
 		{
-			createTextTexture(text);
+			CreateTextTexture(text);
 
 			Texture texture = Texture.LoadFromBitmap(bmp);
 			Shader shader = Shader.GenBasicShader();
 
-			sprite = new Sprite(coordinates, shader, texture);
+			sprite = new Sprite(bounds, shader, texture);
 		}
 
-		private void createTextTexture(string text)
+		private void CreateTextTexture(string text)
 		{
 			PrivateFontCollection collection = new PrivateFontCollection();
 			collection.AddFontFile(@"Files/fontb.ttf");
@@ -52,12 +52,12 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 		public void Render()
 		{
-			updateUniforms();
+			UpdateUniforms();
 
 			sprite.Render();
 		}
 
-		private void updateUniforms()
+		private void UpdateUniforms()
 		{
 			sprite.shader.Use();
 			var location = sprite.shader.GetUniformLocation("opacity");

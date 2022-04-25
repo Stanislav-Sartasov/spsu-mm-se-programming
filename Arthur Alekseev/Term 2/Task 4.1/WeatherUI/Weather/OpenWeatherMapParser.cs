@@ -15,9 +15,7 @@ namespace WeatherUI.Weather
 		{
 			string dataJson = _webParser.GetData("https://api.openweathermap.org/data/2.5/weather?q=Saint%20Petersburg,%20RU&id=524901&appid=" + _apiKey);
 
-			File.WriteAllText("owmrequest.txt", dataJson);
-
-			WeatherData weatherData = fillWeatherData(dataJson);
+			WeatherData weatherData = FillWeatherData(dataJson);
 
 			if (weatherData.IsNotEmpty())
 				return weatherData;
@@ -25,7 +23,7 @@ namespace WeatherUI.Weather
 				throw new EmptyWeatherDataException("openweathermap.org gave bad responce and weather data is not filled properly");
 		}
 
-		private WeatherData fillWeatherData(string json)
+		private WeatherData FillWeatherData(string json)
 		{
 			string? tempCelsius = null;
 			string? tempFahrenheit = null;

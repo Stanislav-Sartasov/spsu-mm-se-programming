@@ -33,27 +33,27 @@ namespace WeatherUIOpenGL.Drawing.UI
 		private RectangleBackground background;
 		private Button[] dataLabels;
 
-		public WeatherDataLabel(float[] coordinates, App app)
+		public WeatherDataLabel(Bounds bounds, App app)
 		{
-			glCoordinates = coordinates;
+			glCoordinates = new float[] { bounds[0], bounds[1], bounds[2], bounds[3] };
 			this.app = app;
 			pixelCoords = new int[4];
 			dataLabels = new Button[0];
 
-			background = new RectangleBackground(coordinates);
+			background = new RectangleBackground(bounds);
 			background.Color = new Vector4(1f, 1f, 1f, 0.6f);
 
-			updatePixelScale();
-			setupNoConnectionSprite();
+			UpdatePixelScale();
+			SetupNoConnectionSprite();
 		}
 
-		private void setupNoConnectionSprite()
+		private void SetupNoConnectionSprite()
 		{
 			float yOffset = (glCoordinates[3] - glCoordinates[1] - 2 * offsety + gap * 6) / 8;
 			float yGap = (glCoordinates[3] - glCoordinates[1]) / 4;
 			float xGap = (glCoordinates[2] - glCoordinates[0]) / 3;
 
-			noConnectionSprite = new Sprite(new float[] { glCoordinates[0] + xGap, glCoordinates[1] + yOffset + yGap, glCoordinates[2] - xGap, glCoordinates[3] - yGap }, Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/noconnection.png")));
+			noConnectionSprite = new Sprite(new Bounds(glCoordinates[0] + xGap, glCoordinates[1] + yOffset + yGap, glCoordinates[2] - xGap, glCoordinates[3] - yGap), Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/noconnection.png")));
 		}
 
 		public void Load()
@@ -81,7 +81,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 			// Fill buttons when data is here
 			if (!buttonsLoaded && dataLabels.Length != 0)
 			{
-				createLabels();
+				CreateLabels();
 				LoadLabels();
 				buttonsLoaded = true;
 			}
@@ -100,7 +100,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 			}
 		}
 
-		private void createLabels()
+		private void CreateLabels()
 		{
 			string[] lines = dataRecieved.ToString().Split("\n");
 
@@ -109,7 +109,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 			for (int i = 0; i < dataLabels.Length; i++)
 			{
-				dataLabels[i] = new Button(new float[] { glCoordinates[0] - offsetx, glCoordinates[1] - offsety + ((i) * yLength) - gap, glCoordinates[0] - offsetx + xLength, glCoordinates[1] - offsety + ((i + 1) * yLength) }, lines[i], () => { }, app);
+				dataLabels[i] = new Button(new Bounds(glCoordinates[0] - offsetx, glCoordinates[1] - offsety + ((i) * yLength) - gap, glCoordinates[0] - offsetx + xLength, glCoordinates[1] - offsety + ((i + 1) * yLength)), lines[i], () => { }, app);
 				dataLabels[i].colorIdle = new Vector4(new Vector3(1f), 0);
 				dataLabels[i].colorHover = new Vector4(new Vector3(1f), 0);
 				dataLabels[i].textSprite.textOpacity = 0f;
@@ -123,7 +123,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 					dataLabels[i].Load();
 		}
 
-		private void updatePixelScale()
+		private void UpdatePixelScale()
 		{
 			for (int i = 0; i < 4; i++)
 				pixelCoords[i] = (int)((glCoordinates[i] + 1) * app.Size[i % 2]) / 2;
@@ -140,10 +140,10 @@ namespace WeatherUIOpenGL.Drawing.UI
 					dataLabels[i].Update(mouseState);
 
 			if(currentLoadingNode < dataLabels.Length)
-				doSmoothAnim();
+				DoSmoothAnim();
 		}
 
-		private void doSmoothAnim()
+		private void DoSmoothAnim()
 		{
 			if (dataLabels[currentLoadingNode] != null)
 			{

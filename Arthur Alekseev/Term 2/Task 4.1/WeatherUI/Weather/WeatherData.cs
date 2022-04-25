@@ -40,17 +40,17 @@ namespace WeatherUI.Weather
 
 		public override string ToString()
 		{
-			return "Source: " + renameNullData(Source) + "\r\n" +
-				"Temp (F): " + renameNullData(TempFahrenheit) + "\r\n" +
-				"Temp (C): " + renameNullData(TempCelsius) + "\r\n" +
-				"Cloud coverage(%): " + renameNullData(CloudCoverage) + "\r\n" +
-				"Humidity: " + renameNullData(Humidity) + "\r\n" +
-				"Precipitation: " + renameNullData(Downfall) + "\r\n" +
-				"Wind Direction: " + renameNullData(WindDirection) + "\r\n" +
-				"Wind Speed: " + renameNullData(WindSpeed);
+			return "Source: " + RenameNullData(Source) + Environment.NewLine +
+				"Temp (F): " + RenameNullData(TempFahrenheit) + Environment.NewLine +
+				"Temp (C): " + RenameNullData(TempCelsius) + Environment.NewLine +
+				"Cloud coverage(%): " + RenameNullData(CloudCoverage) + Environment.NewLine +
+				"Humidity: " + RenameNullData(Humidity) + Environment.NewLine +
+				"Precipitation: " + RenameNullData(Downfall) + Environment.NewLine +
+				"Wind Direction: " + RenameNullData(WindDirection) + Environment.NewLine +
+				"Wind Speed: " + RenameNullData(WindSpeed);
 		}
 
-		private string renameNullData(string? data)
+		private string RenameNullData(string? data)
 		{
 			if (data != null)
 				return data;

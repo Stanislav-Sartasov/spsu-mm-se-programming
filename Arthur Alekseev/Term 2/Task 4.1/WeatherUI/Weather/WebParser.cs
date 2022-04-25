@@ -8,7 +8,7 @@ namespace WeatherUI.Weather
 
 		public static WebParser GetInstance()
 		{
-			if(Instance == null)
+			if (Instance == null)
 				Instance = new WebParser();
 			return Instance;
 		}

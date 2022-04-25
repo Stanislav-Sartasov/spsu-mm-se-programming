@@ -18,10 +18,10 @@ namespace WeatherUIWinforms
 		{
 			labels = new List<Label>();
 			backGroundPanel = panel;
-			createLabels();
+			CreateLabels();
 		}
 
-		private void createLabels()
+		private void CreateLabels()
 		{
 			foreach (var data in innerData.Split("\n"))
 			{
@@ -44,7 +44,7 @@ namespace WeatherUIWinforms
 			labels.Clear();
 			backGroundPanel.Controls.Clear();
 
-			createLabels();
+			CreateLabels();
 		}
 	}
 }

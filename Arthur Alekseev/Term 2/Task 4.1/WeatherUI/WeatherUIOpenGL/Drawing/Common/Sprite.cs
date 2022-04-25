@@ -20,12 +20,12 @@ namespace WeatherUIOpenGL.Drawing.Common
 		public readonly Shader shader;
 		public readonly Texture texture;
 
-		public Sprite(float[] coordinates, Shader shader, Texture? texture)
+		public Sprite(Bounds bounds, Shader shader, Texture? texture)
 		{
 			_vertices = new float[20];
 			this.shader = shader;
 			this.texture = texture;
-			ReshapeWithCoords(-coordinates[0], coordinates[1], -coordinates[2], coordinates[3]);
+			ReshapeWithCoords(-bounds[0], bounds[1], -bounds[2], bounds[3]);
 		}
 		public void ReshapeWithCoords(float top_x, float top_y, float bottom_x, float bottom_y)
 		{

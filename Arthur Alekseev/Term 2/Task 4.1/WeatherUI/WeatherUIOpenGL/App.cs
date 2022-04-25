@@ -27,7 +27,8 @@ namespace WeatherUIOpenGL
 
 		// Backgrounds are GPU intencive
 		// I did not write these
-		private string[] animatedBgSources =
+		private string[]
+			animatedBgSources =
 		{
 			"Files/shaders/bg/abstractcolors.frag",
 			"Files/shaders/bg/clouds.frag",
@@ -37,14 +38,17 @@ namespace WeatherUIOpenGL
 			"Files/shaders/bg/fireworks.frag",
 			"Files/shaders/bg/fractaltrees.frag"
 		};
-		
+
 		private App(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(gameWindowSettings, nativeWindowSettings)
 		{
+			// Enable things for correct texture opacity handling
 			GL.Enable(EnableCap.Texture2D);
 			GL.Enable(EnableCap.Blend);
 			GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
-			WindowBorder = WindowBorder.Fixed;
+			// Window works ok if it is not fixed, but text can become bad if resized
+			WindowBorder = WindowBorder.Resizable;
+
 			VSync = VSyncMode.On;
 		}
 
@@ -68,36 +72,36 @@ namespace WeatherUIOpenGL
 			base.OnLoad();
 			GL.ClearColor(0.0f, 0.2f, 0.45f, 1.0f);
 
-			refreshButton = new Button(new float[] { -0.512f, -0.8f, -0.988f, -0.975f }, "  Refresh", RefreshData, this);
-			exitButton = new Button(new float[] { -0.012f, -0.8f, -0.488f, -0.975f }, "  Exit", Close, this);
+			// Create UI
+			refreshButton = new Button(new Bounds(-0.512f, -0.8f, -0.988f, -0.975f ), "  Refresh", RefreshData, this);
+			exitButton = new Button(new Bounds(-0.012f, -0.8f, -0.488f, -0.975f ), "  Exit", Close, this);
+			refreshSprite = new Sprite(new Bounds( -0.512f, -0.8f, -0.650f, -0.975f ), Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/refresh.png")));
+			exitSprite = new Sprite(new Bounds(-0.012f, -0.8f, -0.150f, -0.975f ), Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/x.png")));
+			tomorrowIoData = new WeatherDataLabel(new Bounds(0.988f, 0.975f, 0.006f, -0.775f ), this);
+			openWeatherMapData = new WeatherDataLabel(new Bounds(-0.012f, 0.975f, -0.988f, -0.775f ), this);
 
-			refreshSprite = new Sprite(new float[] { -0.512f, -0.8f, -0.650f, -0.975f }, Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/refresh.png")));
+			// Load UI
 			refreshSprite.Load();
-			exitSprite = new Sprite(new float[] { -0.012f, -0.8f, -0.150f, -0.975f }, Shader.GenBasicShader(), Texture.LoadFromBitmap(new Bitmap("Files/x.png")));
 			exitSprite.Load();
-
 			refreshButton.Load();
 			exitButton.Load();
-			tomorrowIoData = new WeatherDataLabel(new float[] { 0.988f, 0.975f, 0.006f, -0.775f }, this);
-			openWeatherMapData = new WeatherDataLabel(new float[] { -0.012f, 0.975f, -0.988f, -0.775f }, this);
-
 			tomorrowIoData.Load();
-
 			openWeatherMapData.Load();
 
-			// All animations except for the first one are rare
-			if(new Random().Next() % 10 == 0)
+			// Set animations to bg. All animations except for the first one are rare
+			if (new Random().Next() % 5 == 0)
 				bg = new AnimatedBackground(animatedBgSources[new Random().Next() % 6 + 1]);
 			else
 				bg = new AnimatedBackground(animatedBgSources[0]);
 			bg.Load();
 
+			// Force data refresh on start
 			RefreshData();
 		}
 
 		private void RefreshData()
 		{
-
+			// Start thread to get and load data to tomorrow.io
 			new Thread(() =>
 			{
 				try
@@ -111,7 +115,7 @@ namespace WeatherUIOpenGL
 				}
 
 			}).Start();
-
+			// Start thread to get and load data to openweathermap.org
 			new Thread(() =>
 			{
 				try
@@ -131,18 +135,17 @@ namespace WeatherUIOpenGL
 		{
 			base.OnRenderFrame(e);
 			GL.Clear(ClearBufferMask.ColorBufferBit);
+
+			//Render BG
 			bg.Render();
 
-			
+			// Render UI
 			refreshButton.Render();
 			exitButton.Render();
-
 			exitSprite.Render();
 			refreshSprite.Render();
-
 			tomorrowIoData.Render();
 			openWeatherMapData.Render();
-			
 
 			SwapBuffers();
 		}
@@ -151,13 +154,13 @@ namespace WeatherUIOpenGL
 		protected override void OnUpdateFrame(FrameEventArgs e)
 		{
 			base.OnUpdateFrame(e);
-
+			// Update UI
 			refreshButton.Update(MouseState);
 			exitButton.Update(MouseState);
-
 			tomorrowIoData?.Update(MouseState);
 			openWeatherMapData?.Update(MouseState);
 
+			// Update Background
 			oTime += (float)e.Time;
 			bg.Update(this, oTime);
 		}

@@ -28,14 +28,14 @@ namespace WeatherUIOpenGL.Drawing.UI
 		private App _app;
 		private Vector2 previousAppSize;
 
-		public Button(float[] coordinates, string text, Action onClick, App app)
+		public Button(Bounds bounds, string text, Action onClick, App app)
 		{
 			_app = app;
 			_onClick = onClick;
 			pixelCoords = new int[4];
-			glCoordinates = (float[])coordinates.Clone();
-			textSprite = new TextSprite((float[])coordinates.Clone(), text);
-			rectangleBackground = new RectangleBackground(coordinates);
+			glCoordinates = new float[] { bounds[0], bounds[1], bounds[2], bounds[3] };
+			textSprite = new TextSprite(bounds, text);
+			rectangleBackground = new RectangleBackground(bounds);
 			rectangleBackground.Color = colorHover;
 
 			colorIdle = new Vector4(1f, 1f, 1f, 0.6f);
@@ -57,11 +57,11 @@ namespace WeatherUIOpenGL.Drawing.UI
 		{
 			if (_app.Size != previousAppSize)
 			{
-				updatePixelScale();
+				UpdatePixelScale();
 				previousAppSize = _app.Size;
 			}
 			
-			if (checkCursorOverlap(mouse.Position))
+			if (CheckCursorOverlap(mouse.Position))
 			{
 				hover = true;
 				if (mouse.IsButtonDown(MouseButton.Left) && !mouse.WasButtonDown(MouseButton.Left))
@@ -72,15 +72,15 @@ namespace WeatherUIOpenGL.Drawing.UI
 				hover = false;
 			}
 
-			updateButtonColor(hover);
+			UpdateButtonColor(hover);
 		}
 
-		private bool checkCursorOverlap(Vector2 cursorPosition)
+		private bool CheckCursorOverlap(Vector2 cursorPosition)
 		{
 			return pixelCoords[0] > cursorPosition.X && pixelCoords[3] > cursorPosition.Y && pixelCoords[2] < cursorPosition.X && pixelCoords[1] < cursorPosition.Y;
 		}
 
-		private void updatePixelScale()
+		private void UpdatePixelScale()
 		{
 			for (int i = 0; i < 4; i++)
 				pixelCoords[i] = (int)((glCoordinates[i] + 1) * _app.Size[i % 2]) / 2;
@@ -91,7 +91,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 		}
 
 
-		private void updateButtonColor(bool isHovered)
+		private void UpdateButtonColor(bool isHovered)
 		{
 			if (isHovered)
 			{

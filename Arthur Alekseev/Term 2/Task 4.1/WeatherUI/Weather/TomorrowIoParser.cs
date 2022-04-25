@@ -20,7 +20,7 @@ namespace WeatherUI.Weather
 		public WeatherData CollectData()
 		{
 			string dataJson = _webParser.GetData("https://api.tomorrow.io/v4/timelines?&timesteps=current&fields=temperature,humidity,windSpeed,windDirection,precipitationType,cloudCover&location=59.791891,30.264067&apikey=" + _apiKey);
-			WeatherData weatherData = fillWeatherData(dataJson);
+			WeatherData weatherData = FillWeatherData(dataJson);
 
 			if (weatherData.IsNotEmpty())
 				return weatherData;
@@ -28,7 +28,7 @@ namespace WeatherUI.Weather
 				throw new EmptyWeatherDataException("tomorrow.io gave bad responce and weather data is not filled properly");
 		}
 
-		private WeatherData fillWeatherData(string json)
+		private WeatherData FillWeatherData(string json)
 		{
 			string? tempCelsius = null;
 			string? tempFahrenheit = null;

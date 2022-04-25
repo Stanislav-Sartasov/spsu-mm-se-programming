@@ -13,13 +13,13 @@ namespace WeatherUIOpenGL.Drawing.UI
         public Vector4 Color;
         private Vector2 innerResolution;
 
-        public RectangleBackground(float[] coordinates)
+        public RectangleBackground(Bounds bounds)
 		{
             var shaderTV = File.ReadAllText("Files/shaders/basic.vert");
             var shaderTF = File.ReadAllText("Files/shaders/rectangle.frag");
 
             Shader shader = new Shader(shaderTV, shaderTF);
-            sprite = new Sprite(coordinates, shader, null);
+            sprite = new Sprite(bounds, shader, null);
 
             Color = new Vector4(1, 0.5f, 0.7f, 0.8f);
         }
