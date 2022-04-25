@@ -19,16 +19,17 @@ public class Program
 
 		do
 		{
-			var tomorrowIoTask = tomorrowIo.GetCurrentAsync(location);
-			var openWeatherMapTask = openWeatherMap.GetCurrentAsync(location, lang: "ru");
-			
 			Console.Clear();
 			Console.WriteLine("Текущая погода в Санкт-Петербурге\n");
 			
+			var tomorrowIoTask = tomorrowIo.GetCurrentAsync(location);
+			var openWeatherMapTask = openWeatherMap.GetCurrentAsync(location, lang: "ru");
+			await Task.WhenAll(tomorrowIoTask, openWeatherMapTask);
+
+			Console.WriteLine("--Tomorrow.io--");
 			try
 			{
 				var tomorrowIoWeather = await tomorrowIoTask;
-				Console.WriteLine("--Tomorrow.io--");
 				Console.WriteLine(WeatherConverter.WeatherToString(tomorrowIoWeather));
 			}
 			catch (TomorrowIoApi.Exceptions.ApiException ex)
@@ -37,15 +38,15 @@ public class Program
 			}
 			catch (Exception)
 			{
-				Console.WriteLine("Сервис Tomorrow.io недоступен.");
+				Console.WriteLine("Сервис недоступен.");
 			}
 			
 			Console.WriteLine();
 			
+			Console.WriteLine("--OpenWeatherMap.org--");
 			try
 			{
 				var openWeatherMapWeather = await openWeatherMapTask;
-				Console.WriteLine("--OpenWeatherMap.org--");
 				Console.WriteLine(WeatherConverter.WeatherToString(openWeatherMapWeather));
 			}
 			catch (OpenWeatherMapApi.Exceptions.ApiException ex)
@@ -54,7 +55,7 @@ public class Program
 			}
 			catch (Exception)
 			{
-				Console.WriteLine("Сервис OpenWeatherMap.org недоступен.");
+				Console.WriteLine("Сервис недоступен.");
 			}
 			
 			Console.WriteLine("\nНажмите любую клавишу, чтобы обновить данные или ESC для выхода.");
