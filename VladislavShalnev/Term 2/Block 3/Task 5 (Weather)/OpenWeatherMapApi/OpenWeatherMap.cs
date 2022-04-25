@@ -20,6 +20,7 @@ public class OpenWeatherMap : AWeatherApi
 
 	public override Task<Weather> GetCurrentAsync((double lat, double lon) location) =>
 		GetCurrentAsync(location, "metric", "en");
+	
 	public async Task<Weather> GetCurrentAsync(
 		(double lat, double lon) location,
 		string units = "metric",
