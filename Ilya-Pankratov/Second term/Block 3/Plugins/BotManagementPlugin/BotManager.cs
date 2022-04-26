@@ -37,6 +37,11 @@ namespace BotManagementPlugin
 
         private bool FindBots(string path)
         {
+            while (path[path.Length - 1] == ' ')
+            {
+                path = path.Remove(path.LastIndexOf(" "), 1);
+            }
+
             var botsList = new List<IBot>();
             var files = Directory.GetFiles(path, "*.dll"); 
 
@@ -95,7 +100,7 @@ namespace BotManagementPlugin
                 gameTable.Play();
             }
 
-            bots.OrderByDescending(x => x.Cash);
+            bots = bots.OrderByDescending(x => x.Cash).ToList();
             
             Console.WriteLine($"\nLet's sum up the results of the bot competition. The initial cash amount is {botCash}. And the bots played {roundPlayed} rounds in BlackJack.\n" +
                               $" - The winner of competition is {bots[0].Name}! He has {bots[0].Cash}\n" +
