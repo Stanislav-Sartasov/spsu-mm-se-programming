@@ -1,5 +1,5 @@
-﻿using Player;
-using GameTools;
+﻿using GameTools;
+using Player;
 
 namespace Blackjack
 {

@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Interfaces\Player.csproj" />
+    <ProjectReference Include="..\GameTools\GameTools.csproj" />
+    <ProjectReference Include="..\Player\Player.csproj" />
   </ItemGroup>
 
 </Project>

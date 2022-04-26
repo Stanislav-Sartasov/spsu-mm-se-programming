@@ -1,6 +1,6 @@
-﻿using Player;
+﻿using BotInterface;
 using GameTools;
-using BotInterface;
+using Player;
 
 namespace Bots
 {

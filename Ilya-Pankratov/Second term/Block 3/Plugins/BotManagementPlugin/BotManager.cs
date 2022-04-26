@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using Blackjack;
-using BotInterface;
 using Plugins;
+using BotInterface;
 
 namespace BotManagementPlugin
 {
@@ -92,13 +91,13 @@ namespace BotManagementPlugin
 
             foreach (var bot in bots)
             {
-                var gameTable = new GameTable(bot);
+                var gameTable = new Blackjack.GameTable(bot);
                 gameTable.Play();
             }
 
             bots.OrderByDescending(x => x.Cash);
             
-            Console.WriteLine($"Let's sum up the results of the bot competition. The initial cash amount is {botCash}. And the bots played {roundPlayed} rounds in BlackJack.\n" +
+            Console.WriteLine($"\nLet's sum up the results of the bot competition. The initial cash amount is {botCash}. And the bots played {roundPlayed} rounds in BlackJack.\n" +
                               $" - The winner of competition is {bots[0].Name}! He has {bots[0].Cash}\n" +
                               $" - The second place has {bots[1].Name}! He has {bots[1].Cash}!\n" +
                               $" - And the last is {bots[2].Name}. He has {bots[2].Cash}.\n");

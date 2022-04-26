@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Blackjack\Blackjack.csproj" />
+    <ProjectReference Include="..\BotInterface\BotInterface.csproj" />
+    <ProjectReference Include="..\Bots\Bots.csproj" />
     <ProjectReference Include="..\Plugins\Plugins.csproj" />
   </ItemGroup>
 

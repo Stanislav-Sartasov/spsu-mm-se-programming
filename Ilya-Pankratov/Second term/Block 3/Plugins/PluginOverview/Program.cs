@@ -1,6 +1,6 @@
 ﻿using Plugins;
 
-namespace Casino
+namespace PluginOverview
 { 
     public static class Program
     {
@@ -9,7 +9,7 @@ namespace Casino
         {
             Console.WriteLine("The program demonstrates the ability to connect plugins to blackjack.\n" +
                               "The plugins will be searched as a .dll file in the 'Extensions' folder.\nNow one plugin 'BotManagementPlugin' is connected to the program.\n" +
-                              "For the convenience bots' .dll file may be find in the folder 'Extensions' too.\n");
+                              "For convenience, the library with bots can be found in the 'Extensions' folder too.");
 
             PluginManager.LoadExtensions("..\\..\\..\\..\\Extensions");
 
@@ -28,7 +28,6 @@ namespace Casino
             }
 
             Console.WriteLine("That's all! Thank you!");
-
             return;
         }
     }

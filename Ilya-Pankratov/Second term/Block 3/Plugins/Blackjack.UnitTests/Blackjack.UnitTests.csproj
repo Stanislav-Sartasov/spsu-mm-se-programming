@@ -18,7 +18,6 @@
     <ProjectReference Include="..\Blackjack\Blackjack.csproj" />
     <ProjectReference Include="..\Bots\Bots.csproj" />
     <ProjectReference Include="..\GameTools\GameTools.csproj" />
-    <ProjectReference Include="..\TestingTools\TestingTools.csproj" />
   </ItemGroup>
 
 </Project>

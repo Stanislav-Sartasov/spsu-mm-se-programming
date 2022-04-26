@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Interfaces\Player.csproj" />
+    <ProjectReference Include="..\Player\Player.csproj" />
   </ItemGroup>
 
 </Project>

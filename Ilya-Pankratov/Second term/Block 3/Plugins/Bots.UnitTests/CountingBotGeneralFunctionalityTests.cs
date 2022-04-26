@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using GameTools;
 using Player;
+using GameTools;
 
 namespace Bots.UnitTests
 {

@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using GameTools;
 using System.Collections.Generic;
 using Player;
+using GameTools;
 
 namespace Bots.UnitTests
 {
