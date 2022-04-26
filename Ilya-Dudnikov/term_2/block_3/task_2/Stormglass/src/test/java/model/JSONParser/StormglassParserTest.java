@@ -18,7 +18,8 @@ class StormglassParserTest {
 		JSONParser jsonParser = new StormglassParser();
 
 		HashMap<String, Double> expected = new HashMap<>() {{
-			put("airTemperature", 2.23);
+			put("airTemperatureC", 2.23);
+			put("airTemperatureF", 36.014);
 			put("precipitation", 0.0);
 			put("cloudCover", 0.0);
 			put("humidity", 79.44);
@@ -36,7 +37,8 @@ class StormglassParserTest {
 		JSONParser jsonParser = new StormglassParser();
 
 		HashMap<String, Double> expected = new HashMap<>() {{
-			put("airTemperature", 2.23);
+			put("airTemperatureC", 2.23);
+			put("airTemperatureF", 36.014);
 			put("precipitation", 0.0);
 			put("cloudCover", 0.0);
 			put("humidity", null);

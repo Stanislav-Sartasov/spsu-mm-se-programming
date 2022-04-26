@@ -12,7 +12,11 @@ public class OpenWeatherMapParser implements JSONParser {
 		JSONObject jsonObject = (JSONObject) new org.json.simple.parser.JSONParser().parse(json);
 
 		return new HashMap<>() {{
-			put("airTemperature", valueOrNull("main.temp", jsonObject));
+			Double temperature = valueOrNull("main.temp", jsonObject);
+			if (temperature != null) {
+				put("airTemperatureC", temperature - 273.15);
+				put("airTemperatureF", 1.8 * (temperature - 273) + 32);
+			}
 			put("cloudCover", valueOrNull("clouds.all", jsonObject));
 			put("humidity", valueOrNull("main.humidity", jsonObject));
 			put("precipitation", valueOrNull("rain.1h", jsonObject));

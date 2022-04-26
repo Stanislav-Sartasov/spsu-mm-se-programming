@@ -18,7 +18,8 @@ class OpenWeatherMapParserTest {
 		JSONParser jsonParser = new OpenWeatherMapParser();
 
 		HashMap<String, Double> expected = new HashMap<>() {{
-			put("airTemperature", 282.55);
+			put("airTemperatureC", 9.400000000000034);
+			put("airTemperatureF", 49.190000000000026);
 			put("precipitation", 0.0);
 			put("cloudCover", 1.0);
 			put("humidity", 100.0);
@@ -36,7 +37,8 @@ class OpenWeatherMapParserTest {
 		JSONParser jsonParser = new OpenWeatherMapParser();
 
 		HashMap<String, Double> expected = new HashMap<>() {{
-			put("airTemperature", 282.55);
+			put("airTemperatureC", 9.400000000000034);
+			put("airTemperatureF", 49.190000000000026);
 			put("precipitation", null);
 			put("cloudCover", 1.0);
 			put("humidity", 100.0);

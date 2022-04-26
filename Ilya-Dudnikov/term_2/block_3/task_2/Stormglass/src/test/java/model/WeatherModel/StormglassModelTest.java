@@ -20,7 +20,8 @@ class StormglassModelTest {
 
 		HashMap<String, Double> newStats = new HashMap<>();
 
-		newStats.put("airTemperature", 10.0);
+		newStats.put("airTemperatureC", 10.0);
+		newStats.put("airTemperatureF", 50.0);
 		newStats.put("cloudCover", 10.0);
 		newStats.put("humidity", 12.0);
 		newStats.put("precipitation", 4.0);
@@ -30,6 +31,7 @@ class StormglassModelTest {
 		WeatherModel expectedModel = new StormglassModel();
 		expectedModel.data = new WeatherData(
 				10.0,
+				50.0,
 				10.0,
 				12.0,
 				4.0,

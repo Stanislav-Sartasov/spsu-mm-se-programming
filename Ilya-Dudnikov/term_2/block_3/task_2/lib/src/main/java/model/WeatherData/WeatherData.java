@@ -1,7 +1,8 @@
 package model.WeatherData;
 
 public record WeatherData(
-		Double airTemperature,
+		Double airTemperatureC,
+		Double airTemperatureF,
 		Double cloudCover,
 		Double humidity,
 		Double precipitation,

@@ -8,7 +8,8 @@ public class StormglassModel extends WeatherModel {
 	@Override
 	public void updateState(Map<String, Double> newStats) {
 		data = new WeatherData(
-				newStats.get("airTemperature"),
+				newStats.get("airTemperatureC"),
+				newStats.get("airTemperatureF"),
 				newStats.get("cloudCover"),
 				newStats.get("humidity"),
 				newStats.get("precipitation"),

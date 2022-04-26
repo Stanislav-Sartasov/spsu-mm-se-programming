@@ -25,15 +25,17 @@ public class StormglassParser implements JSONParser {
 		var hoursArray = (JSONArray) jsonObject.get("hours");
 		JSONObject data = (JSONObject) hoursArray.get(hoursArray.size() - 1);
 
-
-
 		return new HashMap<>() {{
 			params.forEach((param) -> {
 				JSONObject currentElem = (JSONObject) data.get(param);
 				if (currentElem == null)
 					put(param, null);
-				else
+				else if (param.equals("airTemperature")) {
+					put("airTemperatureC", (Double) currentElem.get("sg"));
+					put("airTemperatureF", 1.8 * ((Double) currentElem.get("sg")) + 32);
+				} else {
 					put(param, (Double) currentElem.get("sg"));
+				}
 			});
 		}};
 	}
