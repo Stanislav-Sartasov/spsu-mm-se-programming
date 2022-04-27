@@ -14,6 +14,8 @@ namespace Weather
 		private IHttpClient _httpClient;
 		private readonly string _url = "https://api.openweathermap.org/data/2.5/weather?lon=30.2642&lat=59.8944&units=metric&appid=";
 
+		public string Name => "OpenWeather";
+
 		public ParserOpenWeather(IHttpClient httpClient)
 		{
 			_httpClient = httpClient;
@@ -27,13 +29,11 @@ namespace Weather
 
 			if ((int?)responseJson["cod"] != 200)
 			{
-				Console.WriteLine("Something went wrong");
+				WriteErrorMessage();
 				throw new Exception((string?)responseJson["message"]);
 			}
 
-			Weather weather = new Weather();
-
-			weather.SetWeather(
+			Weather weather = new Weather(
 				(float)responseJson["main"]["temp"],
 				(9 / 5) * ((float)responseJson["main"]["temp"] + 32),
 				(string)responseJson["clouds"]["all"],
@@ -43,6 +43,11 @@ namespace Weather
 				(int)responseJson["wind"]["speed"]);
 
 			return weather;
+		}
+
+		private void WriteErrorMessage()
+		{
+			Console.WriteLine("Something went wrong");
 		}
 	}
 }

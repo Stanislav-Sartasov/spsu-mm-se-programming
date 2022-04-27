@@ -19,9 +19,19 @@ namespace Weather.UnitTests
 		}
 
 		[Test]
+		public void NameTest()
+		{
+			var openWeather = new ParserOpenWeather(new MyHttpClient());
+			var tomorrowIo = new ParserTomorrowIo(new MyHttpClient());
+
+			Assert.AreEqual(tomorrowIo.Name, "TomorrowIo");
+			Assert.AreEqual(openWeather.Name, "OpenWeather");
+		}
+
+		[Test]
 		public async Task ConsoleOutputTest()
 		{
-			Weather weather = new Weather();
+			var weather = new Weather(null, null, null, null, null, null, null);
 			var mock = new Mock<IHttpClient>();
 
 			ConsoleOutput.OutputWeather(weather);
@@ -46,12 +56,11 @@ namespace Weather.UnitTests
 		[Test]
 		public async Task OpenWeatherMapSuccess()
 		{
-			var weather = new Weather();
 			var mock = new Mock<IHttpClient>();
 
 			mock.Setup(x => x.GetData(It.IsAny<string>())).Returns(getOpenWeatherMockData());
 			var parserOpenWeather = new ParserOpenWeather(mock.Object);
-			weather = await parserOpenWeather.GetWeatherInfoAsync();
+			var weather = await parserOpenWeather.GetWeatherInfoAsync();
 
 			Assert.IsNotNull(weather);
 			Assert.AreEqual((int)weather.CelsiusTemperature, 283);
@@ -83,14 +92,13 @@ namespace Weather.UnitTests
 		[Test]
 		public async Task OpenWeatherMapFail()
 		{
-			var weather = new Weather();
 			var mock = new Mock<IHttpClient>();
 
 			try
 			{
 				mock.Setup(x => x.GetData(It.IsAny<string>())).Returns(getFailedMockData());
 				var parserOpenWeather = new ParserOpenWeather(mock.Object);
-				weather = await parserOpenWeather.GetWeatherInfoAsync();
+				var weather = await parserOpenWeather.GetWeatherInfoAsync();
 			}
 			catch
 			{
@@ -103,12 +111,11 @@ namespace Weather.UnitTests
 		[Test]
 		public async Task TomorrowIoTest()
 		{
-			var weather = new Weather();
 			var mock = new Mock<IHttpClient>();
 
 			mock.Setup(x => x.GetData(It.IsAny<string>())).Returns(getTomorrowIoData());
 			var parserTomorrowIo = new ParserTomorrowIo(mock.Object);
-			weather = await parserTomorrowIo.GetWeatherInfoAsync();
+			var weather = await parserTomorrowIo.GetWeatherInfoAsync();
 
 			mock.Setup(x => x.GetData(It.IsAny<string>())).Returns(getFailedMockDataTomorrowIo());
 
@@ -127,12 +134,11 @@ namespace Weather.UnitTests
 		[Test]
 		public async Task TomorrowIoPrecipitation()
 		{
-			var weather = new Weather();
 			var mock = new Mock<IHttpClient>();
 
 			mock.Setup(x => x.GetData(It.IsAny<string>())).Returns(getTomorrowIoRainData());
 			var parserTomorrowIo = new ParserTomorrowIo(mock.Object);
-			weather = await parserTomorrowIo.GetWeatherInfoAsync();
+			var weather = await parserTomorrowIo.GetWeatherInfoAsync();
 
 			Assert.IsNotNull(weather);
 			Assert.AreEqual((int)weather.CelsiusTemperature, 9);

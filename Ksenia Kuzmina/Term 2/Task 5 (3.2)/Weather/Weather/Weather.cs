@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,15 +9,15 @@ namespace Weather
 {
 	public class Weather
 	{
-		public float? CelsiusTemperature;
-		public float? FahrenheitTemperature;
-		public string? CloudCover;
-		public int? Humidity;
-		public string? Precipitation;
-		public string? WindDirection;
-		public float? WindSpeed;
+		public readonly float? CelsiusTemperature;
+		public readonly float? FahrenheitTemperature;
+		public readonly string? CloudCover;
+		public readonly int? Humidity;
+		public readonly string? Precipitation;
+		public readonly string? WindDirection;
+		public readonly float? WindSpeed;
 
-		public Weather SetWeather(
+		public Weather(
 			float? celsiusTemperature,
 			float? fahrenheitTemperature,
 			string? cloudCover,
@@ -29,51 +30,33 @@ namespace Weather
 			FahrenheitTemperature = fahrenheitTemperature;
 			CloudCover = cloudCover;
 			Humidity = humidity;
-			_findOutPrecipation(precipitation);
-			_findOutWindDirection(windDirection);
+			Precipitation = precipitation;
+			WindDirection = FindOutWindDirection(windDirection);
 			WindSpeed = windSpeed;
-			return this;
 		}
 
-		private void _findOutPrecipation(string precipation)
+		private string FindOutWindDirection(string windDirection)
 		{
-			bool isNum = int.TryParse(precipation, out int num);
-			if (isNum)
-			{
-				int prec = Int32.Parse(precipation);
+			if (windDirection == null)
+				return null;
 
-				if (prec == 0)
-					Precipitation = "No precipitation";
-				else if (prec == 1)
-					Precipitation = "Rain";
-				else if (prec == 2)
-					Precipitation = "Snow";
-				else
-					Precipitation = "Undefined";
-			}
-			else
-				Precipitation = precipation;
-		}
-
-		private void _findOutWindDirection(string windDirection)
-		{
-			double deg = Convert.ToDouble(windDirection.Replace(".", ","));
+			double deg = Convert.ToDouble(windDirection, CultureInfo.InvariantCulture);
 
 			if ((deg >= 0) && (deg <= 90))
 			{
-				WindDirection = "NE";
+				return "NE";
 			}
 			else if ((deg > 90) && (deg <= 180))
 			{
-				WindDirection = "SE";
+				return "SE";
 			}
 			else if ((deg > 180) && (deg <= 270))
 			{
-				WindDirection = "SW";
+				return "SW";
 			}
 			else
 			{
-				WindDirection = "NW";
+				return "NW";
 			}
 		}
 	}

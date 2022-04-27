@@ -17,33 +17,11 @@ namespace Weather
 			{
 				MyHttpClient client = new MyHttpClient();
 
-				ParserOpenWeather parserOpenWeather = new ParserOpenWeather(client);
-				ParserTomorrowIo parserTomorrowIo = new ParserTomorrowIo(client);
+				IParser parserOpenWeather = new ParserOpenWeather(client);
+				IParser parserTomorrowIo = new ParserTomorrowIo(client);
 
-				Weather weatherOpenWeather = new Weather();
-				Weather weatherTomorrowIo = new Weather();
-
-				try
-				{
-					Console.WriteLine("Forecast from OpenWeather:");
-					weatherOpenWeather = await parserOpenWeather.GetWeatherInfoAsync();
-					ConsoleOutput.OutputWeather(weatherOpenWeather);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex.Message + "\n");
-				}
-
-				try
-				{
-					Console.WriteLine("Forecast from TomorrowIo:");
-					weatherTomorrowIo = await parserTomorrowIo.GetWeatherInfoAsync();
-					ConsoleOutput.OutputWeather(weatherTomorrowIo);
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine(ex.Message + "\n");
-				}
+				await GetWeather(parserOpenWeather);
+				await GetWeather(parserTomorrowIo);
 
 				ConsoleOutput.OutputExitMessage();
 
@@ -55,6 +33,27 @@ namespace Weather
 				{
 					break;
 				}
+			}
+		}
+
+		private static async Task GetWeather(IParser parser)
+		{
+			try
+			{
+				var weather = await parser.GetWeatherInfoAsync();
+				if (parser.Name == "OpenWeather")
+				{
+					Console.WriteLine("Forecast from OpenWeather:");
+				}
+				else if (parser.Name == "TomorrowIo")
+				{
+					Console.WriteLine("Forecast from TomorrowIo:");
+				}
+				ConsoleOutput.OutputWeather(weather);
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message + "\n");
 			}
 		}
 	}
