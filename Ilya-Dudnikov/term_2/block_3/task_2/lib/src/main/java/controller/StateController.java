@@ -15,13 +15,16 @@ public class StateController {
 	private static final double MAX_LON = 180;
 
 	protected WeatherModel weatherModel;
+	protected IWeatherAPIRequest requestCreator;
+	protected JSONParser jsonParser;
 
-	public void updateState(
-			double lon,
-			double lat,
-			IWeatherAPIRequest requestCreator,
-			JSONParser jsonParser
-	) {
+	public StateController(WeatherModel weatherModel, IWeatherAPIRequest requestCreator, JSONParser jsonParser) {
+		this.weatherModel = weatherModel;
+		this.requestCreator = requestCreator;
+		this.jsonParser = jsonParser;
+	}
+
+	public void updateState(double lon,	double lat) {
 		if (lat < MIN_LAT || lat > MAX_LAT || lon < MIN_LON || lon > MAX_LON) {
 			throw new IllegalArgumentException("Given longitude and/or latitude are invalid");
 		}
