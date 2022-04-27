@@ -3,7 +3,7 @@ using WeatherConsoleApp.WeatherInfo;
 
 namespace WeatherConsoleApp.Sites.OpenWeatherMap
 {
-    public static class JsonParser
+    public static class OpenWeatherMapJsonParser
     {
         public static Weather? Parse(string? json)
         {

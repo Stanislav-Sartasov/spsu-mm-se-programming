@@ -23,8 +23,8 @@ namespace WeatherConsoleApp
                 {
                     Console.WriteLine("Loading data...");
 
-                    Weather? weather1 = OpenWeatherMap.JsonParser.Parse(openWeatherMap.GetResponse());
-                    Weather? weather2 = TomorrowIo.JsonParser.Parse(tomorrowIo.GetResponse());
+                    Weather? weather1 = OpenWeatherMap.OpenWeatherMapJsonParser.Parse(openWeatherMap.GetResponse());
+                    Weather? weather2 = TomorrowIo.TomorrowIoJsonParser.Parse(tomorrowIo.GetResponse());
 
                     Console.Clear();
                     Console.WriteLine("**The data is current at " + DateTime.Now.ToString("HH:mm") + "**\n");

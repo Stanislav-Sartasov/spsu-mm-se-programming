@@ -6,8 +6,8 @@ namespace WeatherConsoleApp.ApiRequestMaker
     {
         protected string url;
         protected string parameters;
-        protected string key;
-        public string? accessError { get; private set; }
+        protected string? key;
+        public string? AccessError { get; private set; }
 
         public string? GetResponse()
         {
@@ -17,11 +17,11 @@ namespace WeatherConsoleApp.ApiRequestMaker
             try
             {
                 httpWebResponse = (HttpWebResponse) httpWebRequest.GetResponse();
-                accessError = null;
+                AccessError = null;
             }
             catch (Exception ex)
             {
-                accessError = ex.Message;
+                AccessError = ex.Message;
                 return null;
             }
 
@@ -34,13 +34,5 @@ namespace WeatherConsoleApp.ApiRequestMaker
 
             return json;
         }
-
-        public void ChangeApiKey(string? key)
-        {
-            if (!string.IsNullOrWhiteSpace(key))
-                this.key = key;
-        }
-
-        public abstract void SetDefaultApiKey();
     }
 }

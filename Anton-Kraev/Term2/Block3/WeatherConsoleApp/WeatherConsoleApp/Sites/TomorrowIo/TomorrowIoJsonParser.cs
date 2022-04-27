@@ -3,7 +3,7 @@ using WeatherConsoleApp.WeatherInfo;
 
 namespace WeatherConsoleApp.Sites.TomorrowIo
 {
-    public static class JsonParser
+    public static class TomorrowIoJsonParser
     {
         public static Weather? Parse(string? json)
         {
