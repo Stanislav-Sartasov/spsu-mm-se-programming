@@ -22,9 +22,9 @@ namespace Task_2
                 Response = (HttpWebResponse)request.GetResponse();
                 return true;
             }
-            catch (WebException)
+            catch
             {
-                Console.WriteLine("tomorrow.io is currently unavailable");
+                Console.WriteLine("stormglass.io is currently unavailable");
                 return false;
             }
         }

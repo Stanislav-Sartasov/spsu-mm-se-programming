@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace JsonParsingLibrary
 {
-    public class StormGlassioHour
+    public class Hour
     {
         [JsonProperty("airTemperature")]
         public Dictionary<string, string> Temperature { get; set; }

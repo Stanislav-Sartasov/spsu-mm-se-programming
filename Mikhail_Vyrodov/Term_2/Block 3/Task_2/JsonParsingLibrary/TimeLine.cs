@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace JsonParsingLibrary
 {
-    public class TomorrowioTimeLine
+    public class TimeLine
     {
         [JsonProperty("timestep")]
         public string TimeStep { get; set; }
@@ -16,6 +16,6 @@ namespace JsonParsingLibrary
         [JsonProperty("startTime")]
         public string StartTime { get; set; }
         [JsonProperty("intervals")]
-        public List<TomorrowioInterval> Intervals { get; set; }
+        public List<Interval> Intervals { get; set; }
     }
 }

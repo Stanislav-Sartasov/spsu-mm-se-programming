@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace JsonParsingLibrary
 {
-    public class TomorrowioInterval
+    public class Interval
     {
         [JsonProperty("startTime")]
         public string StartTime { get; set; }

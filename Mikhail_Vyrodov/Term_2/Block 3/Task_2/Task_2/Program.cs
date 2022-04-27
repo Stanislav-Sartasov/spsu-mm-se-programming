@@ -10,11 +10,12 @@ namespace Task_2
             StormglassioWebHelper stormglassparser = new StormglassioWebHelper();
             TomorrowioWebHelper tomorrowparser = new TomorrowioWebHelper();
             ConsoleWriter writer = new ConsoleWriter();
+            ResponseReader respReader = new ResponseReader();
             bool updateFlag = true;
             while (updateFlag)
             {
-                writer.ShowSiteWeather(tomorrowparser);
-                writer.ShowSiteWeather(stormglassparser);
+                writer.ShowSiteWeather(tomorrowparser, respReader);
+                writer.ShowSiteWeather(stormglassparser, respReader);
                 Console.WriteLine("If you want to update information type Yes, if you don't want it type No");
                 string answer = Console.ReadLine();
                 if (answer == "No")
@@ -30,7 +31,7 @@ namespace Task_2
                         updateFlag = false;
                     }
                 }
-            }
+            } 
         }
     }
 }

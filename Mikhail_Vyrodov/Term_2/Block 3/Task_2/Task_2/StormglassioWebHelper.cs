@@ -19,7 +19,7 @@ namespace Task_2
                 Response = (HttpWebResponse)request.GetResponse();
                 return true;
             }
-            catch (WebException)
+            catch (WebException ex)
             {
                 Console.WriteLine("stormglass.io is currently unavailable");
                 return false;
