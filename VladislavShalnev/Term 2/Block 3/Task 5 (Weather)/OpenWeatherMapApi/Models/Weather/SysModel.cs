@@ -2,10 +2,10 @@
 
 public record SysModel
 {
-	public int? Type { get; set; }
-	public int? Id { get; set; }
-	public double? Message { get; set; }
-	public string? Country { get; set; }
-	public int? Sunrise { get; set; }
-	public int? Sunset { get; set; }
+	public int? Type { get; init; }
+	public int? Id { get; init; }
+	public double? Message { get; init; }
+	public string? Country { get; init; }
+	public int? Sunrise { get; init; }
+	public int? Sunset { get; init; }
 }

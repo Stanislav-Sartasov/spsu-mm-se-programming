@@ -2,6 +2,6 @@
 
 public record WindModel
 {
-	public double? Speed { get; set; }
-	public int? Deg { get; set; }
+	public double? Speed { get; init; }
+	public int? Deg { get; init; }
 }

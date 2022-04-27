@@ -4,13 +4,13 @@ namespace OpenWeatherMapApi.Models.Weather;
 
 public record MainModel
 {
-	public double? Temp { get; set; }
+	public double? Temp { get; init; }
 	[JsonProperty("feels_like")]
-	public double? FeelsLike { get; set; }
+	public double? FeelsLike { get; init; }
 	[JsonProperty("temp_min")]
-	public double? TempMin { get; set; }
+	public double? TempMin { get; init; }
 	[JsonProperty("temp_max")]
-	public double? TempMax { get; set; }
-	public int? Pressure { get; set; }
-	public int? Humidity { get; set; }
+	public double? TempMax { get; init; }
+	public int? Pressure { get; init; }
+	public int? Humidity { get; init; }
 }

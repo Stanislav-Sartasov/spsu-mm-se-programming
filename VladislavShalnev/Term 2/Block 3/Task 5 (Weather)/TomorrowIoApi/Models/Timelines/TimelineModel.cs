@@ -2,8 +2,8 @@
 
 public record TimelineModel
 {
-	public string? Timestep { get; set; }
-	public DateTime? EndTime { get; set; }
-	public DateTime? StartTime { get; set; }
-	public IntervalModel[]? Intervals { get; set; }
+	public string? Timestep { get; init; }
+	public DateTime? EndTime { get; init; }
+	public DateTime? StartTime { get; init; }
+	public IntervalModel[]? Intervals { get; init; }
 }

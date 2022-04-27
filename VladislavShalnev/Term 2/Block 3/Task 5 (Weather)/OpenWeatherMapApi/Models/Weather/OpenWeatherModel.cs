@@ -6,24 +6,24 @@ namespace OpenWeatherMapApi.Models.Weather;
 
 public record OpenWeatherModel : IWeatherModel
 {
-	public CoordModel? Coord { get; set; }
-	public WeatherModel[]? Weather { get; set; }
-	public string? Base { get; set; }
-	public MainModel? Main { get; set; }
-	public int? Visibility { get; set; }
-	public WindModel? Wind { get; set; }
-	public CloudsModel? Clouds { get; set; }
-	public RainModel? Rain { get; set; }
-	public SnowModel? Snow { get; set; }
+	public CoordModel? Coord { get; init; }
+	public WeatherModel[]? Weather { get; init; }
+	public string? Base { get; init; }
+	public MainModel? Main { get; init; }
+	public int? Visibility { get; init; }
+	public WindModel? Wind { get; init; }
+	public CloudsModel? Clouds { get; init; }
+	public RainModel? Rain { get; init; }
+	public SnowModel? Snow { get; init; }
 	
 	[JsonConverter(typeof(UnixDateTimeConverter))]
-	public DateTime? Dt { get; set; }
+	public DateTime? Dt { get; init; }
 	
-	public SysModel? Sys { get; set; }
-	public int? Timezone { get; set; }
-	public int? Id { get; set; }
-	public string? Name { get; set; }
-	public int? Cod { get; set; }
+	public SysModel? Sys { get; init; }
+	public int? Timezone { get; init; }
+	public int? Id { get; init; }
+	public string? Name { get; init; }
+	public int? Cod { get; init; }
 	
 	public static explicit operator WeatherApi.Weather(OpenWeatherModel weather) =>
 		weather.ToWeather();

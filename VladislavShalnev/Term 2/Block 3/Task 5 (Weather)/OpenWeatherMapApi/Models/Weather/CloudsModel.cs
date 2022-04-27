@@ -2,5 +2,5 @@
 
 public record CloudsModel
 {
-	public int? All { get; set; }
+	public int? All { get; init; }
 }

@@ -19,7 +19,7 @@ public class OpenWeatherMap : AWeatherApi
 	internal OpenWeatherMap(string token, HttpClient httpClient) : base(token, httpClient) {}
 
 	public override Task<Weather> GetCurrentAsync((double lat, double lon) location) =>
-		GetCurrentAsync(location, "metric", "en");
+		GetCurrentAsync(location);
 	
 	public async Task<Weather> GetCurrentAsync(
 		(double lat, double lon) location,

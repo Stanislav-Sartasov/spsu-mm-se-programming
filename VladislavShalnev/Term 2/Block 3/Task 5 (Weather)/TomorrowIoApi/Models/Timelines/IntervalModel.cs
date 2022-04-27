@@ -4,8 +4,8 @@ namespace TomorrowIoApi.Models.Timelines;
 
 public record IntervalModel : IWeatherModel
 {
-	public DateTime? StartTime { get; set; }
-	public ValuesModel? Values { get; set; }
+	public DateTime? StartTime { get; init; }
+	public ValuesModel? Values { get; init; }
 
 	public static explicit operator Weather(IntervalModel weather) =>
 		weather.ToWeather();
