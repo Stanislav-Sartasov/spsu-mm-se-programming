@@ -1,16 +1,29 @@
 ﻿using System.Net;
 
-namespace WeatherConsoleApp.ApiRequestMaker
+namespace WeatherConsoleApp.ISite
 {
-    public abstract class AbstractApiRequestMaker
+    public class ApiRequestMaker
     {
-        protected string url;
-        protected string parameters;
-        protected string? key;
+        private string url;
+        private string parameters;
+        private string? key;
         public string? AccessError { get; private set; }
+
+        public ApiRequestMaker(string url, string parameters, string? key)
+        {
+            this.url = url;
+            this.parameters = parameters;
+            this.key = key;
+        }
 
         public string? GetResponse()
         {
+            if (key == null)
+            {
+                AccessError = "Api access key not found";
+                return null;
+            }
+
             HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url + parameters + key);
 
             HttpWebResponse httpWebResponse;

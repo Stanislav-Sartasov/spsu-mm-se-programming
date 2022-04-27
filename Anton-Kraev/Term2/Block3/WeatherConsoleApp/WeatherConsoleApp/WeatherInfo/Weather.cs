@@ -21,19 +21,5 @@
             WindDegree = windDegree; 
             WindSpeed = windSpeed;
         }
-
-        public void ShowWeather()
-        {
-            Console.ForegroundColor = ConsoleColor.DarkYellow;
-
-            Console.WriteLine("Temperature: " + TempInCelcius + "°C | " + TempInFahrenheit + "°F");
-            Console.WriteLine("Humidity: " + Humidity + "%");
-            Console.WriteLine("Cloudiness: " + Cloudiness + "%");
-            Console.WriteLine("Precipitation: " + Precipitation);
-            Console.WriteLine("Wind speed: " + WindSpeed + "m/s");
-            Console.WriteLine("Wind direction: " + WindDir + "\n");
-
-            Console.ForegroundColor = ConsoleColor.Gray;
-        }
     }
 }
