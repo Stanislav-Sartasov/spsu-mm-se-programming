@@ -1,10 +1,13 @@
 package view;
 
 import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.time.temporal.WeekFields;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,7 +15,9 @@ class StormglassViewTest {
 
 	@Test
 	void outputData() {
-		StormglassView view = new StormglassView(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		StormglassView view = new StormglassView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);
@@ -33,7 +38,9 @@ class StormglassViewTest {
 
 	@Test
 	void outputDataWithNulls() {
-		StormglassView view = new StormglassView(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		StormglassView view = new StormglassView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);

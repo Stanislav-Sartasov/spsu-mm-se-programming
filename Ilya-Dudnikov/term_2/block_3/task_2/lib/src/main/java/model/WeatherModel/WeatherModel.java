@@ -26,4 +26,8 @@ public abstract class WeatherModel {
 	public int hashCode() {
 		return Objects.hash(data);
 	}
+
+	public WeatherData getData() {
+		return data;
+	}
 }

@@ -1,11 +1,10 @@
 package view;
 
-import controller.StateController;
-import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 
 public class StormglassView extends WeatherView {
-	public StormglassView(WeatherData data) {
-		super(data);
+	public StormglassView(WeatherModel weatherModel) {
+		super(weatherModel);
 	}
 
 	public void outputData() {

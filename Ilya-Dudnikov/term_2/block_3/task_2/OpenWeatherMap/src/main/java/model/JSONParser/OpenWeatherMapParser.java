@@ -19,7 +19,7 @@ public class OpenWeatherMapParser implements JSONParser {
 			}
 			put("cloudCover", valueOrNull("clouds.all", jsonObject));
 			put("humidity", valueOrNull("main.humidity", jsonObject));
-			put("precipitation", valueOrNull("rain.1h", jsonObject));
+			put("precipitation", valueOrNull("precipitation.value", jsonObject));
 			put("windDirection", valueOrNull("wind.deg", jsonObject));
 			put("windSpeed", valueOrNull("wind.speed", jsonObject));
 		}};

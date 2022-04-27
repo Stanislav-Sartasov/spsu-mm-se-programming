@@ -1,11 +1,10 @@
 package view;
 
-import controller.StateController;
-import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 
 public class OpenWeatherMapView extends WeatherView {
-	public OpenWeatherMapView(WeatherData data) {
-		super(data);
+	public OpenWeatherMapView(WeatherModel weatherModel) {
+		super(weatherModel);
 	}
 
 	public void outputData() {

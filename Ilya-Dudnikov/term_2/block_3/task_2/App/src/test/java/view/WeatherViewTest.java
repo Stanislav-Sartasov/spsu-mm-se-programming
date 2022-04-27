@@ -1,7 +1,9 @@
 package view;
 
 import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -13,7 +15,9 @@ class WeatherViewTest {
 
 	@Test
 	void outputData() {
-		WeatherView view = new WeatherView(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		WeatherView view = new WeatherView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);
@@ -33,7 +37,9 @@ class WeatherViewTest {
 
 	@Test
 	void outputDataWithNulls() {
-		WeatherView view = new WeatherView(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		WeatherView view = new WeatherView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);

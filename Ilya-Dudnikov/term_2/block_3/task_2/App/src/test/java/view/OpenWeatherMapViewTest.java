@@ -1,7 +1,10 @@
 package view;
 
 import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -11,7 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 class OpenWeatherMapViewTest {
 	@Test
 	void outputData() {
-		OpenWeatherMapView view = new OpenWeatherMapView(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., 2., 3., 4., 5., 6., 7.));
+		OpenWeatherMapView view = new OpenWeatherMapView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);
@@ -32,7 +37,9 @@ class OpenWeatherMapViewTest {
 
 	@Test
 	void outputDataWithNulls() {
-		OpenWeatherMapView view = new OpenWeatherMapView(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		WeatherModel weatherModel = Mockito.mock(WeatherModel.class);
+		Mockito.when(weatherModel.getData()).thenReturn(new WeatherData(1., null, 3., null, 5., 6., 7.));
+		OpenWeatherMapView view = new OpenWeatherMapView(weatherModel);
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		PrintStream newPrintStream = new PrintStream(byteArrayOutputStream);
 		System.setOut(newPrintStream);

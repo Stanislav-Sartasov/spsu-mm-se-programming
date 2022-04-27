@@ -1,13 +1,12 @@
 package view;
 
-import controller.StateController;
-import model.WeatherData.WeatherData;
+import model.WeatherModel.WeatherModel;
 
 public class WeatherView {
-	private WeatherData data;
+	protected WeatherModel weatherModel;
 
-	public WeatherView(WeatherData data) {
-		this.data = data;
+	public WeatherView(WeatherModel weatherModel) {
+		this.weatherModel = weatherModel;
 	}
 
 	private String valueOrMessage(Double val) {
@@ -17,14 +16,19 @@ public class WeatherView {
 	}
 
 	public void outputData() {
+		if (weatherModel.getData() == null) {
+			System.out.println("Sorry, unable to retrieve data from that service :(");
+			return;
+		}
+
 		System.out.println(
-				"Air Temperature, C\u00B0: " + valueOrMessage(data.airTemperatureC()) + System.lineSeparator()
-				+ "Air Temperature, F\u00B0: " + valueOrMessage(data.airTemperatureF()) + System.lineSeparator()
-				+ "Cloud Cover, %: " + valueOrMessage(data.cloudCover()) + System.lineSeparator()
-				+ "Humidity, %: " + valueOrMessage(data.humidity()) + System.lineSeparator()
-				+ "Precipitation, mm/h: " + valueOrMessage(data.precipitation()) + System.lineSeparator()
-				+ "Wind Direction, \u00B0: " + valueOrMessage(data.windDirection()) + System.lineSeparator()
-				+ "Wind Speed, m/s: " + valueOrMessage(data.windSpeed())
+				"Air Temperature, C\u00B0: " + valueOrMessage(weatherModel.getData().airTemperatureC()) + System.lineSeparator()
+				+ "Air Temperature, F\u00B0: " + valueOrMessage(weatherModel.getData().airTemperatureF()) + System.lineSeparator()
+				+ "Cloud Cover, %: " + valueOrMessage(weatherModel.getData().cloudCover()) + System.lineSeparator()
+				+ "Humidity, %: " + valueOrMessage(weatherModel.getData().humidity()) + System.lineSeparator()
+				+ "Precipitation, mm/h: " + valueOrMessage(weatherModel.getData().precipitation()) + System.lineSeparator()
+				+ "Wind Direction, \u00B0: " + valueOrMessage(weatherModel.getData().windDirection()) + System.lineSeparator()
+				+ "Wind Speed, m/s: " + valueOrMessage(weatherModel.getData().windSpeed())
 		);
 	}
 }

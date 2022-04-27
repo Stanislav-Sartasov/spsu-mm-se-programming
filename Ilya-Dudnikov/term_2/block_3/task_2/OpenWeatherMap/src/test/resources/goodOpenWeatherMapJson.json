@@ -31,6 +31,9 @@
   "rain": {
     "1h": 0
   },
+  "precipitation": {
+    "value": 0
+  },
   "dt": 1560350645,
   "sys": {
     "type": 1,

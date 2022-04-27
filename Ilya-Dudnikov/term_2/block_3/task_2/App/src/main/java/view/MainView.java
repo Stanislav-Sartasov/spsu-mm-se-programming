@@ -1,12 +1,8 @@
 package view;
 
 import controller.StateController;
-import model.WeatherData.WeatherData;
-
-import javax.swing.plaf.nimbus.State;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class MainView {
@@ -42,7 +38,7 @@ public class MainView {
 				if (scanner.nextLine().equals("default")) {
 					lat = SPB_LAT;
 					lon = SPB_LON;
-					return;
+					break;
 				}
 
 				System.out.println("Invalid input: two floating-point numbers are required. Please, try again:");
