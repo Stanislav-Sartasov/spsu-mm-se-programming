@@ -2,4 +2,5 @@ rootProject.name = 'task_2'
 include 'lib'
 include 'Stormglass'
 include 'OpenWeatherMap'
+include 'App'
 
