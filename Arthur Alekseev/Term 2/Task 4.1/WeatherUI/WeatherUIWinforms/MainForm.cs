@@ -17,8 +17,8 @@ namespace WeatherUIWinforms
 			tioLabel = new WeatherDataLabel(panel2);
 			owmLabel = new WeatherDataLabel(panel3);
 
-			owmParser = new OpenWeatherMapParser(WebParser.GetInstance());
-			tioParser = new TomorrowIoParser(WebParser.GetInstance());
+			owmParser = new OpenWeatherMapParser(WebParser.Instance);
+			tioParser = new TomorrowIoParser(WebParser.Instance);
 
 			RefreshData();
 		}

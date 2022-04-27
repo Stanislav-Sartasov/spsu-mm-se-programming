@@ -4,14 +4,23 @@ namespace WeatherUI.Weather
 {
 	public class WebParser : IWebParser
 	{
-		public static WebParser Instance { get; private set; }
-
-		public static WebParser GetInstance()
+		private static WebParser? instance;
+		public static WebParser Instance
 		{
-			if (Instance == null)
-				Instance = new WebParser();
-			return Instance;
+			get
+			{
+				return GetInstance();
+			}
 		}
+
+		private static WebParser GetInstance()
+		{
+			if (instance == null)
+				instance = new WebParser();
+			return instance;
+		}
+
+		private WebParser() { }
 
 		public string GetData(string address)
 		{

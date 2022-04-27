@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -45,8 +46,8 @@ namespace WeatherUI.Weather
 			{
 				if (line.Contains("\"temperature\""))
 				{
-					tempCelsius = (Convert.ToSingle(line.Split(":").Last().Replace(".", ","))).ToString("n2");
-					tempFahrenheit = (1.8 * Convert.ToSingle(line.Split(":").Last().Replace(".", ",")) + 32).ToString("n2");
+					tempCelsius = (Convert.ToSingle(line.Split(":").Last(), CultureInfo.InvariantCulture)).ToString("n2");
+					tempFahrenheit = (1.8 * Convert.ToSingle(line.Split(":").Last(), CultureInfo.InvariantCulture) + 32).ToString("n2");
 				}
 				if (line.Contains("\"humidity\""))
 					humidity = line.Split(":").Last();

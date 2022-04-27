@@ -106,7 +106,7 @@ namespace WeatherUIOpenGL
 			{
 				try
 				{
-					var weather = new TomorrowIoParser(WebParser.GetInstance()).CollectData();
+					var weather = new TomorrowIoParser(WebParser.Instance).CollectData();
 					tomorrowIoData.LoadWeatherData(weather);
 				}
 				catch
@@ -120,7 +120,7 @@ namespace WeatherUIOpenGL
 			{
 				try
 				{
-					var weather = new OpenWeatherMapParser(WebParser.GetInstance()).CollectData();
+					var weather = new OpenWeatherMapParser(WebParser.Instance).CollectData();
 					openWeatherMapData.LoadWeatherData(weather);
 				}
 				catch
