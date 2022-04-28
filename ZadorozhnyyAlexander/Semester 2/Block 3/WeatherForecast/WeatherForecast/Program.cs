@@ -6,40 +6,50 @@ class Program
     static void Main()
     {
         bool isOutFromProgram = false;
-
-        AWeatherForecast stormglass = new StormglassWeatherForecast.StormglassWeatherForecast();
-        AWeatherForecast openweather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast();
+        bool isStormglassActive = false;
+        bool isOpenweatherActive = false;
 
         ShowDescription();
+
+        AWeatherForecast stormglass = new StormglassWeatherForecast.StormglassWeatherForecast(new HttpClient());
+        try
+        {
+            stormglass.Update();
+            isStormglassActive = !isStormglassActive;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Attension! It is currently impossible to get a response from the Stormglass service.\n" +
+                $"Use the \\update command to check again.: {ex.Message}");
+        }
+
+        AWeatherForecast openweather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast(new HttpClient());
+        try
+        {
+            openweather.Update();
+            isOpenweatherActive = !isOpenweatherActive;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Attension! It is currently impossible to get a response from the Openweather service.\n" +
+                $"Use the \\update command to check again.: {ex.Message}");
+        }
+
         while(!isOutFromProgram)
         {
             switch(Console.ReadLine().ToLower())
             {
                 case "\\stormglass":
-                    try
-                    {
-                        stormglass.Initialize(new HttpClient());
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"It is impossible to get data from the Stormglass website for the reason: {ex.Message}");
-                        break;
-                    }
-
-                    stormglass.ShowFullWeatherForecast();
+                    if (isStormglassActive)
+                        stormglass.ShowFullWeatherForecast();
+                    else
+                        Console.WriteLine("Something went wrong!");
                     break;
                 case "\\openweather":
-                    try
-                    {
-                        openweather.Initialize(new HttpClient());
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine($"It is impossible to get data from the Openweather website for the reason: {ex.Message}");
-                        break;
-                    }
-
-                    openweather.ShowFullWeatherForecast();
+                    if (isOpenweatherActive)
+                        openweather.ShowFullWeatherForecast();
+                    else
+                        Console.WriteLine("Something went wrong!");
                     break;
                 case "\\update":
                     try

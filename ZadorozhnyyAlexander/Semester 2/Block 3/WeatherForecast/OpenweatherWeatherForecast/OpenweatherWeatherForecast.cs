@@ -10,18 +10,15 @@ namespace OpenweatherWeatherForecast
         private const string key = "b13eb5267bf4c9746e2f70d69a172b94";
         private const string url = "http://api.openweathermap.org/data/2.5/weather";
 
-        private bool isInitialized = false;
         private ApiHelper apiHelper;
 
-        public override void Initialize(HttpClient client)
-        {
-            if (isInitialized)
-                return;
+        public OpenweatherWeatherForecast(HttpClient client) : base(client) { }
 
+        protected override void Initialize()
+        {
             apiHelper = new ApiHelper(CreateListParams(), key, url, (int)SiteTypes.Openweather, client);
             dataParser = new OpenweatherParser(apiHelper);
-            Update();
-            isInitialized = true;
+            isInitialized = !isInitialized;
         }
 
         protected override void ShowDescription()

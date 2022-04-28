@@ -43,7 +43,7 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""hours"":[{""airTemperature"":{""sg"":1},""cloudCover"":{""sg"":1},""humidity"":{""sg"":1},""precipitation"":{""sg"":1},""windDirection"":{""sg"":1},""windSpeed"":{""sg"":1}}]}");
 
-            AWeatherForecast rightWeather = new StormglassWeatherForecast.StormglassWeatherForecast();
+            AWeatherForecast rightWeather = new StormglassWeatherForecast.StormglassWeatherForecast(httpClient);
 
             int index = 0;
             foreach (PropertyInfo info in rightWeather.GetType().GetProperties())
@@ -52,8 +52,8 @@ namespace WeatherForecastTests
                 index++;
             }
                 
-            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast();
-            testedWeather.Initialize(httpClient);
+            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast(httpClient);
+            testedWeather.Update();
 
             foreach (PropertyInfo info in rightWeather.GetType().GetProperties())
             {
@@ -68,11 +68,11 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""StatusCode"":""502"", ""ReasonPhrase"":""Bad Gateway""", System.Net.HttpStatusCode.BadGateway);
 
-            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast();
+            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast(httpClient);
 
             try
             {
-                testedWeather.Initialize(httpClient);
+                testedWeather.Update();
                 Assert.Fail();
             }
             catch (Exception ex)
@@ -88,8 +88,8 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""hours"":[{""airTemperature"":{""sg"":1},""cloudCover"":{""sg"":1},""humidity"":{""sg"":1},""precipitation"":{""sg"":1},""windDirection"":{""sg"":1},""windSpeed"":{""sg"":1}}]}");
 
-            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast();
-            testedWeather.Initialize(httpClient);
+            AWeatherForecast testedWeather = new StormglassWeatherForecast.StormglassWeatherForecast(httpClient);
+            testedWeather.Update();
 
             try
             {

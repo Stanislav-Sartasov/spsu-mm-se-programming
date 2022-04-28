@@ -40,7 +40,7 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""coord"":{""lon"":30.3141,""lat"":59.9386},""weather"":[{""id"":803,""main"":""Clouds"",""description"":""broken clouds"",""icon"":""04n""}],""base"":""stations"",""main"":{""temp"":1,""feels_like"":0.18,""temp_min"":4.44,""temp_max"":5.05,""pressure"":1009,""humidity"":1},""visibility"":10000,""wind"":{""speed"":1,""deg"":1},""clouds"":{""all"":1},""dt"":1651003007,""sys"":{""type"":2,""id"":197864,""country"":""RU"",""sunrise"":1650939065,""sunset"":1650994906},""timezone"":10800,""id"":519690,""name"":""Novaya Gollandiya"",""cod"":200}");
 
-            AWeatherForecast rightWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast();
+            AWeatherForecast rightWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast(httpClient);
 
             int index = 0;
             foreach (PropertyInfo info in rightWeather.GetType().GetProperties())
@@ -49,8 +49,8 @@ namespace WeatherForecastTests
                 index++;
             }
 
-            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast();
-            testedWeather.Initialize(httpClient);
+            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast(httpClient);
+            testedWeather.Update();
 
             foreach (PropertyInfo info in rightWeather.GetType().GetProperties())
             {
@@ -65,11 +65,11 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""cod"": ""502"", ""message"": ""The site is not available at the moment.""}", System.Net.HttpStatusCode.BadGateway);
 
-            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast();
+            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast(httpClient);
 
             try
             {
-                testedWeather.Initialize(httpClient);
+                testedWeather.Update();
                 Assert.Fail();
             }
             catch (Exception ex)
@@ -85,8 +85,8 @@ namespace WeatherForecastTests
             .When(url + String.Join("", parameters))
             .Respond(@"{""coord"":{""lon"":30.3141,""lat"":59.9386},""weather"":[{""id"":803,""main"":""Clouds"",""description"":""broken clouds"",""icon"":""04n""}],""base"":""stations"",""main"":{""temp"":1,""feels_like"":0.18,""temp_min"":4.44,""temp_max"":5.05,""pressure"":1009,""humidity"":1},""visibility"":10000,""wind"":{""speed"":1,""deg"":1},""clouds"":{""all"":1},""dt"":1651003007,""sys"":{""type"":2,""id"":197864,""country"":""RU"",""sunrise"":1650939065,""sunset"":1650994906},""timezone"":10800,""id"":519690,""name"":""Novaya Gollandiya"",""cod"":200}");
 
-            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast();
-            testedWeather.Initialize(httpClient);
+            AWeatherForecast testedWeather = new OpenweatherWeatherForecast.OpenweatherWeatherForecast(httpClient);
+            testedWeather.Update();
 
             try
             {

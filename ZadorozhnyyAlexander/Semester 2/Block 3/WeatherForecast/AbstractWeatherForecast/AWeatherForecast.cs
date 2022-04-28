@@ -4,10 +4,13 @@ namespace AbstractWeatherForecast
 {
     public abstract class AWeatherForecast
     {
+        protected HttpClient client;
         protected AParser dataParser;
 
-        protected const double saintPetesbergLat = 59.93863;
-        protected const double saintPetesbergLon = 30.31413;
+        protected const string saintPetesbergLat = "59.93863";
+        protected const string saintPetesbergLon = "30.31413";
+
+        protected bool isInitialized = false;
 
         public string CurrentCelsiusTemperature { get; protected set; }
         public string CurrentFahrenheitTemperature { get; protected set; }
@@ -19,10 +22,18 @@ namespace AbstractWeatherForecast
 
         protected abstract void ShowDescription();
 
-        public abstract void Initialize(HttpClient client);
+        protected abstract void Initialize();
+
+        public AWeatherForecast(HttpClient client)
+        {
+            this.client = client;
+        }
 
         public void Update()
         {
+            if (!isInitialized)
+                Initialize();
+
             int i = 0;
             try
             {
@@ -33,7 +44,7 @@ namespace AbstractWeatherForecast
                     i++;
                 }
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException)
             {
                 throw new NullReferenceException("Data Parser not inisialize!");
             }

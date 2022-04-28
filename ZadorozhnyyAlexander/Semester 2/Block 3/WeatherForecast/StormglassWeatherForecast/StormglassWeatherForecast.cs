@@ -10,18 +10,15 @@ namespace StormglassWeatherForecast
         private const string key = "b720d1e4-c40a-11ec-844a-0242ac130002-b720d252-c40a-11ec-844a-0242ac130002";
         private const string url = "https://api.stormglass.io/v2/weather/point";
 
-        private bool isInitialized = false;
         private ApiHelper apiHelper;
 
-        public override void Initialize(HttpClient client)
-        {
-            if (isInitialized)
-                return;
+        public StormglassWeatherForecast(HttpClient client) : base(client){ }
 
+        protected override void Initialize()
+        {
             apiHelper = new ApiHelper(CreateListParams(), key, url, (int)SiteTypes.Stormglass, client);
             dataParser = new StormglassParser(apiHelper);
-            Update();
-            isInitialized = true;
+            isInitialized = !isInitialized;
         }
 
         protected override void ShowDescription()
