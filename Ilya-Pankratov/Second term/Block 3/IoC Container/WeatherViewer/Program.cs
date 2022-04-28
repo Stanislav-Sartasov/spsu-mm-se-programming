@@ -1,7 +1,6 @@
 ﻿using ConsoleOutputManagement;
 using Container;
 using SiteInterface;
-using Sites;
 
 namespace Weather
 {
@@ -34,9 +33,9 @@ namespace Weather
                     changedFlag = false;
                 }
 
-                Console.WriteLine("If you want to update data from sites, then write - 'Update'.\nAvailable sites: OpenWeather, StormGlass, TomorrowIO\nYou may add or delete site using such command:" +
-                                  " 'Add [siteName]' or 'Delete [siteName]'\nYou can also view the sites from which data is requested using command: 'Sites'\n" +
-                                  "If you want to close the program, then write - 'Exit'.\n");
+                Console.WriteLine("If you want to update data from sites, then write - 'Update'.\nAvailable sites: OpenWeather, StormGlass, TomorrowIO\n" +
+                                  "You may add or delete site using such command: 'Add [site name]' or 'Delete [site Name]'\nYou can also view the sites " +
+                                  "from which data is requested using command: 'Sites'\nIf you want to close the program, then write - 'Exit'.\n");
 
                 var userAnswer = Console.ReadLine().ToLower();
                 var commands = userAnswer.Split(" ");
@@ -49,7 +48,7 @@ namespace Weather
                 while (userAnswer != "exit" && userAnswer != "update" && !CheckCommand(commands))
                 {
                     Console.WriteLine("Wrong command. Try again, please.\nIf you want to update data from sites, then write - 'Update'.\n" +
-                                      "You may add or delete site using such command: 'Add [siteName]' or 'Delete [siteName]'\nYou can also view " +
+                                      "You may add or delete site using such command: 'Add [site name]' or 'Delete [site name]'\nYou can also view " +
                                       "the sites from which data is requested using command: 'Sites'\nIf you want to close the program, then write - 'Exit'.\n");
 
                     userAnswer = Console.ReadLine().ToLower().Replace(" ", "");
