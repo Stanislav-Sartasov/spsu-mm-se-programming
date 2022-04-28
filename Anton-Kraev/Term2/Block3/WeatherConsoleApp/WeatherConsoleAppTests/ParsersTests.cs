@@ -1,7 +1,7 @@
 using Newtonsoft.Json.Linq;
 using NUnit.Framework;
-using TomorrowIo = WeatherConsoleApp.Sites.TomorrowIo;
-using OpenWeatherMap = WeatherConsoleApp.Sites.OpenWeatherMap;
+using WeatherConsoleApp.Sites.TomorrowIo;
+using WeatherConsoleApp.Sites.OpenWeatherMap;
 
 namespace WeatherConsoleAppTests
 {
@@ -31,7 +31,7 @@ namespace WeatherConsoleAppTests
                     new JProperty("name", "Saint Petersburg"), new JProperty("cod", 200)).ToString();
             
 
-            var weather = OpenWeatherMap.OpenWeatherMapJsonParser.Parse(json);
+            var weather = OpenWeatherMapJsonParser.Parse(json);
 
             Assert.AreEqual(0, weather.TempInCelcius);
             Assert.AreEqual(32, weather.TempInFahrenheit);
@@ -46,7 +46,7 @@ namespace WeatherConsoleAppTests
         public void OpenWeatherMapBadJsonParseTest()
         {
             string? json = null;
-            var weather = OpenWeatherMap.OpenWeatherMapJsonParser.Parse(json);
+            var weather = OpenWeatherMapJsonParser.Parse(json);
             Assert.AreEqual(null, weather);
         }
 
@@ -68,7 +68,7 @@ namespace WeatherConsoleAppTests
                                             new JProperty("windSpeed", 0)))))))))))).ToString();
 
 
-            var weather = TomorrowIo.TomorrowIoJsonParser.Parse(json);
+            var weather = TomorrowIoJsonParser.Parse(json);
 
             Assert.AreEqual(0, weather.TempInCelcius);
             Assert.AreEqual(32, weather.TempInFahrenheit);
@@ -83,7 +83,7 @@ namespace WeatherConsoleAppTests
         public void TomorrowIoBadJsonParseTest()
         {
             string? json = null;
-            var weather = TomorrowIo.TomorrowIoJsonParser.Parse(json);
+            var weather = TomorrowIoJsonParser.Parse(json);
             Assert.AreEqual(null, weather);
         }
     }
