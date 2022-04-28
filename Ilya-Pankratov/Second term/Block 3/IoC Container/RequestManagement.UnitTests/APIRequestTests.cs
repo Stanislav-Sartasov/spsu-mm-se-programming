@@ -1,7 +1,6 @@
 using NUnit.Framework;
-using RequestManagement;
 
-namespace Request.UnitTests
+namespace RequestManagement.UnitTests
 {
     public class APIRequestTests
     {

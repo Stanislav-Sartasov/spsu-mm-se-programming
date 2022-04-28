@@ -1,8 +1,8 @@
-﻿using ConsoleOutputManagement;
+﻿using Tools;
 using Container;
 using SiteInterface;
 
-namespace Weather
+namespace WeatherViewer
 {
     public static class Program
     {
@@ -21,7 +21,7 @@ namespace Weather
                 {
                     foreach (var site in sites)
                     {
-                        ConsoleOutput.WriteWeather(site.GetCityWeatherForecast());
+                        Console.WriteLine(Tool.ConvertWeatherToString(site.GetCityWeatherForecast()));
                     }
 
                     updateFlag = false;
@@ -42,10 +42,10 @@ namespace Weather
 
                 while (userAnswer.Last() == ' ')
                 {
-                    userAnswer.Remove(userAnswer.Length - 1);
+                    userAnswer = userAnswer.Remove(userAnswer.Length - 1);
                 }
 
-                while (userAnswer != "exit" && userAnswer != "update" && !ConsoleOutput.CheckCommand(commands))
+                while (userAnswer != "exit" && userAnswer != "update" && !Tool.CheckCommand(commands))
                 {
                     Console.WriteLine("Wrong command. Try again, please.\nIf you want to update data from sites, then write - 'Update'.\n" +
                                       "You may add or delete site using such command: 'Add [site name]' or 'Delete [site name]'\nYou can also view " +
@@ -56,7 +56,7 @@ namespace Weather
 
                     while (userAnswer.Last() == ' ')
                     {
-                            userAnswer.Remove(userAnswer.Length - 1);
+                        userAnswer.Remove(userAnswer.Length - 1);
                     }
                 }
 
@@ -77,7 +77,7 @@ namespace Weather
                 }
                 else if (commands[0] == "add")
                 {
-                    var name = ConsoleOutput.GetSite(commands[1]);
+                    var name = Tool.GetSite(commands[1]);
 
                     if (IoCContainer.ConnectedSites.Contains(name))
                     {
@@ -93,7 +93,7 @@ namespace Weather
                 }
                 else if (commands[0] == "delete")
                 {
-                    var name = ConsoleOutput.GetSite(commands[1]);
+                    var name = Tool.GetSite(commands[1]);
 
                     if (!IoCContainer.ConnectedSites.Contains(name))
                     {
@@ -114,6 +114,7 @@ namespace Weather
             }
 
             Console.WriteLine("\nThat's all! Thank you!\n");
+            return;
         }
     }
 }

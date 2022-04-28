@@ -1,13 +1,14 @@
 ﻿using Forecast;
 using Container;
 
-namespace ConsoleOutputManagement
+namespace Tools
 {
-    public static class ConsoleOutput
+    public static class Tool
     {
 
-        public static void WriteWeather(SiteWeatherForecast weather)
+        public static string ConvertWeatherToString(SiteWeatherForecast weather)
         {
+            string result = String.Empty;
             var source = weather.Source;
             var time = DateTime.Now;
             var line = string.Concat(Enumerable.Repeat("-", 20));
@@ -15,24 +16,27 @@ namespace ConsoleOutputManagement
 
             if (weather.Forecast == null)
             {
-                Console.WriteLine(line + "\n");
-                Console.WriteLine($"Failed to get data from {source}.\nError message: {weather.ErrorMessage}\n");
-                Console.WriteLine(line + "\n");
-                return;
+
+                result += line + "\n\n";
+                result +=  $"Failed to get data from {source}.\nError message: {weather.ErrorMessage}\n\n";
+                result += line + "\n\n";
+                return result;
             }
 
-            Console.WriteLine("\n" + line + $"\nSource: {source}\n");
+            result +=  "\n" + line + $"\nSource: {source}\n\n";
 
             foreach (var day in weather.Forecast)
             {
-                Console.WriteLine($"Data: {time.AddDays(counter).ToString("g")}\nCelsius temperature: {ProcessData(day.CelsiusTemperature, "°C")}\n" +
-                                  $"Fahrenheit temperature: {ProcessData(day.FahrenheitTemperature, "°F")}\nHumidity: {ProcessData(day.Humidity, "%")}\n" +
-                                  $"Cloud cover: {ProcessData(day.CloudCover, "%")}\nWind speed: {ProcessData(day.WindSpeed, "m/s")} \n" +
-                                  $"Wind direction: {ProcessData(day.WindDirection, "°")}\n");
+                result += $"Data: {time.AddDays(counter).ToString("g")}\nCelsius temperature: {ProcessData(day.CelsiusTemperature, "°C")}\n" +
+                          $"Fahrenheit temperature: {ProcessData(day.FahrenheitTemperature, "°F")}\nHumidity: {ProcessData(day.Humidity, "%")}\n" +
+                          $"Cloud cover: {ProcessData(day.CloudCover, "%")}\nWind speed: {ProcessData(day.WindSpeed, "m/s")} \n" +
+                          $"Wind direction: {ProcessData(day.WindDirection, "°")}\n";
                 counter++;
             }
 
-            Console.WriteLine(line + "\n");
+            result +=  line + "\n";
+
+            return result;
         }
 
         public static bool CheckCommand(string[] command)
