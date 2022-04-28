@@ -9,10 +9,10 @@ namespace WeatherUIWinforms
 {
 	internal class WeatherDataLabel
 	{
-		List<Label> labels;
-		string innerData = "No data availible";
-		Panel backGroundPanel;
-		int positionStride = 40;
+		private List<Label> labels;
+		private string innerData = "No data availible";
+		private Panel backGroundPanel;
+		private int positionStride = 40;
 
 		public WeatherDataLabel(Panel panel)
 		{
