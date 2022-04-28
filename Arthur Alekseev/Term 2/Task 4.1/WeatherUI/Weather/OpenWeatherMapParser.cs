@@ -3,28 +3,15 @@ using System.Net;
 
 namespace WeatherUI.Weather
 {
-	public class OpenWeatherMapParser : IWeatherParser
+	public class OpenWeatherMapParser : WeatherParser
 	{
-		private string _apiKey = "";
-		private IWebParser _webParser;
-
-		public OpenWeatherMapParser(IWebParser webParser)
+		public OpenWeatherMapParser(IWebParser parser) : base(parser)
 		{
-			_webParser = webParser;
-		}
-		public WeatherData CollectData()
-		{
-			string dataJson = _webParser.GetData("https://api.openweathermap.org/data/2.5/weather?q=Saint%20Petersburg,%20RU&id=524901&appid=" + _apiKey);
-
-			WeatherData weatherData = FillWeatherData(dataJson);
-
-			if (weatherData.IsNotEmpty())
-				return weatherData;
-			else
-				throw new EmptyWeatherDataException("openweathermap.org gave bad responce and weather data is not filled properly");
+			_apiKey = "";
+			_url = "https://api.openweathermap.org/data/2.5/weather?q=Saint%20Petersburg,%20RU&id=524901&appid=";
 		}
 
-		private WeatherData FillWeatherData(string json)
+		protected override WeatherData FillWeatherData(string json)
 		{
 			string? tempCelsius = null;
 			string? tempFahrenheit = null;
