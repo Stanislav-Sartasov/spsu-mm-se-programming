@@ -29,99 +29,98 @@
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-			this.panel1 = new System.Windows.Forms.Panel();
-			this.button2 = new System.Windows.Forms.Button();
-			this.button1 = new System.Windows.Forms.Button();
-			this.panel2 = new System.Windows.Forms.Panel();
-			this.panel3 = new System.Windows.Forms.Panel();
-			this.panel1.SuspendLayout();
+			this.buttonPanel = new System.Windows.Forms.Panel();
+			this.refreshButton = new System.Windows.Forms.Button();
+			this.exitButton = new System.Windows.Forms.Button();
+			this.tioPanel = new System.Windows.Forms.Panel();
+			this.owmPanel = new System.Windows.Forms.Panel();
+			this.buttonPanel.SuspendLayout();
 			this.SuspendLayout();
 			// 
-			// panel1
+			// buttonPanel
 			// 
-			this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(48)))));
-			this.panel1.Controls.Add(this.button2);
-			this.panel1.Controls.Add(this.button1);
-			this.panel1.Location = new System.Drawing.Point(-1, 0);
-			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(80, 451);
-			this.panel1.TabIndex = 0;
+			this.buttonPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(48)))));
+			this.buttonPanel.Controls.Add(this.refreshButton);
+			this.buttonPanel.Controls.Add(this.exitButton);
+			this.buttonPanel.Location = new System.Drawing.Point(-1, 0);
+			this.buttonPanel.Name = "buttonPanel";
+			this.buttonPanel.Size = new System.Drawing.Size(80, 451);
+			this.buttonPanel.TabIndex = 0;
 			// 
-			// button2
+			// refreshButton
 			// 
-			this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(78)))));
-			this.button2.FlatAppearance.BorderSize = 0;
-			this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.button2.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.button2.ForeColor = System.Drawing.Color.Azure;
-			this.button2.Image = ((System.Drawing.Image)(resources.GetObject("button2.Image")));
-			this.button2.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.button2.Location = new System.Drawing.Point(3, 3);
-			this.button2.Name = "button2";
-			this.button2.Size = new System.Drawing.Size(74, 82);
-			this.button2.TabIndex = 2;
-			this.button2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button2.UseVisualStyleBackColor = false;
-			this.button2.Click += new System.EventHandler(this.button2_Click);
+			this.refreshButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(78)))));
+			this.refreshButton.FlatAppearance.BorderSize = 0;
+			this.refreshButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.refreshButton.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.refreshButton.ForeColor = System.Drawing.Color.Azure;
+			this.refreshButton.Image = ((System.Drawing.Image)(resources.GetObject("refreshButton.Image")));
+			this.refreshButton.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.refreshButton.Location = new System.Drawing.Point(3, 3);
+			this.refreshButton.Name = "refreshButton";
+			this.refreshButton.Size = new System.Drawing.Size(74, 82);
+			this.refreshButton.TabIndex = 2;
+			this.refreshButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.refreshButton.UseVisualStyleBackColor = false;
+			this.refreshButton.Click += new System.EventHandler(this.RefreshButtonClick);
 			// 
-			// button1
+			// exitButton
 			// 
-			this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(78)))));
-			this.button1.FlatAppearance.BorderSize = 0;
-			this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.button1.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-			this.button1.ForeColor = System.Drawing.Color.Azure;
-			this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-			this.button1.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-			this.button1.Location = new System.Drawing.Point(3, 91);
-			this.button1.Name = "button1";
-			this.button1.Size = new System.Drawing.Size(74, 75);
-			this.button1.TabIndex = 1;
-			this.button1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
-			this.button1.UseVisualStyleBackColor = false;
-			this.button1.Click += new System.EventHandler(this.button1_Click);
+			this.exitButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(52)))), ((int)(((byte)(78)))));
+			this.exitButton.FlatAppearance.BorderSize = 0;
+			this.exitButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+			this.exitButton.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+			this.exitButton.ForeColor = System.Drawing.Color.Azure;
+			this.exitButton.Image = ((System.Drawing.Image)(resources.GetObject("exitButton.Image")));
+			this.exitButton.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+			this.exitButton.Location = new System.Drawing.Point(3, 91);
+			this.exitButton.Name = "exitButton";
+			this.exitButton.Size = new System.Drawing.Size(74, 75);
+			this.exitButton.TabIndex = 1;
+			this.exitButton.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
+			this.exitButton.UseVisualStyleBackColor = false;
+			this.exitButton.Click += new System.EventHandler(this.ExitButtonClick);
 			// 
-			// panel2
+			// tioPanel
 			// 
-			this.panel2.BackColor = System.Drawing.Color.Snow;
-			this.panel2.Location = new System.Drawing.Point(79, 0);
-			this.panel2.Margin = new System.Windows.Forms.Padding(0);
-			this.panel2.Name = "panel2";
-			this.panel2.Size = new System.Drawing.Size(318, 451);
-			this.panel2.TabIndex = 1;
+			this.tioPanel.BackColor = System.Drawing.Color.Snow;
+			this.tioPanel.Location = new System.Drawing.Point(79, 0);
+			this.tioPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.tioPanel.Name = "tioPanel";
+			this.tioPanel.Size = new System.Drawing.Size(318, 451);
+			this.tioPanel.TabIndex = 1;
 			// 
-			// panel3
+			// owmPanel
 			// 
-			this.panel3.Location = new System.Drawing.Point(397, 0);
-			this.panel3.Margin = new System.Windows.Forms.Padding(0);
-			this.panel3.Name = "panel3";
-			this.panel3.Size = new System.Drawing.Size(326, 451);
-			this.panel3.TabIndex = 2;
+			this.owmPanel.Location = new System.Drawing.Point(397, 0);
+			this.owmPanel.Margin = new System.Windows.Forms.Padding(0);
+			this.owmPanel.Name = "owmPanel";
+			this.owmPanel.Size = new System.Drawing.Size(326, 451);
+			this.owmPanel.TabIndex = 2;
 			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(722, 450);
-			this.Controls.Add(this.panel3);
-			this.Controls.Add(this.panel2);
-			this.Controls.Add(this.panel1);
+			this.Controls.Add(this.owmPanel);
+			this.Controls.Add(this.tioPanel);
+			this.Controls.Add(this.buttonPanel);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "MainForm";
 			this.Text = "Weather";
-			this.Load += new System.EventHandler(this.Form1_Load);
-			this.panel1.ResumeLayout(false);
+			this.buttonPanel.ResumeLayout(false);
 			this.ResumeLayout(false);
 
 		}
 
 		#endregion
 
-		private Panel panel1;
-		private Button button1;
-		private Button button2;
-		private Panel panel2;
-		private Panel panel3;
+		private Panel buttonPanel;
+		private Button exitButton;
+		private Button refreshButton;
+		private Panel tioPanel;
+		private Panel owmPanel;
 	}
 }

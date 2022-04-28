@@ -14,27 +14,23 @@ namespace WeatherUIWinforms
 		{
 			InitializeComponent();
 
-			tioLabel = new WeatherDataLabel(panel2);
-			owmLabel = new WeatherDataLabel(panel3);
+			tioLabel = new WeatherDataLabel(tioPanel);
+			owmLabel = new WeatherDataLabel(owmPanel);
 
 			owmParser = new OpenWeatherMapParser(WebParser.Instance);
 			tioParser = new TomorrowIoParser(WebParser.Instance);
 
 			RefreshData();
 		}
-		private void button1_Click(object sender, EventArgs e)
+
+		private void ExitButtonClick(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
 
-		private void button2_Click(object sender, EventArgs e)
+		private void RefreshButtonClick(object sender, EventArgs e)
 		{
 			RefreshData();
-		}
-
-		private void Form1_Load(object sender, EventArgs e)
-		{
-
 		}
 
 		private void RefreshData()

@@ -17,11 +17,11 @@ namespace WeatherUIOpenGL.Drawing.Common
 		{
 			var vertexShader = GL.CreateShader(ShaderType.VertexShader);
 			GL.ShaderSource(vertexShader, shaderSourceVert);
-			CompileShader(vertexShader, shaderSourceVert);
+			CompileShader(vertexShader);
 
 			var fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
 			GL.ShaderSource(fragmentShader, shaderSourceFrag);
-			CompileShader(fragmentShader, shaderSourceFrag);
+			CompileShader(fragmentShader);
 
 			Handle = GL.CreateProgram();
 
@@ -47,7 +47,7 @@ namespace WeatherUIOpenGL.Drawing.Common
 			}
 		}
 
-		private static void CompileShader(int shader, string text)
+		private static void CompileShader(int shader)
 		{
 			GL.CompileShader(shader);
 

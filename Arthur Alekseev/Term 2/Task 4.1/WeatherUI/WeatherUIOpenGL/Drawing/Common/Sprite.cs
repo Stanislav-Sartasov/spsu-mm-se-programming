@@ -27,14 +27,14 @@ namespace WeatherUIOpenGL.Drawing.Common
 			this.texture = texture;
 			ReshapeWithCoords(-bounds[0], bounds[1], -bounds[2], bounds[3]);
 		}
-		public void ReshapeWithCoords(float top_x, float top_y, float bottom_x, float bottom_y)
+		public void ReshapeWithCoords(float topX, float topY, float bottomX, float bottomY)
 		{
 			_vertices = new float[]
 			{
-			-top_x, top_y, 0f, 1.0f, 1.0f, // top right
-            -top_x, bottom_y, 0f, 1.0f, 0.0f, // bottom right
-            -bottom_x, bottom_y, 0f, 0.0f, 0.0f, // bottom left
-            -bottom_x, top_y, 0f, 0.0f, 1.0f // top left
+			-topX, topY, 0f, 1.0f, 1.0f, // top right
+            -topX, bottomY, 0f, 1.0f, 0.0f, // bottom right
+            -bottomX, bottomY, 0f, 0.0f, 0.0f, // bottom left
+            -bottomX, topY, 0f, 0.0f, 1.0f // top left
             };
 		}
 
