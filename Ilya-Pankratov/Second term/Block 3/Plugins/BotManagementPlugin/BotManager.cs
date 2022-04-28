@@ -17,7 +17,8 @@ namespace BotManagementPlugin
         public void Do()
         {
             Console.WriteLine("Enter the path to the bot library: ");
-            string path = Console.ReadLine();
+            string userInput = Console.ReadLine();
+            string path = Directory.Exists(userInput) ? Path.GetFullPath(userInput) : userInput;
 
             if (AskForPath(path) == false)
             {
@@ -112,13 +113,13 @@ namespace BotManagementPlugin
         {
             while (path == "" || !Directory.Exists(path))
             {
-                Console.WriteLine("The path does not exist or there is no any bot libraries. Please, try again or write 'Exit' to leave");
-                path = Console.ReadLine();
-
                 if (path == "Exit")
                 {
                     return false;
                 }
+
+                Console.WriteLine("The path does not exist or there is no any bot libraries. Please, try again or write 'Exit' to leave");
+                path = Console.ReadLine();
             }
 
             return true;
