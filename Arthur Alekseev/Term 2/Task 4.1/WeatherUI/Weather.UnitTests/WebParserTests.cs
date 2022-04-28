@@ -8,7 +8,7 @@ namespace WeatherUI.Weather.UnitTests
 		[Test]
 		public void GetDataTest()
 		{
-			string data = WebParser.GetInstance().GetData("https://petrathecat.github.io/smth");
+			string data = WebParser.Instance.GetData("https://petrathecat.github.io/smth");
 
 			string rightDataBegin = "<html lang=\"ru\"><head>";
 
