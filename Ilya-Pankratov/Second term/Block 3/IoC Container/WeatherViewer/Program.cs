@@ -45,7 +45,7 @@ namespace Weather
                     userAnswer.Remove(userAnswer.Length - 1);
                 }
 
-                while (userAnswer != "exit" && userAnswer != "update" && !CheckCommand(commands))
+                while (userAnswer != "exit" && userAnswer != "update" && !ConsoleOutput.CheckCommand(commands))
                 {
                     Console.WriteLine("Wrong command. Try again, please.\nIf you want to update data from sites, then write - 'Update'.\n" +
                                       "You may add or delete site using such command: 'Add [site name]' or 'Delete [site name]'\nYou can also view " +
@@ -77,7 +77,7 @@ namespace Weather
                 }
                 else if (commands[0] == "add")
                 {
-                    var name = GetSite(commands[1]);
+                    var name = ConsoleOutput.GetSite(commands[1]);
 
                     if (IoCContainer.ConnectedSites.Contains(name))
                     {
@@ -93,7 +93,7 @@ namespace Weather
                 }
                 else if (commands[0] == "delete")
                 {
-                    var name = GetSite(commands[1]);
+                    var name = ConsoleOutput.GetSite(commands[1]);
 
                     if (!IoCContainer.ConnectedSites.Contains(name))
                     {
@@ -114,47 +114,6 @@ namespace Weather
             }
 
             Console.WriteLine("\nThat's all! Thank you!\n");
-        }
-
-        private static bool CheckCommand(string[] command)
-        {
-            List<string> names = new List<string>()
-            {
-                "openweather", "tomorrowio", "stormglass"
-            };
-
-            if (command.Length == 1 && command[0] == "sites")
-            {
-                return true;
-            }
-            else if (command.Length != 2)
-            {
-                return false;
-            }
-            else if ((command[0] == "add" || command[0] == "delete") && names.Contains(command[1]))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        private static SitesName GetSite(string siteName)
-        {
-            if (siteName == "openweather")
-            {
-                return SitesName.OpenWeather;
-            }
-            else if (siteName == "tomorrowio")
-            {
-                return SitesName.TomorrowIO;
-            }
-            else
-            {
-                return SitesName.StormGlass;
-            }
         }
     }
 }

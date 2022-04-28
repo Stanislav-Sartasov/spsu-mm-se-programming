@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConsoleOutputManagement\ConsoleOutputManagement.csproj" />
+    <ProjectReference Include="..\ConsoleOutputManagement\Tools.csproj" />
     <ProjectReference Include="..\Container\Container.csproj" />
     <ProjectReference Include="..\Sites.UnitTests\Sites.UnitTests.csproj" />
     <ProjectReference Include="..\Sites\Sites.csproj" />

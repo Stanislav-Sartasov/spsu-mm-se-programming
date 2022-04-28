@@ -1,4 +1,5 @@
 ﻿using Forecast;
+using Container;
 
 namespace ConsoleOutputManagement
 {
@@ -34,7 +35,48 @@ namespace ConsoleOutputManagement
             Console.WriteLine(line + "\n");
         }
 
-        private static string ProcessData(string source, string additionalSymbol)
+        public static bool CheckCommand(string[] command)
+        {
+            List<string> names = new List<string>()
+            {
+                "openweather", "tomorrowio", "stormglass"
+            };
+
+            if (command.Length == 1 && command[0] == "sites")
+            {
+                return true;
+            }
+            else if (command.Length != 2)
+            {
+                return false;
+            }
+            else if ((command[0] == "add" || command[0] == "delete") && names.Contains(command[1]))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static SitesName GetSite(string siteName)
+        {
+            if (siteName == "openweather")
+            {
+                return SitesName.OpenWeather;
+            }
+            else if (siteName == "tomorrowio")
+            {
+                return SitesName.TomorrowIO;
+            }
+            else
+            {
+                return SitesName.StormGlass;
+            }
+        }
+
+        public static string ProcessData(string source, string additionalSymbol)
         {
             return source == "No data" ? "No data" : source + additionalSymbol;
         }
