@@ -1,0 +1,90 @@
+﻿<Window x:Class="WeatherWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherWPF"
+        mc:Ignorable="d"
+        Title="Weather" Height="837" Width="1329" ResizeMode="NoResize">
+
+    <Grid x:Name="root" Height="819" VerticalAlignment="Top" Background="LightCyan">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="209*"/>
+            <ColumnDefinition Width="163*"/>
+            <ColumnDefinition Width="168*"/>
+            <ColumnDefinition Width="155*"/>
+            <ColumnDefinition Width="129*"/>
+            <ColumnDefinition Width="224*"/>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="125*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="583*"/>
+            <RowDefinition Height="89*"/>
+        </Grid.RowDefinitions>
+        <Image Source="Resources/wallpaper1.jpg" Grid.RowSpan="2" Margin="0,0,-1,0" Grid.Row="5" Grid.ColumnSpan="8" Stretch="Fill"/>
+        <Border Background="SkyBlue" Grid.ColumnSpan="8" Margin="0,0,0,1"/>
+        <Border Background="#FF111B1D" Margin="0,45,0,1" Grid.ColumnSpan="8"/>
+        <Border Background="#FF111B1D" Margin="0,0,160,0" Grid.RowSpan="5" Grid.Column="1"/>
+        <Label Grid.Row="0" Grid.Column="0" Content="WebService" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,0,3,4"/>
+        <Label Grid.Row="0" Content="Temperature(C)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,0,0,4" Grid.Column="1"/>
+        <Label Grid.Row="0" Grid.Column="2" Content="Temperature(F)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,0,4,4"/>
+        <Label Grid.Row="0" Grid.Column="3" Content="Cloud Cover(%)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="1,0,1,4"/>
+        <Label Grid.Row="0" Grid.Column="4" Content="Humidity(%)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="4,0,1,4"/>
+        <Label Grid.Row="0" Grid.Column="5" Content="Precipipation(type,mm)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="4,0,4,4"/>
+        <Label Grid.Row="0" Grid.Column="6" Content="WindSpeed(m/s)" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,0,0,4"/>
+        <Label Grid.Row="0" Grid.Column="7" Content="WindDegree" FontSize="20"  FontFamily="Ink Free" FontWeight="Bold" Margin="7,0,0,4"/>
+
+        <Label Grid.Row="1" Grid.Column="0" Content="" FontSize="18"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="1" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="2" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="3" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="4" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="5" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="6" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="1" Grid.Column="7" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+
+        <Label Grid.Row="2" Grid.Column="0" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="1" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="2" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="3" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="4" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="5" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="6" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="2" Grid.Column="7" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+
+        <Label Grid.Row="3" Grid.Column="0" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="1" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="2" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="3" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="4" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="5" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="6" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="3" Grid.Column="7" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+
+        <Label Grid.Row="4" Grid.Column="0" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="1" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="2" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="3" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="4" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="5" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="6" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+        <Label Grid.Row="4" Grid.Column="7" Content="" FontSize="15"  FontFamily="Ink Free" FontWeight="Bold" Margin="0,-3,0,-3"/>
+
+
+
+        <Button Background="LightGreen" Content="Show Weather" Margin="0,580,3,26" Grid.Row="5" FontSize="30" Click="ShowWeather" Name = "ShowButton" FontFamily="Ink Free" FontWeight="Bold" Grid.RowSpan="2"/>
+        <Button  Background="LightGreen" Content="Settings" Margin="206,580,10,0" Grid.Row="5" FontSize="30" Click="SetKeys" x:Name = "SetButti" FontFamily="Ink Free" FontWeight="Bold" Grid.ColumnSpan="2" Grid.RowSpan="2" Height="66" VerticalAlignment="Top"/>
+
+
+
+    </Grid>
+
+</Window>
+
+    
