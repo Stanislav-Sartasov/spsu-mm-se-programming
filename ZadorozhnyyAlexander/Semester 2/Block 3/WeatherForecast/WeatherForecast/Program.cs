@@ -9,6 +9,7 @@ class Program
         bool isStormglassActive = false;
         bool isOpenweatherActive = false;
 
+        Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
         ShowDescription();
 
         AWeatherForecast stormglass = new StormglassWeatherForecast.StormglassWeatherForecast(new HttpClient());

@@ -31,6 +31,8 @@ namespace WeatherForecastTests
         [SetUp]
         public void Setup()
         {
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+
             mockHelper = new MockHttpHelper();
 
             httpClient = new HttpClient(mockHelper.Object());
