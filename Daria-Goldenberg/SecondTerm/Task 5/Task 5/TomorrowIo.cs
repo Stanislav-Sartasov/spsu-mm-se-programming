@@ -15,7 +15,6 @@ namespace Task_5
 		{
 			request.Run(url + apiKey);
 
-
 			if (!request.Connected)
 				throw new Exception("Data from the site \"Tomorrow.io\" is not available.");
 			else

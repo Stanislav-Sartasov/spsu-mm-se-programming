@@ -6,10 +6,12 @@
 		protected string apiKey = "";
 		protected string url = "";
 		public string Name { get; protected set; }
+
 		public Site(IRequest request)
 		{
 			this.request = request;
 		}
+
 		public abstract Weather GetData();
 
 		protected string CheckDirection(int deg)
@@ -30,6 +32,5 @@
 				return "NW";
 			return "N";
 		}
-
 	}
 }

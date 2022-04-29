@@ -5,7 +5,6 @@ namespace Task_5
 	public class Request : IRequest
 	{
 		private HttpWebRequest request;
-
 		public string Response { get; private set; }
 		public bool Connected { get; private set; }
 

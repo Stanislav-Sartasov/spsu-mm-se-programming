@@ -4,7 +4,6 @@ namespace Task_5
 {
 	public class OpenWeather : Site
 	{
-		
 		public OpenWeather(IRequest request) : base(request)
 		{
 			Name = "OpenWeather";
