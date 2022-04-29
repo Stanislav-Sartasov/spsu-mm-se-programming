@@ -1,5 +1,4 @@
-﻿using System.Net;
-using WeatherConsoleApp.ISite;
+﻿using WeatherConsoleApp.ISite;
 using WeatherConsoleApp.Sites.OpenWeatherMap;
 using WeatherConsoleApp.Sites.TomorrowIo;
 
