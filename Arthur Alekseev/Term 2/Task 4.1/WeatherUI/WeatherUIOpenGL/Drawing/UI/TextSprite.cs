@@ -59,8 +59,8 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 		private void UpdateUniforms()
 		{
-			sprite.shader.Use();
-			var location = sprite.shader.GetUniformLocation("opacity");
+			sprite.Shader.Use();
+			var location = sprite.Shader.GetUniformLocation("opacity");
 			GL.Uniform1(location, 1f - textOpacity);
 		}
 

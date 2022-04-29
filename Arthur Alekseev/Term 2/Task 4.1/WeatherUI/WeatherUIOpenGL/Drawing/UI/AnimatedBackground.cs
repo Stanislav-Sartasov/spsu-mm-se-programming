@@ -27,10 +27,10 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 		public void Update(App app, float t)
 		{
-			sprite.shader.Use();
+			sprite.Shader.Use();
 
-			var loc = sprite.shader.GetUniformLocation("iResolution");
-			var locTime = sprite.shader.GetUniformLocation("iTime");
+			var loc = sprite.Shader.GetUniformLocation("iResolution");
+			var locTime = sprite.Shader.GetUniformLocation("iTime");
 
 			GL.Uniform2(loc, app.Size);
 			GL.Uniform1(locTime, t);
