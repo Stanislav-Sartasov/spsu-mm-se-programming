@@ -28,7 +28,7 @@ namespace ToolsTests
         public void ConvertWeatherToStringUnsuccefsulTest()
         {
             var forecast = new SiteWeatherForecast("SomeSite", "Sate is down.");
-            string result = $"--------------------\n\nFailed to get data from SomeSite.\nError message: Sate is down.\n\n--------------------\n";
+            string result = "--------------------\n\nFailed to get data from SomeSite.\nError message: Sate is down.\n\n--------------------\n\n";
 
             Assert.AreEqual(Tool.ConvertWeatherToString(forecast), result);
         }
