@@ -1,0 +1,54 @@
+{
+  "hours":
+    {
+      "airTemperature": {
+        "dwd": 2.23,
+        "noaa": 3.03,
+        "sg": 2.23
+      },
+      "cloudCover": {
+        "dwd": 0.0,
+        "noaa": 14.1,
+        "sg": 0.0
+      },
+      "humidity": {
+        "dwd": 79.44,
+        "noaa": 91.9,
+        "sg": 79.44
+      },
+      "precipitation": {
+        "dwd": 0.0,
+        "noaa": 0.0,
+        "sg": 0.0
+      },
+      "time": "2022-04-22T00:00:00+00:00",
+      "windDirection": {
+        "icon": 78.11,
+        "noaa": 107.17,
+        "sg": 78.11
+      },
+      "windSpeed": {
+        "icon": 1.94,
+        "noaa": 2.36,
+        "sg": 1.94
+      }
+    }
+  ],
+  "meta": {
+    "cost": 1,
+    "dailyQuota": 10,
+    "end": "2022-04-22 00:00",
+    "lat": 60.0,
+    "lng": 30.0,
+    "params": [
+      "airTemperature",
+      "cloudCover",
+      "humidity",
+      "precipitation",
+      "windDirection",
+      "windSpeed"
+    ],
+    "requestCount": 2,
+    "start": "2022-04-22 00:00"
+  }
+}
