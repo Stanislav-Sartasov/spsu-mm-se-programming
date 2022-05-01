@@ -14,7 +14,7 @@ namespace Tools
         {
             if (weather == null)
             {
-                WriteLine(siteName + "is down.");
+                WriteLine(siteName + " is down.");
                 return;
             }
             WriteLine(siteName);

@@ -1,7 +1,6 @@
 ﻿using ISites;
 using Requests;
 using Tools;
-using static System.Console;
 
 namespace Sites
 {
@@ -20,7 +19,7 @@ namespace Sites
             new List<string> { "Sec-Fetch-Mode", "cors" },
             new List<string> { "Sec-Fetch-Site", "same-origin" }
         };
-        private IGetRequest request;
+        public IGetRequest Request { get; private set; }
         readonly List<string> patternsForPasrsing = new List<string>
         {
             @"(?<=temp.:)-?\d+\.\d+",
@@ -33,28 +32,36 @@ namespace Sites
 
         public OpenWeatherMap()
         {
-            request = new GetRequest(url, accept, host, referer);
+            Request = new GetRequest(url, accept, host, referer);
             foreach (List<string> pair in security)
             {
-                request.AddToHeaders(pair.First(), pair.Last());
+                Request.AddToHeaders(pair.First(), pair.Last());
             }
         }
 
-        // only for testing
         public OpenWeatherMap(IGetRequest getRequest)
         {
-            request = getRequest;
+            Request = getRequest;
+            foreach (List<string> pair in security)
+            {
+                Request.AddToHeaders(pair.First(), pair.Last());
+            }
+        }
+
+        public ISite WithGetRequest(IGetRequest getRequest)
+        {
+            return new OpenWeatherMap(getRequest);
         }
 
         public Weather.Weather GetWeather()
         {
-            request.Run();
-            if (!request.Connect)
+            Request.Run();
+            if (!Request.Connect)
             {
                 return null;
             }
 
-            Weather.Weather weather = new Parser(request.Response).Parse(patternsForPasrsing);
+            Weather.Weather weather = new Parser(Request.Response).Parse(patternsForPasrsing);
             Weather.Weather weatherWithPara = new Weather.Weather(
                 weather.TempC + "°C",
                 weather.TempF + "°F",
