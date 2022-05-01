@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
+        <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\OpenWeatherMapApi\OpenWeatherMapApi.csproj" />
+      <ProjectReference Include="..\TomorrowIoApi\TomorrowIoApi.csproj" />
+      <ProjectReference Include="..\WeatherApi\WeatherApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MicaWPF" Version="3.1.16" />
+      <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0-preview.4.22229.4" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0-preview.4.22229.4" />
+      <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+      <PackageReference Include="SharpVectors" Version="1.7.7" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Resource Include="Assets\Backgrounds\clear.jpg" />
+      <Resource Include="Assets\Backgrounds\cloudy.jpg" />
+      <Resource Include="Assets\Backgrounds\drizzle.jpg" />
+      <Resource Include="Assets\Backgrounds\fog.jpg" />
+      <Resource Include="Assets\Backgrounds\rain.jpg" />
+      <Resource Include="Assets\Backgrounds\snow.jpg" />
+      <Resource Include="Assets\Backgrounds\thunderstorm.jpg" />
+      <Resource Include="Fonts\WeatherIcons.ttf" />
+      <Resource Include="Assets\icon.ico" />
+      <Resource Include="Assets\Icons\clear.svg" />
+      <Resource Include="Assets\Icons\cloudy.svg" />
+      <Resource Include="Assets\Icons\drizzle.svg" />
+      <Resource Include="Assets\Icons\rain.svg" />
+      <Resource Include="Assets\Icons\snow.svg" />
+      <Resource Include="Assets\Icons\wind.svg" />
+      <Resource Include="Assets\Icons\cloudCover.svg" />
+      <Resource Include="Assets\Icons\humidity.svg" />
+      <Resource Include="Assets\Icons\precipitations.svg" />
+    </ItemGroup>
+
+</Project>
