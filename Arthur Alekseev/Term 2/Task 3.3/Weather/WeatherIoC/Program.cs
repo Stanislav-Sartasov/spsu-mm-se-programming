@@ -9,7 +9,7 @@ namespace WeatherIoC
 			IoCContainer ioCContainer = new IoCContainer();
 
 			ioCContainer.GenerateTomorrowIo = args.Contains("tomorrow.io");
-			ioCContainer.GenerateOpenWeatherMap = args.Contains("openweatherrmap.org");
+			ioCContainer.GenerateOpenWeatherMap = args.Contains("openweathermap.org");
 
 			List<IWeatherParser> parsers = ioCContainer.CreateParsers();
 
@@ -19,7 +19,7 @@ namespace WeatherIoC
 				Console.WriteLine("This program shows weather for today (" + DateTime.Now.ToShortDateString() + ")\n" +
 					"Also services can be enabled with command line arguments.\n" +
 					"To enable tomorrow.io, use tomorrow.io\n" +
-					"To enable openweathermap.oeg, type openweatherrmap.org\n");
+					"To enable openweathermap.oeg, type openweathermap.org\n");
 
 				PrintData(parsers.ToArray());
 
