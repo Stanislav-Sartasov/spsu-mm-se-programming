@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Weather": {
+      "commandName": "Project",
+      "commandLineArgs": "OpenWeather OpenWeather TomorrowIo TomorrowIo"
+    }
+  }
+}
