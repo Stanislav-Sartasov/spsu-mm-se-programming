@@ -46,7 +46,7 @@ namespace BABASH
                     error.Message += $"{Name}: cannot access \'{arg}\': No such directory\n";
                 }
             }
-            stdOut = stdOut[..^1];
+            stdOut = stdOut == null ? null : stdOut[..^1];
             error.Message = error.Message[..^1];
         }
 

@@ -475,7 +475,7 @@ namespace Task8.UnitTests
                 "",
                 "cd: too many arguments",
                 "",
-                @"C:\Gits\spsu-mm-se-programming\Suldin_Vyacheslav\SecondTerm\Task8Folder\Task8.UnitTests\bin\Debug\net5.0\TestCatalog\NewDirectory",
+                Directory.GetCurrentDirectory() + @"\TestCatalog\NewDirectory",
                 "",
                 "",
                 "",
