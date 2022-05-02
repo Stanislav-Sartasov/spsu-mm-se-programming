@@ -5,10 +5,11 @@ package minibash.parsing
  *
  * Grammar (described informally):
  *
- * INSTRUCTION    : VAR_ASSIGN|PIPE
+ * INSTRUCTION    : VAR_ASSIGN|PIPE|None
  *
  * VAR_ASSIGN     : \$VAR_NAME=VAR_VALUE
  * PIPE           : CMD_WITH_ARGS(\s*\|\s*CMD_WITH_ARGS)*
+ * None           : \s*
  *
  * VAR_VALUE      : EXP_WORD
  *
@@ -16,11 +17,11 @@ package minibash.parsing
  * CMD            : WORD
  * CMD_ARG        : EXP_WORD
  *
- * EXP_STRING       : VAR|QUOTED|WORD
+ * EXP_STRING     : VAR|QUOTED|WORD
  * VAR            : \$VAR_NAME
  * QUOTED         : "$QUOTED_ELEMENT*"
  * QUOTED_ELEMENT : VAR|[^$"]+
- * WORD           : [^\s$"]+
+ * WORD           : [^\s$|"]+
  *
  * VAR_NAME       : [a-zA-Z_]\w*
  */
@@ -32,14 +33,16 @@ object SimpleParser : Parser {
         return if (lines.size == 1) {
             val trimmedLine = lines.first().trim()
 
-            if (trimmedLine.firstOrNull() == '$') {
-                if (VAR_ASSIGN_REGEX.matches(trimmedLine)) {
+            when (trimmedLine.firstOrNull()) {
+                '$' -> if (VAR_ASSIGN_REGEX.matches(trimmedLine)) {
                     parseVariableAssignment(trimmedLine)
                 } else {
                     Instruction.SyntaxError(INCORRECT_VARIABLE_SYNTAX_ERROR_MESSAGE)
                 }
-            } else {
-                if (PIPE_REGEX.matches(trimmedLine)) {
+                null -> {
+                    Instruction.None
+                }
+                else -> if (PIPE_REGEX.matches(trimmedLine)) {
                     parsePipe(trimmedLine)
                 } else {
                     Instruction.SyntaxError(INCORRECT_COMMAND_OR_PIPE_SYNTAX_ERROR_MESSAGE)
@@ -124,7 +127,7 @@ object SimpleParser : Parser {
     private const val VAR_NAME = """[a-zA-Z_]\w*"""
 
     private const val VAR = """\$$VAR_NAME"""
-    private const val WORD = """[^\s$"]+"""
+    private const val WORD = """[^\s$|"]+"""
 
     private const val QUOTED_ELEMENT = """($VAR|[^$"]+)"""
 
