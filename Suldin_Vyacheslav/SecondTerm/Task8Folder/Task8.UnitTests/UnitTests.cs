@@ -10,6 +10,7 @@ namespace Task8.UnitTests
         [SetUp]
         public void Setup()
         {
+            Directory.CreateDirectory(Directory.GetCurrentDirectory() + @"\TestCatalog");
         }
 
         [Test]
