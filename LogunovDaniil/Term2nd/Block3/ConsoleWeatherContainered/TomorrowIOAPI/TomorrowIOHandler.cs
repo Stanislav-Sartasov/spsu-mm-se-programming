@@ -54,12 +54,12 @@ namespace TomorrowIOAPI
 						SourceName = "TomorrowIO",
 
 						TempC = weather.GetProperty("temperature").GetDouble(),
-						Humidity = weather.GetProperty("humidity").GetInt32(),
+						Humidity = (int)weather.GetProperty("humidity").GetDouble(),
 						WindSpeed = weather.GetProperty("windSpeed").GetDouble(),
 						WindDirection = weather.GetProperty("windDirection").GetDouble(),
 						Precipitation = PrecipitationId[weather.GetProperty("precipitationType").GetInt32()],
 						PrecipitationProbability = weather.GetProperty("precipitationProbability").GetDouble(),
-						CloudCover = weather.GetProperty("cloudCover").GetInt32()
+						CloudCover = (int)weather.GetProperty("cloudCover").GetDouble()
 					};
 				}
 			}
