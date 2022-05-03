@@ -9,11 +9,11 @@ namespace SaintPetersburgWeatherWinForms
     public partial class MainForm : Form
     {
         private List<ISite> sites;
-        private InfoDisplayer displayer = new InfoDisplayer("Not stated", WeatherParameter.Current);
+        private InfoDisplayer displayer;
         private Panel weatherInfo;
-        private bool requestSitesFlag = true;
-        private bool buttonPressed = false;
-        private List<SiteWeatherForecast> forecasts = new List<SiteWeatherForecast>();
+        private bool requestSitesFlag;
+        private bool buttonPressed;
+        private List<SiteWeatherForecast> forecasts;
         private List<Button> sitesButtons;
         private List<CityWeatherForecast> currentForecasts;
         private List<GroupBox> dayForecasts;
@@ -28,6 +28,12 @@ namespace SaintPetersburgWeatherWinForms
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //initizliaing and creating instance of objects
+            forecasts = new List<SiteWeatherForecast>();
+            displayer = new InfoDisplayer("Not stated", WeatherParameter.Current);
+            requestSitesFlag = true;
+            buttonPressed = false;
+
             // connect all sites
             turnOnButton(this.openWeather);
             turnOnButton(this.tomorrowIO);
