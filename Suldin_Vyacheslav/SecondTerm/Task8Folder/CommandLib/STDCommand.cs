@@ -53,12 +53,12 @@ namespace CommandLib
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    error.Message = $"-babach: {sumArgs[0]}: No sush file or directory";
+                    error.Message = $"-mybash: {sumArgs[0]}: No sush file or directory";
                     error.StdErr = 1;
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    error.Message = $"-babach: {sumArgs[0]}: Is a directory";
+                    error.Message = $"-mybash: {sumArgs[0]}: Is a directory";
                     error.StdErr = 1;
                 }
             }

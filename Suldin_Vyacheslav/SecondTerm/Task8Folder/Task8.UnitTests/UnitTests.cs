@@ -331,11 +331,11 @@ namespace Task8.UnitTests
 
             std = new STDCommand(args[3], cc);
             std.Run();
-            Assert.AreEqual("-babach: directory1: Is a directory", std.GetErrorMessage());
+            Assert.AreEqual("-mybash: directory1: Is a directory", std.GetErrorMessage());
 
             std = new STDCommand(args[4], cc);
             std.Run();
-            Assert.AreEqual("-babach: \\someDirectory\\file.txt: No sush file or directory", std.GetErrorMessage());
+            Assert.AreEqual("-mybash: \\someDirectory\\file.txt: No sush file or directory", std.GetErrorMessage());
 
             File.Delete(current + @"\TestCatalog\file.txt");
             File.Delete(current + @"\TestCatalog\file1.txt");

@@ -4,10 +4,13 @@ namespace CommandLib
 {
     public abstract class ACommand : ICommand
     {
-        public string Name { get; set; }
-        protected string[] parametres { get; set; }
-        protected string stdIn { get; set; }
-        protected string stdOut { get; set; }
+        public string Name;
+
+        protected string[] parametres;
+
+        protected string stdIn;
+
+        protected string stdOut;
 
         protected Error error = new Error();
         public abstract void Run();
