@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace BABASH
+namespace CommandLib
 {
     public class StringInfo
     {
@@ -17,7 +14,7 @@ namespace BABASH
             if (str == null) return;
             Bytes = new ASCIIEncoding().GetByteCount(str);
             Strings = str.Split("\r").Length;
-            Words = Regex.Matches(str, @"\w+").Count;
+            Words = str.Split(new char[] { ' ', '\n', '\r'}, StringSplitOptions.RemoveEmptyEntries).Length;
 
         }
 

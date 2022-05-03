@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class CDCommand : Command
+    public class CDCommand : ACommand
     {
-        public CDCommand(string[] args, Session commandSession)
+        public CDCommand(string[] args)
         {
-            session = commandSession;
             Name = "cd";
             parametres = args;
         }
-        public override void Execute()
+        public override void Run()
         {
             if (parametres.Length > 1)
             {
@@ -26,12 +19,12 @@ namespace BABASH
             }
             else if (parametres.Length == 0)
             {
-                Confirm(session.GetLocalVar("$HOME"), session.GetLocalVar("$HOME"));
+                Confirm(Environ.GetLocalVar("$HOME"), Environ.GetLocalVar("$HOME"));
                 return;
             }
             var arg = parametres[0];
 
-            string abcolutePath = Path.GetFullPath(arg, session.GetCurrentDirectory());
+            string abcolutePath = Path.GetFullPath(arg, Environ.GetCurrentDirectory());
 
             Confirm(abcolutePath, arg);
             
@@ -53,7 +46,7 @@ namespace BABASH
             }
             else
             {
-                session.SetCurrentDirectory(path);
+                Environ.SetCurrentDirectory(path);
             }
         }
     }

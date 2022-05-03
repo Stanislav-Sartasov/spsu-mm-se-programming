@@ -1,18 +1,17 @@
 ﻿using System.Diagnostics;
 using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class UNKNOWCommand : Command
+    public class UNKNOWCommand : ACommand
     {
-        public UNKNOWCommand(string unknowName, Session session)
+        public UNKNOWCommand(string unknowName)
         {
             Name = unknowName;
-            this.session = session;
         }
-        public override void Execute()
+        public override void Run()
         {
-            string logFilePath = session.GetCurrentDirectory() + "\\LogFile.txt";
+            string logFilePath = Environ.GetCurrentDirectory() + "\\LogFile.txt";
             File.Create(logFilePath).Close();
             File.WriteAllText(logFilePath, $"{Name}: command not found");
             Process process = new Process();

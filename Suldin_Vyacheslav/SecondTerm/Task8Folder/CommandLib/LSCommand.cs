@@ -1,24 +1,21 @@
-﻿using System;
-using System.IO;
-using System.Text.RegularExpressions;
+﻿using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class LSCommand : Command
+    public class LSCommand : ACommand
     {
-        public LSCommand(string[] args, Session commandSession)
+        public LSCommand(string[] args)
         {
-            session = commandSession;
             Name = "ls";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             if (parametres.Length == 0) parametres = new string[] {string.Empty};
             foreach (string arg in parametres)
             {
-                string abcolutePath = Path.GetFullPath(arg, session.GetCurrentDirectory());
+                string abcolutePath = Path.GetFullPath(arg, Environ.GetCurrentDirectory());
                 if (File.Exists(abcolutePath))
                 {
                     CopyAdd(arg + " ");
@@ -46,7 +43,7 @@ namespace BABASH
                     error.Message += $"{Name}: cannot access \'{arg}\': No such directory\n";
                 }
             }
-            stdOut = stdOut == null ? null : stdOut[..^1];
+            stdOut = stdOut == null? null : stdOut[..^1];
             error.Message = error.Message[..^1];
         }
 

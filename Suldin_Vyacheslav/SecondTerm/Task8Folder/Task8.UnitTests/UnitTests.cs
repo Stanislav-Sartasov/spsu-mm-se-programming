@@ -1,7 +1,11 @@
-using NUnit.Framework;
-using BABASH;
+﻿using NUnit.Framework;
+using Core;
 using System.Collections.Generic;
 using System.IO;
+using CommandLib;
+using CommandResolverLib;
+using Moq;
+using System;
 
 namespace Task8.UnitTests
 {
@@ -30,34 +34,35 @@ namespace Task8.UnitTests
         public void EXPORTTest()
         {
             string[] args = new string[] { "test1=asda sd", "test2=as dasd", "test3====", "test4=", "test5" };
-            Session session = new Session();
             EXPORTCommand export;
             foreach (string arg in args)
             {
-                export = new EXPORTCommand(new string[] { arg }, session);
-                export.Execute();
+                export = new EXPORTCommand(new string[] { arg });
+                export.Run();
             }
-            export = new EXPORTCommand(new string[] { "test6=ASD", "test7=DSA" }, session);
-            export.Execute();
-            Assert.AreEqual("asda sd", session.GetLocalVar("$test1"));
-            Assert.AreEqual("as dasd", session.GetLocalVar("$test2"));
-            Assert.AreEqual("===", session.GetLocalVar("$test3"));
-            Assert.AreEqual("", session.GetLocalVar("$test4"));
-            Assert.AreEqual("", session.GetLocalVar("$test5"));
-            Assert.AreEqual("ASD", session.GetLocalVar("$test6"));
-            Assert.AreEqual("DSA", session.GetLocalVar("$test7"));
+            export = new EXPORTCommand(new string[] { "test6=ASD", "test7=DSA" });
+            export.Run();
+            Assert.AreEqual("asda sd", Environ.GetLocalVar("$test1"));
+            Assert.AreEqual("as dasd", Environ.GetLocalVar("$test2"));
+            Assert.AreEqual("===", Environ.GetLocalVar("$test3"));
+            Assert.AreEqual("", Environ.GetLocalVar("$test4"));
+            Assert.AreEqual("", Environ.GetLocalVar("$test5"));
+            Assert.AreEqual("ASD", Environ.GetLocalVar("$test6"));
+            Assert.AreEqual("DSA", Environ.GetLocalVar("$test7"));
+            Environ.DefaultSet();
         }
+
         [Test]
         public void SubstitutionTest()
         {
-            Dictionary<string, string> dictionary = new Dictionary<string, string>() {
-                {"$test1","ASD"},
-            };
-            Assert.AreEqual(Analyser.Substitution("$test1", dictionary), "ASD");
-            Assert.AreEqual(Analyser.Substitution("asd\"$test1\"", dictionary), "asd\"ASD\"");
-            Assert.AreEqual(Analyser.Substitution("asd${test1}asd", dictionary), "asdASDasd");
-            Assert.AreEqual(Analyser.Substitution("asd\"${test1}\"asd", dictionary), "asd\"ASD\"asd");
-            Assert.AreEqual(Analyser.Substitution("asd\"${ASD}\"asd", dictionary), "asd\"\"asd");
+            var mock = new Mock<ICommandCreator>();
+            mock.Setup(x => x.GetLocalVariable("$test1")).Returns("ASD");
+
+            Assert.AreEqual("ASD", Analyser.Substitution("$test1", mock.Object));
+            Assert.AreEqual("asd\"ASD\"", Analyser.Substitution("asd\"$test1\"", mock.Object));
+            Assert.AreEqual("asdASDasd", Analyser.Substitution("asd${test1}asd", mock.Object));
+            Assert.AreEqual("asd\"ASD\"asd", Analyser.Substitution("asd\"${test1}\"asd", mock.Object));
+            Assert.AreEqual("asd\"\"asd", Analyser.Substitution("asd\"${ASD}\"asd", mock.Object));
         }
 
         [Test]
@@ -68,7 +73,7 @@ namespace Task8.UnitTests
         }
 
         [Test]
-        public void ErrorTest()
+        public void ErrorTest() 
         {
             Error error = new Error();
             error.StdErr = 0;
@@ -80,38 +85,30 @@ namespace Task8.UnitTests
         [Test]
         public void PWDTest()
         {
-            Session session = new Session();
             string[] args = new string[] { "" };
-            PWDCommand pwd = new PWDCommand(args, session);
-            session.SetCurrentDirectory(@"C:\catalog1\catalog2\catalog3");
-            pwd.Execute();
+            PWDCommand pwd = new PWDCommand(args);
+            Environ.SetCurrentDirectory(@"C:\catalog1\catalog2\catalog3");
+            pwd.Run();
             Assert.AreEqual(@"C:\catalog1\catalog2\catalog3", pwd.GetStdOut());
+            Environ.DefaultSet();
         }
 
         [Test]
         public void ExitTest()
         {
             string[] args = new string[] { "" };
-            EXITCommand exit = new EXITCommand(args, new Session());
-            exit.Execute();
+            EXITCommand exit = new EXITCommand(args);
+            exit.Run();
             Assert.AreEqual(null, exit.GetStdOut());
+            Environ.DefaultSet();
         }
         [Test]
         public void ECHOTest()
         {
-
-            string[] args = new string[] { "" };
-            ECHOCommand echo = new ECHOCommand(args, new Session());
-            Session session = new Session();
-            session.Resolve("export O=ooo");
-            Assert.AreEqual("", session.Resolve("echo"));
-            Assert.AreEqual("asd", session.Resolve("echo asd"));
-            Assert.AreEqual("ooo", session.Resolve("echo $O"));
-            Assert.AreEqual("ooo", session.Resolve("echo ${O}"));
-            Assert.AreEqual("asd asd asd", session.Resolve("echo asd asd      asd"));
-            Assert.AreEqual("asd asd      asd", session.Resolve("echo asd \"asd      asd\""));
-            Assert.AreEqual("asdoooasd", session.Resolve("echo asd\"$O\"asd"));
-            Assert.AreEqual("asd", session.Resolve("echo asd$Oasd"));
+            string[] args = new string[] { "asd", " 231   __123", "ЧЯМИТЧЯИТЮЧСЮМИТМЧСЮБИЧИСТЮ" };
+            ECHOCommand echo = new ECHOCommand(args);
+            echo.Run();
+            Assert.AreEqual("asd  231   __123 ЧЯМИТЧЯИТЮЧСЮМИТМЧСЮБИЧИСТЮ", echo.GetStdOut());
         }
 
         [Test]
@@ -123,18 +120,18 @@ namespace Task8.UnitTests
                "TestCatalog\\file2.txt",
                "TestCatalog\\directory"
             };
-            Session session = new Session();
-            string directoryPath = session.GetCurrentDirectory();
+            string directoryPath = Environ.GetCurrentDirectory();
             File.Create(directoryPath + @"\TestCatalog\file1.txt").Close();
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory");
             RMCommand rm;
-            rm = new RMCommand(args, session);
-            rm.Execute();
+            rm = new RMCommand(args);
+            rm.Run();
             Assert.AreEqual("rm: cannot remove 'TestCatalog\\file2.txt': No such file or directory" +
                 "\nrm: cannot remove 'TestCatalog\\directory': Is a directory", rm.GetErrorMessage());
             Assert.AreEqual(false, File.Exists(directoryPath + @"\TestCatalog\file1.txt"));
             Assert.AreEqual(true, Directory.Exists(directoryPath + @"\TestCatalog\directory"));
             Directory.Delete(directoryPath + @"\TestCatalog\directory");
+            Environ.DefaultSet();
         }
 
         [Test]
@@ -147,16 +144,15 @@ namespace Task8.UnitTests
                "TestCatalog\\directory3",
                "TestCatalog\\file1.txt"
             };
-            Session session = new Session();
-            string directoryPath = session.GetCurrentDirectory();
+            string directoryPath = Environ.GetCurrentDirectory();
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory1");
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory3");
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory3\additionalDirectory");
 
             File.Create(directoryPath + @"\TestCatalog\file1.txt").Close();
             RMDIRCommand rmdir;
-            rmdir = new RMDIRCommand(args, session);
-            rmdir.Execute();
+            rmdir = new RMDIRCommand(args);
+            rmdir.Run();
 
             Assert.AreEqual("rmdir: failed to remove 'TestCatalog\\directory2': No such file or directory"
                 + "\nrmdir: failed to remove 'TestCatalog\\directory3': Directory not empty"
@@ -167,6 +163,7 @@ namespace Task8.UnitTests
             File.Delete(directoryPath + @"\TestCatalog\file1.txt");
             Directory.Delete(directoryPath + @"\TestCatalog\directory3\additionalDirectory");
             Directory.Delete(directoryPath + @"\TestCatalog\directory3");
+            Environ.DefaultSet();
         }
 
         [Test]
@@ -178,19 +175,19 @@ namespace Task8.UnitTests
                "TestCatalog\\direc:tory2",
                "TestCatalog\\directory3"
             };
-            Session session = new Session();
-            string directoryPath = session.GetCurrentDirectory();
+            string directoryPath = Environ.GetCurrentDirectory();
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory1");
 
             MKDIRCommand mkdir;
-            mkdir = new MKDIRCommand(args, session);
-            mkdir.Execute();
+            mkdir = new MKDIRCommand(args);
+            mkdir.Run();
 
-            Assert.AreEqual("mkdir: cannot create directory �TestCatalog\\directory1�: File exists" +
-                "\nmkdir: cannot create directory �TestCatalog\\direc:tory2�: Not supported name", mkdir.GetErrorMessage());
+            Assert.AreEqual("mkdir: cannot create directory ‘TestCatalog\\directory1’: File exists" +
+                "\nmkdir: cannot create directory ‘TestCatalog\\direc:tory2’: Not supported name", mkdir.GetErrorMessage());
             Assert.AreEqual(true, Directory.Exists(directoryPath + @"\TestCatalog\directory3"));
             Directory.Delete(directoryPath + @"\TestCatalog\directory1");
             Directory.Delete(directoryPath + @"\TestCatalog\directory3");
+            Environ.DefaultSet();
         }
         [Test]
         public void TOUCHTest()
@@ -201,14 +198,13 @@ namespace Task8.UnitTests
                "TestCatalog\\notExistingFolder\\file2.txt",
                "TestCatalog\\file3.txt"
             };
-            Session session = new Session();
-            string directoryPath = session.GetCurrentDirectory();
+            string directoryPath = Environ.GetCurrentDirectory();
 
             File.Create(directoryPath + @"\TestCatalog\file1.txt").Close();
 
             TOUCHCommand touch;
-            touch = new TOUCHCommand(args, session);
-            touch.Execute();
+            touch = new TOUCHCommand(args);
+            touch.Run();
 
             Assert.AreEqual("touch: cannot touch TestCatalog\\notExistingFolder\\file2.txt: No such file or directory", touch.GetErrorMessage());
             Assert.AreEqual(true, File.Exists(directoryPath + @"\TestCatalog\file1.txt"));
@@ -217,6 +213,7 @@ namespace Task8.UnitTests
 
             File.Delete(directoryPath + @"\TestCatalog\file1.txt");
             File.Delete(directoryPath + @"\TestCatalog\file3.txt");
+            Environ.DefaultSet();
         }
 
         [Test]
@@ -228,32 +225,31 @@ namespace Task8.UnitTests
                "TestCatalog\\IamNotExist",
                "TestCatalog\\file1.txt"
             };
-            Session session = new Session();
-            string directoryPath = session.GetCurrentDirectory();
+            string directoryPath = Environ.GetCurrentDirectory();
 
             File.Create(directoryPath + @"\TestCatalog\file1.txt").Close();
             Directory.CreateDirectory(directoryPath + @"\TestCatalog\directory1");
 
             LSCommand ls;
-            ls = new LSCommand(args, session);
-            ls.Execute();
+            ls = new LSCommand(args);
+            ls.Run();
 
             Assert.AreEqual("TestCatalog:\n" +
                             "directory1 file1.txt \n" +
                             "ls: cannot access 'TestCatalog\\IamNotExist': No such directory\n" +
                             "TestCatalog\\file1.txt", ls.GetErrorMessage());
 
-            ls = new LSCommand(new string[] { }, session);
-            ls.Execute();
+            ls = new LSCommand(new string[] { });
+            ls.Run();
 
             File.Delete(directoryPath + @"\TestCatalog\file1.txt");
             Directory.Delete(directoryPath + @"\TestCatalog\directory1");
+            Environ.DefaultSet();
         }
 
         [Test]
         public void CDTest()
         {
-            Session session = new Session();
             CDCommand cd;
 
             string[] args = new string[]
@@ -266,42 +262,43 @@ namespace Task8.UnitTests
             string current = Directory.GetCurrentDirectory();
             File.Create(current + @"\TestCatalog\file.txt").Close();
 
-            cd = new CDCommand(new string[] { args[0] }, session);
-            cd.Execute();
-            Assert.AreEqual(current[..^7], session.GetCurrentDirectory());
+            cd = new CDCommand(new string[] { args[0] });
+            cd.Run();
+            Assert.AreEqual(current[..^7], Environ.GetCurrentDirectory());
 
-            cd = new CDCommand(new string[] { args[1] }, session);
-            cd.Execute();
+            cd = new CDCommand(new string[] { args[1] });
+            cd.Run();
             Assert.AreEqual($"cd: \'{args[1]}\': No such directory", cd.GetErrorMessage());
 
-            cd = new CDCommand(new string[] { args[1], args[2] }, session);
-            cd.Execute();
+            cd = new CDCommand(new string[] { args[1], args[2] });
+            cd.Run();
             Assert.AreEqual("cd: too many arguments", cd.GetErrorMessage());
 
-            cd = new CDCommand(new string[] { args[2] }, session);
-            cd.Execute();
-            Assert.AreEqual(@"C:\", session.GetCurrentDirectory());
+            cd = new CDCommand(new string[] { args[2] });
+            cd.Run();
+            Assert.AreEqual(@"C:\", Environ.GetCurrentDirectory());
 
-            cd = new CDCommand(new string[] { }, session);
-            cd.Execute();
-            Assert.AreEqual(current, session.GetCurrentDirectory());
+            cd = new CDCommand(new string[] { });
+            cd.Run();
+            Assert.AreEqual(current, Environ.GetCurrentDirectory());
 
-            cd = new CDCommand(new string[] { }, session);
-            cd.Execute();
-            Assert.AreEqual(current, session.GetCurrentDirectory());
+            cd = new CDCommand(new string[] { });
+            cd.Run();
+            Assert.AreEqual(current, Environ.GetCurrentDirectory());
 
-            cd = new CDCommand(new string[] { args[1] }, session);
-            cd.Execute();
+            cd = new CDCommand(new string[] { args[1] });
+            cd.Run();
             Assert.AreEqual($"cd: \'{args[1]}\': Not a directory", cd.GetErrorMessage());
 
             File.Delete(current + @"\TestCatalog\file.txt");
+            Environ.DefaultSet();
         }
 
         [Test]
         public void STDTest()
         {
-            Session session = new Session();
             STDCommand std;
+            CommandCreator cc = new CommandCreator();
             string current = Directory.GetCurrentDirectory();
             List<string[]> args = new List<string[]>()
             {
@@ -315,41 +312,41 @@ namespace Task8.UnitTests
             File.Create(current + @"\TestCatalog\file2.txt").Close();
             Directory.CreateDirectory(current + @"\TestCatalog\directory1");
 
-            new CDCommand(new string[] { "TestCatalog" }, session).Execute();
+            new CDCommand(new string[] { "TestCatalog" }).Run();
 
-            std = new STDCommand(args[0], session);
-            std.Execute();
+            std = new STDCommand(args[0], cc);
+            std.Run();
             Assert.AreEqual("ASD", File.ReadAllText(current + @"\TestCatalog\file.txt"));
 
-            std = new STDCommand(args[1], session);
-            std.Execute();
+            std = new STDCommand(args[1], cc);
+            std.Run();
             Assert.That(File.Exists(current + @"\TestCatalog\file1.txt"));
             Assert.AreEqual("ASD", File.ReadAllText(current + @"\TestCatalog\file1.txt"));
 
-            std = new STDCommand(args[2], session);
-            std.Execute();
+            std = new STDCommand(args[2], cc);
+            std.Run();
             Assert.That(File.Exists(current + @"\TestCatalog\file2.txt"));
             Assert.AreEqual("", File.ReadAllText(current + @"\TestCatalog\file.txt"));
             Assert.AreEqual("ASDasd ", File.ReadAllText(current + @"\TestCatalog\file2.txt"));
 
-            std = new STDCommand(args[3], session);
-            std.Execute();
+            std = new STDCommand(args[3], cc);
+            std.Run();
             Assert.AreEqual("-babach: directory1: Is a directory", std.GetErrorMessage());
 
-            std = new STDCommand(args[4], session);
-            std.Execute();
+            std = new STDCommand(args[4], cc);
+            std.Run();
             Assert.AreEqual("-babach: \\someDirectory\\file.txt: No sush file or directory", std.GetErrorMessage());
 
             File.Delete(current + @"\TestCatalog\file.txt");
             File.Delete(current + @"\TestCatalog\file1.txt");
             File.Delete(current + @"\TestCatalog\file2.txt");
             Directory.Delete(current + @"\TestCatalog\directory1");
+            Environ.DefaultSet();
         }
 
         [Test]
         public void WCTest()
         {
-            Session session = new Session();
             string current = Directory.GetCurrentDirectory();
             List<string[]> args = new List<string[]>()
             {
@@ -367,27 +364,27 @@ namespace Task8.UnitTests
             File.WriteAllLines(current + @"\TestCatalog\file1.txt", new string[] { "asad", "assadd asd" });
             WCCommand wc;
 
-            wc = new WCCommand(args[0], session);
-            wc.Execute();
+            wc = new WCCommand(args[0]);
+            wc.Run();
             Assert.AreEqual("2 2 8", wc.GetStdOut());
 
-            wc = new WCCommand(args[1], session);
-            wc.Execute();
+            wc = new WCCommand(args[1]);
+            wc.Run();
             Assert.AreEqual("2 2 8 TestCatalog\\file.txt\n" +
                             "3 3 18 TestCatalog\\file1.txt\n" +
                             "5 5 26 total", wc.GetStdOut());
 
-            wc = new WCCommand(args[2], session);
-            wc.Execute();
+            wc = new WCCommand(args[2]);
+            wc.Run();
             Assert.AreEqual("wc: TestCatalog\\directory: Is a directory", wc.GetErrorMessage());
 
-            wc = new WCCommand(args[3], session);
-            wc.Execute();
+            wc = new WCCommand(args[3]);
+            wc.Run();
             Assert.AreEqual("wc: TestCatalog\\notRealfile.txt: No such file or directory", wc.GetErrorMessage());
 
-            wc = new WCCommand(args[4], session);
+            wc = new WCCommand(args[4]);
             wc.SetStdIn("\r std in");
-            wc.Execute();
+            wc.Run();
             Assert.AreEqual("2 2 8", wc.GetStdOut());
 
 
@@ -396,12 +393,13 @@ namespace Task8.UnitTests
             File.Delete(current + @"\TestCatalog\file1.txt");
             File.Delete(current + @"\TestCatalog\file2.txt");
             Directory.Delete(current + @"\TestCatalog\directory");
+
+            Environ.DefaultSet();
         }
 
         [Test]
         public void CATTest()
         {
-            Session session = new Session();
             string current = Directory.GetCurrentDirectory();
             List<string[]> args = new List<string[]>()
             {
@@ -419,31 +417,33 @@ namespace Task8.UnitTests
             File.WriteAllLines(current + @"\TestCatalog\file1.txt", new string[] { "asad", "assadd asd" });
             CATCommand cat;
 
-            cat = new CATCommand(args[0], session);
-            cat.Execute();
+            cat = new CATCommand(args[0]);
+            cat.Run();
             Assert.AreEqual("asd as\r\n", cat.GetStdOut());
 
-            cat = new CATCommand(args[1], session);
-            cat.Execute();
+            cat = new CATCommand(args[1]);
+            cat.Run();
             Assert.AreEqual("asd as\r\nasad\r\nassadd asd\r\n", cat.GetStdOut());
 
-            cat = new CATCommand(args[2], session);
-            cat.Execute();
+            cat = new CATCommand(args[2]);
+            cat.Run();
             Assert.AreEqual("cat: TestCatalog\\directory: Is a directory", cat.GetErrorMessage());
 
-            cat = new CATCommand(args[3], session);
-            cat.Execute();
+            cat = new CATCommand(args[3]);
+            cat.Run();
             Assert.AreEqual("cat: TestCatalog\\notRealfile.txt: No such file or directory", cat.GetErrorMessage());
 
-            cat = new CATCommand(args[4], session);
+            cat = new CATCommand(args[4]);
             cat.SetStdIn("some stdin");
-            cat.Execute();
+            cat.Run();
             Assert.AreEqual("some stdin", cat.GetStdOut());
 
             File.Delete(current + @"\TestCatalog\file.txt");
             File.Delete(current + @"\TestCatalog\file1.txt");
             File.Delete(current + @"\TestCatalog\file2.txt");
             Directory.Delete(current + @"\TestCatalog\directory");
+
+            Environ.DefaultSet();
         }
 
         [Test]
@@ -457,7 +457,7 @@ namespace Task8.UnitTests
                 "cd NewDirectory Misclick",
                 "cd NewDirectory",
                 "pwd",
-                "touch file1.txt", 
+                "touch file1.txt",
                 "echo NewFileString > \"$a\"2.txt addString",
                 "ls > ${a}1.txt",
                 "cat \"$a\"1.txt file2.txt",
@@ -480,25 +480,29 @@ namespace Task8.UnitTests
                 "",
                 "",
                 "file1.txt file2.txt NewFileStringaddString ",
-                "1 4 20",
-                "1 5 43",
+                "1 2 20",
+                "1 3 43",
                 "rm: cannot remove 'file3.txt': No such file or directory",
                 "rmdir: failed to remove 'NewDirectory': No such file or directory",
                 "",
                 "exit",
             };
-            Session session = new Session();
-            var testReader = new TestReader(commands);
-            session.Reader = testReader;
+            var cc = new CommandCreator();
+            var cr = new CommandResolver(cc);
+            var session = new Session(cr);
+            var testHandler = new TestHandler(commands);
+            session.Handler = testHandler;
             session.Start();
             for (int i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i], testReader.Commands[i]);
+                Assert.AreEqual(expected[i], testHandler.Commands[i]);
             }
 
-            session.SetLocalVar("a", "newValue");
+            Environ.SetLocalVar("a", "newValue");
 
-            Assert.AreEqual("newValue", session.GetLocalVar("$a"));
+            Assert.AreEqual("newValue", Environ.GetLocalVar("$a"));
+
+            Environ.DefaultSet();
         }
 
     }

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using BABASH;
+using Core;
 
 namespace Task8.UnitTests
 {
-    public class TestReader : IReader
+    public class TestHandler : IHandler
     {
         public string[] Commands;
         private int current = -1;
-        public TestReader(string[] commands)
+        public TestHandler(string[] commands)
         {
             this.Commands = commands;
         }

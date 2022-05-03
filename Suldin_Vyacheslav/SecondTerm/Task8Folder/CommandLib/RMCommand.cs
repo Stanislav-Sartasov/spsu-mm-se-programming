@@ -1,21 +1,20 @@
 ﻿using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class RMCommand : Command
+    public class RMCommand : ACommand
     {
-        public RMCommand(string[] args, Session comandSession)
+        public RMCommand(string[] args)
         {
             Name = "rm";
             parametres = args;
-            session = comandSession;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             foreach (string delFile in parametres)
             {
-                string absolutePath = Path.GetFullPath(delFile, session.GetCurrentDirectory());
+                string absolutePath = Path.GetFullPath(delFile, Environ.GetCurrentDirectory());
                 if (!Directory.Exists(absolutePath))
                 {
                     if (!File.Exists(absolutePath))

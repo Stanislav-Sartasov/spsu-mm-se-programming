@@ -1,6 +1,6 @@
-﻿namespace BABASH
+﻿namespace Core
 {
-    public interface IReader
+    public interface IHandler
     {
         public string GetLine();
         public void Show(string line);

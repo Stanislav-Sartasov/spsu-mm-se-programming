@@ -1,18 +1,16 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class WCCommand : Command
+    public class WCCommand : ACommand
     {
-        public WCCommand(string[] args, Session commandSession)
+        public WCCommand(string[] args)
         {
-            session = commandSession;
             Name = "wc";
             parametres = args;
         }
-        public override void Execute()
+        public override void Run()
         {
             if (parametres.Length == 0)
             {
@@ -48,7 +46,7 @@ namespace BABASH
         }
         public string ReadFile(string path)
         {
-            string absolutePath = Path.GetFullPath(path, session.GetCurrentDirectory());
+            string absolutePath = Path.GetFullPath(path, Environ.GetCurrentDirectory());
             try
             {
                 return File.ReadAllText(absolutePath);

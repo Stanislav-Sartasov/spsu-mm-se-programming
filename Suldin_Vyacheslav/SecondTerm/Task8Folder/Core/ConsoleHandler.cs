@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace BABASH
+namespace Core
 {
-    public class ConsoleReader : IReader
+    public class ConsoleHandler : IHandler
     {
         public string GetLine()
         {

@@ -1,26 +1,23 @@
-﻿using System.Linq;
-using System.Text.RegularExpressions;
-using System;
+﻿using System.Text.RegularExpressions;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class EXPORTCommand : Command
+    public class EXPORTCommand : ACommand
     {
-        public EXPORTCommand(string[] args, Session commandSession)
+        public EXPORTCommand(string[] args)
         {
-            session = commandSession;
             Name = "export";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             foreach (string asd in parametres)
             {
                 string qwe = Regex.Match(asd, @"[+]+").Value;
                 string key = Regex.Match(asd, @"[^=]+").Value;
                 string value = Regex.Match(asd, @"(?<==).+").Value;
-                session.SetLocalVar(key, value);
+                Environ.SetLocalVar(key, value);
             }
             stdOut = "";
         }

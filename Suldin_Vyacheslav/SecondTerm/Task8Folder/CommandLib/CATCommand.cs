@@ -1,18 +1,16 @@
 ﻿using System.IO;
-using System.Linq;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class CATCommand : Command
+    public class CATCommand : ACommand
     {
-        public CATCommand(string[] args, Session commandSession)
+        public CATCommand(string[] args)
         {
-            session = commandSession;
             Name = "cat";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             if (parametres.Length == 0)
             {
@@ -22,7 +20,7 @@ namespace BABASH
 
             foreach (string pathFile in parametres)
             {
-                string abcolutePath = Path.GetFullPath(pathFile, session.GetCurrentDirectory());
+                string abcolutePath = Path.GetFullPath(pathFile, Environ.GetCurrentDirectory());
 
                 if (Directory.Exists(abcolutePath))
                 {

@@ -1,21 +1,20 @@
 ﻿using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class TOUCHCommand : Command
+    public class TOUCHCommand : ACommand
     {
-        public TOUCHCommand(string[] args, Session comandSession)
+        public TOUCHCommand(string[] args)
         {
-            session = comandSession;
             Name = "touch";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             foreach (string newFile in parametres)
             {
-                string absolutePath = Path.GetFullPath(newFile, session.GetCurrentDirectory());
+                string absolutePath = Path.GetFullPath(newFile, Environ.GetCurrentDirectory());
                 if (!File.Exists(absolutePath))
                 {
                     try

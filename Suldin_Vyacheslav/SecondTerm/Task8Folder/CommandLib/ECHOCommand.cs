@@ -1,17 +1,14 @@
-﻿using System;
-
-namespace BABASH
+﻿namespace CommandLib
 {
-    public class ECHOCommand : Command
+    public class ECHOCommand : ACommand
     {
-        public ECHOCommand(string[] args, Session commandSession)
+        public ECHOCommand(string[] args)
         {
-            session = commandSession;
             Name = "echo";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             foreach (string arg in parametres)
             {

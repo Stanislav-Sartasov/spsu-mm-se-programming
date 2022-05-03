@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace BABASH
+namespace CommandResolverLib
 {
     public static class Analyser
     {
@@ -51,14 +51,14 @@ namespace BABASH
             if (asd != string.Empty) list.Add(asd);
             return list.ToArray();
         }
-        static public string Substitution(string argLine, Dictionary<string,string> dict)
+        static public string Substitution(string argLine, ICommandCreator cc)
         {
             string[] asdasd = Regex.Matches(argLine, @"\${[^}]+\}|\$[^\W]+").OfType<Match>().Select(m => m.Value).ToArray();
             foreach (string replace in asdasd)
             {
                 try
                 {
-                    argLine = argLine.Replace(replace, dict[Regex.Replace(replace, @"\{|\}", String.Empty)]);
+                    argLine = argLine.Replace(replace, cc.GetLocalVariable(Regex.Replace(replace, @"\{|\}", String.Empty)));
                 }
                 catch (KeyNotFoundException)
                 {

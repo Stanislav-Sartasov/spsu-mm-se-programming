@@ -1,22 +1,20 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class MKDIRCommand : Command
+    public class MKDIRCommand : ACommand
     {
-        public MKDIRCommand(string[] args, Session commandSession)
+        public MKDIRCommand(string[] args)
         {
-            session = commandSession; 
             Name = "mkdir";
             parametres = args;
         }
 
-        public override void Execute()
+        public override void Run()
         {
             foreach (string newDirectory in parametres)
             {
-                string absolutePath = Path.GetFullPath(newDirectory, session.GetCurrentDirectory());
+                string absolutePath = Path.GetFullPath(newDirectory, Environ.GetCurrentDirectory());
                 if (!Directory.Exists(absolutePath))
                 {
                     try

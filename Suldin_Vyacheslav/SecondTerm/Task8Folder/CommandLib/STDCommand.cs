@@ -1,21 +1,23 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using CommandResolverLib;
 
-namespace BABASH
+namespace CommandLib
 {
-    public class STDCommand : Command
+    public class STDCommand : ACommand
     {
-        public STDCommand(string[] args, Session commandSession)
+        private CommandCreator creator;
+        public STDCommand(string[] args, CommandCreator cc)
         {
-            session = commandSession;
+            creator = cc;
             parametres = args;
         }
-        public override void Execute()
+        public override void Run()
         {
-            Command initialCommand = CommandCreator.Create(parametres[0], session);
+            ICommand initialCommand = creator.Create(parametres[0]);
             initialCommand.SetStdIn(stdIn);
-            initialCommand.Execute();
+            initialCommand.Run();
             stdIn = initialCommand.GetStdOut();
 
 
@@ -39,7 +41,7 @@ namespace BABASH
                     stdIn += value + " ";
                 }
 
-                string absolutePath = Path.GetFullPath(sumArgs[0], session.GetCurrentDirectory());
+                string absolutePath = Path.GetFullPath(sumArgs[0], Environ.GetCurrentDirectory());
                 try
                 {
                     if (!File.Exists(absolutePath))

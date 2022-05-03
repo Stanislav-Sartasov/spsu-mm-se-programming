@@ -1,17 +1,16 @@
-﻿using System;
+﻿using CommandResolverLib;
 
-namespace BABASH
+namespace CommandLib
 {
-    public abstract class Command
+    public abstract class ACommand : ICommand
     {
-        protected Session session;
         public string Name { get; set; }
         protected string[] parametres { get; set; }
         protected string stdIn { get; set; }
         protected string stdOut { get; set; }
 
         protected Error error = new Error();
-        public abstract void Execute();
+        public abstract void Run();
         public void SetStdIn(string stdIn)
         {
             this.stdIn = stdIn;
@@ -28,5 +27,6 @@ namespace BABASH
         {
             return error.StdErr;
         }
+
     }
 }
