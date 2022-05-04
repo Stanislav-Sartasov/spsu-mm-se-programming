@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WeatherApplication": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../WeatherApplication/APIKeys.json"
+    }
+  }
+}
