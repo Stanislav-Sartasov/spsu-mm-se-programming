@@ -4,7 +4,7 @@
     {
         public ECHOCommand(string[] args)
         {
-            Name = "echo";
+            name = CommandName.echo;
             parametres = args;
         }
 

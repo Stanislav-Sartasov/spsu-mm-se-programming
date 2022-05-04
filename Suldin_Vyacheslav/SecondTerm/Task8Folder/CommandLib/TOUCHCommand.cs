@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public TOUCHCommand(string[] args)
         {
-            Name = "touch";
+            name = CommandName.touch;
             parametres = args;
         }
 
@@ -23,7 +23,7 @@ namespace CommandLib
                     }
                     catch (DirectoryNotFoundException)
                     {
-                        error.Message += $"\n{Name}: cannot touch {newFile}: No such file or directory";
+                        error.Message += $"\n{name}: cannot touch {newFile}: No such file or directory";
                         error.StdErr = 1;
                     }
                 }

@@ -4,7 +4,7 @@
     {
         public PWDCommand(string[] args)
         {
-            Name = "pwd";
+            name = CommandName.pwd;
             parametres = args;
         }
 

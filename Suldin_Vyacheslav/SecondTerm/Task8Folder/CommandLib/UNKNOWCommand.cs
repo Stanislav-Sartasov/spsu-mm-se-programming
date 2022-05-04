@@ -5,6 +5,7 @@ namespace CommandLib
 {
     public class UNKNOWCommand : ACommand
     {
+        public string Name;
         public UNKNOWCommand(string unknowName)
         {
             Name = unknowName;

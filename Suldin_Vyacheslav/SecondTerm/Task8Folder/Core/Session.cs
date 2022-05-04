@@ -24,10 +24,11 @@ namespace Core
             {
                 var line = Handler.GetLine();
 
-                var responce = cr.Resolve(line);
-                if (responce == null)
+                IResponse responce = cr.Resolve(line);
+                if (responce.IsInterrupting)
                     break;
-                Handler.Show(responce);
+
+                Handler.Show(responce.Message);
             }
             return 0;
         }

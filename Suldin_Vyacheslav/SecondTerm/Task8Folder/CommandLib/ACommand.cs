@@ -4,7 +4,7 @@ namespace CommandLib
 {
     public abstract class ACommand : ICommand
     {
-        public string Name;
+        protected CommandName name;
 
         protected string[] parametres;
 
@@ -13,6 +13,7 @@ namespace CommandLib
         protected string stdOut;
 
         protected Error error = new Error();
+
         public abstract void Run();
         public void SetStdIn(string stdIn)
         {
@@ -31,5 +32,9 @@ namespace CommandLib
             return error.StdErr;
         }
 
+        public bool IsExit()
+        {
+            return name == CommandName.exit ;
+        }
     }
 }

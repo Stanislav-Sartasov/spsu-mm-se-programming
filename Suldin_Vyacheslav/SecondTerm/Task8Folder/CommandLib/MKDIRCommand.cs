@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public MKDIRCommand(string[] args)
         {
-            Name = "mkdir";
+            name = CommandName.mkdir;
             parametres = args;
         }
 
@@ -23,13 +23,13 @@ namespace CommandLib
                     }
                     catch (IOException)
                     {
-                        error.Message += $"\n{Name}: cannot create directory ‘{newDirectory}’: Not supported name";
+                        error.Message += $"\n{name}: cannot create directory ‘{newDirectory}’: Not supported name";
                         error.StdErr = 1;
                     }
                 }
                 else
                 {
-                    error.Message += $"\n{Name}: cannot create directory ‘{newDirectory}’: File exists";
+                    error.Message += $"\n{name}: cannot create directory ‘{newDirectory}’: File exists";
                     error.StdErr = 1;
                 }
             }

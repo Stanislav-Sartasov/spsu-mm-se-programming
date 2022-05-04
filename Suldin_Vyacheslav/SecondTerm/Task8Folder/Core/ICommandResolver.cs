@@ -2,6 +2,6 @@
 {
     public interface ICommandResolver
     {
-        public string Resolve(string commandLine);
+        public IResponse Resolve(string commandLine);
     }
 }

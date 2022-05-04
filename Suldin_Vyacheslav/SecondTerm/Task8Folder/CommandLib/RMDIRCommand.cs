@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public RMDIRCommand(string[] args)
         {
-            Name = "rmdir";
+            name = CommandName.rmdir;
             parametres = args;
         }
 
@@ -19,7 +19,7 @@ namespace CommandLib
                 {
                     if (!Directory.Exists(absolutePath))
                     {
-                        error.Message += $"\n{Name}: failed to remove \'{delDirectory}\': No such file or directory";
+                        error.Message += $"\n{name}: failed to remove \'{delDirectory}\': No such file or directory";
                         error.StdErr = 1;
                     }
                     else
@@ -30,14 +30,14 @@ namespace CommandLib
                         }
                         else
                         {
-                            error.Message += $"\n{Name}: failed to remove \'{delDirectory}\': Directory not empty";
+                            error.Message += $"\n{name}: failed to remove \'{delDirectory}\': Directory not empty";
                             error.StdErr = 1;
                         }
                     }
                 }
                 else
                 {
-                    error.Message += $"\n{Name}: failed to remove \'{delDirectory}\': Not a directory";
+                    error.Message += $"\n{name}: failed to remove \'{delDirectory}\': Not a directory";
                     error.StdErr = 1;
                 }
             }

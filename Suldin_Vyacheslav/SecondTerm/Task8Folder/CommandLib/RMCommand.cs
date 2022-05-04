@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public RMCommand(string[] args)
         {
-            Name = "rm";
+            name = CommandName.rm;
             parametres = args;
         }
 
@@ -19,7 +19,7 @@ namespace CommandLib
                 {
                     if (!File.Exists(absolutePath))
                     {
-                        error.Message += $"\n{Name}: cannot remove \'{delFile}\': No such file or directory";
+                        error.Message += $"\n{name}: cannot remove \'{delFile}\': No such file or directory";
                         error.StdErr = 1;
                     }
                     else
@@ -29,7 +29,7 @@ namespace CommandLib
                 }
                 else
                 {
-                    error.Message += $"\n{Name}: cannot remove \'{delFile}\': Is a directory";
+                    error.Message += $"\n{name}: cannot remove \'{delFile}\': Is a directory";
                     error.StdErr = 1;
                 }
             }

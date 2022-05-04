@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public LSCommand(string[] args)
         {
-            Name = "ls";
+            name = CommandName.ls;
             parametres = args;
         }
 
@@ -40,7 +40,7 @@ namespace CommandLib
                 else
                 {
                     error.StdErr = 2;
-                    error.Message += $"{Name}: cannot access \'{arg}\': No such directory\n";
+                    error.Message += $"{name}: cannot access \'{arg}\': No such directory\n";
                 }
             }
             stdOut = stdOut == null? null : stdOut[..^1];

@@ -4,7 +4,7 @@
     {
         public EXITCommand(string[] args)
         {
-            Name = "exit";
+            name = CommandName.exit;
             parametres = args;
         }
 

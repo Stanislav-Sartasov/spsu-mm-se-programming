@@ -7,7 +7,7 @@ namespace CommandLib
     {
         public WCCommand(string[] args)
         {
-            Name = "wc";
+            name = CommandName.wc;
             parametres = args;
         }
         public override void Run()
@@ -53,12 +53,12 @@ namespace CommandLib
             }
             catch (UnauthorizedAccessException)
             {
-                error.Message += $"\n{Name}: {path}: Is a directory";
+                error.Message += $"\n{name}: {path}: Is a directory";
                 error.StdErr = 1;
             }
             catch (FileNotFoundException)
             {
-                error.Message += $"\n{Name}: {path}: No such file or directory";
+                error.Message += $"\n{name}: {path}: No such file or directory";
                 error.StdErr = 1;
             }
             return null;

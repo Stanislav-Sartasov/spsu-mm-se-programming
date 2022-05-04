@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public CATCommand(string[] args)
         {
-            Name = "cat";
+            name = CommandName.cat;
             parametres = args;
         }
 
@@ -25,12 +25,12 @@ namespace CommandLib
                 if (Directory.Exists(abcolutePath))
                 {
                     error.StdErr = 1;
-                    error.Message += $"\n{Name}: {pathFile}: Is a directory";
+                    error.Message += $"\n{name}: {pathFile}: Is a directory";
                 }
                 else if (!File.Exists(abcolutePath))
                 {
                     error.StdErr = 1;
-                    error.Message += $"\n{Name}: {pathFile}: No such file or directory";
+                    error.Message += $"\n{name}: {pathFile}: No such file or directory";
                 }
                 else
                 {

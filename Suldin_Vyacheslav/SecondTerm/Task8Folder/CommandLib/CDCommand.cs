@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public CDCommand(string[] args)
         {
-            Name = "cd";
+            name = CommandName.cd;
             parametres = args;
         }
         public override void Run()
@@ -14,7 +14,7 @@ namespace CommandLib
             if (parametres.Length > 1)
             {
                 error.StdErr = 1;
-                error.Message = $"{Name}: too many arguments";
+                error.Message = $"{name}: too many arguments";
                 return;
             }
             else if (parametres.Length == 0)
@@ -37,12 +37,12 @@ namespace CommandLib
             if (File.Exists(path))
             {
                 error.StdErr = 1;
-                error.Message = $"{Name}: \'{obj}\': Not a directory";
+                error.Message = $"{name}: \'{obj}\': Not a directory";
             }
             else if (!Directory.Exists(path))
             {
                 error.StdErr = 1;
-                error.Message = $"{Name}: \'{obj}\': No such directory";
+                error.Message = $"{name}: \'{obj}\': No such directory";
             }
             else
             {

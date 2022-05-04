@@ -8,6 +8,7 @@ namespace CommandResolverLib
 {
     public interface ICommand
     {
+        public bool IsExit();
         public void Run();
         public void SetStdIn(string stdIn);
         public string GetStdOut();

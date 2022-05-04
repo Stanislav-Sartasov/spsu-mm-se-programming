@@ -15,8 +15,9 @@ namespace CommandResolverLib
         {
             cc = commandCreator;
         }
-        public string Resolve(string commandLine)
+        public IResponse Resolve(string commandLine)
         {
+            Response response =  new Response();
             var commands = Analyser.MySplit(commandLine, '|');
             var stdout = string.Empty;
             foreach (string subCommand in commands)
@@ -33,6 +34,7 @@ namespace CommandResolverLib
                     command = cc.Create(translatedCommand);
                 }
 
+                response.IsInterrupting = command.IsExit();
                 command.SetStdIn(stdout);
                 command.Run();
                 if (command.GetErrorCode() == 0)
@@ -41,10 +43,12 @@ namespace CommandResolverLib
                 }
                 else
                 {
-                    return command.GetErrorMessage();
+                    response.Message = command.GetErrorMessage();
+                    return response;
                 }
             }
-            return stdout;
+            response.Message = stdout;
+            return response;
         }
     }
 }

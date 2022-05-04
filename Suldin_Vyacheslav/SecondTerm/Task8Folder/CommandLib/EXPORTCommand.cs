@@ -6,7 +6,7 @@ namespace CommandLib
     {
         public EXPORTCommand(string[] args)
         {
-            Name = "export";
+            name = CommandName.export;
             parametres = args;
         }
 
