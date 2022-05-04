@@ -65,7 +65,7 @@ namespace IoCTask
         private static void PrintKeyboardInfo()
         {
             Console.WriteLine("If you want to update the weather, please press the Enter button");
-            Console.WriteLine("If you want the app to finish it's work, please press any another bottom\n\n");
+            Console.WriteLine("If you want the app to finish it's work, please press any another button\n\n");
         }
 
         private static void PrintCityAndCurTime(string city)
