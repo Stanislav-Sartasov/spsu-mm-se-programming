@@ -14,7 +14,7 @@ namespace WeatherWebAPI
         private string[] parameters = new string[] { "airTemperature", "cloudCover", "windDirection", "windSpeed", "humidity" };
         private string source = "noaa";
 
-        public override Weather GetWeather()
+        public override AWeather GetWeather()
         {
             long currentMoscowTime = ((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds() + 3 * 60 * 60;
             IRequestMaker requestParser = new RequestMaker();
@@ -24,7 +24,7 @@ namespace WeatherWebAPI
             return DeserializeToWeather(JSON);
         }
 
-        public Weather DeserializeToWeather(string JSON)
+        public AWeather DeserializeToWeather(string JSON)
         {
             string? temperatureCelcius = DefaultValue;
             string? temperatureFahrenheit = DefaultValue;

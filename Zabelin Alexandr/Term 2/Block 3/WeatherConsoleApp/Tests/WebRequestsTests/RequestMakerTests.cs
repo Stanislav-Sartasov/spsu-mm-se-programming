@@ -15,5 +15,15 @@ namespace WebRequestsTests
 
             Assert.AreEqual(json, "");
         }
+
+        [TestMethod]
+        public void GetJSONEmptyLinkTest()
+        {
+            IRequestMaker requestMaker = new RequestMaker();
+
+            string json = requestMaker.GetJSON("");
+
+            Assert.AreEqual(json, "");
+        }
     }
 }

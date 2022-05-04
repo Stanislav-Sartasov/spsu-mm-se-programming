@@ -14,7 +14,7 @@ namespace WeatherWebAPI
         private string[] locationCoords = new string[] { "59.791891", "30.264067" };
         private string[] fields = new string[] { "temperature", "humidity", "windSpeed", "windDirection", "precipitationType", "cloudCover" };
 
-        public override Weather GetWeather()
+        public override AWeather GetWeather()
         {
             IRequestMaker requestParser = new RequestMaker();
             string JSON = requestParser.GetJSON($"{startURL}&timesteps={timesteps}&fields={String.Join(",", fields)}&location={String.Join(",", locationCoords)}&apikey={apiKey}");
@@ -23,7 +23,7 @@ namespace WeatherWebAPI
 
         }
 
-        public Weather DeserializeToWeather(string JSON)
+        public AWeather DeserializeToWeather(string JSON)
         {
             string? temperatureCelcius = DefaultValue;
             string? temperatureFahrenheit = DefaultValue;

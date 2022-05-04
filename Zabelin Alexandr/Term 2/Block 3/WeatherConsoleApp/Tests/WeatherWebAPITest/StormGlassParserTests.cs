@@ -17,7 +17,7 @@ namespace WeatherLibraryTest
         {
             StormGlassParser parser = new StormGlassParser();
 
-            Weather weather = parser.DeserializeToWeather("");
+            AWeather weather = parser.DeserializeToWeather("");
 
             Assert.AreEqual(name, weather.SourceName);
             Assert.AreEqual(defaultValue, weather.TemperatureCelsius);
@@ -35,7 +35,7 @@ namespace WeatherLibraryTest
             StormGlassParser parser = new StormGlassParser();
             string JSON = File.ReadAllText(path);
 
-            Weather weather = parser.DeserializeToWeather(JSON);
+            AWeather weather = parser.DeserializeToWeather(JSON);
 
             Assert.AreEqual(name, weather.SourceName);
             Assert.AreEqual("5.6°C", weather.TemperatureCelsius);

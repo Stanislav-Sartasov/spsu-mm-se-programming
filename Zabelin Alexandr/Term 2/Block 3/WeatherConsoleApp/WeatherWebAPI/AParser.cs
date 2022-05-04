@@ -4,11 +4,11 @@ namespace WeatherWebAPI
 {
     public abstract class AParser
     {
-        public string DefaultValue { get; private set; } = "No Data";
+        public string DefaultValue { get; protected set; } = "No Data";
 
-        public abstract Weather GetWeather();
+        public abstract AWeather GetWeather();
 
-        internal string TranslateCloudCover(string? cloudCoverage)
+        protected string TranslateCloudCover(string? cloudCoverage)
         {
             string stringToReturn = DefaultValue;
 

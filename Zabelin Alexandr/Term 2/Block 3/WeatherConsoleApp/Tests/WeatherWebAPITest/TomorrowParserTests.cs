@@ -16,7 +16,7 @@ namespace WeatherLibraryTest
         {
             TomorrowParser parser = new TomorrowParser();
 
-            Weather weather = parser.DeserializeToWeather("");
+            AWeather weather = parser.DeserializeToWeather("");
 
             Assert.AreEqual("TomorrowIO", weather.SourceName);
             Assert.AreEqual(defaultValue, weather.TemperatureCelsius);
@@ -34,7 +34,7 @@ namespace WeatherLibraryTest
             TomorrowParser parser = new TomorrowParser();
             string JSON = File.ReadAllText(path);
 
-            Weather weather = parser.DeserializeToWeather(JSON);
+            AWeather weather = parser.DeserializeToWeather(JSON);
 
             Assert.AreEqual("TomorrowIO", weather.SourceName);
             Assert.AreEqual("5.01°C", weather.TemperatureCelsius);

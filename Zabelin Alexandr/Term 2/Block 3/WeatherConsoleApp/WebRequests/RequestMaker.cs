@@ -9,13 +9,13 @@ namespace WebRequests
         {
             string recievedJSON;
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-
-            request.Method = "GET";
-            request.ContentType = "application/json";
-
             try
             {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
                 HttpWebResponse response = (HttpWebResponse)request.GetResponse();
                 StreamReader streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
 

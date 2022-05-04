@@ -53,22 +53,5 @@ namespace WeatherLibraryTest
             Assert.AreEqual("1.2m/s", weather.WindSpeed);
             Assert.AreEqual("170°", weather.WindDirection);
         }
-
-        [TestMethod]
-        public void PrinAllTest()
-        {
-            string name = "WeatherTests";
-            string temperatureCelcius = "No Data";
-            string temperatureFahrenheit = "10.4";
-            string cloudCover = "27";
-            string humidity = "45";
-            string precipitation = "Sunny";
-            string windSpeed = "1.2";
-            string windDirection = "170";
-
-            Weather weather = new Weather(name, temperatureCelcius, temperatureFahrenheit, cloudCover, humidity, precipitation, windSpeed, windDirection);
-
-            weather.PrintAll();
-        }
     }
 }
