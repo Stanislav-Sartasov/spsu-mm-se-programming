@@ -8,10 +8,10 @@ namespace WeatherIoC
 		{
 			IoCContainer ioCContainer = new IoCContainer();
 
-			ioCContainer.GenerateTomorrowIo = args.Contains("tomorrow.io");
-			ioCContainer.GenerateOpenWeatherMap = args.Contains("openweathermap.org");
+			bool generateTomorrowIo = args.Contains("tomorrow.io");
+			bool generateOpenWeatherMap = args.Contains("openweathermap.org");
 
-			List<IWeatherParser> parsers = ioCContainer.CreateParsers();
+			List<IWeatherParser> parsers = ioCContainer.CreateParsers(generateOpenWeatherMap, generateTomorrowIo);
 
 			do
 			{

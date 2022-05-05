@@ -10,15 +10,13 @@ namespace WeatherIoC
 {
 	public class IoCContainer
 	{
-		public bool GenerateOpenWeatherMap;
-		public bool GenerateTomorrowIo;
+
 		public IoCContainer()
 		{
-			GenerateOpenWeatherMap = true;
-			GenerateTomorrowIo = true;
+
 		}
 
-		public List<IWeatherParser> CreateParsers()
+		public List<IWeatherParser> CreateParsers(bool generateOpenWeatherMap, bool generateTomorrowIo)
 		{
 			var builder = Host.CreateDefaultBuilder();
 			builder.ConfigureServices(builder => builder.AddTransient<OpenWeatherMapParser>()
@@ -30,9 +28,9 @@ namespace WeatherIoC
 			var services = builder.Build().Services;
 
 			var result = new List<IWeatherParser>();
-			if (GenerateOpenWeatherMap)
+			if (generateOpenWeatherMap)
 				result.Add(services.GetService<OpenWeatherMapParser>());
-			if(GenerateTomorrowIo)
+			if(generateTomorrowIo)
 				result.Add(services.GetService<TomorrowIoParser>());
 			return result;
 		}
