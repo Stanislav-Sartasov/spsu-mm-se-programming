@@ -22,6 +22,11 @@ namespace CommandLib
         {
             curentDirectory = path;
         }
+
+        public static IReadOnlyDictionary<string, string> GetVars()
+        {
+            return localVariables as IReadOnlyDictionary<string, string>;
+        }
         public static string GetLocalVar(string key)
         {
             return localVariables[key];

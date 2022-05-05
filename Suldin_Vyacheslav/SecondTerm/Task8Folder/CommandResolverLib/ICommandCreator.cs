@@ -7,7 +7,7 @@ namespace CommandResolverLib
     {
         ICommand Create(string commandLine);
 
-        string GetLocalVariable(string key);
+        IReadOnlyDictionary<string, string> GetLocalVariables();
         ICommand CreateSTD(string[] complex);
     }
 }

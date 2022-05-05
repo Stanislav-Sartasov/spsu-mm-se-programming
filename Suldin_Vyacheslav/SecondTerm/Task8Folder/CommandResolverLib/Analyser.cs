@@ -51,14 +51,14 @@ namespace CommandResolverLib
             if (asd != string.Empty) list.Add(asd);
             return list.ToArray();
         }
-        static public string Substitution(string argLine, ICommandCreator cc)
+        static public string Substitution(string argLine, IReadOnlyDictionary<string, string> dict)
         {
             string[] asdasd = Regex.Matches(argLine, @"\${[^}]+\}|\$[^\W]+").OfType<Match>().Select(m => m.Value).ToArray();
             foreach (string replace in asdasd)
             {
                 try
                 {
-                    argLine = argLine.Replace(replace, cc.GetLocalVariable(Regex.Replace(replace, @"\{|\}", String.Empty)));
+                    argLine = argLine.Replace(replace, dict[Regex.Replace(replace, @"\{|\}", String.Empty)]);
                 }
                 catch (KeyNotFoundException)
                 {

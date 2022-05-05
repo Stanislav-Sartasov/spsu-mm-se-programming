@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using CommandResolverLib;
 
 namespace CommandLib
@@ -34,9 +35,9 @@ namespace CommandLib
         {
             return new STDCommand(complex, this);
         }
-        public string GetLocalVariable(string key)
+        public IReadOnlyDictionary<string, string> GetLocalVariables()
         {
-            return Environ.GetLocalVar(key);
+            return Environ.GetVars();
         }
     }
 }

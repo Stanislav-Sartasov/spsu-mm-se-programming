@@ -55,14 +55,13 @@ namespace Task8.UnitTests
         [Test]
         public void SubstitutionTest()
         {
-            var mock = new Mock<ICommandCreator>();
-            mock.Setup(x => x.GetLocalVariable("$test1")).Returns("ASD");
+            var dict = new Dictionary<string, string>() { { "$test1", "ASD" } };
 
-            Assert.AreEqual("ASD", Analyser.Substitution("$test1", mock.Object));
-            Assert.AreEqual("asd\"ASD\"", Analyser.Substitution("asd\"$test1\"", mock.Object));
-            Assert.AreEqual("asdASDasd", Analyser.Substitution("asd${test1}asd", mock.Object));
-            Assert.AreEqual("asd\"ASD\"asd", Analyser.Substitution("asd\"${test1}\"asd", mock.Object));
-            Assert.AreEqual("asd\"\"asd", Analyser.Substitution("asd\"${ASD}\"asd", mock.Object));
+            Assert.AreEqual("ASD", Analyser.Substitution("$test1", dict));
+            Assert.AreEqual("asd\"ASD\"", Analyser.Substitution("asd\"$test1\"", dict));
+            Assert.AreEqual("asdASDasd", Analyser.Substitution("asd${test1}asd", dict));
+            Assert.AreEqual("asd\"ASD\"asd", Analyser.Substitution("asd\"${test1}\"asd", dict));
+            Assert.AreEqual("asd\"\"asd", Analyser.Substitution("asd\"${ASD}\"asd", dict));
         }
 
         [Test]

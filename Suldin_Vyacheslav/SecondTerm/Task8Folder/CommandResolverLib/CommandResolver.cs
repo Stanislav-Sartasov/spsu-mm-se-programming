@@ -17,12 +17,12 @@ namespace CommandResolverLib
         }
         public IResponse Resolve(string commandLine)
         {
-            Response response =  new Response();
+            Response response = new Response();
             var commands = Analyser.MySplit(commandLine, '|');
             var stdout = string.Empty;
             foreach (string subCommand in commands)
             {
-                string translatedCommand = Analyser.Substitution(subCommand, cc);
+                string translatedCommand = Analyser.Substitution(subCommand, cc.GetLocalVariables());
                 var complex = Analyser.MySplit(translatedCommand, '>');
                 ICommand command;
                 if (complex.Length != 1)
