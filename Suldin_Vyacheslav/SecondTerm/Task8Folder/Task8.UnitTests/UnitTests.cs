@@ -72,7 +72,7 @@ namespace Task8.UnitTests
         }
 
         [Test]
-        public void ErrorTest() 
+        public void ErrorTest()
         {
             Error error = new Error();
             error.StdErr = 0;
@@ -108,6 +108,35 @@ namespace Task8.UnitTests
             ECHOCommand echo = new ECHOCommand(args);
             echo.Run();
             Assert.AreEqual("asd  231   __123 ЧЯМИТЧЯИТЮЧСЮМИТМЧСЮБИЧИСТЮ", echo.GetStdOut());
+        }
+
+        [Test]
+        public void HELPTest()
+        {
+            string[] args = new string[] { "echo", "cat", "cd" };
+            HELPCommand help = new HELPCommand(args);
+            help.Run();
+            Assert.AreEqual("echo [arg1] [arg2] ... - Display a line of text\n" + 
+                            "cat [arg1] [arg2] ... - Concatenate files and print on the standard output\n" +
+                            "cd [directory] - Change to directory by absolute or relative path ", help.GetStdOut());
+            help = new HELPCommand(new string[] { });
+            help.Run();
+            Assert.AreEqual("echo [arg1] [arg2] ... - Display a line of text\n" +
+                            "cat [arg1] [arg2] ... - Concatenate files and print on the standard output\n" +
+                           "export [var1=value1] [var2=value2] ... - Variable declaration\n" +
+                                "\t\tcall variable: $var; \"${var}\"\n" +
+                            "cd [directory] - Change to directory by absolute or relative path \n" +
+                            "pwd - Shows current working directory\n" +
+                            "ls - [dir1] [dir2] ... - Shows all files and catalogs in directories by path\n" +
+                                 "\t\talternative : ls - shows files and catalog in current directory\n" +
+                            "exit [errCode] - Exit the shell with status errCode\n" +
+                            "touch [file1path] [file2path] ... - Creates files if they don't exists \n" +
+                            "mkdir [dir1path] [dir2path] ... - Creates directories if they don't exists\n" +
+                            "rm [file1path] [file2path] ... - Removes existing files\n" +
+                            "rmdir [dir1path] [dir2path] ... - Removes existing directories\n" +
+                            "wc [file1path] [file2path] ... - Print newline, word, and byte counts for each file\n" +
+                            "help [commandName1] [commandName2]... - Shows info for commands\n" +
+                                "\t\talternative : help - shows info for all commands", help.GetStdOut());
         }
 
         [Test]
@@ -503,7 +532,6 @@ namespace Task8.UnitTests
 
             Environ.DefaultSet();
         }
-
     }
 
 }

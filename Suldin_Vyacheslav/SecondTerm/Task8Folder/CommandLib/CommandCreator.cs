@@ -26,6 +26,7 @@ namespace CommandLib
                 case "cat": return new CATCommand(args);
                 case "wc": return new WCCommand(args);
                 case "echo": return new ECHOCommand(args);
+                case "help": return new HELPCommand(args);
                 case "exit": return new EXITCommand(null);
                 default: return new UNKNOWCommand(commandName);
             }

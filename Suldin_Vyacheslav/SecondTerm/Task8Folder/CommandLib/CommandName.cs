@@ -14,6 +14,7 @@
         rm,
         std,
         touch,
-        wc
+        wc,
+        help
     }
 }
