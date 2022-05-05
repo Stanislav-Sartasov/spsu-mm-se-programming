@@ -1,5 +1,7 @@
 package minibash.parsing
 
+import minibash.utils.Either
+
 sealed interface ExpandableString {
 
     data class Variable(val name: String) : ExpandableString

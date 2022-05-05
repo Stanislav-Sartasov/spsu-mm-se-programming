@@ -1,4 +1,4 @@
-package minibash.parsing
+package minibash.utils
 
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals

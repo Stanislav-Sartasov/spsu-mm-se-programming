@@ -1,5 +1,7 @@
 package minibash.parsing
 
+import minibash.utils.Either
+
 /**
  * Simplified minibash parser.
  *

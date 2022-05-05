@@ -3,6 +3,8 @@ package minibash.parsing
 import minibash.parsing.SimpleParser.INCORRECT_COMMAND_OR_PIPE_SYNTAX_ERROR_MESSAGE
 import minibash.parsing.SimpleParser.INCORRECT_VARIABLE_SYNTAX_ERROR_MESSAGE
 import minibash.parsing.SimpleParser.TOO_MANY_LINES_SYNTAX_ERROR_MESSAGE
+import minibash.utils.left
+import minibash.utils.right
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource

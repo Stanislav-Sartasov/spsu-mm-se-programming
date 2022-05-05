@@ -1,4 +1,4 @@
-package minibash.parsing
+package minibash.utils
 
 sealed interface Either<out L, out R> {
 
