@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Roulette.Bets;
+using System;
 using System.Collections.Generic;
 
 namespace Roulette

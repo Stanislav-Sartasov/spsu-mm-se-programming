@@ -1,28 +1,14 @@
-﻿using Roulette;
+﻿using Roulette.Bets;
 using System;
 using System.Collections.Generic;
 
 namespace Bots
 {
-	public class BotMartingale : Player
+	public class BotMartingale : Bot
 	{
-		private string bet;
-		private int money;
-		private int wins;
-
 		public BotMartingale(string name, int deposit) : base(name, deposit)
 		{
-			Random rnd = new Random();
-			int value = rnd.Next(0, 4);
-
-			if (value == 0)
-				bet = "red";
-			else if (value == 1)
-				bet = "black";
-			else if (value == 2)
-				bet = "odd";
-			else
-				bet = "even";
+			wins = BetsWin - 1;
 		}
 
 		public override List<Bet> MakeBet(int player)
@@ -36,35 +22,25 @@ namespace Bots
 
 			List<Bet> playersBets = new List<Bet>();
 
-			if (AmountOfBets == 0)
+			if (wins < BetsWin)
 			{
-				wins = 0;
+				wins++;
 				money = Balance / 40;
-				playersBets.Add(new Bet(player, bet, money));
+				playersBets.Add(CreateBet(player, money, betCell));
 				Balance -= money;
 			}
 			else
 			{
-				if (wins < BetsWin)
+				money *= 2;
+				if (money > Balance)
 				{
-					wins++;
-					money = Balance / 40;
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
+					Console.WriteLine("BotMartingale has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
 				}
-				else
-				{
-					money *= 2;
-					if (money > Balance)
-					{
-						Console.WriteLine("BotMartingale has some money, but it is impossible to continue the tactic.");
-						flag = 0;
-						return null;
-					}
 
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
-				}
+				playersBets.Add(CreateBet(player, money, betCell));
+				Balance -= money;
 			}
 			return playersBets;
 		}

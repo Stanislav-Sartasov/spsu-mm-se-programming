@@ -1,39 +1,19 @@
-﻿using Roulette;
+﻿using Roulette.Bets;
 using System;
 using System.Collections.Generic;
 
 namespace Bots
 {
-	public class BotLabouchere : Player
+	public class BotLabouchere : Bot
 	{
 		private List<int> list;
-		private string bet;
-		private int wins;
-		private int money;
 
 		public BotLabouchere(string name, int deposit) : base(name, deposit)
 		{
-			Random rnd = new Random();
-			int value = rnd.Next(0, 4);
-
-			if (value == 0)
-				bet = "red";
-			else if (value == 1)
-				bet = "black";
-			else if (value == 2)
-				bet = "odd";
-			else
-				bet = "even";
-
+			wins = BetsWin - 1;
 			list = new List<int>();
-			int sum = Balance / 20;
-			int unit = sum / 15;
-
-			list.Add(unit);
-			list.Add(unit * 2);
-			list.Add(unit * 3);
-			list.Add(unit * 4);
-			list.Add(sum - unit - unit * 2 - unit * 3 - unit * 4);
+			list.Add(0);
+			list.Add(0);
 		}
 
 		public override List<Bet> MakeBet(int player)
@@ -47,58 +27,48 @@ namespace Bots
 
 			List<Bet> playersBets = new List<Bet>();
 
-			if (AmountOfBets == 0)
+			if (wins < BetsWin)
 			{
-				money = list[0] + list[4];
-				wins = 0;
-				playersBets.Add(new Bet(player, bet, money));
+				wins++;
+				list.Remove(0);
+				list.Remove(list.Count - 1);
+
+				if (list.Count == 0)
+				{
+					int sum = Balance / 20;
+					int unit = sum / 15;
+					list.Add(unit);
+					list.Add(unit * 2);
+					list.Add(unit * 3);
+					list.Add(unit * 4);
+					list.Add(sum - unit - unit * 2 - unit * 3 - unit * 4);
+				}
+
+				money = list[0] + list[list.Count - 1];
+				if (money > Balance)
+				{
+					Console.WriteLine("BotLabouchere has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
+				}
+
+				playersBets.Add(CreateBet(player, money, betCell));
 				Balance -= money;
 			}
 			else
 			{
-				if (wins < BetsWin)
+				list.Add(money);
+
+				money = list[0] + list[list.Count - 1];
+				if (money > Balance)
 				{
-					wins++;
-					list.Remove(0);
-					list.Remove(list.Count - 1);
-
-					if (list.Count == 0)
-					{
-						int sum = Balance / 20;
-						int unit = sum / 15;
-						list.Add(unit);
-						list.Add(unit * 2);
-						list.Add(unit * 3);
-						list.Add(unit * 4);
-						list.Add(sum - unit - unit * 2 - unit * 3 - unit * 4);
-					}
-
-					money = list[0] + list[list.Count - 1];
-					if (money > Balance)
-					{
-						Console.WriteLine("BotLabouchere has some money, but it is impossible to continue the tactic.");
-						flag = 0;
-						return null;
-					}
-
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
+					Console.WriteLine("BotLabouchere has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
 				}
-				else
-				{
-					list.Add(money);
 
-					money = list[0] + list[list.Count - 1];
-					if (money > Balance)
-					{
-						Console.WriteLine("BotLabouchere has some money, but it is impossible to continue the tactic.");
-						flag = 0;
-						return null;
-					}
-
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
-				}
+				playersBets.Add(CreateBet(player, money, betCell));
+				Balance -= money;
 			}
 			return playersBets;
 		}

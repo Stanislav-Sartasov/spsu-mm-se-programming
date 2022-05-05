@@ -1,31 +1,18 @@
-﻿using Roulette;
+﻿using Roulette.Bets;
 using System;
 using System.Collections.Generic;
 
 namespace Bots
 {
-	public class BotDAlembert : Player
+	public class BotDAlembert : Bot
 	{
-		private int unit;
-		private string bet;
-		private int wins;
-		private int money;
+		private readonly int unit;
 
 		public BotDAlembert(string name, int deposit) : base(name, deposit)
 		{
-			Random rnd = new Random();
-			int value = rnd.Next(0, 4);
-
-			if (value == 0)
-				bet = "red";
-			else if (value == 1)
-				bet = "black";
-			else if (value == 2)
-				bet = "odd";
-			else
-				bet = "even";
-
 			unit = Balance / 40;
+			wins = BetsWin;
+			money = 0;
 		}
 
 		public override List<Bet> MakeBet(int player)
@@ -39,46 +26,36 @@ namespace Bots
 
 			List<Bet> playersBets = new List<Bet>();
 
-			if (AmountOfBets == 0)
+			if (wins < BetsWin)
 			{
-				money = unit;
-				wins = 0;
-				playersBets.Add(new Bet(player, bet, money));
+				wins++;
+
+				if (money != unit)
+				{
+					money -= unit;
+				}
+				if (money > Balance)
+				{
+					Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
+				}
+
+				playersBets.Add(CreateBet(player, money, betCell));
 				Balance -= money;
 			}
 			else
 			{
-				if (wins < BetsWin)
+				money += unit;
+				if (money > Balance)
 				{
-					wins++;
-
-					if (money != unit)
-					{
-						money -= unit;
-					}
-					if (money > Balance)
-					{
-						Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
-						flag = 0;
-						return null;
-					}
-
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
+					Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
 				}
-				else
-				{
-					money += unit;
-					if (money > Balance)
-					{
-						Console.WriteLine("BotDAlembert has some money, but it is impossible to continue the tactic.");
-						flag = 0;
-						return null;
-					}
 
-					playersBets.Add(new Bet(player, bet, money));
-					Balance -= money;
-				}
+				playersBets.Add(CreateBet(player, money, betCell));
+				Balance -= money;
 			}
 			return playersBets;
 		}

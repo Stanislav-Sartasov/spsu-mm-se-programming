@@ -1,6 +1,9 @@
 using Bots;
 using NUnit.Framework;
 using Roulette;
+using Roulette.Bets;
+using Roulette.Bets.PossibleBets;
+using Roulette.Cells;
 using System.Collections.Generic;
 
 namespace CasinoUnitTests
@@ -8,55 +11,75 @@ namespace CasinoUnitTests
 	public class Tests
 	{
 		[Test]
-		public void InitializeBetTest()
+		public void InitializeCellTest()
 		{
-			Bet newBet = new Bet(1, "red", 100);
-			Assert.AreEqual(newBet.Player, 1);
-			Assert.AreEqual(newBet.BetCell, "red");
-			Assert.AreEqual(newBet.Money, 100);
+			Cell newCell = new Cell(1, ColourEnum.Red, ParityEnum.Even, DozenEnum.DozenOne);
+			Assert.AreEqual(newCell.Colour, ColourEnum.Red);
+			Assert.AreEqual(newCell.Parity, ParityEnum.Even);
+			Assert.AreEqual(newCell.Dozen, DozenEnum.DozenOne);
 		}
 
 		[Test]
-		public void InitializeCellTest()
+		public void InitializeBetTest()
 		{
-			Cell newCell = new Cell(1, 0, 1);
-			Assert.AreEqual(newCell.Colour, 1);
-			Assert.AreEqual(newCell.Parity, 0);
-			Assert.AreEqual(newCell.Dozen, 1);
+			Cell cellOne = new Cell(1, ColourEnum.Black, ParityEnum.Odd, DozenEnum.DozenTwo);
+			Cell cellTwo = new Cell(23, ColourEnum.Red, ParityEnum.Even, DozenEnum.DozenThree);
+
+			ColourBet betOne = new ColourBet(1, 1000, PossibleColour.Red);
+			Assert.AreEqual(betOne.Player, 1);
+			Assert.AreEqual(betOne.Money, 1000);
+			Assert.AreEqual(betOne.BetCell, PossibleColour.Red);
+			Assert.AreEqual(betOne.CheckBet(cellOne), 0);
+			Assert.AreEqual(betOne.CheckBet(cellTwo), 2);
+
+			DozenBet betTwo = new DozenBet(1241411, 132420, PossibleDozen.DozenThree);
+			Assert.AreEqual(betTwo.Player, 1241411);
+			Assert.AreEqual(betTwo.Money, 132420);
+			Assert.AreEqual(betTwo.BetCell, PossibleDozen.DozenThree);
+			Assert.AreEqual(betTwo.CheckBet(cellOne), 0);
+			Assert.AreEqual(betTwo.CheckBet(cellTwo), 3);
+
+			ParityBet betThree = new ParityBet(0, 12, PossibleParity.Even);
+			Assert.AreEqual(betThree.Player, 0);
+			Assert.AreEqual(betThree.Money, 12);
+			Assert.AreEqual(betThree.BetCell, PossibleParity.Even);
+			Assert.AreEqual(betThree.CheckBet(cellOne), 0);
+			Assert.AreEqual(betThree.CheckBet(cellTwo), 2);
+
+			NumberBet betFour = new NumberBet(2, 1200000, 23);
+			Assert.AreEqual(betFour.Player, 2);
+			Assert.AreEqual(betFour.Money, 1200000);
+			Assert.AreEqual(betFour.BetCell, 23);
+			Assert.AreEqual(betFour.CheckBet(cellOne), 0);
+			Assert.AreEqual(betFour.CheckBet(cellTwo), 36);
+
+			Assert.Throws<System.ArgumentOutOfRangeException>(() => new NumberBet(34, 123456, 46));
 		}
 
 		[Test]
 		public void InitializeRouletteTest()
 		{
 			RouletteTable tableOne = new RouletteTable();
-			// Colour: 0 - black; 1 - red; 2 - zero;
-			// Parity: 0 - even; 1 - odd; 2 - zero;
-			// Dozen: 1 - dozen 1; 2 - dozen 2; 3 - dozen 3; 0 - zero;
 
-			//0
-			Assert.AreEqual(tableOne.Numbers[0].Colour, 2);
-			Assert.AreEqual(tableOne.Numbers[0].Parity, 2);
-			Assert.AreEqual(tableOne.Numbers[0].Dozen, 0);
+			Assert.AreEqual(tableOne.Numbers[0].Colour, ColourEnum.Zero);
+			Assert.AreEqual(tableOne.Numbers[0].Parity, ParityEnum.Zero);
+			Assert.AreEqual(tableOne.Numbers[0].Dozen, DozenEnum.Zero);
 
-			//3
-			Assert.AreEqual(tableOne.Numbers[3].Colour, 1);
-			Assert.AreEqual(tableOne.Numbers[3].Parity, 1);
-			Assert.AreEqual(tableOne.Numbers[3].Dozen, 1);
+			Assert.AreEqual(tableOne.Numbers[3].Colour, ColourEnum.Red);
+			Assert.AreEqual(tableOne.Numbers[3].Parity, ParityEnum.Odd);
+			Assert.AreEqual(tableOne.Numbers[3].Dozen, DozenEnum.DozenOne);
 
-			//18
-			Assert.AreEqual(tableOne.Numbers[18].Colour, 1);
-			Assert.AreEqual(tableOne.Numbers[18].Parity, 0);
-			Assert.AreEqual(tableOne.Numbers[18].Dozen, 2);
+			Assert.AreEqual(tableOne.Numbers[18].Colour, ColourEnum.Red);
+			Assert.AreEqual(tableOne.Numbers[18].Parity, ParityEnum.Even);
+			Assert.AreEqual(tableOne.Numbers[18].Dozen, DozenEnum.DozenTwo);
 
-			//29
-			Assert.AreEqual(tableOne.Numbers[29].Colour, 0);
-			Assert.AreEqual(tableOne.Numbers[29].Parity, 1);
-			Assert.AreEqual(tableOne.Numbers[29].Dozen, 3);
+			Assert.AreEqual(tableOne.Numbers[29].Colour, ColourEnum.Black);
+			Assert.AreEqual(tableOne.Numbers[29].Parity, ParityEnum.Odd);
+			Assert.AreEqual(tableOne.Numbers[29].Dozen, DozenEnum.DozenThree);
 
-			//36
-			Assert.AreEqual(tableOne.Numbers[36].Colour, 1);
-			Assert.AreEqual(tableOne.Numbers[36].Parity, 0);
-			Assert.AreEqual(tableOne.Numbers[36].Dozen, 3);
+			Assert.AreEqual(tableOne.Numbers[36].Colour, ColourEnum.Red);
+			Assert.AreEqual(tableOne.Numbers[36].Parity, ParityEnum.Even);
+			Assert.AreEqual(tableOne.Numbers[36].Dozen, DozenEnum.DozenThree);
 
 			Assert.AreEqual(tableOne.Players.Count, 0);
 			Assert.AreEqual(tableOne.Observers.Count, 0);
