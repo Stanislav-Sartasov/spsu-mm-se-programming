@@ -5,5 +5,5 @@ import minibash.pipe.*
 
 class ExitCommand(override val name: String) : Command {
 
-    override fun run(args: List<String>, input: Flow<Byte>?) = CommandRunOut(signal = Signal.SIGINT)
+    override fun run(args: List<String>, input: Flow<Char>?) = CommandRunOut(signal = Signal.SIGINT)
 }

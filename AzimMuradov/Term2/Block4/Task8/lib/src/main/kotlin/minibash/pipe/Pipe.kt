@@ -6,6 +6,6 @@ interface Pipe {
 
     fun run(
         commandsWithArguments: List<CommandWithArguments>,
-        input: Flow<Byte>? = null,
+        input: Flow<Char>? = null,
     ): CommandRunOut
 }

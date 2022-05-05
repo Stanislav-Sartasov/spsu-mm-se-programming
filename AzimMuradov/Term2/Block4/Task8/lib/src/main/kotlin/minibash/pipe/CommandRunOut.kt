@@ -3,7 +3,7 @@ package minibash.pipe
 import kotlinx.coroutines.flow.Flow
 
 data class CommandRunOut(
-    val output: Flow<Byte>? = null,
-    val errors: Flow<Byte>? = null,
+    val output: Flow<Char>? = null,
+    val errors: Flow<Char>? = null,
     val signal: Signal? = null,
 )
