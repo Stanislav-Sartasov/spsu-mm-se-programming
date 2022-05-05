@@ -20,5 +20,5 @@ object FlowUtils {
 
     fun String.toCharFlow() = toList().asFlow()
 
-    suspend fun Flow<Char>.decodeToString() = toList().joinToString(separator = "")
+    suspend fun Flow<Char>.joinToString() = toList().joinToString(separator = "")
 }
