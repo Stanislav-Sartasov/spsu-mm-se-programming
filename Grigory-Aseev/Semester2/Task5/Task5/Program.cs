@@ -7,7 +7,6 @@ namespace Task5
     {
         public static void Main()
         {
-            Console.WriteLine($"https://api.stormglass.io/v2/weather/point?lat=59.93863&lng=30.31413&params=windDirection,windSpeed,airTemperature,cloudCover,humidity,precipitation&start={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}&end={((DateTimeOffset)DateTime.Now).ToUnixTimeSeconds()}&key=690cf524-ca21-11ec-a8d3-0242ac130002-690cf5ce-ca21-11ec-a8d3-0242ac130002");
             bool flag = true;
             List<ISite> sites = new List<ISite>();
             sites.Add(new OpenWeatherMap());
@@ -53,7 +52,17 @@ namespace Task5
 
         internal static void PrintCentrally(string text)
         {
-            var width = Console.WindowWidth;
+            int width;
+
+            try
+            {
+                width = Console.WindowWidth;
+            }
+            catch (Exception)
+            {
+                width = 100;
+            }
+
             var padding = width / 2 + text.Length / 2;
             Console.WriteLine("{0," + padding + "}", text);
         }
