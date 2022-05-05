@@ -10,7 +10,7 @@ namespace WeatherLibraryTest
         public void ConstructorWithoutFahrenheitTempTest()
         {
             string name = "WeatherTests";
-            string temperatureCelcius = "-12";
+            string temperatureCelcius = (-12).ToString();
             string temperatureFahrenheit = "No Data";
             string cloudCover = "27";
             string humidity = "45";
@@ -21,8 +21,8 @@ namespace WeatherLibraryTest
             Weather weather = new Weather(name, temperatureCelcius, temperatureFahrenheit, cloudCover, humidity, precipitation, windSpeed, windDirection);
 
             Assert.AreEqual("WeatherTests", weather.SourceName);
-            Assert.AreEqual("-12°C", weather.TemperatureCelsius);
-            Assert.AreEqual("10.4°F", weather.TemperatureFahrenheit);
+            Assert.AreEqual((-12).ToString() + "°C", weather.TemperatureCelsius);
+            Assert.AreEqual((10.4).ToString() + "°F", weather.TemperatureFahrenheit);
             Assert.AreEqual("27", weather.CloudCoverage);
             Assert.AreEqual("45%", weather.Humidity);
             Assert.AreEqual("Sunny", weather.Precipitation);
@@ -35,7 +35,7 @@ namespace WeatherLibraryTest
         {
             string name = "WeatherTests";
             string temperatureCelcius = "No Data";
-            string temperatureFahrenheit = "10.4";
+            string temperatureFahrenheit = (10.4).ToString();
             string cloudCover = "27";
             string humidity = "45";
             string precipitation = "Sunny";
@@ -45,8 +45,8 @@ namespace WeatherLibraryTest
             Weather weather = new Weather(name, temperatureCelcius, temperatureFahrenheit, cloudCover, humidity, precipitation, windSpeed, windDirection);
 
             Assert.AreEqual("WeatherTests", weather.SourceName);
-            Assert.AreEqual("-12°C", weather.TemperatureCelsius);
-            Assert.AreEqual("10.4°F", weather.TemperatureFahrenheit);
+            Assert.AreEqual((-12).ToString() + "°C", weather.TemperatureCelsius);
+            Assert.AreEqual((10.4).ToString() + "°F", weather.TemperatureFahrenheit);
             Assert.AreEqual("27", weather.CloudCoverage);
             Assert.AreEqual("45%", weather.Humidity);
             Assert.AreEqual("Sunny", weather.Precipitation);

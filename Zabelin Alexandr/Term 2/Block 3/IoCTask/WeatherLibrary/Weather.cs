@@ -18,7 +18,7 @@
                 {
                     float tempCelsius = float.Parse(TemperatureCelsius);
 
-                    TemperatureFahrenheit = $"{tempCelsius * 9 / 5 + 32}";
+                    TemperatureFahrenheit = (tempCelsius * 9 / 5 + 32).ToString();
                 }
                 catch { }
             }
@@ -28,7 +28,7 @@
                 {
                     float tempFahr = float.Parse(TemperatureFahrenheit);
 
-                    TemperatureCelsius = $"{(tempFahr - 32) * 5 / 9}";
+                    TemperatureCelsius = ((tempFahr - 32) * 5 / 9).ToString();
                 }
                 catch { }
             }

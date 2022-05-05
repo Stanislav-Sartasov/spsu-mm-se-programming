@@ -38,13 +38,13 @@ namespace WeatherLibraryTest
             AWeather weather = parser.DeserializeToWeather(JSON);
 
             Assert.AreEqual(name, weather.SourceName);
-            Assert.AreEqual("5.6°C", weather.TemperatureCelsius);
-            Assert.AreEqual("42.08°F", weather.TemperatureFahrenheit);
+            Assert.AreEqual((5.6).ToString() + "°C", weather.TemperatureCelsius);
+            Assert.AreEqual((42.08).ToString() + "°F", weather.TemperatureFahrenheit);
             Assert.AreEqual("Cloudy", weather.CloudCoverage);
-            Assert.AreEqual("40.8%", weather.Humidity);
+            Assert.AreEqual((40.8).ToString() + "%", weather.Humidity);
             Assert.AreEqual(defaultValue, weather.Precipitation);
-            Assert.AreEqual("4.39m/s", weather.WindSpeed);
-            Assert.AreEqual("292.5°", weather.WindDirection);
+            Assert.AreEqual((4.39).ToString() + "m/s", weather.WindSpeed);
+            Assert.AreEqual((292.5).ToString() + "°", weather.WindDirection);
         }
     }
 }
