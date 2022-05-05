@@ -4,7 +4,6 @@ import minibash.parsing.ExpandableString
 import minibash.parsing.Instruction
 import minibash.pipe.*
 import minibash.pipe.commands.ExternalCommand
-import minibash.utils.FlowUtils.toCharFlow
 import minibash.utils.fold
 
 class InterpreterImpl(private val availableCommands: List<Command>) : Interpreter {
@@ -26,7 +25,7 @@ class InterpreterImpl(private val availableCommands: List<Command>) : Interprete
             InterpretationOut(output = output, errors = errors, signal = signal)
         }
         Instruction.None -> InterpretationOut()
-        is Instruction.SyntaxError -> InterpretationOut(errors = instruction.message.toCharFlow())
+        is Instruction.SyntaxError -> InterpretationOut(errors = instruction.message.asSequence())
     }
 
 

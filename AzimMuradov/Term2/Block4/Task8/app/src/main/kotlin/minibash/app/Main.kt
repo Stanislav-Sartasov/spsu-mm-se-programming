@@ -1,6 +1,5 @@
 package minibash.app
 
-import kotlinx.coroutines.runBlocking
 import minibash.MiniBashImpl
 import minibash.interpretation.InterpreterImpl
 import minibash.parsing.SimpleParser
@@ -20,9 +19,7 @@ fun main(args: Array<String>) {
                 interpreter = InterpreterImpl(availableCommands = listOf(echo, exit, pwd, cat, wc))
             )
 
-            runBlocking {
-                miniBash.run(System.`in`, System.out, System.err)
-            }
+            miniBash.run(System.`in`, System.out, System.err)
         }
         1 -> {
             // TODO

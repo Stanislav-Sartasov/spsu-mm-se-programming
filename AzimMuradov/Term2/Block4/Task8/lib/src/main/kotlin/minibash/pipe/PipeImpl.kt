@@ -1,13 +1,12 @@
 package minibash.pipe
 
-import kotlinx.coroutines.flow.Flow
-import minibash.utils.FlowUtils.concat
+import minibash.utils.SequenceUtils.concat
 
 object PipeImpl : Pipe {
 
     override fun run(
         commandsWithArguments: List<CommandWithArguments>,
-        input: Flow<Char>?,
+        input: Sequence<Char>?,
     ): CommandRunOut {
         if (commandsWithArguments.isEmpty()) return CommandRunOut()
 

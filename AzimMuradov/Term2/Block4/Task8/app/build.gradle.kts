@@ -10,15 +10,12 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.1")
-
     implementation(project(":lib"))
 }
 
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
 }
 
 

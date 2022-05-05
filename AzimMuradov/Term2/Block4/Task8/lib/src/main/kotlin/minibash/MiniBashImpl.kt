@@ -1,7 +1,5 @@
 package minibash
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import minibash.interpretation.Interpreter
 import minibash.parsing.Parser
 import minibash.pipe.Signal
@@ -13,7 +11,7 @@ class MiniBashImpl(
     private val interpreter: Interpreter,
 ) : MiniBash {
 
-    override suspend fun run(
+    override fun run(
         inputStream: InputStream,
         outputStream: PrintStream,
         errorsStream: PrintStream,
@@ -24,16 +22,14 @@ class MiniBashImpl(
             outputStream.use { os ->
                 errorsStream.use { es ->
                     while (true) {
-                        val instruction = withContext(Dispatchers.IO) {
-                            `is`.reader().buffered().readLine()
-                        }?.let(parser::parse) ?: break
+                        val instruction = `is`.reader().buffered().readLine()?.let(parser::parse) ?: break
 
                         val (variable, output, errors, signal) = interpreter.interpret(instruction, variables)
 
                         if (variable != null) variables += variable
 
-                        output?.collect(os::print)
-                        errors?.collect(es::print)
+                        output?.forEach(os::print)
+                        errors?.forEach(es::print)
 
                         when (signal) {
                             null -> Unit

@@ -5,7 +5,7 @@ import java.io.PrintStream
 
 interface MiniBash {
 
-    suspend fun run(
+    fun run(
         inputStream: InputStream,
         outputStream: PrintStream,
         errorsStream: PrintStream,
