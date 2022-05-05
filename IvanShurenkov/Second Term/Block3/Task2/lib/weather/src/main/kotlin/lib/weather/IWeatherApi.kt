@@ -7,6 +7,7 @@ import org.json.JSONObject
 
 interface IWeatherApi {
     val name: String
+
     fun getWeather(location: Location, apikey: String): Weather
 
     fun searchParametherInJson(name: String, jsonObject: Any): JSONObject? {

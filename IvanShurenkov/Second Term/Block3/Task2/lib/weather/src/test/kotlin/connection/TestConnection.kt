@@ -1,24 +1,38 @@
 package connection
 
+import io.mockk.every
+import io.mockk.spyk
 import lib.weather.connection.Connection
 import org.junit.jupiter.api.Test
+import java.io.File
+import java.net.HttpURLConnection
+import java.net.URL
 import kotlin.test.assertEquals
 
 class TestConnection {
     @Test
     fun `Test server arent exist`() {
-        val connection = Connection("https://127.0.0.1.0")
-        assertEquals(connection.requestGet(), "Unknow host")
+        val url = "http://127.0.0.1:9000"
+        val connection = Connection(url)
         connection.disconect()
+        assertEquals(connection.requestGet().toIntOrNull(), null)
     }
 
     @Test
-    //run "python3 -m http.server --bind 127.0.0.1 9000" in src/test/resources
-    fun `Test get json`() {
-        val connection = Connection("http://127.0.0.1:9000/test.json")
+    fun `Test get normal json`() {
+        val url = "http://127.0.0.1:9000/test.json"
+        val connection = Connection(url)
+        val conn = spyk(URL(url).openConnection() as HttpURLConnection)
+
+        every { conn.responseCode } returns 200
+        every { conn.inputStream } returns File("src/test/resources/testConnection1.json").inputStream()
+        every { conn.disconnect() } answers { nothing }
+
+        connection.setConnection(conn)
         connection.requestGet()
+
         val jo = connection.getResponseInJSON()
-        assert(jo.has("success"))
+        assert(jo.has("success") && (jo.get("success") as Boolean))
         connection.disconect()
     }
 
@@ -27,7 +41,6 @@ class TestConnection {
         val connection = Connection("https://api.tomorrow.io/v4/timelines")
         assertEquals(connection.requestGet(), "401")
         val jo = connection.getResponseInJSON()
-        assert(jo.has("error"))
         connection.disconect()
     }
 }

@@ -5,16 +5,18 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
-import java.net.UnknownHostException
 
 class Connection(_url: String) {
-    private val connection: HttpURLConnection
-    private val url: URL
+    private var connection: HttpURLConnection
     private var responseCode: Int = 0
 
     init {
-        url = URL(_url)
-        connection = url.openConnection() as HttpURLConnection
+        connection = URL(_url).openConnection() as HttpURLConnection
+    }
+
+    fun setConnection(newConnection: HttpURLConnection) {
+        connection.disconnect()
+        connection = newConnection
     }
 
     fun setAuthorizationHeader(apikey: String) {
@@ -30,16 +32,16 @@ class Connection(_url: String) {
             }
             responseCode = returnCode.toInt()
             returnCode
-        } catch (e: UnknownHostException) {
-            println("Unknow host")
-            "Unknow host"
+        } catch (e: Exception) {
+            println(e.toString())
+            e.toString()
         }
         //return "200"
     }
 
     fun getResponseInJSON(): JSONObject {
         if (responseCode != 200)
-            return JSONObject("{\"error\": \"$responseCode\"}")
+            return JSONObject("{\"error\":\"$responseCode\"}")
         val input = BufferedReader(InputStreamReader(connection.inputStream))
         var inputLine: String?
         val response = StringBuffer()
@@ -48,8 +50,14 @@ class Connection(_url: String) {
             response.append(inputLine)
         }
         input.close()
-        val jsonObject = JSONObject(response.toString())
-        return jsonObject
+        try {
+            return JSONObject(response.toString())
+        } catch (e: Exception) {
+            if (responseCode != 200)
+                return JSONObject("{\"error\": \"$responseCode\"}")
+            else
+                return JSONObject("{\"error\": \"${e.toString()}\"}")
+        }
     }
 
     fun disconect() {

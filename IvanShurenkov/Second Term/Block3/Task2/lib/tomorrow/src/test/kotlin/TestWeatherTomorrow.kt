@@ -1,50 +1,45 @@
+import io.mockk.every
+import io.mockk.mockk
 import lib.weather.connection.Connection
 import lib.weather.date.Location
 import lib.weather.tomorrow.WeatherTomorrow
 import org.json.JSONObject
 import org.junit.jupiter.api.Test
+import java.io.File
 import kotlin.test.assertEquals
-import kotlin.test.assertFails
-import kotlin.test.assertNotEquals
 
 class TestWeatherTomorrow {
-    val jsonString =
-        "{\"data\":{\"timelines\":[{\"timestep\":\"current\",\"endTime\":\"2022-05-03T13:53:37.732393331Z\",\"startTime\":\"2022-05-03T13:53:37.732393331Z\",\"intervals\":[{\"startTime\":\"2022-05-03T13:53:37.732393331Z\",\"values\":{\"temperature\":5.81}}]}]}}"
-
     @Test
-    fun `Test without apikey`() {
-        val weather = WeatherTomorrow.getWeather(Location(0.0, 0.0), "")
-        assertEquals(weather.temperature, null)
-        assertEquals(weather.humidity, null)
-        assertEquals(weather.precipitation, null)
-        assertEquals(weather.cloudCoverage, null)
-        assertEquals(weather.windDirection, null)
-        assertEquals(weather.windSpeed, null)
+    fun `Test getJsonFile`() {
+        val conn = mockk<Connection>()
+        val requestReturns = listOf("200", "200", "401", "401", "200")
+        val responseReturns = listOf(
+            JSONObject("{\"warnings\":[{\"message\":\"test\"}]}"),
+            JSONObject("{\"message\":\"test\"}"),
+            JSONObject("{\"error\":\"401\"}"),
+            JSONObject("{\"test\": \"test\"}"),
+            JSONObject("{\"test\": \"test\"}")
+        )
+        val correctAns = listOf(JSONObject("{}"), JSONObject("{}"), JSONObject("{}"),
+            JSONObject("{}"), JSONObject("{\"test\": \"test\"}"))
+        every { conn.disconect() } answers { nothing }
+        for (i in correctAns.indices) {
+            every { conn.requestGet() } returns requestReturns[i]
+            every { conn.getResponseInJSON() } returns responseReturns[i]
+            assertEquals(WeatherTomorrow.getJsonFile(conn).toString(), correctAns[i].toString())
+        }
     }
 
     @Test
-    fun `Test search paramether`() {
-        val jo = WeatherTomorrow.searchParametherInJson("temperature", JSONObject(jsonString))
-        if (jo is JSONObject)
-            assertEquals(jo.get("sg").toString().toDouble(), 5.81)
-        else
-            assertFails { "Wasn't found field" }
-    }
-
-    @Test
-    fun `Test getWeather`() {
-        val connection = Connection("http://127.0.0.1:9000/api.json")
-        connection.requestGet()
-        val jo = connection.getResponseInJSON()
-        val apikey = jo.get("tomorrow").toString()
-        connection.disconect()
-        val weather = WeatherTomorrow.getWeather(Location(59.9623493, 29.6695887), apikey)
-        assertNotEquals(weather.temperature, null)
-        assertNotEquals(weather.humidity, null)
-        assertNotEquals(weather.precipitation, null)
-        assertNotEquals(weather.cloudCoverage, null)
-        assertNotEquals(weather.windDirection, null)
-        assertNotEquals(weather.windSpeed, null)
+    fun `Parce Json file`() {
+        val jsonString = File("src/test/resources/tomorrow.json").inputStream().readBytes().toString(Charsets.UTF_8)
+        val weather = WeatherTomorrow.parceJson(JSONObject(jsonString))
+        assertEquals(weather.temperature!!.celsius, 5.81)
+        assertEquals(weather.humidity!!.percent, 57.0)
+        assertEquals(weather.precipitation!!.mmPerHour, 0.0)
+        assertEquals(weather.cloudCoverage!!.percent, 64.0)
+        assertEquals(weather.windDirection!!.degree, 287.63)
+        assertEquals(weather.windSpeed!!.speed, 9.63)
     }
 
     @Test

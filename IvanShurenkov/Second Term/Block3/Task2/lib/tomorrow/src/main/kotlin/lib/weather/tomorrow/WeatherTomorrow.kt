@@ -20,38 +20,35 @@ object WeatherTomorrow : IWeatherApi {
         return url
     }
 
-    override fun getWeather(location: Location, apikey: String): Weather {
-        val weather = Weather()
-        //println(generateUrlRequest(location, apikey))
-        val connection = Connection(generateUrlRequest(location, apikey))
-
+    fun getJsonFile(connection: Connection): JSONObject {
         val returnCode = connection.requestGet()
-        if (returnCode != "200") {
-            return weather
-        }
 
         val weatherInJSON = connection.getResponseInJSON()
         connection.disconect()
 
-        if (weatherInJSON.has("error")) {
-            println(weatherInJSON.get("error"))
-            return weather
-        }
-        if (weatherInJSON.has("code")) {
-            println(weatherInJSON.get("message").toString())
-            return weather
-        }
         if (weatherInJSON.has("warnings")) {
             for (i in weatherInJSON.get("warnings") as JSONArray) {
                 println((i as JSONObject).get("message"))
             }
-            return weather
+            return JSONObject("{}")
         }
         if (weatherInJSON.has("message")) {
             println(weatherInJSON.get("message").toString())
-            return weather
+            return JSONObject("{}")
         }
+        if (weatherInJSON.has("error")) {
+            println(weatherInJSON.get("error"))
+            return JSONObject("{}")
+        }
+        if (returnCode != "200") {
+            println("Response code: $returnCode")
+            return JSONObject("{}")
+        }
+        return weatherInJSON
+    }
 
+    fun parceJson(weatherInJSON: JSONObject): Weather {
+        val weather = Weather()
         var result = searchParametherInJson("temperature", weatherInJSON)
         if (result != null)
             weather.temperature = Temperature(result.get("sg").toString().toDouble())
@@ -75,7 +72,10 @@ object WeatherTomorrow : IWeatherApi {
         result = searchParametherInJson("windDirection", weatherInJSON)
         if (result != null)
             weather.windDirection = WindDirection(result.get("sg").toString().toDouble())
-
         return weather
+    }
+
+    override fun getWeather(location: Location, apikey: String): Weather {
+        return parceJson(getJsonFile(Connection(generateUrlRequest(location, apikey))))
     }
 }

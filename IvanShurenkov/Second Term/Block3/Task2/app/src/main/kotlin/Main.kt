@@ -7,7 +7,7 @@ import lib.weather.tomorrow.WeatherTomorrow
 fun main(args: Array<String>) {
     val location = Location(59.9623493, 29.6695887)
     val weathersApi: List<IWeatherApi> = listOf(WeatherTomorrow, WeatherStormGlass)
-    val weathers: MutableList<Weather> = mutableListOf()
+    var weathers: List<Weather> = mutableListOf()
     val progArgs = mutableMapOf<String, String>()
     for (i in args) {
         val splitedArg = i.split('=')
@@ -27,10 +27,7 @@ fun main(args: Array<String>) {
             } else {
                 println("${i.name} hasn't api key")
             }
-            if (weather != null)
-                weathers += weather
-            else
-                weathers += Weather()
+            weathers += weather ?: Weather()
         }
         doRequest = false
 

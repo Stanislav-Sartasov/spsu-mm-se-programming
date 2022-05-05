@@ -3,7 +3,6 @@ package lib.weather.stormglass
 import lib.weather.IWeatherApi
 import lib.weather.connection.Connection
 import lib.weather.date.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 object WeatherStormGlass : IWeatherApi {
@@ -12,7 +11,7 @@ object WeatherStormGlass : IWeatherApi {
     private val fields =
         listOf("airTemperature", "cloudCover", "humidity", "precipitation", "windSpeed", "windDirection")
 
-    fun generateUrlRequest(location: Location, apikey: String): String {
+    fun generateUrlRequest(location: Location): String {
         var url = "$mainUrl?lat=${location.lat}&lng=${location.lon}&params="
         for (i in fields.indices) {
             url += fields[i] + if (i < fields.size - 1) "," else ""
@@ -20,35 +19,29 @@ object WeatherStormGlass : IWeatherApi {
         return url
     }
 
-    override fun getWeather(location: Location, apikey: String): Weather {
-        val weather = Weather()
-        //println(generateUrlRequest(location, apikey))
-        val connection = Connection(generateUrlRequest(location, apikey))
-        connection.setAuthorizationHeader(apikey)
-
+    fun getJsonFile(connection: Connection): JSONObject {
         val returnCode = connection.requestGet()
-        if (returnCode != "200") {
-            return weather
-        }
 
         val weatherInJSON = connection.getResponseInJSON()
         connection.disconect()
 
         if (weatherInJSON.has("error")) {
             println(weatherInJSON.get("error"))
-            return weather
+            return JSONObject("{}")
         }
         if (weatherInJSON.has("errors")) {
             println(weatherInJSON.get("key").toString())
-            return weather
+            return JSONObject("{}")
         }
-        if (weatherInJSON.has("warnings")) {
-            for (i in weatherInJSON.get("warnings") as JSONArray) {
-                println((i as JSONObject).get("message"))
-            }
-            return weather
+        if (returnCode != "200") {
+            println("Response code: $returnCode")
+            return JSONObject("{}")
         }
+        return weatherInJSON
+    }
 
+    fun parceJson(weatherInJSON: JSONObject): Weather {
+        val weather = Weather()
         var result = searchParametherInJson("airTemperature", weatherInJSON)
         if (result != null)
             weather.temperature = Temperature((result.get("sg")).toString().toDouble())
@@ -72,7 +65,12 @@ object WeatherStormGlass : IWeatherApi {
         result = searchParametherInJson("windDirection", weatherInJSON)
         if (result != null)
             weather.windDirection = WindDirection(result.get("sg").toString().toDouble())
-
         return weather
+    }
+
+    override fun getWeather(location: Location, apikey: String): Weather {
+        val connection = Connection(generateUrlRequest(location))
+        connection.setAuthorizationHeader(apikey)
+        return parceJson(getJsonFile(connection))
     }
 }
