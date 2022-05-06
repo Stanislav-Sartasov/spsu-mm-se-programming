@@ -1,0 +1,1 @@
+C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 3\2. Weather app\app\build\classes\kotlin\main\weatherApp\WeatherApp.class;C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 3\2. Weather app\app\build\classes\kotlin\main\weatherDataFormatter\WeatherDataFormatter.class
