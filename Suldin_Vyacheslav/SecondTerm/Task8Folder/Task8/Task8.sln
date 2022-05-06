@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task8", "Task8.csproj", "{7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Task8.UnitTests", "..\Task8.UnitTests\Task8.UnitTests.csproj", "{46D6646E-C501-422A-B3AC-CD5D909D1566}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLib", "..\CommandLib\CommandLib.csproj", "{370D30AB-6263-455F-B11C-54D1BC0D4387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandLib", "..\CommandLib\CommandLib.csproj", "{370D30AB-6263-455F-B11C-54D1BC0D4387}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandResolverLib", "..\CommandResolverLib\CommandResolverLib.csproj", "{7CAD75F1-110F-46E0-8A7E-023EF122C573}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CommandResolverLib", "..\CommandResolverLib\CommandResolverLib.csproj", "{7CAD75F1-110F-46E0-8A7E-023EF122C573}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\Core\Core.csproj", "{BA01C70F-84D1-45FE-ACD8-F82E84826077}"
 EndProject

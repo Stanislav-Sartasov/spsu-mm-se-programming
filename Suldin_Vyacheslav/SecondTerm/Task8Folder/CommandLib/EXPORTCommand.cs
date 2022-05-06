@@ -12,11 +12,10 @@ namespace CommandLib
 
         public override void Run()
         {
-            foreach (string asd in parametres)
+            foreach (string substitution in parametres)
             {
-                string qwe = Regex.Match(asd, @"[+]+").Value;
-                string key = Regex.Match(asd, @"[^=]+").Value;
-                string value = Regex.Match(asd, @"(?<==).+").Value;
+                string key = Regex.Match(substitution, @"[^=]+").Value;
+                string value = Regex.Match(substitution, @"(?<==).+").Value;
                 Environ.SetLocalVar(key, value);
             }
             stdOut = "";

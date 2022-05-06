@@ -424,7 +424,15 @@ namespace Task8.UnitTests
 
             Environ.DefaultSet();
         }
-
+        [Test]
+        public void UNKNOWNTest()
+        {
+            UNKNOWNCommand unknown = new UNKNOWNCommand("notExisting");
+            unknown.Run();
+            Assert.AreEqual("notExisting: command not found",unknown.GetErrorMessage());
+        }
+            
+        
         [Test]
         public void CATTest()
         {

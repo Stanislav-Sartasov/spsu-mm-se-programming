@@ -28,7 +28,7 @@ namespace CommandLib
                 case "echo": return new ECHOCommand(args);
                 case "help": return new HELPCommand(args);
                 case "exit": return new EXITCommand(null);
-                default: return new UNKNOWCommand(commandName);
+                default: return new UNKNOWNCommand(commandName);
             }
         }
 
