@@ -8,7 +8,7 @@ namespace BotsLib
 	{
 		private readonly int  StartSequenceLength = 5;
 
-		public BotLaboucherer(string betEssence, int startCash) : base(betEssence, startCash) { }
+		public BotLaboucherer(BetEssence bet, int startCash) : base(bet, startCash) { }
 
 		public override int Play(int numberOfBets)
 		{
@@ -30,16 +30,16 @@ namespace BotsLib
 			{
 				betAmount = sequence[0] + sequence[^1];
 
-				if (roulette.Spin(BetEssence))
+				if (roulette.Spin(Bet))
 				{
-					cash += betAmount;
+					cash += Bet.Coefficient * betAmount;
 
 					sequence.RemoveAt(0);
 					sequence.RemoveAt(sequence.Count - 1);
 
 					if (sequence.Count < 2)
 					{
-						Bot newBot = new BotLaboucherer(BetEssence, cash);
+						Bot newBot = new BotLaboucherer(Bet, cash);
 						return newBot.Play(numberOfBets - i - 1);
 					}
 				}

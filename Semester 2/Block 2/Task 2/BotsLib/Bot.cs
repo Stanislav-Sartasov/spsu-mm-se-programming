@@ -1,16 +1,17 @@
 ﻿using System;
+using RouletteLib;
 
 namespace BotsLib
 {
 	public abstract class Bot
 	{
 		protected int StartCash;
-		protected string BetEssence;
+		protected BetEssence Bet;
 
-		public Bot(string betEssence, int startCash)
+		public Bot(BetEssence bet, int startCash)
 		{
 			StartCash = startCash;
-			BetEssence = betEssence;
+			Bet = bet;
 		}
 
 		public abstract int Play(int numberOfBets);

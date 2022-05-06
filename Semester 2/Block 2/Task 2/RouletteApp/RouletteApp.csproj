@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BotsLib\BotsLib.csproj" />
+    <ProjectReference Include="..\RouletteLib\RouletteLib.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,50 +1,57 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using BotsLib;
+using RouletteLib;
 
 namespace BotsLibTests
 {
 	[TestClass]
 	public class BotMartingaleTests
 	{
+		BetEssence colourBet = new ColourBet(ColourBetsEnum.Red);
+		BetEssence parityBet = new ParityBet(ParityBetsEnum.Even);
+		BetEssence dozenBet = new DozenBet(DozenBetsEnum.First);
+		BetEssence singleBet = new SingleBet(12);
+
 		[TestMethod]
-		public void WrongBetEssenceTest()
+		public void ColourPlayTest()
 		{
-			string betEssence = "37";
-			bool isEssenceCorrect = true;
-			Bot testBot = new BotMartingale(10, betEssence, 5000);
-
-			try
-			{
-				testBot.Play(40);
-			}
-			catch (Exception ex)
-			{
-				if (ex.Message.Contains("The bet can only be on: white or black, even or odd, first/second/third dozen, a number from [0,36]"))
-				{
-					isEssenceCorrect = false;
-				}
-			}
-
-			Assert.IsFalse(isEssenceCorrect);
+			Assert.IsTrue(PlayTest(colourBet));
 		}
 
 		[TestMethod]
-		public void PlayTest()
+		public void ParityPlayTest()
+		{
+			Assert.IsTrue(PlayTest(parityBet));
+		}
+
+		[TestMethod]
+		public void DozenPlayTest()
+		{
+			Assert.IsTrue(PlayTest(dozenBet));
+		}
+
+		[TestMethod]
+		public void CorrectSingleBetTest()
+		{
+			Assert.IsTrue(PlayTest(singleBet));
+		}
+
+		public bool PlayTest(BetEssence bet)
 		{
 			int startBetAmount = 10;
-			string betEssence = "red";
 			int startCash = 5000;
-			Bot testBot = new BotMartingale(startBetAmount, betEssence, startCash);
 
-			int cashAfterBet = testBot.Play(1);
+			Bot bot = new BotMartingale(startBetAmount, bet, startCash);
+
+			int firstCashAfterBet = bot.Play(1);
+
 			bool isPlayCorrect = false;
-			if (cashAfterBet == startCash - startBetAmount || cashAfterBet == startCash + startBetAmount)
+			if ((firstCashAfterBet == startCash - startBetAmount || firstCashAfterBet == startCash + bet.Coefficient * startBetAmount))
 			{
 				isPlayCorrect = true;
 			}
 
-			Assert.IsTrue(isPlayCorrect);
+			return isPlayCorrect;
 		}
 	}
 }

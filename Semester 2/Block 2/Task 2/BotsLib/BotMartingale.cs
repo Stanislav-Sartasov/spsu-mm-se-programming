@@ -7,7 +7,7 @@ namespace BotsLib
 	{
 		private readonly int StartBetAmount;
 
-		public BotMartingale(int startBetAmount, string betEssence, int startCash) : base (betEssence, startCash)
+		public BotMartingale(int startBetAmount, BetEssence bet, int startCash) : base (bet, startCash)
 		{
 			StartBetAmount = startBetAmount;
 		}
@@ -23,9 +23,9 @@ namespace BotsLib
 				if (cash < betAmount)
 					return cash;
 
-				if (roulette.Spin(BetEssence))
+				if (roulette.Spin(Bet))
 				{
-					cash += betAmount;
+					cash += Bet.Coefficient * betAmount;
 					betAmount = StartBetAmount;
 				}
 				else

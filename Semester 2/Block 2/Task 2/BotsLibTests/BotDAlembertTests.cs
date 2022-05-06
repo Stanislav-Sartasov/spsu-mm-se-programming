@@ -1,51 +1,74 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using BotsLib;
+using RouletteLib;
+using System;
 
 namespace BotsLibTests
 {
 	[TestClass]
 	public class BotDAlembertTests
 	{
+		BetEssence colourBet = new ColourBet(ColourBetsEnum.Red);
+		BetEssence parityBet = new ParityBet(ParityBetsEnum.Even);
+		BetEssence dozenBet = new DozenBet(DozenBetsEnum.First);
+		BetEssence singleBet = new SingleBet(12);
+
 		[TestMethod]
-		public void WrongBetEssenceTest()
+		public void ColourPlayTest()
 		{
-			string betEssence = "37";
-			bool isEssenceCorrect = true;
-			Bot testBot = new BotDAlembert(10, betEssence, 5000);
-
-			try
-			{
-				testBot.Play(40);
-			}
-			catch (Exception ex)
-			{
-				if (ex.Message.Contains("The bet can only be on: white or black, even or odd, first/second/third dozen, a number from [0,36]"))
-				{
-					isEssenceCorrect = false;
-				}
-			}
-
-			Assert.IsFalse(isEssenceCorrect);
+			Assert.IsTrue(PlayTest(colourBet));
 		}
 
 		[TestMethod]
-		public void PlayTest()
+		public void ParityPlayTest()
 		{
-			int baseBetAmount = 10;
-			string betEssence = "red";
-			int startCash = 5000;
+			Assert.IsTrue(PlayTest(parityBet));
+		}
 
-			Bot testBot = new BotDAlembert(baseBetAmount, betEssence, startCash);
+		[TestMethod]
+		public void DozenPlayTest()
+		{
+			Assert.IsTrue(PlayTest(dozenBet));
+		}
 
-			int cashAfterBet = testBot.Play(1);
-			bool isPlayCorrect = false;
-			if (cashAfterBet == startCash - baseBetAmount || cashAfterBet == startCash + baseBetAmount)
+		[TestMethod]
+		public void WrongSingleBetTest()
+		{
+			bool isExceptionCaught = false;
+			try
 			{
-				isPlayCorrect = true; 
+				BetEssence bet = new SingleBet(52);
+			}
+			catch(Exception)
+			{
+				isExceptionCaught = true;
 			}
 
-			Assert.IsTrue(isPlayCorrect);
+			Assert.IsTrue(isExceptionCaught);
+		}
+
+		[TestMethod]
+		public void CorrectSingleBetTest()
+		{
+			Assert.IsTrue(PlayTest(singleBet));
+		}
+
+		public bool PlayTest(BetEssence bet)
+		{
+			int baseBetAmount = 10;
+			int startCash = 5000;
+
+			Bot bot = new BotDAlembert(baseBetAmount, bet, startCash);
+
+			int firstCashAfterBet = bot.Play(1);
+
+			bool isPlayCorrect = false;
+			if ((firstCashAfterBet == startCash - baseBetAmount || firstCashAfterBet == startCash + bet.Coefficient * baseBetAmount))
+			{
+				isPlayCorrect = true;
+			}
+
+			return isPlayCorrect;
 		}
 	}
 }

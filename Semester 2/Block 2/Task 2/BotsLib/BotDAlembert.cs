@@ -7,7 +7,7 @@ namespace BotsLib
 	{
 		private readonly int BaseBetAmount;
 
-		public BotDAlembert(int baseBetAmount, string betEssence, int startCash) : base(betEssence, startCash)
+		public BotDAlembert(int baseBetAmount, BetEssence bet, int startCash) : base(bet, startCash)
 		{
 			BaseBetAmount = baseBetAmount;
 		}
@@ -23,9 +23,9 @@ namespace BotsLib
 				if (cash < betAmount)
 					return cash;
 
-				if (roulette.Spin(BetEssence))
+				if (roulette.Spin(Bet))
 				{
-					cash += betAmount;
+					cash += Bet.Coefficient * betAmount;
 					if (betAmount != BaseBetAmount)
 						betAmount -= BaseBetAmount;
 				}
