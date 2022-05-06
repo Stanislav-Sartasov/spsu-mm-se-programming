@@ -4,6 +4,5 @@
 	{
 		Black = 0,
 		Red = 1,
-		Zero = 2
 	}
 }

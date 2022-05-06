@@ -17,7 +17,7 @@ namespace Roulette
 		{
 			Numbers = new Cell[37];
 
-			Numbers[0] = new Cell(0, ColourEnum.Zero, ParityEnum.Zero, DozenEnum.Zero);
+			Numbers[0] = new Cell(0, null, null, null);
 			int a = 1;
 			for (int x = 0; x < 2; x++)
 			{

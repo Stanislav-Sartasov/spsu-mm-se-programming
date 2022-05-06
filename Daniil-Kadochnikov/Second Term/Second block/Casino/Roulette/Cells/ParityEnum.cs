@@ -4,6 +4,5 @@
 	{
 		Even = 0,
 		Odd = 1,
-		Zero = 2
 	}
 }

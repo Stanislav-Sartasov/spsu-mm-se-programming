@@ -1,17 +1,16 @@
-﻿using Roulette.Bets.PossibleBets;
-using Roulette.Cells;
+﻿using Roulette.Cells;
 
 namespace Roulette.Bets
 {
 	public class ParityBet : Bet
 	{
-		public readonly PossibleParity BetCell;
+		public readonly ParityEnum BetCell;
 
-		public ParityBet(int player, int money, PossibleParity parity) : base(player, money) => BetCell = parity;
+		public ParityBet(int player, int money, ParityEnum parity) : base(player, money) => BetCell = parity;
 
 		public override int CheckBet(Cell winCell)
 		{
-			if ((ParityEnum)BetCell == winCell.Parity)
+			if (BetCell == winCell.Parity)
 				return 2;
 			else
 				return 0;

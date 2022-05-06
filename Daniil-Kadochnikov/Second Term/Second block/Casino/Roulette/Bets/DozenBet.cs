@@ -1,17 +1,16 @@
-﻿using Roulette.Bets.PossibleBets;
-using Roulette.Cells;
+﻿using Roulette.Cells;
 
 namespace Roulette.Bets
 {
 	public class DozenBet : Bet
 	{
-		public readonly PossibleDozen BetCell;
+		public readonly DozenEnum BetCell;
 
-		public DozenBet(int player, int money, PossibleDozen dozen) : base(player, money) => BetCell = dozen;
+		public DozenBet(int player, int money, DozenEnum dozen) : base(player, money) => BetCell = dozen;
 
 		public override int CheckBet(Cell winCell)
 		{
-			if ((DozenEnum)BetCell == winCell.Dozen)
+			if (BetCell == winCell.Dozen)
 				return 3;
 			else
 				return 0;

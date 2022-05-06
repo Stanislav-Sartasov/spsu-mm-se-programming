@@ -26,7 +26,8 @@ namespace Bots
 			{
 				wins++;
 				money = Balance / 40;
-				playersBets.Add(CreateBet(player, money, betCell));
+				betDirector.Construct(player, money);
+				playersBets.Add(betDirector.GetBet());
 				Balance -= money;
 			}
 			else
@@ -39,7 +40,8 @@ namespace Bots
 					return null;
 				}
 
-				playersBets.Add(CreateBet(player, money, betCell));
+				betDirector.Construct(player, money);
+				playersBets.Add(betDirector.GetBet());
 				Balance -= money;
 			}
 			return playersBets;

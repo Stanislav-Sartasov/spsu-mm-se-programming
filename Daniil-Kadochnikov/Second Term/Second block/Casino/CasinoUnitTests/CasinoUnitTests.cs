@@ -2,7 +2,6 @@ using Bots;
 using NUnit.Framework;
 using Roulette;
 using Roulette.Bets;
-using Roulette.Bets.PossibleBets;
 using Roulette.Cells;
 using System.Collections.Generic;
 
@@ -25,24 +24,24 @@ namespace CasinoUnitTests
 			Cell cellOne = new Cell(1, ColourEnum.Black, ParityEnum.Odd, DozenEnum.DozenTwo);
 			Cell cellTwo = new Cell(23, ColourEnum.Red, ParityEnum.Even, DozenEnum.DozenThree);
 
-			ColourBet betOne = new ColourBet(1, 1000, PossibleColour.Red);
+			ColourBet betOne = new ColourBet(1, 1000, ColourEnum.Red);
 			Assert.AreEqual(betOne.Player, 1);
 			Assert.AreEqual(betOne.Money, 1000);
-			Assert.AreEqual(betOne.BetCell, PossibleColour.Red);
+			Assert.AreEqual(betOne.BetCell, ColourEnum.Red);
 			Assert.AreEqual(betOne.CheckBet(cellOne), 0);
 			Assert.AreEqual(betOne.CheckBet(cellTwo), 2);
 
-			DozenBet betTwo = new DozenBet(1241411, 132420, PossibleDozen.DozenThree);
+			DozenBet betTwo = new DozenBet(1241411, 132420, DozenEnum.DozenThree);
 			Assert.AreEqual(betTwo.Player, 1241411);
 			Assert.AreEqual(betTwo.Money, 132420);
-			Assert.AreEqual(betTwo.BetCell, PossibleDozen.DozenThree);
+			Assert.AreEqual(betTwo.BetCell, DozenEnum.DozenThree);
 			Assert.AreEqual(betTwo.CheckBet(cellOne), 0);
 			Assert.AreEqual(betTwo.CheckBet(cellTwo), 3);
 
-			ParityBet betThree = new ParityBet(0, 12, PossibleParity.Even);
+			ParityBet betThree = new ParityBet(0, 12, ParityEnum.Even);
 			Assert.AreEqual(betThree.Player, 0);
 			Assert.AreEqual(betThree.Money, 12);
-			Assert.AreEqual(betThree.BetCell, PossibleParity.Even);
+			Assert.AreEqual(betThree.BetCell, ParityEnum.Even);
 			Assert.AreEqual(betThree.CheckBet(cellOne), 0);
 			Assert.AreEqual(betThree.CheckBet(cellTwo), 2);
 
@@ -61,9 +60,9 @@ namespace CasinoUnitTests
 		{
 			RouletteTable tableOne = new RouletteTable();
 
-			Assert.AreEqual(tableOne.Numbers[0].Colour, ColourEnum.Zero);
-			Assert.AreEqual(tableOne.Numbers[0].Parity, ParityEnum.Zero);
-			Assert.AreEqual(tableOne.Numbers[0].Dozen, DozenEnum.Zero);
+			Assert.AreEqual(tableOne.Numbers[0].Colour, null);
+			Assert.AreEqual(tableOne.Numbers[0].Parity, null);
+			Assert.AreEqual(tableOne.Numbers[0].Dozen, null);
 
 			Assert.AreEqual(tableOne.Numbers[3].Colour, ColourEnum.Red);
 			Assert.AreEqual(tableOne.Numbers[3].Parity, ParityEnum.Odd);
