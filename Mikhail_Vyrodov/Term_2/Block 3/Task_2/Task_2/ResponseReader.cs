@@ -11,6 +11,7 @@ namespace Task_2
     public class ResponseReader : IResponseReader
     {
         public HttpWebResponse Response { get; set; }
+
         public string GetResponseInfo()
         {
             Stream stream = Response.GetResponseStream();

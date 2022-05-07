@@ -3,11 +3,10 @@ using System.Net;
 
 namespace Task_2
 {
-    class StormglassioWebHelper : IWebServerHelper
+    public class StormglassioWebHelper : IWebServerHelper
     {
         public Uri RequestURL { get; set; }
         public HttpWebResponse Response { get; private set; }
-        public string Site { get; } = "stormglass.io";
 
         public bool MakeRequest()
         {

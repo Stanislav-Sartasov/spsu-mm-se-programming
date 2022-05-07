@@ -1,16 +1,17 @@
 ﻿using System;
 using DecksLibrary;
+using BlackjackLibrary;
 
 namespace BotsLibrary
 {
-    public class CardsCounterStrategy : Player
+    public class CardsCounterStrategy : Player, IPlayer
     {
         public CardsCounterStrategy(byte dealersFirst, uint money, Decks playingDecks, uint wager)
             : base(dealersFirst, money, playingDecks, wager)
         {
         }
 
-        protected override void Doubled(byte[] hand, byte handFlag = 0)
+        public override void Doubled(byte[] hand, byte handFlag = 0)
         {
             PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
             if (PlayingDecks.CountOfCards >= -2)
@@ -46,7 +47,7 @@ namespace BotsLibrary
             Hit(hand, handFlag);
         }
 
-        protected override void Hit(byte[] hand, byte handFlag = 0)
+        public override void Hit(byte[] hand, byte handFlag = 0)
         {
             if (handFlag == 0)
             {

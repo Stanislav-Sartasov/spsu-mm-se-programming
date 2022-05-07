@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BlackjackLibrary\BlackjackLibrary.csproj" />
     <ProjectReference Include="..\DecksLibrary\DecksLibrary.csproj" />
+    <ProjectReference Include="..\PluginLibrary\PluginLibrary.csproj" />
   </ItemGroup>
 
 </Project>

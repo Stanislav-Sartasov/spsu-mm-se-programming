@@ -1,6 +1,7 @@
 ﻿using System;
 using BlackjackLibrary;
 using DecksLibrary;
+using PluginLibrary;
 using System.Reflection;
 
 namespace BlackJackDemostration
@@ -11,30 +12,33 @@ namespace BlackJackDemostration
         {
             Console.Write("This programm represents the blackjack game with opportunity to split");
             Console.Write(" cards, double wagers and surrender.\n");
-            Console.WriteLine("You can choose one of 3 strategies to play:");
-            Console.WriteLine("0 - basic strategy");
-            Console.WriteLine("1 - cards counting strategy, based on basic strategy and cards count");
-            Console.WriteLine("2 - simple strategy, based on basic strategy and players score at the moment");
-            Console.WriteLine("The programm will print the approximate sum of your wagers when the game ends");
-            Console.WriteLine("Please enter the correct number of strategy you want to play");
-            int strategy = Convert.ToInt32(Console.ReadLine()); // in ascii table "0" has 48 number
-            if (strategy < 0 || strategy > 2)
-            {
-                Console.WriteLine("You number isn't right.");
-                return;
-            }
-            Bots botsStrategy = (Bots)strategy;
+            Console.WriteLine("There are 3 strategies to play:");
+            Console.WriteLine("Basic strategy");
+            Console.WriteLine("Cards counting strategy, based on basic strategy and cards count");
+            Console.WriteLine("Simple strategy, based on basic strategy and players score at the moment");
+            Console.WriteLine("There are 3 bots with different strategies");
+            Console.WriteLine("The programm will print the approximate sum of their wagers when the game ends");
             Decks playingDecks = new Decks();
             playingDecks.FillCards();
             double win = 0;
             try
             {
-                BlackjackGame game = new BlackjackGame(playingDecks, 1600, botsStrategy); // 1600 is initial players money
-                for (int i = 0; i < 40; i++)
+                BlackjackGame game = new BlackjackGame(playingDecks, 1600); // 1600 is initial players money
+                for (int botsCount = 0; botsCount < 3; botsCount++)
                 {
-                    win += game.Game();
+                    Console.WriteLine("The turn of " + (botsCount + 1).ToString() + " bot.");
+                    LibraryLoader libraryLoader = new LibraryLoader("../../../../BotsLibrary/BotsLibrary.dll");
+                    Assembly asm = libraryLoader.LoadLibrary();
+                    PluginHelper pluginHelper = new PluginHelper(asm);
+                    object[] parameters = new object[] { game.PlayingDealer.DealerCards[0], game.InitialMoney, game.PlayingCards, (uint)16 };
+                    pluginHelper.CreatePlayer(parameters, botsCount);
+                    game.Player = pluginHelper.players[botsCount];
+                    for (int i = 0; i < 40; i++)
+                    {
+                        win += game.Game();
+                    }
+                    Console.WriteLine("Approximate sum with 40 played rounds is {0}", win / 40.0);
                 }
-                Console.WriteLine("Approximate sum with 40 played rounds is {0}", win / 40.0);
             }
             catch (Exception ex)
             {
@@ -44,7 +48,7 @@ namespace BlackJackDemostration
             {
                 Console.WriteLine("Press enter button to exit");
                 Console.ReadLine();
-            }
+            } 
         }
     }
 }

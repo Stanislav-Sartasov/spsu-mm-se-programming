@@ -1,9 +1,10 @@
 ﻿using System;
 using DecksLibrary;
+using BlackjackLibrary;
 
 namespace BotsLibrary
 {
-    public class Player
+    public class Player : IPlayer
     {
         public Decks PlayingDecks { get; private set; }
         public Decisions[] PlayersDecisions { get; private set; } // Hit - 1, Split - 2, Doubling - 3, Surrender - 4, for unittesting
@@ -95,7 +96,7 @@ namespace BotsLibrary
             PlayersTurn(FirstHand);
         }
 
-        protected virtual void Hit(byte[] hand, byte handFlag = 0)
+        public virtual void Hit(byte[] hand, byte handFlag = 0)
         {
             int i = 0;
             while (hand[i] != 0)
@@ -109,8 +110,8 @@ namespace BotsLibrary
             }
             PlayersTurn(hand, handFlag);
         }
-        
-        protected virtual void Doubled(byte[] hand, byte handFlag = 0)
+
+        public virtual void Doubled(byte[] hand, byte handFlag = 0)
         {
             if (handFlag == 0)
             {
@@ -130,7 +131,7 @@ namespace BotsLibrary
             Hit(hand, handFlag);
         }
 
-        protected void SplitCards()
+        public void SplitCards()
         {
             SecondHand[0] = FirstHand[1];
             FirstHand[1] = 0;
@@ -144,7 +145,7 @@ namespace BotsLibrary
             isNotSplitted = false;
         }
 
-        protected void Surrender()
+        public void Surrender()
         {
             FirstWager /= 2;
             Money += FirstWager;
@@ -183,7 +184,7 @@ namespace BotsLibrary
             {
                 if (BjFlag > 0)
                     BjFlag = 3;
-                    
+
                 else if (handFlag == 0)
                     BjFlag = 1;
                 else if (handFlag == 1)

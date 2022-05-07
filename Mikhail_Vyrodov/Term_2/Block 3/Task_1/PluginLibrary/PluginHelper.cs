@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 using DecksLibrary;
+using BlackjackLibrary;
 
 namespace PluginLibrary
 {
     public class PluginHelper
     {
         private Assembly assembly = null;
-        private Type playerType;
-        private object player;
+        public IPlayer[] players = new IPlayer[3];
 
         public string LastExceptionMessage { get; private set; }
 
@@ -21,49 +21,35 @@ namespace PluginLibrary
             assembly = asm;
         }
 
-        public void CreatePlayer(string playerType, object[] parameters)
+        public void CreatePlayer(object[] parameters, int playerNumber)
         {
             try
             {
-                this.playerType = assembly.GetType("BotsLibrary." + playerType);
-                player = Activator.CreateInstance(this.playerType, parameters);
+                IPlayer player;
+                var types = assembly.GetTypes();
+                int i = 0;
+                foreach(var type in types)
+                {
+                    if (type.GetInterface("IPlayer") == typeof(IPlayer))
+                    {
+                        if (i == playerNumber)
+                        {
+                            player = (IPlayer)Activator.CreateInstance(type, parameters);
+                            players[i] = player;
+                            i += 1;
+                        }
+                        else
+                        {
+                            i += 1;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
                 LastExceptionMessage = ex.Message;
                 Console.WriteLine(ex.Message);
                 return;
-            }
-        }
-
-        public void ImplementMethod(string methodName, object[] parameters = null)
-        {
-            try
-            {
-                MethodInfo method = playerType.GetMethod(methodName);
-                method.Invoke(player, parameters);
-            }
-            catch (Exception ex)
-            {
-                LastExceptionMessage = ex.Message;
-                Console.WriteLine(ex.Message);
-                return;
-            }
-        }
-
-        public object ReceiveProperty(string propertyName)
-        {
-            try
-            {
-                PropertyInfo property = playerType.GetProperty(propertyName);
-                object propValue = property.GetValue(player);
-                return propValue;
-            }
-            catch (Exception ex)
-            {
-                LastExceptionMessage = ex.Message;
-                Console.WriteLine(ex.Message);
-                return null;
             }
         }
     }

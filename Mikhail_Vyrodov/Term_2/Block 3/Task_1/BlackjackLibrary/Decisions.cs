@@ -1,7 +1,10 @@
 ﻿using System;
-using BotsLibrary;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BotsLibrary
+namespace BlackjackLibrary
 {
     public enum Decisions
     {

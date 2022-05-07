@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 
 namespace Task_2
 {
-    class TomorrowioWebHelper : IWebServerHelper
+    public class TomorrowioWebHelper : IWebServerHelper
     {
         public Uri RequestURL { get; set; }
         public HttpWebResponse Response { get; private set; }
-        public string Site { get; } = "tomorrow.io";
 
         public bool MakeRequest()
         {

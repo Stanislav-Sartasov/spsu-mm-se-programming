@@ -1,5 +1,7 @@
 using NUnit.Framework;
 using DecksLibrary;
+using PluginLibrary;
+using System.Reflection;
 
 namespace BlackjackLibrary.UnitTests
 {
@@ -62,56 +64,39 @@ namespace BlackjackLibrary.UnitTests
             gameCards = playingDecks.Cards;
             byte bjFlag;
             int testResult;
+            LibraryLoader libraryLoader = new LibraryLoader("../../../../BotsLibrary/BotsLibrary.dll");
+            Assembly asm = libraryLoader.LoadLibrary();
+            PluginHelper pluginHelper = new PluginHelper(asm);
             // Dealer has blackjack and player in both hands has blackjack too
             gameCards[0] = 10; gameCards[1] = 1; gameCards[2] = 1; gameCards[3] = 10;
             gameCards[4] = 10; gameCards[5] = 1; bjFlag = 3; testResult = 32;
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag);
+            SomeGameTest(pluginHelper, playingDecks, gameCards, testResult, bjFlag);
 
             gameCards[0] = 10; gameCards[1] = 10; gameCards[2] = 10; gameCards[3] = 1;
             bjFlag = 0; testResult = -16; // Dealer has blackjack, player's score is 20.
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag);
+            SomeGameTest(pluginHelper, playingDecks, gameCards, testResult, bjFlag);
 
             gameCards[0] = 10; gameCards[1] = 10; gameCards[2] = 10; gameCards[3] = 7;
             bjFlag = 0; testResult = 32; // Dealer has 17, player's score is 20.
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag);
+            SomeGameTest(pluginHelper, playingDecks, gameCards, testResult, bjFlag);
 
             gameCards[0] = 10; gameCards[1] = 10; gameCards[2] = 5; gameCards[3] = 7;
             bjFlag = 0; testResult = 8; // Player surrendered
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag);
+            SomeGameTest(pluginHelper, playingDecks, gameCards, testResult, bjFlag);
 
             gameCards[0] = 9; gameCards[1] = 8; gameCards[2] = 8; gameCards[3] = 9; gameCards[4] = 10;
             gameCards[5] = 6; gameCards[6] = 10; bjFlag = 0; testResult = 64; // Player won with both hands
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag);
-
-            // With cards counter strategy player doubles and wins, dealer has 5, 10, 10
-            playingDecks.FillCards();
-            gameCards = playingDecks.Cards;
-            Bots strategy = Bots.CardsCounterStrategy;
-            gameCards[0] = 5; gameCards[1] = 3; gameCards[2] = 5; gameCards[3] = 10; gameCards[4] = 10;
-            gameCards[5] = 10; bjFlag = 0; testResult = 64;
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag, strategy);
-            // But with basic strategy he just hits
-            strategy = Bots.BasicStrategy;
-            gameCards[0] = 5; gameCards[1] = 3; gameCards[2] = 5; gameCards[3] = 10; gameCards[4] = 10;
-            gameCards[5] = 10; bjFlag = 0; testResult = 32;
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag, strategy);
-            // With simple strategy player doubles and wins, dealer has 10, 6, 10
-            strategy = Bots.SimpleStrategy;
-            gameCards[0] = 10; gameCards[1] = 5; gameCards[2] = 5; gameCards[3] = 10; gameCards[4] = 6;
-            gameCards[5] = 10; bjFlag = 0; testResult = 64;
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag, strategy);
-            // But with basic strategy he just hits, dealer has 10, 6, 10
-            strategy = Bots.BasicStrategy;
-            gameCards[0] = 10; gameCards[1] = 5; gameCards[2] = 5; gameCards[3] = 10; gameCards[4] = 6;
-            gameCards[5] = 10; bjFlag = 0; testResult = 32;
-            SomeGameTest(playingDecks, gameCards, testResult, bjFlag, strategy);
+            SomeGameTest(pluginHelper, playingDecks, gameCards, testResult, bjFlag);
             // Now we test two games successively
             playingDecks.FillCards();
             gameCards = playingDecks.Cards;
             gameCards[0] = 10; gameCards[1] = 10; gameCards[2] = 5; gameCards[3] = 7;
             bjFlag = 0; testResult = 8; // Player surrendered
             uint initialMoney = 1600;
-            BlackjackGame testGame = new BlackjackGame(playingDecks, initialMoney, strategy);
+            BlackjackGame testGame = new BlackjackGame(playingDecks, initialMoney);
+            object[] parameters = new object[] { testGame.PlayingDealer.DealerCards[0], (uint)testGame.InitialMoney, testGame.PlayingCards, (uint)16 };
+            pluginHelper.CreatePlayer(parameters, 1);
+            testGame.Player = pluginHelper.players[1];
             Assert.AreEqual(testGame.Game(), testResult);
             for (int i = 0; i < 416; i++)
             {
@@ -127,10 +112,13 @@ namespace BlackjackLibrary.UnitTests
             }
         }
 
-        public void SomeGameTest(Decks playingCards, byte[] gameCards, int result, byte bjFlag, Bots strategy = Bots.BasicStrategy)
+        public void SomeGameTest(PluginHelper pluginHelper, Decks playingCards, byte[] gameCards, int result, byte bjFlag, Bots strategy = Bots.BasicStrategy)
         {
             uint initialMoney = 1600;
-            BlackjackGame testGame = new BlackjackGame(playingCards, initialMoney, strategy);
+            BlackjackGame testGame = new BlackjackGame(playingCards, initialMoney);
+            object[] parameters = new object[] { testGame.PlayingDealer.DealerCards[0], (uint)testGame.InitialMoney, testGame.PlayingCards, (uint)16 };
+            pluginHelper.CreatePlayer(parameters, 1);
+            testGame.Player = pluginHelper.players[1];
             Assert.AreEqual(testGame.Game(), result);
             for (int i = 0; i < 416; i++)
             {

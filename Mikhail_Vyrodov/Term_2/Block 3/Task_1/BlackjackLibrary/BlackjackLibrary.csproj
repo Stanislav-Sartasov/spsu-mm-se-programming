@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DecksLibrary\DecksLibrary.csproj" />
-    <ProjectReference Include="..\PluginLibrary\PluginLibrary.csproj" />
   </ItemGroup>
 
 </Project>

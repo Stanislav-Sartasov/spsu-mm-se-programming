@@ -13,7 +13,6 @@ namespace Task_2
         public bool MakeRequest();
 
         public Uri RequestURL { get; set; }
-        public string Site { get; }
         public HttpWebResponse Response { get; }
     }
 }

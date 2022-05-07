@@ -1,16 +1,17 @@
 ﻿using System;
 using DecksLibrary;
+using BlackjackLibrary;
 
 namespace BotsLibrary
 {
-    public class SimpleStrategy : Player
+    public class SimpleStrategy : Player, IPlayer
     {
         public SimpleStrategy(byte dealersFirst, uint money, Decks playingDecks, uint wager) :
             base(dealersFirst, money, playingDecks, wager)
         {
         }
 
-        protected override void Hit(byte[] hand, byte handFlag = 0)
+        public override void Hit(byte[] hand, byte handFlag = 0)
         {
             uint sum = 0;
             aceFlag = false;
@@ -64,7 +65,7 @@ namespace BotsLibrary
             PlayersTurn(hand, handFlag);
         }
 
-        protected override void Doubled(byte[] hand, byte handFlag = 0)
+        public override void Doubled(byte[] hand, byte handFlag = 0)
         {
             PlayersDecisions[DecisionsCounter] = Decisions.Hitting;
             uint sum = 0;

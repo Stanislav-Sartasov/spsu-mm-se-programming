@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using DecksLibrary;
+using BlackjackLibrary;
 
 namespace BotsLibrary.UnitTests
 {
