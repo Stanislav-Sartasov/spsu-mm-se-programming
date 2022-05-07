@@ -19,7 +19,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.8.2")
     implementation(project(":lib"))
     implementation(project(":bots"))
-    implementation(project(":bot_loader"))
+    implementation(project(":loader"))
 }
 
 tasks.test {
