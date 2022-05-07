@@ -137,6 +137,9 @@ namespace Task8.UnitTests
                             "wc [file1path] [file2path] ... - Print newline, word, and byte counts for each file\n" +
                             "help [commandName1] [commandName2]... - Shows info for commands\n" +
                                 "\t\talternative : help - shows info for all commands", help.GetStdOut());
+            help = new HELPCommand(new string[] {"some not existing command"});
+            help.Run();
+            Assert.AreEqual("-bash: help: no help topics match `some not existing command'\n", help.GetErrorMessage());
         }
 
         [Test]
@@ -155,7 +158,7 @@ namespace Task8.UnitTests
             rm = new RMCommand(args);
             rm.Run();
             Assert.AreEqual("rm: cannot remove 'TestCatalog\\file2.txt': No such file or directory" +
-                "\nrm: cannot remove 'TestCatalog\\directory': Is a directory", rm.GetErrorMessage());
+                "\nrm: cannot remove 'TestCatalog\\directory': Is a directory\n", rm.GetErrorMessage());
             Assert.AreEqual(false, File.Exists(directoryPath + @"\TestCatalog\file1.txt"));
             Assert.AreEqual(true, Directory.Exists(directoryPath + @"\TestCatalog\directory"));
             Directory.Delete(directoryPath + @"\TestCatalog\directory");
@@ -184,7 +187,7 @@ namespace Task8.UnitTests
 
             Assert.AreEqual("rmdir: failed to remove 'TestCatalog\\directory2': No such file or directory"
                 + "\nrmdir: failed to remove 'TestCatalog\\directory3': Directory not empty"
-                + "\nrmdir: failed to remove 'TestCatalog\\file1.txt': Not a directory", rmdir.GetErrorMessage());
+                + "\nrmdir: failed to remove 'TestCatalog\\file1.txt': Not a directory\n", rmdir.GetErrorMessage());
             Assert.AreEqual(false, Directory.Exists(directoryPath + @"\TestCatalog\directory1"));
             Assert.AreEqual(true, Directory.Exists(directoryPath + @"\TestCatalog\directory3"));
             Assert.AreEqual(true, File.Exists(directoryPath + @"\TestCatalog\file1.txt"));
@@ -211,7 +214,7 @@ namespace Task8.UnitTests
             mkdir.Run();
 
             Assert.AreEqual("mkdir: cannot create directory ‘TestCatalog\\directory1’: File exists" +
-                "\nmkdir: cannot create directory ‘TestCatalog\\direc:tory2’: Not supported name", mkdir.GetErrorMessage());
+                "\nmkdir: cannot create directory ‘TestCatalog\\direc:tory2’: Not supported name\n", mkdir.GetErrorMessage());
             Assert.AreEqual(true, Directory.Exists(directoryPath + @"\TestCatalog\directory3"));
             Directory.Delete(directoryPath + @"\TestCatalog\directory1");
             Directory.Delete(directoryPath + @"\TestCatalog\directory3");
@@ -234,7 +237,7 @@ namespace Task8.UnitTests
             touch = new TOUCHCommand(args);
             touch.Run();
 
-            Assert.AreEqual("touch: cannot touch TestCatalog\\notExistingFolder\\file2.txt: No such file or directory", touch.GetErrorMessage());
+            Assert.AreEqual("touch: cannot touch TestCatalog\\notExistingFolder\\file2.txt: No such file or directory\n", touch.GetErrorMessage());
             Assert.AreEqual(true, File.Exists(directoryPath + @"\TestCatalog\file1.txt"));
             Assert.AreEqual(true, File.Exists(directoryPath + @"\TestCatalog\file3.txt"));
 
@@ -264,9 +267,9 @@ namespace Task8.UnitTests
 
             Assert.AreEqual("TestCatalog:\n" +
                             "directory1 file1.txt \n" +
-                            "ls: cannot access 'TestCatalog\\IamNotExist': No such directory\n" +
-                            "TestCatalog\\file1.txt", ls.GetErrorMessage());
+                            "\nTestCatalog\\file1.txt ", ls.GetStdOut());
 
+            Assert.AreEqual("ls: cannot access 'TestCatalog\\IamNotExist': No such directory\n", ls.GetErrorMessage());
             ls = new LSCommand(new string[] { });
             ls.Run();
 
@@ -296,11 +299,11 @@ namespace Task8.UnitTests
 
             cd = new CDCommand(new string[] { args[1] });
             cd.Run();
-            Assert.AreEqual($"cd: \'{args[1]}\': No such directory", cd.GetErrorMessage());
+            Assert.AreEqual($"cd: \'{args[1]}\': No such directory\n", cd.GetErrorMessage());
 
             cd = new CDCommand(new string[] { args[1], args[2] });
             cd.Run();
-            Assert.AreEqual("cd: too many arguments", cd.GetErrorMessage());
+            Assert.AreEqual("cd: too many arguments\n", cd.GetErrorMessage());
 
             cd = new CDCommand(new string[] { args[2] });
             cd.Run();
@@ -316,7 +319,7 @@ namespace Task8.UnitTests
 
             cd = new CDCommand(new string[] { args[1] });
             cd.Run();
-            Assert.AreEqual($"cd: \'{args[1]}\': Not a directory", cd.GetErrorMessage());
+            Assert.AreEqual($"cd: \'{args[1]}\': Not a directory\n", cd.GetErrorMessage());
 
             File.Delete(current + @"\TestCatalog\file.txt");
             Environ.DefaultSet();
@@ -359,11 +362,11 @@ namespace Task8.UnitTests
 
             std = new STDCommand(args[3], cc);
             std.Run();
-            Assert.AreEqual("-mybash: directory1: Is a directory", std.GetErrorMessage());
+            Assert.AreEqual("-mybash: directory1: Is a directory\n", std.GetErrorMessage());
 
             std = new STDCommand(args[4], cc);
             std.Run();
-            Assert.AreEqual("-mybash: \\someDirectory\\file.txt: No sush file or directory", std.GetErrorMessage());
+            Assert.AreEqual("-mybash: \\someDirectory\\file.txt: No sush file or directory\n", std.GetErrorMessage());
 
             File.Delete(current + @"\TestCatalog\file.txt");
             File.Delete(current + @"\TestCatalog\file1.txt");
@@ -404,11 +407,11 @@ namespace Task8.UnitTests
 
             wc = new WCCommand(args[2]);
             wc.Run();
-            Assert.AreEqual("wc: TestCatalog\\directory: Is a directory", wc.GetErrorMessage());
+            Assert.AreEqual("wc: TestCatalog\\directory: Is a directory\n", wc.GetErrorMessage());
 
             wc = new WCCommand(args[3]);
             wc.Run();
-            Assert.AreEqual("wc: TestCatalog\\notRealfile.txt: No such file or directory", wc.GetErrorMessage());
+            Assert.AreEqual("wc: TestCatalog\\notRealfile.txt: No such file or directory\n", wc.GetErrorMessage());
 
             wc = new WCCommand(args[4]);
             wc.SetStdIn("\r std in");
@@ -429,7 +432,7 @@ namespace Task8.UnitTests
         {
             UNKNOWNCommand unknown = new UNKNOWNCommand("notExisting");
             unknown.Run();
-            Assert.AreEqual("notExisting: command not found",unknown.GetErrorMessage());
+            Assert.AreEqual("notExisting: command not found\n",unknown.GetErrorMessage());
         }
             
         
@@ -463,11 +466,11 @@ namespace Task8.UnitTests
 
             cat = new CATCommand(args[2]);
             cat.Run();
-            Assert.AreEqual("cat: TestCatalog\\directory: Is a directory", cat.GetErrorMessage());
+            Assert.AreEqual("cat: TestCatalog\\directory: Is a directory\n", cat.GetErrorMessage());
 
             cat = new CATCommand(args[3]);
             cat.Run();
-            Assert.AreEqual("cat: TestCatalog\\notRealfile.txt: No such file or directory", cat.GetErrorMessage());
+            Assert.AreEqual("cat: TestCatalog\\notRealfile.txt: No such file or directory\n", cat.GetErrorMessage());
 
             cat = new CATCommand(args[4]);
             cat.SetStdIn("some stdin");
@@ -502,6 +505,8 @@ namespace Task8.UnitTests
                 "rm file1.txt file2.txt file3.txt",
                 "rmdir NewDirectory",
                 "rmdir ..\\NewDirectory",
+                "help pwd",
+                "command",
                 "exit",
             };
             string[] expected = new string[]
@@ -509,7 +514,7 @@ namespace Task8.UnitTests
                 "",
                 "",
                 "",
-                "cd: too many arguments",
+                "cd: too many arguments\n",
                 "",
                 Directory.GetCurrentDirectory() + @"\TestCatalog\NewDirectory",
                 "",
@@ -518,9 +523,11 @@ namespace Task8.UnitTests
                 "file1.txt file2.txt NewFileStringaddString ",
                 "1 2 20",
                 "1 3 43",
-                "rm: cannot remove 'file3.txt': No such file or directory",
-                "rmdir: failed to remove 'NewDirectory': No such file or directory",
+                "rm: cannot remove 'file3.txt': No such file or directory\n",
+                "rmdir: failed to remove 'NewDirectory': No such file or directory\n",
                 "",
+                "pwd - Shows current working directory",
+                "command: command not found\n",
                 "exit",
             };
             var cc = new CommandCreator();

@@ -95,12 +95,13 @@ namespace CommandLib
                         }
                     default:
                         {
-                            stdOut += $"-bash: {this.name}: no help topics match `{name}'\n";
+                            error.Message += $"-bash: {this.name}: no help topics match `{name}'\n";
+                            error.StdErr = 1;
                             break;
                         }
                 }
             }
-            stdOut = stdOut[..^1];
+            stdOut = stdOut == null ? null : stdOut[..^1];
         }
     }
 }

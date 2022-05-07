@@ -25,21 +25,19 @@ namespace CommandLib
                 if (Directory.Exists(abcolutePath))
                 {
                     error.StdErr = 1;
-                    error.Message += $"\n{name}: {pathFile}: Is a directory";
+                    error.Message += $"{name}: {pathFile}: Is a directory\n";
                 }
                 else if (!File.Exists(abcolutePath))
                 {
                     error.StdErr = 1;
-                    error.Message += $"\n{name}: {pathFile}: No such file or directory";
+                    error.Message += $"{name}: {pathFile}: No such file or directory\n";
                 }
                 else
                 {
                     string text = File.ReadAllText(abcolutePath);
                     stdOut += text;
-                    error.Message += "\n" + text;
                 }
             }
-            if (error.StdErr != 0) error.Message = error.Message.Substring(1);
         }
     }
 }

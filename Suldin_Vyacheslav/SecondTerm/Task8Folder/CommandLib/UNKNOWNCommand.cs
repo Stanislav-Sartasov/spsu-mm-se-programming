@@ -26,7 +26,7 @@ namespace CommandLib
                 catch (Exception)
                 {
                     error.StdErr = 127;
-                    error.Message = $"{Name}: command not found";
+                    error.Message = $"{Name}: command not found\n";
                 }
             }
         }

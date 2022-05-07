@@ -23,13 +23,12 @@ namespace CommandLib
                     }
                     catch (DirectoryNotFoundException)
                     {
-                        error.Message += $"\n{name}: cannot touch {newFile}: No such file or directory";
+                        error.Message += $"{name}: cannot touch {newFile}: No such file or directory\n";
                         error.StdErr = 1;
                     }
                 }
             }
-            stdOut = string.Empty;
-            if (error.StdErr != 0) error.Message = error.Message[1..];
+            stdOut = stdOut == null ? null : stdOut[..^1];
         }
     }
 }

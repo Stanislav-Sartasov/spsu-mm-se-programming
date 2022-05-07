@@ -53,16 +53,16 @@ namespace CommandLib
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    error.Message = $"-mybash: {sumArgs[0]}: No sush file or directory";
+                    error.Message = $"-mybash: {sumArgs[0]}: No sush file or directory\n";
                     error.StdErr = 1;
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    error.Message = $"-mybash: {sumArgs[0]}: Is a directory";
+                    error.Message = $"-mybash: {sumArgs[0]}: Is a directory\n";
                     error.StdErr = 1;
                 }
             }
-            stdOut = "";
+            stdOut = stdOut == null ? null : stdOut[..^1];
         }
     }
 }

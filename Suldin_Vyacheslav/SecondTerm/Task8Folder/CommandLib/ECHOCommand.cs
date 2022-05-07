@@ -12,9 +12,9 @@
         {
             foreach (string arg in parametres)
             {
-                stdOut += " " + arg;
+                stdOut += arg + " ";
             }
-            stdOut = stdOut == null ? "": stdOut[1..];
+            stdOut = stdOut == null ? "": stdOut[..^1];
         }
     }
 }

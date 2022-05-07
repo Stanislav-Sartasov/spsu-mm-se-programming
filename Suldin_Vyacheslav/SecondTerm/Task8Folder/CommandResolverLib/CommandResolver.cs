@@ -37,17 +37,13 @@ namespace CommandResolverLib
                 response.IsInterrupting = command.IsExit();
                 command.SetStdIn(stdout);
                 command.Run();
-                if (command.GetErrorCode() == 0)
+                stdout = command.GetStdOut();
+                if (command.GetErrorCode() != 0)
                 {
-                    stdout = command.GetStdOut();
-                }
-                else
-                {
-                    response.Message = command.GetErrorMessage();
-                    return response;
+                    response.Message += command.GetErrorMessage();
                 }
             }
-            response.Message = stdout;
+            response.Message += stdout;
             return response;
         }
     }

@@ -15,13 +15,13 @@ namespace CommandLib
             if (parametres.Length == 0)
             {
                 var info = new StringInfo(stdIn);
-                stdOut = "\n" + info.GetAllInfo();
+                stdOut = info.GetAllInfo() + "\n";
             }
             else if (parametres.Length == 1)
             {
                 string text = ReadFile(parametres[0]);
                 var info = new StringInfo(text);
-                stdOut = "\n" + info.GetAllInfo();
+                stdOut = info.GetAllInfo() + "\n";
             }
             else
             {
@@ -35,14 +35,11 @@ namespace CommandLib
                     totalWords += info.Words;
                     totalStrings += info.Strings;
                     totalBytes += info.Bytes;
-                    stdOut += "\n" + info.GetAllInfo() + " " + path;
-                    error.Message += "\n" + info.GetAllInfo() + " " + path;
+                    stdOut +=  info.GetAllInfo() + " " + path + "\n";
                 }
-                stdOut += $"\n{totalStrings} {totalWords} {totalBytes} total";
-                
+                stdOut += $"{totalStrings} {totalWords} {totalBytes} total\n";
             }
-            error.Message = error.Message == null ? null : error.Message = error.Message[1..];
-            stdOut = stdOut[1..];
+            stdOut = stdOut == null ? null : stdOut[..^1];
         }
         public string ReadFile(string path)
         {
@@ -53,12 +50,12 @@ namespace CommandLib
             }
             catch (UnauthorizedAccessException)
             {
-                error.Message += $"\n{name}: {path}: Is a directory";
+                error.Message += $"{name}: {path}: Is a directory\n";
                 error.StdErr = 1;
             }
             catch (FileNotFoundException)
             {
-                error.Message += $"\n{name}: {path}: No such file or directory";
+                error.Message += $"{name}: {path}: No such file or directory\n";
                 error.StdErr = 1;
             }
             return null;

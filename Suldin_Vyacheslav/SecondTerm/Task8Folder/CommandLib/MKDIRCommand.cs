@@ -23,18 +23,17 @@ namespace CommandLib
                     }
                     catch (IOException)
                     {
-                        error.Message += $"\n{name}: cannot create directory ‘{newDirectory}’: Not supported name";
+                        error.Message += $"{name}: cannot create directory ‘{newDirectory}’: Not supported name\n";
                         error.StdErr = 1;
                     }
                 }
                 else
                 {
-                    error.Message += $"\n{name}: cannot create directory ‘{newDirectory}’: File exists";
+                    error.Message += $"{name}: cannot create directory ‘{newDirectory}’: File exists\n";
                     error.StdErr = 1;
                 }
             }
-            stdOut = string.Empty;
-            if (error.StdErr != 0) error.Message = error.Message[1..];
+            stdOut = stdOut == null ? null : stdOut[..^1];
         }
     }
 }

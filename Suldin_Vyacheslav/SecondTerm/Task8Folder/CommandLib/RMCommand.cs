@@ -19,7 +19,7 @@ namespace CommandLib
                 {
                     if (!File.Exists(absolutePath))
                     {
-                        error.Message += $"\n{name}: cannot remove \'{delFile}\': No such file or directory";
+                        error.Message += $"{name}: cannot remove \'{delFile}\': No such file or directory\n";
                         error.StdErr = 1;
                     }
                     else
@@ -29,12 +29,11 @@ namespace CommandLib
                 }
                 else
                 {
-                    error.Message += $"\n{name}: cannot remove \'{delFile}\': Is a directory";
+                    error.Message += $"{name}: cannot remove \'{delFile}\': Is a directory\n";
                     error.StdErr = 1;
                 }
             }
             stdOut = string.Empty;
-            if (error.StdErr != 0) error.Message = error.Message[1..];
         }
     }
 }

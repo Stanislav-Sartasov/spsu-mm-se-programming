@@ -14,7 +14,7 @@ namespace CommandLib
             if (parametres.Length > 1)
             {
                 error.StdErr = 1;
-                error.Message = $"{name}: too many arguments";
+                error.Message = $"{name}: too many arguments\n";
                 return;
             }
             else if (parametres.Length == 0)
@@ -27,8 +27,8 @@ namespace CommandLib
             string abcolutePath = Path.GetFullPath(arg, Environ.GetCurrentDirectory());
 
             Confirm(abcolutePath, arg);
-            
-            stdOut = "";
+
+            stdOut = stdOut == null ? null : stdOut[..^1];
             return;
         }
 
@@ -37,12 +37,12 @@ namespace CommandLib
             if (File.Exists(path))
             {
                 error.StdErr = 1;
-                error.Message = $"{name}: \'{obj}\': Not a directory";
+                error.Message = $"{name}: \'{obj}\': Not a directory\n";
             }
             else if (!Directory.Exists(path))
             {
                 error.StdErr = 1;
-                error.Message = $"{name}: \'{obj}\': No such directory";
+                error.Message = $"{name}: \'{obj}\': No such directory\n";
             }
             else
             {
