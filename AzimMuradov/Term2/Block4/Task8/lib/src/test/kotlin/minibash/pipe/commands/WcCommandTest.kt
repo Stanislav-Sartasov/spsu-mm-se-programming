@@ -111,6 +111,11 @@ internal class WcCommandTest {
 
     private companion object {
 
+        // Number of bytes in line separator
+
+        val nl = sep().toByteArray().size
+
+
         @JvmStatic
         fun inputsWithCommandRunOuts() = listOf(
             null to CommandRunOut(errors = "wc: no arguments${sep()}".asSequence()),
@@ -118,9 +123,9 @@ internal class WcCommandTest {
             "abc".asSequence() to CommandRunOut(output = " 0 1 3${sep()}".asSequence()),
             "abc xyz".asSequence() to CommandRunOut(output = " 0 2 7${sep()}".asSequence()),
             "abc  xyz".asSequence() to CommandRunOut(output = " 0 2 8${sep()}".asSequence()),
-            "abc${sep()}".asSequence() to CommandRunOut(output = " 1 1 4${sep()}".asSequence()),
-            "abc${sep()}xyz".asSequence() to CommandRunOut(output = " 1 2 7${sep()}".asSequence()),
-            "abc${sep()}xyz${sep()}12345".asSequence() to CommandRunOut(output = "   2   3  13${sep()}".asSequence())
+            "abc${sep()}".asSequence() to CommandRunOut(output = " 1 1 ${3 + nl}${sep()}".asSequence()),
+            "abc${sep()}xyz".asSequence() to CommandRunOut(output = " 1 2 ${6 + nl}${sep()}".asSequence()),
+            "abc${sep()}xyz${sep()}12345".asSequence() to CommandRunOut(output = "   2   3  ${11 + nl * 2}${sep()}".asSequence())
         ).asArguments()
 
         @JvmStatic
@@ -129,9 +134,9 @@ internal class WcCommandTest {
             "abc" to " 0 1 3${sep()}".asSequence(),
             "abc xyz" to " 0 2 7${sep()}".asSequence(),
             "abc  xyz" to " 0 2 8${sep()}".asSequence(),
-            "abc${sep()}" to " 1 1 4${sep()}".asSequence(),
-            "abc${sep()}xyz" to " 1 2 7${sep()}".asSequence(),
-            "abc${sep()}xyz${sep()}12345" to "   2   3  13${sep()}".asSequence(),
+            "abc${sep()}" to " 1 1 ${3 + nl}${sep()}".asSequence(),
+            "abc${sep()}xyz" to " 1 2 ${6 + nl}${sep()}".asSequence(),
+            "abc${sep()}xyz${sep()}12345" to "   2   3  ${11 + nl * 2}${sep()}".asSequence(),
         )
 
         @JvmStatic
