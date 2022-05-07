@@ -10,13 +10,11 @@ class ExternalCommand(override val name: String) : Command {
     override fun run(args: List<String>, input: Sequence<Char>?): CommandRunOut {
         val processBuilder = ProcessBuilder(name, *args.toTypedArray())
 
-        processBuilder.apply {
-            redirectInput(
-                File.createTempFile(name.padStart(length = 3, padChar = '-'), "minibash").apply {
-                    if (input != null) writeText(input.joinToString(separator = ""))
-                }
-            )
-        }
+        processBuilder.redirectInput(
+            File.createTempFile(name.padStart(length = 3, padChar = '-'), "minibash").apply {
+                if (input != null) writeText(input.joinToString(separator = ""))
+            }
+        )
 
         return try {
             val process = processBuilder.start()
