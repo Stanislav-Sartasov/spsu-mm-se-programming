@@ -37,29 +37,14 @@ class WcCommand(override val name: String) : Command {
     private fun String.runWc() = countInfo().format()
 
 
-    private fun String.countInfo(): Triple<Long, Long, Long> {
-        var lines: Long = 0
-        var words: Long = 0
-        var bytes: Long = 0
-        var isPrevByteIsWs = true
+    private fun String.countInfo() = Triple(
+        count { it == '\n' },
+        """\S+""".toRegex().findAll(input = this).count(),
+        asSequence().sumOf { it.toString().toByteArray().count() }
+    )
 
-        forEach {
-            if (it == '\n') lines += 1
-            if (it.isWhitespace()) {
-                if (!isPrevByteIsWs) words += 1
-                isPrevByteIsWs = true
-            } else {
-                isPrevByteIsWs = false
-            }
-            bytes += it.toString().toByteArray().size
-        }
-        if (!isPrevByteIsWs) words += 1
-
-        return Triple(lines, words, bytes)
-    }
-
-    private fun Triple<Long, Long, Long>.format(): String {
-        val infoInText = toList().map(Long::toString)
+    private fun Triple<Int, Int, Int>.format(): String {
+        val infoInText = toList().map(Int::toString)
         val maxLength = infoInText.maxOf(String::length)
         val padLength = generateSequence(seed = 2) { if (it <= maxLength) it * 2 else null }.last()
         val (l, w, b) = infoInText.map { it.padStart(padLength) }
