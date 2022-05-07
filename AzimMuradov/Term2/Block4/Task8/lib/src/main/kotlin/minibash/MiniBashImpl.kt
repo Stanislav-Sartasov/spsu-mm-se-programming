@@ -21,8 +21,8 @@ class MiniBashImpl(
         inputStream.use { `is` ->
             outputStream.use { os ->
                 errorsStream.use { es ->
-                    while (true) {
-                        val instruction = `is`.reader().buffered().readLine()?.let(parser::parse) ?: break
+                    for (line in `is`.bufferedReader().lineSequence()) {
+                        val instruction = parser.parse(line)
 
                         val (variable, output, errors, signal) = interpreter.interpret(instruction, variables)
 
@@ -31,10 +31,7 @@ class MiniBashImpl(
                         output?.forEach(os::print)
                         errors?.forEach(es::print)
 
-                        when (signal) {
-                            null -> Unit
-                            Signal.SIGINT -> break
-                        }
+                        if (signal == Signal.SIGINT) break
                     }
                 }
             }

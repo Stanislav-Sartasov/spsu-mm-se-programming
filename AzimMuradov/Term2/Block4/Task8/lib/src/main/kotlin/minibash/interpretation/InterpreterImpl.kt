@@ -29,7 +29,7 @@ class InterpreterImpl(private val availableCommands: List<Command>) : Interprete
     }
 
 
-    private fun ExpandableString.expand(variables: Map<String, String>): String = when (this) {
+    private fun ExpandableString.expand(variables: Map<String, String>) = when (this) {
         is ExpandableString.Quoted -> content.joinToString(separator = "") { varOrWord ->
             varOrWord.fold(
                 onLeft = { variables[it.name] ?: System.getenv()[it.name] ?: "" },

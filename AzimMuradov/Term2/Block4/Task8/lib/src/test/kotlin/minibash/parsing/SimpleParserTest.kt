@@ -1,12 +1,12 @@
 package minibash.parsing
 
+import minibash.TestUtils.asArguments
 import minibash.parsing.SimpleParser.INCORRECT_COMMAND_OR_PIPE_SYNTAX_ERROR_MESSAGE
 import minibash.parsing.SimpleParser.INCORRECT_VARIABLE_SYNTAX_ERROR_MESSAGE
 import minibash.parsing.SimpleParser.TOO_MANY_LINES_SYNTAX_ERROR_MESSAGE
 import minibash.utils.left
 import minibash.utils.right
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments.arguments
 import org.junit.jupiter.params.provider.MethodSource
 import kotlin.test.assertEquals
 import minibash.parsing.ExpandableString.Quoted as quoted
@@ -21,7 +21,7 @@ internal class SimpleParserTest {
 
     @ParameterizedTest
     @MethodSource("linesWithInstructions")
-    fun parse(line: String, instruction: Instruction) {
+    fun `parse line`(line: String, instruction: Instruction) {
         assertEquals(expected = instruction, actual = SimpleParser.parse(line))
     }
 
@@ -166,9 +166,9 @@ internal class SimpleParserTest {
             " \t \t " to none,
 
 
-            // Failed with too manu lines
+            // Failed with too many lines
 
             "cmd1\ncmd2" to err(message = TOO_MANY_LINES_SYNTAX_ERROR_MESSAGE),
-        ).map { (a, b) -> arguments(a, b) }
+        ).asArguments()
     }
 }

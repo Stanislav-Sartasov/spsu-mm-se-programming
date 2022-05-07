@@ -11,7 +11,7 @@ fun <T> T.left() = Either.Left(value = this)
 
 fun <T> T.right() = Either.Right(value = this)
 
-fun <L, R, T> Either<L, R>.fold(
+inline fun <L, R, T> Either<L, R>.fold(
     onLeft: (L) -> T,
     onRight: (R) -> T,
 ) = when (this) {

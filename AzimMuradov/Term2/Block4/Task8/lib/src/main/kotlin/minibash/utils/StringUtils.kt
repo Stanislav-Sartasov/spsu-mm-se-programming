@@ -4,10 +4,10 @@ object StringUtils {
 
     fun String.ln() = "$this${System.lineSeparator()}"
 
-    fun createErrorMessage(name: String, e: Throwable) =
-        "$name: ${e::class.simpleName}${e.message?.let { " \"$it\"" } ?: ""}".ln()
+    fun createErrorMessage(cmd: String, e: Throwable) =
+        "$cmd: ${e::class.simpleName}${if (e.message != null) " \"${e.message}\"" else ""}".ln()
 
-    fun createTooManyArgumentsErrorMessage(name: String) = "$name: too many arguments".ln()
+    fun createTooManyArgumentsErrorMessage(cmd: String) = "$cmd: too many arguments".ln()
 
-    fun createNoArgumentsErrorMessage(name: String) = "$name: no arguments".ln()
+    fun createNoArgumentsErrorMessage(cmd: String) = "$cmd: no arguments".ln()
 }

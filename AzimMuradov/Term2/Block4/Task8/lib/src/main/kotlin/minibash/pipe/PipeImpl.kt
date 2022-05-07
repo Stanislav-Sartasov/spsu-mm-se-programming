@@ -15,17 +15,18 @@ object PipeImpl : Pipe {
         ) { (input, accErrors), (cmd, args) ->
             val (output, errors, signal) = cmd.run(args, input)
 
-            when (signal) {
-                null -> CommandRunOut(
-                    output = output,
-                    errors = concat(accErrors, errors)
-                )
-                Signal.SIGINT -> return CommandRunOut(
+            if (signal == Signal.SIGINT) {
+                return CommandRunOut(
                     output = output,
                     errors = concat(accErrors, errors),
                     signal = signal
                 )
             }
+
+            CommandRunOut(
+                output = output,
+                errors = concat(accErrors, errors)
+            )
         }
     }
 }
