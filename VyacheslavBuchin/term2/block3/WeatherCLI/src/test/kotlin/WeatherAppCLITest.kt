@@ -121,7 +121,10 @@ Type 'refresh' to refresh the weather data
 
 		app.run()
 
-		assertEquals("$greetings$sep$serviceName:$sep$reportView".trim(), output.toString().trim())
+		assertEquals(
+			"$greetings$sep$serviceName:$sep$reportView".trim().replace("\\s+".toRegex(), " "),
+			output.toString().trim().replace("\\s+".toRegex(), " ")
+		)
 	}
 
 	@ParameterizedTest
@@ -137,7 +140,10 @@ Type 'refresh' to refresh the weather data
 
 		app.run()
 
-		assertEquals("$greetings$sep$serviceName:$sep$reportView$sep$sep$serviceName:$sep$reportView".trim(), output.toString().trim())
+		assertEquals(
+			"$greetings$sep$serviceName:$sep$reportView$sep$sep$serviceName:$sep$reportView".trim().replace("\\s+".toRegex(), " ")
+			, output.toString().trim().replace("\\s+".toRegex(), " ")
+		)
 	}
 
 	@Test
