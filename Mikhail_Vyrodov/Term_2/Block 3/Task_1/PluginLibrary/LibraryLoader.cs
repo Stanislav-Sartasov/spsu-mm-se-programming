@@ -10,6 +10,7 @@ namespace PluginLibrary
     public class LibraryLoader
     {
         private string libraryPath;
+        public string ExceptionMessage;
 
         public LibraryLoader(string path)
         {
@@ -25,8 +26,8 @@ namespace PluginLibrary
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return null;
+                ExceptionMessage = ex.Message;
+                throw ex;
             }
         }
     }

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Reflection;
 using PluginLibrary;
 
@@ -12,7 +13,14 @@ namespace PluginLibrary.UintTests
         {
             // Invalid path
             LibraryLoader testLoader = new LibraryLoader("invalid path");
-            Assert.AreEqual(testLoader.LoadLibrary(), null);
+            try
+            {
+                testLoader.LoadLibrary();
+            }
+            catch (Exception ex)
+            {
+                Assert.AreEqual(testLoader.ExceptionMessage, ex.Message);
+            }
         }
 
         [Test]
