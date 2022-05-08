@@ -8,7 +8,7 @@ import org.json.simple.parser.JSONParser
 import org.json.simple.parser.ParseException
 import report.WeatherReport
 
-class TomorrowIOJSONParser : JSONSimpleParser<WeatherReport>() {
+open class TomorrowIOJSONParser : JSONSimpleParser<WeatherReport>() {
 	override fun parse(rawJson: String): WeatherReport {
 		try {
 			var json = JSONParser().parse(rawJson) as JSONObject

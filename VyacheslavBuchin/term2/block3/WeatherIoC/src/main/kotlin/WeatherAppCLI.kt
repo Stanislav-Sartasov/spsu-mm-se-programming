@@ -14,6 +14,9 @@ class WeatherAppCLI(
 This app collects and prints weather report in ${location.name}
 Type 'quit' to exit of application
 Type 'refresh' to refresh the weather data
+Flags:
+[--openweathermap] to get data from openweathermap.org 
+[--tomorrowio] to get data from tomorrow.io
 """
 
 	private val scanner = Scanner(System.`in`)

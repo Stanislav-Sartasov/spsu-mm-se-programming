@@ -7,7 +7,7 @@ import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import org.json.simple.parser.ParseException
 
-class OpenWeatherMapJSONParser : JSONSimpleParser<WeatherReport>() {
+open class OpenWeatherMapJSONParser : JSONSimpleParser<WeatherReport>() {
 	override fun parse(rawJson: String): WeatherReport {
 		try {
 			val json = JSONParser().parse(rawJson) as JSONObject
