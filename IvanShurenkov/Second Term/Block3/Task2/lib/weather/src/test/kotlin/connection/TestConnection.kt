@@ -1,12 +1,11 @@
 package connection
 
 import io.mockk.every
-import io.mockk.spyk
+import io.mockk.mockk
 import lib.weather.connection.Connection
 import org.junit.jupiter.api.Test
 import java.io.File
 import java.net.HttpURLConnection
-import java.net.URL
 import kotlin.test.assertEquals
 
 class TestConnection {
@@ -22,8 +21,11 @@ class TestConnection {
     fun `Test get normal json`() {
         val url = "http://127.0.0.1:9000/test.json"
         val connection = Connection(url)
-        val conn = spyk(URL(url).openConnection() as HttpURLConnection)
+        val conn = mockk<HttpURLConnection>()
+        // (URL(url).openConnection() as HttpURLConnection)
 
+        every { conn.setRequestProperty(any(), any()) } answers  { callOriginal() }
+        every { conn.requestMethod = any() } answers { callOriginal() }
         every { conn.responseCode } returns 200
         every { conn.inputStream } returns File("src/test/resources/testConnection1.json").inputStream()
         every { conn.disconnect() } answers { nothing }
