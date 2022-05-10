@@ -64,9 +64,9 @@ namespace Bash.App
 					else
 						previousResults = commandExecutor.Execute(splittedCommand);
 
-					foreach (var argument in previousResults)
-						logger.Log(argument);
 				}
+				foreach (var argument in previousResults)
+					logger.Log(argument);
 			}
 		}
 
