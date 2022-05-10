@@ -23,8 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="background.jpg" />
-    <Resource Include="icon.ico" />
     <Resource Include="Resource\background.jpg" />
     <Resource Include="Resource\icon.ico" />
   </ItemGroup>

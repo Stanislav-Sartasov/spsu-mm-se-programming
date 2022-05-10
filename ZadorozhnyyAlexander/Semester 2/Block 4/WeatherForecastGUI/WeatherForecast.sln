@@ -31,7 +31,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinForms", "WinForms", "{10
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{98FC284C-1DF5-4851-BA5A-DEF40641F984}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfWeatherForecast", "WpfWeatherForecast\WpfWeatherForecast.csproj", "{17EDFA05-FB4B-4BC3-BA2A-26BCC52F9876}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherForecastGUIWpf", "WpfWeatherForecast\WeatherForecastGUIWpf.csproj", "{17EDFA05-FB4B-4BC3-BA2A-26BCC52F9876}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfWeatherForecastModel", "WpfWeatherForecastModel\WpfWeatherForecastModel.csproj", "{E04A3A3E-4A9C-4A53-9C73-1A2863BE63CB}"
 EndProject
