@@ -1,0 +1,47 @@
+{
+  "data": [
+    {
+      "rh": 95.6108,
+      "pod": "d",
+      "lon": 6,
+      "pres": 1011.71,
+      "timezone": "Europe\/Oslo",
+      "ob_time": "2022-05-06 19:16",
+      "country_code": "NO",
+      "clouds": 100,
+      "ts": 1651864560,
+      "solar_rad": 3.3,
+      "state_code": "14",
+      "city_name": "Jørpeland",
+      "wind_spd": 1.96739,
+      "wind_cdir_full": "Западный",
+      "wind_cdir": "З",
+      "slp": 1016.63,
+      "vis": 10,
+      "h_angle": 90,
+      "sunset": "19:40",
+      "dni": 226.71,
+      "dewpt": 7.9,
+      "snow": 0,
+      "uv": 0.543639,
+      "precip": 0,
+      "wind_dir": 265,
+      "sunrise": "03:25",
+      "ghi": 33.18,
+      "dhi": 27.76,
+      "aqi": 28,
+      "lat": 59,
+      "weather": {
+        "icon": "c04d",
+        "code": 804,
+        "description": "Облачно"
+      },
+      "datetime": "2022-05-06:19",
+      "temp": 8.9,
+      "station": "D4844",
+      "elev_angle": 3.66,
+      "app_temp": 8.9
+    }
+  ],
+  "count": 1
+}
