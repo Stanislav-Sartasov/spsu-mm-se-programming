@@ -44,7 +44,7 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 			bmp = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 			var gfx = Graphics.FromImage(bmp);
-			var brush = Brushes.White;
+			var brush = Brushes.Yellow;
 
 			gfx.TextRenderingHint = TextRenderingHint.AntiAlias;
 			gfx.DrawString(text, font, brush, new PointF(0, 0));
