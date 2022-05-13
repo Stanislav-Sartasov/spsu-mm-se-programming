@@ -290,7 +290,7 @@
 			this.buttonUpdate.TabIndex = 2;
 			this.buttonUpdate.Text = "Update";
 			this.buttonUpdate.UseVisualStyleBackColor = true;
-			this.buttonUpdate.Click += new System.EventHandler(this.buttonUpdate_Click);
+			this.buttonUpdate.Click += new System.EventHandler(this.ButtonUpdateClick);
 			// 
 			// buttonExit
 			// 
@@ -300,7 +300,7 @@
 			this.buttonExit.TabIndex = 3;
 			this.buttonExit.Text = "Exit";
 			this.buttonExit.UseVisualStyleBackColor = true;
-			this.buttonExit.Click += new System.EventHandler(this.buttonExit_Click);
+			this.buttonExit.Click += new System.EventHandler(this.ButtonExitClick);
 			// 
 			// pictureBoxOpenWeather
 			// 
@@ -340,7 +340,7 @@
 			this.Controls.Add(this.CelsiusLabel);
 			this.Name = "MainForm";
 			this.Text = "MainForm";
-			this.Load += new System.EventHandler(this.MainForm_Load);
+			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.leftPanel.ResumeLayout(false);
 			this.leftPanel.PerformLayout();
 			this.rightPanel.ResumeLayout(false);

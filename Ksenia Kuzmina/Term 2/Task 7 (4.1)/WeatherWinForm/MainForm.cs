@@ -16,12 +16,12 @@ namespace WeatherWinForm
 			FormBorderStyle = FormBorderStyle.FixedSingle;
 		}
 
-		private void buttonExit_Click(object sender, EventArgs e)
+		private void ButtonExitClick(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
 
-		private async void buttonUpdate_Click(object sender, EventArgs e)
+		private async void ButtonUpdateClick(object sender, EventArgs e)
 		{
 			LoadWeather();
 		}
@@ -113,7 +113,7 @@ namespace WeatherWinForm
 			return weather;
 		}
 
-		private async void MainForm_Load(object sender, EventArgs e)
+		private async void MainFormLoad(object sender, EventArgs e)
 		{
 			LoadWeather();
 		}
