@@ -1,0 +1,43 @@
+﻿<Window x:Class="WeatherWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherWpf"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="500">
+    <Grid>
+        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="20" TextWrapping="Wrap" Text="Current Weather in Saint Petersburg" VerticalAlignment="Top" Width="324"/>
+
+        <Button Name="UpdateButton"  Content="Update" HorizontalAlignment="Center" Margin="0,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.469,-1.782" Height="65" Width="146" Click="UpdateButtonClick"/>
+        <Button Name="ExitButton" Content="Exit" HorizontalAlignment="Center" Margin="0,359,0,0" VerticalAlignment="Top" Height="65" Width="146" Click="ExitButtonClick"/>
+
+        <Label Content="Celsius temperature" HorizontalAlignment="Center" Margin="0,126,0,0" VerticalAlignment="Top"/>
+        <Label Content="Fahrenheit temperature" HorizontalAlignment="Center" Margin="0,157,0,0" VerticalAlignment="Top"/>
+        <Label Content="CloudCover" HorizontalAlignment="Center" Margin="0,188,0,0" VerticalAlignment="Top"/>
+        <Label Content="Humidity" HorizontalAlignment="Center" Margin="0,219,0,0" VerticalAlignment="Top"/>
+        <Label Content="Precipitation" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top"/>
+        <Label Content="Wind direction" HorizontalAlignment="Center" Margin="0,281,0,0" VerticalAlignment="Top"/>
+        <Label Content="Wind speed" HorizontalAlignment="Center" Margin="0,312,0,0" VerticalAlignment="Top"/>
+
+        <TextBlock Name="TomorrowIoCelsius" HorizontalAlignment="Center" Margin="-350,134,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoFahrenheit" HorizontalAlignment="Center" Margin="-350,165,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoCloudCover" HorizontalAlignment="Center" Margin="-350,196,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoHumidity" HorizontalAlignment="Center" Margin="-350,227,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoPrecipitation" HorizontalAlignment="Center" Margin="-350,258,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoWindDirection" HorizontalAlignment="Center" Margin="-350,289,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="TomorrowIoWindSpeed" HorizontalAlignment="Center" Margin="-350,317,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+
+        <TextBlock Name="OpenWeatherCelsius" HorizontalAlignment="Center" Margin="350,129,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherFahrenheit" HorizontalAlignment="Center" Margin="350,160,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherCloudCover" HorizontalAlignment="Center" Margin="350,191,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherHumidity" HorizontalAlignment="Center" Margin="350,222,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherPrecipitation" HorizontalAlignment="Center" Margin="350,253,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherWindDirection" HorizontalAlignment="Center" Margin="350,284,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <TextBlock Name="OpenWeatherWindSpeed" HorizontalAlignment="Center" Margin="350,315,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+
+        <Image x:Name="TomorrowIo" Source="Images/TomorrowIo.png" HorizontalAlignment="Center" Height="37" Margin="-330,70,0,0" VerticalAlignment="Top" Width="160" />
+        <Image x:Name="OpenWeather" Source="Images/OpenWeather.png" HorizontalAlignment="Center" Height="53" Margin="330,66,0,0" VerticalAlignment="Top" Width="172"/>
+
+    </Grid>
+</Window>
