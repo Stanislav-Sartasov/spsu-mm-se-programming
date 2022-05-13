@@ -37,8 +37,8 @@ namespace WeatherUIOpenGL.Drawing.UI
 		private void CreateTextTexture(string text)
 		{
 			PrivateFontCollection collection = new PrivateFontCollection();
-			collection.AddFontFile(@"Files/fontb.ttf");
-			FontFamily fontFamily = new FontFamily("Open Sans Semibold", collection);
+			collection.AddFontFile(@"Files/comic.ttf");
+			FontFamily fontFamily = new FontFamily("Comic Sans MS", collection);
 
 			Font font = new Font(fontFamily, 28);
 
@@ -59,8 +59,8 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 		private void UpdateUniforms()
 		{
-			sprite.Shader.Use();
-			var location = sprite.Shader.GetUniformLocation("opacity");
+			sprite.shader.Use();
+			var location = sprite.shader.GetUniformLocation("opacity");
 			GL.Uniform1(location, 1f - textOpacity);
 		}
 

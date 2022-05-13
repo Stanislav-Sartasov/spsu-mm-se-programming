@@ -21,6 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Files\comic.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Files\font.ttf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
