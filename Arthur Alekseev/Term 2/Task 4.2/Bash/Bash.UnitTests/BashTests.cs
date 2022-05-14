@@ -77,7 +77,7 @@ namespace Bash.UnitTests
 			var lastProcessStarterDataCopy = lastProcessStarterData;
 
 			lastLoggerData = lastProcessStarterData = "";
-			Assert.AreEqual(bashIntroduction + Environment.NewLine + "123  " + Environment.NewLine, lastLoggerDataCopy);
+			Assert.AreEqual(bashIntroduction + Environment.NewLine + "123 " + Environment.NewLine, lastLoggerDataCopy);
 
 			Assert.Pass();
 		}
