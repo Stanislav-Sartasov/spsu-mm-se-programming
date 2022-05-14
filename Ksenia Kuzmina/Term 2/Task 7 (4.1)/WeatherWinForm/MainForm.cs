@@ -12,8 +12,6 @@ namespace WeatherWinForm
 		public MainForm()
 		{
 			InitializeComponent();
-
-			FormBorderStyle = FormBorderStyle.FixedSingle;
 		}
 
 		private void ButtonExitClick(object sender, EventArgs e)
@@ -57,7 +55,6 @@ namespace WeatherWinForm
 			UpdatePanelData(rightPanel, _weatherTomorrowIo);
 
 			UpdatePanelData(leftPanel, _weatherOpenWeather);
-
 		}
 
 		private void UpdatePanelData(Panel panel, Weather.Weather weatherResult)
