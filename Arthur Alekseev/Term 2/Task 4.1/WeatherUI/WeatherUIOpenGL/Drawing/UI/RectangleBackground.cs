@@ -26,10 +26,10 @@ namespace WeatherUIOpenGL.Drawing.UI
 
 		public void Render()
 		{
-            sprite.Shader.Use();
+            sprite.shader.Use();
 
-            var locationResolution = sprite.Shader.GetUniformLocation("innerResolution");
-            var locationColor = sprite.Shader.GetUniformLocation("color");
+            var locationResolution = sprite.shader.GetUniformLocation("innerResolution");
+            var locationColor = sprite.shader.GetUniformLocation("color");
 
             GL.Uniform2(locationResolution, innerResolution);
             GL.Uniform4(locationColor, Color);

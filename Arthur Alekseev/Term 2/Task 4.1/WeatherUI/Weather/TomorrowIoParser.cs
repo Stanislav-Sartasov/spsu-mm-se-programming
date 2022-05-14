@@ -12,7 +12,7 @@ namespace WeatherUI.Weather
 	{
 		public TomorrowIoParser(IWebParser webParser) : base(webParser)
 		{
-			_apiKey = "";
+			_apiKey = "2IMDIcNxc5HEY6N0aKoB3hDA4JOwO6Eh";
 			_url = "https://api.tomorrow.io/v4/timelines?&timesteps=current&fields=temperature,humidity,windSpeed,windDirection,precipitationType,cloudCover&location=59.791891,30.264067&apikey=";
 		}
 

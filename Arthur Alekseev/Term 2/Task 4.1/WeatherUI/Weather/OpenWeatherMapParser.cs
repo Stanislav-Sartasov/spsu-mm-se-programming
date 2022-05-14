@@ -7,7 +7,7 @@ namespace WeatherUI.Weather
 	{
 		public OpenWeatherMapParser(IWebParser parser) : base(parser)
 		{
-			_apiKey = "";
+			_apiKey = "a940f3a7de391a01b03acf028f94f092";
 			_url = "https://api.openweathermap.org/data/2.5/weather?q=Saint%20Petersburg,%20RU&id=524901&appid=";
 		}
 
