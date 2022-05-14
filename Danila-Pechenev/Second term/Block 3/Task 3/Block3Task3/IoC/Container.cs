@@ -47,8 +47,8 @@ public static class Container
     {
         var services = Host.CreateDefaultBuilder()
             .ConfigureServices(services => services
-            .AddSingleton<IWeatherGetter, TomorrowIoWeatherGetter>(service => UsedServices.Contains("TomorrowIo") ? TomorrowIoWeatherGetter.CreateGetter(pathToFileWithKey) : null)
-            .AddSingleton<IWeatherGetter, OpenWeatherMapGetter>(service => UsedServices.Contains("OpenWeatherMap") ? OpenWeatherMapGetter.CreateGetter(pathToFileWithKey) : null)
+            .AddSingleton<IWeatherGetter, TomorrowIoWeatherGetter>(provider => UsedServices.Contains("TomorrowIo") ? TomorrowIoWeatherGetter.CreateGetter(pathToFileWithKey) : null)
+            .AddSingleton<IWeatherGetter, OpenWeatherMapGetter>(provider => UsedServices.Contains("OpenWeatherMap") ? OpenWeatherMapGetter.CreateGetter(pathToFileWithKey) : null)
             )
             .Build().Services;
 
