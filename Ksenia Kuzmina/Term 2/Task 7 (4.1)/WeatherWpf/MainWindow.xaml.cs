@@ -42,70 +42,50 @@ namespace WeatherWpf
 			IParser parserTomorrowIo = new ParserTomorrowIo(client);
 			IParser parserOpenWeather = new ParserOpenWeather(client);
 
-			Weather.Weather _weatherTomorrowIo;
-			Weather.Weather _weatherOpenWeather;
+			Weather.Weather weatherTomorrowIo;
+			Weather.Weather weatherOpenWeather;
 
 			try
 			{
-				_weatherTomorrowIo = await GetWeather(parserTomorrowIo);
+				weatherTomorrowIo = await GetWeather(parserTomorrowIo);
 			}
 			catch
 			{
-				_weatherTomorrowIo = null;
+				weatherTomorrowIo = null;
 			}
 
 			try
 			{
-				_weatherOpenWeather = await GetWeather(parserOpenWeather);
+				weatherOpenWeather = await GetWeather(parserOpenWeather);
 			}
 			catch
 			{
-				_weatherOpenWeather = null;
+				weatherOpenWeather = null;
 			}
 
+			UpdateGrid(tomorrowIoGrid, weatherTomorrowIo);
 
-			if (_weatherTomorrowIo != null)
+			UpdateGrid(openWeatherGrid, weatherOpenWeather);
+		}
+
+		private void UpdateGrid(Grid grid, Weather.Weather? weather)
+		{
+			if (weather == null)
 			{
-				TomorrowIoCelsius.Text = _weatherTomorrowIo.CelsiusTemperature.ToString() + "°";
-				TomorrowIoFahrenheit.Text = _weatherTomorrowIo.FahrenheitTemperature.ToString() + "°";
-				TomorrowIoCloudCover.Text = _weatherTomorrowIo.CloudCover.ToString() + "%";
-				TomorrowIoPrecipitation.Text = _weatherTomorrowIo.Precipitation.ToString();
-				TomorrowIoHumidity.Text = _weatherTomorrowIo.Humidity.ToString() + "%";
-				TomorrowIoWindDirection.Text = _weatherTomorrowIo.WindDirection.ToString();
-				TomorrowIoWindSpeed.Text = _weatherTomorrowIo.WindSpeed.ToString() + "m/s";
-			}
-			else
-			{
-				TomorrowIoCelsius.Text = "No data";
-				TomorrowIoFahrenheit.Text = "No data";
-				TomorrowIoCloudCover.Text = "No data";
-				TomorrowIoPrecipitation.Text = "No data";
-				TomorrowIoHumidity.Text = "No data";
-				TomorrowIoWindDirection.Text = "No data";
-				TomorrowIoWindSpeed.Text = "No data";
+				foreach (var child in grid.Children)
+					if(child is TextBlock)
+						((TextBlock)child).Text = "No Data";
+
+				return;
 			}
 
-			if (_weatherOpenWeather != null)
-			{
-				OpenWeatherCelsius.Text = _weatherOpenWeather.CelsiusTemperature.ToString() + "°";
-				OpenWeatherFahrenheit.Text = _weatherOpenWeather.FahrenheitTemperature.ToString() + "°";
-				OpenWeatherCloudCover.Text = _weatherOpenWeather.CloudCover.ToString() + "%";
-				OpenWeatherPrecipitation.Text = _weatherOpenWeather.Precipitation.ToString();
-				OpenWeatherHumidity.Text = _weatherOpenWeather.Humidity.ToString() + "%";
-				OpenWeatherWindDirection.Text = _weatherOpenWeather.WindDirection.ToString();
-				OpenWeatherWindSpeed.Text = _weatherOpenWeather.WindSpeed.ToString() + "m/s";
-			}
-			else
-			{
-				OpenWeatherCelsius.Text = "No data";
-				OpenWeatherFahrenheit.Text = "No data";
-				OpenWeatherCloudCover.Text = "No data";
-				OpenWeatherPrecipitation.Text = "No data";
-				OpenWeatherHumidity.Text = "No data";
-				OpenWeatherWindDirection.Text = "No data";
-				OpenWeatherWindSpeed.Text = "No data";
-			}
-
+			((TextBlock)grid.Children[0]).Text = weather.CelsiusTemperature.ToString() + "°";
+			((TextBlock)grid.Children[1]).Text = weather.FahrenheitTemperature.ToString() + "°";
+			((TextBlock)grid.Children[2]).Text = weather.CloudCover.ToString() + "%";
+			((TextBlock)grid.Children[3]).Text = weather.Precipitation.ToString();
+			((TextBlock)grid.Children[4]).Text = weather.Humidity.ToString() + "%";
+			((TextBlock)grid.Children[5]).Text = weather.WindDirection.ToString();
+			((TextBlock)grid.Children[6]).Text = weather.WindSpeed.ToString() + "m/s";
 		}
 
 		private async Task<Weather.Weather> GetWeather(IParser parser)

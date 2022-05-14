@@ -7,37 +7,43 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="500">
     <Grid>
-        <TextBlock HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="20" TextWrapping="Wrap" Text="Current Weather in Saint Petersburg" VerticalAlignment="Top" Width="324"/>
+        <TextBlock HorizontalAlignment="Center" Margin="0,-370,0,0" FontSize="20" TextWrapping="Wrap" Text="Current Weather in Saint Petersburg" VerticalAlignment="Center" Width="324"/>
 
-        <Button Name="UpdateButton"  Content="Update" HorizontalAlignment="Center" Margin="0,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.469,-1.782" Height="65" Width="146" Click="UpdateButtonClick"/>
-        <Button Name="ExitButton" Content="Exit" HorizontalAlignment="Center" Margin="0,359,0,0" VerticalAlignment="Top" Height="65" Width="146" Click="ExitButtonClick"/>
+        <Button Name="updateButton"  Content="Update" HorizontalAlignment="Center" Margin="0,-250,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.469,-1.782" Height="65" Width="146" Click="UpdateButtonClick"/>
+        <Button Name="exitButton" Content="Exit" HorizontalAlignment="Center" Margin="0,330,0,0" VerticalAlignment="Center" Height="65" Width="146" Click="ExitButtonClick"/>
 
-        <Label Content="Celsius temperature" HorizontalAlignment="Center" Margin="0,126,0,0" VerticalAlignment="Top"/>
-        <Label Content="Fahrenheit temperature" HorizontalAlignment="Center" Margin="0,157,0,0" VerticalAlignment="Top"/>
-        <Label Content="CloudCover" HorizontalAlignment="Center" Margin="0,188,0,0" VerticalAlignment="Top"/>
-        <Label Content="Humidity" HorizontalAlignment="Center" Margin="0,219,0,0" VerticalAlignment="Top"/>
-        <Label Content="Precipitation" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top"/>
-        <Label Content="Wind direction" HorizontalAlignment="Center" Margin="0,281,0,0" VerticalAlignment="Top"/>
-        <Label Content="Wind speed" HorizontalAlignment="Center" Margin="0,312,0,0" VerticalAlignment="Top"/>
 
-        <TextBlock Name="TomorrowIoCelsius" HorizontalAlignment="Center" Margin="-350,134,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoFahrenheit" HorizontalAlignment="Center" Margin="-350,165,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoCloudCover" HorizontalAlignment="Center" Margin="-350,196,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoHumidity" HorizontalAlignment="Center" Margin="-350,227,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoPrecipitation" HorizontalAlignment="Center" Margin="-350,258,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoWindDirection" HorizontalAlignment="Center" Margin="-350,289,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="TomorrowIoWindSpeed" HorizontalAlignment="Center" Margin="-350,317,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
+        <Label Content="Celsius temperature" HorizontalAlignment="Center" Margin="0,-130,0,0" VerticalAlignment="Center"/>
+        <Label Content="Fahrenheit temperature" HorizontalAlignment="Center" Margin="0,-75,0,0" VerticalAlignment="Center"/>
+        <Label Content="CloudCover" HorizontalAlignment="Center" Margin="0,-20,0,0" VerticalAlignment="Center"/>
+        <Label Content="Humidity" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Center"/>
+        <Label Content="Precipitation" HorizontalAlignment="Center" Margin="0,90,0,0" VerticalAlignment="Center"/>
+        <Label Content="Wind direction" HorizontalAlignment="Center" Margin="0,145,0,0" VerticalAlignment="Center"/>
+        <Label Content="Wind speed" HorizontalAlignment="Center" Margin="0,200,0,0" VerticalAlignment="Center"/>
 
-        <TextBlock Name="OpenWeatherCelsius" HorizontalAlignment="Center" Margin="350,129,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherFahrenheit" HorizontalAlignment="Center" Margin="350,160,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherCloudCover" HorizontalAlignment="Center" Margin="350,191,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherHumidity" HorizontalAlignment="Center" Margin="350,222,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherPrecipitation" HorizontalAlignment="Center" Margin="350,253,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherWindDirection" HorizontalAlignment="Center" Margin="350,284,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
-        <TextBlock Name="OpenWeatherWindSpeed" HorizontalAlignment="Center" Margin="350,315,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Top"/>
 
-        <Image x:Name="TomorrowIo" Source="Images/TomorrowIo.png" HorizontalAlignment="Center" Height="37" Margin="-330,70,0,0" VerticalAlignment="Top" Width="160" />
-        <Image x:Name="OpenWeather" Source="Images/OpenWeather.png" HorizontalAlignment="Center" Height="53" Margin="330,66,0,0" VerticalAlignment="Top" Width="172"/>
+        <Grid x:Name="tomorrowIoGrid">
+            <TextBlock Name="tomorrowIoCelsius" HorizontalAlignment="Center" Margin="-350,-130,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoFahrenheit" HorizontalAlignment="Center" Margin="-350,-75,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoCloudCover" HorizontalAlignment="Center" Margin="-350,-20,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoHumidity" HorizontalAlignment="Center" Margin="-350,35,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoPrecipitation" HorizontalAlignment="Center" Margin="-350,90,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoWindDirection" HorizontalAlignment="Center" Margin="-350,145,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="tomorrowIoWindSpeed" HorizontalAlignment="Center" Margin="-350,200,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+        </Grid>
+
+        <Grid x:Name="openWeatherGrid">
+            <TextBlock Name="openWeatherCelsius" HorizontalAlignment="Center" Margin="350,-130,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherFahrenheit" HorizontalAlignment="Center" Margin="350,-75,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherCloudCover" HorizontalAlignment="Center" Margin="350,-20,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherHumidity" HorizontalAlignment="Center" Margin="350,35,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherPrecipitation" HorizontalAlignment="Center" Margin="350,90,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherWindDirection" HorizontalAlignment="Center" Margin="350,145,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+            <TextBlock Name="openWeatherWindSpeed" HorizontalAlignment="Center" Margin="350,200,0,0" TextWrapping="Wrap" Text="Waiting..." VerticalAlignment="Center"/>
+        </Grid>
+
+        <Image x:Name="tomorrowIo" Source="Images/TomorrowIo.png" HorizontalAlignment="Center" Height="37" Margin="-330,-250,0,0" VerticalAlignment="Center" Width="160" />
+        <Image x:Name="openWeather" Source="Images/OpenWeather.png" HorizontalAlignment="Center" Height="53" Margin="330,-250,0,0" VerticalAlignment="Center" Width="172"/>
 
     </Grid>
 </Window>

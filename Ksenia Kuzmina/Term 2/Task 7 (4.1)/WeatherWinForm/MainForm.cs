@@ -6,8 +6,8 @@ namespace WeatherWinForm
 {
 	public partial class MainForm : Form
 	{
-		private Weather.Weather _weatherOpenWeather;
-		private Weather.Weather _weatherTomorrowIo;
+		private Weather.Weather? _weatherOpenWeather;
+		private Weather.Weather? _weatherTomorrowIo;
 
 		public MainForm()
 		{
@@ -54,47 +54,28 @@ namespace WeatherWinForm
 				_weatherOpenWeather = null;
 			}
 
-			if (_weatherTomorrowIo != null)
+			UpdatePanelData(rightPanel, _weatherTomorrowIo);
+
+			UpdatePanelData(leftPanel, _weatherOpenWeather);
+
+		}
+
+		private void UpdatePanelData(Panel panel, Weather.Weather weatherResult)
+		{
+			if (weatherResult == null)
 			{
-				tomorrowIoCelsiusLabel.Text = _weatherTomorrowIo.CelsiusTemperature.ToString() + "°";
-				tomorrowIoFahrenheitLabel.Text = _weatherTomorrowIo.FahrenheitTemperature.ToString() + "°";
-				tomorrowIoCloudCoverLabel.Text = _weatherTomorrowIo.CloudCover.ToString() + "%";
-				tomorrowIoPrecipationLabel.Text = _weatherTomorrowIo.Precipitation.ToString();
-				tomorrowIoHumidityLabel.Text = _weatherTomorrowIo.Humidity.ToString() + "%";
-				tomorrowIoWindDirectionLabel.Text = _weatherTomorrowIo.WindDirection.ToString();
-				tomorrowIoWindSpeedLabel.Text = _weatherTomorrowIo.WindSpeed.ToString() + "m/s";
-			}
-			else
-			{
-				tomorrowIoCelsiusLabel.Text = "No data";
-				tomorrowIoFahrenheitLabel.Text = "No data";
-				tomorrowIoCloudCoverLabel.Text = "No data";
-				tomorrowIoPrecipationLabel.Text = "No data";
-				tomorrowIoHumidityLabel.Text = "No data";
-				tomorrowIoWindDirectionLabel.Text = "No data";
-				tomorrowIoWindSpeedLabel.Text = "No data";
+				for (int i = 0; i < 7; i++)
+					panel.Controls[1 + i].Text = "No data";
+				return;
 			}
 
-			if (_weatherOpenWeather != null)
-			{
-				openWeatherCelsiusLabel.Text = _weatherOpenWeather.CelsiusTemperature.ToString() + "°";
-				openWeatherFahrenheitLabel.Text = _weatherOpenWeather.FahrenheitTemperature.ToString() + "°";
-				openWeatherCloudCoverLabel.Text = _weatherOpenWeather.CloudCover.ToString() + "%";
-				openWeatherPrecipationLabel.Text = _weatherOpenWeather.Precipitation.ToString();
-				openWeatherHumidityLabel.Text = _weatherOpenWeather.Humidity.ToString() + "%";
-				openWeatherWindDirectionLabel.Text = _weatherOpenWeather.WindDirection.ToString();
-				openWeatherWindSpeedLabel.Text = _weatherOpenWeather.WindSpeed.ToString() + "m/s";
-			}
-			else
-			{
-				openWeatherCelsiusLabel.Text = "No data";
-				openWeatherFahrenheitLabel.Text = "No data";
-				openWeatherCloudCoverLabel.Text = "No data";
-				openWeatherPrecipationLabel.Text = "No data";
-				openWeatherHumidityLabel.Text = "No data";
-				openWeatherWindDirectionLabel.Text = "No data";
-				openWeatherWindSpeedLabel.Text = "No data";
-			}
+			panel.Controls[1].Text = weatherResult.CelsiusTemperature.ToString() + "°";
+			panel.Controls[2].Text = weatherResult.FahrenheitTemperature.ToString() + "°";
+			panel.Controls[3].Text = weatherResult.CloudCover.ToString() + "%";
+			panel.Controls[4].Text = weatherResult.Precipitation.ToString();
+			panel.Controls[5].Text = weatherResult.Humidity.ToString() + "%";
+			panel.Controls[6].Text = weatherResult.WindDirection.ToString();
+			panel.Controls[7].Text = weatherResult.WindSpeed.ToString() + "m/s";
 		}
 
 		private static async Task<Weather.Weather> GetWeather(IParser parser)

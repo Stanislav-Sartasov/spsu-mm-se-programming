@@ -30,6 +30,7 @@
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.leftPanel = new System.Windows.Forms.Panel();
+			this.pictureBoxOpenWeather = new System.Windows.Forms.PictureBox();
 			this.openWeatherWindSpeedLabel = new System.Windows.Forms.Label();
 			this.openWeatherWindDirectionLabel = new System.Windows.Forms.Label();
 			this.openWeatherPrecipationLabel = new System.Windows.Forms.Label();
@@ -45,6 +46,7 @@
 			this.FahrenheitLabel = new System.Windows.Forms.Label();
 			this.CelsiusLabel = new System.Windows.Forms.Label();
 			this.rightPanel = new System.Windows.Forms.Panel();
+			this.pictureBoxTomorrowIo = new System.Windows.Forms.PictureBox();
 			this.tomorrowIoWindSpeedLabel = new System.Windows.Forms.Label();
 			this.tomorrowIoWindDirectionLabel = new System.Windows.Forms.Label();
 			this.tomorrowIoPrecipationLabel = new System.Windows.Forms.Label();
@@ -54,11 +56,9 @@
 			this.tomorrowIoCelsiusLabel = new System.Windows.Forms.Label();
 			this.buttonUpdate = new System.Windows.Forms.Button();
 			this.buttonExit = new System.Windows.Forms.Button();
-			this.pictureBoxOpenWeather = new System.Windows.Forms.PictureBox();
-			this.pictureBoxTomorrowIo = new System.Windows.Forms.PictureBox();
 			this.leftPanel.SuspendLayout();
-			this.rightPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOpenWeather)).BeginInit();
+			this.rightPanel.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTomorrowIo)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -76,6 +76,16 @@
 			this.leftPanel.Name = "leftPanel";
 			this.leftPanel.Size = new System.Drawing.Size(326, 520);
 			this.leftPanel.TabIndex = 0;
+			// 
+			// pictureBoxOpenWeather
+			// 
+			this.pictureBoxOpenWeather.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxOpenWeather.Image")));
+			this.pictureBoxOpenWeather.Location = new System.Drawing.Point(0, 0);
+			this.pictureBoxOpenWeather.Name = "pictureBoxOpenWeather";
+			this.pictureBoxOpenWeather.Size = new System.Drawing.Size(326, 70);
+			this.pictureBoxOpenWeather.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBoxOpenWeather.TabIndex = 7;
+			this.pictureBoxOpenWeather.TabStop = false;
 			// 
 			// openWeatherWindSpeedLabel
 			// 
@@ -219,6 +229,16 @@
 			this.rightPanel.Size = new System.Drawing.Size(326, 520);
 			this.rightPanel.TabIndex = 1;
 			// 
+			// pictureBoxTomorrowIo
+			// 
+			this.pictureBoxTomorrowIo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxTomorrowIo.Image")));
+			this.pictureBoxTomorrowIo.Location = new System.Drawing.Point(0, 0);
+			this.pictureBoxTomorrowIo.Name = "pictureBoxTomorrowIo";
+			this.pictureBoxTomorrowIo.Size = new System.Drawing.Size(326, 70);
+			this.pictureBoxTomorrowIo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBoxTomorrowIo.TabIndex = 8;
+			this.pictureBoxTomorrowIo.TabStop = false;
+			// 
 			// tomorrowIoWindSpeedLabel
 			// 
 			this.tomorrowIoWindSpeedLabel.AutoSize = true;
@@ -302,26 +322,6 @@
 			this.buttonExit.UseVisualStyleBackColor = true;
 			this.buttonExit.Click += new System.EventHandler(this.ButtonExitClick);
 			// 
-			// pictureBoxOpenWeather
-			// 
-			this.pictureBoxOpenWeather.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxOpenWeather.Image")));
-			this.pictureBoxOpenWeather.Location = new System.Drawing.Point(0, 0);
-			this.pictureBoxOpenWeather.Name = "pictureBoxOpenWeather";
-			this.pictureBoxOpenWeather.Size = new System.Drawing.Size(326, 70);
-			this.pictureBoxOpenWeather.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBoxOpenWeather.TabIndex = 7;
-			this.pictureBoxOpenWeather.TabStop = false;
-			// 
-			// pictureBoxTomorrowIo
-			// 
-			this.pictureBoxTomorrowIo.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxTomorrowIo.Image")));
-			this.pictureBoxTomorrowIo.Location = new System.Drawing.Point(0, 0);
-			this.pictureBoxTomorrowIo.Name = "pictureBoxTomorrowIo";
-			this.pictureBoxTomorrowIo.Size = new System.Drawing.Size(326, 70);
-			this.pictureBoxTomorrowIo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.pictureBoxTomorrowIo.TabIndex = 8;
-			this.pictureBoxTomorrowIo.TabStop = false;
-			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
@@ -338,14 +338,16 @@
 			this.Controls.Add(this.leftPanel);
 			this.Controls.Add(this.FahrenheitLabel);
 			this.Controls.Add(this.CelsiusLabel);
+			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+			this.MaximizeBox = false;
 			this.Name = "MainForm";
 			this.Text = "MainForm";
 			this.Load += new System.EventHandler(this.MainFormLoad);
 			this.leftPanel.ResumeLayout(false);
 			this.leftPanel.PerformLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOpenWeather)).EndInit();
 			this.rightPanel.ResumeLayout(false);
 			this.rightPanel.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoxOpenWeather)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxTomorrowIo)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
