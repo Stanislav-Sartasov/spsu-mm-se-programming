@@ -15,6 +15,10 @@ namespace CommandLib
         }
         public override void Run()
         {
+            if (parametres.Length == 0)
+            {
+                return;
+            }
             ICommand initialCommand = creator.Create(parametres[0]);
             initialCommand.SetStdIn(stdIn);
             initialCommand.Run();
