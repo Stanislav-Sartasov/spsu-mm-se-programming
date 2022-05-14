@@ -66,7 +66,8 @@ namespace Bash.App
 
 				}
 				foreach (var argument in previousResults)
-					logger.Log(argument);
+					logger.Log(argument + Environment.NewLine);
+				logger.Log(Environment.NewLine);
 			}
 		}
 

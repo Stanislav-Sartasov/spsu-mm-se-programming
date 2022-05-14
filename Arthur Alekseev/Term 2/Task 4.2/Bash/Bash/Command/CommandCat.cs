@@ -16,7 +16,9 @@ namespace Bash.Command
 			for (int i = 0; i < args.Length; i++)
 				try
 				{
-					result.Add(File.ReadAllText(args[i]));
+					var fileData = File.ReadAllText(args[i]);
+					foreach(var fileString in fileData.Split(Environment.NewLine))
+						result.Add(fileString);
 				}
 				catch
 				{

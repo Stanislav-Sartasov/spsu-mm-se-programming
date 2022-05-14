@@ -4,6 +4,7 @@ using Bash.ProcessStarter;
 using Moq;
 using Bash.App.BashComponents.Exceptions;
 using Bash.App.Output;
+using System;
 
 namespace Bash.UnitTests
 {
@@ -76,7 +77,7 @@ namespace Bash.UnitTests
 			var lastProcessStarterDataCopy = lastProcessStarterData;
 
 			lastLoggerData = lastProcessStarterData = "";
-			Assert.AreEqual(bashIntroduction + "123", lastLoggerDataCopy);
+			Assert.AreEqual(bashIntroduction + Environment.NewLine + "123  " + Environment.NewLine, lastLoggerDataCopy);
 
 			Assert.Pass();
 		}
@@ -97,7 +98,7 @@ namespace Bash.UnitTests
 			var lastProcessStarterDataCopy = lastProcessStarterData;
 
 			lastLoggerData = lastProcessStarterData = "";
-			Assert.AreEqual(bashIntroduction + new VariableAssignmentException().Message, lastLoggerDataCopy);
+			Assert.AreEqual(bashIntroduction + new VariableAssignmentException().Message + Environment.NewLine, lastLoggerDataCopy);
 
 			Assert.Pass();
 		}

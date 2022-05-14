@@ -5,7 +5,7 @@
 		public void Log(string arg)
 		{
 			Console.ForegroundColor = ConsoleColor.Yellow;
-			Console.WriteLine(arg);
+			Console.Write(arg);
 			Console.ForegroundColor = ConsoleColor.White;
 		}
 

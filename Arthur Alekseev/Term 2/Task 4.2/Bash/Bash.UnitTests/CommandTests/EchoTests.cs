@@ -42,7 +42,7 @@ namespace Bash.UnitTests.CommandTests
 			var output = fakeLoggerLastMessage;
 			fakeLoggerLastMessage = "";
 
-			Assert.AreEqual(output, "Hello world!");
+			Assert.AreEqual(output, "Hello world! ");
 			Assert.AreEqual(0, result.Length);
 
 			Assert.Pass();
@@ -55,7 +55,7 @@ namespace Bash.UnitTests.CommandTests
 			var output = fakeLoggerLastMessage;
 			fakeLoggerLastMessage = "";
 
-			Assert.AreEqual(output, "Hello world!" + "I love cheese" + "I have no ideas");
+			Assert.AreEqual(output, "Hello world! " + "I love cheese  " + "I have no ideas ");
 			Assert.AreEqual(0, result.Length);
 
 			Assert.Pass();

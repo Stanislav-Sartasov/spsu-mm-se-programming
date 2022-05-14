@@ -57,7 +57,7 @@ namespace Bash.UnitTests.BashComponentsTests
 
 			lastLoggerData = lastProcessStarterData = "";
 
-			Assert.AreEqual("arg1arg2", lastLoggerDataCopy);
+			Assert.AreEqual("arg1 arg2 ", lastLoggerDataCopy);
 			Assert.AreEqual("", lastProcessStarterDataCopy);
 
 			Assert.AreEqual(0, result.Length);

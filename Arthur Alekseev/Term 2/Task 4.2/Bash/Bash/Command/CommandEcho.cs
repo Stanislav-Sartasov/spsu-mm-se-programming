@@ -21,9 +21,7 @@ namespace Bash.Command
 		public string[] Execute(string[] args)
 		{
 			foreach (var arg in args)
-				logger.Log(arg);
-			if(args.Length > 0)
-				logger.Log("");
+				logger.Log(arg + " ");
 			return new string[0];
 		}
 	}

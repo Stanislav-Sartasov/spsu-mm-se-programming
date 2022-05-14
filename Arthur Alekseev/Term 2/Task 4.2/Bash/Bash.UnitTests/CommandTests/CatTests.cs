@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using Bash.Command;
 using System.IO;
+using System;
 
 namespace Bash.UnitTests
 {
@@ -36,11 +37,12 @@ namespace Bash.UnitTests
 		{
 			string[] result = executor.Execute(new string[] { path + "first.txt" });
 
-			Assert.AreEqual(1, result.Length);
+			Assert.AreEqual(3, result.Length);
 			var trueRes = @"first
 file
 contents";
-			Assert.AreEqual(trueRes, result[0]);
+			for (int i = 0; i < 3; i++)
+				Assert.AreEqual(trueRes.Split(Environment.NewLine)[i], result[i]);
 			Assert.Pass();
 		}
 
@@ -49,10 +51,8 @@ contents";
 		{
 			string[] result = executor.Execute(new string[] { path + "first.txt", path + "second.txt", path + "third", path + "file number four.txt" });
 
-			Assert.AreEqual(4, result.Length);
-			var trueResults = new string[] { @"first
-file
-contents", @"second file contents", @"thirdFileContents", @"FOUR" };
+			Assert.AreEqual(6, result.Length);
+			var trueResults = new string[] { @"first", @"file", @"contents", @"second file contents", @"thirdFileContents", @"FOUR" };
 
 			for (int i = 0; i < 4; i++)
 				Assert.AreEqual(trueResults[i], result[i]);
@@ -64,10 +64,8 @@ contents", @"second file contents", @"thirdFileContents", @"FOUR" };
 		{
 			string[] result = executor.Execute(new string[] { path + "first.txt", path + "second.txt", path + "third", path + "file number four.txt", path + "nonexistant file.wav" });
 
-			Assert.AreEqual(5, result.Length);
-			var trueResults = new string[] { @"first
-file
-contents", @"second file contents", @"thirdFileContents", @"FOUR", "No such file or directory" };
+			Assert.AreEqual(7, result.Length);
+			var trueResults = new string[] { @"first", @"file", @"contents", @"second file contents", @"thirdFileContents", @"FOUR", "No such file or directory" };
 
 			for (int i = 0; i < 5; i++)
 				Assert.AreEqual(trueResults[i], result[i]);
