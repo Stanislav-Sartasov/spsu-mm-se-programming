@@ -9,7 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Task 5\Weather.csproj" />
     <ProjectReference Include="..\..\WeatherGetter\WeatherGetter.csproj" />
   </ItemGroup>
 
