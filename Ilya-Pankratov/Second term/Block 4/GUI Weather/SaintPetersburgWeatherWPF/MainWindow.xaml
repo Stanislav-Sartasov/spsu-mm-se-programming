@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SaintPetersburgWeatherWPF"
         mc:Ignorable="d"
-        Title="Saint Petersburg Weather Forecastss" MinHeight="650" Height="650"  Width="1000"  MinWidth="1000"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" WindowState="Normal">
+        Title="Saint Petersburg Weather Forecastss" MinHeight="650" Height="650"  Width="1000"  MinWidth="1000"  WindowStyle="ThreeDBorderWindow" WindowStartupLocation="CenterScreen" WindowState="Normal" Icon="/icon.png">
 
     <Window.Resources>
         <Style TargetType="Button" x:Key="Custom">
