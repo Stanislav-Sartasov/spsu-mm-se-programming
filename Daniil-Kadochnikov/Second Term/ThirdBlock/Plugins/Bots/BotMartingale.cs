@@ -1,0 +1,51 @@
+﻿using Roulette.Bets;
+using Roulette;
+using System;
+using System.Collections.Generic;
+
+namespace Bots
+{
+	public class BotMartingale : Bot
+	{
+		public BotMartingale(string name, int deposit) : base(name, deposit)
+		{
+			wins = BetsWin - 1;
+		}
+
+		public override List<Bet> MakeBet(int player)
+		{
+			if (Balance == 0)
+			{
+				Console.WriteLine("BotMartingale lost all his money.");
+				flag = 0;
+				return null;
+			}
+
+			List<Bet> playersBets = new List<Bet>();
+
+			if (wins < BetsWin)
+			{
+				wins++;
+				money = Balance / 40;
+				betDirector.Construct(player, money);
+				playersBets.Add(betDirector.GetBet());
+				Balance -= money;
+			}
+			else
+			{
+				money *= 2;
+				if (money > Balance)
+				{
+					Console.WriteLine("BotMartingale has some money, but it is impossible to continue the tactic.");
+					flag = 0;
+					return null;
+				}
+
+				betDirector.Construct(player, money);
+				playersBets.Add(betDirector.GetBet());
+				Balance -= money;
+			}
+			return playersBets;
+		}
+	}
+}
