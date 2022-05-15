@@ -132,6 +132,7 @@
             this.Controls.Add(this.updateButton);
             this.Font = new System.Drawing.Font("JetBrains Mono", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
             this.Name = "MainForm";
             this.Text = "Weather";
             this.ResumeLayout(false);

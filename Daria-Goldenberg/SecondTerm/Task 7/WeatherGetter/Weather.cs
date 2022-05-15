@@ -1,4 +1,4 @@
-﻿namespace Task_5
+﻿namespace WeatherGetter
 {
 	public class Weather
 	{

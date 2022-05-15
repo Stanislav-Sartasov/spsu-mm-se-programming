@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
 
-namespace Task_5
+namespace WeatherGetter
 {
 	public class TomorrowIo : Site
 	{

@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Task_5;
+using WeatherGetter;
 
 namespace Task_7.UnitTests
 {

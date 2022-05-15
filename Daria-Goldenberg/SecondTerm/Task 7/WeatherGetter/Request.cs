@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Task_5
+namespace WeatherGetter
 {
 	public class Request : IRequest
 	{

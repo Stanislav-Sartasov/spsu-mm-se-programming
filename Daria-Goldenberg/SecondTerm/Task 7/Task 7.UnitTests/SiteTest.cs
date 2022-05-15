@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using Moq;
 using System;
-using Task_5;
+using WeatherGetter;
 
 namespace Task_7.UnitTests
 {
