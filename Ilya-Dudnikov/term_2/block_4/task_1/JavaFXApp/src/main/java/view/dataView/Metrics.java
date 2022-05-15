@@ -5,7 +5,8 @@ public enum Metrics {
 	DEGREES_FAHRENHEIT,
 	DEGREES,
 	PERCENT,
-	MM_S,
+	M_S,
+	MM,
 	NONE;
 
 	public String toString() {
@@ -16,7 +17,8 @@ public enum Metrics {
 			case DEGREES_FAHRENHEIT -> result = "\u00B0F";
 			case DEGREES -> result = "\u00B0";
 			case PERCENT -> result = "%";
-			case MM_S -> result = "mm/s";
+			case M_S -> result = "m/s";
+			case MM -> result = "mm";
 		}
 		return result;
 	}

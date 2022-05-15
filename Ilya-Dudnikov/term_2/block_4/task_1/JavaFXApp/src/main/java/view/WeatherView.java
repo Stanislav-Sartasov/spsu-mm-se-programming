@@ -24,14 +24,32 @@ public class WeatherView extends BorderPane {
 		this.weatherModel = weatherModel;
 	}
 
-	private void drawWeatherStatus(WeatherData data) {
-		ImageView imageView = new ImageView("file:" + RESOURCES_PATH + "sunny.png");
+	private ImageView chooseWeatherIcon(WeatherData data) {
+		String path = "file:" + RESOURCES_PATH;
+
+		if (data.precipitation() >= 0.2)
+			return new ImageView(path + "rainy.png");
+
+		if (data.cloudCover() < 30) {
+			if (data.airTemperatureC() > 0)
+				path += "sunny.png";
+			else
+				path += "cold.png";
+		} else if (data.cloudCover() < 70) {
+			path += "cloudyWithSun.png";
+		} else {
+			path += "fullCloudy.png";
+		}
+
+		return new ImageView(path);
+	}
+
+	private void drawWeatherStatus(ImageView icon) {
 		Label label = new Label();
-		label.setGraphic(imageView);
+		label.setGraphic(icon);;
 
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(label, getCenter());
-		hBox.setFillHeight(true);
 		hBox.setAlignment(Pos.CENTER);
 		hBox.setSpacing(5.);
 		setCenter(hBox);
@@ -39,20 +57,20 @@ public class WeatherView extends BorderPane {
 
 	public void outputData() {
 		// var data = weatherModel.getData();
-		var data = new WeatherData(10., 15., 11., 12., 13., 14., 10.);
+		var data = new WeatherData(10., 15., 80., 12., 0., 14., 10.);
 
 		Temperature temperature = new Temperature(data);
 
 		setCenter(temperature);
 		temperature.outputData();
-		drawWeatherStatus(data);
+		drawWeatherStatus(chooseWeatherIcon(data));
 
 		ArrayList<DataView> dataList = new ArrayList<>() {{
 			add(new DataView("cloudCover", data.cloudCover(), RESOURCES_PATH + "cloudCover.png", Metrics.PERCENT));
 			add(new DataView("humidity", data.humidity(), RESOURCES_PATH + "humidity.png", Metrics.PERCENT));
-			add(new DataView("precipitation", data.precipitation(), RESOURCES_PATH + "precipitation.png", Metrics.PERCENT));
+			add(new DataView("precipitation", data.precipitation(), RESOURCES_PATH + "precipitation.png", Metrics.MM));
 			add(new DataView("windDirection", data.windDirection(), RESOURCES_PATH + "windDirection.png", Metrics.DEGREES));
-			add(new DataView("windSpeed", data.windSpeed(), RESOURCES_PATH + "windSpeed.png", Metrics.MM_S));
+			add(new DataView("windSpeed", data.windSpeed(), RESOURCES_PATH + "windSpeed.png", Metrics.M_S));
 		}};
 
 		dataList.forEach(DataView::outputData);
