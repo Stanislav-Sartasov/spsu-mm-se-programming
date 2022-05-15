@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.forecastIntervalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menu = new System.Windows.Forms.MenuStrip();
             this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -108,7 +109,7 @@
             // 
             this.openWeather.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
             this.openWeather.Name = "openWeather";
-            this.openWeather.Size = new System.Drawing.Size(147, 22);
+            this.openWeather.Size = new System.Drawing.Size(180, 22);
             this.openWeather.Text = "OpenWeather";
             this.openWeather.Click += new System.EventHandler(this.openWeather_Click);
             // 
@@ -116,7 +117,7 @@
             // 
             this.tomorrowIO.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
             this.tomorrowIO.Name = "tomorrowIO";
-            this.tomorrowIO.Size = new System.Drawing.Size(147, 22);
+            this.tomorrowIO.Size = new System.Drawing.Size(180, 22);
             this.tomorrowIO.Text = "TomorrowIO";
             this.tomorrowIO.Click += new System.EventHandler(this.tomorrowIO_Click);
             // 
@@ -124,7 +125,7 @@
             // 
             this.stormGlass.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(223)))), ((int)(((byte)(230)))));
             this.stormGlass.Name = "stormGlass";
-            this.stormGlass.Size = new System.Drawing.Size(147, 22);
+            this.stormGlass.Size = new System.Drawing.Size(180, 22);
             this.stormGlass.Text = "StormGlass";
             this.stormGlass.Click += new System.EventHandler(this.stormGlass_Click);
             // 
@@ -261,6 +262,7 @@
             this.Controls.Add(this.buttonPanel);
             this.Controls.Add(this.titlePanel);
             this.Controls.Add(this.menu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menu;
             this.MinimumSize = new System.Drawing.Size(1386, 768);
             this.Name = "MainForm";
