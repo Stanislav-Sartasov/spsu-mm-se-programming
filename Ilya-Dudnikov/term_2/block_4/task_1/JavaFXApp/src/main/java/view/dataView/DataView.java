@@ -3,6 +3,7 @@ package view.dataView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -53,6 +54,7 @@ public class DataView extends BorderPane {
 		label.setTextFill(Color.WHITE);
 		label.setStyle(TEXT_STYLE);
 
+		label.setTooltip(new Tooltip(name + ", " + metric.toString()));
 		setMargin(label, new Insets(5., 0., 0., 10.));
 		setTop(label);
 		setAlignment(label, Pos.TOP_LEFT);

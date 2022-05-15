@@ -5,6 +5,8 @@ import javafx.geometry.Pos;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.*;
@@ -68,11 +70,13 @@ public class MainView extends BorderPane {
 		refreshButton.setOnMouseExited(event -> refreshButton.setStyle(REFRESH_BUTTON_STYLE));
 		refreshButton.setOnMousePressed(event -> refreshButton.setStyle(ON_CLICK_REFRESH_BUTTON));
 		refreshButton.setOnMouseReleased(event -> refreshButton.setStyle(HOVERED_REFRESH_BUTTON_STYLE));
+		refreshButton.setTooltip(new Tooltip("Refresh"));
 
 		imageView.setImage(image);
 
 		getChildren().add(imageView);
 		setRight(refreshButton);
+		setAlignment(refreshButton, Pos.TOP_RIGHT);
 	}
 
 	public void addService(String service, WeatherView view, StateController controller) {
@@ -86,7 +90,7 @@ public class MainView extends BorderPane {
 
 	public void outputDataFromService(String service) {
 		weatherViewMap.get(service).outputData();
-		setCenter(weatherViewMap.get(service));
-		// getChildren().add(weatherViewMap.get(service));
+		 setCenter(weatherViewMap.get(service));
+//		 getChildren().add(weatherViewMap.get(service));
 	}
 }

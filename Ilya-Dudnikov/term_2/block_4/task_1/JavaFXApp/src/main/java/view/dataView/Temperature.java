@@ -2,6 +2,9 @@ package view.dataView;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
+import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -20,26 +23,41 @@ public class Temperature extends BorderPane {
 	}
 
 	public void outputData() {
-		Text text = new Text();
+		Label label = new Label();
 		if (temperatureC != null)
-			text.setText(temperatureC + "\u00B0C");
-		text.setOnMouseClicked(event -> {
+			label.setText(temperatureC + "\u00B0C");
+
+		Tooltip tooltip = new Tooltip("Click here to see temperature in " + currentMetric);
+		tooltip.setStyle("-fx-font-size: 0.4em");
+		label.setTooltip(tooltip);
+
+		label.setOnMouseEntered(event -> label.setCursor(Cursor.HAND));
+		label.setOnMousePressed(event -> label.setCursor(Cursor.CLOSED_HAND));
+		label.setOnMouseReleased(event -> label.setCursor(Cursor.HAND));
+		label.setOnMouseClicked(event -> {
+			tooltip.setText("Click here to see temperature in " + currentMetric);
 			if (currentMetric == Metrics.DEGREES_CELSIUS) {
 				currentMetric = Metrics.DEGREES_FAHRENHEIT;
-				text.setText(temperatureF + "\u00B0F");
+				label.setText(temperatureF + "\u00B0F");
 			} else {
 				currentMetric = Metrics.DEGREES_CELSIUS;
-				text.setText(temperatureC + "\u00B0C");
+				label.setText(temperatureC + "\u00B0C");
 			}
 		});
-		text.setStyle(
+		label.setStyle(
 				"-fx-font-size: 32pt;" +
 				"-fx-font-family: 'Roboto Light'"
 		);
-		text.setFill(Color.WHITE);
-		setMargin(text, new Insets(0, 0, 0, 10.));
+		label.setTextFill(Color.WHITE);
+		setMargin(label, new Insets(0, 0, 0, 10.));
 
-		setCenter(text);
-		setAlignment(text, Pos.CENTER);
+		setCenter(label);
+		setAlignment(label, Pos.CENTER);
+	}
+
+	private Metrics changedMetric() {
+		if (currentMetric == Metrics.DEGREES_CELSIUS)
+			return Metrics.DEGREES_FAHRENHEIT;
+		return Metrics.DEGREES_CELSIUS;
 	}
 }
