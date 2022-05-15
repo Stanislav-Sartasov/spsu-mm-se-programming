@@ -3,4 +3,5 @@ include 'lib'
 include 'Stormglass'
 include 'OpenWeatherMap'
 include 'App'
+include 'JavaFXApp'
 
