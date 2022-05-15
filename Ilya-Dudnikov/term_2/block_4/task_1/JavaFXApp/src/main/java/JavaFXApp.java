@@ -18,13 +18,14 @@ public class JavaFXApp extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		primaryStage.setTitle("Weather");
 		AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DIConfiguration.class);
 
 		BorderPane pane = new BorderPane();
 		primaryStage.setScene(new Scene(
 				pane,
-				800,
-				600,
+				620,
+				520,
 				Color.rgb(43, 43, 43))
 		);
 

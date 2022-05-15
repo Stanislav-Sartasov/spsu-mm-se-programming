@@ -16,26 +16,28 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MainView extends BorderPane {
-	private final double SPB_LAT = 60;
-	private final double SPB_LON = 30;
-	private final String RESOURCES_PATH = "src/main/resources/";
-	private final String HOVERED_REFRESH_BUTTON_STYLE = "" +
+	private static final double SPB_LAT = 60;
+	private static final double SPB_LON = 30;
+	private static final String RESOURCES_PATH = "src/main/resources/";
+	private static final String HOVERED_REFRESH_BUTTON_STYLE = "" +
 			"-fx-background-color: rgba(43, 43, 43, .3);" +
-			"-fx-background-radius: 50%";
-	private final String REFRESH_BUTTON_STYLE = "" +
+			"-fx-background-radius: 50%;" +
+			"-fx-cursor: hand";
+	private static final String REFRESH_BUTTON_STYLE = "" +
 			"-fx-background-color: transparent;" +
 			"-fx-background-radius: 50%";
-	private final String ON_CLICK_REFRESH_BUTTON = "" +
+	private static final String ON_CLICK_REFRESH_BUTTON = "" +
 			"-fx-background-color: rgba(43, 43, 43, .5);" +
-			"-fx-background-radius: 50%";
+			"-fx-background-radius: 50%;" +
+			"-fx-cursor: closed_hand";
 	private Rectangle rectangle;
 
 	private Map<String, WeatherView> weatherViewMap;
 	private Map<String, StateController> controllerMap;
 
 	public MainView() {
-		setMaxWidth(450);
-		setMaxHeight(300);
+		setMaxWidth(600);
+		setMaxHeight(500);
 
 		setBackground(Background.EMPTY);
 
@@ -44,13 +46,13 @@ public class MainView extends BorderPane {
 
 		ImageView imageView = new ImageView("file:" + RESOURCES_PATH + "bg_img.jpg");
 		imageView.setPreserveRatio(true);
-		imageView.setFitWidth(450);
+		imageView.setFitWidth(600);
 
 		Rectangle clip = new Rectangle(
-				imageView.getFitWidth(), 300
+				imageView.getFitWidth(), 500
 		);
-		clip.setArcWidth(20);
-		clip.setArcHeight(20);
+		clip.setArcWidth(15);
+		clip.setArcHeight(15);
 		imageView.setClip(clip);
 
 		SnapshotParameters parameters = new SnapshotParameters();
