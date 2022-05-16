@@ -23,13 +23,13 @@ class ElementaryBashPreprocessor(
 			}
 			when (val char = str[index]) {
 				'\'' -> {
-					if (!isLastBackSlash) {
+					if (!isLastBackSlash && !isInDoubleQuotes) {
 						isInQuotes = !isInQuotes
 					}
 					builder.append(char)
 				}
 				'"' -> {
-					if (!isLastBackSlash) {
+					if (!isLastBackSlash && !isInQuotes) {
 						isInDoubleQuotes = !isInDoubleQuotes
 					}
 					builder.append(char)
