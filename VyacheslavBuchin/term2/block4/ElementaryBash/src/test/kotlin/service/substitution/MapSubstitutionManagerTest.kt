@@ -1,9 +1,7 @@
-package service
+package service.substitution
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import service.substitution.MapSubstitutionManager
-import service.substitution.SubstitutionException
 
 internal class MapSubstitutionManagerTest {
 	private val substitutionManager = MapSubstitutionManager()
