@@ -1,4 +1,4 @@
-package service
+package service.substitution
 
 interface SubstitutionManager {
 	operator fun get(name: String): String

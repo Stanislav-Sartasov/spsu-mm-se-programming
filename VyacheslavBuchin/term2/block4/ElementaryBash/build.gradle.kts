@@ -32,6 +32,15 @@ tasks.jacocoTestReport {
         csv.required.set(false)
         html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
     }
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "**/command/*OSCommand*"
+                )
+            }
+        })
+    )
 }
 
 tasks.withType<KotlinCompile> {
