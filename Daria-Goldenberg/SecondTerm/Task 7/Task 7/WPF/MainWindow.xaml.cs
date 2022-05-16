@@ -16,12 +16,14 @@ namespace WPF
 		public MainWindow()
 		{
 			InitializeComponent();
-			UpdateData();
+			UpdateData(tomorrowIoGrid, tomorrowIo);
+			UpdateData(openWeatherGrid, openWeather);
 		}
 
 		private void UpdateButtonClick(object sender, RoutedEventArgs e)
 		{
-			UpdateData();
+			UpdateData(tomorrowIoGrid, tomorrowIo);
+			UpdateData(openWeatherGrid, openWeather);
 		}
 
 		private void ExitButtonClick(object sender, RoutedEventArgs e)
@@ -29,37 +31,24 @@ namespace WPF
 			Environment.Exit(0);
 		}
 
-		private void UpdateData()
+		private void UpdateData(Grid grid, Site site)
 		{
-			string[] dataFromTomorrowIo = new string[5];
-			string[] dataFromOpenWeather = new string[5];
+			string[] dataFromSite = new string[5];
 
 			for (int i = 0; i < 5; i++)
 			{
-				((TextBlock)tomorrowIoGrid.Children[i]).Text = "";
-				((TextBlock)openWeatherGrid.Children[i]).Text = "";
+				((TextBlock)grid.Children[i]).Text = "";
 			}
 
 			try
 			{
-				dataFromTomorrowIo = GetData(tomorrowIo.GetData());
+				dataFromSite = GetData(site.GetData());
 				for (int i = 0; i < 5; i++)
-					((TextBlock)tomorrowIoGrid.Children[i]).Text = dataFromTomorrowIo[i];
+					((TextBlock)grid.Children[i]).Text = dataFromSite[i];
 			}
 			catch (Exception ex)
 			{
-				((TextBlock)tomorrowIoGrid.Children[0]).Text = ex.Message;
-			}
-
-			try
-			{
-				dataFromOpenWeather = GetData(openWeather.GetData());
-				for (int i = 0; i < 5; i++)
-					((TextBlock)openWeatherGrid.Children[i]).Text = dataFromOpenWeather[i];
-			}
-			catch (Exception ex)
-			{
-				((TextBlock)openWeatherGrid.Children[0]).Text = ex.Message;
+				((TextBlock)grid.Children[0]).Text = ex.Message;
 			}
 		}
 

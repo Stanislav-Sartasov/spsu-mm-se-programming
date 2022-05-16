@@ -13,45 +13,34 @@ namespace WinForms
 			FormBorderStyle = FormBorderStyle.FixedSingle;
 			CreateLabels(tomorrowIoPanel);
 			CreateLabels(openWeatherPanel);
-			UpdateData();
+			UpdateData(tomorrowIoPanel, tomorrowIo);
+			UpdateData(openWeatherPanel, openWeather);
 		}
 
 		private void UpdateButtonClick(object sender, EventArgs e)
 		{
-			UpdateData();
+			UpdateData(tomorrowIoPanel, tomorrowIo);
+			UpdateData(openWeatherPanel, openWeather);
 		}
 
-		private void UpdateData()
+		private void UpdateData(Panel panel, Site site)
 		{
-			string[] dataFromTomorrowIo = new string[5];
-			string[] dataFromOpenWeather = new string[5];
+			string[] dataFromSite = new string[5];
 
 			for (int i = 0; i < 5; i++)
 			{
-				tomorrowIoPanel.Controls[i].Text = "";
-				openWeatherPanel.Controls[i].Text = "";
+				panel.Controls[i].Text = "";
 			}
 
 			try
 			{
-				dataFromTomorrowIo = GetData(tomorrowIo.GetData());
+				dataFromSite = GetData(site.GetData());
 				for (int i = 0; i < 5; i++)
-					tomorrowIoPanel.Controls[i].Text = dataFromTomorrowIo[i];
+					panel.Controls[i].Text = dataFromSite[i];
 			}
 			catch (Exception ex)
 			{
 				tomorrowIoPanel.Controls[0].Text = ex.Message;
-			}
-
-			try
-			{
-				dataFromOpenWeather = GetData(openWeather.GetData());
-				for (int i = 0; i < 5; i++)
-					openWeatherPanel.Controls[i].Text = dataFromOpenWeather[i];
-			}
-			catch (Exception ex)
-			{
-				openWeatherPanel.Controls[0].Text = ex.Message;
 			}
 		}
 
