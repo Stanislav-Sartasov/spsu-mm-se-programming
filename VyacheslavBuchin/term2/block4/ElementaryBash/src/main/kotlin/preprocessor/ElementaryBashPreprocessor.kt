@@ -62,7 +62,7 @@ class ElementaryBashPreprocessor(
 						index = closedInd
 					} else {
 						val substitutionBuilder = StringBuilder()
-						while (index < str.length && !shouldStop(str[index])) {
+						while (index < str.length && !shouldStop(str[index]) && str[index] != '|') {
 							substitutionBuilder.append(str[index])
 							index++
 						}
