@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BotsLib\BotsLib.csproj" />
+    <ProjectReference Include="..\RouletteLib\RouletteLib.csproj" />
+  </ItemGroup>
+
+</Project>
