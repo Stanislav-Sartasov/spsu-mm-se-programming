@@ -26,7 +26,7 @@ namespace WeatherForecastGUIWinForms
             model.SwitchService();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ActivityButton_Click(object sender, EventArgs e)
         {
             model.UpdateServiceActivityStatus();
         }

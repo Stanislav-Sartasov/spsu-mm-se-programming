@@ -21,11 +21,12 @@ namespace WeatherForecastModelGUI
         private PopupNotifier popup = null;
 
         private ContainerConfig weatherContainer;
-        private SiteTypes siteType = SiteTypes.Openweather;
-
+        
         public string Data { get; set; }
         public string ErrorMessage { get; set; }
         public string Description { get; set; }
+        public bool IsUpdateEnabled { get; set; } = true;// Доделать правильное обновление состояния при свитч
+        public SiteTypes SiteType { get; private set; } = SiteTypes.Openweather;
 
         public WeatherForecastModel()
         {
@@ -36,11 +37,14 @@ namespace WeatherForecastModelGUI
             PopupInintiolize();
 
             UpdateData(MessageTypes.StartStatus);
+
+            //IsUpdateEnabled = nowWeatherForecastSite is not null;
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsUpdateEnabled"));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void PopupInintiolize()
+        private void PopupInintiolize()
         {
             popup = new PopupNotifier();
 
@@ -59,13 +63,15 @@ namespace WeatherForecastModelGUI
 
         public void SwitchService()
         {
-            siteType = siteType == SiteTypes.Openweather ? SiteTypes.Stormglass : SiteTypes.Openweather;
+            SiteType = SiteType == SiteTypes.Openweather ? SiteTypes.Stormglass : SiteTypes.Openweather;
             UpdateData(MessageTypes.SwitchStatus);
+            //IsUpdateEnabled = nowWeatherForecastSite is not null;
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsUpdateEnabled"));
         }
 
         public void UpdateData(MessageTypes message = MessageTypes.UpdateStatus)
         {
-            switch (siteType)
+            switch (SiteType)
             {
                 case SiteTypes.Stormglass:
                     nowWeatherForecastSite = weatherContainer.GetWeatherForecast<StormglassForecast>();
@@ -74,45 +80,44 @@ namespace WeatherForecastModelGUI
                     nowWeatherForecastSite = weatherContainer.GetWeatherForecast<OpenweatherForecast>();
                     break;
             }
+            IsUpdateEnabled = nowWeatherForecastSite is not null;
 
-            try
+            if (IsUpdateEnabled)
             {
-                nowWeatherForecastSite.Update();
-
-                switch (message)
+                try
                 {
-                    case MessageTypes.UpdateStatus:
-                        popup.ContentText = "Data was succesfully updated!";
-                        popup.Popup();
-                        break;
-                    case MessageTypes.SwitchStatus:
-                        popup.ContentText = "You were swithed to another site!";
-                        popup.Popup();
-                        break;
+                    nowWeatherForecastSite.Update();
+
+                    switch (message)
+                    {
+                        case MessageTypes.UpdateStatus:
+                            popup.ContentText = "Data was succesfully updated!";
+                            popup.Popup();
+                            break;
+                        case MessageTypes.SwitchStatus:
+                            popup.ContentText = "You were swithed to another site!";
+                            popup.Popup();
+                            break;
+                    }
                 }
-            }
-            catch (NullReferenceException)
-            {
-                popup.ContentText = "Service unavailable!\n" +
-                    "Try to update/turn on or wait";
-                popup.Popup();
-            }
-            
-            catch (Exception ex)
-            {
-                popup.ContentText = $"Service unavailable - {ex.Message}";
-                popup.Popup();
+
+                catch (Exception ex)
+                {
+                    popup.ContentText = $"Service unavailable - {ex.Message}";
+                    popup.Popup();
+                }
             }
 
             CreateDataString();
             CreateDescription();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Data"));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Description"));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsUpdateEnabled"));
         }
 
         public void UpdateServiceActivityStatus()
         {
-            switch (siteType)
+            switch (SiteType)
             {
                 case SiteTypes.Openweather:
                     if (weatherContainer.IsServiceActive<OpenweatherForecast>())
@@ -143,6 +148,8 @@ namespace WeatherForecastModelGUI
                     }
                     break;
             }
+            UpdateData(MessageTypes.StartStatus);
+            //PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("IsUpdateEnabled"));
         }
 
         private void CreateDataString()
@@ -168,7 +175,7 @@ namespace WeatherForecastModelGUI
         private void CreateDescription()
         {
             Description = "Weather Forecast from site ";
-            if (siteType == SiteTypes.Stormglass)
+            if (SiteType == SiteTypes.Stormglass)
                 Description += "Stormglass";
             else
                 Description += "Openweather";

@@ -31,7 +31,7 @@
 
         <TextBlock Name="InfoLabel" Text="{Binding Description}" FontSize="30" FontStyle="Italic" FontWeight="Bold" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
         <TextBlock Name="DataLabel" Text="{Binding Data}" FontSize="35" Grid.Column="1" FontStyle="Italic" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Script MT Bold" Height="323" Width="522"></TextBlock>
-        <Button Name="UpdateButton" Background="#99008000"  Content="Update" FontSize="22" FontWeight="ExtraBold" Grid.Row="1" Grid.Column="0" Command="{Binding UpdateCommand}" Margin="47,17,10,17" OpacityMask="Black"></Button>
+        <Button Name="UpdateButton" Background="#99008000"  Content="Update" FontSize="22" FontWeight="ExtraBold" Grid.Row="1" Grid.Column="0" Command="{Binding UpdateCommand}" Margin="47,17,10,17" OpacityMask="Black" IsEnabled="{Binding IsUpdateEnabled}"></Button>
         <Button Name="SwitchButton" Background="#99FFD700"  Content="Switch" FontSize="22" FontWeight="ExtraBold" Grid.Row="2" Grid.Column="0" Command="{Binding SwitchCommand}" Margin="47,10,10,22"/>
         <Button Name="ActivityButton" Background="#99F08080"  Content="Turn off/on" FontSize="22" FontWeight="ExtraBold" Grid.Row="2" Grid.Column="0" Command="{Binding ActivityCommand}" Margin="47,114,10,37" Grid.RowSpan="2"/>
     </Grid>

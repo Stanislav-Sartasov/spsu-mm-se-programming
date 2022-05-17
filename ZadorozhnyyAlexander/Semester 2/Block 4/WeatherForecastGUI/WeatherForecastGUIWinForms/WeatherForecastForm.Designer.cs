@@ -37,7 +37,7 @@
             this.ErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.SwitchButton = new System.Windows.Forms.Button();
             this.DataLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ActivityButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.modelSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ErrorProvider)).BeginInit();
             this.SuspendLayout();
@@ -65,6 +65,7 @@
             this.UpdateButton.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.UpdateButton.BackgroundImage = global::WeatherForecastGUIWinForms.Properties.Resources.button2;
             this.UpdateButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.UpdateButton.DataBindings.Add(new System.Windows.Forms.Binding("Enabled", this.modelSource, "IsUpdateEnabled", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.UpdateButton.Font = new System.Drawing.Font("Script MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.UpdateButton.Location = new System.Drawing.Point(694, 105);
             this.UpdateButton.Name = "UpdateButton";
@@ -105,18 +106,18 @@
             this.DataLabel.TabIndex = 3;
             this.DataLabel.Text = "No data";
             // 
-            // button1
+            // ActivityButton
             // 
-            this.button1.BackgroundImage = global::WeatherForecastGUIWinForms.Properties.Resources.button2;
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.Font = new System.Drawing.Font("Script MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.button1.Location = new System.Drawing.Point(694, 285);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(298, 65);
-            this.button1.TabIndex = 17;
-            this.button1.Text = "Turn off/on";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ActivityButton.BackgroundImage = global::WeatherForecastGUIWinForms.Properties.Resources.button2;
+            this.ActivityButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ActivityButton.Font = new System.Drawing.Font("Script MT Bold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.ActivityButton.Location = new System.Drawing.Point(694, 285);
+            this.ActivityButton.Name = "ActivityButton";
+            this.ActivityButton.Size = new System.Drawing.Size(298, 65);
+            this.ActivityButton.TabIndex = 17;
+            this.ActivityButton.Text = "Turn off/on";
+            this.ActivityButton.UseVisualStyleBackColor = true;
+            this.ActivityButton.Click += new System.EventHandler(this.ActivityButton_Click);
             // 
             // WeatherForecastForm
             // 
@@ -125,7 +126,7 @@
             this.BackColor = System.Drawing.Color.CornflowerBlue;
             this.BackgroundImage = global::WeatherForecastGUIWinForms.Properties.Resources.background1;
             this.ClientSize = new System.Drawing.Size(1020, 574);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.ActivityButton);
             this.Controls.Add(this.DataLabel);
             this.Controls.Add(this.SwitchButton);
             this.Controls.Add(this.UpdateButton);
@@ -151,7 +152,7 @@
         private ErrorProvider ErrorProvider;
         private Button SwitchButton;
         private Label DataLabel;
-        private Button button1;
+        private Button ActivityButton;
         private BindingSource modelSource;
     }
 }

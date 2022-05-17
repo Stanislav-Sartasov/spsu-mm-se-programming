@@ -63,6 +63,16 @@ namespace WeatherForecastGUIWinForms.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ActivityButton {
+            get {
+                object obj = ResourceManager.GetObject("ActivityButton", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap background {
             get {
                 object obj = ResourceManager.GetObject("background", resourceCulture);
@@ -86,16 +96,6 @@ namespace WeatherForecastGUIWinForms.Properties {
         internal static System.Drawing.Bitmap button {
             get {
                 object obj = ResourceManager.GetObject("button", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap button1 {
-            get {
-                object obj = ResourceManager.GetObject("button1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
