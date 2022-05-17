@@ -9,22 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DateTimeManager\DateTimeManager.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Services\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="WeatherLibrary">
-      <HintPath>..\Services\WeatherLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="WeatherWebAPI">
-      <HintPath>..\Services\WeatherWebAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="WebRequests">
-      <HintPath>..\Services\WebRequests.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\UIServices\DateTimeManager\DateTimeManager.csproj" />
+    <ProjectReference Include="..\WeatherServices\WeatherWebAPI\WeatherWebAPI.csproj" />
   </ItemGroup>
 
 </Project>

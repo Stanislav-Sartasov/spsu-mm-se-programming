@@ -13,7 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WeatherWebAPI;
-using WeatherLibrary;
 using DateTimeManager;
 
 namespace WpfUI

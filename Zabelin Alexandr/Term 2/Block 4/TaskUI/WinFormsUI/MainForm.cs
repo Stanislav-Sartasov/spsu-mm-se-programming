@@ -1,4 +1,3 @@
-using WeatherLibrary;
 using WeatherWebAPI;
 using System;
 using DateTimeManager;
