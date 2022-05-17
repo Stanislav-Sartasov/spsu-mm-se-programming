@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:WpfUI"
         xmlns:DateTimeManager="clr-namespace:DateTimeManager;assembly=DateTimeManager" x:Class="WpfUI.MainWindow"
         mc:Ignorable="d"
-        Title="Weather" Height="400" Width="960">
+        Title="Weather" Height="400" Width="960" MinWidth="960" MinHeight="390">
     <Grid RenderTransformOrigin="0.464,0.507" Margin="0,0,0,-6">
-        <DataGrid x:Name="weatherTable" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,46,0,0" RenderTransformOrigin="0.5,0.516" Height="125" HeadersVisibility="Column">
+        <DataGrid x:Name="weatherTable" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,46,0,0" RenderTransformOrigin="0.5,0.516" Height="125" HeadersVisibility="Column">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontSize" Value="14"/>
@@ -36,11 +36,11 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <TextBlock x:Name="timeTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Width="382" Height="36" FontSize="14" FontWeight="SemiBold" Margin="18,10,0,0">
+        <TextBlock x:Name="timeTextBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Date}" VerticalAlignment="Top" Width="382" Height="36" FontSize="16" FontWeight="SemiBold" Margin="30,63,0,0">
             <TextBlock.DataContext>
                 <DateTimeManager:DateAndTime x:Name="Date"/>
             </TextBlock.DataContext>
         </TextBlock>
-        <Button x:Name="updateWeatherButton" Content="Update the weather" HorizontalAlignment="Center" Margin="0,231,0,0" VerticalAlignment="Top" Width="153" Height="30" FontSize="12" FontWeight="SemiBold" Cursor="Hand" Click="updateWeatherButton_Click"/>
+        <Button x:Name="updateWeatherButton" Content="Update the weather" HorizontalAlignment="Center" Margin="0,315,0,0" VerticalAlignment="Center" Width="152" Height="30" FontSize="12" FontWeight="SemiBold" Cursor="Hand" Click="updateWeatherButton_Click"/>
     </Grid>
 </Window>

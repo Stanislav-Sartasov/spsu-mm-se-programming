@@ -67,6 +67,9 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel1.ColumnCount = 3;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
@@ -360,6 +363,7 @@
             // 
             // updateWeatherButton
             // 
+            this.updateWeatherButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.updateWeatherButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.updateWeatherButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.updateWeatherButton.Location = new System.Drawing.Point(501, 551);
@@ -395,6 +399,7 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimumSize = new System.Drawing.Size(902, 663);
             this.Name = "MainForm";
             this.Text = "Weather";
             this.Shown += new System.EventHandler(this.MainForm_Shown);
