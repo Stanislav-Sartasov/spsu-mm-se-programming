@@ -35,13 +35,14 @@ public class JavaFXApp extends Application {
 		MainView mainView = new MainView();
 		pane.setCenter(mainView);
 
-		WeatherView weatherView = (WeatherView) context.getBean("weatherView");
+		var openWeatherMapView = (WeatherView) context.getBean("openWeatherMapView");
+		var stormglassView = (WeatherView) context.getBean("stormglassView");
 
-		StateController controller = (StateController) context.getBean("openWeatherMapStateController");
+		var openWeatherMapController = (StateController) context.getBean("openWeatherMapStateController");
+		var stormglassController = (StateController) context.getBean("stormglassStateController");
 
-		mainView.addService("OpenWeatherMap", weatherView, controller);
-		mainView.updateDataFromService("OpenWeatherMap");
-		mainView.outputDataFromService("OpenWeatherMap");
+		mainView.addService("OpenWeatherMap", openWeatherMapView, openWeatherMapController);
+		mainView.addService("Stormglass", stormglassView, stormglassController);
 
 		primaryStage.show();
 	}

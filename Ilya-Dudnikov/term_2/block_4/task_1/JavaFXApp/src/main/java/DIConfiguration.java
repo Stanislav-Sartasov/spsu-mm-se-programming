@@ -75,17 +75,12 @@ public class DIConfiguration {
 	}
 
 	@Bean
-	public WeatherView weatherView() {
-		return new WeatherView(openWeatherMapModel());
+	public WeatherView stormglassView() {
+		return new WeatherView(stormglassModel());
 	}
 
-//	@Bean
-//	public StormglassView stormglassView() {
-//		return new StormglassView(stormglassModel());
-//	}
-//
-//	@Bean
-//	public OpenWeatherMapView openWeatherMapView() {
-//		return new OpenWeatherMapView(openWeatherMapModel());
-//	}
+	@Bean
+	public WeatherView openWeatherMapView() {
+		return new WeatherView(openWeatherMapModel());
+	}
 }
