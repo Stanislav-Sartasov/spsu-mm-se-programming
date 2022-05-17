@@ -21,18 +21,6 @@ public class MainView extends BorderPane {
 	private static final double SPB_LAT = 60;
 	private static final double SPB_LON = 30;
 	private static final String RESOURCES_PATH = "src/main/resources/";
-	private static final String HOVERED_REFRESH_BUTTON_STYLE = "" +
-			"-fx-background-color: rgba(43, 43, 43, .3);" +
-			"-fx-background-radius: 50%;" +
-			"-fx-cursor: hand";
-	private static final String REFRESH_BUTTON_STYLE = "" +
-			"-fx-background-color: transparent;" +
-			"-fx-background-radius: 50%";
-	private static final String ON_CLICK_REFRESH_BUTTON = "" +
-			"-fx-background-color: rgba(43, 43, 43, .5);" +
-			"-fx-background-radius: 50%;" +
-			"-fx-cursor: closed_hand";
-	private Rectangle rectangle;
 
 	private Map<String, WeatherView> weatherViewMap;
 	private Map<String, StateController> controllerMap;
@@ -40,6 +28,7 @@ public class MainView extends BorderPane {
 	public MainView() {
 		setMaxWidth(600);
 		setMaxHeight(500);
+		getStylesheets().add("styles.css");
 
 		setBackground(Background.EMPTY);
 
@@ -50,26 +39,14 @@ public class MainView extends BorderPane {
 		imageView.setPreserveRatio(true);
 		imageView.setFitWidth(600);
 
-		Rectangle clip = new Rectangle(
-				imageView.getFitWidth(), 500
-		);
-		clip.setArcWidth(15);
-		clip.setArcHeight(15);
-		imageView.setClip(clip);
-
 		SnapshotParameters parameters = new SnapshotParameters();
 		parameters.setFill(Color.TRANSPARENT);
 		WritableImage image = imageView.snapshot(parameters, null);
 
-		imageView.setClip(null);
 		Button refreshButton = new Button();
 		refreshButton.setGraphic(new ImageView("file:" + RESOURCES_PATH + "refresh.png"));
 		refreshButton.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-		refreshButton.setStyle(REFRESH_BUTTON_STYLE);
-		refreshButton.setOnMouseEntered(event -> refreshButton.setStyle(HOVERED_REFRESH_BUTTON_STYLE));
-		refreshButton.setOnMouseExited(event -> refreshButton.setStyle(REFRESH_BUTTON_STYLE));
-		refreshButton.setOnMousePressed(event -> refreshButton.setStyle(ON_CLICK_REFRESH_BUTTON));
-		refreshButton.setOnMouseReleased(event -> refreshButton.setStyle(HOVERED_REFRESH_BUTTON_STYLE));
+		refreshButton.getStyleClass().add("button");
 		refreshButton.setTooltip(new Tooltip("Refresh"));
 
 		imageView.setImage(image);
@@ -90,7 +67,6 @@ public class MainView extends BorderPane {
 
 	public void outputDataFromService(String service) {
 		weatherViewMap.get(service).outputData();
-		 setCenter(weatherViewMap.get(service));
-//		 getChildren().add(weatherViewMap.get(service));
+		setCenter(weatherViewMap.get(service));
 	}
 }

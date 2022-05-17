@@ -10,6 +10,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import model.WeatherData.WeatherData;
 
+import java.text.DecimalFormat;
+
 public class Temperature extends BorderPane {
 	private Double temperatureC;
 	private Double temperatureF;
@@ -24,31 +26,27 @@ public class Temperature extends BorderPane {
 
 	public void outputData() {
 		Label label = new Label();
-		if (temperatureC != null)
-			label.setText(temperatureC + "\u00B0C");
+
+		if (temperatureC == null)
+			return;
+
+		label.setText(new DecimalFormat("#.##").format(temperatureC) + "\u00B0C");
 
 		Tooltip tooltip = new Tooltip("Click here to see temperature in " + currentMetric);
 		tooltip.setStyle("-fx-font-size: 0.4em");
 		label.setTooltip(tooltip);
 
-		label.setOnMouseEntered(event -> label.setCursor(Cursor.HAND));
-		label.setOnMousePressed(event -> label.setCursor(Cursor.CLOSED_HAND));
-		label.setOnMouseReleased(event -> label.setCursor(Cursor.HAND));
 		label.setOnMouseClicked(event -> {
 			tooltip.setText("Click here to see temperature in " + currentMetric);
 			if (currentMetric == Metrics.DEGREES_CELSIUS) {
 				currentMetric = Metrics.DEGREES_FAHRENHEIT;
-				label.setText(temperatureF + "\u00B0F");
+				label.setText(new DecimalFormat("#.##").format(temperatureF) + "\u00B0F");
 			} else {
 				currentMetric = Metrics.DEGREES_CELSIUS;
-				label.setText(temperatureC + "\u00B0C");
+				label.setText(new DecimalFormat("#.##").format(temperatureC) + "\u00B0C");
 			}
 		});
-		label.setStyle(
-				"-fx-font-size: 32pt;" +
-				"-fx-font-family: 'Roboto Light'"
-		);
-		label.setTextFill(Color.WHITE);
+		label.getStyleClass().add("temperature");
 		setMargin(label, new Insets(0, 0, 0, 10.));
 
 		setCenter(label);

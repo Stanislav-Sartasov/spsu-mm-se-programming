@@ -17,11 +17,6 @@ import view.dataView.Temperature;
 import java.util.ArrayList;
 
 public class WeatherView extends BorderPane {
-	private static final String TEXT_STYLE = "" +
-			"-fx-font-size: 10pt;" +
-			"-fx-font-family: 'Roboto Light';" +
-			"-fx-font-weight: bold;";
-
 	private static final String RESOURCES_PATH = "src/main/resources/";
 
 	protected WeatherModel weatherModel;
@@ -33,11 +28,13 @@ public class WeatherView extends BorderPane {
 	private ImageView chooseWeatherIcon(WeatherData data) {
 		String path = "file:" + RESOURCES_PATH;
 
-		if (data.precipitation() >= 0.2)
+		if (data.precipitation() != null && data.precipitation() >= 0.2)
 			return new ImageView(path + "rainy.png");
 
-		if (data.cloudCover() < 30) {
-			if (data.airTemperatureC() > 0)
+		if (data.cloudCover() == null || data.cloudCover() < 30) {
+			if (data.airTemperatureC() == null)
+				path += "fallback_weather.png";
+			else if (data.airTemperatureC() > 0)
 				path += "sunny.png";
 			else
 				path += "cold.png";
@@ -61,9 +58,17 @@ public class WeatherView extends BorderPane {
 		setCenter(hBox);
 	}
 
+	private void unavailableDataMessage() {
+		Label label = new Label("Data unavailable, try again soon");
+		label.getStyleClass().add("error_text");
+		setCenter(label);
+	}
 	public void outputData() {
-		// var data = weatherModel.getData();
-		var data = new WeatherData(10., 15., 80., 12., 0., 14., 10.);
+		var data = weatherModel.getData();
+		if (data == null || data.isNull()) {
+			unavailableDataMessage();
+			return;
+		}
 
 		Temperature temperature = new Temperature(data);
 

@@ -8,4 +8,13 @@ public record WeatherData(
 		Double precipitation,
 		Double windDirection,
 		Double windSpeed) {
+	public boolean isNull() {
+		return airTemperatureC == null &&
+				airTemperatureF == null &&
+				cloudCover == null &&
+				humidity == null &&
+				precipitation == null &&
+				windDirection == null &&
+				windSpeed == null;
+	}
 }

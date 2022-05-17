@@ -9,12 +9,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import model.WeatherData.WeatherData;
 
-public class DataView extends BorderPane {
-	private static final String TEXT_STYLE = "" +
-			"-fx-font-size: 15pt;" +
-			"-fx-font-family: 'Roboto Light';" +
-			"-fx-font-weight: bold;";
+import java.text.DecimalFormat;
 
+public class DataView extends BorderPane {
 	private static final String PATH_TO_FALLBACK_ICON = "src/main/resources/info.png";
 
 	private Double value;
@@ -48,11 +45,10 @@ public class DataView extends BorderPane {
 	public void outputData() {
 		if (value == null)
 			return;
-		Label label = new Label(value + metric.toString());
+		Label label = new Label(new DecimalFormat("#.##").format(value) + metric.toString());
 		icon.setPreserveRatio(true);
 		label.setGraphic(icon);
-		label.setTextFill(Color.WHITE);
-		label.setStyle(TEXT_STYLE);
+		label.getStyleClass().add("top-bar-text");
 
 		label.setTooltip(new Tooltip(name + ", " + metric.toString()));
 		setMargin(label, new Insets(5., 0., 0., 10.));

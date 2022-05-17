@@ -24,10 +24,11 @@ public class JavaFXApp extends Application {
 		BorderPane pane = new BorderPane();
 		primaryStage.setScene(new Scene(
 				pane,
-				620,
-				520,
+				600,
+				500,
 				Color.rgb(43, 43, 43))
 		);
+		primaryStage.setResizable(false);
 
 		pane.setBackground(Background.EMPTY);
 
@@ -39,6 +40,7 @@ public class JavaFXApp extends Application {
 		StateController controller = (StateController) context.getBean("openWeatherMapStateController");
 
 		mainView.addService("OpenWeatherMap", weatherView, controller);
+		mainView.updateDataFromService("OpenWeatherMap");
 		mainView.outputDataFromService("OpenWeatherMap");
 
 		primaryStage.show();
