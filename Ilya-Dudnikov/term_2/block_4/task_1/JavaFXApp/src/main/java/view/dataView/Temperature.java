@@ -32,7 +32,7 @@ public class Temperature extends BorderPane {
 
 		label.setText(new DecimalFormat("#.##").format(temperatureC) + "\u00B0C");
 
-		Tooltip tooltip = new Tooltip("Click here to see temperature in " + currentMetric);
+		Tooltip tooltip = new Tooltip("Click here to see temperature in " + Metrics.DEGREES_FAHRENHEIT);
 		tooltip.setStyle("-fx-font-size: 0.4em");
 		label.setTooltip(tooltip);
 
