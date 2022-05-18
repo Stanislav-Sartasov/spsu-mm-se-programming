@@ -1,9 +1,10 @@
 package command
 
 import channel.StringChannel
+import exception.ElementaryBashException
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions.*
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 internal class WcCommandTest {
 	private val wc = WcCommand(StringChannel(""))
@@ -44,9 +45,8 @@ internal class WcCommandTest {
 	}
 
 	@Test
-	fun `exit code should not be 0 if some error occurred`() {
-		val code = wc.execute(arrayOf("$resourcesPath/$nonExistingFile"))
-		assertNotEquals(0, code)
+	fun `ElementaryBashException should be thrown if cannot open file by given path`() {
+		assertThrows(ElementaryBashException::class.java) { wc.execute(arrayOf("$resourcesPath/$nonExistingFile")) }
 	}
 
 	@Test
@@ -56,5 +56,10 @@ internal class WcCommandTest {
 		val result = wc.output.read()
 
 		assertEquals("3 8 43", result.trim())
+	}
+
+	@Test
+	fun `ElementaryBashException should be thrown if more than 1 argument passed`() {
+		assertThrows(ElementaryBashException::class.java) { wc.execute(arrayOf("arg1", "arg2")) }
 	}
 }

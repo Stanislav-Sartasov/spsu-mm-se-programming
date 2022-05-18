@@ -1,6 +1,7 @@
 package command
 
 import channel.StringChannel
+import exception.ElementaryBashException
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -22,9 +23,10 @@ internal class CatCommandTest {
 	}
 
 	@Test
-	fun `exit code should not be 0 if some error occurred`() {
-		val code = cat.execute(arrayOf("$resourcesPath/$nonExistingFile"))
-		kotlin.test.assertNotEquals(0, code)
+	fun `ElementaryBashException should be thrown if file can not be opened`() {
+		 assertThrows(ElementaryBashException::class.java) {
+			 cat.execute(arrayOf("$resourcesPath/$nonExistingFile"))
+		 }
 	}
 
 	@Test
@@ -41,5 +43,18 @@ internal class CatCommandTest {
 		cat.input.write(testString)
 		cat.execute(arrayOf())
 		assertEquals(testString, cat.output.read())
+	}
+
+	@Test
+	fun `cat should write file containment if arg is a path to file`() {
+		cat.execute(arrayOf("$resourcesPath/$existingFile"))
+		val result = cat.output.read()
+		val expectation = File("$resourcesPath/$existingFile").bufferedReader().readText()
+		assertEquals(expectation, result)
+	}
+
+	@Test
+	fun `ElementaryBashException should be thrown if more than 1 argument passed`() {
+		assertThrows(ElementaryBashException::class.java) { cat.execute(arrayOf("arg1", "arg2")) }
 	}
 }

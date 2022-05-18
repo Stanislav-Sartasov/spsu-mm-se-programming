@@ -1,5 +1,6 @@
 package command
 
+import channel.Channel
 import channel.StringChannel
 import kotlin.io.path.Path
 import kotlin.io.path.listDirectoryEntries
@@ -7,9 +8,9 @@ import kotlin.io.path.name
 
 class PwdCommand : Command {
 
-	override val output = StringChannel()
-	override val error = StringChannel()
-	override val input = StringChannel.nullChannel()
+	override var output: Channel<String> = StringChannel()
+	override var error: Channel<String> = StringChannel()
+	override var input = StringChannel.nullChannel()
 
 	override fun execute(args: Array<String>): Int {
 		val currentDirectory = Path("")
