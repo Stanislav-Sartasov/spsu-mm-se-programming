@@ -1,5 +1,4 @@
-﻿using System.Xml.Schema;
-using Container;
+﻿using Container;
 using Forecast;
 using SaintPetersburgWeatherWinForms.Output;
 using SiteInterface;
@@ -156,12 +155,12 @@ namespace SaintPetersburgWeatherWinForms
 
         #region ButtonPanel
 
-        private void exitButton_Click(object sender, EventArgs e)
+        private void ExitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void updateButton_Click(object sender, EventArgs e)
+        private void UpdateButton_Click(object sender, EventArgs e)
         {
             forecasts.Clear();
 
@@ -255,7 +254,7 @@ namespace SaintPetersburgWeatherWinForms
             }
         }
 
-        private void button_Click(Button button, object sender, EventArgs e)
+        private void Button_Click(Button button, object sender, EventArgs e)
         {
             if (button.BackColor == Color.FromArgb(207, 232, 245)) // if this button is pressed
             {
@@ -286,19 +285,19 @@ namespace SaintPetersburgWeatherWinForms
             ChangeCurrentForecasts();
         }
 
-        private void openWeatherButton_Click(object sender, EventArgs e)
+        private void OpenWeatherButton_Click(object sender, EventArgs e)
         {
-            button_Click(openWeatherButton, sender, e);
+            Button_Click(openWeatherButton, sender, e);
         }
 
-        private void stormGlassButton_Click(object sender, EventArgs e)
+        private void StormGlassButton_Click(object sender, EventArgs e)
         {
-            button_Click(stormGlassButton, sender, e);
+            Button_Click(stormGlassButton, sender, e);
         }
 
-        private void tomorrowIOButton_Click(object sender, EventArgs e)
+        private void TomorrowIOButton_Click(object sender, EventArgs e)
         {
-            button_Click(tomorrowIOButton, sender, e);
+            Button_Click(tomorrowIOButton, sender, e);
         }
 
         private void PressButton(Button button)

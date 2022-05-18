@@ -142,7 +142,7 @@
             this.updateButton.TabIndex = 1;
             this.updateButton.Text = "Update";
             this.updateButton.UseVisualStyleBackColor = false;
-            this.updateButton.Click += new System.EventHandler(this.updateButton_Click);
+            this.updateButton.Click += new System.EventHandler(this.UpdateButton_Click);
             // 
             // weatherSourceLabel
             // 
@@ -193,7 +193,7 @@
             this.openWeatherButton.TabIndex = 18;
             this.openWeatherButton.Text = "OpenWeather";
             this.openWeatherButton.UseVisualStyleBackColor = false;
-            this.openWeatherButton.Click += new System.EventHandler(this.openWeatherButton_Click);
+            this.openWeatherButton.Click += new System.EventHandler(this.OpenWeatherButton_Click);
             // 
             // tomorrowIOButton
             // 
@@ -206,7 +206,7 @@
             this.tomorrowIOButton.TabIndex = 19;
             this.tomorrowIOButton.Text = "TomorrowIO";
             this.tomorrowIOButton.UseVisualStyleBackColor = false;
-            this.tomorrowIOButton.Click += new System.EventHandler(this.tomorrowIOButton_Click);
+            this.tomorrowIOButton.Click += new System.EventHandler(this.TomorrowIOButton_Click);
             // 
             // stormGlassButton
             // 
@@ -219,7 +219,7 @@
             this.stormGlassButton.TabIndex = 20;
             this.stormGlassButton.Text = "StormGlass";
             this.stormGlassButton.UseVisualStyleBackColor = false;
-            this.stormGlassButton.Click += new System.EventHandler(this.stormGlassButton_Click);
+            this.stormGlassButton.Click += new System.EventHandler(this.StormGlassButton_Click);
             // 
             // buttonPanel
             // 
@@ -250,7 +250,7 @@
             this.exitButton.TabIndex = 21;
             this.exitButton.Text = "Exit";
             this.exitButton.UseVisualStyleBackColor = false;
-            this.exitButton.Click += new System.EventHandler(this.exitButton_Click);
+            this.exitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // MainForm
             // 

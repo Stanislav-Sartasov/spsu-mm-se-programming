@@ -42,7 +42,7 @@ namespace RequestManagement.UnitTests
         {
             string url = "https://api.tomorrow.io/v4/timelines";
             var request = new APIRequest(url);
-            var expectedResponse = "Site does not response";
+            var expectedResponse = "Site is down";
             request.Get();
 
             Assert.IsFalse(request.Connected);

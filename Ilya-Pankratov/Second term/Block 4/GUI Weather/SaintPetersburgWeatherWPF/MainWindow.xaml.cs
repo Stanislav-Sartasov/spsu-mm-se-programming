@@ -53,20 +53,20 @@ namespace SaintPetersburgWeatherWPF
 
         private void MenuOpenWeather_Click(object sender, RoutedEventArgs e)
         {
-            toggleButton((MenuItem)sender, openWeatherButton);
+            ToggleButton((MenuItem)sender, openWeatherButton);
         }
 
         private void MenuTomorrowIO_Click(object sender, RoutedEventArgs e)
         {
-            toggleButton((MenuItem)sender, tomorrowIOButton);
+            ToggleButton((MenuItem)sender, tomorrowIOButton);
         }
 
         private void MenuStormGlass_Click(object sender, RoutedEventArgs e)
         {
-            toggleButton((MenuItem)sender, stormGlassButton);
+            ToggleButton((MenuItem)sender, stormGlassButton);
         }
 
-        private void toggleButton(MenuItem toggeldButton, Button dependButton)
+        private void ToggleButton(MenuItem toggeldButton, Button dependButton)
         {
             string siteName = dependButton.Content.ToString();
 
@@ -75,7 +75,7 @@ namespace SaintPetersburgWeatherWPF
                 currentSite = String.Empty;
             }
 
-            if (toggeldButton.Background.ToString() == "#FFFFCCFF")
+            if (toggeldButton.IsPressed)
             {
                 dependButton.Background = new SolidColorBrush(Colors.LightGray);
                 toggeldButton.Background = new SolidColorBrush(Colors.White);
