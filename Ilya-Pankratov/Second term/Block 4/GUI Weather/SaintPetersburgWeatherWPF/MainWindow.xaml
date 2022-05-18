@@ -10,8 +10,8 @@
         <Style TargetType="Button" x:Key="Custom">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="30"
+                    <ControlTemplate TargetType="Button">       
+                        <Border CornerRadius="30" x:Name="border"
                                 Background="{TemplateBinding Background}">
                             <Border.Effect>
                                 <DropShadowEffect BlurRadius="30" Color="MediumPurple" ShadowDepth="0"/>
@@ -87,6 +87,6 @@
         <Button Grid.Column="0" Grid.Row="3" x:Name="tomorrowIOButton" Click="TomorrowIOButton_Click" Content="TomorrowIO" Style="{StaticResource Custom}"/>
         <Button Grid.Column="0" Grid.Row="4" x:Name="stormGlassButton" Click="StormGlassButton_Click" Content="StormGlass" Style="{StaticResource Custom}"/>
         <Button Grid.Column="0" Grid.Row="5" Content="Update" Click="UpdateButton_Click" Style="{StaticResource Custom}"/>
-        <Button Grid.Column="0" Grid.Row="6" Content="Exit" Click="ExitButton_Click" Style="{StaticResource Custom}" />
+            <Button Grid.Column="0" Grid.Row="6" Content="Exit" Click="ExitButton_Click" Style="{StaticResource Custom}" />
     </Grid>
 </Window>

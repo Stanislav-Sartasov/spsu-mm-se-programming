@@ -29,7 +29,6 @@ namespace SaintPetersburgWeatherWPF
         private CityWeatherForecast currentForecast;
         private WeatherParameter currentParameter;
         private string currentSite;
-        private bool existPressedButton;
         private bool updateSites;
 
 
@@ -44,7 +43,6 @@ namespace SaintPetersburgWeatherWPF
             forecasts = new List<SiteWeatherForecast>();
             currentForecast = new CityWeatherForecast("Not Stated", "Not Stated", "Not Stated", "Not Stated", "Not Stated");
             currentSite = String.Empty;
-            existPressedButton = false;
             currentParameter = WeatherParameter.Current;
             updateSites = true;
         }
@@ -75,7 +73,7 @@ namespace SaintPetersburgWeatherWPF
                 currentSite = String.Empty;
             }
 
-            if (toggeldButton.IsPressed)
+            if (toggeldButton.Background.ToString() == "#FFFFCCFF")
             {
                 dependButton.Background = new SolidColorBrush(Colors.LightGray);
                 toggeldButton.Background = new SolidColorBrush(Colors.White);
@@ -118,12 +116,10 @@ namespace SaintPetersburgWeatherWPF
                 ReleaseButtons();
                 PressSiteButton(button);
                 currentSite = (string)button.Content;
-                existPressedButton = true;
             }
             else if (button.Background.ToString() != "#FFD3D3D3")
             {
                 ReleaseSiteButton(button);
-                existPressedButton = false;
                 currentSite = (string)button.Content;
                 currentSite = String.Empty;
             }
