@@ -1,12 +1,11 @@
 package preprocessor
 
+import exception.ElementaryBashException
 import service.substitution.SubstitutionManager
 
 class ElementaryBashPreprocessor(
 	private val substitutionManager: SubstitutionManager
 ) : Preprocessor {
-
-	private val unexpectedEOF = "syntax error: unexpected end of file"
 
 	override fun applySubstitutions(str: String): String {
 		val builder = StringBuilder()
@@ -55,7 +54,10 @@ class ElementaryBashPreprocessor(
 					if (str[index] == '{') {
 						val closedInd = str.indexOf('}', index)
 						if (closedInd == -1)
-							throw PreprocessorException(unexpectedEOF)
+							throw ElementaryBashException(
+								ElementaryBashException.SYNTAX_ERROR,
+								"substitution curly braces was opened but wasn't closed"
+							)
 						builder.append(
 							substitutionManager[str.substring(index + 1, closedInd)]
 						)
@@ -80,7 +82,7 @@ class ElementaryBashPreprocessor(
 			index++
 		}
 		if (isInQuotes || isInDoubleQuotes)
-			throw PreprocessorException(unexpectedEOF)
+			throw ElementaryBashException(ElementaryBashException.SYNTAX_ERROR, "quotes was opened but wasn't closed")
 		return builder.toString()
 	}
 

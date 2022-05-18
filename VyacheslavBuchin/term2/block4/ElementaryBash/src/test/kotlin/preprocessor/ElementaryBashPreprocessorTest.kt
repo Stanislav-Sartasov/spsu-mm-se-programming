@@ -1,5 +1,6 @@
 package preprocessor
 
+import exception.ElementaryBashException
 import org.junit.jupiter.api.BeforeEach
 
 import org.junit.jupiter.api.Assertions.*
@@ -61,21 +62,21 @@ internal class ElementaryBashPreprocessorTest {
 
 	@Test
 	fun `PreprocessorException should be thrown if {} do not form the correct bracket sequence`() {
-		assertThrows(PreprocessorException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			preprocessor.applySubstitutions("\${$variable")
 		}
 	}
 
 	@Test
 	fun `PreprocessorException should be thrown if double quotes do not form the correct bracket sequence`() {
-		assertThrows(PreprocessorException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			preprocessor.applySubstitutions("\"\$$variable")
 		}
 	}
 
 	@Test
 	fun `PreprocessorException should be thrown if single quotes do not form the correct bracket sequence`() {
-		assertThrows(PreprocessorException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			preprocessor.applySubstitutions("\'\$$variable")
 		}
 	}

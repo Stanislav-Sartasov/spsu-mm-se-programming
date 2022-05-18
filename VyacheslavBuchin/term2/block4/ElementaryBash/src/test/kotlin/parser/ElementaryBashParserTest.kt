@@ -1,5 +1,6 @@
 package parser
 
+import exception.ElementaryBashException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -16,7 +17,7 @@ internal class ElementaryBashParserTest {
 	@Test
 	fun `parse should throw ParseException if last token is pipe`() {
 		val tokens = listOf("echo", "123", "|")
-		assertThrows(ParseException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			parser.parse(tokens)
 		}
 	}
