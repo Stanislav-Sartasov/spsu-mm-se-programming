@@ -34,6 +34,12 @@ public class ServiceSelector extends JMenuBar {
 	}
 
 	public String getSelectedService() {
-		return (String) serviceMenu.getSelectedObjects()[0];
+		for (int i = 0; i < serviceMenu.getItemCount(); i++) {
+			if (serviceMenu.getItem(i).isSelected()) {
+				return serviceMenu.getItem(i).getText();
+			}
+		}
+
+		return null;
 	}
 }
