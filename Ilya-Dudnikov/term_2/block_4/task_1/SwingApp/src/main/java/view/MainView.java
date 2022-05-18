@@ -35,8 +35,7 @@ public class MainView extends JPanel {
 		JButton refreshButton = new JButton("Update");
 		add(refreshButton, BorderLayout.SOUTH);
 		refreshButton.addActionListener(e -> {
-			if (!serviceSelector.getSelectedService().equals("Stormglass"))
-				updateDataFromService(serviceSelector.getSelectedService());
+			updateDataFromService(serviceSelector.getSelectedService());
 			outputDataFromService(serviceSelector.getSelectedService());
 			revalidate();
 		});

@@ -13,7 +13,7 @@ public class SwingApp extends JFrame {
 		var menuBar = new ServiceSelector();
 		MainView mainView = new MainView(menuBar);
 		setContentPane(mainView);
-		setSize(800, 600);
+		setSize(500, 400);
 		setResizable(false);
 		setJMenuBar(menuBar);
 
