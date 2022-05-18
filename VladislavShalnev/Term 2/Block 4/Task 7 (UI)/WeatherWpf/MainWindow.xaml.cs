@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows;
-using MicaWPF.Controls;
 using Microsoft.Extensions.Configuration;
 using OpenWeatherMapApi;
 using TomorrowIoApi;
@@ -13,7 +12,7 @@ namespace WeatherWpf;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : MicaWindow
+public partial class MainWindow : Window
 {
 	public static readonly DependencyProperty TomorrowIoWeatherProperty;
 	public static readonly DependencyProperty OpenWeatherMapWeatherProperty;
