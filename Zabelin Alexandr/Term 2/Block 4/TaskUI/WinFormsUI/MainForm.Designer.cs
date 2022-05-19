@@ -372,7 +372,7 @@
             this.updateWeatherButton.TabIndex = 1;
             this.updateWeatherButton.Text = "Update Weather";
             this.updateWeatherButton.UseVisualStyleBackColor = true;
-            this.updateWeatherButton.Click += new System.EventHandler(this.updateWeatherButton_Click);
+            this.updateWeatherButton.Click += new System.EventHandler(this.UpdateWeatherButton_Click);
             // 
             // time
             // 

@@ -41,6 +41,6 @@
                 <DateTimeManager:DateAndTime x:Name="Date"/>
             </TextBlock.DataContext>
         </TextBlock>
-        <Button x:Name="updateWeatherButton" Content="Update the weather" HorizontalAlignment="Center" Margin="0,315,0,0" VerticalAlignment="Center" Width="152" Height="30" FontSize="12" FontWeight="SemiBold" Cursor="Hand" Click="updateWeatherButton_Click"/>
+        <Button x:Name="updateWeatherButton" Content="Update the weather" HorizontalAlignment="Center" Margin="0,315,0,0" VerticalAlignment="Center" Width="152" Height="30" FontSize="12" FontWeight="SemiBold" Cursor="Hand" Click="UpdateWeatherButton_Click"/>
     </Grid>
 </Window>

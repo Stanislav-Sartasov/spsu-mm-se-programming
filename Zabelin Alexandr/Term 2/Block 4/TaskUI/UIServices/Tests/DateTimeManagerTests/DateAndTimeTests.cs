@@ -8,7 +8,7 @@ namespace DateTimeManagerTests
     public class DateAndTimeTests
     {
         [TestMethod]
-        public void IsEventEnvokedTest()
+        public void IsEventInvokedTest()
         {
             DateAndTime dateTime = new DateAndTime();
             string? changedPropertyName = null;

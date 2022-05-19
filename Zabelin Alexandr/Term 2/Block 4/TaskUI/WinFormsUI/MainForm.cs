@@ -22,7 +22,7 @@ namespace WinFormsUI
             bindingSourceStormGlass.Add(stormGlassParser.GetWeather());
         }
 
-        private void updateWeatherButton_Click(object sender, EventArgs e)
+        private void UpdateWeatherButton_Click(object sender, EventArgs e)
         {
             bindingSourceTomorrowIO.RemoveAt(0);
             bindingSourceStormGlass.RemoveAt(0);

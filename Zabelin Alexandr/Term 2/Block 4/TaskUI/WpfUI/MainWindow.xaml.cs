@@ -30,7 +30,7 @@ namespace WpfUI
             weatherTable.Items.Add(stormGlassParser.GetWeather());
         }
 
-        private void updateWeatherButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateWeatherButton_Click(object sender, RoutedEventArgs e)
         {
             Date.UpdateTime();
 
