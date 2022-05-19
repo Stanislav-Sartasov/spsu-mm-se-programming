@@ -25,16 +25,16 @@ class TokenizerTest {
 	void simpleLexemesWithVariables() {
 		String input = "variable=124 | echo 123 | wc";
 		assertEquals(
-				Arrays.asList("variable", "=", "124", "|", "echo", "123", "|", "wc"),
+				Arrays.asList("variable=124", "|", "echo", "123", "|", "wc"),
 				tokenizer.tokenize(input)
 		);
 	}
 
 	@Test
 	void lexemesWithoutSpaces() {
-		String input = "$a|wc";
+		String input = "echo 123|wc";
 		assertEquals(
-				Arrays.asList("$", "a", "|", "wc"),
+				Arrays.asList("echo", "123", "|", "wc"),
 				tokenizer.tokenize(input)
 		);
 	}

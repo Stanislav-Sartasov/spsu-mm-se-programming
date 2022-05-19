@@ -1,7 +1,10 @@
 package tokenizer;
 
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 
+@Component
 public class Tokenizer {
 	public ArrayList<String> tokenize(String input) {
 		ArrayList<String> tokens = new ArrayList<>();
@@ -10,20 +13,13 @@ public class Tokenizer {
 		for (int i = 0; i < input.length(); i++) {
 			char currentChar = input.charAt(i);
 
-			if (currentChar == ' ') {
+			if (currentChar == ' ' || currentChar == '|') {
 				if (!currentToken.isEmpty())
 					tokens.add(currentToken.toString());
 				currentToken.setLength(0);
 
-				continue;
-			}
-
-			if (currentChar == '|' || currentChar == '$' || currentChar == '=') {
-				if (!currentToken.isEmpty())
-					tokens.add(currentToken.toString());
-				currentToken.setLength(0);
-				tokens.add(String.valueOf(currentChar));
-
+				if (currentChar == '|')
+					tokens.add(String.valueOf(currentChar));
 				continue;
 			}
 
