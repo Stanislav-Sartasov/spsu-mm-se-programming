@@ -40,12 +40,12 @@ class ElementaryBashPreprocessor(
 						continue
 					}
 					index++
-					if (index >= str.length)
+					if (index >= str.length) {
+						builder.append('$')
 						break
+					}
 					if (!str[index].isLetter() && str[index] != '_' && str[index] != '{') {
 						builder.append('$')
-						builder.append(str[index])
-						index++
 						continue
 					}
 					if (str[index] == '"' || str[index] == '\'') {

@@ -8,5 +8,7 @@ open class ElementaryBashException(
 		const val SYNTAX_ERROR = "syntax error"
 		const val INVALID_ARGUMENTS = "invalid arguments"
 		const val UNKNOWN_ERROR = "unknown error"
+		const val INVALID_SUBSTITUTION = "bad substitution"
+		const val UNKNOWN_COMMAND = "unknown command"
 	}
 }

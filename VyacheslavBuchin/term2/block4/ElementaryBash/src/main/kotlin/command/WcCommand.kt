@@ -19,7 +19,7 @@ class WcCommand(
 			throw ElementaryBashException(ElementaryBashException.INVALID_ARGUMENTS, "too many arguments")
 		try {
 			val text = extractText(args)
-			output.write("${text.countLines()} ${text.countWords()} ${text.length}${System.lineSeparator()}")
+			output.write("${text.countLines()} ${text.countWords()} ${text.length}")
 		} catch (e: IOException) {
 			throw ElementaryBashException(
 				ElementaryBashException.INVALID_ARGUMENTS,
@@ -38,7 +38,7 @@ class WcCommand(
 		}
 	}
 
-	private fun String.countLines() = this.trim().lines().count()
+	private fun String.countLines() = if(this == "") 0 else this.trim().lines().count()
 
 	private fun String.countWords() = this.trim().split("\\s".toRegex()).filter { it.isNotEmpty() }.size
 }

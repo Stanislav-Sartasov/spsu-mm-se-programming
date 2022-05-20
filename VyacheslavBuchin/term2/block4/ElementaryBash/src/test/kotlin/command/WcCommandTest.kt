@@ -41,7 +41,7 @@ internal class WcCommandTest {
 	fun `empty line should be counted as line`() {
 		wc.input.write("")
 		wc.execute(arrayOf())
-		assertEquals("1 0 0", wc.output.read().trim())
+		assertEquals("0 0 0", wc.output.read().trim())
 	}
 
 	@Test

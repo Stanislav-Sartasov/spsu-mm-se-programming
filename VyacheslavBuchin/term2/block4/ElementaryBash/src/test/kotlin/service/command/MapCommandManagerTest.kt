@@ -5,9 +5,10 @@ import command.OSCommand
 
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
+import service.substitution.MapSubstitutionManager
 
 internal class MapCommandManagerTest {
-	private val manager = MapCommandManager()
+	private val manager = MapCommandManager(MapSubstitutionManager())
 
 	@Test
 	fun `get() should return OSCommand if command was not registered`() {
@@ -17,7 +18,7 @@ internal class MapCommandManagerTest {
 
 	@Test
 	fun `get(name) should return the same value after set(name, value)`() {
-		manager["cat"] = CatCommand()
+		manager["cat"] = { CatCommand() }
 		assertTrue(manager["cat"] is CatCommand)
 	}
 }

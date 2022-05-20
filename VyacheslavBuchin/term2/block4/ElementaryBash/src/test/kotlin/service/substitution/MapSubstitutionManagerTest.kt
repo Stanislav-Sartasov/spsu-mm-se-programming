@@ -1,5 +1,6 @@
 package service.substitution
 
+import exception.ElementaryBashException
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 
@@ -19,14 +20,14 @@ internal class MapSubstitutionManagerTest {
 
 	@Test
 	fun `get(name) should throw SubstitutionException if name contains any whitespaces`() {
-		assertThrows(SubstitutionException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			substitutionManager["some name with whitespaces"]
 		}
 	}
 
 	@Test
 	fun `get(name) should throw SubstitutionException if name is empty`() {
-		assertThrows(SubstitutionException::class.java) {
+		assertThrows(ElementaryBashException::class.java) {
 			substitutionManager[""]
 		}
 	}

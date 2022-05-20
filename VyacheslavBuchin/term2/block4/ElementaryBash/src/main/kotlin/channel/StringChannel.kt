@@ -15,7 +15,11 @@ class StringChannel(val separator: String = System.lineSeparator()) : Channel<St
 
 	override val inputStream: InputStream
 		get() = read().byteInputStream()
-	override val outputStream: OutputStream = OutputStream.nullOutputStream()
+	override val outputStream: OutputStream = object : OutputStream() {
+		override fun write(b: Int) {
+			write(b.toChar().toString())
+		}
+	}
 
 	private val stringBuilder = StringBuilder()
 

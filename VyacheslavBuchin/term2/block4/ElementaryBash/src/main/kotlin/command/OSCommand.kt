@@ -3,8 +3,8 @@ package command
 import channel.Channel
 import channel.InputStreamStringChannel
 import channel.StringChannel
-import java.io.InputStream
-import java.io.PrintStream
+import exception.ElementaryBashException
+import java.io.IOException
 
 class OSCommand(
 	private val name: String,
@@ -13,33 +13,34 @@ class OSCommand(
 	override var error: Channel<String> = StringChannel()
 	override var output: Channel<String> = StringChannel()
 
-	private lateinit var oldIn: InputStream
-	private lateinit var oldOut: PrintStream
-	private lateinit var oldErr: PrintStream
-
 	override fun execute(args: Array<String>): Int {
-		takeIO()
-		val processBuilder = ProcessBuilder(mutableListOf(name).apply { addAll(args) })
-		val process = processBuilder.inheritIO().start()
-		process.waitFor()
-		releaseIO()
-		return process.exitValue()
+		val inputStream = input.inputStream
+		val commandsAndArgs = mutableListOf(name).apply { addAll(args) }
+		val processBuilder = ProcessBuilder(commandsAndArgs)
+
+		if (inputStream == System.`in`)
+			processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT)
+
+		try {
+			val process = processBuilder.start()
+			if (inputStream != System.`in`) {
+				try {
+					process.outputStream.bufferedWriter().use {
+						it.write(inputStream.bufferedReader().readText())
+					}
+				} catch (ignored: IOException) { }
+			}
+			process.waitFor()
+			process.inputStream.bufferedReader().use {
+				output.write(it.readText())
+			}
+			process.errorStream.bufferedReader().use {
+				error.write(it.readText())
+			}
+			return process.exitValue()
+		} catch (exception: IOException) {
+			throw ElementaryBashException(ElementaryBashException.UNKNOWN_COMMAND, name)
+		}
 	}
 
-	private fun takeIO() {
-		oldIn = System.`in`
-		System.setIn(input.inputStream)
-
-		oldOut = System.out
-		System.setOut(PrintStream(output.outputStream))
-
-		oldErr = System.err
-		System.setErr(PrintStream(error.outputStream))
-	}
-
-	private fun releaseIO() {
-		System.setIn(oldIn)
-		System.setOut(oldOut)
-		System.setErr(oldErr)
-	}
 }

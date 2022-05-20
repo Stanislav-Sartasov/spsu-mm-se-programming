@@ -52,6 +52,8 @@ class ElementaryBashTokenizer : Tokenizer {
 			result.add(builder.toString())
 			builder.clear()
 		}
+		if (isLastBackslash)
+			builder.append("\\")
 		result.add(builder.toString())
 		return result.filter { it.isNotEmpty() }
 	}
