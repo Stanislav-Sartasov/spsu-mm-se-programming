@@ -7,7 +7,6 @@ plugins {
 }
 
 group = "me.chezychez"
-version = "1.0-SNAPSHOT"
 
 repositories {
 	mavenCentral()
@@ -36,7 +35,9 @@ tasks.jacocoTestReport {
 		files(classDirectories.files.map {
 			fileTree(it) {
 				exclude(
-					"**/command/*OSCommand*"
+					"**/command/*OSCommand*",
+					"**/*Main*",
+					"**/*ElementaryBashApp*"
 				)
 			}
 		})

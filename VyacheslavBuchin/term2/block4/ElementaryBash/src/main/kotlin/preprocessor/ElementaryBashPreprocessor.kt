@@ -1,10 +1,11 @@
 package preprocessor
 
 import exception.ElementaryBashException
+import service.substitution.MapSubstitutionManager
 import service.substitution.SubstitutionManager
 
 class ElementaryBashPreprocessor(
-	private val substitutionManager: SubstitutionManager
+	private val substitutionManager: SubstitutionManager = MapSubstitutionManager()
 ) : Preprocessor {
 
 	override fun applySubstitutions(str: String): String {
@@ -86,5 +87,5 @@ class ElementaryBashPreprocessor(
 		return builder.toString()
 	}
 
-	private fun shouldStop(c: Char) = c.isWhitespace() || c == '"' || c == '\''
+	private fun shouldStop(c: Char) = c.isWhitespace() || c == '"' || c == '\'' || c == '$'
 }

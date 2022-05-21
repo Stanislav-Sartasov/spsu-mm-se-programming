@@ -11,7 +11,7 @@ class OSCommand(
 	override var input: Channel<String> = InputStreamStringChannel(System.`in`)
 ) : Command {
 	override var error: Channel<String> = StringChannel()
-	override var output: Channel<String> = StringChannel()
+	override var output: Channel<String> = StringChannel("")
 
 	override fun execute(args: Array<String>): Int {
 		val inputStream = input.inputStream
@@ -22,7 +22,7 @@ class OSCommand(
 			processBuilder.redirectInput(ProcessBuilder.Redirect.INHERIT)
 
 		try {
-			val process = processBuilder.start()
+			val process = processBuilder.redirectError(ProcessBuilder.Redirect.INHERIT).start()
 			if (inputStream != System.`in`) {
 				try {
 					process.outputStream.bufferedWriter().use {
@@ -34,9 +34,9 @@ class OSCommand(
 			process.inputStream.bufferedReader().use {
 				output.write(it.readText())
 			}
-			process.errorStream.bufferedReader().use {
-				error.write(it.readText())
-			}
+//			process.errorStream.bufferedReader().use {
+//				error.write(it.readText())
+//			}
 			return process.exitValue()
 		} catch (exception: IOException) {
 			throw ElementaryBashException(ElementaryBashException.UNKNOWN_COMMAND, name)

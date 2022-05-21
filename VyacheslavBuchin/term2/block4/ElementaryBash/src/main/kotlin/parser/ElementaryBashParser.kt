@@ -4,6 +4,8 @@ import exception.ElementaryBashException
 
 class ElementaryBashParser : Parser {
 	override fun parse(tokens: List<String>): List<List<String>> {
+		if (tokens.isEmpty())
+			return listOf()
 		if (tokens.last() == "|")
 			throw ElementaryBashException(ElementaryBashException.SYNTAX_ERROR, "pipe to nothing")
 		if (tokens.first() == "|")

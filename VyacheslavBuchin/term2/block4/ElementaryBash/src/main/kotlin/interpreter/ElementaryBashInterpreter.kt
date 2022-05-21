@@ -12,6 +12,8 @@ class ElementaryBashInterpreter(
 	override val error: Channel<String>
 ) : Interpreter {
 	override fun interpret(commandsWithArgs: List<List<String>>): Int {
+		if (commandsWithArgs.isEmpty())
+			return 0
 		val commands = getCommands(commandsWithArgs)
 		makePipes(commands)
 		for (i in commands.indices) {

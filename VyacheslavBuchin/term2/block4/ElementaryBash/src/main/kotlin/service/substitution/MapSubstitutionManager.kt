@@ -8,7 +8,7 @@ class MapSubstitutionManager : SubstitutionManager {
 	override operator fun get(name: String): String {
 		if (name.isEmpty() || name.contains("\\s".toRegex()))
 			throw ElementaryBashException(ElementaryBashException.INVALID_SUBSTITUTION, "\${$name}")
-		return substitutions[name] ?: ""
+		return substitutions[name] ?: System.getenv(name) ?: ""
 	}
 
 	override operator fun set(name: String, value: String) {
