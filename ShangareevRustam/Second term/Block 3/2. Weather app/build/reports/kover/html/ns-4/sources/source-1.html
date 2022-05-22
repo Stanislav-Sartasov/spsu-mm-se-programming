@@ -1,0 +1,156 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TomorrowIo</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">tomorrowIo</a>
+</div>
+
+<h1>Coverage Summary for Class: TomorrowIo (tomorrowIo)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">TomorrowIo</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (301/301)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package tomorrowIo
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import location.Location
+<i class="no-highlight">4</i>&nbsp;import unassembledWeatherDataField.UnassembledWeatherDataField
+<i class="no-highlight">5</i>&nbsp;import weatherCharacteristics.WeatherCharacteristics
+<i class="no-highlight">6</i>&nbsp;import weatherWeb.*
+<i class="no-highlight">7</i>&nbsp;
+<b class="fc"><i class="no-highlight">8</i>&nbsp;class TomorrowIo(override val appId: String) : WeatherWeb {</b>
+<b class="fc"><i class="no-highlight">9</i>&nbsp;	override val url = &quot;tomorrow.io&quot;</b>
+<i class="no-highlight">10</i>&nbsp;
+<b class="fc"><i class="no-highlight">11</i>&nbsp;	override val dataJSONInformation: Map&lt;WeatherCharacteristics, UnassembledWeatherDataField&gt; =</b>
+<b class="fc"><i class="no-highlight">12</i>&nbsp;		mapOf(WeatherCharacteristics(&quot;Precipitation type&quot;) to UnassembledWeatherDataField(units = &quot;&quot;,</b>
+<b class="fc"><i class="no-highlight">13</i>&nbsp;			path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;precipitationType&quot;)),</b>
+<b class="fc"><i class="no-highlight">14</i>&nbsp;			WeatherCharacteristics(&quot;Precipitation&quot;) to UnassembledWeatherDataField(units = &quot;mmph&quot;,</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;precipitationIntensity&quot;)),</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;			WeatherCharacteristics(&quot;Temperature&quot;) to UnassembledWeatherDataField(units = &quot;deg. C&quot;,</b>
+<b class="fc"><i class="no-highlight">17</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;temperature&quot;)),</b>
+<b class="fc"><i class="no-highlight">18</i>&nbsp;			WeatherCharacteristics(&quot;Cloud cover&quot;) to UnassembledWeatherDataField(units = &quot;%&quot;,</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;cloudCover&quot;)),</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;			WeatherCharacteristics(&quot;Humidity&quot;) to UnassembledWeatherDataField(units = &quot;%&quot;,</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;humidity&quot;)),</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;			WeatherCharacteristics(&quot;Wind direction&quot;) to UnassembledWeatherDataField(units = &quot;°&quot;,</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;windDirection&quot;)),</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;			WeatherCharacteristics(&quot;Wind speed&quot;) to UnassembledWeatherDataField(units = &quot;mps&quot;,</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;				path = listOf(&quot;data&quot;, &quot;timelines&quot;, &quot;intervals&quot;, &quot;values&quot;, &quot;windSpeed&quot;)))</b>
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;	override fun getRequestUrl(location: Location): String {
+<b class="fc"><i class="no-highlight">28</i>&nbsp;		return &quot;https://api.&quot; + url + &quot;/v4/timelines?&amp;timesteps=current&amp;&quot; +</b>
+<i class="no-highlight">29</i>&nbsp;				&quot;fields=temperature,cloudCover,&quot; + &quot;humidity,precipitationType,&quot; +
+<i class="no-highlight">30</i>&nbsp;				&quot;precipitationIntensity,windDirection,&quot; + &quot;windSpeed&amp;&quot; +
+<b class="fc"><i class="no-highlight">31</i>&nbsp;				&quot;location=${location.lat},${location.lon}&quot; + &quot;&amp;units=metric&quot; +</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;				&quot;&amp;apikey=$appId&quot;</b>
+<i class="no-highlight">33</i>&nbsp;	}
+<i class="no-highlight">34</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-23 00:30</div>
+</div>
+</body>
+</html>
