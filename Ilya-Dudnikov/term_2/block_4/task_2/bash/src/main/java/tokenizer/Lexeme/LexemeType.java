@@ -1,4 +1,4 @@
-package util.Lexeme;
+package tokenizer.Lexeme;
 
 public enum LexemeType {
 	COMMAND,

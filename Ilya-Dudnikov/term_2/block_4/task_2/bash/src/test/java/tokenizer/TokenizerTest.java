@@ -2,13 +2,11 @@ package tokenizer;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import shellcommand.Command;
 import shellcommand.CommandList;
 import shellcommand.ShellCommand;
-import util.Lexeme.Lexeme;
-import util.Lexeme.LexemeType;
+import tokenizer.Lexeme.Lexeme;
+import tokenizer.Lexeme.LexemeType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;

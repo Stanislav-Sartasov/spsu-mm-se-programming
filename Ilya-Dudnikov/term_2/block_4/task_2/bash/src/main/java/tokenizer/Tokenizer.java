@@ -3,11 +3,10 @@ package tokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import shellcommand.CommandList;
-import util.Lexeme.Lexeme;
-import util.Lexeme.LexemeType;
+import tokenizer.Lexeme.Lexeme;
+import tokenizer.Lexeme.LexemeType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Component
 public class Tokenizer {
