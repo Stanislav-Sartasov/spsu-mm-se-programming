@@ -1,4 +1,4 @@
-package util;
+package util.VariableStorage;
 
 public interface VariableStorage {
 	void set(String variableName, String value);

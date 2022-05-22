@@ -2,8 +2,8 @@ package preprocessor;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import util.SimpleVariableStorage;
-import util.VariableStorage;
+import util.VariableStorage.SimpleVariableStorage;
+import util.VariableStorage.VariableStorage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,5 +32,21 @@ class PreprocessorTest {
 		String input = "$a|$b";
 
 		assertEquals("echo 123|wc", preprocessor.process(input));
+	}
+
+	@Test
+	void processWithSingleQuotes() {
+		variableStorage.set("a", "echo 123");
+		String input = "'$a' | wc";
+
+		assertEquals("$a | wc", preprocessor.process(input));
+	}
+
+	@Test
+	void processWithDoubleQuotes() {
+		variableStorage.set("a", "echo 123");
+		String input = "\"$a\" | wc";
+
+		assertEquals("echo\\ 123 | wc", preprocessor.process(input));
 	}
 }
