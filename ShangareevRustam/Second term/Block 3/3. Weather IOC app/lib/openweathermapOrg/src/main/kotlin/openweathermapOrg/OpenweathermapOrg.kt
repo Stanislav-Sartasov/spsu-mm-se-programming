@@ -28,7 +28,7 @@ class OpenweathermapOrg(
 				path = listOf("weather", "description")))
 
 	override fun getRequestUrl(location: Location): String {
-		return "https://api." + url + "/data/2.5/weather?" + "lat=${location.lat}" +
+		return "http://api." + url + "/data/2.5/weather?" + "lat=${location.lat}" +
 				"&lon=${location.lon}" + "&units=metric" + "&mode=json" + "&appId=$appId"
 	}
 }

@@ -1,0 +1,1 @@
+C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 3\3. Weather IOC app\lib\openweathermapOrg\build\classes\kotlin\main\openweathermapOrg\OpenweathermapOrg.class
