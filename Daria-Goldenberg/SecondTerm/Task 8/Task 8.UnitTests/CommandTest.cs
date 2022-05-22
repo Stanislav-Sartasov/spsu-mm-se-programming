@@ -22,7 +22,7 @@ namespace Task_8.UnitTests
 		{
 			Directory.SetCurrentDirectory("Files");
 			List<string> args = new List<string> { "first test file.txt", "third test file.txt" };
-			CommandResult result = new Cat().Run(args);
+			CommandResult result = new CommandCat().Run(args);
 			Directory.SetCurrentDirectory("..");
 			Assert.AreEqual(result.Errors, new List<string> { "Did not find the file third test file.txt." });
 			Assert.AreEqual(result.Results, new List<string> { "https://petrathecat.github.io/smth/" });
@@ -34,7 +34,7 @@ namespace Task_8.UnitTests
 		public void EchoRunTest()
 		{
 			List<string> args = new List<string> { "123", "456", "789" };
-			CommandResult result = new Echo().Run(args);
+			CommandResult result = new CommandEcho().Run(args);
 			string correctOutput = "123 456 789 \r\n";
 			Assert.AreEqual(stringWriter.ToString(), correctOutput);
 			Assert.AreEqual(result.Errors, new List<string> { });
@@ -48,7 +48,7 @@ namespace Task_8.UnitTests
 		{
 			Directory.SetCurrentDirectory("Files");
 			List<string> args = new List<string> { "", "" };
-			CommandResult result = new PWD().Run(args);
+			CommandResult result = new CommandPWD().Run(args);
 			Directory.SetCurrentDirectory("..");
 			Assert.AreEqual(result.Results.Count, 3);
 			Assert.AreEqual(result.Results[1], "first test file.txt");
@@ -61,7 +61,7 @@ namespace Task_8.UnitTests
 		public void StartAppRunTest()
 		{
 			List<string> args = new List<string> { "0123" };
-			CommandResult result = new StartApp().Run(args);
+			CommandResult result = new CommandStartApp().Run(args);
 			Assert.AreEqual(result.Errors[0], "Process 0123 could not be started.");
 
 			Assert.Pass();
@@ -72,7 +72,7 @@ namespace Task_8.UnitTests
 		{
 			Directory.SetCurrentDirectory("Files");
 			List<string> args = new List<string> { "first test file.txt", "third test file.txt" };
-			CommandResult result = new WC().Run(args);
+			CommandResult result = new CommandWC().Run(args);
 			Directory.SetCurrentDirectory("..");
 			Assert.AreEqual(result.Results[0], "1 1 35");
 			Assert.AreEqual(result.Errors[0], "Did not find the file third test file.txt.");
@@ -83,7 +83,7 @@ namespace Task_8.UnitTests
 		[Test]
 		public void ExitRunTest()
 		{
-			CommandResult result = new Exit().Run(new List<string> { "" });
+			CommandResult result = new CommandExit().Run(new List<string> { "" });
 			Assert.AreEqual(result.Errors[0], "exit");
 
 			Assert.Pass();

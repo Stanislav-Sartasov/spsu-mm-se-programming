@@ -2,7 +2,7 @@
 
 namespace Task_8.Commands
 {
-	public class StartApp : Command
+	public class CommandStartApp : Command
 	{
 		public override CommandResult Run(List<string> args)
 		{

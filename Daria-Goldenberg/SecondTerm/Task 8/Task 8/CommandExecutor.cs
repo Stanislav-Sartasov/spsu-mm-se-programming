@@ -9,16 +9,16 @@ namespace Task_8
 			string commandHeader = args[0].Trim();
 			List<string> arguments = args.ToArray()[1..].ToList();
 			if (commandHeader == "cat")
-				return new Cat().Run(arguments);
+				return new CommandCat().Run(arguments);
 			if (commandHeader == "wc")
-				return new WC().Run(arguments);
+				return new CommandWC().Run(arguments);
 			if (commandHeader == "pwd")
-				return new PWD().Run(arguments);
+				return new CommandPWD().Run(arguments);
 			if (commandHeader == "exit")
-				return new Exit().Run(arguments);
+				return new CommandExit().Run(arguments);
 			if (commandHeader == "echo")
-				return new Echo().Run(arguments);
-			return new StartApp().Run(args);
+				return new CommandEcho().Run(arguments);
+			return new CommandStartApp().Run(args);
 		}
 	}
 }

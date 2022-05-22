@@ -1,6 +1,6 @@
 ﻿namespace Task_8.Commands
 {
-	public class PWD : Command
+	public class CommandPWD : Command
 	{
 		public override CommandResult Run(List<string> args)
 		{

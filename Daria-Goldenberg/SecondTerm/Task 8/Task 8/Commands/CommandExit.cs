@@ -1,6 +1,6 @@
 ﻿namespace Task_8.Commands
 {
-	public class Exit : Command
+	public class CommandExit : Command
 	{
 		public override CommandResult Run(List<string> args)
 		{

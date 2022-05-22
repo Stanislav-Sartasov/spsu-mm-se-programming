@@ -1,6 +1,6 @@
 ﻿namespace Task_8.Commands
 {
-	public class Cat : Command
+	public class CommandWC : Command
 	{
 		public override CommandResult Run(List<string> args)
 		{
@@ -11,9 +11,12 @@
 			{
 				try
 				{
-					output.AddRange(File.ReadLines(arg));
+					string? data = File.ReadAllText(arg);
+					long byteLength = new FileInfo(arg).Length;
+					output.Add(data.Split(Environment.NewLine).Length.ToString() + " " 
+						+ data.Split(" ").Length.ToString() + " " + byteLength.ToString());
 				}
-				catch 
+				catch
 				{
 					errors.Add("Did not find the file " + arg + ".");
 				}

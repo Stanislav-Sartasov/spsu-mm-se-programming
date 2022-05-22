@@ -1,6 +1,6 @@
 ﻿namespace Task_8.Commands
 {
-	public class Echo : Command
+	public class CommandEcho : Command
 	{
 		public override CommandResult Run(List<string> args)
 		{
