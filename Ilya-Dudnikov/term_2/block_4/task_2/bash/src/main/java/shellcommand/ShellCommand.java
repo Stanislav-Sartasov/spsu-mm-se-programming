@@ -1,8 +1,10 @@
 package shellcommand;
 
+import java.nio.ByteBuffer;
+
 public class ShellCommand extends Command {
 	@Override
-	public void run() {
-
+	public ByteBuffer run() {
+		return null;
 	}
 }
