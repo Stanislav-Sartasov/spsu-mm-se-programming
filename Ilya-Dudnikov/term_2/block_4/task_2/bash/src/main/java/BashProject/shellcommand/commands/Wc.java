@@ -1,12 +1,11 @@
-package shellcommand.commands;
+package BashProject.shellcommand.commands;
 
 import org.javatuples.Triplet;
-import shellcommand.Command;
+import BashProject.shellcommand.Command;
 
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class Wc extends Command {
 	private static final String STDIN_OUTPUT_FORMAT = "%d %d %d";

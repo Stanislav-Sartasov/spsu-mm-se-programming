@@ -1,10 +1,10 @@
-package tokenizer;
+package BashProject.tokenizer;
 
+import BashProject.shellcommand.CommandList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import shellcommand.CommandList;
-import tokenizer.Lexeme.Lexeme;
-import tokenizer.Lexeme.LexemeType;
+import BashProject.tokenizer.Lexeme.Lexeme;
+import BashProject.tokenizer.Lexeme.LexemeType;
 
 import java.util.ArrayList;
 

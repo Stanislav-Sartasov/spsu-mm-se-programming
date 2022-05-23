@@ -1,4 +1,4 @@
-package tokenizer.Lexeme;
+package BashProject.tokenizer.Lexeme;
 
 public enum LexemeType {
 	COMMAND,

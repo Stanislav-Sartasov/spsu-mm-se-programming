@@ -1,9 +1,14 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
+
+application {
+    mainClass.set('CLIApp.App');
+}
 
 repositories {
     mavenCentral()
@@ -11,7 +16,13 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.springframework/spring-context
-    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.20'
+//    implementation group: 'org.springframework', name: 'spring-context', version: '5.3.20'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
+    implementation group: 'org.springframework.boot', name: 'spring-boot', version: '2.7.0'
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-autoconfigure
+    implementation group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.7.0'
 
     // https://mvnrepository.com/artifact/org.javatuples/javatuples
     implementation group: 'org.javatuples', name: 'javatuples', version: '1.2'

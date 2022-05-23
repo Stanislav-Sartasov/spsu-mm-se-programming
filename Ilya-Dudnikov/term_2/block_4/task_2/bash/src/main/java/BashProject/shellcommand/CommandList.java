@@ -1,4 +1,4 @@
-package shellcommand;
+package BashProject.shellcommand;
 
 import org.springframework.stereotype.Component;
 

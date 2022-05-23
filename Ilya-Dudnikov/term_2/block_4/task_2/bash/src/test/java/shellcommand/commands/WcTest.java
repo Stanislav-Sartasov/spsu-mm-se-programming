@@ -1,13 +1,10 @@
 package shellcommand.commands;
 
-import org.javatuples.Triplet;
+import BashProject.shellcommand.commands.Wc;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
 

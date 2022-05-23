@@ -1,5 +1,6 @@
 package shellcommand.commands;
 
+import BashProject.shellcommand.commands.Echo;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

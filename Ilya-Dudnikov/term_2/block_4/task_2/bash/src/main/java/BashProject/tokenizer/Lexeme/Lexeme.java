@@ -1,4 +1,4 @@
-package tokenizer.Lexeme;
+package BashProject.tokenizer.Lexeme;
 
 import org.springframework.stereotype.Component;
 

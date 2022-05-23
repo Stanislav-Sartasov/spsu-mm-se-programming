@@ -1,4 +1,4 @@
-package shellcommand;
+package BashProject.shellcommand;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

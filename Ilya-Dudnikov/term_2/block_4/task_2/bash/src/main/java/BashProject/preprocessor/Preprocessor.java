@@ -1,11 +1,10 @@
-package preprocessor;
+package BashProject.preprocessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import util.VariableStorage.VariableStorage;
+import BashProject.VariableStorage.VariableStorage;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 @Component
 public class Preprocessor {

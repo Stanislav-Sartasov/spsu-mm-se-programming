@@ -1,13 +1,9 @@
-package shellcommand.commands;
+package BashProject.shellcommand.commands;
 
-import org.javatuples.Triplet;
-import shellcommand.Command;
+import BashProject.shellcommand.Command;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
 
 public class Cat extends Command {
 	private String executeCat(File file) {

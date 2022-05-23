@@ -1,14 +1,15 @@
 package tokenizer;
 
+import BashProject.tokenizer.Tokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import shellcommand.CommandList;
-import shellcommand.commands.Cat;
-import shellcommand.commands.Echo;
-import shellcommand.commands.Pwd;
-import shellcommand.commands.Wc;
-import tokenizer.Lexeme.Lexeme;
-import tokenizer.Lexeme.LexemeType;
+import BashProject.shellcommand.CommandList;
+import BashProject.shellcommand.commands.Cat;
+import BashProject.shellcommand.commands.Echo;
+import BashProject.shellcommand.commands.Pwd;
+import BashProject.shellcommand.commands.Wc;
+import BashProject.tokenizer.Lexeme.Lexeme;
+import BashProject.tokenizer.Lexeme.LexemeType;
 
 import java.util.Arrays;
 

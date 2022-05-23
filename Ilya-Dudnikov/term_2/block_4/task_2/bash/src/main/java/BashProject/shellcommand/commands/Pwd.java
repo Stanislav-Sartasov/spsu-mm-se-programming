@@ -1,6 +1,6 @@
-package shellcommand.commands;
+package BashProject.shellcommand.commands;
 
-import shellcommand.Command;
+import BashProject.shellcommand.Command;
 
 import java.nio.ByteBuffer;
 

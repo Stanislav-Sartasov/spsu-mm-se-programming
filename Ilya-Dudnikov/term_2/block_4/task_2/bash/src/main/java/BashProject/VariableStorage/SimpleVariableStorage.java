@@ -1,4 +1,4 @@
-package util.VariableStorage;
+package BashProject.VariableStorage;
 
 import org.springframework.stereotype.Component;
 

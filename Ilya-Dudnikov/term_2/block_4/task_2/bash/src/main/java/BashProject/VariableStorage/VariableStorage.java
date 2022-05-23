@@ -1,4 +1,4 @@
-package util.VariableStorage;
+package BashProject.VariableStorage;
 
 public interface VariableStorage {
 	void set(String variableName, String value);
