@@ -3,45 +3,58 @@ package shellcommand.commands;
 import org.javatuples.Triplet;
 import shellcommand.Command;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Wc extends Command {
-	private static final String OUTPUT_FORMAT = "%7d%7d%7d";
+	private static final String STDIN_OUTPUT_FORMAT = "%d %d %d";
+	private static final String OUTPUT_FORMAT = "%d %d %d %s";
 
 	private Triplet<Integer, Integer, Integer> executeWordCount(File file) {
-		if (file.isDirectory()) {
+		if (file != null && file.isDirectory()) {
 			return new Triplet<>(0, 0, 0);
 		}
 
-		Scanner scanner;
-		if (file == null)
-			scanner = new Scanner(System.in);
-		else
-			scanner = new Scanner(System.in);
+		InputStream inputStream;
+		if (file == null) {
+			inputStream = System.in;
+		} else {
+			try {
+				inputStream = new FileInputStream(file);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+		}
 
 		int newLineCount = 0;
 		int wordCount = 0;
 		int byteCount = 0;
-		while (scanner.hasNextLine()) {
-			newLineCount++;
-			var currentLine = scanner.nextLine();
-			byteCount += currentLine.getBytes().length;
-			wordCount += currentLine.split(" ").length;
+
+		try {
+			byte[] inputBytes = inputStream.readAllBytes();
+			String input = new String(inputBytes);
+			newLineCount = (int) input.chars().filter(elem -> elem == '\n').count();
+			wordCount = (int) Arrays.stream(input.split("[ \n]")).filter(elem -> !elem.isBlank()).count();
+			byteCount = input.length();
+
+			inputStream.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
 		}
 
-		return new Triplet<>(newLineCount, byteCount, wordCount);
+		return new Triplet<>(newLineCount, wordCount, byteCount);
 	}
 
 	@Override
-	public ByteBuffer run() {
+	public ByteBuffer run(String ... arguments) {
+		super.run(arguments);
+
 		if (args.isEmpty()) {
 			var wcOutput = executeWordCount(null);
 
-			return ByteBuffer.wrap(String.format(OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2()).getBytes());
+			return ByteBuffer.wrap(String.format(STDIN_OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2()).getBytes());
 		}
 
 		int totalNewLines = 0;
@@ -49,7 +62,8 @@ public class Wc extends Command {
 		int totalBytes = 0;
 
 		StringBuilder result = new StringBuilder();
-		for (var fileName : args) {
+		for (int i = 0; i < args.size(); i++) {
+			String fileName = args.get(i);
 			var file = new File(fileName);
 
 			if (!file.exists()) {
@@ -62,9 +76,11 @@ public class Wc extends Command {
 			}
 
 			if (file.isDirectory()) {
-				result.append("wc: ")
+				result
+						.append("wc: ")
 						.append(fileName)
-						.append(": Is a directory");
+						.append(": Is a directory")
+						.append(System.lineSeparator());
 			}
 
 			var wcOutput = executeWordCount(file);
@@ -74,11 +90,17 @@ public class Wc extends Command {
 			totalBytes += wcOutput.getValue2();
 
 			result.append(
-					String.format(OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2())
-			).append(System.lineSeparator());
+					String.format(OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2(), fileName)
+			);
+
+			result.append(System.lineSeparator());
 		}
 
-		result.append(String.format(OUTPUT_FORMAT, totalNewLines, totalWords, totalBytes));
+		if (args.size() > 1) {
+			result
+					.append(String.format(OUTPUT_FORMAT, totalNewLines, totalWords, totalBytes, "total"))
+					.append(System.lineSeparator());
+		}
 		return ByteBuffer.wrap(result.toString().getBytes());
 	}
 }

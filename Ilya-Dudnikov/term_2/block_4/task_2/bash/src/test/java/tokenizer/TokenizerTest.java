@@ -3,7 +3,10 @@ package tokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import shellcommand.CommandList;
-import shellcommand.ShellCommand;
+import shellcommand.commands.Cat;
+import shellcommand.commands.Echo;
+import shellcommand.commands.Pwd;
+import shellcommand.commands.Wc;
 import tokenizer.Lexeme.Lexeme;
 import tokenizer.Lexeme.LexemeType;
 
@@ -16,10 +19,10 @@ class TokenizerTest {
 	@BeforeEach
 	void setUp() {
 		CommandList commandList = new CommandList();
-		commandList.addCommand("echo", new ShellCommand());
-		commandList.addCommand("cat", new ShellCommand());
-		commandList.addCommand("wc", new ShellCommand());
-		commandList.addCommand("pwd", new ShellCommand());
+		commandList.addCommand("echo", new Echo());
+		commandList.addCommand("cat", new Cat());
+		commandList.addCommand("wc", new Wc());
+		commandList.addCommand("pwd", new Pwd());
 		tokenizer = new Tokenizer(commandList);
 	}
 

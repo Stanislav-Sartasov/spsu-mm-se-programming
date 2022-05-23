@@ -3,44 +3,49 @@ package shellcommand.commands;
 import org.javatuples.Triplet;
 import shellcommand.Command;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-
-
 public class Cat extends Command {
 	private String executeCat(File file) {
-		if (file.isDirectory()) {
+		if (file != null && file.isDirectory()) {
 			return "";
 		}
 
-		Scanner scanner;
-		if (file == null)
-			scanner = new Scanner(System.in);
-		else
-			scanner = new Scanner(System.in);
+		InputStream inputStream;
+		if (file == null) {
+			inputStream = System.in;
+		} else {
 
-		StringBuilder result = new StringBuilder();
-		while (scanner.hasNextLine()) {
-			result.append(scanner.nextLine());
+			try {
+				inputStream = new FileInputStream(file);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 		}
 
-		return result.toString();
+		try {
+			String result = new String(inputStream.readAllBytes());
+			inputStream.close();
+			return result;
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
-	public ByteBuffer run() {
+	public ByteBuffer run(String ... arguments) {
+		super.run(arguments);
 		if (args.isEmpty()) {
 			return ByteBuffer.wrap((executeCat(null).getBytes()));
 		}
 
 		StringBuilder result = new StringBuilder();
-		for (var fileName : args) {
+		for (int i = 0; i < args.size(); i++) {
+			var fileName = args.get(i);
 			File file = new File(fileName);
 
 			if (!file.exists()) {
@@ -54,12 +59,15 @@ public class Cat extends Command {
 
 			if (file.isDirectory()) {
 				result
-						.append("wc: ")
+						.append("cat: ")
 						.append(fileName)
 						.append(": Is a directory");
 			}
 
-			result.append(executeCat(file)).append(System.lineSeparator());
+			result.append(executeCat(file));
+
+			if (i < args.size() - 1)
+				result.append(System.lineSeparator());
 		}
 
 		return ByteBuffer.wrap(result.toString().getBytes());

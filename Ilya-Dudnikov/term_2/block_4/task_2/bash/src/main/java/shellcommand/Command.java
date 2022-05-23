@@ -6,11 +6,10 @@ import java.util.Arrays;
 
 public abstract class Command {
 	protected ArrayList<String> args;
-	public Command() {};
+	public Command() {}
 
-	public Command(String ... args) {
-		this.args = new ArrayList<>(Arrays.asList(args));
+	public ByteBuffer run(String ... arguments) {
+		this.args = new ArrayList<>(Arrays.asList(arguments));
+		return null;
 	}
-
-	public abstract ByteBuffer run();
 }

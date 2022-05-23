@@ -9,8 +9,8 @@ class EchoTest {
 	@Test
 	void run() {
 		String msg = "Hello, it's Putin! Goodbye, my friend!" + System.lineSeparator();
-		Echo command = new Echo("Hello, it's Putin!", "Goodbye, my friend!");
+		Echo command = new Echo();
 
-		assertEquals(msg, new String(command.run().array()));
+		assertEquals(msg, new String(command.run("Hello, it's Putin!", "Goodbye, my friend!").array()));
 	}
 }

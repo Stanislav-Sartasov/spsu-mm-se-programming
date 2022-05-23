@@ -7,12 +7,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Echo extends Command {
-	public Echo(String ... args) {
-		super(args);
-	}
-
 	@Override
-	public ByteBuffer run() {
+	public ByteBuffer run(String ... arguments) {
+		super.run(arguments);
 		return ByteBuffer.wrap((String.join(" ", args) + System.lineSeparator()).getBytes());
 	}
 }
