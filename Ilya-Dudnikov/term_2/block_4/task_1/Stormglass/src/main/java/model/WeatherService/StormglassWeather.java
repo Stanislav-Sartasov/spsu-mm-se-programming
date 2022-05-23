@@ -4,6 +4,7 @@ import model.WeatherService.IWeatherAPIRequest;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 
@@ -31,6 +32,7 @@ public class StormglassWeather implements IWeatherAPIRequest {
 								+ "&start=" + Instant.now().toString().substring(0, DATE_LENGTH)
 								+ "&end=" + Instant.now().toString().substring(0, DATE_LENGTH)
 				))
+				.timeout(Duration.ofSeconds(10))
 				.build();
 	}
 }

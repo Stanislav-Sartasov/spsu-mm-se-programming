@@ -4,6 +4,7 @@ import model.WeatherService.IWeatherAPIRequest;
 
 import java.net.URI;
 import java.net.http.HttpRequest;
+import java.time.Duration;
 
 public class OpenWeatherMap implements IWeatherAPIRequest {
 	private static final String OPENWEATHERMAP_URL = "https://api.openweathermap.org/data/2.5/weather";
@@ -18,6 +19,7 @@ public class OpenWeatherMap implements IWeatherAPIRequest {
 								+ "&lon=" + lon
 								+ "&appid=" + System.getenv("OPENWEATHERMAP_API_KEY")
 				))
+				.timeout(Duration.ofSeconds(10))
 				.build();
 	}
 }

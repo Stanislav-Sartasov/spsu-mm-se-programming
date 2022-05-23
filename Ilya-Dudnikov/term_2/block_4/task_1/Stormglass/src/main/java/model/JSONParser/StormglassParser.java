@@ -20,6 +20,9 @@ public class StormglassParser implements JSONParser {
 
 	@Override
 	public Map<String, Double> parse(String json) throws ParseException {
+		if (json == null)
+			return null;
+
 		JSONObject jsonObject = (JSONObject) new org.json.simple.parser.JSONParser().parse(json);
 
 		var hoursArray = (JSONArray) jsonObject.get("hours");

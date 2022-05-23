@@ -9,6 +9,9 @@ import java.util.Map;
 public class OpenWeatherMapParser implements JSONParser {
 	@Override
 	public Map<String, Double> parse(String json) throws ParseException {
+		if (json == null)
+			return null;
+
 		JSONObject jsonObject = (JSONObject) new org.json.simple.parser.JSONParser().parse(json);
 
 		return new HashMap<>() {{

@@ -20,9 +20,7 @@ public class WeatherService {
 
 			return response.body();
 		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
+			return null;
 		}
-
-		return null;
 	}
 }

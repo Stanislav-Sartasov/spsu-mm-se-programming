@@ -11,6 +11,9 @@ public class StormglassModel extends WeatherModel {
 
 	@Override
 	public void updateState(Map<String, Double> newStats) {
+		if (newStats == null)
+			return;
+
 		data = new WeatherData(
 				newStats.get("airTemperatureC"),
 				newStats.get("airTemperatureF"),
