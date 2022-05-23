@@ -1,11 +1,13 @@
-package BashProject.VariableStorage;
+package BashProject.util.VariableStorage;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Scope("singleton")
 public class SimpleVariableStorage implements VariableStorage {
 	private Map<String, String> variables;
 
