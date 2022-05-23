@@ -28,6 +28,18 @@ class TokenizerTest {
 	}
 
 	@Test
+	void simplestTest() {
+		String input = "echo 123";
+		assertEquals(
+				Arrays.asList(
+						new Lexeme(LexemeType.COMMAND, "echo"),
+						new Lexeme(LexemeType.ARGUMENT, "123")
+				),
+				tokenizer.tokenize(input)
+		);
+	}
+
+	@Test
 	void simpleLexemesTest() {
 		String input = "echo 123 12345 | pwd | exit";
 		assertEquals(

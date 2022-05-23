@@ -2,7 +2,7 @@ package BashProject.preprocessor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import BashProject.VariableStorage.VariableStorage;
+import BashProject.util.VariableStorage.VariableStorage;
 
 import java.util.ArrayList;
 

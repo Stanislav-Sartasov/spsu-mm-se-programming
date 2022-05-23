@@ -82,6 +82,7 @@ public class Tokenizer {
 				int nextIndex = normalizeIndex(input.indexOf('|', i + 1), input.length());
 				tokens.addAll(simpleTokenize(input.substring(i + 1, nextIndex)));
 				i = nextIndex - 1;
+				currentToken.setLength(0);
 				continue;
 			}
 

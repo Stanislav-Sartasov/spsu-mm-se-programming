@@ -22,6 +22,11 @@ public class SimpleVariableStorage implements VariableStorage {
 
 	@Override
 	public String get(String variableName) {
+		var variableValue = variables.get(variableName);
+
+		if (variableValue == null) {
+			return System.getenv(variableName);
+		}
 		return variables.get(variableName);
 	}
 }

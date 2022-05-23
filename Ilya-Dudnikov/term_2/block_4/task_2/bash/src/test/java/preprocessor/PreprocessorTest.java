@@ -3,8 +3,8 @@ package preprocessor;
 import BashProject.preprocessor.Preprocessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import BashProject.VariableStorage.SimpleVariableStorage;
-import BashProject.VariableStorage.VariableStorage;
+import BashProject.util.VariableStorage.SimpleVariableStorage;
+import BashProject.util.VariableStorage.VariableStorage;
 
 import static org.junit.jupiter.api.Assertions.*;
 

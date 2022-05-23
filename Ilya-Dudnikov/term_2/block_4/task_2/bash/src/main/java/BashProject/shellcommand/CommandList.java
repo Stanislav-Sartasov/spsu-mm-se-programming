@@ -1,5 +1,6 @@
 package BashProject.shellcommand;
 
+import BashProject.shellcommand.commands.*;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -13,6 +14,14 @@ public class CommandList {
 		commandList = new HashMap<>();
 	}
 
+	public void addInitialCommands() {
+		addCommand("echo", new Echo());
+		addCommand("cat", new Cat());
+		addCommand("wc", new Wc());
+		addCommand("pwd", new Pwd());
+		addCommand("exit", new Exit());
+	}
+
 	public void addCommand(String name, Command command) {
 		commandList.put(name, command);
 	}
@@ -22,6 +31,9 @@ public class CommandList {
 	}
 
 	public Command getCommand(String name) {
-		return commandList.get(name);
+		var command = commandList.get(name);
+		if (command == null)
+			return new FallbackCommand(name);
+		return command;
 	}
 }
