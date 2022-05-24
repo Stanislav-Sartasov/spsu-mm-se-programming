@@ -69,8 +69,34 @@ public class Preprocessor {
 		StringBuilder currentString = new StringBuilder();
 		for (int i = 0; i < input.length(); i++) {
 			char currentChar = input.charAt(i);
-			if (!" '\"".contains(String.valueOf(currentChar))) {
+			if (!" \\'\"".contains(String.valueOf(currentChar))) {
 				currentString.append(currentChar);
+				continue;
+			}
+
+			if (currentChar == '\'') {
+				if (readingDoubleQuotes) {
+					currentString.append(currentChar);
+					continue;
+				}
+
+
+				readingSingleQuotes = !readingSingleQuotes;
+				continue;
+			}
+
+			if (readingSingleQuotes) {
+				currentString.append("\\").append(currentChar);
+				continue;
+			}
+
+			if (currentChar == '\\') {
+				if (i + 1 >= input.length()) {
+					throw new IllegalArgumentException("Unknown escape sequence");
+				}
+
+				currentString.append('\\').append(input.charAt(i + 1));
+				i++;
 				continue;
 			}
 
@@ -84,22 +110,13 @@ public class Preprocessor {
 				continue;
 			}
 
-			if (currentChar == '\'') {
-				if (readingDoubleQuotes) {
-					currentString.append(currentChar);
-					continue;
-				}
-
-				readingSingleQuotes = !readingSingleQuotes;
-				continue;
-			}
-
-			if (readingSingleQuotes) {
-				currentString.append(currentChar);
-				continue;
-			}
 			readingDoubleQuotes = !readingDoubleQuotes;
 		}
+
+		if (readingDoubleQuotes || readingSingleQuotes) {
+			throw new IllegalArgumentException("Unmatched quotes");
+		}
+
 		return currentString.toString();
 	}
 

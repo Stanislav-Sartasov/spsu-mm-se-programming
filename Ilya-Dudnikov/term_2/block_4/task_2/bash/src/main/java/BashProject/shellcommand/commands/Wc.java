@@ -53,7 +53,10 @@ public class Wc extends Command {
 		if (args.isEmpty()) {
 			var wcOutput = executeWordCount(null);
 
-			return ByteBuffer.wrap(String.format(STDIN_OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2()).getBytes());
+			return ByteBuffer.wrap(
+					(String.format(STDIN_OUTPUT_FORMAT, wcOutput.getValue0(), wcOutput.getValue1(), wcOutput.getValue2())
+					+ System.lineSeparator()).getBytes()
+			);
 		}
 
 		int totalNewLines = 0;
@@ -96,9 +99,7 @@ public class Wc extends Command {
 		}
 
 		if (args.size() > 1) {
-			result
-					.append(String.format(OUTPUT_FORMAT, totalNewLines, totalWords, totalBytes, "total"))
-					.append(System.lineSeparator());
+			result.append(String.format(OUTPUT_FORMAT, totalNewLines, totalWords, totalBytes, "total")).append(System.lineSeparator());
 		}
 		return ByteBuffer.wrap(result.toString().getBytes());
 	}

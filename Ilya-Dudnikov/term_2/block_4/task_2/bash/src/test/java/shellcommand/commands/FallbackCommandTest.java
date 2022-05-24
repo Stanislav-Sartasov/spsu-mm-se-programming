@@ -10,6 +10,6 @@ class FallbackCommandTest {
 	@Test
 	void unknownCommand() {
 		FallbackCommand fallbackCommand = new FallbackCommand("hahaha.exe");
-		assertEquals("hahaha.exe: command not found", new String(fallbackCommand.run().array()));
+		assertEquals("hahaha.exe: command not found" + System.lineSeparator(), new String(fallbackCommand.run().array()));
 	}
 }

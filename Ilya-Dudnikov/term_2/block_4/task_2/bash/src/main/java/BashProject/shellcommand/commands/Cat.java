@@ -36,7 +36,7 @@ public class Cat extends Command {
 	public ByteBuffer run(String ... arguments) {
 		super.run(arguments);
 		if (args.isEmpty()) {
-			return ByteBuffer.wrap((executeCat(null).getBytes()));
+			return ByteBuffer.wrap((executeCat(null) + System.lineSeparator()).getBytes());
 		}
 
 		StringBuilder result = new StringBuilder();
@@ -60,10 +60,7 @@ public class Cat extends Command {
 						.append(": Is a directory");
 			}
 
-			result.append(executeCat(file));
-
-			if (i < args.size() - 1)
-				result.append(System.lineSeparator());
+			result.append(executeCat(file)).append(System.lineSeparator());
 		}
 
 		return ByteBuffer.wrap(result.toString().getBytes());

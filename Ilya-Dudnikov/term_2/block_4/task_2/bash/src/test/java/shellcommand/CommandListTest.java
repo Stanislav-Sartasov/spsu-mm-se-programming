@@ -1,5 +1,6 @@
-package BashProject.shellcommand;
+package shellcommand;
 
+import BashProject.shellcommand.CommandList;
 import BashProject.shellcommand.commands.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -19,12 +19,7 @@ class TokenizerTest {
 	private Tokenizer tokenizer;
 	@BeforeEach
 	void setUp() {
-		CommandList commandList = new CommandList();
-		commandList.addCommand("echo", new Echo());
-		commandList.addCommand("cat", new Cat());
-		commandList.addCommand("wc", new Wc());
-		commandList.addCommand("pwd", new Pwd());
-		tokenizer = new Tokenizer(commandList);
+		tokenizer = new Tokenizer();
 	}
 
 	@Test

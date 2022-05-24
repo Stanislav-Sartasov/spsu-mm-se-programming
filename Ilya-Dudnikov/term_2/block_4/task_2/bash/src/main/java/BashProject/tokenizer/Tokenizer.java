@@ -10,13 +10,6 @@ import java.util.ArrayList;
 
 @Component
 public class Tokenizer {
-	private CommandList commandList;
-
-	@Autowired
-	public Tokenizer(CommandList commandList) {
-		this.commandList = commandList;
-	}
-
 	private int normalizeIndex(int index, int arrayLength) {
 		if (index == -1)
 			return arrayLength;
@@ -98,7 +91,11 @@ public class Tokenizer {
 			currentToken.setLength(0);
 		}
 
-		tokens.add(new Lexeme(LexemeType.COMMAND, currentToken.toString()));
+		if (!tokens.isEmpty() && tokens.get(tokens.size() - 1).getValue().equals("=")) {
+			tokens.add(new Lexeme(LexemeType.ARGUMENT, currentToken.toString()));
+		} else {
+			tokens.add(new Lexeme(LexemeType.COMMAND, currentToken.toString()));
+		}
 		tokens.removeIf(lexeme -> lexeme.getValue().equals(""));
 		return tokens;
 	}

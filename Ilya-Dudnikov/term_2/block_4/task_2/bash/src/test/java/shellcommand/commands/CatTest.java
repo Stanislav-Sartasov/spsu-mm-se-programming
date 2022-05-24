@@ -4,6 +4,7 @@ import BashProject.shellcommand.commands.Cat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.annotation.processing.SupportedSourceVersion;
 import java.io.*;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -23,7 +24,7 @@ class CatTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(inputStream);
 
-		assertArrayEquals(input.getBytes(), cat.run().array());
+		assertArrayEquals((input + System.lineSeparator()).getBytes(), cat.run().array());
 	}
 
 	@Test
@@ -41,7 +42,7 @@ class CatTest {
 
 		System.out.println(input);
 
-		assertArrayEquals(input.getBytes(), cat.run().array());
+		assertArrayEquals((input + System.lineSeparator()).getBytes(), cat.run().array());
 	}
 
 	@Test
@@ -49,7 +50,10 @@ class CatTest {
 		File file = new File(RESOURCES_PATH + "gradlew");
 		FileInputStream fileInputStream = new FileInputStream(file);
 
-		assertArrayEquals(fileInputStream.readAllBytes(), cat.run(RESOURCES_PATH + "gradlew").array());
+		assertArrayEquals(
+				(new String(fileInputStream.readAllBytes()) + System.lineSeparator()).getBytes(),
+				cat.run(RESOURCES_PATH + "gradlew").array()
+		);
 
 		fileInputStream.close();
 	}
@@ -62,16 +66,14 @@ class CatTest {
 		FileInputStream buildGradleInputStream = new FileInputStream(buildGradleFile);
 		FileInputStream gradlewInputStream = new FileInputStream(gradlewFile);
 
-		byte[] buildGradleBytes = buildGradleInputStream.readAllBytes();
-		byte[] newLine = System.lineSeparator().getBytes();
-		byte[] gradlewBytes = gradlewInputStream.readAllBytes();
-
-		byte[] concatenatedBytes = new byte[buildGradleBytes.length + newLine.length + gradlewBytes.length];
-		System.arraycopy(buildGradleBytes, 0, concatenatedBytes, 0, buildGradleBytes.length);
-		System.arraycopy(newLine, 0, concatenatedBytes, buildGradleBytes.length, newLine.length);
-		System.arraycopy(gradlewBytes, 0, concatenatedBytes, buildGradleBytes.length + newLine.length, gradlewBytes.length);
-
-		assertArrayEquals(concatenatedBytes, cat.run(RESOURCES_PATH + "build.gradle", RESOURCES_PATH + "gradlew").array());
+		assertArrayEquals(
+				(
+						new String(buildGradleInputStream.readAllBytes())
+						+ System.lineSeparator() + new String(gradlewInputStream.readAllBytes())
+						+ System.lineSeparator()
+				).getBytes(),
+				cat.run(RESOURCES_PATH + "build.gradle", RESOURCES_PATH + "gradlew").array()
+		);
 
 		buildGradleInputStream.close();
 		gradlewInputStream.close();
@@ -82,14 +84,15 @@ class CatTest {
 		File gradlewFile = new File(RESOURCES_PATH + "gradlew");
 
 		FileInputStream fileInputStream = new FileInputStream(gradlewFile);
-		byte[] fileNotFoundMessage = ("cat: " + RESOURCES_PATH + "haha.txt: No such file or directory" + System.lineSeparator()).getBytes();
-		byte[] gradlewBytes = fileInputStream.readAllBytes();
 
-		byte[] concatenatedBytes = new byte[fileNotFoundMessage.length + gradlewBytes.length];
-		System.arraycopy(fileNotFoundMessage, 0, concatenatedBytes, 0, fileNotFoundMessage.length);
-		System.arraycopy(gradlewBytes, 0, concatenatedBytes, fileNotFoundMessage.length, gradlewBytes.length);
-
-		assertArrayEquals(concatenatedBytes, cat.run(RESOURCES_PATH + "haha.txt", RESOURCES_PATH + "gradlew").array());
+		assertArrayEquals(
+				(
+						"cat: " + RESOURCES_PATH + "haha.txt: No such file or directory"
+						+ System.lineSeparator() + new String(fileInputStream.readAllBytes())
+						+ System.lineSeparator()
+				).getBytes(),
+				cat.run(RESOURCES_PATH + "haha.txt", RESOURCES_PATH + "gradlew").array()
+		);
 		fileInputStream.close();
 	}
 
@@ -98,14 +101,15 @@ class CatTest {
 		File gradlewFile = new File(RESOURCES_PATH + "gradlew");
 
 		FileInputStream fileInputStream = new FileInputStream(gradlewFile);
-		byte[] fileNotFoundMessage = ("cat: " + RESOURCES_PATH + "directory: Is a directory" + System.lineSeparator()).getBytes();
-		byte[] gradlewBytes = fileInputStream.readAllBytes();
 
-		byte[] concatenatedBytes = new byte[fileNotFoundMessage.length + gradlewBytes.length];
-		System.arraycopy(fileNotFoundMessage, 0, concatenatedBytes, 0, fileNotFoundMessage.length);
-		System.arraycopy(gradlewBytes, 0, concatenatedBytes, fileNotFoundMessage.length, gradlewBytes.length);
-
-		assertArrayEquals(concatenatedBytes, cat.run(RESOURCES_PATH + "directory", RESOURCES_PATH + "gradlew").array());
+		assertArrayEquals(
+				(
+						"cat: " + RESOURCES_PATH + "directory: Is a directory"
+						+ System.lineSeparator() + new String(fileInputStream.readAllBytes())
+						+ System.lineSeparator()
+				).getBytes(),
+				cat.run(RESOURCES_PATH + "directory", RESOURCES_PATH + "gradlew").array()
+		);
 		fileInputStream.close();
 	}
 }

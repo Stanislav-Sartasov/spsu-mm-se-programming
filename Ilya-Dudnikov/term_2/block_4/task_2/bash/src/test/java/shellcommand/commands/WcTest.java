@@ -23,7 +23,7 @@ class WcTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(inputStream);
 
-		assertEquals("0 6 30", new String(wc.run().array()));
+		assertEquals("0 6 30" + System.lineSeparator(), new String(wc.run().array()));
 	}
 
 	@Test
@@ -39,7 +39,7 @@ class WcTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(inputStream);
 
-		assertEquals("6 69 460", new String(wc.run().array()));
+		assertEquals("6 69 460" + System.lineSeparator(), new String(wc.run().array()));
 	}
 
 	@Test

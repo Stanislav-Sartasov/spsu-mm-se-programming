@@ -16,11 +16,11 @@ class ExitTest {
 
 	@Test
 	void exitWithTooManyArguments() {
-		assertEquals("Too many arguments", new String(exitCommand.run("123", "123").array()));
+		assertEquals("Too many arguments" + System.lineSeparator(), new String(exitCommand.run("123", "123").array()));
 	}
 
 	@Test
 	void exitWithNonIntegerArgument() {
-		assertEquals("Argument must be an integer", new String(exitCommand.run("hahaha").array()));
+		assertEquals("Argument must be an integer" + System.lineSeparator(), new String(exitCommand.run("hahaha").array()));
 	}
 }

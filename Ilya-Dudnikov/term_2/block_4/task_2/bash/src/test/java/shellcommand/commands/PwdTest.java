@@ -10,6 +10,6 @@ class PwdTest {
 	@Test
 	void run() {
 		Pwd command = new Pwd();
-		assertEquals(System.getenv("user.dir") + System.lineSeparator(), new String(command.run().array()));
+		assertEquals(System.getProperty("user.dir") + System.lineSeparator(), new String(command.run().array()));
 	}
 }
