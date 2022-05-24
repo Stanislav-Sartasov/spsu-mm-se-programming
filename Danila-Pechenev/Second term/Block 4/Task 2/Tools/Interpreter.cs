@@ -78,7 +78,7 @@ public class Interpreter
 
         string firstToken = tokens[0];
         var parsedCommand = ParseArguments(firstToken);
-        firstToken = (parsedCommand == null) ? firstToken : parsedCommand[0];
+        firstToken = (parsedCommand == null || parsedCommand.Count == 0) ? firstToken : parsedCommand[0];
         if (firstToken == "exit")
         {
             return ResultCode.Exit;
