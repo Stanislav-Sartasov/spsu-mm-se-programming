@@ -1,0 +1,14 @@
+That's the second file for bash commands test!
+
+Establishment of St Petersburg University
+
+In January 1724, the decree signed by Peter the Great established the Academy with University 
+and Gymnasium as its part which trained future specialists for the Academy. 
+That’s when the history of the university education in Russia started. 
+It was the era of the Academic University. Till the end of the 18th century, the University 
+was within the Academy. During this period, educational and scientific traditions were established.
+
+filename: SecondTestFile.txt
+lines 14
+words 96
+bytes 598

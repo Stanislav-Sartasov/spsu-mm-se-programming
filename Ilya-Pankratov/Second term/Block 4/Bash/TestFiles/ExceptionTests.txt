@@ -1,0 +1,22 @@
+cd more then 2 arguments
+Invalid arguments
+cd thisDirectoryDoesNotExistIHopeOnYourPC
+Such directory does not exist
+z: more than one argument
+Invalid arguments
+z:
+Such disk does not exist
+cat iHopeThatThisFileDoesNotExistOnYourPC.txt
+The file iHopeThatThisFileDoesNotExistOnYourPC.txt does not exist
+ls something that should not be here
+Invalid arguments
+pwd this command have no arguments
+Invalid arguments
+wc iHopeThatThisFileDoesNotExistOnYourPC.txt
+The file iHopeThatThisFileDoesNotExistOnYourPC.txt does not exist
+$invalid+asignment
+Invalid command
+$innvalid="assignment" again
+Invalid command
+exit but not exit
+Invalid arguments
