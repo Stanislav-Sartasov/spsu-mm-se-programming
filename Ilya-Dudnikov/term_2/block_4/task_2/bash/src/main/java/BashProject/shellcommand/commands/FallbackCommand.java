@@ -1,6 +1,7 @@
 package BashProject.shellcommand.commands;
 
 import BashProject.shellcommand.Command;
+import BashProject.util.StreamGobbler.StreamGobbler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -20,19 +21,24 @@ public class FallbackCommand extends Command {
 		cmdArray[0] = name;
 		System.arraycopy(args, 0, cmdArray, 1, args.length);
 
+		PrintStream stdout = System.out;
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		PrintStream printStream = new PrintStream(outputStream);
+		System.setOut(printStream);
+
+		ByteBuffer returnValue;
 		try {
-			PrintStream stdout = System.out;
+			Process process = Runtime.getRuntime().exec(name, args);
+			StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), printStream);
 
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			PrintStream printStream = new PrintStream(outputStream);
-			System.setOut(printStream);
-
-			Runtime.getRuntime().exec(cmdArray);
-
-			System.setOut(stdout);
-			return ByteBuffer.wrap(outputStream.toByteArray());
+			streamGobbler.run();
+			returnValue = ByteBuffer.wrap(outputStream.toByteArray());
 		} catch (IOException e) {
-			return ByteBuffer.wrap((name + ": command not found").getBytes());
+			returnValue = ByteBuffer.wrap((name + ": command not found" + System.lineSeparator()).getBytes());
 		}
+
+		System.setOut(stdout);
+		return returnValue;
 	}
 }
