@@ -29,7 +29,7 @@ public class WcTests
     public void SecondTestFileTest()
     {
         interpreter.ExecuteLine("wc ../../../../Tools.UnitTests/TestFiles/test2.sh", out string result);
-        Assert.AreEqual("234    1159    8070", result);
+        Assert.AreEqual("234    1159    8304", result);
     }
 
     [Test]
@@ -43,7 +43,7 @@ public class WcTests
     public void AFewFilesTest()
     {
         interpreter.ExecuteLine("wc ../../../../Tools.UnitTests/TestFiles/test1.txt ../../../../Tools.UnitTests/TestFiles/test2.sh", out string result);
-        Assert.AreEqual("2796    55974    614951" + Environment.NewLine + "234    1159    8070", result);
+        Assert.AreEqual("2796    55974    614951" + Environment.NewLine + "234    1159    8304", result);
     }
 
     [Test]
