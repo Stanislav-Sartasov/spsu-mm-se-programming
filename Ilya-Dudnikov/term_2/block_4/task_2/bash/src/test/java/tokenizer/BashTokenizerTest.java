@@ -1,13 +1,8 @@
 package tokenizer;
 
-import BashProject.tokenizer.Tokenizer;
+import BashProject.tokenizer.BashTokenizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import BashProject.shellcommand.CommandList;
-import BashProject.shellcommand.commands.Cat;
-import BashProject.shellcommand.commands.Echo;
-import BashProject.shellcommand.commands.Pwd;
-import BashProject.shellcommand.commands.Wc;
 import BashProject.tokenizer.Lexeme.Lexeme;
 import BashProject.tokenizer.Lexeme.LexemeType;
 
@@ -15,11 +10,11 @@ import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class TokenizerTest {
-	private Tokenizer tokenizer;
+class BashTokenizerTest {
+	private BashTokenizer bashTokenizer;
 	@BeforeEach
 	void setUp() {
-		tokenizer = new Tokenizer();
+		bashTokenizer = new BashTokenizer();
 	}
 
 	@Test
@@ -30,7 +25,7 @@ class TokenizerTest {
 						new Lexeme(LexemeType.COMMAND, "echo"),
 						new Lexeme(LexemeType.ARGUMENT, "123")
 				),
-				tokenizer.tokenize(input)
+				bashTokenizer.tokenize(input)
 		);
 	}
 
@@ -47,7 +42,7 @@ class TokenizerTest {
 						new Lexeme(LexemeType.OPERATOR, "|"),
 						new Lexeme(LexemeType.COMMAND, "exit")
 				),
-				tokenizer.tokenize(input)
+				bashTokenizer.tokenize(input)
 		);
 	}
 
@@ -65,7 +60,7 @@ class TokenizerTest {
 						new Lexeme(LexemeType.OPERATOR, "|"),
 						new Lexeme(LexemeType.COMMAND, "wc")
 				),
-				tokenizer.tokenize(input)
+				bashTokenizer.tokenize(input)
 		);
 	}
 
@@ -79,7 +74,7 @@ class TokenizerTest {
 						new Lexeme(LexemeType.OPERATOR, "|"),
 						new Lexeme(LexemeType.COMMAND, "wc")
 				),
-				tokenizer.tokenize(input)
+				bashTokenizer.tokenize(input)
 		);
 	}
 
@@ -93,7 +88,7 @@ class TokenizerTest {
 						new Lexeme(LexemeType.OPERATOR, "|"),
 						new Lexeme(LexemeType.COMMAND, "wc")
 				),
-				tokenizer.tokenize(input)
+				bashTokenizer.tokenize(input)
 		);
 	}
 }

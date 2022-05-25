@@ -20,6 +20,8 @@ public class CommandList {
 		addCommand("wc", new Wc());
 		addCommand("pwd", new Pwd());
 		addCommand("exit", new Exit());
+		addCommand("ls", new Ls());
+		addCommand("help", new Help());
 	}
 
 	public void addCommand(String name, Command command) {

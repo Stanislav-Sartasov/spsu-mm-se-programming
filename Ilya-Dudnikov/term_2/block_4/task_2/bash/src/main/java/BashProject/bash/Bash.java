@@ -2,6 +2,7 @@ package BashProject.bash;
 
 import BashProject.interpreter.Interpreter;
 import BashProject.preprocessor.Preprocessor;
+import BashProject.tokenizer.BashTokenizer;
 import BashProject.tokenizer.Tokenizer;
 import org.springframework.stereotype.Component;
 

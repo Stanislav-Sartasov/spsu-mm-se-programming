@@ -3,7 +3,7 @@ package interpreter;
 import BashProject.interpreter.BashInterpreter;
 import BashProject.preprocessor.BashPreprocessor;
 import BashProject.shellcommand.CommandList;
-import BashProject.tokenizer.Tokenizer;
+import BashProject.tokenizer.BashTokenizer;
 import BashProject.util.VariableStorage.SimpleVariableStorage;
 import BashProject.util.VariableStorage.VariableStorage;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class BashInterpreterTest {
 	private static final String RESOURCES_PATH = "src/test/resources/";
 	private BashInterpreter interpreter;
-	private Tokenizer tokenizer;
+	private BashTokenizer bashTokenizer;
 	private BashPreprocessor bashPreprocessor;
 	private VariableStorage variableStorage;
 
@@ -31,7 +31,7 @@ class BashInterpreterTest {
 
 		this.variableStorage = new SimpleVariableStorage();
 		this.bashPreprocessor = new BashPreprocessor(variableStorage);
-		this.tokenizer = new Tokenizer();
+		this.bashTokenizer = new BashTokenizer();
 		this.interpreter = new BashInterpreter(commandList, variableStorage);
 		this.byteArrayOutputStream = new ByteArrayOutputStream();
 
@@ -42,7 +42,7 @@ class BashInterpreterTest {
 	void simpleEcho() {
 		String input = "echo 123";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals("123" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
@@ -51,7 +51,7 @@ class BashInterpreterTest {
 	void simplePwd() {
 		String input = "pwd";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals(System.getProperty("user.dir") + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
@@ -60,7 +60,7 @@ class BashInterpreterTest {
 	void simpleWcFile() {
 		String input = "wc src/test/resources/gradlew";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals("234 1159 8070 src/test/resources/gradlew" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
@@ -69,7 +69,7 @@ class BashInterpreterTest {
 	void simpleWcMultipleFiles() {
 		String input = "wc src/test/resources/gradlew src/test/resources/build.gradle";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals(
 				"234 1159 8070 " + RESOURCES_PATH + "gradlew" + System.lineSeparator() +
@@ -94,7 +94,7 @@ class BashInterpreterTest {
 
 		String input = "wc";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertEquals("6 69 460" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
 
@@ -105,7 +105,7 @@ class BashInterpreterTest {
 		File file = new File(RESOURCES_PATH + "gradlew");
 		FileInputStream fileInputStream = new FileInputStream(file);
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals(new String(fileInputStream.readAllBytes()), byteArrayOutputStream.toString());
 
@@ -122,7 +122,7 @@ class BashInterpreterTest {
 		FileInputStream buildGradleInputStream = new FileInputStream(buildGradleFile);
 		FileInputStream gradlewInputStream = new FileInputStream(gradlewFile);
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertEquals(
 				new String(buildGradleInputStream.readAllBytes())
 				+ System.lineSeparator()
@@ -149,14 +149,14 @@ class BashInterpreterTest {
 
 		String input = "cat";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertEquals(new String(buffer.array()), byteArrayOutputStream.toString());
 	}
 
 	@Test
 	void simpleVariableAssignment() {
 		String input = "a=3";
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals(variableStorage.get("a"), "3");
 	}
@@ -166,8 +166,8 @@ class BashInterpreterTest {
 		String assignment = "a=3";
 		String retrieval = "echo $a";
 
-		interpreter.interpret(tokenizer.tokenize(bashPreprocessor.process(assignment)));
-		interpreter.interpret(tokenizer.tokenize(bashPreprocessor.process(retrieval)));
+		interpreter.interpret(bashTokenizer.tokenize(bashPreprocessor.process(assignment)));
+		interpreter.interpret(bashTokenizer.tokenize(bashPreprocessor.process(retrieval)));
 
 		assertEquals("3" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
@@ -176,7 +176,7 @@ class BashInterpreterTest {
 	void fallbackNonExistentCommand() {
 		String input = "No such command 123";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertEquals("No: command not found" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
 
@@ -184,7 +184,7 @@ class BashInterpreterTest {
 	void fallbackExistentCommand(){
 		String input = "whoami";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertTrue(byteArrayOutputStream.toString().contains(System.getProperty("user.name")));
 	}
 
@@ -192,7 +192,7 @@ class BashInterpreterTest {
 	void commandsWithPipe() {
 		String input = "echo 123 | wc";
 
-		interpreter.interpret(tokenizer.tokenize(input));
+		interpreter.interpret(bashTokenizer.tokenize(input));
 		assertEquals("1 1 5" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
 }
