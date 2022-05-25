@@ -20,4 +20,23 @@ public class RuntimeTests
         Assert.IsTrue(Runtime.LocalVariables.ContainsKey("var"));
         Assert.AreEqual("7", Runtime.LocalVariables["var"]);
     }
+
+    [Test]
+    public void GetVariableTest()
+    {
+        Runtime.AddVariable("name", "Tom");
+        Assert.AreEqual("Tom", Runtime.GetVariable("name"));
+    }
+
+    [Test]
+    public void GetGeneralVariableTest()
+    {
+        Assert.IsTrue(Runtime.GetVariable("PATH")?.Length > 10);
+    }
+
+    [Test]
+    public void GetNonexistentVariableTest()
+    {
+        Assert.AreEqual(null, Runtime.GetVariable("vvvvv"));
+    }
 }
