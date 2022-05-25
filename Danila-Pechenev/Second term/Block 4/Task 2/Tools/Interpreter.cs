@@ -26,9 +26,9 @@ public class Interpreter
     {
         result = "";
         line = line.Trim();
-        int startCount = line.Split(' ').Count();
+        var firstToken = line.Split(' ')[0];
         line = InsertVariablesAndEscapedCharacters(line);
-        if (startCount != 0 && line.Length == 0)
+        if (firstToken.Length != 0 && line.Length == 0)
         {
             result += AddLineToErrorList(ResultCode.CommandNotFound, "", false);
         }
