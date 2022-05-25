@@ -11,4 +11,12 @@ public class ProgramLauncherTests
         Assert.IsTrue(success);
         Assert.IsTrue(text.Length > 0);
     }
+
+    [Test]
+    public void LaunchNonexistentProgramTest()
+    {
+        bool success = Programlauncher.TryLaunchProgram("lalalala", null, out string text);
+        Assert.IsFalse(success);
+        Assert.IsTrue(text.Length == 0);
+    }
 }
