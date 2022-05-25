@@ -302,7 +302,14 @@ public class Interpreter
             }
             else
             {
-                currentArg += line[i];
+                if (line[i] == ' ')
+                {
+                    currentArg += "' '";
+                }
+                else
+                {
+                    currentArg += line[i];
+                }
                 shielding = false;
             }
         }

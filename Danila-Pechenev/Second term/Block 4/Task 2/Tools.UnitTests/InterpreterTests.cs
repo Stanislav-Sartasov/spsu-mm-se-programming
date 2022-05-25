@@ -113,6 +113,14 @@ public class InterpreterTests
     }
 
     [Test]
+    public void AddWithWhiteSpaceTest()
+    {
+        interpreter.ExecuteLine("path=Task\\ 2/folder", out string result);
+        Assert.IsTrue(Runtime.LocalVariables.ContainsKey("path"));
+        Assert.AreEqual("Task 2/folder", Runtime.LocalVariables["path"]);
+    }
+
+    [Test]
     public void EmptyInputTest()
     {
         var code = interpreter.ExecuteLine("", out string result);
