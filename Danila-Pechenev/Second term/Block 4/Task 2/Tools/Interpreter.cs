@@ -310,6 +310,7 @@ public class Interpreter
                 {
                     currentArg += line[i];
                 }
+
                 shielding = false;
             }
         }
