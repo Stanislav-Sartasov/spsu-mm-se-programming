@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using Bash;
 using NUnit.Framework;
 
@@ -13,78 +12,88 @@ namespace BashUnitTests
     public class BashEmulatorTests
     {
         private readonly string homeDir = GetHomeDir();
+        private readonly string exitCode = new Guid().ToString();
 
         [Test]
         public void PrintWorkingDirectoryTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "pwd";
-            var commandResult = bash.Execute(testCommand).Trim('\n');
+            var commandResult = bash.Execute(testCommand);
             var expectedResults = homeDir;
 
-            Assert.AreEqual(expectedResults, commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResults, commandResult[0]);
         }
 
         [Test]
         public void ChangeDirectoryTest()
         {
             // first case - go to root directory
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "cd";
             var argument = "..";
 
-            var commandResult = bash.Execute(testCommand + ' ' + argument).Trim('\n');
-            Assert.AreEqual(commandResult, String.Empty);
+            var commandResult = bash.Execute(testCommand + ' ' + argument);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
-            commandResult = bash.Execute("pwd").Trim('\n');
+            commandResult = bash.Execute("pwd");
             var splittedHomeDir = homeDir.Split('\\')[..^1];
             string expectedResult = UnitedPath(splittedHomeDir);
 
-            Assert.AreEqual(expectedResult, commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResult, commandResult[0]);
 
             // second case - go back to previous directory
             argument = homeDir.Split('\\')[^1];
+            commandResult = bash.Execute(testCommand + ' ' + argument);
 
-            commandResult = bash.Execute(testCommand + ' ' + argument).Trim('\n');
-            Assert.AreEqual(commandResult, String.Empty);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
-            commandResult = bash.Execute("pwd").Trim('\n');
+            commandResult = bash.Execute("pwd");
             expectedResult += $"\\{argument}";
 
-            Assert.AreEqual(expectedResult, commandResult);
+            Assert.NotNull(commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResult, commandResult[0]);
         }
 
         [Test]
         public void ListFilesTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "ls";
 
-            var commandResult = bash.Execute(testCommand).Trim('\n');
+            var commandResult = bash.Execute(testCommand);
+            Assert.IsTrue(commandResult.Count == 1);
+            var splittedCommandResult = commandResult[0].Split('\t');
 
             foreach (var entry in Directory.GetFileSystemEntries(homeDir))
             {
-                Assert.IsTrue(commandResult.Split('\t').Contains(entry.Split("\\")[^1]));
+                Assert.IsTrue(splittedCommandResult.Contains(entry.Split("\\")[^1]));
             }
         }
 
         [Test]
         public void ExitTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "exit";
 
             var commandResult = bash.Execute(testCommand);
-            var expectedResult = "exit";
+            var expectedResult = exitCode;
 
-            Assert.AreEqual(expectedResult, commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResult, commandResult[0]);
         }
 
         [Test]
         public void EchoTest()
         {
             // single argument test
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "echo";
             var arguments = new List<string>()
             {
@@ -92,9 +101,11 @@ namespace BashUnitTests
             };
 
             var command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            var commandResult = bash.Execute(command).Trim('\n');
+            var commandResult = bash.Execute(command);
             var expectedResult = arguments[0];
-            Assert.AreEqual(expectedResult, commandResult);
+
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResult, commandResult[0]);
 
             // multi argument test
             arguments = new List<string>()
@@ -103,17 +114,21 @@ namespace BashUnitTests
             };
 
             command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            commandResult = bash.Execute(command).Trim('\n');
-            expectedResult = ConcatenateCommandAndAgruments("", arguments, "\n");
+            commandResult = bash.Execute(command);
 
-            Assert.AreEqual(expectedResult, commandResult);
+            Assert.IsTrue(commandResult.Count == arguments.Count);
+
+            for (int i = 0; i < arguments.Count; i++)
+            {
+                Assert.AreEqual(arguments[i], commandResult[i]);
+            }
         }
 
         [Test]
         public void ConcatenateTest()
         {
             // single argument test
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "cat";
             var arguments = new List<string>()
             {
@@ -121,29 +136,42 @@ namespace BashUnitTests
             };
 
             var commandResult = bash.Execute("cd TestFiles");
-            Assert.AreEqual(commandResult, String.Empty);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
             var command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            commandResult = bash.Execute(command).Trim('\n');
+            commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 1);
+            var splittedCommandResult = commandResult[0].Split('\n');
+            var firstFileLines = File.ReadAllLines(homeDir + @"\TestFiles\FirstTestFile.txt");
+            
+            Assert.AreEqual(splittedCommandResult.Length - 1, firstFileLines.Length);
 
-            foreach (var line in File.ReadAllLines(homeDir + @"\TestFiles\FirstTestFile.txt"))
+            for (int i = 0; i < firstFileLines.Length; i++)
             {
-                Assert.IsTrue(commandResult.Contains(line));
+                Assert.AreEqual(firstFileLines[i], splittedCommandResult[i + 1]);
             }
 
             // multi argument test
             arguments.Add("SecondTestFile.txt");
             command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            commandResult = bash.Execute(command).Trim('\n');
+            commandResult = bash.Execute(command);
+            Assert.AreEqual(commandResult.Count, 2);
+            splittedCommandResult = commandResult[0].Split('\n');
+            var secondFileLines = File.ReadAllLines(homeDir + @"\TestFiles\SecondTestFile.txt");
+            Assert.AreEqual(splittedCommandResult.Length - 1, firstFileLines.Length);
 
-            foreach (var line in File.ReadAllLines(homeDir + @"\TestFiles\FirstTestFile.txt"))
+            for (int i = 0; i < firstFileLines.Length; i++)
             {
-                Assert.IsTrue(commandResult.Contains(line));
+                Assert.AreEqual(firstFileLines[i], splittedCommandResult[i + 1]);
             }
 
-            foreach (var line in File.ReadAllLines(homeDir + @"\TestFiles\SecondTestFile.txt"))
+            splittedCommandResult = commandResult[1].Split('\n');
+            Assert.AreEqual(splittedCommandResult.Length - 1, secondFileLines.Length);
+
+            for (int i = 0; i < secondFileLines.Length; i++)
             {
-                Assert.IsTrue(commandResult.Contains(line));
+                Assert.AreEqual(secondFileLines[i], splittedCommandResult[i + 1]);
             }
         }
 
@@ -151,7 +179,7 @@ namespace BashUnitTests
         public void WordCountTest()
         {
             // single argument test
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var testCommand = "wc";
             var arguments = new List<string>()
             {
@@ -159,13 +187,15 @@ namespace BashUnitTests
             };
 
             var commandResult = bash.Execute("cd TestFiles");
-            Assert.AreEqual(commandResult, String.Empty);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
             var command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            commandResult = bash.Execute(command).Trim('\n');
+            commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 1);
             var allLinesFromFirstFile = File.ReadAllLines(homeDir + @"\TestFiles\FirstTestFile.txt");
 
-            foreach (var line in commandResult.Split('\n'))
+            foreach (var line in commandResult[0].Split('\n'))
             {
                 Assert.IsTrue(allLinesFromFirstFile.Contains(line));
             }
@@ -173,10 +203,11 @@ namespace BashUnitTests
             // multi argument test
             arguments.Add("SecondTestFile.txt");
             command = ConcatenateCommandAndAgruments(testCommand, arguments, " ");
-            commandResult = bash.Execute(command).Trim('\n');
+            commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 2);
             var allLinesFromSecondFile = File.ReadAllLines(homeDir + @"\TestFiles\SecondTestFile.txt");
 
-            foreach (var line in commandResult.Split('\n'))
+            foreach (var line in commandResult[0].Split('\n'))
             {
                 Assert.IsTrue(allLinesFromFirstFile.Contains(line) || allLinesFromSecondFile.Contains(line));
             }
@@ -185,19 +216,25 @@ namespace BashUnitTests
         [Test]
         public void LocalVariablesTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var varName = "myVar";
             var varValue = "testValue";
-            var testCommand = $"${varName}={varValue}";
 
-            Assert.AreEqual(String.Empty, bash.Execute(testCommand));
-            Assert.AreEqual(varValue, bash.Execute($"echo ${varName}").Trim('\n'));
+            var testCommand = $"${varName}={varValue}";
+            var commandResult = bash.Execute(testCommand);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
+
+            testCommand = $"echo ${varName}";
+            commandResult = bash.Execute(testCommand);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(varValue, commandResult[0]);
         }
 
         [Test]
         public void EchoPlusLocalVariableTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var firstVarName = "firstVar";
             var firstVarValue = "firstValue";
             var secondVarName = "secondVar";
@@ -205,18 +242,26 @@ namespace BashUnitTests
             var firstTestCommand = $"${firstVarName}={firstVarValue}";
             var secondTestCommand = $"${secondVarName}={secondVarValue}";
 
-            Assert.AreEqual(String.Empty, bash.Execute(firstTestCommand));
-            Assert.AreEqual(String.Empty, bash.Execute(secondTestCommand));
+            var commandResult = bash.Execute(firstTestCommand);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
-            var expecteResult = "firstValue first case\nsecondValue";
+            commandResult = bash.Execute(secondTestCommand);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
+
             var testCommand = $"echo \"${firstVarName} first case\" \"{secondVarValue}\"";
-            Assert.AreEqual(expecteResult, bash.Execute(testCommand).Trim('\n'));
+            commandResult = bash.Execute(testCommand);
+
+            Assert.IsTrue(commandResult.Count == 2);
+            Assert.AreEqual(firstVarValue + " first case", commandResult[0]);
+            Assert.AreEqual(secondVarValue, commandResult[1]);
         }
 
         [Test]
         public void ChangeDiskTest()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var drives = DriveInfo.GetDrives();
             var currentDrive = homeDir[..2];
             var newDrive = String.Empty;
@@ -233,35 +278,44 @@ namespace BashUnitTests
 
             if (userHasSingleDrive)
             {
-                var expectedResult = "Such disk does not exist";
-                Assert.AreEqual(expectedResult, bash.Execute(newDrive).Trim('\n'));
+                var result = bash.Execute(currentDrive);
+                Assert.IsTrue(result.Count == 1);
+                Assert.AreEqual(String.Empty, result);
                 return;
             }
 
-            Assert.AreEqual(String.Empty, bash.Execute(newDrive));
-            Assert.AreEqual(newDrive + '\\', bash.Execute("pwd").Trim('\n'));
+            var commandResult = bash.Execute(newDrive);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
+
+            commandResult = bash.Execute("pwd");
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(newDrive + '\\', commandResult[0]);
         }
 
         [Test]
         public void PipelineTest()
         {
             // first case
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var commandResult = bash.Execute("cd TestFiles");
-            Assert.AreEqual(String.Empty, commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
             var varName = "myVar";
             var varValue = "FirstTestFile.txt";
 
             var command = $"${varName}={varValue}";
-            commandResult = bash.Execute(command).Trim('\n');
-            Assert.AreEqual(String.Empty, commandResult);
+            commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
 
             command = $"echo ${varName} | cat";
-            commandResult = bash.Execute(command).Trim('\n');
+            commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 1);
             var allLinesFromFirstFile = File.ReadAllLines(homeDir + @"\TestFiles\FirstTestFile.txt");
 
-            foreach (var line in commandResult.Split('\n'))
+            foreach (var line in commandResult[0].Split('\n'))
             {
                 Assert.IsTrue(allLinesFromFirstFile.Contains(line) || line == $"The file {varValue}");
             }
@@ -269,8 +323,9 @@ namespace BashUnitTests
             // second case
             command = $"wc {varValue} | echo";
             commandResult = bash.Execute(command);
+            Assert.IsTrue(commandResult.Count == 1);
 
-            foreach (var line in commandResult.Split('\n'))
+            foreach (var line in commandResult[0].Split('\n'))
             {
                 Assert.IsTrue(allLinesFromFirstFile.Contains(line));
             }
@@ -279,58 +334,39 @@ namespace BashUnitTests
         [Test]
         public void InvalidBashCommand()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var lines = File.ReadAllLines(homeDir + @"\TestFiles\ExceptionTests.txt");
 
             for (int i = 0; i < lines.Length - 1; i += 2)
             {
-                var commandResult = bash.Execute(lines[i]).Trim('\n');
-                Assert.AreEqual(lines[i + 1], commandResult);
+                var commandResult = bash.Execute(lines[i]);
+                Assert.IsTrue(commandResult.Count == 1);
+                Assert.AreEqual(lines[i + 1], commandResult[0]);
             }
         }
 
         [Test]
         public void InvalidsystemCommand()
         {
-            var bash = new BashEmulator();
+            var bash = new BashEmulator(exitCode);
             var command = "doNothing firstUselessArgumet secondUselessArgument";
-            var commandResult = bash.Execute(command).Trim('\n');
+            var commandResult = bash.Execute(command);
             var dirPath = homeDir + "\\BashUnitTests\\bin\\Debug";
 
-            if (Directory.Exists(dirPath))
-            {
-                var flag = true;
+            var expectedResult = $"Command {command.Split(' ')[0]} was not found";
 
-                foreach (var dir in Directory.GetDirectories(dirPath))
-                {
-                    if (Regex.IsMatch(dir, "net"))
-                    {
-                        dirPath = dir;
-                        flag = false;
-                    }
-                }
-
-                if (flag)
-                {
-                    Assert.Fail();
-                }
-            }
-            else
-            {
-                Assert.Fail();
-            }
-
-            var expectedResult = "An error occurred trying to start process 'doNothing' with working directory " +
-                                 $"'{dirPath}'. The system cannot find the file specified.";
-
-            Assert.AreEqual(expectedResult, commandResult);
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(expectedResult, commandResult[0]);
         }
 
         [Test]
         public void EmpetyUserInputTest()
         {
-            var bash = new BashEmulator();
-            Assert.AreEqual(String.Empty, bash.Execute(String.Empty).Trim('\n'));
+            var bash = new BashEmulator(exitCode);
+            var commandResult = bash.Execute(String.Empty);
+
+            Assert.IsTrue(commandResult.Count == 1);
+            Assert.AreEqual(String.Empty, commandResult[0]);
         }
 
         private static string UnitedPath(string[] path)

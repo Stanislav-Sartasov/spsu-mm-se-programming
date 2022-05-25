@@ -16,5 +16,5 @@ source to rewrite aspects of itself.
 
 filename: FirstTestFile.txt
 lines 20
-words 146
+words 142
 bytes 1001

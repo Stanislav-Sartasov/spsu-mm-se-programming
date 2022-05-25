@@ -6,48 +6,29 @@ namespace Bash
 {
     public class BashEmulator
     {
+        private string exitCode;
         private string currentPath;
         private readonly string homeDirectory;
-        private readonly Dictionary<string, string> localVariables;
+        private readonly LocalVariablesStorage storage;
 
-        public BashEmulator()
+        public BashEmulator(string exitCode)
         {
-            var splitedPath = Directory.GetCurrentDirectory().Split("\\");
-            var builder = new StringBuilder();
-
-            if (splitedPath[^3] == "bin")
-            {
-                for (int i = 0; i < splitedPath.Length - 4; i++)
-                {
-                    builder.Append(splitedPath[i]);
-                    if (i != splitedPath.Length - 5)
-                    {
-                        builder.Append('\\');
-                    }
-                }
-
-                homeDirectory = builder.ToString();
-            }
-            else
-            {
-                homeDirectory = Directory.GetCurrentDirectory();
-            }
-
-            currentPath = homeDirectory;
-            localVariables = new Dictionary<string, string>();
-            localVariables.Add("HOME", homeDirectory);
+            currentPath = homeDirectory = GetHomeDiretory();
+            storage = new LocalVariablesStorage();
+            this.exitCode = exitCode;
+            storage.Add("HOME", homeDirectory, true);
         }
 
-        public string Execute(string? userInput)
+        public List<string> Execute(string? userInput)
         {
             var oneCommand = new List<string>();
             var previousCommandResultFlag = false;
-            string commandResult = String.Empty;
+            List<string>? commandResult = null;
             string[] parsedInput;
 
             if (userInput == null || userInput.Length == 0)
             {
-                parsedInput = new string[] { "" };
+                return new List<string> { String.Empty };
             }
             else
             {
@@ -62,42 +43,41 @@ namespace Bash
                 }
                 else
                 {
-                    if (previousCommandResultFlag)
+                    if (previousCommandResultFlag && commandResult != null)
                     {
-                        oneCommand.Add(commandResult);
+                        oneCommand.AddRange(commandResult);
                     }
                     else
                     {
                         previousCommandResultFlag = true;
                     }
 
-                    commandResult = ExecuteCommand(oneCommand.ToArray()).Trim('\n');
+                    commandResult = ExecuteCommand(oneCommand.ToArray());
                     oneCommand.Clear();
                 }
             }
 
-            if (previousCommandResultFlag)
+            if (previousCommandResultFlag && commandResult != null)
             {
-                oneCommand.Add(commandResult);
+                oneCommand.AddRange(commandResult);
             }
 
             commandResult = ExecuteCommand(oneCommand.ToArray());
-
             return commandResult;
         }
 
-        private string ExecuteCommand(string[] command)
+        private List<string> ExecuteCommand(string[] command)
         {
             if (command[0].Length > 0 && command[0][0] == '$')
             {
                 return AddLocalVariable(command);
             }
-            else if (Regex.IsMatch(command[0], ".:"))
+            else if (command[0].Length == 2 && Regex.IsMatch(command[0], ".:"))
             {
                 return ChangeDisk(command);
             }
 
-            string commandResult;
+            List<string> commandResult;
 
             switch (command[0])
             {
@@ -138,7 +118,7 @@ namespace Bash
                 }
                 case "":
                 {
-                    commandResult = command[0];
+                    commandResult = new List<string>() { String.Empty };
                     break;
                 }
                 default:
@@ -151,36 +131,40 @@ namespace Bash
             return commandResult;
         }
 
-        private static string StartSystemProcess(string[] command)
+        private static List<string> StartSystemProcess(string[] command)
         {
-            var processResult = String.Empty;
+            string processResult;
 
-            var process = new Process();
-            process.StartInfo.FileName = command[0];
-            
-            foreach (var arg in command[1..])
+            using (var process = new Process())
             {
-                process.StartInfo.ArgumentList.Add(arg);
-            }
+                process.StartInfo.FileName = command[0];
+                process.StartInfo.UseShellExecute = false;
+                process.StartInfo.RedirectStandardOutput = true;
 
-            try
-            {
-                process.Start();
-            }
-            catch(Exception e)
-            {
-                processResult = e.Message;
-            }
+                foreach (var arg in command[1..])
+                {
+                    process.StartInfo.ArgumentList.Add(arg);
+                }
 
-            process.Dispose();
-            return processResult + "\n\n";
+                try
+                {
+                    process.Start();
+                    processResult = process.StandardOutput.ReadToEnd();
+                }
+                catch (Exception)
+                {
+                    processResult = $"Command {command[0]} was not found";
+                }
+            }
+               
+            return new List<string>() { processResult };
         }
 
-        private string ChangeCurrentDirectory(string[] directory)
+        private List<string> ChangeCurrentDirectory(string[] directory)
         {
             if (directory.Length != 2)
             {
-                return "Invalid arguments\n\n";
+                return new List<string>() { "Invalid arguments" };
             }
 
             if (directory[1] == "..")
@@ -198,7 +182,7 @@ namespace Bash
                 }
                 else if (currentPath == newCurrentPath)
                 {
-                    return "Such directory does not exist\n\n";
+                    return new List<string>() { "Such directory does not exist" };
                 }
                 else
                 {
@@ -206,14 +190,14 @@ namespace Bash
                 }
             }
 
-            return String.Empty;
+            return new List<string>() { String.Empty };
         }
 
-        private string ChangeDisk(string[] command)
+        private List<string> ChangeDisk(string[] command)
         {
             if (command.Length != 1)
             {
-                return "Invalid arguments\n\n";
+                return new List<string>() { "Invalid arguments" };
             }
 
             var newPath = command[0] + '\\';
@@ -224,204 +208,167 @@ namespace Bash
             }
             else
             {
-                return "Such disk does not exist\n\n";
+                return new List<string>() { "Such disk does not exist" };
             }
             
-            return String.Empty;
+            return new List<string>() { String.Empty };
         }
 
-        private string Concatenate(string[] fileNames)
+        private List<string> Concatenate(string[] fileNames)
         {
-            var result = new StringBuilder();
+            var oneArgumentResult = new StringBuilder();
+            var result = new List<string>();
 
             for (int i = 1; i < fileNames.Length; i++)
             {
-                if (i != 1)
-                {
-                    result.Append('\n');
-                }
-
                 fileNames[i] = AnalizeArgument(fileNames[i]);
                 var filePath = currentPath + '\\' + fileNames[i];
 
                 if (!File.Exists(filePath))
                 {
-                    result.Append($"The file {fileNames[i]} does not exist");
-                    result.Append('\n');
+                    oneArgumentResult.Append($"The file {fileNames[i]} does not exist");
                 }
                 else
                 {
-                    result.Append($"filename: {fileNames[i]}");
-                    result.Append('\n');
+                    oneArgumentResult.Append($"filename: {fileNames[i]}");
+                    oneArgumentResult.Append('\n');
+                    var lines = File.ReadAllLines(filePath);
 
-                    foreach (var str in File.ReadAllLines(filePath))
+                    for (int j = 0; j < lines.Length; j++)
                     {
-                        result.Append(str);
-                        result.Append('\n');
+                        oneArgumentResult.Append(lines[j]);
+
+                        if (j != lines.Length - 1)
+                        {
+                            oneArgumentResult.Append('\n');
+                        }
                     }
                 }
+
+                result.Add(oneArgumentResult.ToString());
+                oneArgumentResult.Clear();
             }
 
-            result.Append('\n');
-
-            return result.ToString();
+            return result;
         }
 
-        private string Echo(string[] printedText)
+        private List<string> Echo(string[] printedText)
         {
-            var builder = new StringBuilder();
+            var result = new List<string>();
 
             for (int i = 1; i < printedText.Length; i++)
             {
-                builder.Append(AnalizeArgument(printedText[i]));
-
-                if (i != printedText.Length - 1)
-                {
-                    builder.Append('\n');
-                }
+                result.Add(AnalizeArgument(printedText[i]));
             }
 
-            if (builder.Length != 0 && builder[^2] != '\n' && builder[^1] != '\n')
-            {
-                builder.Append("\n\n");
-            }
-            else if (builder[^1] != '\n')
-            {
-                builder.Append('\n');
-            }
-
-            return builder.ToString();
+            return result;
         }
 
-        private string ListFiles(string[] command)
+        private List<string> ListFiles(string[] command)
         {
             if (command.Length != 1)
             {
-                return "Invalid arguments\n\n";
+                return new List<string>() { "Invalid arguments" };
             }
 
-            var result = new StringBuilder();
+            var oneArgumentResult = new StringBuilder();
 
             foreach (var entity in Directory.EnumerateDirectories(currentPath))
             {
-                result.Append(entity.Split("\\").Last());
-                result.Append('\t');
+                oneArgumentResult.Append(entity.Split("\\").Last());
+                oneArgumentResult.Append('\t');
             }
 
             foreach (var entity in Directory.EnumerateFiles(currentPath))
             {
-                result.Append(entity.Split("\\").Last());
-                result.Append('\t');
+                oneArgumentResult.Append(entity.Split("\\").Last());
+                oneArgumentResult.Append('\t');
             }
 
-            result.Append("\n\n");
-
-            return result.ToString();
+            return new List<string>() { oneArgumentResult.ToString() };
         }
 
-        private string PrintWorkingDirectory(string[] command)
+        private List<string> PrintWorkingDirectory(string[] command)
         {
             if (command.Length != 1)
             {
-                return "Invalid arguments\n\n";
+                return  new List<string>() { "Invalid arguments" };
             }
 
-            return currentPath + "\n\n";
+            return new List<string>() { currentPath };
         }
 
-        private string WordCount(string[] command)
+        private List<string> WordCount(string[] command)
         {
-            var result = new StringBuilder();
+            if (command.Length == 1)
+            {
+                return new List<string>() { "Invalid arguments" };
+            }
+
+            var oneArgumentResult = new StringBuilder();
+            var result = new List<string>();
 
             for (int i = 1; i < command.Length; i++)
             {
-                if (i != 1)
-                {
-                    result.Append("\n\n");
-                }
-
                 command[i] = AnalizeArgument(command[i]);
                 var filePath = currentPath + '\\' + command[i];
 
                 if (!File.Exists(filePath))
                 {
-                    result.Append($"The file {command[i]} does not exist\n\n");
+                    oneArgumentResult.Append($"The file {command[i]} does not exist");
                 }
                 else
                 {
-                    var reader = new StreamReader(filePath);
-
-                    int wordCouner = 0;
-                    int lineCounter = 0;
-                    var byteCounter = new FileInfo(filePath).Length.ToString();
-
-                    while (!reader.EndOfStream)
+                    using (var reader = new StreamReader(filePath))
                     {
-                        lineCounter++;
-                        wordCouner += reader.ReadLine().Split(" ").Count(x => x != " ");
+                        int wordCouner = 0;
+                        int lineCounter = 0;
+                        var byteCounter = new FileInfo(filePath).Length.ToString();
+
+                        while (!reader.EndOfStream)
+                        {
+                            lineCounter++;
+                            wordCouner += reader.ReadLine().Split(" ").Count(x => x != " " && x != "" && x != "\n" && x != "\r" && x != "\t");
+                        }
+
+                        oneArgumentResult.Append($"filename: {command[i]}\nlines {lineCounter}\nwords {wordCouner}\nbytes {byteCounter}");
                     }
-
-                    reader.Dispose();
-                    result.Append($"filename: {command[i]}\nlines {lineCounter}\nwords {wordCouner}\nbytes {byteCounter}\n");
-
-                    if (command.Length == 2)
-                    {
-                        result.Append('\n');
-                    }
-
+                    
                 }
+
+                result.Add(oneArgumentResult.ToString());
+                oneArgumentResult.Clear();
             }
 
-            return result.ToString();
+            return result;
         }
 
-        private string AddLocalVariable(string[] command)
+        private List<string> Exit(string[] command)
         {
-            string commandResult;
+            if (command.Length != 1)
+            {
+                return new List<string>() { "Invalid arguments" };
+            }
+
+            return new List<string>() { exitCode };
+        }
+
+        private List<string> AddLocalVariable(string[] command)
+        {
+            List<string> commandResult;
 
             if (command.Length != 1 || !command[0].Contains('='))
             {
-                commandResult = "Invalid command\n";
+                commandResult = new List<string>() {"Invalid command"};
             }
             else
             {
                 var parsedAssignment = command[0].Split('=');
-
-                if (localVariables.ContainsKey(parsedAssignment[0][1..]))
-                {
-                    localVariables[parsedAssignment[0][1..]] = parsedAssignment[1];
-                }
-                else
-                {
-                    localVariables.Add(parsedAssignment[0][1..], parsedAssignment[1]);
-                }
-
-                commandResult = String.Empty;
+                storage.Add(parsedAssignment[0][1..], parsedAssignment[1], false);
+                commandResult = new List<string>() { String.Empty };
             }
 
             return commandResult;
-        }
-
-        private string GetLocalVariable(string variableName)
-        {
-            if (localVariables.ContainsKey(variableName))
-            {
-                return localVariables[variableName];
-            }
-            else
-            {
-                return String.Empty;
-            }
-        }
-
-        private static string Exit(string[] command)
-        {
-            if (command.Length != 1)
-            {
-                return "Invalid arguments\n\n";
-            }
-
-            return "exit";
         }
 
         private string ReturnToPreviousDirectory()
@@ -437,7 +384,6 @@ namespace Bash
                 {
                     newPath.Append('\\');
                 }
-
             }
 
             return newPath.ToString();
@@ -477,10 +423,37 @@ namespace Bash
         {
             if (argument.IndexOf('$') == 0)
             {
-                return GetLocalVariable(argument[1..]);
+                return storage.Get(argument[1..]);
             }
 
             return argument;
+        }
+
+        private static string GetHomeDiretory()
+        {
+            var splitedPath = Directory.GetCurrentDirectory().Split("\\");
+            var builder = new StringBuilder();
+            string homeDirectory;
+
+            if (splitedPath[^3] == "bin")
+            {
+                for (int i = 0; i < splitedPath.Length - 4; i++)
+                {
+                    builder.Append(splitedPath[i]);
+                    if (i != splitedPath.Length - 5)
+                    {
+                        builder.Append('\\');
+                    }
+                }
+
+                homeDirectory = builder.ToString();
+            }
+            else
+            {
+                homeDirectory = Directory.GetCurrentDirectory();
+            }
+
+            return homeDirectory;
         }
     }
 }

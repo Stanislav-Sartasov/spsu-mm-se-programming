@@ -10,7 +10,4 @@ namespace BashDemo
             bash.Start();
         }
     }
-
 }
-
-
