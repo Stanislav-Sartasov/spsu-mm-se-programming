@@ -1,7 +1,5 @@
 package BashProject.tokenizer.Lexeme;
 
-import org.springframework.stereotype.Component;
-
 public class Lexeme {
 	private LexemeType type;
 	private String value;

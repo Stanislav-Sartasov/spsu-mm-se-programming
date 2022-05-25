@@ -1,19 +1,10 @@
 package BashProject.bash;
 
 import BashProject.interpreter.Interpreter;
-import BashProject.shellcommand.commands.Cat;
-import BashProject.shellcommand.commands.Pwd;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import BashProject.preprocessor.Preprocessor;
-import BashProject.shellcommand.CommandList;
-import BashProject.shellcommand.commands.Echo;
-import BashProject.shellcommand.commands.Wc;
-import BashProject.tokenizer.Lexeme.LexemeType;
 import BashProject.tokenizer.Tokenizer;
+import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 

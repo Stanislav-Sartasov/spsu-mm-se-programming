@@ -1,6 +1,6 @@
 package preprocessor;
 
-import BashProject.preprocessor.Preprocessor;
+import BashProject.preprocessor.BashPreprocessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import BashProject.util.VariableStorage.SimpleVariableStorage;
@@ -8,13 +8,13 @@ import BashProject.util.VariableStorage.VariableStorage;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PreprocessorTest {
-	private Preprocessor preprocessor;
+class BashPreprocessorTest {
+	private BashPreprocessor bashPreprocessor;
 	private VariableStorage variableStorage;
 	@BeforeEach
 	void setUp() {
 		variableStorage = new SimpleVariableStorage();
-		preprocessor = new Preprocessor(variableStorage);
+		bashPreprocessor = new BashPreprocessor(variableStorage);
 	}
 
 	@Test
@@ -23,7 +23,7 @@ class PreprocessorTest {
 		variableStorage.set("b", "wc");
 		String input = "$a | $b";
 
-		assertEquals("echo 123 | wc", preprocessor.process(input));
+		assertEquals("echo 123 | wc", bashPreprocessor.process(input));
 	}
 
 	@Test
@@ -32,7 +32,7 @@ class PreprocessorTest {
 		variableStorage.set("b", "wc");
 		String input = "$a|$b";
 
-		assertEquals("echo 123|wc", preprocessor.process(input));
+		assertEquals("echo 123|wc", bashPreprocessor.process(input));
 	}
 
 	@Test
@@ -40,7 +40,7 @@ class PreprocessorTest {
 		variableStorage.set("a", "echo 123");
 		String input = "'$a' | wc";
 
-		assertEquals("$a | wc", preprocessor.process(input));
+		assertEquals("$a | wc", bashPreprocessor.process(input));
 	}
 
 	@Test
@@ -48,41 +48,41 @@ class PreprocessorTest {
 		variableStorage.set("a", "echo 123");
 		String input = "\"$a\" | wc";
 
-		assertEquals("echo\\ 123 | wc", preprocessor.process(input));
+		assertEquals("echo\\ 123 | wc", bashPreprocessor.process(input));
 	}
 
 	@Test
 	void quotesInsideQuotes() {
 		String input = "echo \"'\"";
 
-		assertEquals("echo '", preprocessor.process(input));
+		assertEquals("echo '", bashPreprocessor.process(input));
 	}
 
 	@Test
 	void specialCharactersInSingleQuotes() {
 		String input = "cat 'asd\\\\ \\'";
 
-		assertEquals("cat asd\\\\\\\\\\ \\\\", preprocessor.process(input));
+		assertEquals("cat asd\\\\\\\\\\ \\\\", bashPreprocessor.process(input));
 	}
 
 	@Test
 	void specialCharactersInDoubleQuotes() {
 		String input = "wc \"fa\\ \\\"asdf\\\" \"";
 
-		assertEquals("wc fa\\ \\\"asdf\\\"\\ ", preprocessor.process(input));
+		assertEquals("wc fa\\ \\\"asdf\\\"\\ ", bashPreprocessor.process(input));
 	}
 
 	@Test
 	void unmatchedSingleQuotes() {
 		String input = "wc ' asdfasdf";
 
-		assertThrows(IllegalArgumentException.class, () -> preprocessor.process(input));
+		assertThrows(IllegalArgumentException.class, () -> bashPreprocessor.process(input));
 	}
 
 	@Test
 	void unmatchedDoubleQuotes() {
 		String input = "wc \" asdf";
 
-		assertThrows(IllegalArgumentException.class, () -> preprocessor.process(input));
+		assertThrows(IllegalArgumentException.class, () -> bashPreprocessor.process(input));
 	}
 }

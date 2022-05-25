@@ -1,7 +1,7 @@
 package interpreter;
 
-import BashProject.interpreter.Interpreter;
-import BashProject.preprocessor.Preprocessor;
+import BashProject.interpreter.BashInterpreter;
+import BashProject.preprocessor.BashPreprocessor;
 import BashProject.shellcommand.CommandList;
 import BashProject.tokenizer.Tokenizer;
 import BashProject.util.VariableStorage.SimpleVariableStorage;
@@ -15,11 +15,11 @@ import java.nio.ByteBuffer;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class InterpreterTest {
+class BashInterpreterTest {
 	private static final String RESOURCES_PATH = "src/test/resources/";
-	private Interpreter interpreter;
+	private BashInterpreter interpreter;
 	private Tokenizer tokenizer;
-	private Preprocessor preprocessor;
+	private BashPreprocessor bashPreprocessor;
 	private VariableStorage variableStorage;
 
 	private ByteArrayOutputStream byteArrayOutputStream;
@@ -30,9 +30,9 @@ class InterpreterTest {
 		commandList.addInitialCommands();
 
 		this.variableStorage = new SimpleVariableStorage();
-		this.preprocessor = new Preprocessor(variableStorage);
+		this.bashPreprocessor = new BashPreprocessor(variableStorage);
 		this.tokenizer = new Tokenizer();
-		this.interpreter = new Interpreter(commandList, variableStorage);
+		this.interpreter = new BashInterpreter(commandList, variableStorage);
 		this.byteArrayOutputStream = new ByteArrayOutputStream();
 
 		System.setOut(new PrintStream(byteArrayOutputStream));
@@ -166,8 +166,8 @@ class InterpreterTest {
 		String assignment = "a=3";
 		String retrieval = "echo $a";
 
-		interpreter.interpret(tokenizer.tokenize(preprocessor.process(assignment)));
-		interpreter.interpret(tokenizer.tokenize(preprocessor.process(retrieval)));
+		interpreter.interpret(tokenizer.tokenize(bashPreprocessor.process(assignment)));
+		interpreter.interpret(tokenizer.tokenize(bashPreprocessor.process(retrieval)));
 
 		assertEquals("3" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
