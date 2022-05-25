@@ -25,6 +25,7 @@ public class Interpreter
     public ResultCode ExecuteLine(string line, out string result)
     {
         result = "";
+        line = line.Trim();
         int startCount = line.Split(' ').Count();
         line = InsertVariablesAndEscapedCharacters(line);
         if (startCount != 0 && line.Length == 0)
@@ -77,6 +78,7 @@ public class Interpreter
     public ResultCode ParseCommand(string line, out string result, bool stdin = false, string stdinLine = "")
     {
         result = "";
+        line = line.Trim();
         var tokens = new List<string>(line.Split(' ').Where(x => !string.IsNullOrEmpty(x)));
         if (tokens.Count == 0)
         {
