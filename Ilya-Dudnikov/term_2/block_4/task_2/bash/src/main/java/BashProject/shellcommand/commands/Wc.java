@@ -16,6 +16,10 @@ public class Wc extends Command {
 			return new Triplet<>(0, 0, 0);
 		}
 
+		int newLineCount = 0;
+		int wordCount = 0;
+		int byteCount = 0;
+
 		InputStream inputStream;
 		if (file == null) {
 			inputStream = System.in;
@@ -26,10 +30,6 @@ public class Wc extends Command {
 				throw new RuntimeException(e);
 			}
 		}
-
-		int newLineCount = 0;
-		int wordCount = 0;
-		int byteCount = 0;
 
 		try {
 			byte[] inputBytes = inputStream.readAllBytes();

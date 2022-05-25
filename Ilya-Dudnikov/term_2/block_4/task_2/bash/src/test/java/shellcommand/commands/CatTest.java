@@ -24,7 +24,7 @@ class CatTest {
 		ByteArrayInputStream inputStream = new ByteArrayInputStream(input.getBytes());
 		System.setIn(inputStream);
 
-		assertArrayEquals((input + System.lineSeparator()).getBytes(), cat.run().array());
+		assertArrayEquals(input.getBytes(), cat.run().array());
 	}
 
 	@Test
@@ -42,7 +42,7 @@ class CatTest {
 
 		System.out.println(input);
 
-		assertArrayEquals((input + System.lineSeparator()).getBytes(), cat.run().array());
+		assertArrayEquals(input.getBytes(), cat.run().array());
 	}
 
 	@Test
@@ -51,7 +51,7 @@ class CatTest {
 		FileInputStream fileInputStream = new FileInputStream(file);
 
 		assertArrayEquals(
-				(new String(fileInputStream.readAllBytes()) + System.lineSeparator()).getBytes(),
+				new String(fileInputStream.readAllBytes()).getBytes(),
 				cat.run(RESOURCES_PATH + "gradlew").array()
 		);
 
@@ -70,7 +70,6 @@ class CatTest {
 				(
 						new String(buildGradleInputStream.readAllBytes())
 						+ System.lineSeparator() + new String(gradlewInputStream.readAllBytes())
-						+ System.lineSeparator()
 				).getBytes(),
 				cat.run(RESOURCES_PATH + "build.gradle", RESOURCES_PATH + "gradlew").array()
 		);
@@ -89,7 +88,6 @@ class CatTest {
 				(
 						"cat: " + RESOURCES_PATH + "haha.txt: No such file or directory"
 						+ System.lineSeparator() + new String(fileInputStream.readAllBytes())
-						+ System.lineSeparator()
 				).getBytes(),
 				cat.run(RESOURCES_PATH + "haha.txt", RESOURCES_PATH + "gradlew").array()
 		);
@@ -106,7 +104,6 @@ class CatTest {
 				(
 						"cat: " + RESOURCES_PATH + "directory: Is a directory"
 						+ System.lineSeparator() + new String(fileInputStream.readAllBytes())
-						+ System.lineSeparator()
 				).getBytes(),
 				cat.run(RESOURCES_PATH + "directory", RESOURCES_PATH + "gradlew").array()
 		);

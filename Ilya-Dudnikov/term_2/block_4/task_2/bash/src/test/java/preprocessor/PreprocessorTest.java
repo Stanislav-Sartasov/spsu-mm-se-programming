@@ -50,4 +50,39 @@ class PreprocessorTest {
 
 		assertEquals("echo\\ 123 | wc", preprocessor.process(input));
 	}
+
+	@Test
+	void quotesInsideQuotes() {
+		String input = "echo \"'\"";
+
+		assertEquals("echo '", preprocessor.process(input));
+	}
+
+	@Test
+	void specialCharactersInSingleQuotes() {
+		String input = "cat 'asd\\\\ \\'";
+
+		assertEquals("cat asd\\\\\\\\\\ \\\\", preprocessor.process(input));
+	}
+
+	@Test
+	void specialCharactersInDoubleQuotes() {
+		String input = "wc \"fa\\ \\\"asdf\\\" \"";
+
+		assertEquals("wc fa\\ \\\"asdf\\\"\\ ", preprocessor.process(input));
+	}
+
+	@Test
+	void unmatchedSingleQuotes() {
+		String input = "wc ' asdfasdf";
+
+		assertThrows(IllegalArgumentException.class, () -> preprocessor.process(input));
+	}
+
+	@Test
+	void unmatchedDoubleQuotes() {
+		String input = "wc \" asdf";
+
+		assertThrows(IllegalArgumentException.class, () -> preprocessor.process(input));
+	}
 }

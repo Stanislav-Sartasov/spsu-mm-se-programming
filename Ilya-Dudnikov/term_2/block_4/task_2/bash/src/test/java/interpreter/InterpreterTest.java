@@ -107,7 +107,7 @@ class InterpreterTest {
 
 		interpreter.interpret(tokenizer.tokenize(input));
 
-		assertEquals(new String(fileInputStream.readAllBytes()) + System.lineSeparator(), byteArrayOutputStream.toString());
+		assertEquals(new String(fileInputStream.readAllBytes()), byteArrayOutputStream.toString());
 
 		fileInputStream.close();
 	}
@@ -122,17 +122,13 @@ class InterpreterTest {
 		FileInputStream buildGradleInputStream = new FileInputStream(buildGradleFile);
 		FileInputStream gradlewInputStream = new FileInputStream(gradlewFile);
 
-		byte[] buildGradleBytes = buildGradleInputStream.readAllBytes();
-		byte[] newLine = System.lineSeparator().getBytes();
-		byte[] gradlewBytes = gradlewInputStream.readAllBytes();
-
-		byte[] concatenatedBytes = new byte[buildGradleBytes.length + newLine.length + gradlewBytes.length];
-		System.arraycopy(buildGradleBytes, 0, concatenatedBytes, 0, buildGradleBytes.length);
-		System.arraycopy(newLine, 0, concatenatedBytes, buildGradleBytes.length, newLine.length);
-		System.arraycopy(gradlewBytes, 0, concatenatedBytes, buildGradleBytes.length + newLine.length, gradlewBytes.length);
-
 		interpreter.interpret(tokenizer.tokenize(input));
-		assertEquals(new String(concatenatedBytes) + System.lineSeparator(), byteArrayOutputStream.toString());
+		assertEquals(
+				new String(buildGradleInputStream.readAllBytes())
+				+ System.lineSeparator()
+				+ new String(gradlewInputStream.readAllBytes()),
+				byteArrayOutputStream.toString()
+		);
 
 		buildGradleInputStream.close();
 		gradlewInputStream.close();
@@ -154,7 +150,7 @@ class InterpreterTest {
 		String input = "cat";
 
 		interpreter.interpret(tokenizer.tokenize(input));
-		assertEquals(new String(buffer.array()) + System.lineSeparator(), byteArrayOutputStream.toString());
+		assertEquals(new String(buffer.array()), byteArrayOutputStream.toString());
 	}
 
 	@Test
@@ -197,6 +193,6 @@ class InterpreterTest {
 		String input = "echo 123 | wc";
 
 		interpreter.interpret(tokenizer.tokenize(input));
-		assertEquals("1 1 5", byteArrayOutputStream.toString());
+		assertEquals("1 1 5" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
 }

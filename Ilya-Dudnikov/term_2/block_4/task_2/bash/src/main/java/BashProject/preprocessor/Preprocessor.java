@@ -9,6 +9,7 @@ import java.util.ArrayList;
 @Component
 public class Preprocessor {
 	private VariableStorage variableStorage;
+	private static final String SPECIAL_CHARACTERS = "~`$\"' \\#=[]!>|;{}()*?&";
 
 	@Autowired
 	public Preprocessor(VariableStorage variableStorage) {
@@ -91,8 +92,8 @@ public class Preprocessor {
 			}
 
 			if (currentChar == '\\') {
-				if (i + 1 >= input.length()) {
-					throw new IllegalArgumentException("Unknown escape sequence");
+				if (i + 1 >= input.length() || !SPECIAL_CHARACTERS.contains(String.valueOf(input.charAt(i + 1))) && readingDoubleQuotes) {
+					currentString.append("\\\\");
 				}
 
 				currentString.append('\\').append(input.charAt(i + 1));

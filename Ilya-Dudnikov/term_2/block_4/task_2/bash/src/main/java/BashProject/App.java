@@ -10,5 +10,6 @@ public class App {
 		var applicationContext = SpringApplication.run(App.class, args);
 
 		Bash bash = (Bash) applicationContext.getBean("bash");
+		bash.run();
 	}
 }

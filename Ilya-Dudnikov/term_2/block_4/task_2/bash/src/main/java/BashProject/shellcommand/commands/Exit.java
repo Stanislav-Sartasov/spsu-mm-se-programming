@@ -11,7 +11,7 @@ public class Exit extends Command {
 			Runtime.getRuntime().exit(0);
 		}
 		if (args.length > 1) {
-			return ByteBuffer.wrap(("Too many arguments" + System.lineSeparator()).getBytes());
+			return ByteBuffer.wrap(("Too many arguments" + System.lineSeparator()) .getBytes());
 		}
 
 		try {
