@@ -15,4 +15,14 @@ public static class Runtime
             LocalVariables.Add(name, value);
         }
     }
+
+    public static string? GetVariable(string name)
+    {
+        if (LocalVariables.ContainsKey(name))
+        {
+            return LocalVariables[name];
+        }
+        
+        return Environment.GetEnvironmentVariable(name);
+    }
 }
