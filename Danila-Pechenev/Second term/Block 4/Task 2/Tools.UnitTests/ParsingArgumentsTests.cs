@@ -20,84 +20,84 @@ public class ParsingArgumentsTests
     [Test]
     public void EmptyArgumentsLineTest()
     {
-        var result = Interpreter.ParseArguments("");
+        var result = Interpreter.ParseArguments("", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "");
+            Assert.AreEqual("", string.Join(' ', result));
         }
     }
 
     [Test]
     public void OneWordWithoutQuotesTest()
     {
-        var result = Interpreter.ParseArguments("town");
+        var result = Interpreter.ParseArguments("town", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "town");
+            Assert.AreEqual("town", string.Join(' ', result));
         }
     }
 
     [Test]
     public void TwoWordsWithoutQuotesTest()
     {
-        var result = Interpreter.ParseArguments("apple orange");
+        var result = Interpreter.ParseArguments("apple orange", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "apple orange");
+            Assert.AreEqual("apple orange", string.Join(' ', result));
         }
     }
 
     [Test]
     public void TwoWordsWithoutQuotesWith—ommaTest()
     {
-        var result = Interpreter.ParseArguments("word1, word2");
+        var result = Interpreter.ParseArguments("word1, word2", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "word1, word2");
+            Assert.AreEqual("word1, word2", string.Join(' ', result));
         }
     }
 
     [Test]
     public void SentenceInDoubleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("\"Hello, world!\"");
+        var result = Interpreter.ParseArguments("\"Hello, world!\"", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Hello, world!");
+            Assert.AreEqual("Hello, world!", string.Join(' ', result));
         }
     }
 
     [Test]
     public void SentenceInSingleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("'abc 123'");
+        var result = Interpreter.ParseArguments("'abc 123'", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "abc 123");
+            Assert.AreEqual("abc 123", string.Join(' ', result));
         }
     }
 
@@ -105,14 +105,14 @@ public class ParsingArgumentsTests
     public void LineWithVariableTest()
     {
         interpreter.ExecuteLine("s=\"math\"", out string line);
-        var result = Interpreter.ParseArguments("I like $s");
+        var result = Interpreter.ParseArguments("I like $s", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "I like math");
+            Assert.AreEqual("I like math", string.Join(' ', result));
         }
     }
 
@@ -120,21 +120,21 @@ public class ParsingArgumentsTests
     public void LineWithUnknownVariableTest()
     {
         interpreter.ExecuteLine("abc=123", out string line);
-        var result = Interpreter.ParseArguments("\"this is\" $cba");
+        var result = Interpreter.ParseArguments("\"this is\" $cba", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "this is");
+            Assert.AreEqual("this is", string.Join(' ', result));
         }
     }
 
     [Test]
     public void LineWithSystemVariableTest()
     {
-        var result = Interpreter.ParseArguments("echo $PATH");
+        var result = Interpreter.ParseArguments("echo $PATH", true);
         if (result == null)
         {
             Assert.Fail();
@@ -149,14 +149,14 @@ public class ParsingArgumentsTests
     public void DoubleQuotesWithVariableTest()
     {
         interpreter.ExecuteLine("name=Danya", out string line);
-        var result = Interpreter.ParseArguments("\"Hi, $name!\"");
+        var result = Interpreter.ParseArguments("\"Hi, $name!\"", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Hi, Danya!");
+            Assert.AreEqual("Hi, Danya!", string.Join(' ', result));
         }
     }
 
@@ -164,42 +164,42 @@ public class ParsingArgumentsTests
     public void SingleQuotesWithVariableTest()
     {
         interpreter.ExecuteLine("name=Danya", out string line);
-        var result = Interpreter.ParseArguments("'Hi, $name!'");
+        var result = Interpreter.ParseArguments("'Hi, $name!'", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Hi, $name!");
+            Assert.AreEqual("Hi, $name!", string.Join(' ', result));
         }
     }
 
     [Test]
     public void BackslashInDoubleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("\"\\\\\"");
+        var result = Interpreter.ParseArguments("\"\\\\\"", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "\\");
+            Assert.AreEqual("\\", string.Join(' ', result));
         }
     }
 
     [Test]
     public void BackslashInSingleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("'\\\\'");
+        var result = Interpreter.ParseArguments("'\\\\'", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "\\\\");
+            Assert.AreEqual("\\\\", string.Join(' ', result));
         }
     }
 
@@ -207,91 +207,91 @@ public class ParsingArgumentsTests
     public void DifferentPatternsTest()
     {
         interpreter.ExecuteLine("who=you", out string line);
-        var result = Interpreter.ParseArguments("\"Hello\", how a're' $who?");
+        var result = Interpreter.ParseArguments("\"Hello\", how a're' $who?", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Hello, how are you?");
+            Assert.AreEqual("Hello, how are you?", string.Join(' ', result));
         }
     }
 
     [Test]
     public void DoubleQuotesInSingleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("'His name is \"Andrei\"'");
+        var result = Interpreter.ParseArguments("'His name is \"Andrei\"'", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "His name is \"Andrei\"");
+            Assert.AreEqual("His name is \"Andrei\"", string.Join(' ', result));
         }
     }
 
     [Test]
     public void SingleQuotesInDoubleQuotesTest()
     {
-        var result = Interpreter.ParseArguments("\"It's 'a'!\"");
+        var result = Interpreter.ParseArguments("\"It's 'a'!\"", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "It's 'a'!");
+            Assert.AreEqual("It's 'a'!", string.Join(' ', result));
         }
     }
 
     [Test]
     public void ShieldingTest()
     {
-        var result = Interpreter.ParseArguments("Working\\ directiry/folder/file.txt");
+        var result = Interpreter.ParseArguments("Working\\ directiry/folder/file.txt", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Working directiry/folder/file.txt");
+            Assert.AreEqual("Working directiry/folder/file.txt", string.Join(' ', result));
         }
     }
 
     [Test]
     public void ArgumentWithEqualSignTest()
     {
-        var result = Interpreter.ParseArguments("v=123");
+        var result = Interpreter.ParseArguments("v=123", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "v=123");
+            Assert.AreEqual("v=123", string.Join(' ', result));
         }
     }
 
     [Test]
     public void SkipUnknownCharacterTest()
     {
-        var result = Interpreter.ParseArguments("Hi, $var!");
+        var result = Interpreter.ParseArguments("Hi, $var!", true);
         if (result == null)
         {
             Assert.Fail();
         }
         else
         {
-            Assert.AreEqual(string.Join(' ', result), "Hi, !");
+            Assert.AreEqual("Hi, !", string.Join(' ', result));
         }
     }
 
     [Test]
     public void NullArgumentsTest()
     {
-        var result = Interpreter.ParseArguments("abc'");
+        var result = Interpreter.ParseArguments("abc'", true);
         Assert.AreEqual(null, result);
     }
 }
