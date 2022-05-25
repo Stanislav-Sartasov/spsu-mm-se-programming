@@ -11,7 +11,7 @@ public class Interpreter
         "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ" + 
         "0123456789";
 
-    private static string SpecialСharacters { get; set; } = " .!,:;@#№%^&?*()-+=|/<>[]`_\'{}\"";
+    private static string SpecialСharacters { get; set; } = " .!,:;@#№%\\^&?*()$-+=|/<>[]`_\'{}\"";
 
     public Interpreter(List<ICommand> listOfCommands)
     {
@@ -25,6 +25,13 @@ public class Interpreter
     public ResultCode ExecuteLine(string line, out string result)
     {
         result = "";
+        int startCount = line.Split(' ').Count();
+        line = InsertVariablesAndEscapedCharacters(line);
+        if (startCount != 0 && line.Length == 0)
+        {
+            result += AddLineToErrorList(ResultCode.CommandNotFound, "", false);
+        }
+
         string[] parsedCommands = SplitByCommands(line);
         if (parsedCommands.Length == 0)
         {
@@ -124,136 +131,61 @@ public class Interpreter
         }
     }
 
-    public static List<string>? ParseArguments(string argumentsLine)
+    public static List<string>? ParseArguments(string argumentsLine, bool insertVariablesAndEscapedCharacters = false)
     {
-        var arguments = new List<string>();
+        if (insertVariablesAndEscapedCharacters)
+        {
+            argumentsLine = InsertVariablesAndEscapedCharacters(argumentsLine);
+        }
 
+        var arguments = new List<string>();
         bool doubleQuotationMarkZone = false;
         bool singleQuotationMarkZone = false;
-        bool shielding = false;
-        bool variableNameStarted = false;
-        string currentVariableName = "";
         string currentArg = "";
 
         for (int i = 0; i < argumentsLine.Length; i++)
         {
-            if (!shielding)
+            if (argumentsLine[i] == '\'')
             {
-                if (variableNameStarted && !ValidСharacters.Contains(argumentsLine[i]))
+                if (doubleQuotationMarkZone)
                 {
-                    if (Runtime.LocalVariables.ContainsKey(currentVariableName))
-                    {
-                        currentArg += Runtime.LocalVariables[currentVariableName];
-                    }
-                    else
-                    {
-                        string? value = Environment.GetEnvironmentVariable(currentVariableName);
-                        if (value != null)
-                        {
-                            currentArg += value;
-                        }
-                    }
-
-                    variableNameStarted = false;
-                    currentVariableName = "";
-                }
-
-                if (argumentsLine[i] == '\'')
-                {
-                    if (doubleQuotationMarkZone)
-                    {
-                        currentArg += "\'";
-                    }
-                    else
-                    {
-                        singleQuotationMarkZone = !singleQuotationMarkZone;
-                    }
-                }
-                else if (argumentsLine[i] == '\"')
-                {
-                    if (singleQuotationMarkZone)
-                    {
-                        currentArg += "\"";
-                    }
-                    else
-                    {
-                        doubleQuotationMarkZone = !doubleQuotationMarkZone;
-                    }
-                }
-                else if (argumentsLine[i] == '$')
-                {
-                    if (singleQuotationMarkZone)
-                    {
-                        currentArg += argumentsLine[i];
-                    }
-                    else
-                    {
-                        variableNameStarted = true;
-                    }
-                }
-                else if (argumentsLine[i] == ' ')
-                {
-                    if (!singleQuotationMarkZone && !doubleQuotationMarkZone)
-                    {
-                        arguments.Add(currentArg);
-                        currentArg = "";
-                    }
-                    else
-                    {
-                        currentArg += " ";
-                    }
-                }
-                else if (argumentsLine[i] == '\u005C')
-                {
-                    if (singleQuotationMarkZone)
-                    {
-                        currentArg += "\u005C";
-                    }
-                    else
-                    {
-                        shielding = true;
-                    }
-                }
-                else if (ValidСharacters.Contains(argumentsLine[i]))
-                {
-                    if (variableNameStarted)
-                    {
-                        currentVariableName += argumentsLine[i];
-                    }
-                    else
-                    {
-                        currentArg += argumentsLine[i];
-                    }
-                }
-                else if (SpecialСharacters.Contains(argumentsLine[i]))
-                {
-                    currentArg += argumentsLine[i];
+                    currentArg += "\'";
                 }
                 else
                 {
-                    return null;
+                    singleQuotationMarkZone = !singleQuotationMarkZone;
                 }
             }
-            else
+            else if (argumentsLine[i] == '\"')
+            {
+                if (singleQuotationMarkZone)
+                {
+                    currentArg += "\"";
+                }
+                else
+                {
+                    doubleQuotationMarkZone = !doubleQuotationMarkZone;
+                }
+            }
+            else if (argumentsLine[i] == ' ')
+            {
+                if (!singleQuotationMarkZone && !doubleQuotationMarkZone)
+                {
+                    arguments.Add(currentArg);
+                    currentArg = "";
+                }
+                else
+                {
+                    currentArg += " ";
+                }
+            }
+            else if (ValidСharacters.Contains(argumentsLine[i]) || SpecialСharacters.Contains(argumentsLine[i]))
             {
                 currentArg += argumentsLine[i];
-                shielding = false;
-            }
-        }
-
-        if (variableNameStarted)
-        {
-            if (Runtime.LocalVariables.ContainsKey(currentVariableName))
-            {
-                currentArg += Runtime.LocalVariables[currentVariableName];
             }
             else
             {
-                string? value = Environment.GetEnvironmentVariable(currentVariableName);
-                if (value != null)
-                {
-                    currentArg += value;
-                }
+                return null;
             }
         }
 
@@ -272,21 +204,154 @@ public class Interpreter
         return arguments;
     }
 
-    private static string AddLineToErrorList(ResultCode code, string resultOfCommand)
+    private static string InsertVariablesAndEscapedCharacters(string line)
+    {
+        string result = "";
+        bool doubleQuotationMarkZone = false;
+        bool singleQuotationMarkZone = false;
+        bool shielding = false;
+        bool variableNameStarted = false;
+        string currentVariableName = "";
+        string currentArg = "";
+
+        for (int i = 0; i < line.Length; i++)
+        {
+            if (!shielding)
+            {
+                if (variableNameStarted && !ValidСharacters.Contains(line[i]))
+                {
+                    var variableValue = Runtime.GetVariable(currentVariableName);
+                    if (variableValue != null)
+                    {
+                        currentArg += variableValue;
+                    }
+
+                    variableNameStarted = false;
+                    currentVariableName = "";
+                }
+
+                if (line[i] == '\'')
+                {
+                    if (!doubleQuotationMarkZone)
+                    {
+                        singleQuotationMarkZone = !singleQuotationMarkZone;
+                    }
+
+                    currentArg += line[i];
+                }
+                else if (line[i] == '\"')
+                {
+                    if (!singleQuotationMarkZone)
+                    {
+                        doubleQuotationMarkZone = !doubleQuotationMarkZone;
+                    }
+
+                    currentArg += line[i];
+                }
+                else if (line[i] == '$')
+                {
+                    if (singleQuotationMarkZone)
+                    {
+                        currentArg += line[i];
+                    }
+                    else
+                    {
+                        variableNameStarted = true;
+                    }
+                }
+                else if (line[i] == ' ')
+                {
+                    if (!singleQuotationMarkZone && !doubleQuotationMarkZone)
+                    {
+                        result += currentArg + " ";
+                        currentArg = "";
+                    }
+                    else
+                    {
+                        currentArg += " ";
+                    }
+                }
+                else if (line[i] == '\u005C')
+                {
+                    if (singleQuotationMarkZone)
+                    {
+                        currentArg += "\u005C";
+                    }
+                    else
+                    {
+                        shielding = true;
+                    }
+                }
+                else if (ValidСharacters.Contains(line[i]))
+                {
+                    if (variableNameStarted)
+                    {
+                        currentVariableName += line[i];
+                    }
+                    else
+                    {
+                        currentArg += line[i];
+                    }
+                }
+                else
+                {
+                    currentArg += line[i];
+                }
+            }
+            else
+            {
+                currentArg += line[i];
+                shielding = false;
+            }
+        }
+
+        if (variableNameStarted)
+        {
+            var variableValue = Runtime.GetVariable(currentVariableName);
+            if (variableValue != null)
+            {
+                currentArg += variableValue;
+            }
+        }
+
+        if (currentArg.Length != 0)
+        {
+            result += currentArg;
+        }
+
+        return result;
+    }
+    
+    private static string AddLineToErrorList(ResultCode code, string resultOfCommand, bool addNewLine = true)
     {
         if (code == ResultCode.CommandNotFound)  // command not found
         {
-            return "command not found" + Environment.NewLine;
+            if (addNewLine)
+            {
+                return "command not found" + Environment.NewLine;
+            }
+
+            return "command not found";
         }
 
         if (code == ResultCode.UnexpectedSequence)  // unexpected sequence
         {
-            return "unexpected sequence" + Environment.NewLine;
+            if (addNewLine)
+            {
+                return "unexpected sequence" + Environment.NewLine;
+            }
+
+            return "unexpected sequence";
         }
 
         if (code == ResultCode.CommandReturnedError)  // command returned error message
         {
-            return resultOfCommand + Environment.NewLine;
+            if (addNewLine)
+            {
+                return resultOfCommand + Environment.NewLine;
+            }
+
+            return resultOfCommand;
         }
 
         return "";
@@ -341,7 +406,7 @@ public class Interpreter
         string name = nameAndArgumentsLine[0];
         string argumentsLine = nameAndArgumentsLine[1];
         string? value = nameAndArgumentsLine[1] != "" ? ParseArguments(argumentsLine)?[0] : "";
-
+        
         if (value != null)
         {
             if (ValidateName(name) && ValidateName(value, true, true))
