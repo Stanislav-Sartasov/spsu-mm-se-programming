@@ -294,4 +294,11 @@ public class ParsingArgumentsTests
         var result = Interpreter.ParseArguments("abc'", true);
         Assert.AreEqual(null, result);
     }
+
+    [Test]
+    public void UnknownCharacterTest()
+    {
+        var result = Interpreter.ParseArguments("\u263a", true);
+        Assert.AreEqual(null, result);
+    }
 }
