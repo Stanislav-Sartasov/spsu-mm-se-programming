@@ -38,4 +38,12 @@ public class EchoTests
         Assert.AreEqual("", result);
         Assert.AreEqual(false, success);
     }
+
+    [Test]
+    public void VariableAsCommandTest()
+    {
+        interpreter.ExecuteLine("a='echo 123'", out string result);
+        interpreter.ExecuteLine("$a", out result);
+        Assert.AreEqual("123", result);
+    }
 }
