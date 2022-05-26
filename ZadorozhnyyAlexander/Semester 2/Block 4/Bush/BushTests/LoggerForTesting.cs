@@ -19,7 +19,7 @@ namespace BushTests
 
         public override void Log(string message)
         {
-            if (message != answers[index][subIndex])
+            if (message != answers[index + 1][subIndex])
                 throw new Exception($"Something went swong {message} != {answers[index][subIndex]}");
             subIndex++;
         }
