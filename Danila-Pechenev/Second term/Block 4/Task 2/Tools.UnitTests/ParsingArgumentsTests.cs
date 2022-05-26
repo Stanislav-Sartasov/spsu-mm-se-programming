@@ -301,4 +301,18 @@ public class ParsingArgumentsTests
         var result = Interpreter.ParseArguments("\u263a", true);
         Assert.AreEqual(null, result);
     }
+
+    [Test]
+    public void DoubleQuotesWithWhitespaceTest()
+    {
+        var result = Interpreter.ParseArguments("\"lala\\ lolo\"", true);
+        if (result == null)
+        {
+            Assert.Fail();
+        }
+        else
+        {
+            Assert.AreEqual("lala lolo", string.Join(' ', result));
+        }
+    }
 }

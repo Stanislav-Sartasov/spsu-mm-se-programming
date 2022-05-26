@@ -304,7 +304,7 @@ public class Interpreter
             {
                 if (line[i] == ' ')
                 {
-                    currentArg += "' '";
+                    currentArg += "\" \"";
                 }
                 else
                 {
