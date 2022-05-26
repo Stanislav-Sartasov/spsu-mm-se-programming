@@ -11,36 +11,48 @@ namespace Task_3
 {
     public class IoCContainer
     {
-        public bool CreatingTomorrowio = false, CreatingStormglassio = false;
+        private List<IWeatherDisplayer> displayers;
 
-        public IWeatherDisplayer CreateDisplayer()
+        public List<IWeatherDisplayer> GetDisplayers()
+        {
+            FillDisplayer(true);
+            FillDisplayer(false);
+            return displayers;
+        }
+
+        public IoCContainer()
+        {
+            displayers = new List<IWeatherDisplayer>();
+        }
+
+        private void FillDisplayer(bool creatingTomorrowio)
         {
             var builder = Host.CreateDefaultBuilder()
-                .ConfigureServices(services => services.AddSingleton<IParametersFiller<TomorrowDataHolder>, TomorrowioParametersFiller>()
+                .ConfigureServices(services => services.AddSingleton<TomorrowioWeatherDisplayer>()
+                .AddSingleton<IParametersFiller<TomorrowDataHolder>, TomorrowioParametersFiller>()
                 .AddSingleton<IJsonMapper<TomorrowDataHolder>, TomorrowioMapper>()
                 .AddSingleton<IParametersFiller<StormglassDataHolder>, StormglassioParametersFiller>()
                 .AddSingleton<IJsonMapper<StormglassDataHolder>, StormglassioMapper>()
                 .AddSingleton<ConsoleWriter>()
                 .AddSingleton<IResponseReader, ResponseReader>()
-                );
-            if (CreatingTomorrowio)
-            {
-                builder.ConfigureServices(services =>
-                services.AddSingleton<IWeatherDisplayer, TomorrowioWeatherDisplayer>()
                 .AddSingleton<IWebServerHelper, TomorrowioWebHelper>()
                 .AddSingleton<IRequestURLFiller, TomorrowioRequestURLFiller>()
+                .AddSingleton<StormglassioWeatherDisplayer>()
                 );
-            }
-            else if (CreatingStormglassio)
+            if (creatingTomorrowio)
             {
-                builder.ConfigureServices(services =>
-                services.AddSingleton<IWeatherDisplayer, StormglassioWeatherDisplayer>()
-                .AddSingleton<IWebServerHelper, StormglassioWebHelper>()
-                .AddSingleton<IRequestURLFiller, StormglassioRequestURLFiller>()
-                );
+                builder.ConfigureServices(services => services.AddSingleton<IWebServerHelper, TomorrowioWebHelper>()
+                .AddSingleton<IRequestURLFiller, TomorrowioRequestURLFiller>());
+                IServiceProvider services = builder.Build().Services;
+                displayers.Add(services.GetService<TomorrowioWeatherDisplayer>());
             }
-            IServiceProvider services = builder.Build().Services;
-            return services.GetService<IWeatherDisplayer>();
+            else
+            {
+                builder.ConfigureServices(services => services.AddSingleton<IWebServerHelper, StormglassioWebHelper>()
+                .AddSingleton<IRequestURLFiller, StormglassioRequestURLFiller>());
+                IServiceProvider services = builder.Build().Services;
+                displayers.Add(services.GetService<StormglassioWeatherDisplayer>());
+            }
         }
     }
 }

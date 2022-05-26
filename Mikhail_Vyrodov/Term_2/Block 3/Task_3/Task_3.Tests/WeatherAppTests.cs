@@ -114,19 +114,16 @@ namespace Task_3.Tests
         public void IoCContainterTest()
         {
             IoCContainer testContainer = new IoCContainer();
-            testContainer.CreatingTomorrowio = true;
-            IWeatherDisplayer tomorrowWeatherDisplayer = testContainer.CreateDisplayer();
-            Assert.AreEqual(tomorrowWeatherDisplayer.GetType(), typeof(TomorrowioWeatherDisplayer));
-            Assert.AreEqual(tomorrowWeatherDisplayer.WebHelper.GetType(), typeof(TomorrowioWebHelper));
-            Assert.AreEqual(tomorrowWeatherDisplayer.RespReader.GetType(), typeof(ResponseReader));
-            Assert.AreEqual(tomorrowWeatherDisplayer.Writer.GetType(), typeof(ConsoleWriter));
-            testContainer.CreatingTomorrowio = false;
-            testContainer.CreatingStormglassio = true;
-            IWeatherDisplayer stormglassWeatherDisplayer = testContainer.CreateDisplayer();
-            Assert.AreEqual(stormglassWeatherDisplayer.GetType(), typeof(StormglassioWeatherDisplayer));
-            Assert.AreEqual(stormglassWeatherDisplayer.WebHelper.GetType(), typeof(StormglassioWebHelper));
-            Assert.AreEqual(stormglassWeatherDisplayer.RespReader.GetType(), typeof(ResponseReader));
-            Assert.AreEqual(stormglassWeatherDisplayer.Writer.GetType(), typeof(ConsoleWriter));
+            List<IWeatherDisplayer> displayers = testContainer.GetDisplayers();
+            Assert.AreEqual(displayers[0].GetType(), typeof(TomorrowioWeatherDisplayer));
+            Assert.AreEqual(displayers[0].WebHelper.GetType(), typeof(TomorrowioWebHelper));
+            Assert.AreEqual(displayers[0].RespReader.GetType(), typeof(ResponseReader));
+            Assert.AreEqual(displayers[0].Writer.GetType(), typeof(ConsoleWriter));
+
+            Assert.AreEqual(displayers[1].GetType(), typeof(StormglassioWeatherDisplayer));
+            Assert.AreEqual(displayers[1].WebHelper.GetType(), typeof(StormglassioWebHelper));
+            Assert.AreEqual(displayers[1].RespReader.GetType(), typeof(ResponseReader));
+            Assert.AreEqual(displayers[1].Writer.GetType(), typeof(ConsoleWriter));
         }
     }
 }

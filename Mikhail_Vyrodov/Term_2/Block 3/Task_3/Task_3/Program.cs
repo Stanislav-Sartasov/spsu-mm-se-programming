@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using JsonParsingLibrary;
 using System.Linq;
@@ -17,43 +18,23 @@ namespace Task_3
             Console.WriteLine("From only stormglass.io - type 2");
             string userChoice = Console.ReadLine();
             IoCContainer container = new IoCContainer();
-            IWeatherDisplayer tomorrowWeatherDisplayer = null;
-            IWeatherDisplayer stormglassWeatherDisplayer = null;
-            if (userChoice == "1")
-            {
-                container.CreatingTomorrowio = true;
-                tomorrowWeatherDisplayer = container.CreateDisplayer();
-            }
-            else if (userChoice == "2")
-            {
-                container.CreatingStormglassio = true;
-                stormglassWeatherDisplayer = container.CreateDisplayer();
-            }
-            else
-            {
-                container.CreatingTomorrowio = true;
-                tomorrowWeatherDisplayer = container.CreateDisplayer();
-                container.CreatingStormglassio = true;
-                container.CreatingTomorrowio = false;
-                stormglassWeatherDisplayer = container.CreateDisplayer();
-
-            }
+            List<IWeatherDisplayer> displayers = container.GetDisplayers();
             bool updateFlag = true;
             while (updateFlag)
             {
                 if (userChoice == "1")
                 {
-                    tomorrowWeatherDisplayer.DisplayWeather();
+                    displayers[0].DisplayWeather();
                 }
                 else if (userChoice == "2")
                 {
                     
-                    stormglassWeatherDisplayer.DisplayWeather();
+                    displayers[1].DisplayWeather();
                 }
                 else
                 {
-                    tomorrowWeatherDisplayer.DisplayWeather();
-                    stormglassWeatherDisplayer.DisplayWeather();
+                    displayers[0].DisplayWeather();
+                    displayers[1].DisplayWeather();
                 }
                 Console.WriteLine("If you want to update information type Yes, if you don't want it type No");
                 string answer = Console.ReadLine();
