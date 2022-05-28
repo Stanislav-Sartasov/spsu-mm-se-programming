@@ -6,7 +6,7 @@ namespace WeatherAPI
 {
 	public class TomorrowAPI : AWeatherAPI
 	{
-		public TomorrowAPI() : base("https://api.tomorrow.io/v4/timelines?location=59.93863%2C%2030.31413&fields=temperature&fields=humidity&fields=windSpeed&fields=windDirection&fields=precipitationProbability&fields=cloudCover&units=metric&timesteps=current&timezone=Europe%2FMoscow&apikey=") { }
+		public TomorrowAPI() : base("https://api.tomorrow.io/v4/timelines?location=59.93863%2C%2030.31413&fields=temperature&fields=humidity&fields=windSpeed&fields=windDirection&fields=precipitationProbability&fields=cloudCover&units=metric&timesteps=current&timezone=Europe%2FMoscow&apikey=", "Tomorrow.io") { }
 
 		public override async Task<string> GetDataAsync()
 		{
@@ -20,7 +20,7 @@ namespace WeatherAPI
 			}
 			catch (Exception e)
 			{
-				flag = false;
+				Flag = false;
 				throw e;
 			}
 		}

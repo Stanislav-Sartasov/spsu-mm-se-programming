@@ -4,11 +4,16 @@ namespace WeatherAPI
 {
 	public abstract class AWeatherAPI : IWeatherAPI
 	{
+		public string Name { get; }
 		public string URL { get; }
 		public static HttpClient Client { get; }
-		public bool flag { get; private protected set; } = true;
+		public bool Flag { get; private protected set; } = true;
 
-		internal AWeatherAPI(string url) => URL = url;
+		internal AWeatherAPI(string url, string name)
+		{
+			URL = url;
+			Name = name;
+		}
 
 		static AWeatherAPI() => Client = new HttpClient();
 

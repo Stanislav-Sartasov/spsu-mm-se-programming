@@ -6,7 +6,7 @@ namespace WeatherAPI
 {
 	public class StormGlassAPI : AWeatherAPI
 	{
-		public StormGlassAPI() : base("https://api.stormglass.io/v2/weather/point?lat=59.93863&lng=30.31413&params=airTemperature,cloudCover,humidity,precipitation,windDirection,windSpeed") { }
+		public StormGlassAPI() : base("https://api.stormglass.io/v2/weather/point?lat=59.93863&lng=30.31413&params=airTemperature,cloudCover,humidity,precipitation,windDirection,windSpeed", "StormGlass.io") { }
 
 		public override async Task<string> GetDataAsync()
 		{
@@ -20,7 +20,7 @@ namespace WeatherAPI
 			}
 			catch (Exception e)
 			{
-				flag = false;
+				Flag = false;
 				throw e;
 			}
 		}

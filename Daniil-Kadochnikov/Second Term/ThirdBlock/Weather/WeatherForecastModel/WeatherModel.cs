@@ -1,6 +1,6 @@
 ﻿namespace WeatherForecastModel
 {
-	public class WeatherModel
+	public record class WeatherModel
 	{
 		public string? CloudCover;
 		public string? Humidity;

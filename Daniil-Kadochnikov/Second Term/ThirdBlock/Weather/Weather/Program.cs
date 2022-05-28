@@ -10,45 +10,36 @@ namespace Weather
 			ConsoleWriter.WriteGreeting();
 			AWeatherAPI tomorrowWeatherAPI = new TomorrowAPI();
 			AWeatherAPI stormGlassWeatherAPI = new StormGlassAPI();
-			WeatherModel? weatherTomorrow;
-			WeatherModel? weatherSormGlass;
 
 			do
 			{
-				try
-				{
-					weatherTomorrow = tomorrowWeatherAPI.GetWeatherModelAsync(await tomorrowWeatherAPI.GetDataAsync());
-
-					if (tomorrowWeatherAPI.flag)
-						ConsoleWriter.WriteWeatherForecast(weatherTomorrow, "Tomorrow.io");
-					else
-						ConsoleWriter.WriteErrorTomorrow();
-				}
-				catch (Exception e)
-				{
-					ConsoleWriter.WriteException(e.Message);
-				}
-
-				try
-				{
-					weatherSormGlass = stormGlassWeatherAPI.GetWeatherModelAsync(await stormGlassWeatherAPI.GetDataAsync());
-
-					if (stormGlassWeatherAPI.flag)
-						ConsoleWriter.WriteWeatherForecast(weatherSormGlass, "StormGlass.io");
-					else
-						ConsoleWriter.WriteErrorStormGlass();
-				}
-				catch (Exception e)
-				{
-					ConsoleWriter.WriteException(e.Message);
-				}
+				await ShowWeatherInfo(tomorrowWeatherAPI);
+				await ShowWeatherInfo(stormGlassWeatherAPI);
 
 			} while (CheckKeybord());
 		}
 
+		private static async Task ShowWeatherInfo(AWeatherAPI weatherApi)
+		{
+			WeatherModel? weatherModel;
+
+			try
+			{
+				weatherModel = weatherApi.GetWeatherModelAsync(await weatherApi.GetDataAsync());
+
+				if (weatherApi.Flag)
+					ConsoleWriter.WriteWeatherForecast(weatherModel, weatherApi.Name);
+				else
+					ConsoleWriter.WriteErrorStormGlass();
+			}
+			catch (Exception e)
+			{
+				ConsoleWriter.WriteException(e.Message);
+			}
+		}
+
 		private static bool CheckKeybord()
 		{
-			string trash;
 			ConsoleWriter.WriteAboutKeybord();
 			ConsoleKeyInfo cli;
 
