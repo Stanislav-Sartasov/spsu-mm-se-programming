@@ -16,13 +16,20 @@ namespace FileManager
         {
             this.FilePath = path;
 
-            ReadFile();
-            CalculateFileStat();
+            this.ReadFile();
+            this.CalculateFileStat();
         }
 
         private void ReadFile()
         {
-             this.FileText = System.IO.File.ReadAllText(this.FilePath, Encoding.UTF8);
+             string? fileText = System.IO.File.ReadAllText(this.FilePath, Encoding.UTF8);
+
+            if (fileText == null)
+            {
+                fileText = "";
+            }
+
+            this.FileText = fileText;
         }
 
         private void CalculateFileStat()
@@ -31,8 +38,8 @@ namespace FileManager
             
             this.Weight = fileInfo.Length;
 
-            CountWords();
-            CountLines();
+            this.CountWords();
+            this.CountLines();
         }
 
         private void CountWords()
