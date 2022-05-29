@@ -35,7 +35,7 @@
                 }
                 else
                 {
-                    Console.Write(ConsoleOutputManager.GetConsoleOutput(executeResult));
+                    Console.Write(ConsoleOutputManager.GetConsoleOutput(executeResult, bash.GetLastCommand()));
                 }
             }
         }

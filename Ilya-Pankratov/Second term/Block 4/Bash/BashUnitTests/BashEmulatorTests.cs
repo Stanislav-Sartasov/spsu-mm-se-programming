@@ -67,12 +67,12 @@ namespace BashUnitTests
             var testCommand = "ls";
 
             var commandResult = bash.Execute(testCommand);
-            Assert.IsTrue(commandResult.Count == 1);
-            var splittedCommandResult = commandResult[0].Split('\t');
+            var fileEntities = Directory.GetFileSystemEntries(homeDir);
+            Assert.IsTrue(commandResult.Count == fileEntities.Length);
 
-            foreach (var entry in Directory.GetFileSystemEntries(homeDir))
+            foreach (var entry in fileEntities)
             {
-                Assert.IsTrue(splittedCommandResult.Contains(entry.Split("\\")[^1]));
+                Assert.IsTrue(commandResult.Contains(entry.Split("\\")[^1]));
             }
         }
 

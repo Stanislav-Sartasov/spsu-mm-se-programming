@@ -6,15 +6,17 @@ namespace Bash
 {
     public class BashEmulator
     {
-        private string exitCode;
+        private readonly string exitCode;
         private string currentPath;
         private readonly string homeDirectory;
         private readonly LocalVariablesStorage storage;
+        private string lastCommand;
 
         public BashEmulator(string exitCode)
         {
             currentPath = homeDirectory = GetHomeDiretory();
             storage = new LocalVariablesStorage();
+            lastCommand = String.Empty;
             this.exitCode = exitCode;
             storage.Add("HOME", homeDirectory, true);
         }
@@ -39,6 +41,11 @@ namespace Bash
             {
                 if (parsedInput[i] != "|")
                 {
+                    if (oneCommand.Count == 0)
+                    {
+                        lastCommand = parsedInput[i];
+                    }
+
                     oneCommand.Add(parsedInput[i]);
                 }
                 else
@@ -129,6 +136,11 @@ namespace Bash
             }
 
             return commandResult;
+        }
+
+        public string GetLastCommand()
+        {
+            return lastCommand;
         }
 
         private static List<string> StartSystemProcess(string[] command)
@@ -271,21 +283,19 @@ namespace Bash
                 return new List<string>() { "Invalid arguments" };
             }
 
-            var oneArgumentResult = new StringBuilder();
+            var oneArgumentResult = new List<string>();
 
             foreach (var entity in Directory.EnumerateDirectories(currentPath))
             {
-                oneArgumentResult.Append(entity.Split("\\").Last());
-                oneArgumentResult.Append('\t');
+                oneArgumentResult.Add(entity.Split("\\").Last());
             }
 
             foreach (var entity in Directory.EnumerateFiles(currentPath))
             {
-                oneArgumentResult.Append(entity.Split("\\").Last());
-                oneArgumentResult.Append('\t');
+                oneArgumentResult.Add(entity.Split("\\").Last());
             }
 
-            return new List<string>() { oneArgumentResult.ToString() };
+            return oneArgumentResult;
         }
 
         private List<string> PrintWorkingDirectory(string[] command)
