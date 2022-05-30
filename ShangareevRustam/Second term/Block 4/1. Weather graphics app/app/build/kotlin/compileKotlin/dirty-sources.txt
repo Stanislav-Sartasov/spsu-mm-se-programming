@@ -1,7 +1,0 @@
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\graphicsApp\view\MainView.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\graphicsApp\App.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\springIoc\SpringIoc.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\weatherDataFormatter\WeatherDataFormatter.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\graphicsApp\Main.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\graphicsApp\Styles.kt
-C:\Users\132\IdeaProjects\weatherGraphicsApp\app\src\main\kotlin\graphicsApp\Controller.kt

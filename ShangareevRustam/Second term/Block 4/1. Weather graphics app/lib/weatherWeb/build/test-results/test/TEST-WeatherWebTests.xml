@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="WeatherWebTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2022-05-30T18:55:28" hostname="DESKTOP-GP8BOQD" time="6.756">
-  <properties/>
-  <testcase name="WeatherWeb getWeatherData test during service availability()" classname="WeatherWebTests" time="6.743"/>
-  <testcase name="WeatherWeb getWeatherData test during service unavailability()" classname="WeatherWebTests" time="0.007"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

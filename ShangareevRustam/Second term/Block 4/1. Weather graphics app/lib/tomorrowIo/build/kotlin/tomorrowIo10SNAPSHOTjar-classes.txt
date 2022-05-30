@@ -1,1 +1,0 @@
-C:\github\spsu-mm-se-programming\ShangareevRustam\Second term\Block 4\1. Weather graphics app\lib\tomorrowIo\build\classes\kotlin\main\tomorrowIo\TomorrowIo.class
