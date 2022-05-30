@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<TabPane prefHeight="243.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/" xmlns:fx="http://javafx.com/fxml/" fx:controller="graphicsApp.Controller">
+  <tabs>
+    <Tab text="openweathermap.org">
+      <content>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="600.0" style="-fx-background-color: #EB6E4B;">
+               <children>
+                  <Text fx:id="firstServiceTemperature" fill="WHITE" layoutX="174.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="293.2735176086426" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="132.72648239135742" AnchorPane.topAnchor="58.0">
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="firstServiceWeatherImage" fitHeight="81.0" fitWidth="95.0" layoutX="82.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="9.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current weather conditions in Saint Petersburg according to" wrappingWidth="582.3761606216431" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.623839378356934" AnchorPane.topAnchor="9.0">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="firstServiceData1" fill="WHITE" layoutX="75.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.58332824707031" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="455.0" AnchorPane.topAnchor="160.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Text>
+                  <Text fx:id="firstServiceName" layoutX="407.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="openweathermap.org" wrappingWidth="146.37616062164307" AnchorPane.bottomAnchor="189.0" AnchorPane.leftAnchor="407.0" AnchorPane.rightAnchor="46.623839378356934" AnchorPane.topAnchor="8.7">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="9.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data for" wrappingWidth="58.376214027404785">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="firstServiceTime" layoutX="67.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="58.376214027404785">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="firstServiceImage1" fitHeight="62.0" fitWidth="54.0" layoutX="11.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="firstServiceData2" fill="WHITE" layoutX="223.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.24995422363281">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="firstServiceImage2" fitHeight="62.0" fitWidth="54.0" layoutX="161.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="firstServiceData3" fill="WHITE" layoutX="361.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.91670227050781">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="firstServiceImage3" fitHeight="62.0" fitWidth="54.0" layoutX="300.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="firstServiceData4" fill="WHITE" layoutX="519.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.58332824707031">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="firstServiceImage4" fitHeight="62.0" fitWidth="54.0" layoutX="454.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="firstServiceWarningMessage" fill="#910000" layoutX="73.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refresh to see data" wrappingWidth="508.564453125">
+                     <font>
+                        <Font name="System Bold" size="46.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="firstServiceRefreshButton" layoutX="554.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#clickOnFirstServiceRefreshButton" style="-fx-graphic: url('refreshButton.png'); -fx-background-radius: 15;" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="564.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="13.0" />
+               </children>
+            </AnchorPane>
+      </content>
+    </Tab>
+    <Tab text="tomorrow.io">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="600.0" style="-fx-background-color: #0072F5;">
+               <children>
+                  <Text fx:id="secondServiceTemperature" fill="WHITE" layoutX="174.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="293.2735176086426" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="174.0" AnchorPane.rightAnchor="132.72648239135742" AnchorPane.topAnchor="58.0">
+                     <font>
+                        <Font size="46.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="secondServiceWeatherImage" fitHeight="81.0" fitWidth="95.0" layoutX="82.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text layoutX="9.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Current weather conditions in Saint Petersburg according to" wrappingWidth="582.3761606216431" AnchorPane.bottomAnchor="159.0" AnchorPane.leftAnchor="9.0" AnchorPane.rightAnchor="8.623839378356934" AnchorPane.topAnchor="9.0">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="secondServiceData1" fill="WHITE" layoutX="75.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.58332824707031" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="455.0" AnchorPane.topAnchor="160.0">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="secondServiceName" layoutX="407.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="tomorrow.io" wrappingWidth="146.37616062164307" AnchorPane.bottomAnchor="189.0" AnchorPane.leftAnchor="407.0" AnchorPane.rightAnchor="46.623839378356934" AnchorPane.topAnchor="8.7">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="9.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Data for" wrappingWidth="58.376214027404785">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="secondServiceTime" layoutX="67.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="58.376214027404785">
+                     <font>
+                        <Font name="Franklin Gothic Demi" size="15.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="secondServiceImage1" fitHeight="62.0" fitWidth="54.0" layoutX="11.0" layoutY="140.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="secondServiceData2" fill="WHITE" layoutX="223.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.24995422363281">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="secondServiceImage2" fitHeight="62.0" fitWidth="54.0" layoutX="161.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="secondServiceData3" fill="WHITE" layoutX="361.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="68.91670227050781">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="secondServiceImage3" fitHeight="62.0" fitWidth="54.0" layoutX="300.0" layoutY="141.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="secondServiceData4" fill="WHITE" layoutX="519.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.58332824707031">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="secondServiceImage4" fitHeight="62.0" fitWidth="54.0" layoutX="454.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true" />
+                  <Text fx:id="secondServiceWarningMessage" fill="#910000" layoutX="73.0" layoutY="114.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Refresh to see data" wrappingWidth="508.564453125">
+                     <font>
+                        <Font name="System Bold" size="46.0" />
+                     </font>
+                  </Text>
+                  <Button fx:id="secondServiceRefreshButton" layoutX="554.0" layoutY="30.0" mnemonicParsing="false" onMouseClicked="#clickOnSecondServiceRefreshButton" style="-fx-graphic: url('refreshButton.png'); -fx-background-radius: 15;" AnchorPane.bottomAnchor="180.0" AnchorPane.leftAnchor="564.0" AnchorPane.rightAnchor="17.0" AnchorPane.topAnchor="13.0" />
+               </children>
+            </AnchorPane>
+         </content>
+    </Tab>
+  </tabs>
+</TabPane>

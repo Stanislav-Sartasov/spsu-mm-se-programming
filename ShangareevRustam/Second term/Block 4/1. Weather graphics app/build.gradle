@@ -1,0 +1,27 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'org.jetbrains.kotlinx.kover' version '0.5.0'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
+}
+
+tasks.test {
+    koverMergedHtmlReport {
+        excludes = ['graphicsApp.view.MainView',
+                    'graphicsApp.Controller',
+                    'graphicsApp.Controller$Companion',
+                    'graphicsApp.App',
+                    'graphicsApp.Styles',
+                    'graphicsApp.MainKt'
+        ]
+    }
+}

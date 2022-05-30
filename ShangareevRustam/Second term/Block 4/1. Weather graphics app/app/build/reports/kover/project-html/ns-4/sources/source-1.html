@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > WeatherDataFormatter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">weatherDataFormatter</a>
+</div>
+
+<h1>Coverage Summary for Class: WeatherDataFormatter (weatherDataFormatter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">WeatherDataFormatter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    47,5%
+  </span>
+  <span class="absValue">
+    (29/61)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74,5%
+  </span>
+  <span class="absValue">
+    (35/47)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    63,8%
+  </span>
+  <span class="absValue">
+    (224/351)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package weatherDataFormatter
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import weatherUtilities.WeatherCharacteristics
+<i class="no-highlight">4</i>&nbsp;import weatherUtilities.WeatherCharacteristicsData
+<i class="no-highlight">5</i>&nbsp;import weatherUtilities.WeatherData
+<i class="no-highlight">6</i>&nbsp;import weatherUtilities.WeatherDataField
+<i class="no-highlight">7</i>&nbsp;import java.util.WeakHashMap
+<i class="no-highlight">8</i>&nbsp;import kotlin.math.roundToInt
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;object WeatherDataFormatter {
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;	fun formatWeatherData(data: WeatherData): Map&lt;WeatherCharacteristics, WeatherDataField&gt; {
+<b class="fc"><i class="no-highlight">13</i>&nbsp;		val result = mutableMapOf&lt;WeatherCharacteristics, WeatherDataField&gt;()</b>
+<i class="no-highlight">14</i>&nbsp;
+<b class="fc"><i class="no-highlight">15</i>&nbsp;		for ((characteristics, value) in data.table) {</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;			val formattedCharacteristics = formatField(characteristics)</b>
+<i class="no-highlight">17</i>&nbsp;
+<b class="fc"><i class="no-highlight">18</i>&nbsp;			if (!result.containsKey(formattedCharacteristics))</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;				result[formattedCharacteristics] = WeatherDataField(&quot;NO DATA&quot;)</b>
+<i class="no-highlight">20</i>&nbsp;
+<b class="fc"><i class="no-highlight">21</i>&nbsp;			if (value.data != null) {</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;				if (result[formattedCharacteristics]!!.str == &quot;NO DATA&quot;) result[formattedCharacteristics] =</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;					WeatherDataField(</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;						getFormattedWeatherCharacteristicsData(characteristics, value)</b>
+<i class="no-highlight">25</i>&nbsp;					)
+<b class="fc"><i class="no-highlight">26</i>&nbsp;				else result[formattedCharacteristics] =</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;					WeatherDataField(result[formattedCharacteristics]!!.str +</b>
+<i class="no-highlight">28</i>&nbsp;							&quot;, &quot; +
+<b class="fc"><i class="no-highlight">29</i>&nbsp;							WeatherDataField(getFormattedWeatherCharacteristicsData(characteristics, value)).str</b>
+<i class="no-highlight">30</i>&nbsp;					)
+<i class="no-highlight">31</i>&nbsp;			}
+<i class="no-highlight">32</i>&nbsp;		}
+<i class="no-highlight">33</i>&nbsp;
+<b class="fc"><i class="no-highlight">34</i>&nbsp;		return result</b>
+<i class="no-highlight">35</i>&nbsp;	}
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;	private fun getFormattedWeatherCharacteristicsData(
+<i class="no-highlight">38</i>&nbsp;		characteristics: WeatherCharacteristics,
+<i class="no-highlight">39</i>&nbsp;		value: WeatherCharacteristicsData,
+<i class="no-highlight">40</i>&nbsp;	): String {
+<b class="pc"><i class="no-highlight">41</i>&nbsp;		when (characteristics.name) {</b>
+<i class="no-highlight">42</i>&nbsp;			&quot;Temperature&quot; -&gt; {
+<b class="nc"><i class="no-highlight">43</i>&nbsp;				return when (value.units) {</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;					&quot; °C&quot; -&gt; &quot;${</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;						value.data!!.toDouble().roundToInt()</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;					}${value.units} / ${(value.data!!.toDouble() * 9 / 5 + 32).roundToInt()} °F&quot;</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;					&quot; °F&quot; -&gt; &quot;${</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;						value.data!!.toDouble().roundToInt()</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;					}${value.units} / ${((value.data!!.toDouble() - 32) * 5 / 9).roundToInt()} °C&quot;</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;					else -&gt; &quot;${value.data!!.toDouble().roundToInt()}${value.units}&quot;</b>
+<i class="no-highlight">51</i>&nbsp;				}
+<i class="no-highlight">52</i>&nbsp;			}
+<i class="no-highlight">53</i>&nbsp;			&quot;Precipitation type&quot; -&gt; {
+<b class="fc"><i class="no-highlight">54</i>&nbsp;				val res = value.data!!</b>
+<b class="pc"><i class="no-highlight">55</i>&nbsp;				if (res.length == 3) return res</b>
+<i class="no-highlight">56</i>&nbsp;
+<b class="pc"><i class="no-highlight">57</i>&nbsp;				return if (res == &quot;1001&quot;) &quot;804&quot;</b>
+<b class="pc"><i class="no-highlight">58</i>&nbsp;				else if (res.first() == &#39;1&#39;) &quot;801&quot;</b>
+<b class="pc"><i class="no-highlight">59</i>&nbsp;				else if (res.first() == &#39;2&#39;) &quot;7xx&quot;</b>
+<b class="pc"><i class="no-highlight">60</i>&nbsp;				else if (res.first() in listOf(&#39;4&#39;, &#39;6&#39;, &#39;7&#39;)) &quot;5xx&quot;</b>
+<b class="pc"><i class="no-highlight">61</i>&nbsp;				else if (res.first() == &#39;5&#39;) &quot;6xx&quot;</b>
+<b class="pc"><i class="no-highlight">62</i>&nbsp;				else if (res.first() == &#39;8&#39;) &quot;2xx&quot;</b>
+<b class="fc"><i class="no-highlight">63</i>&nbsp;				else &quot;800&quot;</b>
+<i class="no-highlight">64</i>&nbsp;			}
+<i class="no-highlight">65</i>&nbsp;			&quot;Wind direction&quot; -&gt; {
+<b class="fc"><i class="no-highlight">66</i>&nbsp;				val deg = value.data!!.toDouble()</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;				return when {</b>
+<b class="pc"><i class="no-highlight">68</i>&nbsp;					deg == 0.0 -&gt; &quot;N&quot;</b>
+<b class="pc"><i class="no-highlight">69</i>&nbsp;					deg &lt; 90.0 -&gt; &quot;NE&quot;</b>
+<b class="pc"><i class="no-highlight">70</i>&nbsp;					deg == 90.0 -&gt; &quot;E&quot;</b>
+<b class="pc"><i class="no-highlight">71</i>&nbsp;					deg &lt; 180.0 -&gt; &quot;SE&quot;</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;					deg == 180.0 -&gt; &quot;S&quot;</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;					deg &lt; 270.0 -&gt; &quot;SW&quot;</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;					deg == 270.0 -&gt; &quot;W&quot;</b>
+<b class="nc"><i class="no-highlight">75</i>&nbsp;					else -&gt; &quot;NW&quot;</b>
+<i class="no-highlight">76</i>&nbsp;				}
+<i class="no-highlight">77</i>&nbsp;			}
+<i class="no-highlight">78</i>&nbsp;			else -&gt; {
+<b class="fc"><i class="no-highlight">79</i>&nbsp;				return &quot;${value.data}${value.units}&quot;</b>
+<i class="no-highlight">80</i>&nbsp;			}
+<i class="no-highlight">81</i>&nbsp;		}
+<i class="no-highlight">82</i>&nbsp;	}
+<i class="no-highlight">83</i>&nbsp;
+<i class="no-highlight">84</i>&nbsp;	private fun formatField(characteristics: WeatherCharacteristics): WeatherCharacteristics {
+<b class="fc"><i class="no-highlight">85</i>&nbsp;		val formattedName = when (characteristics.name) {</b>
+<b class="fc"><i class="no-highlight">86</i>&nbsp;			&quot;Wind speed&quot; -&gt; &quot;Wind&quot;</b>
+<b class="fc"><i class="no-highlight">87</i>&nbsp;			&quot;Wind direction&quot; -&gt; &quot;Wind&quot;</b>
+<b class="fc"><i class="no-highlight">88</i>&nbsp;			else -&gt; characteristics.name</b>
+<i class="no-highlight">89</i>&nbsp;		}
+<b class="fc"><i class="no-highlight">90</i>&nbsp;		return WeatherCharacteristics(formattedName)</b>
+<i class="no-highlight">91</i>&nbsp;	}
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-05-30 21:07</div>
+</div>
+</body>
+</html>

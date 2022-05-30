@@ -1,0 +1,18 @@
+{
+  "reports": [ 
+        {"ic": "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\build\\kover\\test.ic"}
+    ], 
+  "html": "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\build\\reports\\kover\\html",
+  "modules": [
+    {
+      "output": [
+        "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\build\\classes\\kotlin\\main"
+      ],
+      "sources": [
+        "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\src\\main\\java",
+        "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\src\\main\\resources",
+        "C:\\Users\\132\\IdeaProjects\\weatherGraphicsApp\\lib\\openweathermapOrg\\src\\main\\kotlin"
+      ]
+    }
+  ]
+}

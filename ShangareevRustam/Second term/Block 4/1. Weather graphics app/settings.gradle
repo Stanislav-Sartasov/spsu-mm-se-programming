@@ -1,0 +1,6 @@
+rootProject.name = 'weatherGraphApp'
+
+include(":app")
+include(":lib:weatherWeb")
+include(":lib:openweathermapOrg")
+include(":lib:tomorrowIo")
