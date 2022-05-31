@@ -112,9 +112,14 @@ namespace BushTests
         public void PwdTest()
         {
             ACommand pwd = new Pwd();
-            
-            var args = new List<String>();
-            Assert.AreEqual(pwd.Execute(args, new List<String>() { "some input" }), new List<String>() { FileManager.GetCurrentDirectory(), @"\TestDirectory", "firstTest.txt", "secondTest.txt" });
+
+            var pwdRes = pwd.Execute(new List<String>(), new List<String>() { "some input" });
+            pwdRes.Sort();
+
+            var rightRes = new List<String>() { FileManager.GetCurrentDirectory(), "\\TestDirectory", "firstTest.txt", "secondTest.txt" };
+            rightRes.Sort();
+
+            Assert.AreEqual(pwdRes, rightRes);
         }
 
         [Test]

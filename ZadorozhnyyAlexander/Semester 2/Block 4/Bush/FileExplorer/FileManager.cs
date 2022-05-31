@@ -26,7 +26,7 @@
         {
             var files = Directory.GetFiles(path).ToList().Select(x => Path.GetFileName(x));
             var dirs = Directory.GetDirectories(path).ToList().Select(x => x[x.LastIndexOf('\\')..]);
-            return dirs.Union(files).ToList();
+            return dirs.Concat(files).ToList();
         }
     }
 }
