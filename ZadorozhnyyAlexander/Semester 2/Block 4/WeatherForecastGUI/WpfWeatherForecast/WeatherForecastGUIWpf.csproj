@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="background.jpg" />
+    <None Remove="icon.ico" />
+    <None Remove="Resource\background.jpg" />
+    <None Remove="Resource\icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Tulpep.NotificationWindow" Version="1.1.38" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WpfWeatherForecastModel\WpfWeatherForecastModel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resource\background.jpg" />
+    <Resource Include="Resource\icon.ico" />
+  </ItemGroup>
+
+</Project>

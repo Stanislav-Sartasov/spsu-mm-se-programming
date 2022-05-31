@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
+    <PackageReference Include="NUnit" Version="3.13.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.0.0" />
+    <PackageReference Include="coverlet.collector" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AbstractWeatherForecast\AbstractWeatherForecast.csproj" />
+    <ProjectReference Include="..\DataParser\DataParsers.csproj" />
+    <ProjectReference Include="..\MockHttpObject\MockHttpObject.csproj" />
+    <ProjectReference Include="..\OpenweatherWeatherForecast\OpenweatherWeatherForecast.csproj" />
+    <ProjectReference Include="..\RequestApi\RequestApi.csproj" />
+    <ProjectReference Include="..\StormglassWeatherForecast\StormglassWeatherForecast.csproj" />
+    <ProjectReference Include="..\WeatherForecast\WeatherForecast.csproj" />
+  </ItemGroup>
+
+</Project>
