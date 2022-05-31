@@ -54,4 +54,16 @@ public static class Container
 
         return services.GetServices<IWeatherGetter>().Where(service => service != null).ToList();
     }
+
+    public static List<IWeatherGetter> GetAllWeatherGetters(string pathToFileWithKey)
+    {
+        var services = Host.CreateDefaultBuilder()
+            .ConfigureServices(services => services
+            .AddSingleton<IWeatherGetter, TomorrowIoWeatherGetter>(provider => TomorrowIoWeatherGetter.CreateGetter(pathToFileWithKey))
+            .AddSingleton<IWeatherGetter, OpenWeatherMapGetter>(provider => OpenWeatherMapGetter.CreateGetter(pathToFileWithKey))
+            )
+            .Build().Services;
+
+        return services.GetServices<IWeatherGetter>().ToList();
+    }
 }
