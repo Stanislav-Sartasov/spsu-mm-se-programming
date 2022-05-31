@@ -44,15 +44,15 @@ class WcTest {
 
 	@Test
 	void fileWc() {
-		assertEquals("234 1159 8070 src/test/resources/gradlew" + System.lineSeparator(), new String(wc.run(RESOURCES_PATH + "gradlew").array()));
+		assertEquals("234 1159 8304 src/test/resources/gradlew" + System.lineSeparator(), new String(wc.run(RESOURCES_PATH + "gradlew").array()));
 	}
 
 	@Test
 	void multipleFilesWc() {
 		assertEquals(
 				"35 67 1088 " + RESOURCES_PATH + "build.gradle" + System.lineSeparator() +
-						"234 1159 8070 " + RESOURCES_PATH + "gradlew" + System.lineSeparator() +
-						"269 1226 9158 total" + System.lineSeparator(),
+						"234 1159 8304 " + RESOURCES_PATH + "gradlew" + System.lineSeparator() +
+						"269 1226 9392 total" + System.lineSeparator(),
 				new String(wc.run(RESOURCES_PATH + "build.gradle", RESOURCES_PATH + "gradlew").array())
 		);
 	}

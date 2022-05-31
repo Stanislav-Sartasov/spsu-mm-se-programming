@@ -62,7 +62,7 @@ class BashInterpreterTest {
 
 		interpreter.interpret(bashTokenizer.tokenize(input));
 
-		assertEquals("234 1159 8070 src/test/resources/gradlew" + System.lineSeparator(), byteArrayOutputStream.toString());
+		assertEquals("234 1159 8304 src/test/resources/gradlew" + System.lineSeparator(), byteArrayOutputStream.toString());
 	}
 
 	@Test
@@ -72,9 +72,9 @@ class BashInterpreterTest {
 		interpreter.interpret(bashTokenizer.tokenize(input));
 
 		assertEquals(
-				"234 1159 8070 " + RESOURCES_PATH + "gradlew" + System.lineSeparator() +
+				"234 1159 8304 " + RESOURCES_PATH + "gradlew" + System.lineSeparator() +
 						"35 67 1088 " + RESOURCES_PATH + "build.gradle" + System.lineSeparator() +
-						"269 1226 9158 total" + System.lineSeparator(),
+						"269 1226 9392 total" + System.lineSeparator(),
 				byteArrayOutputStream.toString()
 		);
 	}
