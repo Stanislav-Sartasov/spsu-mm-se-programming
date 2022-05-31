@@ -1,0 +1,60 @@
+﻿<Window x:Class="WeatherWpf.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:userControls="clr-namespace:WeatherWpf.UserControls"
+                 xmlns:ui="http://schemas.modernwpf.com/2019"
+                 mc:Ignorable="d"
+                 Title="Погода"
+                 Height="550"
+                 Width="600"
+                 MinWidth="350"
+                 MinHeight="350"
+                 x:Name="mainWindow"
+                 WindowStyle="None"
+                 ui:WindowHelper.UseModernWindowStyle="True"
+                 ui:TitleBar.IsIconVisible="True"
+                 Background="{DynamicResource SystemControlPageBackgroundAltHighBrush}"
+                 Foreground="{DynamicResource SystemControlPageTextBaseHighBrush}"
+                 ui:ThemeManager.IsThemeAware="True"
+                 Icon="/Assets/icon.ico">
+    <Window.Resources>
+        <Style x:Key="roundButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="ui:ControlHelper.CornerRadius" Value="100" />
+        </Style>
+    </Window.Resources>
+    <ScrollViewer>
+        <StackPanel>
+            <DockPanel Margin="16 16 16 0">
+                <Button
+                    Click="OnClick"
+                    Style="{StaticResource roundButtonStyle}"
+                    Background="Transparent"
+                    DockPanel.Dock="Right"
+                    FontFamily="{StaticResource WeatherIcons}"
+                    IsEnabled="{Binding ElementName=mainWindow, Path=CanRefresh}"
+                    FontSize="28"
+                    MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" 
+                    MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}"
+                    Padding="0">
+                    &#xf04c;
+                </Button>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    FontWeight="500">
+                    Санкт-Петербург, Россия
+                </TextBlock>
+            </DockPanel>
+            <StackPanel Margin="0 0 0 16">
+                <userControls:WeatherCard
+                    DataContext="{Binding ElementName=mainWindow, Path=TomorrowIoWeather}"
+                    Source="TomorrowIo" />
+                <userControls:WeatherCard
+                    DataContext="{Binding ElementName=mainWindow, Path=OpenWeatherMapWeather}"
+                    Source="OpenWeatherMap" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Window>
