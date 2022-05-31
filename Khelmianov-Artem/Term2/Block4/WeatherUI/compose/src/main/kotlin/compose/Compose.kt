@@ -44,9 +44,9 @@ class Compose : KoinComponent {
 
     fun run() = runBlocking {
         singleWindowApplication(
-            state = WindowState(size = DpSize.Unspecified)
+            state = WindowState(size = DpSize(500.dp, 300.dp))
         ) {
-            Box(Modifier.size(550.dp, 300.dp)) {
+            Box{
                 var data by remember { mutableStateOf(Result.success(WeatherData())) }
                 var currentApi by remember { mutableStateOf(apis[0]) }
 

@@ -5,11 +5,15 @@ import javafx.geometry.Orientation
 import javafx.scene.control.RadioButton
 import javafx.scene.control.ToggleGroup
 import tornadofx.*
+import java.text.NumberFormat
+import java.text.ParseException
+import java.util.*
 
 
 class Controls : View("Controls") {
     private val controller: AppController by inject()
     private val group = ToggleGroup()
+    private val formatter = NumberFormat.getInstance(Locale.getDefault())
 
     private var currentApi = ""
     private var latProp = SimpleFloatProperty().apply { value = 59.9f }
@@ -43,8 +47,11 @@ class Controls : View("Controls") {
                     text("lat: ")
                     textfield(latProp) {
                         filterInput {
-                            it.controlNewText.isFloat()
-                            it.controlNewText.toFloat() in -90f..90f
+                            try {
+                                return@filterInput formatter.parse(it.controlNewText).toFloat() in -90f..90f
+                            } catch (e: ParseException) {
+                                return@filterInput false
+                            }
                         }
                     }
                 }
@@ -52,8 +59,11 @@ class Controls : View("Controls") {
                     text("lon: ")
                     textfield(lonProp) {
                         filterInput {
-                            it.controlNewText.isFloat()
-                            it.controlNewText.toFloat() in -180f..180f
+                            try {
+                                return@filterInput formatter.parse(it.controlNewText).toFloat() in -180f..180f
+                            } catch (e: ParseException) {
+                                return@filterInput false
+                            }
                         }
                     }
                 }
