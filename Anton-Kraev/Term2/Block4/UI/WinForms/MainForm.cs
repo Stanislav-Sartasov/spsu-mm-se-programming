@@ -21,29 +21,28 @@ namespace WinForms
         {
             UpdateButton.Enabled = false;
             UpdateButton.Text = "Loading...";
-            
+
             foreach (var service in services)
+            {
                 service.UpdateWeather();
-
-            OwmCloudinessValue.Text = services[0].CurrentWeather.Cloudiness.ToString();
-            OwmHumidityValue.Text = services[0].CurrentWeather.Humidity.ToString();
-            OwmTempCValue.Text = services[0].CurrentWeather.TempInCelsius.ToString();
-            OwmTempFValue.Text = services[0].CurrentWeather.TempInFahrenheit.ToString();
-            OwmWindDirectionValue.Text = services[0].CurrentWeather.WindDirection.ToString();
-            OwmWindSpeedValue.Text = services[0].CurrentWeather.WindSpeed.ToString();
-            OwmPrecipitationValue.Text = services[0].CurrentWeather.Precipitation.ToString();
-
-            TioCloudinessValue.Text = services[1].CurrentWeather.Cloudiness.ToString();
-            TioHumidityValue.Text = services[1].CurrentWeather.Humidity.ToString();
-            TioTempCValue.Text = services[1].CurrentWeather.TempInCelsius.ToString();
-            TioTempFValue.Text = services[1].CurrentWeather.TempInFahrenheit.ToString();
-            TioWindDirectionValue.Text = services[1].CurrentWeather.WindDirection.ToString();
-            TioWindSpeedValue.Text = services[1].CurrentWeather.WindSpeed.ToString();
-            TioPrecipitationValue.Text = services[1].CurrentWeather.Precipitation.ToString();
+            }
+            UpdateData(OpenWeatherMap, services[0]);
+            UpdateData(TomorrowIo, services[1]);
 
             Time.Text = "Weather current at " + DateTime.Now.ToString("HH:mm");
             UpdateButton.Enabled = true;
             UpdateButton.Text = "Update info";
+        }
+
+        private void UpdateData(GroupBox container, IWeatherService weatherService)
+        {
+            container.Controls[0].Text = weatherService.CurrentWeather?.Precipitation?.ToString() ?? "No data";
+            container.Controls[1].Text = weatherService.CurrentWeather?.WindDirection?.ToString() ?? "No data";
+            container.Controls[2].Text = weatherService.CurrentWeather?.WindSpeed?.ToString() ?? "No data";
+            container.Controls[3].Text = weatherService.CurrentWeather?.Cloudiness?.ToString() ?? "No data";
+            container.Controls[4].Text = weatherService.CurrentWeather?.Humidity?.ToString() ?? "No data";
+            container.Controls[5].Text = weatherService.CurrentWeather?.TempInFahrenheit?.ToString() ?? "No data";
+            container.Controls[6].Text = weatherService.CurrentWeather?.TempInCelsius?.ToString() ?? "No data";
         }
     }
 }
