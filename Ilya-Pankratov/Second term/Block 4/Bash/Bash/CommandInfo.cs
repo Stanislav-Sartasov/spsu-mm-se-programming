@@ -3,7 +3,7 @@
     public class CommandInfo
     {
         public string ShortName { get; }
-        public List<string>? Arguments{ get; private set; }
+        public List<string>? Arguments { get; private set; }
 
         public CommandInfo(string shortName, List<string>? arguments)
         {
