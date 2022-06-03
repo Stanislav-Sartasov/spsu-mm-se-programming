@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using Bash;
 using NUnit.Framework;
-
+/*
 namespace BashUnitTests
 {
     public class BashEmulatorTests
@@ -438,4 +438,4 @@ namespace BashUnitTests
             return strBuilder.ToString();
         }
     }
-}
+}*/

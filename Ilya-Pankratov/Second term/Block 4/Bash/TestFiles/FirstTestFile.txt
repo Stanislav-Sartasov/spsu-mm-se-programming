@@ -14,7 +14,6 @@ This is where reflection differs from plain value introspection. A language with
 reflection support will permit codebase modification at runtime, effectively allowing the
 source to rewrite aspects of itself.
 
-filename: FirstTestFile.txt
-lines 20
-words 142
-bytes 1001
+lines 19
+words 140
+bytes 971

@@ -3,11 +3,10 @@
     public class BashSession : IBash
     {
         private readonly BashEmulator bash;
-        private readonly string exitCode;
+
         public BashSession()
         {
-            exitCode = new Guid().ToString();
-            bash = new BashEmulator(exitCode);
+            bash = new BashEmulator();
         }
 
         public void Start()
@@ -22,21 +21,14 @@
                               "cat [file]- show content of specified file\n" +
                               "echo [input] - print input in terminal\n" +
                               "$ - is used for variables\n" +
-                              "| - command pipeline\n");
+                              "| - command pipeline\n" +
+                              "&[assemblyPath] - load new commands to Bash\n");
 
             while (true)
             {
                 Console.Write("$ ");
                 var executeResult = bash.Execute(Console.ReadLine());
-
-                if (executeResult[0] == exitCode)
-                {
-                    break;
-                }
-                else
-                {
-                    Console.Write(ConsoleOutputManager.GetConsoleOutput(executeResult, bash.GetLastCommand()));
-                }
+                Console.Write(ConsoleOutputManager.GetConsoleOutput(executeResult.ToList()));
             }
         }
     }

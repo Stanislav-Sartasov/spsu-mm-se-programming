@@ -8,7 +8,6 @@ That’s when the history of the university education in Russia started.
 It was the era of the Academic University. Till the end of the 18th century, the University 
 was within the Academy. During this period, educational and scientific traditions were established.
 
-filename: SecondTestFile.txt
-lines 14
-words 96
-bytes 598
+lines 13
+words 87
+bytes 568

@@ -15,7 +15,7 @@ namespace BashUnitTests
                 "cat", "$myfile", "|", "echo", "file size is $filesize"
             };
 
-            Assert.IsTrue(parserResult.Length == expectedResult.Length);
+            Assert.IsTrue(parserResult.Count == expectedResult.Length);
 
             for (int i = 0; i < expectedResult.Length; i++)
             {
