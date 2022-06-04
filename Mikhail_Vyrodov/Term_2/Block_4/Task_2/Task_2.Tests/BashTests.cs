@@ -13,22 +13,21 @@ namespace Task_2.Tests
         public void PwdTest()
         {
             CommandApplier cmdApplier = new CommandApplier();
-            string path = @"..\..\..\Data\pwdAnswer.txt";
-            string text = "";
-            using (StreamReader reader = new StreamReader(path))
+            string result = "";
+            result += "Current directory:\n";
+            result += String.Format("\t{0}\n", Directory.GetCurrentDirectory());
+            result += "Inner directories:\n";
+            foreach (string dir in Directory.GetDirectories(Directory.GetCurrentDirectory()))
             {
-                text = reader.ReadToEnd();
+                result += String.Format("\t{0}\n", dir);
             }
-            for (int i = 0; i < text.Length; i++)
+            result += "Inner files:\n";
+            foreach (string dir in Directory.GetFiles(Directory.GetCurrentDirectory()))
             {
-                if (text[i] == '\r')
-                {
-                    text = text.Substring(0, i) + text.Substring(i + 1);
-                }
+                result += String.Format("\t{0}\n", dir);
             }
-            text += '\n';
             string testAnswer = cmdApplier.ApplySimpleCommand("pwd");
-            Assert.AreEqual(testAnswer, text);
+            Assert.AreEqual(testAnswer, result);
         }
 
         [Test]

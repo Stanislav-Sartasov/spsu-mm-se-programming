@@ -8,9 +8,9 @@ using System.Diagnostics;
 
 namespace Task_2
 {
-    public class FileHelper
+    public static class FileHelper
     {
-        public string CatCommand(string path)
+        public static string CatCommand(string path)
         {
             if (File.Exists(path))
             {
@@ -26,7 +26,7 @@ namespace Task_2
             }
         }
 
-        public string WcCommand(string path)
+        public static string WcCommand(string path)
         {
             using (StreamReader reader = new StreamReader(path))
             {
@@ -48,7 +48,7 @@ namespace Task_2
             }
         }
 
-        public string OtherCommand(string path, string arguments="")
+        public static string OtherCommand(string path, string arguments="")
         {
             FileInfo fileInfo = new FileInfo(path);
             if (fileInfo.Exists && fileInfo.Extension == ".exe")

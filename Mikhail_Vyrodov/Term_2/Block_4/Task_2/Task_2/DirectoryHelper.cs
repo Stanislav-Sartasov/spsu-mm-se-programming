@@ -7,9 +7,9 @@ using System.IO;
 
 namespace Task_2
 {
-    public class DirectoryHelper
+    public static class DirectoryHelper
     {
-        public string PrintDirectoryInfo()
+        public static string PrintDirectoryInfo()
         {
             string result = "";
             result += "Current directory:\n";

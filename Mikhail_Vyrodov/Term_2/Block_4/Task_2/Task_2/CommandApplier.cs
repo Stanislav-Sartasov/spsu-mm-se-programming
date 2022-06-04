@@ -9,14 +9,10 @@ namespace Task_2
     public class CommandApplier
     {
         private BashSimulator simulator;
-        private DirectoryHelper dirHelper;
-        private FileHelper fileHelper;
 
         public CommandApplier()
         {
             simulator = new BashSimulator();
-            dirHelper = new DirectoryHelper();
-            fileHelper = new FileHelper();
         }
 
         public string ReadCommands(List<string> commands=null)
@@ -121,7 +117,7 @@ namespace Task_2
 
             else if (command.Length >= 3 && command.Substring(0) == "pwd")
             {
-                return dirHelper.PrintDirectoryInfo();
+                return DirectoryHelper.PrintDirectoryInfo();
             }
 
             else if (command.Length >= 5 && command.Substring(0, 5) == "echo ")
@@ -131,19 +127,19 @@ namespace Task_2
 
             else if (command.Length >= 4 && command.Substring(0, 4) == "cat ")
             {
-                return fileHelper.CatCommand(@command.Substring(4));
+                return FileHelper.CatCommand(@command.Substring(4));
             }
 
             else if (command.Length >= 3 && command.Substring(0, 3) == "wc ")
             {
-                return fileHelper.WcCommand(@command.Substring(3));
+                return FileHelper.WcCommand(@command.Substring(3));
             }
 
             else
             {
                 if (i == command.Length - 1 && command[i] == '"')
                 {
-                    return fileHelper.OtherCommand(subString);
+                    return FileHelper.OtherCommand(subString);
                 }
                 else if (i >= command.Length)
                 {
@@ -151,7 +147,7 @@ namespace Task_2
                 }
                 else
                 {
-                    return fileHelper.OtherCommand(subString, command.Substring(i + 2));
+                    return FileHelper.OtherCommand(subString, command.Substring(i + 2));
                 }
             }
         }
