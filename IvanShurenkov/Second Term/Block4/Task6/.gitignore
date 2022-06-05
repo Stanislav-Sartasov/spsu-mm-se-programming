@@ -23,3 +23,5 @@ app-tornadofx/.gradle
 app-tornadofx/.idea
 app-tornadofx/build
 app-tornadofx/gradle
+/.gradle/
+/.idea/
