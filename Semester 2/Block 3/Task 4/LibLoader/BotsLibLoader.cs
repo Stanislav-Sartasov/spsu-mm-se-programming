@@ -9,12 +9,12 @@ namespace LibLoader
 	public class BotsLibLoader
 	{
 
-		private List<Bot> PrivateBots;
-		public IReadOnlyList<Bot> Bots { get { return PrivateBots; } }
+		private List<Bot> privateBots;
+		public IReadOnlyList<Bot> Bots { get { return privateBots; } }
 
 		public bool Load(string path, BetEssence bet, int startCash)
 		{
-			PrivateBots = new List<Bot>();
+			privateBots = new List<Bot>();
 
 			Assembly assembly = default;
 			try
@@ -30,7 +30,7 @@ namespace LibLoader
 			foreach (Type type in assembly.GetTypes())
 			{
 				if (type.BaseType == typeof(Bot))
-					PrivateBots.Add((Bot)Activator.CreateInstance(type, new object[] { bet, startCash }));
+					privateBots.Add((Bot)Activator.CreateInstance(type, new object[] { bet, startCash }));
 			}
 
 			return true;

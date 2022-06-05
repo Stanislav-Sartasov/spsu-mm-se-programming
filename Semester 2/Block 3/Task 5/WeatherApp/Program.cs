@@ -1,5 +1,6 @@
 ﻿using System;
-using WebServicesLib;
+using ResponceReceiverLib;
+using WeatherServicesLib;
 
 namespace WeatherApp
 {
@@ -9,8 +10,8 @@ namespace WeatherApp
 		{
 			Console.WriteLine("This app gets information from different weather services and displays it.\n");
 
-			IWebService stormglass = new Stormglass("59.9386", "30.3141", "660840ca-c942-11ec-9863-0242ac130002-66084142-c942-11ec-9863-0242ac130002");
-			IWebService openweather = new Openweathermap("59.9386", "30.3141", "612ff6587b1aa1997d794833bb3c37ee");
+			IWeatherService stormglass = new Stormglass();
+			IWeatherService openweather = new Openweather();
 
 			bool b = true;
 			string firstResponce, secondResponce;
@@ -25,14 +26,14 @@ namespace WeatherApp
 					if (firstResponce.Equals("1"))
 					{
 						Console.WriteLine();
-						stormglass.PrintResponce();
+						stormglass.GetWeatherForecast(new ResponceReceiver(stormglass.URL)).Print();
 						Console.WriteLine();
 						break;
 					}
 					else if (firstResponce.Equals("2"))
 					{
 						Console.WriteLine();
-						openweather.PrintResponce();
+						openweather.GetWeatherForecast(new ResponceReceiver(openweather.URL)).Print();
 						Console.WriteLine();
 						break;
 					}
@@ -51,13 +52,13 @@ namespace WeatherApp
 					if (secondResponce.Equals("1") && firstResponce.Equals("1"))
 					{
 						Console.WriteLine();
-						stormglass.PrintResponce();
+						stormglass.GetWeatherForecast(new ResponceReceiver(stormglass.URL)).Print();
 						Console.WriteLine();
 					}
 					else if (secondResponce.Equals("1") && firstResponce.Equals("2"))
 					{
 						Console.WriteLine();
-						openweather.PrintResponce();
+						openweather.GetWeatherForecast(new ResponceReceiver(openweather.URL)).Print();
 						Console.WriteLine();
 					}
 					else if (secondResponce.Equals("2"))
