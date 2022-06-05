@@ -6,6 +6,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 class TestOutput {
+    val sep = System.lineSeparator()
     @Test
     fun `Test add fun`() {
         val output = Output()
@@ -21,14 +22,14 @@ class TestOutput {
 
         output.addOut("1")
         output.addErr("2")
-        assertEquals("1\n", output.output)
-        assertEquals("2\n", output.error)
+        assertEquals("1$sep", output.output)
+        assertEquals("2$sep", output.error)
         assert(!output.exit)
 
         output.addOut(null)
         output.addErr(null)
-        assertEquals("1\n", output.output)
-        assertEquals("2\n", output.error)
+        assertEquals("1$sep", output.output)
+        assertEquals("2$sep", output.error)
         assert(!output.exit)
     }
 }
