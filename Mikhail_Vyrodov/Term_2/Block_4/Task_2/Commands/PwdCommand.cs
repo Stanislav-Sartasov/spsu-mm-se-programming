@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace Task_2
+namespace Commands
 {
-    public static class DirectoryHelper
+    public class PwdCommand : ICommand
     {
-        public static string PrintDirectoryInfo()
+        public string Name { get; private set; } = "pwd";
+
+        public string ApplyCommand(string[] arguments)
         {
             string result = "";
             result += "Current directory:\n";

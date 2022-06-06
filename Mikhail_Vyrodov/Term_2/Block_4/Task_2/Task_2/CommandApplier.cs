@@ -3,16 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Commands;
 
 namespace Task_2
 {
     public class CommandApplier
     {
         private BashSimulator simulator;
+        private Dictionary<string, ICommand> commands;
 
         public CommandApplier()
         {
             simulator = new BashSimulator();
+            commands = new Dictionary<string, ICommand>();
+            CatCommand catCommand = new CatCommand();
+            commands[catCommand.Name] = catCommand;
+            WcCommand wcCommand = new WcCommand();
+            commands[wcCommand.Name] = wcCommand;
+            PwdCommand pwdCommand = new PwdCommand();
+            commands[pwdCommand.Name] = pwdCommand;
+            AnotherCommand anotherCommand = new AnotherCommand();
+            commands[anotherCommand.Name] = anotherCommand;
+            EchoCommand echoCommand = new EchoCommand();
+            commands[echoCommand.Name] = echoCommand;
         }
 
         public string ReadCommands(List<string> commands=null)
@@ -23,7 +36,6 @@ namespace Task_2
                 string command = Console.ReadLine();
                 while (command != "exit")
                 {
-                    command = simulator.InsertVariables(command);
                     string commandResult = ApplyComplexCommand(command, "", true);
                     Console.WriteLine(commandResult);
                     result += commandResult;
@@ -37,7 +49,6 @@ namespace Task_2
                 i++;
                 while (command != "exit")
                 {
-                    command = simulator.InsertVariables(command);
                     string commandResult = ApplyComplexCommand(command, "", true);
                     Console.WriteLine(commandResult);
                     result += commandResult;
@@ -97,8 +108,10 @@ namespace Task_2
 
         public string ApplySimpleCommand(string command)
         {
+            command = simulator.InsertVariables(command);
             int i = 0;
             string subString = "";
+            string[] arguments = new string[2] { "", "" };
             while (i < command.Length && command[i] != '"')
             {
                 i++;
@@ -115,40 +128,38 @@ namespace Task_2
                 return "";
             }
 
-            else if (command.Length >= 3 && command.Substring(0) == "pwd")
+            foreach (var commandPair in commands)
             {
-                return DirectoryHelper.PrintDirectoryInfo();
+                if (command.Length >= commandPair.Key.Length &&
+                    command.Substring(0, commandPair.Key.Length) == commandPair.Key
+                    && commandPair.Key != "another")
+                {
+                    if (commandPair.Key == "echo ")
+                    {
+                        arguments[0] = subString;
+                    }
+                    else
+                    {
+                        arguments[0] = @command.Substring(commandPair.Key.Length);
+                    }
+                    return commandPair.Value.ApplyCommand(arguments);
+                }
             }
 
-            else if (command.Length >= 5 && command.Substring(0, 5) == "echo ")
+            if (i == command.Length - 1 && command[i] == '"')
             {
-                return simulator.EchoCommand(subString);
+                arguments[0] = subString;
+                return commands["another"].ApplyCommand(arguments);
             }
-
-            else if (command.Length >= 4 && command.Substring(0, 4) == "cat ")
+            else if (i >= command.Length)
             {
-                return FileHelper.CatCommand(@command.Substring(4));
+                return "Can't recognize the command or name of program\nPlease use quotes to set a program name";
             }
-
-            else if (command.Length >= 3 && command.Substring(0, 3) == "wc ")
-            {
-                return FileHelper.WcCommand(@command.Substring(3));
-            }
-
             else
             {
-                if (i == command.Length - 1 && command[i] == '"')
-                {
-                    return FileHelper.OtherCommand(subString);
-                }
-                else if (i >= command.Length)
-                {
-                    return "Can't recognize the command or name of program\nPlease use quotes to set a program name";
-                }
-                else
-                {
-                    return FileHelper.OtherCommand(subString, command.Substring(i + 2));
-                }
+                arguments[0] = subString;
+                arguments[1] = command.Substring(i + 2);
+                return commands["another"].ApplyCommand(arguments);
             }
         }
 

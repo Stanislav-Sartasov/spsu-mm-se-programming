@@ -13,12 +13,6 @@ namespace Task_2
             variables = new Dictionary<string, string>();
         }
 
-        public string EchoCommand(string command)
-        {
-            string result = InsertVariables(command);
-            return result;
-        }
-
         public void SetVariable(string name, string value)
         {
             variables[name] = value;
@@ -40,7 +34,7 @@ namespace Task_2
                     string variableName = "";
                     i++;
 
-                    while (i != initialStr.Length && initialStr[i] != ' ')
+                    while (i != initialStr.Length && initialStr[i] != ' ' && initialStr[i] != '\"')
                     {
                         variableName += initialStr[i];
                         i++;
