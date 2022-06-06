@@ -20,4 +20,8 @@
     <ProjectReference Include="..\Bash\Bash.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestFiles\TestFolder\" />
+  </ItemGroup>
+
 </Project>
