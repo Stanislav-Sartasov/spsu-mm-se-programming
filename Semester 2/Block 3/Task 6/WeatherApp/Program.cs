@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ResponceReceiverLib;
 using WeatherServicesLib;
 
@@ -10,8 +11,8 @@ namespace WeatherApp
 		{
 			Console.WriteLine("This app gets information from different weather services and displays it.\n");
 
-			IWeatherService stormglass = Container.CreateWeatherService(WeatherServices.Stormglass);
-			IWeatherService openweather = Container.CreateWeatherService(WeatherServices.Openweather);
+			Container container = new Container(new List<WeatherServices>{ WeatherServices.Openweather, WeatherServices.Stormglass });
+			List<IWeatherService> services = container.GetAvailableServicesList();
 
 			bool b = true;
 			string firstResponce, secondResponce;
@@ -26,14 +27,14 @@ namespace WeatherApp
 					if (firstResponce.Equals("1"))
 					{
 						Console.WriteLine();
-						stormglass.GetWeatherForecast(new ResponceReceiver(stormglass.URL)).Print();
+						PrintWeatherForecast(WeatherServices.Stormglass, services);
 						Console.WriteLine();
 						break;
 					}
 					else if (firstResponce.Equals("2"))
 					{
 						Console.WriteLine();
-						openweather.GetWeatherForecast(new ResponceReceiver(openweather.URL)).Print();
+						PrintWeatherForecast(WeatherServices.Openweather, services);
 						Console.WriteLine();
 						break;
 					}
@@ -52,13 +53,13 @@ namespace WeatherApp
 					if (secondResponce.Equals("1") && firstResponce.Equals("1"))
 					{
 						Console.WriteLine();
-						stormglass.GetWeatherForecast(new ResponceReceiver(stormglass.URL)).Print();
+						PrintWeatherForecast(WeatherServices.Stormglass, services);
 						Console.WriteLine();
 					}
 					else if (secondResponce.Equals("1") && firstResponce.Equals("2"))
 					{
 						Console.WriteLine();
-						openweather.GetWeatherForecast(new ResponceReceiver(openweather.URL)).Print();
+						PrintWeatherForecast(WeatherServices.Openweather, services);
 						Console.WriteLine();
 					}
 					else if (secondResponce.Equals("2"))
@@ -81,6 +82,21 @@ namespace WeatherApp
 			} while (b);
 
 			Console.WriteLine("Thanks for using the app!");
+		}
+
+		static void PrintWeatherForecast(WeatherServices name, List<IWeatherService> services)
+		{
+			foreach (var service in services)
+			{
+				if (service.Name == name)
+				{
+					ResponceReceiver responce = new ResponceReceiver(service.URL);
+					service.GetWeatherForecast(responce).Print();
+					return;
+				}
+			}
+
+			Console.WriteLine("Sorry, this service is switched off.");
 		}
 	}
 }

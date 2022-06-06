@@ -17,7 +17,7 @@ namespace WeatherServicesLibTests
 			receiver.Setup(x => x.Responce).Returns(json);
 			receiver.Setup(x => x.IsSucceed).Returns(true);
 
-			IWeatherService stormglass = Container.CreateWeatherService(WeatherServices.Stormglass);
+			IWeatherService stormglass = new Stormglass();
 			WeatherForecast forecast = stormglass.GetWeatherForecast(receiver.Object);
 
 			Assert.IsTrue(forecast.IsForecastReceived == true);

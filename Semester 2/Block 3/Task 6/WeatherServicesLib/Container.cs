@@ -1,24 +1,38 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ResponceReceiverLib;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WeatherServicesLib
 {
 	public class Container
 	{
-		public static IWeatherService CreateWeatherService(WeatherServices serviceName)
-		{
-			var services = Host.CreateDefaultBuilder()
-				.ConfigureServices(services => services
-				.AddTransient<Openweather>()
-				.AddTransient<Stormglass>()
-				.AddSingleton<IResponceReceiver, ResponceReceiver>())
-				.Build().Services;
+		private List<WeatherServices> availableServicesNames;
+		private IServiceProvider serviceProvider;
 
-			if (serviceName == WeatherServices.Openweather)
-				return services.GetService<Openweather>();
-			else
-				return services.GetService<Stormglass>();
+		public Container(List<WeatherServices> servicesToCreate)
+		{
+			availableServicesNames = servicesToCreate;
+
+			serviceProvider = Host.CreateDefaultBuilder()
+				.ConfigureServices(services => services
+				.AddSingleton<IWeatherService, Openweather>(s => availableServicesNames.Contains(WeatherServices.Openweather) ? new Openweather() : null)
+				.AddSingleton<IWeatherService, Stormglass>(s => availableServicesNames.Contains(WeatherServices.Stormglass) ? new Stormglass() : null))
+				.Build().Services;
+		}
+		
+		public List<IWeatherService> GetAvailableServicesList()
+		{
+			List<IWeatherService> allServices = serviceProvider.GetServices<IWeatherService>().ToList();
+			List<IWeatherService> nonNullServices = new List<IWeatherService>();
+			foreach (var service in allServices)
+			{
+				if (service != null)
+					nonNullServices.Add(service);
+			}
+
+			return nonNullServices;
 		}
 	}
 }
