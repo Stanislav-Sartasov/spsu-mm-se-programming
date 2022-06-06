@@ -1,0 +1,12 @@
+lib/**/.gradle
+lib/**/.idea
+lib/**/gradle
+lib/**/build
+lib/**/gradlew
+lib/**/gradlew.bat
+lib/**/settings.gradle.kts
+
+app/.gradle
+app/.idea
+app/gradle
+app/build
