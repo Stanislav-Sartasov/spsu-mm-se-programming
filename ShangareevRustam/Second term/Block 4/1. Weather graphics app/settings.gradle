@@ -1,6 +1,8 @@
-rootProject.name = 'weatherGraphApp'
+rootProject.name = 'weatherGraphicsApp'
 
-include(":app")
+include(":app-tornadofx")
 include(":lib:weatherWeb")
 include(":lib:openweathermapOrg")
 include(":lib:tomorrowIo")
+include(":app-compose")
+include(":app-base")

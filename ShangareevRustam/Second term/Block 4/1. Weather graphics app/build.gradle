@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id 'org.jetbrains.kotlinx.kover' version '0.5.0'
 }
 
@@ -16,12 +16,16 @@ dependencies {
 
 tasks.test {
     koverMergedHtmlReport {
-        excludes = ['graphicsApp.view.MainView',
-                    'graphicsApp.Controller',
-                    'graphicsApp.Controller$Companion',
-                    'graphicsApp.App',
-                    'graphicsApp.Styles',
-                    'graphicsApp.MainKt'
+        excludes = ['tornadoGraphicsApp.view.MainView',
+                    'tornadoGraphicsApp.Controller',
+                    'tornadoGraphicsApp.Controller$Companion',
+                    'tornadoGraphicsApp.App',
+                    'tornadoGraphicsApp.Styles',
+                    'tornadoGraphicsApp.MainKt',
+                    'composeGraphicsApp.AppKt',
+                    'composeGraphicsApp.ComposableSingletons*',
+                    'composeGraphicsApp.ComposeController*',
+                    'composeGraphicsApp.WeatherDataState'
         ]
     }
 }
