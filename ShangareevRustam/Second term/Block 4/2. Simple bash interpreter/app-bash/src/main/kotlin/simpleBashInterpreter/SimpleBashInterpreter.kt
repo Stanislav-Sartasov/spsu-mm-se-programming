@@ -45,6 +45,9 @@ class SimpleBashInterpreter {
 		else if (command.indexOf(" | ") != -1) {
 			return pipeInterpret(command)
 		}
+		else if (command.first() == '$') {
+			return interpret(interpolateStringWithVariables(command), stdin)
+		}
 
 		return exec(command, stdin)
 	}
