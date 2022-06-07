@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using System.IO;
 
-namespace Task1.Test
+namespace Task1.Tests
 {
     public class GrayScaleFilter
     {
