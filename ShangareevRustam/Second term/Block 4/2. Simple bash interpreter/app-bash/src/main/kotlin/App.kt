@@ -31,19 +31,11 @@ object App {
 		println()
 		while (true) {
 			print("> ")
-			when (val input = readln()) {
-				"help" -> {
-					println(HELP_MESSAGE)
-				}
-				"exit" -> {
-					println(EXIT_MESSAGE)
-					break
-				}
-				else -> {
-					println(interpreter.interpret(input, ""))
-				}
-			}
+			val input = readln()
+			if (input == "help") println(HELP_MESSAGE)
+			else println(interpreter.interpret(input, "") ?: break)
 		}
+		println(EXIT_MESSAGE)
 	}
 
 }
