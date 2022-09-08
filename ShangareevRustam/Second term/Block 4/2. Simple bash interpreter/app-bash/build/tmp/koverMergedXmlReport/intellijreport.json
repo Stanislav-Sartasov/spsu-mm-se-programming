@@ -1,0 +1,16 @@
+{
+  "reports": [ 
+        {"ic": "C:\\Users\\132\\IdeaProjects\\2. Simple bash interpreter\\app-bash\\build\\kover\\test.ic"}
+    ], 
+  "xml": "C:\\Users\\132\\IdeaProjects\\2. Simple bash interpreter\\app-bash\\build\\reports\\kover\\report.xml",
+  "modules": [
+    {
+      "output": [
+        "C:\\Users\\132\\IdeaProjects\\2. Simple bash interpreter\\app-bash\\build\\classes\\kotlin\\main"
+      ],
+      "sources": [
+        "C:\\Users\\132\\IdeaProjects\\2. Simple bash interpreter\\app-bash\\src\\main\\kotlin"
+      ]
+    }
+  ]
+}

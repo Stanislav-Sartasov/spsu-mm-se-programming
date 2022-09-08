@@ -1,0 +1,164 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SimpleBashTextProcessor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">simpleBashInterpreter</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleBashTextProcessor (simpleBashInterpreter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleBashTextProcessor</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    65%
+  </span>
+  <span class="absValue">
+    (13/20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,4%
+  </span>
+  <span class="absValue">
+    (17/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,6%
+  </span>
+  <span class="absValue">
+    (106/121)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package simpleBashInterpreter
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;object SimpleBashTextProcessor {
+<i class="no-highlight">4</i>&nbsp;
+<i class="no-highlight">5</i>&nbsp;	fun preprocessCommand(command: String, arguments: Map&lt;String, String&gt;): List&lt;String&gt; {
+<b class="pc"><i class="no-highlight">6</i>&nbsp;		val unprocessedCommand = if (command.isNotEmpty() &amp;&amp; command.first() == &#39;&quot;&#39; &amp;&amp; command.last() == &#39;&quot;&#39;) {</b>
+<b class="nc"><i class="no-highlight">7</i>&nbsp;			command.slice(1 until command.length - 1)</b>
+<i class="no-highlight">8</i>&nbsp;		} else {
+<b class="fc"><i class="no-highlight">9</i>&nbsp;			command</b>
+<i class="no-highlight">10</i>&nbsp;		}
+<b class="fc"><i class="no-highlight">11</i>&nbsp;		val result = StringBuilder()</b>
+<b class="fc"><i class="no-highlight">12</i>&nbsp;		val strLen = unprocessedCommand.length</b>
+<i class="no-highlight">13</i>&nbsp;
+<b class="fc"><i class="no-highlight">14</i>&nbsp;		var ptr = 0</b>
+<b class="fc"><i class="no-highlight">15</i>&nbsp;		while (ptr &lt; strLen) {</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;			if (unprocessedCommand[ptr] == &#39;$&#39;) {</b>
+<b class="fc"><i class="no-highlight">17</i>&nbsp;				val curVar = StringBuilder(&quot;$&quot;)</b>
+<b class="fc"><i class="no-highlight">18</i>&nbsp;				++ptr</b>
+<b class="pc"><i class="no-highlight">19</i>&nbsp;				while (ptr &lt; strLen &amp;&amp; (unprocessedCommand[ptr].isLetterOrDigit() || unprocessedCommand[ptr] == &#39;_&#39;)) {</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;					curVar.append(unprocessedCommand[ptr])</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;					++ptr</b>
+<i class="no-highlight">22</i>&nbsp;				}
+<i class="no-highlight">23</i>&nbsp;
+<b class="fc"><i class="no-highlight">24</i>&nbsp;				if (curVar.toString() in arguments) result.append(arguments[curVar.toString()])</b>
+<b class="fc"><i class="no-highlight">25</i>&nbsp;				else result.append(&quot;&quot;)</b>
+<i class="no-highlight">26</i>&nbsp;			} else {
+<b class="fc"><i class="no-highlight">27</i>&nbsp;				result.append(unprocessedCommand[ptr])</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;				++ptr</b>
+<i class="no-highlight">29</i>&nbsp;			}
+<i class="no-highlight">30</i>&nbsp;		}
+<i class="no-highlight">31</i>&nbsp;
+<b class="fc"><i class="no-highlight">32</i>&nbsp;		return result.split(&quot; | &quot;)</b>
+<i class="no-highlight">33</i>&nbsp;	}
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-09 00:12</div>
+</div>
+</body>
+</html>

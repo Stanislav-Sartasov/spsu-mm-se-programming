@@ -1,0 +1,162 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SimpleBashInterpreter</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">simpleBashInterpreter</a>
+</div>
+
+<h1>Coverage Summary for Class: SimpleBashInterpreter (simpleBashInterpreter)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimpleBashInterpreter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (10/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92,9%
+  </span>
+  <span class="absValue">
+    (13/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    99,1%
+  </span>
+  <span class="absValue">
+    (109/110)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package simpleBashInterpreter
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import bashCommands.*
+<i class="no-highlight">4</i>&nbsp;import simpleBashInterpreter.SimpleBashTextProcessor.preprocessCommand
+<i class="no-highlight">5</i>&nbsp;
+<b class="fc"><i class="no-highlight">6</i>&nbsp;class SimpleBashInterpreter {</b>
+<i class="no-highlight">7</i>&nbsp;
+<b class="fc"><i class="no-highlight">8</i>&nbsp;	private val arguments = mutableMapOf&lt;String, String&gt;()</b>
+<i class="no-highlight">9</i>&nbsp;
+<b class="fc"><i class="no-highlight">10</i>&nbsp;	private val commands = listOf(Assignment, Cat, Echo, Exit, Help, Pwd, Wc, OsExec)</b>
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;	fun interpret(command: String, input: String): String? {
+<b class="fc"><i class="no-highlight">13</i>&nbsp;		val processedCommand = preprocessCommand(command, arguments)</b>
+<i class="no-highlight">14</i>&nbsp;
+<b class="fc"><i class="no-highlight">15</i>&nbsp;		var result = input</b>
+<b class="fc"><i class="no-highlight">16</i>&nbsp;		for (instruction in processedCommand) {</b>
+<b class="pc"><i class="no-highlight">17</i>&nbsp;			for (curCommand in commands) {</b>
+<b class="fc"><i class="no-highlight">18</i>&nbsp;				if (curCommand.isValid(instruction)) {</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;					val curResult = curCommand.run(instruction, result, arguments)</b>
+<b class="pc"><i class="no-highlight">20</i>&nbsp;					if (curResult == null &amp;&amp; processedCommand.size == 1) {</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;						return null</b>
+<i class="no-highlight">22</i>&nbsp;					} else {
+<b class="fc"><i class="no-highlight">23</i>&nbsp;						result = curResult ?: &quot;&quot;</b>
+<i class="no-highlight">24</i>&nbsp;					}
+<b class="fc"><i class="no-highlight">25</i>&nbsp;					break</b>
+<i class="no-highlight">26</i>&nbsp;				}
+<i class="no-highlight">27</i>&nbsp;			}
+<i class="no-highlight">28</i>&nbsp;		}
+<i class="no-highlight">29</i>&nbsp;
+<b class="fc"><i class="no-highlight">30</i>&nbsp;		return result</b>
+<i class="no-highlight">31</i>&nbsp;	}
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-09-09 00:12</div>
+</div>
+</body>
+</html>

@@ -27,7 +27,7 @@ internal class SimpleBashInterpreterTests {
 		val c = "897993"
 
 		assertEquals(
-			"fkdsjklfjoierjfioej $a fjer fjer $b klf eorijf $c ioer\$f",
+			"fkdsjklfjoierjfioej $a fjer fjer $b klf eorijf $c ioer",
 			interpreter.interpret(
 				"echo \"fkdsjklfjoierjfioej \$a fjer fjer \$b klf eorijf \$c ioer\$f\"", ""
 			)
