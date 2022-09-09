@@ -1,6 +1,6 @@
 package bashCommands
 
-import simpleBashInterpreter.textUtilities.TextUtilities.trimQuotes
+import textUtilities.TextUtilities.trimQuotes
 
 object Echo : BashCommand() {
 

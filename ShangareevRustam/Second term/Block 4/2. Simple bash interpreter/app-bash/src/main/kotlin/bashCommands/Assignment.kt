@@ -1,7 +1,7 @@
 package bashCommands
 
-import simpleBashInterpreter.textUtilities.TextUtilities.isValuable
-import simpleBashInterpreter.textUtilities.TextUtilities.trimQuotes
+import textUtilities.TextUtilities.isValuable
+import textUtilities.TextUtilities.trimQuotes
 
 object Assignment : BashCommand() {
 

@@ -1,6 +1,6 @@
 package bashCommands
 
-import simpleBashInterpreter.textUtilities.TextUtilities.trimQuotes
+import textUtilities.TextUtilities.trimQuotes
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

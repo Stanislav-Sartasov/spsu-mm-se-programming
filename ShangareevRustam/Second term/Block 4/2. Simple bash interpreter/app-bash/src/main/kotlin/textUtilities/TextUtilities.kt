@@ -1,4 +1,4 @@
-package simpleBashInterpreter.textUtilities
+package textUtilities
 
 object TextUtilities {
 
