@@ -58,10 +58,10 @@ class Compose : KoinComponent {
                 }
 
                 suspend fun get() {
-                    try {
-                        data = Result.success(currentApi.get(Coordinates(lat, lon), client))
+                    data = try {
+                        Result.success(currentApi.get(Coordinates(lat, lon), client))
                     } catch (e: Exception) {
-                        data = Result.failure(e)
+                        Result.failure(e)
                     }
                 }
 
