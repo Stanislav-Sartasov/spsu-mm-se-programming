@@ -41,21 +41,18 @@ namespace Weather.UnitTests
         public void WeatherOutputTest()
         {
             var tomorrowAPITest = new TomorrowIO();
+            if (tomorrowAPITest.State == false)
+            {
+                Assert.IsNull(tomorrowAPITest.WeatherData);
+                Assert.IsFalse(tomorrowAPITest.State);
+            }
+            else
+            {
+                Assert.IsNotNull(tomorrowAPITest.WeatherData);
+                Assert.IsTrue(tomorrowAPITest.State);
+            }
 
             WeatherPrinter.WeatherOutput(tomorrowAPITest);
-
-            Assert.IsNotNull(tomorrowAPITest.WeatherData);
-            Assert.IsTrue(tomorrowAPITest.State);
-        }
-        [Test]
-        public void WeatherOutputBadTest()
-        {
-            var tomorrowAPITest = new TomorrowIO();
-
-            WeatherPrinter.WeatherOutput(tomorrowAPITest);
-
-            Assert.IsNotNull(tomorrowAPITest.WeatherData);
-            Assert.IsTrue(tomorrowAPITest.State);
         }
     }
 }

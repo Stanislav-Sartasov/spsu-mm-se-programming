@@ -25,16 +25,24 @@ namespace Weather.UnitTests
                 temperature = i;
                 WeatherPrinter.PrintHeatScale(temperature);
             }
-          }
+        }
+
         [Test]
         public void WeatherOutputTest()
         {
             var tomorrowAPITest = new TomorrowIO();
+            if(tomorrowAPITest.State == false)
+            {
+                Assert.IsNull(tomorrowAPITest.WeatherData);
+                Assert.IsFalse(tomorrowAPITest.State);
+            }
+            else
+            {
+                Assert.IsNotNull(tomorrowAPITest.WeatherData);
+                Assert.IsTrue(tomorrowAPITest.State);
+            }
 
             WeatherPrinter.WeatherOutput(tomorrowAPITest);
-
-            Assert.IsNotNull(tomorrowAPITest.WeatherData);
-            Assert.IsTrue(tomorrowAPITest.State);
         }
     }
 }
