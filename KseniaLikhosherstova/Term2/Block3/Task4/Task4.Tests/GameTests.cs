@@ -24,7 +24,6 @@ namespace Task4.Tests
 
 
             Assert.Pass();
-
         }
 
 
@@ -55,7 +54,6 @@ namespace Task4.Tests
                     player.Hit(new Card((Rank)i, (Suit)j));
             Assert.IsTrue(game.IsBusted(player));
 
-
             Assert.Pass();
         }
 
@@ -74,7 +72,5 @@ namespace Task4.Tests
 
             Assert.Pass();
         }
-
-
     }
 }

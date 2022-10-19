@@ -16,7 +16,6 @@
         }
 
 
-
         public int GetValueOfCard(int score)
         {
             if (Rank == Rank.King || Rank == Rank.Queen || Rank == Rank.Jack)

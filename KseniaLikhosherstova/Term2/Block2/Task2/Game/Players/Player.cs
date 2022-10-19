@@ -21,7 +21,6 @@ namespace Game.Players
         public virtual PlayerAction Move() { return PlayerAction.Hit; }
         public virtual int Bet() { return 0; }
 
-
         public override void ClearHand()
         {
             base.ClearHand();

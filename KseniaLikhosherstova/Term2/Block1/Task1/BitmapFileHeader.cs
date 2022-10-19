@@ -9,6 +9,4 @@
         public ushort ReservedTwo = 1;
         public uint OffsetBits = 0;
     }
-
 }
-

@@ -21,7 +21,6 @@ namespace Game
         private Deck deck;
 
 
-
         public BlackJack(int decksCount, List<Player> players)
         {
             dealer = new Dealer();
@@ -55,7 +54,6 @@ namespace Game
             dealer.ClearHand();
             players.ForEach(p => p.ClearHand());
         }
-
 
         public void PlaceBets()
         {
@@ -138,7 +136,6 @@ namespace Game
 
             return results;
         }
-
 
         public Dictionary<Hand, GameResult> GetRoundResult()
         {

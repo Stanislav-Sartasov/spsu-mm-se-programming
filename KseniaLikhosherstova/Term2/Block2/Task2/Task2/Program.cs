@@ -13,9 +13,10 @@ namespace Task2
         {
             Console.WriteLine("The program demonstrates three strategies of the Blackjack");
 
-            Player player1 = new StupidBot("John Doe", 1500);
-            Player player2 = new StandardBot("Mike", 1500);
-            Player player3 = new SmartBot("Jane", 1500);
+            Player player1 = new StupidBot("Terry Benedict", 1500);
+            Player player2 = new StandardBot("Rusty Ryan", 1500);
+            Player player3 = new SmartBot("Danny Ocean", 1500);
+
             List<Player> players = new List<Player> { player1, player2, player3 };
             Game.BlackJack game = new Game.BlackJack(8, players);
 

@@ -20,8 +20,6 @@ namespace Game
 
         private Deck deck;
 
-
-
         public BlackJack(int decksCount, List<Player> players)
         {
             dealer = new Dealer();
@@ -35,7 +33,6 @@ namespace Game
             countOfDecks = decksCount;
             minCardsToShuffleDeck = deck.Cards.Count / 3;
         }
-
 
         public bool IsEnded => players.All(x => x.State == PlayerState.Standing);
 
@@ -241,6 +238,5 @@ namespace Game
 
             return builder.ToString();
         }
-
     }
 }

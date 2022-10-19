@@ -45,8 +45,5 @@ namespace Task4.Tests
 
             Assert.Pass();
         }
-
     }
-
 }
-

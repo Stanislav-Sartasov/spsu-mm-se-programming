@@ -10,13 +10,12 @@
             b = temp;
         }
 
-        public void Median(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
+        public void Median(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas)
         {
             Pixel[] buf = new Pixel[9];
-
-            for (int i = 2; i < bMPIH.Hight + 2; ++i)
+            for (int i = 2; i < BMPIH.Hight + 2; ++i)
             {
-                for (int j = 2; j < bMPIH.Width + 2; ++j)
+                for (int j = 2; j < BMPIH.Width + 2; ++j)
                 {
                     int k = 0;
                     for (int h = i - 1; (h < h + 1) && (k < 9); ++h)
@@ -26,7 +25,6 @@
                             buf[k] = mas[h, j1];
                         }
                     }
-
                     for (k = 0; k < 9; ++k)
                     {
                         for (int l = 0; l < 9; ++l)
@@ -38,23 +36,21 @@
                             }
                         }
                     }
-
                     mas[i, j] = buf[4];
                 }
             }
         }
 
-        public void Mask(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas, int kF, int[] apl)
+        public void Mask(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas, int kF, int[] apl)
         {
 
             int k = 0, green = 0, red = 0, blue = 0;
 
-            for (int i = 2; i < bMPIH.Hight + 2; ++i)
+            for (int i = 2; i < BMPIH.Hight + 2; ++i)
             {
-                for (int j = 2; j < bMPIH.Width + 2; ++j)
+                for (int j = 2; j < BMPIH.Width + 2; ++j)
                 {
                     k = 0; green = 0; red = 0; blue = 0;
-
                     for (int h = i - 1; (h < h + 1) && (k < 9); ++h)
                     {
                         for (int l = j - 1; l <= j + 1; ++l, ++k)
@@ -64,14 +60,12 @@
                             red += mas[h, l].Red * apl[k] / kF;
                         }
                     }
-
                     if (kF == 16)
                     {
                         mas[i, j].Blue = (byte)blue;
                         mas[i, j].Red = (byte)red;
                         mas[i, j].Green = (byte)green;
                     }
-
                     else
                     {
                         mas[i, j].Blue = (byte)Math.Min(Math.Abs(blue), 255);
@@ -80,16 +74,14 @@
                     }
                 }
             }
-
         }
 
-        public void Gray(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
+        public void Gray(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas)
         {
             byte average = 0;
-
-            for (int i = 0; i < bMPIH.Hight + 4; ++i)
+            for (int i = 0; i < BMPIH.Hight + 4; ++i)
             {
-                for (int j = 0; j < bMPIH.Width + 4; ++j)
+                for (int j = 0; j < BMPIH.Width + 4; ++j)
                 {
                     average = (byte)((mas[i, j].Red + mas[i, j].Green + mas[i, j].Blue) / 3);
                     mas[i, j].Red = average;
@@ -99,33 +91,29 @@
             }
         }
 
-        public void Gauss(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
+        public void Gauss(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas)
         {
-
             int[] apl = { 1, 2, 1, 2, 4, 2, 1, 2, 1 };
 
-            Mask(ref bMPFH, ref bMPIH, mas, 16, apl);
-
+            Mask(ref BMPFH, ref BMPIH, mas, 16, apl);
         }
 
-        public void SobelX(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
+        public void SobelX(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas)
         {
-
-            Gray(ref bMPFH, ref bMPIH, mas);
+            Gray(ref BMPFH, ref BMPIH, mas);
 
             int[] apl = { -1, 0, 1, -2, 0, 2, -1, 0, 1 };
 
-            Mask(ref bMPFH, ref bMPIH, mas, 1, apl);
+            Mask(ref BMPFH, ref BMPIH, mas, 1, apl);
         }
 
-        public void SobelY(ref BitmapFileHeader bMPFH, ref BitmapInfoHeader bMPIH, Pixel[,] mas)
+        public void SobelY(ref BitmapFileHeader BMPFH, ref BitmapInfoHeader BMPIH, Pixel[,] mas)
         {
-
-            Gray(ref bMPFH, ref bMPIH, mas);
+            Gray(ref BMPFH, ref BMPIH, mas);
 
             int[] apl = { -1, -2, -1, 0, 0, 0, 1, 2, 1 };
 
-            Mask(ref bMPFH, ref bMPIH, mas, 1, apl);
+            Mask(ref BMPFH, ref BMPIH, mas, 1, apl);
         }
     }
 }

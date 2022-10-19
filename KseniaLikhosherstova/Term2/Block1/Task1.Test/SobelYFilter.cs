@@ -1,5 +1,7 @@
 ﻿using NUnit.Framework;
+using Task1;
 using System.IO;
+using System;
 
 namespace Task1.Tests
 {
@@ -7,62 +9,61 @@ namespace Task1.Tests
     {
 
         [Test]
-
         public void SobelY()
         {
             FileOperations image = new FileOperations();
             Filters filters = new Filters();
             BitmapFileHeader bitmapFile = new BitmapFileHeader();
-            BitmapFileHeader bMPFH = new BitmapFileHeader();
-            BitmapInfoHeader bMPIH = new BitmapInfoHeader();
+            BitmapFileHeader BMPFH = new BitmapFileHeader();
+            BitmapInfoHeader BMPIH = new BitmapInfoHeader();
 
 
 
-            FileStream fsT = new FileStream(@"..\..\..\..\..\Block1\Task1.Test\TestFiles\sunSY_t.bmp", FileMode.Open);
+            FileStream fsT = new FileStream(@"..\..\..\..\..\Task1\Task1.Test\TestFiles\sunSY_t.bmp", FileMode.Open);
             BinaryReader brT = new BinaryReader(fsT, System.Text.Encoding.Default);
 
-            image.ReadFile(ref bMPFH, ref bMPIH, ref brT);
+            image.ReadFile(ref BMPFH, ref BMPIH, ref brT);
 
-            Pixel[,] masT = new Pixel[bMPIH.Hight + 4, bMPIH.Width + 4];
+            Pixel[,] masT = new Pixel[BMPIH.Hight + 4, BMPIH.Width + 4];
 
-            image.Rat(ref bMPFH, ref bMPIH, masT);
+            image.Rat(ref BMPFH, ref BMPIH, masT);
 
-            image.ReadPixel(ref bMPFH, ref bMPIH, masT, ref brT);
+            image.ReadPixel(ref BMPFH, ref BMPIH, masT, ref brT);
 
             brT.Close();
 
-            FileStream fS = new FileStream(@"..\..\..\..\..\Block1\Task1.Test\TestFiles\sun.bmp", FileMode.Open);
+            FileStream fS = new FileStream(@"..\..\..\..\..\Task1\Task1.Test\TestFiles\sun.bmp", FileMode.Open);
             BinaryReader bR = new BinaryReader(fS, System.Text.Encoding.Default);
 
-            image.ReadFile(ref bMPFH, ref bMPIH, ref bR);
+            image.ReadFile(ref BMPFH, ref BMPIH, ref bR);
 
-            Pixel[,] mas = new Pixel[bMPIH.Hight + 4, bMPIH.Width + 4];
+            Pixel[,] mas = new Pixel[BMPIH.Hight + 4, BMPIH.Width + 4];
 
-            image.Rat(ref bMPFH, ref bMPIH, mas);
+            image.Rat(ref BMPFH, ref BMPIH, mas);
 
-            image.ReadPixel(ref bMPFH, ref bMPIH, mas, ref bR);
+            image.ReadPixel(ref BMPFH, ref BMPIH, mas, ref bR);
 
             bR.Close();
 
-            filters.SobelY(ref bMPFH, ref bMPIH, mas);
+            filters.SobelY(ref BMPFH, ref BMPIH, mas);
 
-            FileStream fO = new FileStream(@"..\..\..\..\..\Block1\Task1.Test\TestFiles\sunSY_new.bmp", FileMode.Create);
+            FileStream fO = new FileStream(@"..\..\..\..\..\Task1\Task1.Test\TestFiles\sunSY_new.bmp", FileMode.Create);
             BinaryWriter bW = new BinaryWriter(fO, System.Text.Encoding.Default);
 
-            image.Save(ref bMPFH, ref bMPIH, mas, ref bW);
+            image.Save(ref BMPFH, ref BMPIH, mas, ref bW);
 
             bW.Close();
 
-            fS = new FileStream(@"..\..\..\..\..\Block1\Task1.Test\TestFiles\sunSY_new.bmp", FileMode.Open);
+            fS = new FileStream(@"..\..\..\..\..\Task1\Task1.Test\TestFiles\sunSY_new.bmp", FileMode.Open);
             bR = new BinaryReader(fS, System.Text.Encoding.Default);
 
-            image.ReadFile(ref bMPFH, ref bMPIH, ref bR);
+            image.ReadFile(ref BMPFH, ref BMPIH, ref bR);
 
-            mas = new Pixel[bMPIH.Hight + 4, bMPIH.Width + 4];
+            mas = new Pixel[BMPIH.Hight + 4, BMPIH.Width + 4];
 
-            image.Rat(ref bMPFH, ref bMPIH, mas);
+            image.Rat(ref BMPFH, ref BMPIH, mas);
 
-            image.ReadPixel(ref bMPFH, ref bMPIH, mas, ref bR);
+            image.ReadPixel(ref BMPFH, ref BMPIH, mas, ref bR);
 
             bR.Close();
 

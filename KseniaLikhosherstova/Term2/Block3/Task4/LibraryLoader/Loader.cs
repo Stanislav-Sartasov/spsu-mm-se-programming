@@ -13,7 +13,7 @@ namespace LibraryLoader
 
             Bots = new List<Player>();
 
-            Assembly asm = Assembly.LoadFrom(path); 
+            Assembly asm = Assembly.LoadFrom(path);
             Type[] type = asm.GetExportedTypes();
             for (int i = 0; i < type.Length; i++)
             {

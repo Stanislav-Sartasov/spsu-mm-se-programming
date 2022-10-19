@@ -3,7 +3,7 @@ using Game.Players;
 
 namespace Task4.Tests
 {
-    public class LoaderTest
+    public class LoaderTests
     {
         string path;
 

@@ -5,29 +5,29 @@ namespace Bots
 {
     public class StupidBot : Player
     {
-        public readonly int InitialMoney;
-        public int PlayersBet;
+        private readonly int initialMoney;
+        private int playersBet;
 
         public StupidBot(string name, int money) : base(name, money)
         {
-            InitialMoney = money;
-            PlayersBet = 0;
+            initialMoney = money;
+            playersBet = 0;
         }
 
         public override int Bet()
         {
-            if (Money == InitialMoney)
+            if (Money == initialMoney)
             {
-                PlayersBet = (int)Math.Floor(Money * 0.2);
+                playersBet = (int)Math.Floor(Money * 0.2);
             }
 
             else
             {
-                PlayersBet = (int)Math.Floor(Money * 0.14);
+                playersBet = (int)Math.Floor(Money * 0.14);
             }
 
-            Money -= PlayersBet;
-            return PlayersBet;
+            Money -= playersBet;
+            return playersBet;
         }
 
         public override PlayerAction Move()

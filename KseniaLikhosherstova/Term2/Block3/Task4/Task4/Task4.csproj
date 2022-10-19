@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Game\Game.csproj" />
     <ProjectReference Include="..\LibraryLoader\LibraryLoader.csproj" />
-    <ProjectReference Include="..\Task4.Tests\Task4.Tests.csproj" />
   </ItemGroup>
 
 </Project>

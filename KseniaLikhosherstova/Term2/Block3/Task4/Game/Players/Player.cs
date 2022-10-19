@@ -1,7 +1,6 @@
 ﻿using Game.Cards;
 
 
-
 namespace Game.Players
 {
     public class Player : Hand
@@ -20,7 +19,6 @@ namespace Game.Players
 
         public virtual PlayerAction Move() { return PlayerAction.Hit; }
         public virtual int Bet() { return 0; }
-
 
         public override void ClearHand()
         {
@@ -55,6 +53,6 @@ namespace Game.Players
         {
             Money += amount;
         }
-
     }
 }
+

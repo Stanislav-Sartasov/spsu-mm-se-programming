@@ -68,10 +68,6 @@ namespace Task4
                 Console.WriteLine("----------------------");
                 Console.WriteLine();
             }
-
-
-
-
         }
     }
 }

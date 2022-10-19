@@ -1,0 +1,44 @@
+﻿<Window x:Class="WeatherUI_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherUI_WPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="600">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Margin="3">
+            <CheckBox Content="OpenWeatherMap" IsChecked="{Binding IsOpenWeatherMap}" Margin="3"/>
+            <CheckBox Content="TomorrowIO" IsChecked="{Binding IsTomorrowIO}" Margin="3"/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0">
+                <Label Content="Temperature Celsius: "/>
+                <Label Content="Temperature Fahrenheit: "/>
+                <Label Content="Humidity: "/>
+                <Label Content="Clouds Percent: "/>
+                <Label Content="Precipitation: "/>
+                <Label Content="Wind Speed: "/>
+                <Label Content="Wind Direction: "/>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Label Content="{Binding TempC, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding TempF, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding Humidity, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding CloudsPercent, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding Precipitation, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding WindSpeed, UpdateSourceTrigger=PropertyChanged}"/>
+                <Label Content="{Binding WindDirection, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+        </Grid>
+        <Button Grid.ColumnSpan="2" Grid.Column="0" Command="{Binding UpdateCommand}" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10">Update</Button>
+    </Grid>
+</Window>

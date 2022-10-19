@@ -10,13 +10,10 @@ namespace Game.Players
         public abstract string Name { get; }
         public List<Card> Cards { get; }
 
-
-
         public Hand()
         {
             Cards = new List<Card>();
         }
-
 
         public virtual void ClearHand()
         {

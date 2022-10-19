@@ -1,44 +1,43 @@
 ﻿using Game.Players;
 
 
-
 namespace Bots
 {
 
     public class StandardBot : Player
     {
 
-        public readonly int InitialMoney;
-        public int PlayersBet;
+        private readonly int initialMoney;
+        private int playersBet;
 
 
         public StandardBot(string name, int money) : base(name, money)
         {
-            InitialMoney = money;
-            PlayersBet = 0;
+            initialMoney = money;
+            playersBet = 0;
         }
 
         public override int Bet()
         {
 
-            if (Money / 2 > InitialMoney)
+            if (Money / 2 > initialMoney)
             {
-                PlayersBet = (int)Math.Floor(Money * 0.4);
+                playersBet = (int)Math.Floor(Money * 0.4);
             }
 
             else if (Money % 5 == 0)
             {
-                PlayersBet = Math.Min((int)Math.Floor(Money * 0.25), (int)Math.Floor(InitialMoney * 0.125));
+                playersBet = Math.Min((int)Math.Floor(Money * 0.25), (int)Math.Floor(initialMoney * 0.125));
             }
 
             else
             {
-                PlayersBet = 50;
+                playersBet = 50;
             }
 
-            Money -= PlayersBet;
+            Money -= playersBet;
 
-            return PlayersBet;
+            return playersBet;
         }
 
         public override PlayerAction Move()

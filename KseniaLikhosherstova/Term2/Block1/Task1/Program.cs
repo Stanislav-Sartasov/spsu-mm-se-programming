@@ -2,11 +2,10 @@
 {
     public class Program
     {
-
         static void Main(string[] args)
         {
-            BitmapFileHeader bMPFH = new BitmapFileHeader();
-            BitmapInfoHeader bMPIH = new BitmapInfoHeader();
+            BitmapFileHeader BMPFH = new BitmapFileHeader();
+            BitmapInfoHeader BMPIH = new BitmapInfoHeader();
             FileOperations image = new FileOperations();
             Filters filters = new Filters();
 
@@ -23,9 +22,8 @@
 
             try
             {
-                fS = new FileStream(args[0], FileMode.Open);
+                fS = new FileStream(args[0], FileMode.Open); 
             }
-
             catch (FileNotFoundException)
             {
                 Console.WriteLine("Could not find file.");
@@ -34,13 +32,13 @@
 
             BinaryReader bR = new BinaryReader(fS, System.Text.Encoding.Default);
 
-            image.ReadFile(ref bMPFH, ref bMPIH, ref bR);
+            image.ReadFile(ref BMPFH, ref BMPIH, ref bR);
 
-            Pixel[,] mas = new Pixel[bMPIH.Hight + 4, bMPIH.Width + 4];
+            Pixel[,] mas = new Pixel[BMPIH.Hight + 4, BMPIH.Width + 4];
 
-            image.Rat(ref bMPFH, ref bMPIH, mas);
+            image.Rat(ref BMPFH, ref BMPIH, mas);
 
-            image.ReadPixel(ref bMPFH, ref bMPIH, mas, ref bR);
+            image.ReadPixel(ref BMPFH, ref BMPIH, mas, ref bR);
 
             bR.Close();
 
@@ -50,25 +48,20 @@
             switch (filter)
             {
                 case "grayscale":
-                    filters.Gray(ref bMPFH, ref bMPIH, mas);
+                    filters.Gray(ref BMPFH, ref BMPIH, mas);
                     break;
-
                 case "median":
-                    filters.Median(ref bMPFH, ref bMPIH, mas);
+                    filters.Median(ref BMPFH, ref BMPIH, mas);
                     break;
-
                 case "gaussian":
-                    filters.Gauss(ref bMPFH, ref bMPIH, mas);
+                    filters.Gauss(ref BMPFH, ref BMPIH, mas);
                     break;
-
                 case "sobelX":
-                    filters.SobelX(ref bMPFH, ref bMPIH, mas);
+                    filters.SobelX(ref BMPFH, ref BMPIH, mas);
                     break;
-
                 case "sobelY":
-                    filters.SobelY(ref bMPFH, ref bMPIH, mas);
+                    filters.SobelY(ref BMPFH, ref BMPIH, mas);
                     break;
-
                 default:
                     Console.WriteLine("Could not find filter.");
                     Environment.Exit(-123214);
@@ -78,9 +71,9 @@
 
             FileStream fO = new FileStream(args[2], FileMode.Create);
             BinaryWriter bW = new BinaryWriter(fO, System.Text.Encoding.Default);
-            image.Save(ref bMPFH, ref bMPIH, mas, ref bW);
+            image.Save(ref BMPFH, ref BMPIH, mas, ref bW);
 
-            Console.WriteLine("Filter has been applied.");
+            Console.WriteLine("Filter has been applied!");
         }
     }
 }

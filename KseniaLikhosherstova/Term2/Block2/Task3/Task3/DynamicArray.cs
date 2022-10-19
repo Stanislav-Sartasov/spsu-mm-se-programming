@@ -2,15 +2,14 @@
 {
     public class DynamicArray<T>
     {
-        public T[]? Data;
+        private T[]? data;
 
-        public int CountOfElements { get; set; }
-
+        public int CountOfElements { get; private set; }
 
 
         public DynamicArray()
         {
-            Data = default;
+            data = default;
             CountOfElements = 0;
 
         }
@@ -19,88 +18,88 @@
         {
             get
             {
-                if ((index >= 0) && (index <= Data.Length))
-                    return Data[index];
+                if ((index >= 0) && (index <= data!.Length))
+                    return data[index];
                 else
-                    return default(T);
+                    return default(T)!;
 
             }
         }
-
-
 
         public void Add(T value)
         {
-            if (Data == default)
+            if (data == default)
             {
-                Data = new T[2];
+                data = new T[2];
             }
-            else if (CountOfElements == Data.Length)
+            else if (CountOfElements == data.Length)
             {
                 Resize(CountOfElements * 2);
             }
-            Data[CountOfElements] = value;
+            data[CountOfElements] = value;
             CountOfElements++;
         }
 
-        public void Resize(int newSize)
+
+         private void Resize(int newSize)
         {
-            if (newSize < CountOfElements)
-            {
-                throw new Exception("The new size is less than the allowed one");
-            }
             T[] newArr = new T[newSize];
 
-            Data.CopyTo(newArr, 0);
+            data!.CopyTo(newArr, 0);
 
-            Data = newArr;
+            data = newArr;
         }
 
-
-        public T GetItem(int index)
+        public T GetByIndex(int index)
         {
             if (index < 0 || index > CountOfElements - 1)
                 throw new IndexOutOfRangeException("Invalid index");
 
-            return Data[index];
+            return data![index];
         }
 
-
-
-        public int GetIndex(T value) //ЗАМЕНИТЬ ИЛИ ЧЕТ ДРУГОЕ
+        public int GetIndex(T value)
         {
             for (int i = 0; i <= CountOfElements; i++)
             {
-                if (value.Equals(Data[i]))
+                if (value.Equals(data![i]))
+                {
                     return i;
+                }
+
+                else if (value == null)
+                {
+                    throw new NullReferenceException("The entered value is undefined");
+                }
             }
+
             return -1;
         }
 
-
-
-
-        public void RemoveAt(int index)
+        public void DeleteByIndex(int index)
         {
             if (index < 0 || index > CountOfElements - 1)
                 throw new IndexOutOfRangeException("Invalid index");
 
             for (int i = index + 1; i < CountOfElements; i++)
-                Data[i - 1] = Data[i];
+                data![i - 1] = data[i];
             CountOfElements--;
-
-
 
         }
 
-        public bool Remove(T value)
+        public bool DeleteElement(T value)
         {
             for (int i = 0; i < CountOfElements; i++)
             {
-                if (Data[i].Equals(value))
+                if (data[i].Equals(value))
                 {
-                    RemoveAt(i);
+                    DeleteByIndex(i);
                     return true;
+                }
+
+                else if (value == null)
+                {
+                    throw new NullReferenceException("The entered value is undefined");
                 }
             }
             return false;

@@ -11,7 +11,7 @@ namespace Task2.Tests
 
         public void StupidBotTest()
         {
-            StupidBot stupidBot = new StupidBot("Kevin", 1345);
+            StupidBot stupidBot = new StupidBot("Terry Benedict", 1345);
             Card cardOne = new Card(Rank.Two, Suit.Spades);
             Card cardTwo = new Card(Rank.Nine, Suit.Clubs);
 
@@ -30,7 +30,7 @@ namespace Task2.Tests
         public void StandardBotTest()
         {
 
-            StandardBot standardBot = new StandardBot("Enrico", 897);
+            StandardBot standardBot = new StandardBot("Rusty Ryan", 897);
             Card cardOne = new Card(Rank.King, Suit.Hearts);
             Card cardTwo = new Card(Rank.Ace, Suit.Diamonds);
 
@@ -46,7 +46,7 @@ namespace Task2.Tests
 
         public void SmartBotTest()
         {
-            SmartBot smartBot = new SmartBot("Theodor", 1055);
+            SmartBot smartBot = new SmartBot("Danny Ocean", 1055);
             Card cardOne = new Card(Rank.Two, Suit.Hearts);
             Card cardTwo = new Card(Rank.Ace, Suit.Diamonds);
 

@@ -11,7 +11,6 @@ namespace Game.Players
         public List<Card> Cards { get; }
 
 
-
         public Hand()
         {
             Cards = new List<Card>();

@@ -13,5 +13,6 @@
         public uint YPelsPerMeter = 0;
         public uint ColorUsed = 0;
         public uint ColorImportant = 0;
+
     }
 }
