@@ -62,6 +62,7 @@ namespace WeatherWinForms
 			// 
 			// headerLabel
 			// 
+			this.headerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.headerLabel.AutoSize = true;
 			this.headerLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
 			this.headerLabel.Location = new System.Drawing.Point(40, 31);
@@ -72,6 +73,7 @@ namespace WeatherWinForms
 			// 
 			// temperatureGroupBox
 			// 
+			this.temperatureGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.temperatureGroupBox.Controls.Add(this.temperatureRightLabel);
 			this.temperatureGroupBox.Controls.Add(this.temperatureLeftLabel);
 			this.temperatureGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -84,6 +86,7 @@ namespace WeatherWinForms
 			// 
 			// temperatureRightLabel
 			// 
+			this.temperatureRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.temperatureRightLabel.AutoSize = true;
 			this.temperatureRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.temperatureRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -94,6 +97,7 @@ namespace WeatherWinForms
 			// 
 			// temperatureLeftLabel
 			// 
+			this.temperatureLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.temperatureLeftLabel.AutoSize = true;
 			this.temperatureLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.temperatureLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -104,6 +108,7 @@ namespace WeatherWinForms
 			// 
 			// cloudCoverGroupBox
 			// 
+			this.cloudCoverGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.cloudCoverGroupBox.Controls.Add(this.cloudCoverRightLabel);
 			this.cloudCoverGroupBox.Controls.Add(this.cloudCoverLeftLabel);
 			this.cloudCoverGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -116,6 +121,7 @@ namespace WeatherWinForms
 			// 
 			// cloudCoverRightLabel
 			// 
+			this.cloudCoverRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cloudCoverRightLabel.AutoSize = true;
 			this.cloudCoverRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.cloudCoverRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -126,6 +132,7 @@ namespace WeatherWinForms
 			// 
 			// cloudCoverLeftLabel
 			// 
+			this.cloudCoverLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cloudCoverLeftLabel.AutoSize = true;
 			this.cloudCoverLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.cloudCoverLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -136,6 +143,7 @@ namespace WeatherWinForms
 			// 
 			// humidityGroupBox
 			// 
+			this.humidityGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.humidityGroupBox.Controls.Add(this.humidityRightLabel);
 			this.humidityGroupBox.Controls.Add(this.humidityLeftLabel);
 			this.humidityGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -148,6 +156,7 @@ namespace WeatherWinForms
 			// 
 			// humidityRightLabel
 			// 
+			this.humidityRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.humidityRightLabel.AutoSize = true;
 			this.humidityRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.humidityRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -158,6 +167,7 @@ namespace WeatherWinForms
 			// 
 			// humidityLeftLabel
 			// 
+			this.humidityLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.humidityLeftLabel.AutoSize = true;
 			this.humidityLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.humidityLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -168,6 +178,7 @@ namespace WeatherWinForms
 			// 
 			// precipitationRightLabel
 			// 
+			this.precipitationRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.precipitationRightLabel.AutoSize = true;
 			this.precipitationRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.precipitationRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -178,6 +189,7 @@ namespace WeatherWinForms
 			// 
 			// precipitationLeftLabel
 			// 
+			this.precipitationLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.precipitationLeftLabel.AutoSize = true;
 			this.precipitationLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.precipitationLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -188,6 +200,7 @@ namespace WeatherWinForms
 			// 
 			// precipitationGroupBox
 			// 
+			this.precipitationGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.precipitationGroupBox.Controls.Add(this.precipitationRightLabel);
 			this.precipitationGroupBox.Controls.Add(this.precipitationLeftLabel);
 			this.precipitationGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -200,6 +213,7 @@ namespace WeatherWinForms
 			// 
 			// windSpeedRightLabel
 			// 
+			this.windSpeedRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.windSpeedRightLabel.AutoSize = true;
 			this.windSpeedRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.windSpeedRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -210,6 +224,7 @@ namespace WeatherWinForms
 			// 
 			// windSpeedLeftLabel
 			// 
+			this.windSpeedLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.windSpeedLeftLabel.AutoSize = true;
 			this.windSpeedLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.windSpeedLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -220,6 +235,7 @@ namespace WeatherWinForms
 			// 
 			// windSpeedGroupBox
 			// 
+			this.windSpeedGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.windSpeedGroupBox.Controls.Add(this.windSpeedRightLabel);
 			this.windSpeedGroupBox.Controls.Add(this.windSpeedLeftLabel);
 			this.windSpeedGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -232,6 +248,7 @@ namespace WeatherWinForms
 			// 
 			// windDirectionRightLabel
 			// 
+			this.windDirectionRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.windDirectionRightLabel.AutoSize = true;
 			this.windDirectionRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.windDirectionRightLabel.Location = new System.Drawing.Point(470, 20);
@@ -242,6 +259,7 @@ namespace WeatherWinForms
 			// 
 			// windDirectionLeftLabel
 			// 
+			this.windDirectionLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.windDirectionLeftLabel.AutoSize = true;
 			this.windDirectionLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.windDirectionLeftLabel.Location = new System.Drawing.Point(241, 20);
@@ -252,6 +270,7 @@ namespace WeatherWinForms
 			// 
 			// windDirectionGroupBox
 			// 
+			this.windDirectionGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.windDirectionGroupBox.Controls.Add(this.windDirectionRightLabel);
 			this.windDirectionGroupBox.Controls.Add(this.windDirectionLeftLabel);
 			this.windDirectionGroupBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
@@ -264,6 +283,7 @@ namespace WeatherWinForms
 			// 
 			// refreshPictureBox
 			// 
+			this.refreshPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.refreshPictureBox.Image = global::WeatherWinForms.Properties.Resources.refresh;
 			this.refreshPictureBox.Location = new System.Drawing.Point(368, 31);
 			this.refreshPictureBox.Name = "refreshPictureBox";
@@ -274,6 +294,7 @@ namespace WeatherWinForms
 			// 
 			// cellarLeftLabel
 			// 
+			this.cellarLeftLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cellarLeftLabel.AutoSize = true;
 			this.cellarLeftLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.cellarLeftLabel.Location = new System.Drawing.Point(280, 417);
@@ -285,6 +306,7 @@ namespace WeatherWinForms
 			// 
 			// cellarRightLabel
 			// 
+			this.cellarRightLabel.Anchor = System.Windows.Forms.AnchorStyles.None;
 			this.cellarRightLabel.AutoSize = true;
 			this.cellarRightLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
 			this.cellarRightLabel.Location = new System.Drawing.Point(509, 417);
@@ -309,6 +331,7 @@ namespace WeatherWinForms
 			this.Controls.Add(this.cloudCoverGroupBox);
 			this.Controls.Add(this.temperatureGroupBox);
 			this.Controls.Add(this.headerLabel);
+			this.MinimumSize = new System.Drawing.Size(818, 513);
 			this.Name = "MainForm";
 			this.Text = "MainForm";
 			this.temperatureGroupBox.ResumeLayout(false);

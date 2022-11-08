@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.32802.440
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherLib", "WeatherLib\WeatherLib.csproj", "{3107E8EC-577B-403F-AC6A-59B16A1E59B3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherWinForms", "WeatherWinForms\WeatherWinForms.csproj", "{BB14C49C-BA46-4A94-B5F3-F7F62AEACCE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherWPF", "WeatherWPF\WeatherWPF.csproj", "{057FEF12-AD73-48FE-B613-B35493B64A25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherWPF", "WeatherWPF\WeatherWPF.csproj", "{057FEF12-AD73-48FE-B613-B35493B64A25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherLibTests", "WeatherLibTests\WeatherLibTests.csproj", "{AE0C7778-7118-4831-B5F2-D304C0B0DCEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherLibTests", "WeatherLibTests\WeatherLibTests.csproj", "{AE0C7778-7118-4831-B5F2-D304C0B0DCEB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

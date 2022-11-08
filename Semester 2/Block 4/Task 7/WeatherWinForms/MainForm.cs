@@ -10,39 +10,40 @@ namespace WeatherWinForms
 {
 	public partial class MainForm : Form
 	{
-		private List<Label> openweatherLabels;
-		private List<Label> stormglassLabels;
+		private List<IWeatherService> services;
+		private List<List<Label>> dataLabels = new List<List<Label>>();
 
 		public MainForm()
 		{
 			InitializeComponent();
 
-			openweatherLabels = new List<Label>();
-			stormglassLabels = new List<Label>();
+			services = new List<IWeatherService>();
+			services.Add(new Openweather());
+			services.Add(new Stormglass());
+
+			foreach (IWeatherService service in services)
+			{
+				dataLabels.Add(new List<Label>());
+			}
+
 			foreach (GroupBox groupBox in Controls.OfType<GroupBox>())
 			{
-				openweatherLabels.Add(groupBox.Controls.OfType<Label>().ToList()[1]);
-				stormglassLabels.Add(groupBox.Controls.OfType<Label>().ToList()[0]);
+				dataLabels[0].Add(groupBox.Controls.OfType<Label>().ToList()[0]);
+				dataLabels[1].Add(groupBox.Controls.OfType<Label>().ToList()[1]);
 			}
-			openweatherLabels.Add(cellarLeftLabel);
-			stormglassLabels.Add(cellarRightLabel);
+			dataLabels[0].Add(cellarRightLabel);
+			dataLabels[1].Add(cellarLeftLabel);
 		}
 
 		private async void RefreshDataAfterPictureBoxClick(object sender, EventArgs e)
 		{
-			IWeatherService openweather = new Openweather();
-			IWeatherService stormglass = new Stormglass();
-
 			ResponceReceiver receiver = new ResponceReceiver();
-
-			await receiver.GetResponce(openweather.URL);
-			WeatherForecast oForecast = openweather.GetWeatherForecast(receiver);
-
-			await receiver.GetResponce(stormglass.URL);
-			WeatherForecast sForecast = stormglass.GetWeatherForecast(receiver);
-
-			RefreshLabelsText(openweatherLabels, oForecast);
-			RefreshLabelsText(stormglassLabels, sForecast);
+			for (int i = 0; i < services.Count; i++)
+			{
+				await receiver.GetResponce(services[i].URL);
+				WeatherForecast forecast = services[i].GetWeatherForecast(receiver);
+				RefreshLabelsText(dataLabels[i], forecast);
+			}
 		}
 
 		private void RefreshLabelsText(List<Label> weatherLabels, WeatherForecast forecast)

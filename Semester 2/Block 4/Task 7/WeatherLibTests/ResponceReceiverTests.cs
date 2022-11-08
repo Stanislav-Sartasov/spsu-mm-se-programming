@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 using WeatherLib.ResponceReceiver;
 
 namespace WeatherLibTests
@@ -7,16 +8,16 @@ namespace WeatherLibTests
 	public class ResponceReceiverTests
 	{
 		[TestMethod]
-		public async void GetResponseTest()
+		public async Task GetResponseTest()
 		{
 			ResponceReceiver receiver = new ResponceReceiver();
-			await receiver.GetResponce("https://api.openweathermap.org/data/2.5/weather?lat=59.9386&lon=30.3141&units=metric&appid=612ff6587b1aa1997d794833bb3c37ee");
+			await receiver.GetResponce("https://api.stormglass.io/v2/weather/point?lat=59.9386&lng=30.3141&params=airTemperature,cloudCover,humidity,precipitation,windWaveDirection,windSpeed&key=660840ca-c942-11ec-9863-0242ac130002-66084142-c942-11ec-9863-0242ac130002");
 			Assert.IsTrue(receiver.IsSucceed);
 			Assert.IsTrue(receiver.Responce != null);
 		}
 
 		[TestMethod]
-		public async void GetBadResponseTest()
+		public async Task GetBadResponseTest()
 		{
 			ResponceReceiver receiver = new ResponceReceiver();
 			await receiver.GetResponce("0");

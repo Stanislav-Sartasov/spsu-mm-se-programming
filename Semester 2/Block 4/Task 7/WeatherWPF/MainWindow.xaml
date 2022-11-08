@@ -5,50 +5,39 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:WeatherWPF"
 		mc:Ignorable="d"
-		Title="MainWindow" Height="460" Width="800">
-	<Grid>
-		<Label x:Name="headerLabel" Content="Actual weather in St. Petersburg" HorizontalAlignment="Left" Margin="42,12,0,0" VerticalAlignment="Top" FontFamily="Segoe UI Semibold" FontSize="14"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,51,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Temperature" HorizontalAlignment="Left" Margin="60,41,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,109,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Cloud Cover" HorizontalAlignment="Left" Margin="60,99,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,167,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Humidity" HorizontalAlignment="Left" Margin="60,157,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,224,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Precipitation" HorizontalAlignment="Left" Margin="60,215,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,281,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Wind Speed" HorizontalAlignment="Left" Margin="60,272,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<Rectangle HorizontalAlignment="Center"  Height="43" Margin="0,339,0,0" Stroke="Black" StrokeThickness="0.5" VerticalAlignment="Top" Width="716"/>
-		<Label Content="Wind Direction" HorizontalAlignment="Left" Margin="60,330,0,0" VerticalAlignment="Top" Background="White" FontSize="8" Height="21"/>
-		<StackPanel x:Name="leftStackPanel" HorizontalAlignment="Left" Height="369" Margin="227,51,0,0" VerticalAlignment="Top" Width="88">
-			<StackPanel.Resources>
-				<Style TargetType="{x:Type Label}">
-					<Setter Property="Margin" Value="0,0,0,16"/>
-				</Style>
-			</StackPanel.Resources>
-			<Label x:Name="temperatureLeftLabel" Content="..." Height="42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="cloudCoverLeftLabel" Content="..." Height="43" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="humidityLeftLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="precipitationLeftLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="windSpeedLeftLabel" Content="..." Height="42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="windDirectionLeftLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="cellarLeftLabel" Content="..." HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Height="23" FontSize="9"/>
-		</StackPanel>
-		<StackPanel x:Name="rightStackPanel" HorizontalAlignment="Left" Height="370" Margin="485,51,0,0" VerticalAlignment="Top" Width="88">
-			<StackPanel.Resources>
-				<Style TargetType="{x:Type Label}">
-					<Setter Property="Margin" Value="0,0,0,16"/>
-				</Style>
-			</StackPanel.Resources>
-			<Label x:Name="temperatureRightLabel" Content="..." Height="42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="cloudCoverRightLabel" Content="..." Height="43" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="humidityRightLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="precipitationRightLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="windSpeedRightLabel" Content="..." Height="42" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="windDirectionRightLabel" Content="..." Height="41" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-			<Label x:Name="cellarRightLabel" Content="..." HorizontalContentAlignment="Center" VerticalContentAlignment="Top" Height="23" FontSize="9"/>
-		</StackPanel>
-		<Image x:Name="refreshImage" HorizontalAlignment="Left" Height="25" Margin="260,16,0,0" VerticalAlignment="Top" Width="25" Source="/refresh.jpg" MouseDown="RefreshDataAfterPictureClick"/>
-
-	</Grid>
+		Title="MainWindow" Height="514" Width="820" Background="#FFF0F0F0" MinWidth="820" MinHeight="514">
+	<Grid x:Name="designGrid" HorizontalAlignment="Stretch" Height="514" VerticalAlignment="Stretch" Width="820">
+		<TextBlock x:Name="headerLabel" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Actual weather in St Petersburg" VerticalAlignment="Center" FontFamily="Arial Black" FontWeight="Bold" FontSize="16" Margin="-460,-440,0,0"/>
+        <Image x:Name="refreshImage" HorizontalAlignment="Center" VerticalAlignment="Center" Height="25" Width="25" Margin="-130,-440,0,0" Source="/refresh.jpg" MouseLeftButtonDown="RefreshDataAfterImageClick"/>
+        <Rectangle x:Name="temperatureRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-320,0,0"/>
+		<TextBlock x:Name="temperatureTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Temperature" VerticalAlignment="Center" Background="#FFF0F0F0" Margin="0,-368,0,0" FontSize="8" FontFamily="Arial"/>
+		<Rectangle x:Name="cloudCoverRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-190,0,0"/>
+		<TextBlock x:Name="cloudCoverTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Cloud Cover" VerticalAlignment="Center" Background="#FFF0F0F0" Margin="0,-238,0,0" FontSize="8" FontFamily="Arial"/>
+		<Rectangle x:Name="humidityRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-60,0,0"/>
+		<TextBlock x:Name="humidityTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Humidity" VerticalAlignment="Center" Background="#FFF0F0F0" FontSize="8" FontFamily="Arial" Margin="0,-108,0,0"/>
+		<Rectangle x:Name="precipitationRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,70,0,0"/>
+		<TextBlock x:Name="precipitationTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Precipitation" VerticalAlignment="Center" Background="#FFF0F0F0" FontSize="8" FontFamily="Arial" Margin="0,22,0,0"/>
+		<Rectangle x:Name="windSpeedRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,200,0,0"/>
+		<TextBlock x:Name="windSpeedTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Wind Speed" VerticalAlignment="Center" Background="#FFF0F0F0" FontSize="8" FontFamily="Arial" Margin="0,152,0,0"/>
+		<Rectangle x:Name="windDirectionRectangle" Height="50" Stroke="#FFD2D2D2" Width="740" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,330,0,0"/>
+		<TextBlock x:Name="windDirectionTextBlock" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Wind Direction" VerticalAlignment="Center" Background="#FFF0F0F0" FontSize="8" FontFamily="Arial" Margin="0,282,0,0"/>
+		<Grid x:Name="leftDataGrid" HorizontalAlignment="Stretch" Height="514" VerticalAlignment="Stretch" Width="820">
+            <TextBlock x:Name="leftTemperatureData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,-320,0,0"/>
+            <TextBlock x:Name="leftCloudCoverData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,-190,0,0"/>
+            <TextBlock x:Name="leftHumidityData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,-60,0,0"/>
+            <TextBlock x:Name="leftPrecipitationData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,70,0,0"/>
+            <TextBlock x:Name="leftWindSpeedData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,200,0,0"/>
+            <TextBlock x:Name="leftWindDirectionData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,330,0,0"/>
+            <TextBlock x:Name="leftServiceName" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="-300,420,0,0"/>
+		</Grid>
+        <Grid x:Name="rightDataGrid" HorizontalAlignment="Stretch" Height="514" VerticalAlignment="Stretch" Width="820">
+            <TextBlock x:Name="rightTemperatureData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,-320,0,0"/>
+            <TextBlock x:Name="rightCloudCoverData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,-190,0,0"/>
+            <TextBlock x:Name="rightHumidityData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,-60,0,0"/>
+            <TextBlock x:Name="rightPrecipitationData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,70,0,0"/>
+            <TextBlock x:Name="rightWindSpeedData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,200,0,0"/>
+            <TextBlock x:Name="rightWindDirectionData" HorizontalAlignment="Center" TextWrapping="Wrap" Text="..." VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,330,0,0"/>
+            <TextBlock x:Name="rightServiceName" HorizontalAlignment="Center" TextWrapping="Wrap" Text="" VerticalAlignment="Center" FontSize="10" FontFamily="Arial" Margin="300,420,0,0"/>
+        </Grid>
+    </Grid>
 </Window>

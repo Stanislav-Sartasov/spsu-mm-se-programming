@@ -4,6 +4,8 @@ using System.Windows.Input;
 using WeatherLib.Parsers;
 using WeatherLib.ResponceReceiver;
 using WeatherLib.Weather;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WeatherWPF
 {
@@ -17,44 +19,42 @@ namespace WeatherWPF
 			InitializeComponent();
 		}
 
-		private async void RefreshDataAfterPictureClick(object sender, MouseButtonEventArgs e)
+		private async void RefreshDataAfterImageClick(object sender, MouseButtonEventArgs e)
 		{
-			IWeatherService openweather = new Openweather();
-			IWeatherService stormglass = new Stormglass();
+			List<IWeatherService> services = new List<IWeatherService>();
+			services.Add(new Openweather());
+			services.Add(new Stormglass());
 
 			ResponceReceiver receiver = new ResponceReceiver();
-
-			await receiver.GetResponce(openweather.URL);
-			WeatherForecast oForecast = openweather.GetWeatherForecast(receiver);
-
-			await receiver.GetResponce(stormglass.URL);
-			WeatherForecast sForecast = stormglass.GetWeatherForecast(receiver);
-
-			RefreshLabelsText(leftStackPanel, oForecast);
-			RefreshLabelsText(rightStackPanel, sForecast);
+			for (int i = 0; i < services.Count; i++)
+			{
+				await receiver.GetResponce(services[i].URL);
+				WeatherForecast forecast = services[i].GetWeatherForecast(receiver);
+				RefreshTextBlockText(designGrid.Children.OfType<Grid>().ToList()[i], forecast);
+			}
 		}
 
-		private void RefreshLabelsText(Panel weatherStackPanel, WeatherForecast forecast)
+		private void RefreshTextBlockText(Grid weatherDataGrid, WeatherForecast forecast)
 		{
 			if (forecast == null)
 			{
-				foreach (Label label in weatherStackPanel.Children)
-					label.Content = "...";
+				foreach (TextBlock textBlock in weatherDataGrid.Children)
+					textBlock.Text = "...";
 
-				((Label)weatherStackPanel.Children[6]).Content = "service is not\navailable";
+				((TextBlock)weatherDataGrid.Children[6]).Text = "service is not\navailable";
 
 				return;
 			}
 
 			forecast.PrepareForUI();
 
-			((Label)weatherStackPanel.Children[0]).Content = forecast.Temperature;
-			((Label)weatherStackPanel.Children[1]).Content = forecast.CloudCover;
-			((Label)weatherStackPanel.Children[2]).Content = forecast.Humidity;
-			((Label)weatherStackPanel.Children[3]).Content = forecast.Precipitation;
-			((Label)weatherStackPanel.Children[4]).Content = forecast.WindSpeed;
-			((Label)weatherStackPanel.Children[5]).Content = forecast.WindDirection;
-			((Label)weatherStackPanel.Children[6]).Content = forecast.SourceSercvice.ToString();
+			((TextBlock)weatherDataGrid.Children[0]).Text = forecast.Temperature;
+			((TextBlock)weatherDataGrid.Children[1]).Text = forecast.CloudCover;
+			((TextBlock)weatherDataGrid.Children[2]).Text = forecast.Humidity;
+			((TextBlock)weatherDataGrid.Children[3]).Text = forecast.Precipitation;
+			((TextBlock)weatherDataGrid.Children[4]).Text = forecast.WindSpeed;
+			((TextBlock)weatherDataGrid.Children[5]).Text = forecast.WindDirection;
+			((TextBlock)weatherDataGrid.Children[6]).Text = forecast.SourceSercvice.ToString();
 		}
 	}
 }
