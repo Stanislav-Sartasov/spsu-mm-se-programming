@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Filters": {
+      "commandName": "Project",
+      "commandLineArgs": "MyInstagram C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\panda.bmp Averaging C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\out.bmp"
+    }
+  }
+}

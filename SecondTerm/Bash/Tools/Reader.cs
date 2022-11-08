@@ -1,0 +1,15 @@
+﻿using System;
+
+namespace Tools
+{
+	public class Reader
+	{
+		public string Read()
+		{
+			var str = Console.ReadLine();
+			if (str == null)
+				return "";
+			return str;
+		}
+	}
+}
