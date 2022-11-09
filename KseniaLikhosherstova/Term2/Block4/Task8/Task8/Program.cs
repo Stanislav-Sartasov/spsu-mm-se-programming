@@ -4,8 +4,6 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("The program executes basic Bash commands: echo, cat, cd, pwd, wc.");
-            Console.WriteLine("You can use input via console or script.");
             try
             {
                 var arguments = string.Empty;
