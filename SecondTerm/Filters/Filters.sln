@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31112.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filters", "Filters\Filters.csproj", "{895268CC-D2E1-4E05-82B0-5D76A02865A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Filters.Test", "Filters.Test\Filters.Test.csproj", "{2080A294-CCCF-4D09-8243-A0DF0BA8B5F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Filters.Test", "Filters.Test\Filters.Test.csproj", "{2080A294-CCCF-4D09-8243-A0DF0BA8B5F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

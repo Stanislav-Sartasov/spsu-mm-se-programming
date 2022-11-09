@@ -2,7 +2,7 @@
 
 namespace Tools
 {
-	public class Writer
+	public class Writer : IWriter
 	{
 		public void Write(string output)
 		{

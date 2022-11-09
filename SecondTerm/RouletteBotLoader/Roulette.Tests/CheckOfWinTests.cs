@@ -1,6 +1,5 @@
 using NUnit.Framework;
 
-
 namespace Roulette.Tests
 {
 	public class CheckOfWinTests
@@ -9,8 +8,8 @@ namespace Roulette.Tests
 		public void HitTheSectorTest()
 		{
 			Game.SpintheDrum();
-			int min = (Game.victoryCell - 1) % 37;
-			int max = (Game.victoryCell + 1) % 37;
+			int min = (Game.VictoryCell - 1) % 37;
+			int max = (Game.VictoryCell + 1) % 37;
 			Assert.IsTrue(CheckOfWin.HitTheSector(min, max));
 
 			Assert.Pass();
@@ -19,28 +18,28 @@ namespace Roulette.Tests
 		[Test]
 		public void CheckofWinTest()
 		{
-			for (int victoryCell = 1; victoryCell < 37; victoryCell++)
+			for (int VictoryCell = 1; VictoryCell < 37; VictoryCell++)
 			{
-				Game.victoryCell = victoryCell;
-				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Single, victoryCell));
-				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, victoryCell));
-				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, victoryCell - 1));
+				Game.VictoryCell = VictoryCell;
+				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Single, VictoryCell));
+				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, VictoryCell));
+				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, VictoryCell - 1));
 
-				if (((victoryCell < 10 || victoryCell > 18 && victoryCell < 28) && victoryCell % 2 == 1) ||
-								((victoryCell > 11 && victoryCell < 19 || victoryCell > 29) && victoryCell % 2 == 0))
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Red, victoryCell));
+				if (((VictoryCell < 10 || VictoryCell > 18 && VictoryCell < 28) && VictoryCell % 2 == 1) ||
+								((VictoryCell > 11 && VictoryCell < 19 || VictoryCell > 29) && VictoryCell % 2 == 0))
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Red, VictoryCell));
 				else
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Black, victoryCell));
-				if (victoryCell % 2 == 0)
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Even, victoryCell));
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Black, VictoryCell));
+				if (VictoryCell % 2 == 0)
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Even, VictoryCell));
 				else
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Odd, victoryCell));
-				if (0 < victoryCell && victoryCell < 13)
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.FirstDozen, victoryCell));
-				else if (13 <= victoryCell && victoryCell < 25)
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.SecondDozen, victoryCell));
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Odd, VictoryCell));
+				if (0 < VictoryCell && VictoryCell < 13)
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.FirstDozen, VictoryCell));
+				else if (13 <= VictoryCell && VictoryCell < 25)
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.SecondDozen, VictoryCell));
 				else
-					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.ThirdDozen, victoryCell));
+					Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.ThirdDozen, VictoryCell));
 			}
 			Assert.Pass();
 		}

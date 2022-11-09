@@ -4,13 +4,13 @@ namespace Roulette
 {
 	public static class Game
 	{
-		public static int victoryCell;
+		public static int VictoryCell;
 
 		public static void SpintheDrum()
 		{
 			Random rnd = new Random();
-			victoryCell = rnd.Next(0,36);
-			Console.WriteLine($"Slot number {victoryCell} dropped");
+			VictoryCell = rnd.Next(0,36);
+			Console.WriteLine($"Slot number {VictoryCell} dropped");
 		}
 
 		public static void GetMoney(APlayer person)

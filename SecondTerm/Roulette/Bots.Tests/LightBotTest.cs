@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using Roulette;
 
 namespace Bots.Tests
 {
@@ -9,6 +8,8 @@ namespace Bots.Tests
 		public void LightBotBetTest()
 		{
 			LightBot lightBot = new();
+			lightBot.Bet();
+			Assert.AreEqual(100, lightBot.GetBet());
 			lightBot.Bet();
 			Assert.AreEqual(100, lightBot.GetBet());
 

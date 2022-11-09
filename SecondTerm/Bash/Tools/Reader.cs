@@ -2,7 +2,7 @@
 
 namespace Tools
 {
-	public class Reader
+	public class Reader : IReader
 	{
 		public string Read()
 		{

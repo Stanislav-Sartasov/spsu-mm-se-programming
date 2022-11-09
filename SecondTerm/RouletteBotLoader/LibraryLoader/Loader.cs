@@ -12,6 +12,7 @@ namespace LibraryLoader
 		public List<Player> LoadBots(string path)
 		{
 			List<string> files = new();
+
 			if (!Directory.Exists(path))
 			{
 				Console.WriteLine("Can't find directory here");
@@ -45,6 +46,7 @@ namespace LibraryLoader
 					return null;
 				}
 			}
+
 			return bots;
 		}
 	}

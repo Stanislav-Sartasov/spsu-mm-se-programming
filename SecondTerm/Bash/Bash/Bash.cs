@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using Tools;
-using Commands;
+﻿using Commands;
+using System.Collections.Generic;
 using System.Diagnostics;
+using Tools;
 
 namespace Bash
 {
@@ -9,10 +9,10 @@ namespace Bash
 	{
 		private Parser.Parser parser = new();
 		public Dictionary<string, ICommand> commands = new();
-		private Writer writer;
-		private Reader reader;
+		private IWriter writer;
+		private IReader reader;
 
-		public Bash(Reader reader, Writer writer)
+		public Bash(IReader reader, IWriter writer)
 		{
 			this.reader = reader;
 			this.writer = writer;
@@ -39,7 +39,7 @@ namespace Bash
 
 		public void Start()
 		{
-			for(; ; )
+			for (; ; )
 			{
 				var cmds = reader.Read().Split('|');
 

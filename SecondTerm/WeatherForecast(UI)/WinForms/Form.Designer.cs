@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WinForms
+﻿namespace WinForms
 {
 	partial class Form
 	{

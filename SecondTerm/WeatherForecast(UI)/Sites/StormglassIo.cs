@@ -1,8 +1,8 @@
-﻿using System;
+﻿using ConsoleOutput;
 using Newtonsoft.Json.Linq;
-using Weather;
 using Request;
-using ConsoleOutput;
+using System;
+using Weather;
 
 namespace Sites
 {
@@ -17,7 +17,6 @@ namespace Sites
 				$"&start={DateTimeOffset.Now.ToUnixTimeSeconds()}" +
 				$"&end={DateTimeOffset.Now.ToUnixTimeSeconds()}" +
 				"&key=e38d51c4-5d45-11ed-a654-0242ac130002-e38d5228-5d45-11ed-a654-0242ac130002";
-		
 		public StormglassIo(string address)
 		{
 			this.address = address;
@@ -33,7 +32,7 @@ namespace Sites
 			request.Run();
 			if (request.Response == null)
 				active = false;
-			var response = request.Response;
+			string response = request.Response;
 			var json = JToken.Parse(response)["hours"];
 			string cloudCover = (string)json[0]["cloudCover"]["sg"];
 			string humidity = (string)json[0]["humidity"]["sg"];
@@ -42,8 +41,8 @@ namespace Sites
 			temp = temp.Replace(".", ",");
 			string windDirection = (string)json[0]["windDirection"]["sg"];
 			string windSpeed = (string)json[0]["windSpeed"]["sg"];
-			double tempC = Convert.ToDouble(temp);
-			double tempF = tempC * 1.8 + 32;
+			double tempC = Math.Round(Convert.ToDouble(temp), 2);
+			double tempF = Math.Round(tempC * 1.8 + 32, 2);
 			return new WeatherData(tempC, tempF, cloudCover, humidity, precipitationIntensity, windDirection, windSpeed);
 		}
 		public string ShowWeather()

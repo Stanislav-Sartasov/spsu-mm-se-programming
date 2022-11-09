@@ -6,8 +6,8 @@ namespace Filters
 {
 	public static class InputCheck
 	{
-		static readonly public string[] filters = { "GreyScale", "Averaging", "Negativ", "Gauss", "SobelX", "SobelY" };
-		static internal bool Check(string[] args)
+		public static readonly string[] Filters = { "GreyScale", "Averaging", "Negativ", "Gauss", "SobelX", "SobelY" };
+		public static bool Check(string[] args)
 		{
 			if (args.Length != 4)
 			{
@@ -19,7 +19,7 @@ namespace Filters
 				Console.WriteLine("Incorrect input. Invalid input file name\n");
 				return false;
 			}
-			else if (!filters.Contains(args[2]))
+			else if (!Filters.Contains(args[2]))
 			{
 				Console.WriteLine("This filter does not exist\n");
 				return false;

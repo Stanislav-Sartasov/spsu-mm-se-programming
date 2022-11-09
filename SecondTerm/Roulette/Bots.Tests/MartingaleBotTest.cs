@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Roulette;
 
 namespace Bots.Tests
 {
@@ -10,7 +9,7 @@ namespace Bots.Tests
 		{
 			MartingaleBot martingaleBot = new();
 			martingaleBot.Bet();
-			if (martingaleBot.GetBalance() < 10000)
+			if (martingaleBot.GetBalance() < 100000)
 				Assert.AreEqual(200, martingaleBot.GetBet());
 			else
 				Assert.AreEqual(100, martingaleBot.GetBet());

@@ -1,5 +1,5 @@
-using NUnit.Framework;
 using Commands;
+using NUnit.Framework;
 
 namespace ParserTests
 {

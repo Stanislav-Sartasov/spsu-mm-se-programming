@@ -5,7 +5,7 @@ namespace Commands
 {
 	public class Cat : ICommand
 	{
-		public string Run(string[] args, string input, Writer errorOutput)
+		public string Run(string[] args, string input, IWriter errorOutput)
 		{
 			string? result = "";
 

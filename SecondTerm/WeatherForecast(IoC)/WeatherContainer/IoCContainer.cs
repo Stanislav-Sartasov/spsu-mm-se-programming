@@ -1,8 +1,8 @@
-﻿using System;
+﻿using SimpleInjector;
+using Sites;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using SimpleInjector;
-using Sites;
 
 namespace WeatherContainer
 {

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Commands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Commands;
 
 namespace Parser
 {
@@ -23,7 +23,7 @@ namespace Parser
 			if (str.Length == 0 || str[0] != '$')
 				return str;
 
-			str = str[1..];
+			str = str.Remove(0, 1);
 
 			if (str.Contains('='))
 			{

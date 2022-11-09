@@ -1,10 +1,10 @@
-﻿using Request;
-using ConsoleOutput;
-using Weather;
+﻿using ConsoleOutput;
 using Newtonsoft.Json.Linq;
+using Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Weather;
 
 namespace Sites
 {
@@ -27,7 +27,7 @@ namespace Sites
 
 		public WeatherData Parse()
 		{
-			GetRequest request = new (address);
+			GetRequest request = new(address);
 			request.Run();
 			var response = request.Response;
 			var json = JObject.Parse(response);
@@ -39,8 +39,8 @@ namespace Sites
 			temp = temp.Replace(".", ",");
 			string windDirection = (string)results[4];
 			string windSpeed = (string)results[5];
-			double tempC = Convert.ToDouble(temp);
-			double tempF = tempC * 1.8 + 32;
+			double tempC = Math.Round(Convert.ToDouble(temp), 2);
+			double tempF = Math.Round(tempC * 1.8 + 32, 2);
 			return new WeatherData(tempC, tempF, cloudCover, humidity, precipitationIntensity, windDirection, windSpeed);
 		}
 

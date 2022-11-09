@@ -6,7 +6,7 @@ namespace Commands
 {
 	public class Pwd : ICommand
 	{
-		public string Run(string[] args, string input, Writer errorOutput)
+		public string Run(string[] args, string input, IWriter errorOutput)
 		{
 			string directory = Directory.GetCurrentDirectory();
 			return directory + "\n"

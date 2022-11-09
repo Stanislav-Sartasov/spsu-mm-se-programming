@@ -39,8 +39,8 @@ namespace Sites
 			temp = temp.Replace(".", ",");
 			string windDirection = (string)json[0]["windDirection"]["sg"];
 			string windSpeed = (string)json[0]["windSpeed"]["sg"];
-			double tempC = Convert.ToDouble(temp);
-			double tempF = tempC * 1.8 + 32;
+			double tempC = Math.Round(Convert.ToDouble(temp), 2);
+			double tempF = Math.Round(tempC * 1.8 + 32, 2);
 			return new WeatherData(tempC, tempF, cloudCover, humidity, precipitationIntensity, windDirection, windSpeed);
 		}
 		public void ShowWeather()

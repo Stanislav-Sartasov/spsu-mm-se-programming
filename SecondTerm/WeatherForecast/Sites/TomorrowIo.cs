@@ -44,8 +44,8 @@ namespace Sites
 			temp = temp.Replace(".", ",");
 			string windDirection = (string)results[4];
 			string windSpeed = (string)results[5];
-			double tempC = Convert.ToDouble(temp);
-			double tempF = tempC * 1.8 + 32;
+			double tempC = Math.Round(Convert.ToDouble(temp), 2);
+			double tempF = Math.Round(tempC * 1.8 + 32, 2);
 			return new WeatherData(tempC, tempF, cloudCover, humidity, precipitationIntensity, windDirection, windSpeed);
 		}
 

@@ -1,5 +1,4 @@
-﻿
-namespace Filters
+﻿namespace Filters
 {
 	class SobelX:Filter
 	{

@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using WeatherContainer;
 using Sites;
+using WeatherContainer;
 
 namespace WeatherContainerTests
 {

@@ -1,5 +1,4 @@
-﻿
-namespace Filters
+﻿namespace Filters
 {
 	abstract class Filter
 	{

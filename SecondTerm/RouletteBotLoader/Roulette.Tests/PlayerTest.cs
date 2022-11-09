@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using Bots;
 
-
 namespace Roulette.Tests
 {
 	class PlayerTest

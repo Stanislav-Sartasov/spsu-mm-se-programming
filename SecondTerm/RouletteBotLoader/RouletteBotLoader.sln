@@ -15,7 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roulette.Tests", "Roulette.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryLoader", "LibraryLoader\LibraryLoader.csproj", "{5F3C924E-4141-4AC3-95E6-74D26B39B4B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryLoader.Tests", "LibraryLoader.Tests\LibraryLoader.Tests.csproj", "{39FCE62D-91BF-4948-9A4B-E6AA3464E67F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LibraryLoader.Tests", "LibraryLoader.Tests\LibraryLoader.Tests.csproj", "{39FCE62D-91BF-4948-9A4B-E6AA3464E67F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{73B899C5-C419-4AE8-9A2B-CB8588EA566D}"
+	ProjectSection(SolutionItems) = preProject
+		TestBotsDll\Bots.dll = TestBotsDll\Bots.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,4 @@
-﻿using System;
-using Weather;
+﻿using Weather;
 
 namespace ConsoleOutput
 {
@@ -7,13 +6,13 @@ namespace ConsoleOutput
 	{
 		public string DisplayTheWeather(WeatherData weather)
 		{
-			return ($"Temperature: {weather.TempC}°C\n" +
+			return $"Temperature: {weather.TempC}°C\n" +
 				$"Temperature: {weather.TempF}°F\n" +
 				$"Cloudcover: {weather.Cloudcover}%\n" +
 				$"Humidity: {weather.Humidity}%\n" +
 				$"PrecipitationIntensity: {weather.PrecipitationIntensity}mm/hr\n" +
-				$"WindDirection: {weather.WindDirection}°\n" +
-				$"WindSpeed: {weather.WindSpeed}m/s");
+				$"Wind direction: {weather.WindDirection}°\n" +
+				$"Wind speed: {weather.WindSpeed}m/s";
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using LibraryLoader;
 using Roulette;
 
@@ -9,6 +10,7 @@ namespace RouletteBotLoader
 	{
 		static void Main(string[] args)
 		{
+			Console.Write("This program downloads libraries with bots and plays with them\n");
 			int countOfGames = 50;
 			Loader load = new();
 			Console.Write("Enter the path to the folder with the libraries of bots.\n> ");
@@ -26,6 +28,7 @@ namespace RouletteBotLoader
 					bot.Bet();
 					Game.GetMoney(bot);
 				}
+				Thread.Sleep(1000);
 			}
 		}
 	}

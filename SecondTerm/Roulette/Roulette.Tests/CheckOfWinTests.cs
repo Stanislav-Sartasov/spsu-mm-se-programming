@@ -1,5 +1,4 @@
 using NUnit.Framework;
-using Roulette;
 
 namespace Roulette.Tests
 {
@@ -9,8 +8,8 @@ namespace Roulette.Tests
 		public void HitTheSectorTest()
 		{
 			Game.SpintheDrum();
-			int min = (Game.victoryCell - 1) % 37;
-			int max = (Game.victoryCell + 1) % 37;
+			int min = (Game.VictoryCell - 1) % 37;
+			int max = (Game.VictoryCell + 1) % 37;
 			Assert.IsTrue(CheckOfWin.HitTheSector(min, max));
 
 			Assert.Pass();
@@ -21,7 +20,7 @@ namespace Roulette.Tests
 		{
 			for (int victoryCell = 1; victoryCell < 37; victoryCell++)
 			{
-				Game.victoryCell = victoryCell;
+				Game.VictoryCell = victoryCell;
 				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Single, victoryCell));
 				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, victoryCell));
 				Assert.IsTrue(CheckOfWin.CheckofWin(TypeOfBet.Split, victoryCell - 1));

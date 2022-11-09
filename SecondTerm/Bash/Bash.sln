@@ -3,15 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32929.386
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bash", "Bash\Bash.csproj", "{A3A03756-A8C3-48EA-A26B-D39918A6F1CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bash", "Bash\Bash.csproj", "{A3A03756-A8C3-48EA-A26B-D39918A6F1CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Commands", "Commands\Commands.csproj", "{87E68066-3678-4276-B266-71A20CC7AB35}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Commands", "Commands\Commands.csproj", "{87E68066-3678-4276-B266-71A20CC7AB35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools", "Tools\Tools.csproj", "{598F4BA9-41C1-4E6E-A466-12F9BA47F21D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{598F4BA9-41C1-4E6E-A466-12F9BA47F21D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{E2FBF538-71D0-4CA5-8B94-F2B0C1E0A9A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser", "Parser\Parser.csproj", "{E2FBF538-71D0-4CA5-8B94-F2B0C1E0A9A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParserTests", "ParserTests\ParserTests.csproj", "{3FBA755C-603E-4FCB-8C94-79D4C2541488}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParserTests", "ParserTests\ParserTests.csproj", "{3FBA755C-603E-4FCB-8C94-79D4C2541488}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandsTests", "CommandsTests\CommandsTests.csproj", "{C3ADD0DD-67C3-421D-B309-68B6A458F685}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{16408064-BC6C-4BFE-AE23-BFA656F3C3B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BashTests", "BashTests\BashTests.csproj", "{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +45,22 @@ Global
 		{3FBA755C-603E-4FCB-8C94-79D4C2541488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3FBA755C-603E-4FCB-8C94-79D4C2541488}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3FBA755C-603E-4FCB-8C94-79D4C2541488}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3ADD0DD-67C3-421D-B309-68B6A458F685}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3ADD0DD-67C3-421D-B309-68B6A458F685}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3ADD0DD-67C3-421D-B309-68B6A458F685}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3ADD0DD-67C3-421D-B309-68B6A458F685}.Release|Any CPU.Build.0 = Release|Any CPU
+		{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3FBA755C-603E-4FCB-8C94-79D4C2541488} = {16408064-BC6C-4BFE-AE23-BFA656F3C3B9}
+		{C3ADD0DD-67C3-421D-B309-68B6A458F685} = {16408064-BC6C-4BFE-AE23-BFA656F3C3B9}
+		{606A00E3-B0E5-4A83-8B9B-3481CAE7FD48} = {16408064-BC6C-4BFE-AE23-BFA656F3C3B9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {ADD848F6-3A01-4BA8-BBA6-52E0B2A786C5}

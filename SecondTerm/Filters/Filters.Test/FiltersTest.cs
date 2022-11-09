@@ -1,7 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Filters;
 using System.IO;
-using System;
 
 namespace Filters.Test
 {
@@ -15,7 +13,7 @@ namespace Filters.Test
 		[TestMethod]
 		public void TestMethodUniFilter()
 		{
-			foreach (var filter in InputCheck.filters)
+			foreach (string filter in InputCheck.Filters)
 			{
 				string path = Directory.GetCurrentDirectory() + @"\..\..\..\Images\" + filter + ".bmp";
 				expected.Read(path);
@@ -29,6 +27,25 @@ namespace Filters.Test
 				}
 				File.Delete(path + @"\..\out.bmp");
 			}
+		}
+
+		[TestMethod]
+		public void CheckTest()
+		{
+			string[] testArgs = { "MyInstagram", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\panda.bmp",
+				"Averaging", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\out.bmp" };
+
+			Assert.IsTrue(InputCheck.Check(testArgs));
+
+			string[] wrongeAmountArgs = { "", "" };
+			string[] wrongSecondArgs = { "MyInstagram", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\false.bmp",
+				"Averaging", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\out.bmp" };
+			string[] wrongFilterArgs = { "MyInstagram", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\panda.bmp",
+				"WrongFilter", "C:\\Users\\Mikle\\source\\repos\\SecondTerm\\Filters\\out.bmp" };
+
+			Assert.IsFalse(InputCheck.Check(wrongeAmountArgs));
+			Assert.IsFalse(InputCheck.Check(wrongSecondArgs));
+			Assert.IsFalse(InputCheck.Check(wrongFilterArgs));
 		}
 	}
 }

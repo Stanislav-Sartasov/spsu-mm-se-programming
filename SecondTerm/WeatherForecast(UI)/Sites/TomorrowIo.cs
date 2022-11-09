@@ -1,17 +1,17 @@
-﻿using Request;
-using ConsoleOutput;
-using Weather;
+﻿using ConsoleOutput;
 using Newtonsoft.Json.Linq;
+using Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using Weather;
 
 namespace Sites
 {
 	public class TomorrowIo : ISites
 	{
 		public bool active;
-		readonly private string address = "https://api.tomorrow.io/v4/timelines?" +
+		private readonly string address = "https://api.tomorrow.io/v4/timelines?" +
 			"location=59.875957,29.829619&" +
 			"fields=temperature&" +
 			"fields=windSpeed&" +
@@ -33,11 +33,11 @@ namespace Sites
 
 		public WeatherData Parse()
 		{
-			GetRequest request = new (address);
+			GetRequest request = new(address);
 			request.Run();
 			if (request.Response == null)
 				active = false;
-			var response = request.Response;
+			string response = request.Response;
 			var json = JObject.Parse(response);
 			IList<JToken> results = json["data"]["timelines"].Children()["intervals"].Children()["values"].Children().ToList();
 			string cloudCover = (string)results[0];
@@ -47,8 +47,8 @@ namespace Sites
 			temp = temp.Replace(".", ",");
 			string windDirection = (string)results[4];
 			string windSpeed = (string)results[5];
-			double tempC = Convert.ToDouble(temp);
-			double tempF = tempC * 1.8 + 32;
+			double tempC = Math.Round(Convert.ToDouble(temp), 2);
+			double tempF = Math.Round(tempC * 1.8 + 32, 2);
 			return new WeatherData(tempC, tempF, cloudCover, humidity, precipitationIntensity, windDirection, windSpeed);
 		}
 
@@ -64,7 +64,6 @@ namespace Sites
 				active = false;
 				return "Inactive";
 			}
-			
 		}
 	}
 }

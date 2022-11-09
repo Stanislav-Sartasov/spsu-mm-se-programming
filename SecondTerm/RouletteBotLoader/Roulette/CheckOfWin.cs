@@ -7,13 +7,13 @@ namespace Roulette
 		public static bool HitTheSector(int min, int max)
 		{
 			if (min <= max)
-				return (Game.victoryCell >= min && Game.victoryCell <= max);
-			return (Game.victoryCell <= min && Game.victoryCell >= max);
+				return (Game.VictoryCell >= min && Game.VictoryCell <= max);
+			return (Game.VictoryCell <= min && Game.VictoryCell >= max);
 		}
 
 		public static bool CheckofWin(TypeOfBet typeOfBet, int cells)
 		{
-			int vCell = Game.victoryCell;
+			int vCell = Game.VictoryCell;
 			switch (typeOfBet)
 			{
 				case TypeOfBet.Single:

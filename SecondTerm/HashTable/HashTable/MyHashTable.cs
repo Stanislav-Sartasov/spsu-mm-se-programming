@@ -63,7 +63,7 @@ namespace HashTable
 			Console.WriteLine($"Value {hashTable[index].Value} deleted\n");
 		}
 
-		public void Search (TKey key)
+		public bool Search (TKey key)
 		{
 			int index = GetHashCode(key);
 			while (hashTable[index] == null || !hashTable[index].Key.Equals(key))
@@ -71,16 +71,17 @@ namespace HashTable
 				if (hashTable[index] == null)
 				{
 					Console.WriteLine("Value not found\n");
-					return;
+					return false;
 				}
 				index = (index + step) % size;
 			}
 			if (hashTable[index].Remote)
 			{
-				Console.WriteLine("The value has been removed");
-				return;
+				Console.WriteLine("The value has been removed\n");
+				return false; ;
 			}
-			Console.WriteLine($"Found value: {hashTable[index].Value}");
+			Console.WriteLine($"Found value: {hashTable[index].Value}\n");
+			return true;
 		}
 
 		public void Balancing()
@@ -113,13 +114,13 @@ namespace HashTable
 					continue;
 				else
 				{
-					Console.WriteLine($"key: {cell.Key} value: {cell.Value}");
+					Console.WriteLine($"key: {cell.Key} value: {cell.Value}\n");
 					count++;
 				}
 			}
 			if (count == 0)
 			{
-				Console.WriteLine("Table is empty");
+				Console.WriteLine("Table is empty\n");
 			}
 		}
 	}

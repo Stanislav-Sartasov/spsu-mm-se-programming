@@ -10,6 +10,7 @@ namespace HashTableTest
 		public void CreateTest()
 		{
 			MyHashTable<string, double> testHashTable = new MyHashTable<string, double>();
+
 			Assert.IsNotNull(testHashTable);
 		}
 
@@ -20,8 +21,10 @@ namespace HashTableTest
 			testHashTable.Add("someKey", 1.9);
 			double expected = 1.9;
 			int index = testHashTable.GetHashCode("someKey");
+
 			Assert.AreEqual(expected, testHashTable.hashTable[index].Value);
 			testHashTable.Delete("someKey");
+
 			Assert.AreEqual(true, testHashTable.hashTable[index].Remote);
 		}
 		[TestMethod]
@@ -34,6 +37,18 @@ namespace HashTableTest
 				testHashTable.Add($"{i}", i);
 			}
 			Assert.AreEqual(expectedSize, testHashTable.size);
+		}
+
+		[TestMethod]
+		public void SearchMethodTest()
+		{
+			MyHashTable<string, int> testHashTable = new();
+
+			Assert.IsFalse(testHashTable.Search("someKey"));
+			testHashTable.Add("someKey", 2);
+			Assert.IsTrue(testHashTable.Search("someKey"));
+			testHashTable.Delete("someKey");
+			Assert.IsFalse(testHashTable.Search("someKey"));
 		}
 	}
 }

@@ -6,7 +6,7 @@ namespace Commands
 {
 	public class Wc : ICommand
 	{
-		public string Run(string[] args, string input, Writer errorOutput)
+		public string Run(string[] args, string input, IWriter errorOutput)
 		{
 			int countOfLines = input.Count(x => x == '\n') + (input.Length == 0 ? 0 : 1);
 			int countOfWords = input.Count(x => x == ' ' || x == '\n') + (input.Length == 0 ? 0 : 1);

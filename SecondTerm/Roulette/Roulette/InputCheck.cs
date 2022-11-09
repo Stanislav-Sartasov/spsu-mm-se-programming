@@ -2,7 +2,7 @@
 
 namespace Roulette
 {
-	class InputCheck
+	public class InputCheck
 	{
 		public static int IntCheck(int str)
 		{
