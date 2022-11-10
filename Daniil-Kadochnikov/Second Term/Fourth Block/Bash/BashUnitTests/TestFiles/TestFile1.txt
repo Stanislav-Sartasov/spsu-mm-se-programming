@@ -1,0 +1,4 @@
+Hello!
+My name is Daniil!
+TestFile1.txt
+../../../../BashUnitTests/TestFiles/TestFile2.txt
