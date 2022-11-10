@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp
 {
-	partial class Form1
+	partial class MainForm
 	{
 		/// <summary>
 		///  Required designer variable.
@@ -28,7 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.label1 = new System.Windows.Forms.Label();
 			this.TiltleLabel = new System.Windows.Forms.Label();
 			this.UpdateBothButton = new System.Windows.Forms.Button();

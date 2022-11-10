@@ -2,12 +2,12 @@ using WeatherAPI;
 
 namespace WinFormsApp
 {
-	public partial class Form1 : Form
+	public partial class MainForm : Form
 	{
 		private readonly TomorrowAPI tomorrowAPI;
 		private readonly StormGlassAPI stormGlassAPI;
 
-		public Form1()
+		public MainForm()
 		{
 			InitializeComponent();
 			tomorrowAPI = new TomorrowAPI();
@@ -24,11 +24,11 @@ namespace WinFormsApp
 
 		private async void GetBothWeatherInfoAsync()
 		{
-			var task1 = GetWeatherInfoAsync(tomorrowAPI);
-			var task2 = GetWeatherInfoAsync(stormGlassAPI);
+			var tomorrowIoTask = GetWeatherInfoAsync(tomorrowAPI);
+			var stormGlassIoTask = GetWeatherInfoAsync(stormGlassAPI);
 
-			tomorrowIoInfoLabel.Text = await task1;
-			stormGlassIoInfoLabel.Text = await task2;
+			tomorrowIoInfoLabel.Text = await tomorrowIoTask;
+			stormGlassIoInfoLabel.Text = await stormGlassIoTask;
 		}
 
 		public async void UpdateTomorrowIoClickAsync(object? sender, EventArgs e)
