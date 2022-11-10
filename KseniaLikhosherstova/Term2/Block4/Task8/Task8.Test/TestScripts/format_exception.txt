@@ -1,0 +1,2 @@
+﻿$temp 123
+cat $temp

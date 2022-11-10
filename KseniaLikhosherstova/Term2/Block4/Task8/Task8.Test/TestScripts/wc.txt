@@ -1,0 +1,1 @@
+﻿wc TestScripts/echo_with_variable.txt
