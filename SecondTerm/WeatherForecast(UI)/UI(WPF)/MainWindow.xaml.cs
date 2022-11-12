@@ -13,41 +13,55 @@ namespace UI_WPF_
 		public MainWindow()
 		{
 			InitializeComponent();
+			MessageBox.Show("This program output weather forecast\n" +
+				"Select a site and click on the \"Refresh\" button to get update information");
 		}
 
-		private void StormglassIoCheckBox_Checked(object sender, RoutedEventArgs e)
+		private void StormglassIoCheckBoxChecked(object sender, RoutedEventArgs e)
 		{
 			sites.Item2 = true;
 		}
 
-		private void StormglassIoCheckBox_Unchecked(object sender, RoutedEventArgs e)
+		private void StormglassIoCheckBoxUnchecked(object sender, RoutedEventArgs e)
 		{
 			sites.Item2 = false;
 		}
 
-		private void TomorrowIoCheckBox_Checked(object sender, RoutedEventArgs e)
+		private void TomorrowIoCheckBoxChecked(object sender, RoutedEventArgs e)
 		{
 			sites.Item1 = true;
 		}
 
-		private void TomorrowIoCheckBox_Unchecked(object sender, RoutedEventArgs e)
+		private void TomorrowIoCheckBoxUnchecked(object sender, RoutedEventArgs e)
 		{
 			sites.Item1 = false;
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void RefreshButtonClick(object sender, RoutedEventArgs e)
 		{
 			if (sites.Item1)
 			{
-				MessageBox.Show($"Tomorrow.io:\n\n{new TomorrowIo().ShowWeather()}");
+				tomorrowIoTextBlock.Text = new TomorrowIo().ShowWeather();
 			}
 			if (sites.Item2)
 			{
-				MessageBox.Show($"Stomglass.io:\n\n{new StormglassIo().ShowWeather()}");
+				stormglassIoTextBlock.Text = new StormglassIo().ShowWeather();
 			}
 			if (!(sites.Item1 || sites.Item2))
 			{
 				MessageBox.Show("Сhoose at least 1 site");
+			}
+		}
+
+		private void ClearButtonClick(object sender, RoutedEventArgs e)
+		{
+			if (sites.Item1)
+			{
+				tomorrowIoTextBlock.Text = "";
+			}
+			if (sites.Item2)
+			{
+				stormglassIoTextBlock.Text = "";
 			}
 		}
 	}

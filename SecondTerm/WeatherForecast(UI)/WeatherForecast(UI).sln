@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Weather", "Weather\Weather.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UI(WPF)", "UI(WPF)\UI(WPF).csproj", "{98A4A03D-3170-45F2-B201-5B84E4E7D112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SitesTests", "SitesTests\SitesTests.csproj", "{AAE7F38A-DAE6-4A23-B2DC-D47B8DEECCC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SitesTests", "SitesTests\SitesTests.csproj", "{AAE7F38A-DAE6-4A23-B2DC-D47B8DEECCC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RequestTests", "RequestTests\RequestTests.csproj", "{2145493A-8F9F-40DD-9BD7-4E2F7AF00303}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RequestTests", "RequestTests\RequestTests.csproj", "{2145493A-8F9F-40DD-9BD7-4E2F7AF00303}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{5D62BB37-A113-4946-B7C3-3B6B3884F180}"
 EndProject

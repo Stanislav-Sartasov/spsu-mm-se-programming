@@ -8,8 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="IconForecast.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Sites\Sites.csproj" />
     <ProjectReference Include="..\Weather\Weather.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="IconForecast.ico" />
   </ItemGroup>
 
 </Project>
