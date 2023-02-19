@@ -21,14 +21,13 @@
             List<int> possibleSums = new List<int> { 0 };
             foreach (Card card in Cards)
             {
-                int value = card.GetValue();
-                if (value == 1)
+                if (card.Value == CardValue.Ace)
                 {
                     possibleSums = possibleSums.Select(x => x + 1).Concat(possibleSums.Select(x => x + 11)).ToList();
                 }
                 else
                 {
-                    possibleSums = possibleSums.Select(x => x + value).ToList();
+                    possibleSums = possibleSums.Select(x => x + card.GetValue()).ToList();
                 }
             }
 

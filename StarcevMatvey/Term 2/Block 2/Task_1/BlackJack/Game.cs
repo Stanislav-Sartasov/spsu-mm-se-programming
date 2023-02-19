@@ -31,21 +31,21 @@
         {
             foreach(Player player in Players)
             {
-                string action;
+                PlayerMove action;
                 do
                 {
                     drawer.DrawPlayer(player);
                     action = player.GetMove();
                     switch (action)
                     {
-                        case "hit":
+                        case PlayerMove.Hit:
                             player.TookCard(Machine.TrowCard());
                             break;
-                        case "double":
+                        case PlayerMove.Double:
                             player.Double(Machine.TrowCard());
                             break;
                     }
-                } while (action != "stand" && player.Balance > 0 && Enumerable.Range(1, 21).Contains(player.GetScore()));
+                } while (action != PlayerMove.Stand && player.Balance > 0 && Enumerable.Range(1, 21).Contains(player.GetScore()));
             }
 
             while (Enumerable.Range(1, 17).Contains(Croupier.GetScore()))
