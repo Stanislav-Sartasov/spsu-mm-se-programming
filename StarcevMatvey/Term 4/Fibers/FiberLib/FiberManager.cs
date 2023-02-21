@@ -11,14 +11,22 @@ namespace FiberLib
         private readonly int maxPrio = 10;
         private List<FiberData> fibers;
         private List<FiberData>[] prioFibers;
-        public int Count { get; private set; }
+        private FiberData temp;
+        private bool IsHolded => temp != null;
+
+        private int count;
         private int nextId;
+
+        public bool IsEmpty => count == 0;
 
         public FiberManager()
         {
             this.fibers = new List<FiberData>();
-            this.prioFibers = new List<FiberData>[maxPrio];
-            this.Count = 0;
+            this.prioFibers = new List<FiberData>[maxPrio].Select(x => new List<FiberData>()).ToArray();
+
+            temp = null;
+
+            this.count = 0;
             this.nextId = 0;
         }
 
@@ -28,35 +36,79 @@ namespace FiberLib
             fibers.Add(fiberData);
             prioFibers[fiberData.Prio % maxPrio].Add(fiberData);
             nextId++;
-            Count++;
+            count++;
         }
 
         public void Remove(FiberData current)
         {
             fibers.Remove(current);
             prioFibers[current.Prio % maxPrio].Remove(current);
-            Count--;
+            count--;
+            temp = null;
         }
 
-        public void GetNextFiber(SchedulerPriority prio)
+        private void Back()
         {
+            if (IsHolded)
+            {
+                fibers.Add(temp);
+                prioFibers[temp.Prio % maxPrio].Add(temp);
+                temp = null;
+            }
+        }
+
+        private void Takeout(FiberData fiberData)
+        {
+            if (IsHolded)
+            {
+                return;
+            }
+            
+            temp = fiberData; 
+            fibers.Remove(temp);
+            prioFibers[temp.Prio % maxPrio].Remove(temp);
+
+        }
+
+        public FiberData GetNextFiber(SchedulerPriority prio)
+        {
+            FiberData data = null;
+
+            if (count == 1)
+            {
+                Back();
+            }
+
             switch (prio)
             {
                 case SchedulerPriority.NonePrio:
-                    Remove(fibers.First());
-                    return;
+                    data = fibers.First();
+                    Back();
+                    Takeout(data);
+                    return data;
+
                 case SchedulerPriority.LevelPrio:
-                    for (int i = maxPrio; i >= 0; i--)
+                    for (var i = maxPrio - 1; i >= 0; --i)
                     {
                         if (prioFibers[i].Count != 0)
                         {
-                            Remove(prioFibers[i].First());
-                            return;
+                            data = prioFibers[i].First();
+                            Back();
+                            Takeout(data);
+                            return data;
                         }
                     }
 
-                    return;
+                    return data;
             }
+
+            return data;
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }
+

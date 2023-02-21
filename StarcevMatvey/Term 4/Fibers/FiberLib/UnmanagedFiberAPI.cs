@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Fibers
+namespace FiberLib
 {
     internal static class UnmanagedFiberAPI
     {
