@@ -74,6 +74,11 @@ namespace FiberLib
         {
             FiberData data = null;
 
+            if (IsEmpty)
+            {
+                return data;
+            }
+
             if (count == 1)
             {
                 Back();
