@@ -1,5 +1,8 @@
 package psrs.app
 
-fun main() {
-    println("HAH")
+import psrs.Demo
+
+
+fun main(args: Array<String>) {
+    Demo().demo(args)
 }
