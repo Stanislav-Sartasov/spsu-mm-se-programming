@@ -23,7 +23,6 @@ object IntArrayPsrs : IntArraySorter {
         val p = MPI.COMM_WORLD.Size()
         val ps = 0 until p
         val root = 0
-        val support = 1 until p
 
 
         // Step 1 : Separate array in `p` sized parts and sort them sequentially
@@ -35,7 +34,7 @@ object IntArrayPsrs : IntArraySorter {
 
         array.sort(fromIndex = start, toIndex = endExclusive)
 
-        val subArray = array.copyOfRange(fromIndex = start, toIndex = endExclusive)
+        val subArray = array.sliceArray(subArrayIndices)
 
 
         // Step 2 : Collect pivots
@@ -43,7 +42,7 @@ object IntArrayPsrs : IntArraySorter {
         // m := n / p^2
         // regular samples <-> 0, m, 2 * m, ..., (p - 1) * m
 
-        val regSamples = ps.map { it * n / (p * p) }.map(subArray::get).toIntArray()
+        val regSamples = subArray.sliceArray(indices = ps.map { it * n / (p * p) })
 
         val accRegSamples = IntArray(size = p * p)
 
@@ -56,7 +55,7 @@ object IntArrayPsrs : IntArraySorter {
                 .merge()
 
             // pivots <-> p + ⎣p / 2⎦ - 1, 2 * p + ⎣p / 2⎦ - 1, ..., (p - 1) * p + ⎣p / 2⎦ - 1
-            support.map { it * p + p / 2 - 1 }.map(sortedAccRegSamples::get).toIntArray()
+            sortedAccRegSamples.sliceArray(indices = (1 until p).map { it * p + p / 2 - 1 })
         } else {
             IntArray(size = p - 1)
         }
@@ -67,7 +66,7 @@ object IntArrayPsrs : IntArraySorter {
         // Step 3 : Separate the array into parts using pivots and send them to processes
 
         val subParts = run {
-            val subPartsBorders = IntArray(size = p - 1) { endExclusive }
+            val subPartsBorders = MutableList(size = p - 1) { endExclusive }
             val pivotsList = pivots.toMutableList().apply { add(Int.MAX_VALUE); reverse() }
 
             for ((x, k) in subArray zip subArrayIndices) {
@@ -77,9 +76,9 @@ object IntArrayPsrs : IntArraySorter {
                 }
             }
 
-            (listOf(start) + subPartsBorders.asList() + listOf(endExclusive))
-                .zipWithNext { st, endEx -> (st until endEx).takeUnless { it.isEmpty() } }
-                .map { range -> range?.map(array::get) ?: listOf() }
+            (listOf(start) + subPartsBorders + listOf(endExclusive))
+                .zipWithNext(Int::until)
+                .map(array::slice)
         }
 
         val sizeBuf = IntArray(size = p).apply {
@@ -101,9 +100,11 @@ object IntArrayPsrs : IntArraySorter {
         }
 
         val sortedPart = sizeBuf
-            .scan(initial = 0) { acc, x -> acc + x }
-            .zipWithNext()
-            .map { (st, endEx) -> part.copyOfRange(st, endEx).toMutableList() }
+            .asSequence()
+            .scan(initial = 0, operation = Int::plus)
+            .zipWithNext(Int::until)
+            .map(part::slice)
+            .mapTo(mutableListOf(), List<Int>::toMutableList)
             .merge()
 
 
