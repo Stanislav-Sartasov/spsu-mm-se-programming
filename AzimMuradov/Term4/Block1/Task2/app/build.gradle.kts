@@ -1,3 +1,5 @@
+import java.io.File.separatorChar as sep
+
 plugins {
     kotlin("jvm")
 
@@ -7,8 +9,8 @@ plugins {
 val appMainClass = "psrs.app.AppKt"
 
 val mpjHome = System.getenv("MPJ_HOME") ?: error("Specify `MPJ_HOME` environment variable")
-val mpjStarterJar = files("$mpjHome/lib/starter.jar")
-val mpjJar = files("$mpjHome/lib/mpj.jar")
+val mpjStarterJar = files("$mpjHome${sep}lib${sep}starter.jar")
+val mpjJar = files("$mpjHome${sep}lib${sep}mpj.jar")
 val mpjClassPath = sourceSets.main.get().runtimeClasspath - mpjJar
 
 val (numberOfProcesses, inputFilename, outputFilename) = (project.properties["args"] as? String? ?: "")
