@@ -10,14 +10,14 @@ fun main(args: Array<String>) {
 
     require(args.size == 5) { "Wrong number of arguments. Required 5, but ${args.size} is given." }
 
-    val (inputPath, outputPath) = args.takeLast(n = 2)
+    val (inputFilename, outputFilename) = args.takeLast(n = 2)
 
-    val array = IntArrayIO.readFile(inputPath)
+    val array = IntArrayIO.readFile(inputFilename)
 
     IntArrayPsrs.sort(array)
 
     if (MPI.COMM_WORLD.Rank() == 0) {
-        IntArrayIO.writeFile(outputPath, array)
+        IntArrayIO.writeFile(outputFilename, array)
     }
 
     MPI.Finalize()

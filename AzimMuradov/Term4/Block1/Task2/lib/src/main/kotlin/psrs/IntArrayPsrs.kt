@@ -24,6 +24,11 @@ object IntArrayPsrs : IntArraySorter {
         val ps = 0 until p
         val root = 0
 
+        if (array.size < p * p * p) {
+            array.sort()
+            return
+        }
+
 
         // Step 1 : Separate array in `p` sized parts and sort them sequentially
 
