@@ -4,7 +4,6 @@ plugins {
     application
 }
 
-
 val appMainClass = "psrs.app.AppKt"
 
 val mpjHome = System.getenv("MPJ_HOME") ?: error("Specify `MPJ_HOME` environment variable")
@@ -12,13 +11,16 @@ val mpjStarterJar = files("$mpjHome/lib/starter.jar")
 val mpjJar = files("$mpjHome/lib/mpj.jar")
 val mpjClassPath = sourceSets.main.get().runtimeClasspath - mpjJar
 
-
-// Parameters
-
-val numberOfProcesses = 5
-val inputPath = ""
-val outputPath = ""
-
+val (numberOfProcesses, inputFilename, outputFilename) = (project.properties["args"] as? String? ?: "")
+    .split(" ")
+    .filterNot { it.isBlank() }
+    .let {
+        Triple(
+            it.getOrElse(0) { "1" },
+            listOfNotNull(it.getOrNull(1)),
+            listOfNotNull(it.getOrNull(2))
+        )
+    }
 
 dependencies {
     implementation(project(":lib"))
@@ -34,9 +36,7 @@ java {
 tasks.withType<JavaExec> {
     mainClass.set("runtime.starter.MPJRun")
     classpath = mpjStarterJar
-    args = listOf(appMainClass) + listOf("-cp", mpjClassPath.asPath) +
-        listOf("-np", "$numberOfProcesses") +
-        listOfNotNull(inputPath.takeUnless { it.isBlank() }) +
-        listOfNotNull(outputPath.takeUnless { it.isBlank() })
+    args = listOf(appMainClass) + listOf("-cp", mpjClassPath.asPath) + listOf("-np", numberOfProcesses) +
+        inputFilename + outputFilename
     dependsOn("classes")
 }
