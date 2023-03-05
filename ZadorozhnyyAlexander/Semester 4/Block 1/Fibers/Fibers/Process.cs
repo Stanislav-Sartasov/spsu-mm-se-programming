@@ -1,21 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Diagnostics;
-using System.Threading;
-
-namespace ProcessManager
+﻿namespace Fibers
 {
-    public static class ProcessManager
-    {
-        public static void Switch(bool fiberFinished)
-        {
-            // a place for fiber magic
-        }
-    }
-
     public class Process
     {
+        private readonly ProcessManager pm;
+
         private static readonly Random Rng = new Random();
 
         private const int LongPauseBoundary = 10000;
@@ -30,8 +18,9 @@ namespace ProcessManager
         private readonly List<int> _workIntervals = new List<int>();
         private readonly List<int> _pauseIntervals = new List<int>();
 
-        public Process()
+        public Process(ProcessManager pm)
         {
+            this.pm = pm;
             int amount = Rng.Next(IntervalsAmountBoundary);
 
             for (int i = 0; i < amount; i++)
@@ -42,8 +31,8 @@ namespace ProcessManager
                             ? LongPauseBoundary
                             : ShortPauseBoundary));
             }
-			
-			Priority = Rng.Next(PriorityLevelsNumber);
+
+            Priority = Rng.Next(PriorityLevelsNumber);
         }
 
         public void Run()
@@ -54,17 +43,17 @@ namespace ProcessManager
                 DateTime pauseBeginTime = DateTime.Now;
                 do
                 {
-                    ProcessManager.Switch(false);
+                    pm.SwitchProcess(false);
                 } while ((DateTime.Now - pauseBeginTime).TotalMilliseconds < _pauseIntervals[i]); // I/O emulation
             }
-            ProcessManager.Switch(true);
+            pm.SwitchProcess(true);
         }
 
-		public int Priority
-		{
-			get; private set;
-		}
-		
+        public int Priority
+        {
+            get; private set;
+        }
+
         public int TotalDuration
         {
             get
