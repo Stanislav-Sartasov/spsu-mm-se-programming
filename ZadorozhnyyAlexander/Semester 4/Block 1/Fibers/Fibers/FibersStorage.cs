@@ -5,37 +5,16 @@
         private readonly int maxPriority = 10;
         private Dictionary<int, List<FiberStructure>> fibersStorage;
 
+        private Random priorRnd = new Random();
+
         private int FindPriority(FiberStructure fiber) => fiber.Priority % maxPriority;
 
         private bool IsEmptyList(List<FiberStructure> lst) => lst.Count == 0;
 
-        private void DropFiber()
-        {
-            if (!IsEmptyList(fibersStorage[-2]))
-            {
-                var tmp = fibersStorage[-2].First();
-                fibersStorage[-2].Clear();
-                fibersStorage[-1].Add(tmp);
-                fibersStorage[FindPriority(tmp)].Add(tmp);
-                
-            }
-        }
-
-        private void HoldFiber(FiberStructure fiber)
-        {
-            DropFiber();
-            if (!IsEmptyList(fibersStorage[-2]))
-                return;
-
-            fibersStorage[-2].Add(fiber);
-            fibersStorage[-1].Remove(fiber);
-            fibersStorage[FindPriority(fiber)].Remove(fiber);
-        }
-
         public FibersStorage()
         {
-            fibersStorage = new Dictionary<int, List<FiberStructure>>(maxPriority + 2);
-            for (int i = -2; i < maxPriority; i++)
+            fibersStorage = new Dictionary<int, List<FiberStructure>>(maxPriority + 1);
+            for (int i = -1; i < maxPriority; i++)
                 fibersStorage.Add(i, new List<FiberStructure>());
         }
 
@@ -50,46 +29,64 @@
 
         public void RemoveFiber(FiberStructure current)
         {
-            fibersStorage[-2].Clear();
             fibersStorage[-1].Remove(current);
             fibersStorage[FindPriority(current)].Remove(current);
         }
 
+        public int RandomPriorityWithWeightedProbabilities()
+        {
+            // Calculate total weight (sum of weights from 2^1 to 2^10)
+            int totalWeight = 2046;
+            
+
+            // Generate random number with weighted probabilities
+            int randomNumber = 0;
+            int randomWeight = priorRnd.Next(totalWeight);
+            int weightSum = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                weightSum += 1<<i + 1;
+
+                if (randomWeight < weightSum)
+                {
+                    randomNumber = i;
+                    break;
+                }
+            }
+
+            for (int i = randomNumber; i < 10; i++)
+            {
+                if (!IsEmptyList(fibersStorage[i]))
+                    return i;
+            }
+
+            for (int i = randomNumber - 1; i >= 0; i--)
+            {
+                if (!IsEmptyList(fibersStorage[i]))
+                    return i;
+            }
+
+            return randomNumber;
+        }
+
         public FiberStructure TakeFiber(Priorities priority)
         {
-            FiberStructure data = null;
-
             if (IsEmpty)
-                DropFiber();
+                return null;
 
             switch (priority)
             {
                 case Priorities.NonPriority:
-                    data = fibersStorage[-1].First();
-                    break;
+                    return fibersStorage[-1].First();
 
                 case Priorities.Priority:
-                    for (int i = maxPriority - 1; i >= 0; i--)
-                    {
-                        if (!IsEmptyList(fibersStorage[-2]) && fibersStorage[-2].First().Priority > i)
-                        {
-                            data = fibersStorage[-2].First();
-                            break;
-                        }
-                             
-                        if (fibersStorage[i].Count != 0)
-                        {
-                            data = fibersStorage[i].First();
-                            break;
-                        }
-                    }
-                    break;
+                    var prioretizedElements = fibersStorage[RandomPriorityWithWeightedProbabilities()];
+                    var index = priorRnd.Next(prioretizedElements.Count);
+                    return prioretizedElements[index];
             }
 
-            if (data != null)
-                HoldFiber(data);
-
-            return data;
+            return null;
         }
 
         public void Dispose()

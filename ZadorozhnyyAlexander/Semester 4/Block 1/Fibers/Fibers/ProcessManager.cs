@@ -49,7 +49,7 @@ namespace Fibers
 
             if (current == null)
                 throw new Exception("TakeFiber returned null!");
-
+            
             Fiber.Switch(current.Fiber.Id);
         }
 
