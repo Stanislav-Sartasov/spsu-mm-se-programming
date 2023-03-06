@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FiberLib
 {
-    public class FiberManager
+    public class FiberManager : IDisposable
     {
         private readonly int maxPrio = 10;
         private List<FiberData> fibers;
@@ -112,7 +112,16 @@ namespace FiberLib
 
         public void Dispose()
         {
+            foreach (var fiber in fibers) fiber.Fiber.Delete();
+            temp.Fiber.Delete();
 
+            fibers = new List<FiberData>();
+            prioFibers = new List<FiberData>[maxPrio].Select(x => new List<FiberData>()).ToArray();
+
+            count = 0;
+            nextId = 0;
+
+            temp = null;
         }
     }
 }
