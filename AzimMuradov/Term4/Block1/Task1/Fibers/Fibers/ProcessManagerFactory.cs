@@ -7,36 +7,10 @@ public static class ProcessManagerFactory
         switch (strategy)
         {
             case ProcessManagerStrategy.RoundRobin:
-                var cacheP = new List<uint>();
-                return new ProcessManager(processesData =>
-                {
-                    var processesIds = processesData.Select(pd => pd.Id).ToList();
-                    var candidates = processesIds.Where(id => !cacheP.Contains(id)).ToList();
-
-                    uint id;
-                    if (!candidates.Any())
-                    {
-                        cacheP.Clear();
-                        id = processesIds.First();
-                    }
-                    else
-                    {
-                        id = candidates.First();
-                    }
-
-                    cacheP.Add(id);
-
-                    return id;
-                });
-            case ProcessManagerStrategy.Prioritized:
                 var cacheR = new List<uint>();
                 return new ProcessManager(processesData =>
                 {
-                    var max = processesData.Max(pd => pd.Priority);
-                    var processesIds = processesData
-                        .Where(pd => pd.Priority == max)
-                        .Select(pd => pd.Id)
-                        .ToList();
+                    var processesIds = processesData.Select(pd => pd.Id).ToList();
                     var candidates = processesIds.Where(id => !cacheR.Contains(id)).ToList();
 
                     uint id;
@@ -51,6 +25,32 @@ public static class ProcessManagerFactory
                     }
 
                     cacheR.Add(id);
+
+                    return id;
+                });
+            case ProcessManagerStrategy.Prioritized:
+                var cacheP = new List<uint>();
+                return new ProcessManager(processesData =>
+                {
+                    var max = processesData.Max(pd => pd.Priority);
+                    var processesIds = processesData
+                        .Where(pd => pd.Priority == max)
+                        .Select(pd => pd.Id)
+                        .ToList();
+                    var candidates = processesIds.Where(id => !cacheP.Contains(id)).ToList();
+
+                    uint id;
+                    if (!candidates.Any())
+                    {
+                        cacheP.Clear();
+                        id = processesIds.First();
+                    }
+                    else
+                    {
+                        id = candidates.First();
+                    }
+
+                    cacheP.Add(id);
 
                     return id;
                 });

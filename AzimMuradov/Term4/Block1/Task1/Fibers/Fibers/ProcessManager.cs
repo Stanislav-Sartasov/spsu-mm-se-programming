@@ -62,7 +62,7 @@ public class ProcessManager : IDisposable
         var nextId = strategy(processesData);
         currProcess = fibersByProcess.ToList().First(kv => kv.Value.Id == nextId).Key;
 
-        Console.WriteLine($"Fiber {fibersByProcess[currProcess].Id} with priority {currProcess.Priority} is running");
+        // Console.WriteLine($"Fiber {fibersByProcess[currProcess].Id} with priority {currProcess.Priority} is running");
 
         if (currProcess != prev)
         {
