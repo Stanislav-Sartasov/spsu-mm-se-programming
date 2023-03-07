@@ -93,11 +93,26 @@ namespace FiberLib
                     return data;
 
                 case SchedulerPriority.LevelPrio:
-                    for (var i = maxPrio - 1; i >= 0; --i)
+                    var rnd = new Random();
+                    var mx = rnd.Next(2 * maxPrio - 1);
+                    mx = mx > maxPrio - 1 ? maxPrio -1 : mx;
+
+                    for (var i = mx; i >= 0; i--)
                     {
                         if (prioFibers[i].Count != 0)
                         {
-                            data = prioFibers[i].First();
+                            data = prioFibers[i][rnd.Next(prioFibers[i].Count)];
+                            Back();
+                            Takeout(data);
+                            return data;
+                        }
+                    }
+
+                    for (var i = maxPrio - 1; i >= 0; i--)
+                    {
+                        if (prioFibers[i].Count != 0)
+                        {
+                            data = prioFibers[i][rnd.Next(prioFibers[i].Count)];
                             Back();
                             Takeout(data);
                             return data;
@@ -113,7 +128,6 @@ namespace FiberLib
         public void Dispose()
         {
             foreach (var fiber in fibers) fiber.Fiber.Delete();
-            temp.Fiber.Delete();
 
             fibers = new List<FiberData>();
             prioFibers = new List<FiberData>[maxPrio].Select(x => new List<FiberData>()).ToArray();

@@ -60,7 +60,7 @@ namespace FiberLib
         public static void Switch(uint fiberId)
         {
             // for debug only and to show that indeed it works! Remove this line!!!
-            Console.WriteLine(string.Format("Fiber [{0}] Switch", fiberId));
+            Console.WriteLine(string.Format("Fiber [{0}]", fiberId));
 
             UnmanagedFiberAPI.SwitchToFiber(fiberId);
         }

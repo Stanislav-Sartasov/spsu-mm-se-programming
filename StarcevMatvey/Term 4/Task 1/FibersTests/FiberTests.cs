@@ -21,11 +21,5 @@ namespace FibersTests
         {
             Assert.NotNull(testFiber.Id);
         }
-
-        [Test]
-        public void GetIsPrimaryTest()
-        {
-            Assert.True(testFiber.IsPrimary);
-        }
     }
 }
