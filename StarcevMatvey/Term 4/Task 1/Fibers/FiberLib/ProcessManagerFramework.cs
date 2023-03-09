@@ -34,6 +34,7 @@ namespace FiberLib
 
         public static void Switch(bool fiberFinished)
         {
+            Thread.Sleep(1);
             if (fiberFinished)
             {
                 fiberManager.Remove(currentFiberData);
@@ -54,6 +55,7 @@ namespace FiberLib
                 throw new Exception("GetNextFiber returned null");
             }
 
+            Thread.Sleep(1);
             Fiber.Switch(currentFiberData.Fiber.Id);
         }
 
