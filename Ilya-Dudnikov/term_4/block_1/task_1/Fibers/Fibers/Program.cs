@@ -1,10 +1,16 @@
-﻿namespace Fibers;
+﻿using Fibers.ProcessManager;
+using static Fibers.ProcessManager.ProcessManager;
 
-class Program
+
+namespace Fibers;
+
+internal class Program
 {
-    static int Main(string[] args)
+    private static int Main(string[] args)
     {
-        Console.WriteLine("Hello!");
+        var processList = Enumerable.Repeat(new Process(), 5).ToList();
+
+        Run(processList);
 
         return 0;
     }
