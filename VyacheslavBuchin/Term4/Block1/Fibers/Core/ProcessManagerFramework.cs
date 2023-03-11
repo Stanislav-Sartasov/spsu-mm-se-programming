@@ -6,14 +6,6 @@ using System.Threading;
 
 namespace Fibers;
 
-public static class ProcessManager
-{
-    public static void Switch(bool fiberFinished)
-    {
-        // a place for fiber magic
-    }
-}
-
 public class Process
 {
     private static readonly Random Rng = new Random();
@@ -29,9 +21,11 @@ public class Process
 
     private readonly List<int> _workIntervals = new List<int>();
     private readonly List<int> _pauseIntervals = new List<int>();
+    private readonly IProcessManager _processManager;
 
-    public Process()
+    public Process(IProcessManager processManager)
     {
+        _processManager = processManager;
         int amount = Rng.Next(IntervalsAmountBoundary);
 
         for (int i = 0; i < amount; i++)
@@ -54,11 +48,11 @@ public class Process
             DateTime pauseBeginTime = DateTime.Now;
             do
             {
-                ProcessManager.Switch(false);
+                _processManager.Switch();
             } while ((DateTime.Now - pauseBeginTime).TotalMilliseconds < _pauseIntervals[i]); // I/O emulation
         }
 
-        ProcessManager.Switch(true);
+        _processManager.SwitchFinished();
     }
 
     public int Priority { get; private set; }

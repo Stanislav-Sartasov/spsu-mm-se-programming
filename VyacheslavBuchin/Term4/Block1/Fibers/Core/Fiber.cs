@@ -5,7 +5,7 @@ public class Fiber
     /// <summary>
     /// The fiber action delegate.
     /// </summary>
-    private Action action;
+    private Action _action;
 
     /// <summary>
     /// Gets the fiber identifier.
@@ -56,9 +56,6 @@ public class Fiber
     /// <param name='fiberId'>Fiber id.</param>
     public static void Switch(uint fiberId)
     {
-        // for debug only and to show that indeed it works! Remove this line!!!
-        Console.WriteLine(string.Format("Fiber [{0}] Switch", fiberId));
-
         UnmanagedFiberApi.SwitchToFiber(fiberId);
     }
 
@@ -69,7 +66,7 @@ public class Fiber
     /// <param name='action'>Fiber action.</param>
     private void InnerCreate(Action action)
     {
-        this.action = action;
+        this._action = action;
 
         if (PrimaryId == 0)
         {
@@ -92,7 +89,7 @@ public class Fiber
 
         try
         {
-            action();
+            _action();
         }
         catch (Exception)
         {
