@@ -11,14 +11,23 @@ internal class Program
             var communicator = Communicator.world;
             var communicatorSize = communicator.Size;
 
+            if (args.Length != 2)
+            {
+                if (communicator.Rank == 0)
+                {
+                    Console.WriteLine("Error! Expected 2 arguments — paths to input and output files.");
+                }
+                return;
+            }
+
             if (communicator.Rank == 0)
             {
-                var edgesInString = new[]
-                {
-                    "0 1 10", "1 2 10", "2 3 10", "3 4 10", "4 5 10", "5 6 10", "6 7 10", "7 8 10", "8 9 10", "0 9 10", "1 3 6", "2 4 8"
-                };
-                const int verticesCount = 10;
+                var inputFile = args[0];
+                var outputFile = args[1];
 
+                var reader = new StreamReader(inputFile);
+
+                var verticesCount = Convert.ToInt32(reader.ReadLine());
                 for (int i = 1; i < communicatorSize; i++)
                 {
                     communicator.Send(verticesCount, i, 0);
@@ -32,9 +41,9 @@ internal class Program
                 }
 
                 var rank = 0;
-                foreach (var edgeInString in edgesInString)
+                while (!reader.EndOfStream)
                 {
-                    var edgeInArray = edgeInString.Split(' ');
+                    var edgeInArray = reader.ReadLine()!.Split(' ');
                     var vertexFrom = Convert.ToInt32(edgeInArray[0]);
                     var vertexTo = Convert.ToInt32(edgeInArray[1]);
                     var weight = Convert.ToInt32(edgeInArray[2]);
@@ -44,6 +53,8 @@ internal class Program
 
                     rank = (rank + 1) % communicatorSize;
                 }
+
+                reader.Close();
 
                 for (int i = 1; i < communicatorSize; i++)
                 {
@@ -91,7 +102,10 @@ internal class Program
                     }
                 }
 
-                Console.WriteLine($"Result = {result} on 0");
+                var writer = new StreamWriter(outputFile);
+                writer.WriteLine(verticesCount);
+                writer.Write(result);
+                writer.Close();
             }
             else
             {
