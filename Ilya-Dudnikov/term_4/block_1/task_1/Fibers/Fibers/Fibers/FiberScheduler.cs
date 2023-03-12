@@ -1,8 +1,10 @@
-﻿namespace Fibers.Fibers;
+﻿using Fibers.ProcessManager;
+
+namespace Fibers.Fibers;
 
 public interface FiberScheduler : IDisposable
 {
-    void ScheduleFiber(Fiber fiber);
+    void ScheduleProcess(Process process);
 
     void RemoveRunningFiber();
 

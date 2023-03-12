@@ -1,4 +1,6 @@
-﻿namespace Fibers.Fibers;
+﻿using Fibers.ProcessManager;
+
+namespace Fibers.Fibers;
 
 public class DefaultScheduler : FiberScheduler
 {
@@ -9,14 +11,15 @@ public class DefaultScheduler : FiberScheduler
     public void Dispose()
     {
         foreach (var fiber in queue) Fiber.Delete(fiber.Id);
-        foreach (var fiber in terminatedFibers) Fiber.Delete(fiber.Id);
+        terminatedFibers.ForEach(fiber => Fiber.Delete(fiber.Id));
         fiberIsFinished.Clear();
         queue.Clear();
         terminatedFibers.Clear();
     }
 
-    public void ScheduleFiber(Fiber fiber)
+    public void ScheduleProcess(Process process)
     {
+        var fiber = new Fiber(process.Run);
         queue.Enqueue(fiber);
         fiberIsFinished[fiber.Id] = false;
     }

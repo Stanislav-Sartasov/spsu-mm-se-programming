@@ -1,4 +1,5 @@
-﻿using Fibers.ProcessManager;
+﻿using Fibers.Fibers;
+using Fibers.ProcessManager;
 using static Fibers.ProcessManager.ProcessManager;
 
 
@@ -8,9 +9,10 @@ internal class Program
 {
     private static int Main(string[] args)
     {
-        var processList = Enumerable.Repeat(new Process(), 5).ToList();
+        var processList = new List<Process>();
+        for (var i = 0; i < 5; i++) processList.Add(new Process());
 
-        Run(processList);
+        Run(processList, new PriorityScheduler());
 
         return 0;
     }

@@ -9,13 +9,15 @@ public static class ProcessManager
     public static void Run(List<Process> processes, FiberScheduler? fiberScheduler = null)
     {
         scheduler = fiberScheduler ?? scheduler;
-        processes.ForEach(process => scheduler.ScheduleFiber(new Fiber(process.Run)));
+        processes.ForEach(process => scheduler.ScheduleProcess(process));
         scheduler.Execute();
         scheduler.Dispose();
     }
 
     public static void Switch(bool fiberFinished)
     {
+        Thread.Sleep(1);
+
         if (fiberFinished) scheduler.RemoveRunningFiber();
 
         scheduler.RunNextFiber();
