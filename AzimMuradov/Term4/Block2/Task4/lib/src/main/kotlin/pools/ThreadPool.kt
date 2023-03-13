@@ -1,55 +1,45 @@
-@file:Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-
 package pools
 
+import kotlinx.atomicfu.atomic
 import java.util.concurrent.*
-import kotlin.concurrent.thread
 
 
 class ThreadPool private constructor(
     private val threadCount: UInt,
     private val workQueue: Queue<Runnable>,
-) : Executor, AutoCloseable {
+) : AutoCloseable, Executor {
 
-    @Volatile
-    private var threads: List<Thread> = run {
-        val taskWorker = {
-            while (isRunning) {
-                workQueue.dequeue()?.run()
-            }
-        }
-        List(threadCount.toInt()) { thread(block = taskWorker) }
+    private val executeAtomic = atomic(initial = true)
+
+    private var execute by executeAtomic
+
+    init {
+        poolCount.incrementAndGet()
     }
 
-    @Volatile
-    private var isRunning = true
-
-
-    override fun execute(command: Runnable) {
-        // synchronized(workQueue) {
-            if (isRunning) {
-                workQueue.enqueue(command)
-                // (workQueue as Object).notify()
-            }
-        // }
+    private val threads: List<Thread> = List(threadCount.toInt()) { i ->
+        ThreadPoolThread(
+            name = "ThreadPool #${poolCount.value} - Thread #$i",
+            execute = executeAtomic,
+            runnables = workQueue
+        ).apply(Thread::start)
     }
 
+
+    override fun execute(runnable: Runnable) {
+        check(execute) { "ThreadPool terminating, unable to execute runnable" }
+        workQueue.offer(runnable)
+    }
 
     override fun close() {
-        isRunning = false
-        synchronized(workQueue) { (workQueue as Object).notifyAll() }
-        for (thread in threads) {
-            try {
-                thread.join()
-            } catch (e: InterruptedException) {
-                e.printStackTrace()
-            }
-        }
+        execute = false
     }
 
 
     companion object {
 
         fun with(threadCount: UInt, queue: Queue<Runnable>) = ThreadPool(threadCount, queue)
+
+        private val poolCount = atomic(initial = 0)
     }
 }

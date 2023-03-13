@@ -6,9 +6,13 @@ interface Queue<T : Any> {
     val size: Int
 
 
-    fun getHead(): T?
+    fun peek(): T?
 
-    fun enqueue(element: T)
+    fun offer(element: T)
 
-    fun dequeue(): T?
+    fun poll(): T?
 }
+
+fun Queue<*>.isEmpty() = size == 0
+
+fun Queue<*>.isNotEmpty() = size != 0

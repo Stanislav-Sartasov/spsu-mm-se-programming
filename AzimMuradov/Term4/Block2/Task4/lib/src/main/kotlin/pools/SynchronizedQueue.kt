@@ -1,7 +1,7 @@
 package pools
 
 
-class ConcurrentQueue<T : Any> : Queue<T> {
+class SynchronizedQueue<T : Any> : Queue<T> {
 
     private val list = mutableListOf<T>()
 
@@ -12,13 +12,13 @@ class ConcurrentQueue<T : Any> : Queue<T> {
 
 
     @Synchronized
-    override fun getHead(): T? = list.firstOrNull()
+    override fun peek(): T? = list.firstOrNull()
 
     @Synchronized
-    override fun enqueue(element: T) {
+    override fun offer(element: T) {
         list.add(element)
     }
 
     @Synchronized
-    override fun dequeue(): T? = list.removeFirstOrNull()
+    override fun poll(): T? = list.removeFirstOrNull()
 }
