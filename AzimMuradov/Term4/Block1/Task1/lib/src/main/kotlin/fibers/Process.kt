@@ -6,7 +6,7 @@ import kotlin.random.nextUInt
 
 class Process(private val pm: ProcessManager) {
 
-    var priority: UInt = Random.nextUInt(PRIORITY_LEVELS_NUMBER)
+    var priority: UInt = Random.nextUInt(range = 1u..PRIORITY_LEVELS_NUMBER)
         private set
 
     private val intervals: List<Interval> = List(size = Random.nextInt(INTERVALS_AMOUNT_BOUNDARY)) {
