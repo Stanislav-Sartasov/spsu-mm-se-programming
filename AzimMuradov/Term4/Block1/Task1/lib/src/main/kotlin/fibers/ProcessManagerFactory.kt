@@ -25,9 +25,11 @@ object ProcessManagerFactory {
             val cache = mutableMapOf<UInt, MutableSet<Long>>()
             ProcessManager { processesData ->
                 val pr = run {
+                    // [0] | [1] 2 | [3] 4 5 | [6] 7 8 9 | ... | [36] .. 44 | [45] .. 54
+                    // [x] - borders, i in 0..54
                     val prs = processesData.mapTo(sortedSetOf(), ProcessData::priority).toList()
                     val borders = prs.scan(initial = 0u) { acc, x -> acc + x }.dropLast(n = 1)
-                    val i = Random.nextUInt(until = borders.last())
+                    val i = Random.nextUInt(until = prs.sum())
                     prs[borders.indexOfLast { i >= it }]
                 }
                 val cacheSegment = cache.getOrDefault(key = pr, defaultValue = mutableSetOf())
