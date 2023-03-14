@@ -5,7 +5,7 @@ import java.util.concurrent.*
 
 
 class ThreadPool private constructor(
-    private val threadCount: UInt,
+    val threadCount: UInt,
     private val workQueue: Queue<Runnable>,
 ) : AutoCloseable, Executor {
 
@@ -15,14 +15,13 @@ class ThreadPool private constructor(
 
     init {
         poolCount.incrementAndGet()
-    }
-
-    private val threads: List<Thread> = List(threadCount.toInt()) { i ->
-        ThreadPoolThread(
-            name = "ThreadPool #${poolCount.value} - Thread #$i",
-            execute = executeAtomic,
-            runnables = workQueue
-        ).apply(Thread::start)
+        repeat(threadCount.toInt()) { i ->
+            ThreadPoolThread(
+                name = "ThreadPool #${poolCount.value} - Thread #$i",
+                execute = executeAtomic,
+                runnables = workQueue
+            ).start()
+        }
     }
 
 
