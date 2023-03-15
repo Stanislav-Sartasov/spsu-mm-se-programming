@@ -56,11 +56,10 @@ namespace ProcessManager
             switch (PriorityType)
             {
                 case Priority.None:
-                    return fibers.First();
-
+                    Random random = new Random();
+                    return fibers[random.Next(fibers.Count)];
                 case Priority.Classic:
                     var topPrio = fibers.Where(x => x.DynamicPriority == fibers.Select(x => x.DynamicPriority).Max());
-                    Console.WriteLine($"{topPrio.Count()} ");
                     return topPrio.MaxBy(x => x.AFKPoints);
                 default:
                     throw new InvalidOperationException("Unknown priority type");
@@ -76,7 +75,7 @@ namespace ProcessManager
 
         private const int ShortPauseBoundary = 100;
 
-        private const int WorkBoundary = 100;
+        private const int WorkBoundary = 1000;
 
         private const int IntervalsAmountBoundary = 10;
         private const int PriorityLevelsNumber = 10;
