@@ -4,12 +4,13 @@ namespace Fibers.Fibers;
 
 public class PriorityScheduler : FiberScheduler
 {
+    private const int AGING_PERIOD = 10;
     private readonly Dictionary<long, bool> fiberIsFinished = new();
     private readonly Dictionary<long, int> priority = new();
 
     private readonly PriorityQueue<Fiber, Tuple<int, DateTime>> queue =
         new(Comparer<Tuple<int, DateTime>>.Create((x, y) =>
-            y.Item1 - x.Item1 + ((DateTime.Now - y.Item2).Seconds - (DateTime.Now - x.Item2).Seconds) / 10));
+            y.Item1 - x.Item1 + ((DateTime.Now - y.Item2).Seconds - (DateTime.Now - x.Item2).Seconds) / AGING_PERIOD));
 
     private readonly List<Fiber> terminatedFibers = new();
 

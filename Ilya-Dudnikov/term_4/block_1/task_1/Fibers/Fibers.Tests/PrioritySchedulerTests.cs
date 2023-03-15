@@ -18,7 +18,6 @@ public class PrioritySchedulerTests
     public void ScheduleProcessTestOneProcess()
     {
         Run(new List<Process> { new() }, scheduler);
-        Assert.Pass();
     }
 
     [Test]
@@ -26,7 +25,6 @@ public class PrioritySchedulerTests
     {
         var processList = Enumerable.Range(0, 5).Select(_ => new Process()).ToList();
         Run(processList, scheduler);
-        Assert.Pass();
     }
 
     [Test]
@@ -34,7 +32,6 @@ public class PrioritySchedulerTests
     {
         var processList = Enumerable.Range(0, 10).Select(_ => new Process()).ToList();
         Run(processList, scheduler);
-        Assert.Pass();
     }
 
     [Test]
