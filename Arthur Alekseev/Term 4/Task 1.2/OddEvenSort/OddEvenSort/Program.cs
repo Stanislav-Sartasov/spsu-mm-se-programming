@@ -9,17 +9,16 @@ public class Program
 	{
 		using var _ = new MPI.Environment(ref args);
 		var comm = Communicator.world;
-		var fileIn = "";
-		var fileOut = "";
 
-		if (comm.Rank == 0)
+		if (args.Length < 2)
 		{
-			Console.Write("Input file: ");
-			fileIn = Console.ReadLine();
-
-			Console.Write("Output file: ");
-			fileOut = Console.ReadLine();
+			if (comm.Rank == 0)
+				Console.WriteLine("You have to specify input and output files via command-line arguments");
+			return;
 		}
+
+		var fileIn = args[0];
+		var fileOut = args[1];
 
 		comm.Barrier();
 
