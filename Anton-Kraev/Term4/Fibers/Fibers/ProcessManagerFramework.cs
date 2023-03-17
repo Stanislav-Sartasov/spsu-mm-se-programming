@@ -28,8 +28,8 @@ namespace ProcessManager
                             ? LongPauseBoundary
                             : ShortPauseBoundary));
             }
-			
-			Priority = Rng.Next(PriorityLevelsNumber);
+
+            Priority = Rng.Next(PriorityLevelsNumber);
         }
 
         public void Run()
@@ -46,11 +46,11 @@ namespace ProcessManager
             ProcessManager.Switch(true);
         }
 
-		public int Priority
-		{
-			get; private set;
-		}
-		
+        public int Priority
+        {
+            get; private set;
+        }
+
         public int TotalDuration
         {
             get
