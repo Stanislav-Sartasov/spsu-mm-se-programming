@@ -28,6 +28,7 @@ public class Program
                 var inputFile = args[0];
                 var streamReader = new StreamReader(inputFile);
                 inputArray = streamReader.ReadToEnd().Split().Select(x => int.Parse(x)).ToArray();
+                streamReader.Close();
 
                 inputArray = comm.Scatter(Enumerable.Repeat(inputArray, comm.Size).ToArray(), 0);
             }
@@ -50,8 +51,12 @@ public class Program
                 Console.WriteLine($"{string.Join(" ", sorted)}");
                 var outputFile = args[1];
                 var streamWriter = new StreamWriter(outputFile);
-                sorted.ToList().ForEach(x => streamWriter.Write($"{x} "));
+                foreach (var elem in sorted)
+                {
+                    streamWriter.Write($"{elem} ");
+                }
                 streamWriter.Write(System.Environment.NewLine);
+                streamWriter.Close();
             }
         }
     }
