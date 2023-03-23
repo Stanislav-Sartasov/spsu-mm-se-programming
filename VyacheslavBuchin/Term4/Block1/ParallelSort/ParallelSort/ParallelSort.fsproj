@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="BitOperation.fs" />
+        <Compile Include="MpiExec.fs" />
+        <Compile Include="MpiInteraction.fs" />
+        <Compile Include="Parallel.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MPI.NET" Version="1.4.0" />
+    </ItemGroup>
+
+</Project>
