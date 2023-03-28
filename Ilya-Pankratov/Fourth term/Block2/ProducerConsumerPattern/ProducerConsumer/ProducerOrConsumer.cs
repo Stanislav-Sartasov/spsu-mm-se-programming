@@ -19,6 +19,7 @@ public abstract class ProducerOrConsumer
     public void Stop()
     {
         isStopped = true;
+        thread.Join();
     }
 
     public static void UseConsoleLogging()
