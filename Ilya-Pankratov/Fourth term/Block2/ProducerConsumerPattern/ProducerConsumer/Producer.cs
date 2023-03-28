@@ -38,7 +38,7 @@ public class Producer : ProducerOrConsumer
                     application.Decline();
 
                 if (CalculateCost(application) > 800)
-                    application.Uprove();
+                    application.Approve();
                 else
                     application.Decline();
             }

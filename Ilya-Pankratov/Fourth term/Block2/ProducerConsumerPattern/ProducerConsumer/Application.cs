@@ -14,7 +14,7 @@ public class Application
         coverType = type;
     }
 
-    public void Uprove()
+    public void Approve()
     {
         isUproved = true;
     }

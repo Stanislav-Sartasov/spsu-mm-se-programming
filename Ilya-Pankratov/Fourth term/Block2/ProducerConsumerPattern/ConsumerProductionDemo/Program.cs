@@ -1,5 +1,7 @@
 ﻿using ProducerConsumer;
 
+namespace ConsumerProductionDemo;
+
 public static class Program
 {
     public static void Main()
@@ -19,7 +21,6 @@ public static class Program
         Console.ReadKey(true);
         factory.Stop();
         factory.Dispose();
-
         Console.WriteLine("Job done!");
     }
 

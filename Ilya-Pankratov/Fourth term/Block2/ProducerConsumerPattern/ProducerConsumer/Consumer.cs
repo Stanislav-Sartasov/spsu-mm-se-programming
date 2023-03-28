@@ -18,7 +18,7 @@ public class Consumer : ProducerOrConsumer
         while (!isStopped)
         {
             var squareMeters = random.Next(10, 1000);
-            var type = random.Next(5);
+            var type = random.Next(6);
             var date = DateTime.Now.AddDays(random.Next(7));
 
             mutex.WaitOne();
