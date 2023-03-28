@@ -7,7 +7,7 @@ public class Factory : IDisposable
     
     private List<ProducerOrConsumer> marketParticipant = new();
 
-    private List<Object> items = new();
+    private List<Application> applications = new();
     private Mutex mutex = new();
     private bool running;
     
@@ -28,14 +28,14 @@ public class Factory : IDisposable
 
         for (var i = 0; i < consumerNumber; i++)
         {
-            var consumer = new Consumer(mutex, items); 
+            var consumer = new Consumer(mutex, applications);
             marketParticipant.Add(consumer);
             consumer.Start();
         }
         
         for (var i = 0; i < producerNumber; i++)
         {
-            var producer = new Producer(mutex, items);
+            var producer = new Producer(mutex, applications);
             marketParticipant.Add(producer);
             producer.Start();
         }

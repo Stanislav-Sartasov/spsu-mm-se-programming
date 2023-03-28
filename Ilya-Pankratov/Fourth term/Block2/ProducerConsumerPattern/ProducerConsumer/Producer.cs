@@ -2,9 +2,10 @@ namespace ProducerConsumer;
 
 public class Producer : ProducerOrConsumer
 {
-    public Producer(Mutex mutex, List<Object> items)
+    public Producer(Mutex mutex, List<Application> items)
     {
         thread = new Thread(ProduceItem);
+        Id = thread.ManagedThreadId;
         this.mutex = mutex;
         this.items = items;
     }
@@ -15,17 +16,65 @@ public class Producer : ProducerOrConsumer
         
         while (!isStopped)
         {
+            Application? application = null;
+            int elements;
+
             mutex.WaitOne();
-            var isZeroItems = !items.Any();
-            if (!isZeroItems)
+            elements = items.Count;
+
+            if (elements != 0)
+            {
+                application = items.First();
                 items.RemoveAt(0);
+            }
+
             if (consoleLogging)
-                Console.WriteLine($"({Id}): producer changes items from {0} to {items.Count}", isZeroItems ? 0 : items.Count + 1);
+                Console.WriteLine($"({Id}): producer change applications' number from {0} to {items.Count}", elements == 0 ? 0 : items.Count + 1);
             mutex.ReleaseMutex();
+
+            if (application != null)
+            {
+                if (application.Time.DayOfWeek == DayOfWeek.Monday)
+                    application.Decline();
+
+                if (CalculateCost(application) > 800)
+                    application.Uprove();
+                else
+                    application.Decline();
+            }
 
             if (++counter % 2 != 0) continue;
             counter = 0;
             Thread.Sleep(millisecondsTimeout);
+        }
+    }
+
+    private int CalculateCost(Application application)
+    {
+        var isDayOff = application.Time.DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday;
+        var dayOffCoefficient = isDayOff ? 2 : 1;
+        var materialCoefficient = ConvertTypeToCostPerSquareMeter(application.coverType);
+        return Convert.ToInt32(application.squareMeters * dayOffCoefficient * materialCoefficient);
+    }
+
+    private double ConvertTypeToCostPerSquareMeter(CoverType type)
+    {
+        switch (type)
+        {
+            case CoverType.Parquet:
+                return 1.1;
+            case CoverType.Laminate:
+                return 1.2;
+            case CoverType.Paint:
+                return 1.3;
+            case CoverType.Tile:
+                return 1.4;
+            case CoverType.Wallpaper:
+                return 1.5;
+            case CoverType.LiquidWallpaper:
+                return 1.6;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(type), type, null);
         }
     }
 }
