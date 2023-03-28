@@ -21,6 +21,8 @@ public class Factory : IDisposable
     {
         if (running)
         {
+            Stop();
+            Dispose();
             throw new InvalidOperationException("You can not start the factory, while it's running!");
         }
 
