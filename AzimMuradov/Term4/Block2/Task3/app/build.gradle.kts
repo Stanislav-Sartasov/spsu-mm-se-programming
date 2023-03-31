@@ -11,3 +11,9 @@ dependencies {
 application {
     mainClass.set("channels.app.AppKt")
 }
+
+tasks.run.configure {
+    standardInput = System.`in`
+    standardOutput = System.out
+    errorOutput = System.err
+}
