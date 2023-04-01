@@ -9,18 +9,12 @@ class StoreConsumer<T>(
     private val consumer: (Sequence<T>) -> Unit,
 ) : Consumer {
 
-    init {
-        store += this
-    }
-
-
     override fun consume() = consumer(
         generateSequence {
             if (store.isRunning) {
                 var product: T?
-                do {
-                    product = store.poll()
-                } while (store.isRunning && product == null)
+                do product = store.poll()
+                while (store.isRunning && product == null)
                 product.also {
                     Thread.sleep(Random.nextLong(50L..500L))
                 }

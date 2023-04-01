@@ -1,20 +1,20 @@
 package channels.app
 
-import channels.Store
+import channels.MonitoredStore
 import channels.StoreConsumer
 import channels.StoreProducer
 
 
 fun main() {
-    val store = Store<String> { store ->
+    val store = MonitoredStore<String> { store ->
         repeat(times = 50) { i ->
-            StoreProducer(
+            store += StoreProducer(
                 store,
                 producer = (0 until 7).asSequence().map { "Producer #$i: message #$it" }
             )
         }
         repeat(times = 50) { i ->
-            StoreConsumer(store) { products ->
+            store += StoreConsumer(store) { products ->
                 products.forEach { println("Consumer #$i: $it") }
             }
         }

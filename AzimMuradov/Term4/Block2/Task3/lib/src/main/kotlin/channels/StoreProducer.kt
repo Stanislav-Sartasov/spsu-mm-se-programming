@@ -9,11 +9,6 @@ class StoreProducer<T>(
     private val producer: Sequence<T>,
 ) : Producer {
 
-    init {
-        store += this
-    }
-
-
     override fun produce() {
         if (!store.isRunning) return
         producer.forEach {
