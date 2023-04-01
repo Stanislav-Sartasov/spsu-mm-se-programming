@@ -19,8 +19,10 @@ public class Producer<T> : IProducer
     {
         while (!stopFlag)
         {
+            var item = produce();
+
             mutex.WaitOne();
-            buffer.Add(produce());
+            buffer.Add(item);
             mutex.ReleaseMutex();
         }
 

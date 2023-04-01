@@ -4,9 +4,11 @@ namespace ProducerConsumerTests;
 
 public class ProducerTests
 {
+    private const int SleepInterval = 100;
     private volatile List<int> buffer;
+    private Mutex mutex;
     private volatile List<int> producedItems;
-    private volatile Random random;
+    private Random random;
 
     [SetUp]
     public void Setup()
@@ -14,12 +16,13 @@ public class ProducerTests
         buffer = new List<int>();
         producedItems = new List<int>();
         random = new Random();
+        mutex = new Mutex();
     }
 
     [Test]
     public void OneProducer()
     {
-        var producer = new Producer<int>(new Mutex(), buffer, () =>
+        var producer = new Producer<int>(mutex, buffer, () =>
         {
             var item = random.Next();
             producedItems.Add(item);
@@ -38,7 +41,6 @@ public class ProducerTests
     [Test]
     public void FiveProducers()
     {
-        var mutex = new Mutex();
         var producers = Enumerable.Range(0, 5).Select(
             _ => new Producer<int>(
                 mutex,
@@ -46,24 +48,29 @@ public class ProducerTests
                 () =>
                 {
                     var item = random.Next();
+
+                    mutex.WaitOne();
                     producedItems.Add(item);
+                    mutex.ReleaseMutex();
+
                     return item;
                 })).ToList();
 
         var threads = producers.Select(producer => new Thread(producer.Run)).ToList();
         threads.ForEach(thread => thread.Start());
-        Thread.Sleep(100);
+        Thread.Sleep(SleepInterval);
 
         producers.ForEach(producer => producer.Stop());
         threads.ForEach(thread => thread.Join());
 
+        buffer.Sort();
+        producedItems.Sort();
         Assert.That(buffer, Is.EqualTo(producedItems));
     }
 
     [Test]
     public void TenProducers()
     {
-        var mutex = new Mutex();
         var producers = Enumerable.Range(0, 10).Select(
             _ => new Producer<int>(
                 mutex,
@@ -71,17 +78,23 @@ public class ProducerTests
                 () =>
                 {
                     var item = random.Next();
+
+                    mutex.WaitOne();
                     producedItems.Add(item);
+                    mutex.ReleaseMutex();
+
                     return item;
                 })).ToList();
 
         var threads = producers.Select(producer => new Thread(producer.Run)).ToList();
         threads.ForEach(thread => thread.Start());
-        Thread.Sleep(100);
+        Thread.Sleep(SleepInterval);
 
         producers.ForEach(producer => producer.Stop());
         threads.ForEach(thread => thread.Join());
 
+        buffer.Sort();
+        producedItems.Sort();
         Assert.That(buffer, Is.EqualTo(producedItems));
     }
 }
