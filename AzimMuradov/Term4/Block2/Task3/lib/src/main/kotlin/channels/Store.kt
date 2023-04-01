@@ -1,6 +1,8 @@
 package channels
 
+import java.util.concurrent.locks.*
 import kotlin.concurrent.thread
+import kotlin.concurrent.withLock
 
 
 class Store<T>(builder: (Store<T>) -> Unit) {
@@ -13,6 +15,9 @@ class Store<T>(builder: (Store<T>) -> Unit) {
     private val consumers: MutableList<Consumer> = mutableListOf()
 
     private val elements: MutableList<T> = mutableListOf()
+
+    private val lock: Lock = ReentrantLock()
+    private val condition: Condition = lock.newCondition()
 
     init {
         builder(this)
@@ -29,13 +34,16 @@ class Store<T>(builder: (Store<T>) -> Unit) {
     }
 
 
-    @Synchronized
-    internal fun offer(element: T) {
+    internal fun offer(element: T) = lock.withLock {
         elements += element
+        condition.signal()
     }
 
-    @Synchronized
-    internal fun poll(): T? = elements.removeFirstOrNull()
+    internal fun poll(): T? = lock.withLock {
+        elements.removeFirstOrNull().also {
+            if (it == null) condition.await()
+        }
+    }
 
 
     private fun run() {
@@ -47,8 +55,8 @@ class Store<T>(builder: (Store<T>) -> Unit) {
         }
     }
 
-    @Synchronized
-    fun stop() {
+    fun stop() = lock.withLock {
         isRunning = false
+        condition.signalAll()
     }
 }

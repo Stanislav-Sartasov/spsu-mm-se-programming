@@ -18,7 +18,7 @@ class StoreProducer<T>(
         if (!store.isRunning) return
         producer.forEach {
             store.offer(element = it)
-            Thread.sleep(Random.nextLong(10L..1000L))
+            Thread.sleep(Random.nextLong(50L..500L))
             if (!store.isRunning) return
         }
     }

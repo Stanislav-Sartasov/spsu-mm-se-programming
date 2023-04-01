@@ -20,10 +20,9 @@ class StoreConsumer<T>(
                 var product: T?
                 do {
                     product = store.poll()
-                    Thread.sleep(1) // Helps to avoid hogging the CPU.
                 } while (store.isRunning && product == null)
                 product.also {
-                    Thread.sleep(Random.nextLong(10L..1000L))
+                    Thread.sleep(Random.nextLong(50L..500L))
                 }
             } else {
                 null
