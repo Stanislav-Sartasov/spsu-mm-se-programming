@@ -1,9 +1,7 @@
 package channels
 
 
-interface Producer<T> {
-
-    val name: String
+interface Producer {
 
     fun produce()
 }

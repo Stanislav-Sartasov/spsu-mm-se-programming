@@ -1,9 +1,7 @@
 package channels
 
 
-interface Consumer<T> {
-
-    val name: String
+interface Consumer {
 
     fun consume()
 }

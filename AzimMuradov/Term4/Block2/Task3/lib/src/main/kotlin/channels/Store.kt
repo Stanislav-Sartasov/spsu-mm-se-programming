@@ -9,10 +9,9 @@ class Store<T>(builder: (Store<T>) -> Unit) {
     var isRunning: Boolean = true
         private set
 
-    private val producers: MutableList<Producer<T>> = mutableListOf()
-    private val consumers: MutableList<Consumer<T>> = mutableListOf()
+    private val producers: MutableList<Producer> = mutableListOf()
+    private val consumers: MutableList<Consumer> = mutableListOf()
 
-    @get:Synchronized
     private val elements: MutableList<T> = mutableListOf()
 
     init {
@@ -21,36 +20,35 @@ class Store<T>(builder: (Store<T>) -> Unit) {
     }
 
 
-    internal operator fun plusAssign(producer: Producer<T>) {
+    internal operator fun plusAssign(producer: Producer) {
         producers += producer
     }
 
-    internal operator fun plusAssign(consumer: Consumer<T>) {
+    internal operator fun plusAssign(consumer: Consumer) {
         consumers += consumer
     }
 
 
-    internal fun offer(element: T) = synchronized(elements) {
+    @Synchronized
+    internal fun offer(element: T) {
         elements += element
     }
 
-    internal fun poll(): T? = synchronized(elements) {
-        elements.removeFirstOrNull()
-    }
+    @Synchronized
+    internal fun poll(): T? = elements.removeFirstOrNull()
 
 
     private fun run() {
-        producers.forEach {
-            thread(name = it.name) { it.produce() }
+        for ((i, p) in producers.withIndex()) {
+            thread(name = "Producer #$i", block = p::produce)
         }
-        consumers.forEach {
-            thread(name = it.name) { it.consume() }
+        for ((i, c) in consumers.withIndex()) {
+            thread(name = "Consumer #$i", block = c::consume)
         }
     }
 
+    @Synchronized
     fun stop() {
-        synchronized(elements) {
-            isRunning = false
-        }
+        isRunning = false
     }
 }
