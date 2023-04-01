@@ -3,6 +3,9 @@ package pools
 import java.util.concurrent.*
 
 
+/**
+ * Adapter for the [LinkedBlockingQueue].
+ */
 class BlockingQueue : Queue<Runnable> {
 
     private val queue = LinkedBlockingQueue<Runnable>()

@@ -6,9 +6,8 @@ class SynchronizedQueue<T : Any> : Queue<T> {
     private val list = mutableListOf<T>()
 
 
-    override val size: Int
-        @Synchronized
-        get() = list.size
+    @get:Synchronized
+    override val size: Int get() = list.size
 
 
     @Synchronized

@@ -1,6 +1,5 @@
 package pools
 
-import kotlinx.atomicfu.atomic
 import java.util.concurrent.*
 
 
@@ -9,36 +8,34 @@ class ThreadPool private constructor(
     private val workQueue: Queue<Runnable>,
 ) : AutoCloseable, Executor {
 
-    private val executeAtomic = atomic(initial = true)
-
-    private var execute by executeAtomic
+    private var isRunning = true
 
     init {
-        poolCount.incrementAndGet()
+        poolCount++
         repeat(threadCount.toInt()) { i ->
             ThreadPoolThread(
-                name = "ThreadPool #${poolCount.value} - Thread #$i",
-                execute = executeAtomic,
-                runnables = workQueue
+                name = "ThreadPool #$poolCount - Thread #$i",
+                isRunning = ::isRunning,
+                workQueue = workQueue
             ).start()
         }
     }
 
 
     override fun execute(runnable: Runnable) {
-        check(execute) { "ThreadPool terminating, unable to execute runnable" }
+        check(isRunning) { "Unable to execute, ThreadPool was closed" }
         workQueue.offer(runnable)
     }
 
     override fun close() {
-        execute = false
+        isRunning = false
     }
 
 
     companion object {
 
-        fun with(threadCount: UInt, queue: Queue<Runnable>) = ThreadPool(threadCount, queue)
+        fun with(threadCount: UInt, workQueue: Queue<Runnable>) = ThreadPool(threadCount, workQueue)
 
-        private val poolCount = atomic(initial = 0)
+        private var poolCount = 0
     }
 }

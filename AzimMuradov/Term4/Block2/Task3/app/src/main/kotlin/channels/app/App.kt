@@ -15,7 +15,7 @@ fun main() {
         }
     }
 
-    readln()
+    readln() // Wait for user interaction.
 
     store.stop()
 }
