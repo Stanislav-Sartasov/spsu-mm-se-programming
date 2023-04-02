@@ -31,6 +31,10 @@ public class ConsumerTests
         var consumerThread = new Thread(consumer.Run);
         consumerThread.Start();
         Thread.Sleep(SleepInterval);
+
+        while (buffer.Any())
+            Thread.Sleep(SleepInterval);
+
         consumer.Stop();
         consumerThread.Join();
 
@@ -54,6 +58,9 @@ public class ConsumerTests
         var threads = consumers.Select(consumer => new Thread(consumer.Run)).ToList();
         threads.ForEach(thread => thread.Start());
         Thread.Sleep(SleepInterval);
+
+        while (buffer.Any())
+            Thread.Sleep(SleepInterval);
 
         consumers.ForEach(consumer => consumer.Stop());
         threads.ForEach(thread => thread.Join());
@@ -80,6 +87,9 @@ public class ConsumerTests
         var threads = consumers.Select(consumer => new Thread(consumer.Run)).ToList();
         threads.ForEach(thread => thread.Start());
         Thread.Sleep(SleepInterval);
+
+        while (buffer.Any())
+            Thread.Sleep(SleepInterval);
 
         consumers.ForEach(consumer => consumer.Stop());
         threads.ForEach(thread => thread.Join());

@@ -31,9 +31,7 @@ public class Consumer<T> : IConsumer
             buffer.RemoveAt(0);
             mutex.ReleaseMutex();
 
-            if (consumedItem != null)
-                consume(consumedItem);
-
+            consume(consumedItem);
             Thread.Sleep(Timeout);
         }
     }

@@ -24,9 +24,9 @@ public class Producer<T> : IProducer
             mutex.WaitOne();
             buffer.Add(item);
             mutex.ReleaseMutex();
-        }
 
-        Thread.Sleep(Timeout);
+            Thread.Sleep(Timeout);
+        }
     }
 
     public void Stop()
