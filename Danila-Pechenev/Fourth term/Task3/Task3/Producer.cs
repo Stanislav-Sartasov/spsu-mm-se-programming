@@ -13,7 +13,9 @@ public class Producer : Participant
         {
             semaphore.WaitOne();
 
-            numbers.Add(random.Next(1000000));
+            int n = random.Next(1000000);
+            numbers.Add(n);
+            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} adds {n}.");
 
             semaphore.Release();
 

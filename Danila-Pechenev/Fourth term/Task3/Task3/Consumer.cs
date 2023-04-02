@@ -15,6 +15,7 @@ public class Consumer : Participant
 
             if (numbers.Count != 0)
             {
+                Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} removes {numbers[0]}.");
                 numbers.RemoveAt(0);
             }
             

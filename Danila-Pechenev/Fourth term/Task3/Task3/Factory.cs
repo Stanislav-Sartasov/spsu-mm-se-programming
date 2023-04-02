@@ -11,7 +11,7 @@ public class Factory
     public Factory(int producersNumber, int consumersNumber, int pauseBetweenActionsMax)
     {
         var random = new Random();
-        semaphore = new Semaphore(0, 1);
+        semaphore = new Semaphore(1, 1);
         numbers = new List<int>();
 
         participants = new List<Participant>();
