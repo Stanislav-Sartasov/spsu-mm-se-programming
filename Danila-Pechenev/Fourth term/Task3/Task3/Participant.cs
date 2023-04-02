@@ -3,17 +3,17 @@
 public abstract class Participant
 {
     protected static Random random = new Random();
+    protected volatile bool stop = false;
     protected Thread thread;
     protected Semaphore semaphore;
     protected int maxObjectsNumber;
     protected int pauseBetweenActions;
     protected List<int> numbers;
 
-    public Participant(Semaphore semaphore, int maxObjectsNumber, int pauseBetweenActions, List<int> numbers)
+    public Participant(Semaphore semaphore, int pauseBetweenActions, List<int> numbers)
     {
         thread = new Thread(Act);
         this.semaphore = semaphore;
-        this.maxObjectsNumber = maxObjectsNumber;
         this.pauseBetweenActions = pauseBetweenActions;
         this.numbers = numbers;
     }
@@ -27,6 +27,7 @@ public abstract class Participant
 
     public void StopAction()
     {
+        stop = true;
         thread.Join();
     }
 }
