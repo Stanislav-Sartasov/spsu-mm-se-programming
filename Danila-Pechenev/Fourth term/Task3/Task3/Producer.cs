@@ -11,14 +11,15 @@ public class Producer : Participant
     {
         int n = random.Next(1, maxObjectsNumber + 1);
 
-        semaphore.WaitOne();
-
         for (int i = 0; i < n; i++)
         {
+            semaphore.WaitOne();
+
             numbers.Add(random.Next(1000000));
+
+            semaphore.Release();
+
             Thread.Sleep(pauseBetweenActions);
         }
-
-        semaphore.Release();
     }
 }

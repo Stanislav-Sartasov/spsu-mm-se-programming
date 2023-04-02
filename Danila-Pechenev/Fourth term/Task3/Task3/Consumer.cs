@@ -11,15 +11,18 @@ public class Consumer : Participant
     {
         int n = random.Next(1, maxObjectsNumber + 1);
 
-        semaphore.WaitOne();
-
-        n = Math.Min(n, numbers.Count);
         for (int i = 0; i < n; i++)
         {
-            numbers.RemoveAt(0);
+            semaphore.WaitOne();
+
+            if (numbers.Count != 0)
+            {
+                numbers.RemoveAt(0);
+            }
+            
+            semaphore.Release();
+
             Thread.Sleep(pauseBetweenActions);
         }
-
-        semaphore.Release();
     }
 }
