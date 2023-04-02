@@ -17,6 +17,7 @@ public class Consumer : Participant
         for (int i = 0; i < n; i++)
         {
             numbers.RemoveAt(0);
+            Thread.Sleep(pauseBetweenActions);
         }
 
         semaphore.Release();

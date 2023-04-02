@@ -16,6 +16,7 @@ public class Producer : Participant
         for (int i = 0; i < n; i++)
         {
             numbers.Add(random.Next(1000000));
+            Thread.Sleep(pauseBetweenActions);
         }
 
         semaphore.Release();

@@ -8,7 +8,10 @@ class Program
         int producersNumber = 4;
         int consumersNumber = 4;
 
-        var factory = new Factory(producersNumber, consumersNumber, 30, 30);
+        int maxObjectsNumberMax = 30;
+        int pauseBetweenActionsMax = 30;
+
+        var factory = new Factory(producersNumber, consumersNumber, maxObjectsNumberMax, pauseBetweenActionsMax);
 
         factory.Start();
         Console.ReadKey(true);
