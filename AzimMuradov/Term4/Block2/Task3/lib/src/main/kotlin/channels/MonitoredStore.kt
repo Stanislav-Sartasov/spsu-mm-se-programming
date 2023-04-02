@@ -5,7 +5,7 @@ import kotlin.concurrent.thread
 import kotlin.concurrent.withLock
 
 
-class MonitoredStore<T>(builder: (MonitoredStore<T>) -> Unit) : Store<T> {
+class MonitoredStore<T : Any>(builder: (MonitoredStore<T>) -> Unit) : Store<T> {
 
     @Volatile
     override var isRunning: Boolean = true
@@ -13,6 +13,8 @@ class MonitoredStore<T>(builder: (MonitoredStore<T>) -> Unit) : Store<T> {
 
     private val producers: MutableList<Producer> = mutableListOf()
     private val consumers: MutableList<Consumer> = mutableListOf()
+
+    private val threads = mutableListOf<Thread>()
 
     private val elements: MutableList<T> = mutableListOf()
 
@@ -34,35 +36,42 @@ class MonitoredStore<T>(builder: (MonitoredStore<T>) -> Unit) : Store<T> {
     }
 
 
-    override fun offer(element: T) = lock.withLock {
+    override fun send(element: T) = lock.withLock {
         if (isRunning) {
             elements += element
             condition.signal()
         }
+        isRunning
     }
 
-    override fun poll(): T? = lock.withLock {
+    override fun receive(): T? = lock.withLock {
         if (isRunning) {
-            elements.removeFirstOrNull().also {
-                if (it == null) condition.await()
+            var product: T? = elements.removeFirstOrNull()
+            while (isRunning && product == null) {
+                condition.await()
+                product = elements.removeFirstOrNull()
             }
+            product
         } else {
             null
         }
     }
 
-
     private fun run() {
-        for ((i, p) in producers.withIndex()) {
+        threads += producers.mapIndexed { i, p ->
             thread(name = "Producer #$i", block = p::produce)
         }
-        for ((i, c) in consumers.withIndex()) {
+        threads += consumers.mapIndexed { i, c ->
             thread(name = "Consumer #$i", block = c::consume)
         }
     }
 
-    override fun stop() = lock.withLock {
-        isRunning = false
-        condition.signalAll()
+    override fun stop() {
+        lock.withLock {
+            isRunning = false
+            condition.signalAll()
+        }
+        threads.forEach(Thread::join)
+        threads.clear()
     }
 }

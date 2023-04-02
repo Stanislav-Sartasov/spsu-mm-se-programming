@@ -1,7 +1,6 @@
 package channels
 
 import org.junit.jupiter.api.Test
-import kotlin.concurrent.thread
 import kotlin.test.assertContentEquals
 import kotlin.test.assertTrue
 
@@ -11,57 +10,38 @@ class StoreConsumerTest {
     @Test
     fun `consume numbers`() {
         val store = object : Store<Int> {
+            var cnt = 1
 
-            var cnt = 10
+            override val isRunning: Boolean = true
 
-            lateinit var consumer: Consumer
+            override fun receive(): Int? = if (cnt != 6) cnt++ else null
 
-            fun run() {
-                thread(name = "consumer", block = consumer::consume)
-            }
-
-            @get:Synchronized
-            override var isRunning: Boolean = true
-
-            override fun poll(): Int? = if (cnt > 0) cnt-- else null
-
-            override fun offer(element: Int) = error("")
-
-            override fun stop() {
-                isRunning = false
-            }
+            override fun send(element: Int) = error("")
+            override fun stop() = error("")
         }
 
-        val actual = mutableListOf<Int>()
+        val messages = mutableListOf<Int>()
 
-        store.consumer = StoreConsumer(store) { it.forEach(actual::add) }
+        StoreConsumer(store) { it.forEach(messages::add) }.consume()
 
-        store.run()
-
-        Thread.sleep(5000)
-
-        assertContentEquals(expected = 10 downTo 1, actual = actual)
-
-        store.stop()
+        assertContentEquals(expected = 1..5, actual = messages)
     }
 
     @Test
     fun `consume cannot be started`() {
         val store = object : Store<Int> {
+            override val isRunning get() = false
 
-            override val isRunning: Boolean = false
+            override fun receive() = null
 
-            override fun poll() = error("")
-
-            override fun offer(element: Int) = error("")
-
+            override fun send(element: Int) = error("")
             override fun stop() = error("")
         }
 
-        val actual = mutableListOf<Int>()
+        val messages = mutableListOf<Int>()
 
-        StoreConsumer(store) { it.forEach(actual::add) }.consume()
+        StoreConsumer(store) { it.forEach(messages::add) }.consume()
 
-        assertTrue(actual.isEmpty())
+        assertTrue(messages.isEmpty())
     }
 }
