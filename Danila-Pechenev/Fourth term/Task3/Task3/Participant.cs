@@ -20,12 +20,12 @@ public abstract class Participant
 
     protected abstract void Act();
 
-    protected void StartAction()
+    public void StartAction()
     {
         thread.Start();
     }
 
-    protected void FinishAction()
+    public void StopAction()
     {
         thread.Join();
     }
