@@ -21,7 +21,6 @@ public class ConsumerTests
         consumedItems = new List<int>();
         buffer = Enumerable.Range(0, NumberOfConsumers).Select(_ => random.Next()).ToList();
 
-        // TODO: think about that one
         originalBuffer = buffer.Select(x => x).ToList();
     }
 

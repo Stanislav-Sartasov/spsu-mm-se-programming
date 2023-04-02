@@ -33,6 +33,8 @@ public class Consumer<T> : IConsumer
 
             if (consumedItem != null)
                 consume(consumedItem);
+
+            Thread.Sleep(Timeout);
         }
     }
 
