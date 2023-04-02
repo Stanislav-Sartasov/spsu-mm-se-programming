@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "OddEvenSort": {
+      "commandName": "Project",
+      "commandLineArgs": "C:\\Users\\Sayumiko\\Desktop\\Examples\\test_unsorted1.dat \r\nC:\\Users\\Sayumiko\\Desktop\\Examples\\test_sorted_my.dat"
+    },
+    "Профиль 1": {
+      "commandName": "Executable",
+      "executablePath": "C:\\Program Files\\Microsoft MPI\\Bin\\mpiexec.exe",
+      "commandLineArgs": "-n 3 C:\\Users\\Sayumiko\\source\\repos\\OddEvenSort\\OddEvenSort\\bin\\Debug\\net6.0\\OddEvenSort.exe 1 2 3",
+      "workingDirectory": "C:\\Users\\Sayumiko\\source\\repos\\OddEvenSort\\OddEvenSort\\bin\\Debug\\net6.0"
+    }
+  }
+}
