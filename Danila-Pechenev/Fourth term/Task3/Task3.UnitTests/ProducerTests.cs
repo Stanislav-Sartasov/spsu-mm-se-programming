@@ -1,8 +1,6 @@
-using Task3;
-
 namespace Task3.UnitTests;
 
-public class Tests
+public class ProducerTests
 {
     [Test]
     public void AddElementTest()
