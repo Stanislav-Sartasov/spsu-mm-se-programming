@@ -9,7 +9,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("channels.app.AppKt")
+    mainClass.set("prodcon.app.AppKt")
 }
 
 tasks.run.configure {
