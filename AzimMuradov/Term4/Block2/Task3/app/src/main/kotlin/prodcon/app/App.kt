@@ -1,8 +1,8 @@
-package channels.app
+package prodcon.app
 
-import channels.MonitoredStore
-import channels.StoreConsumer
-import channels.StoreProducer
+import prodcon.Consumer
+import prodcon.Store
+import prodcon.Producer
 import kotlin.random.Random
 import kotlin.random.nextLong
 
@@ -19,20 +19,19 @@ fun main(args: Array<String>) {
     val (pCount, cCount) = parsedArgs
 
 
-    val store = MonitoredStore { store ->
+    val store = Store {
         repeat(times = pCount.toInt()) { i ->
-            store += StoreProducer(store, (0 until 10).asSequence().map {
-                "Producer #$i: message #$it".also {
+            var cnt = 0
+            +Producer {
+                "Producer #$i: message #${cnt++}".also {
                     Thread.sleep(Random.nextLong(200L..500L))
                 }
-            })
+            }
         }
         repeat(times = cCount.toInt()) { i ->
-            store += StoreConsumer(store) { messages ->
-                messages.forEach {
-                    println("Consumer #$i: $it")
-                    Thread.sleep(Random.nextLong(200L..500L))
-                }
+            +Consumer { message: String ->
+                println("Consumer #$i: $message")
+                Thread.sleep(Random.nextLong(200L..500L))
             }
         }
     }
