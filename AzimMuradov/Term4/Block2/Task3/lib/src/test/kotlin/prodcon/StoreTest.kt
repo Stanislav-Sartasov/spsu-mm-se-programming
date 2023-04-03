@@ -28,7 +28,7 @@ class StoreTest {
         }
         assertTrue(store.isRunning)
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
 
         store.stop()
         assertFalse(store.isRunning)
@@ -47,7 +47,7 @@ class StoreTest {
         }
         assertTrue(store.isRunning)
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
 
         store.stop()
         assertFalse(store.isRunning)
@@ -66,7 +66,7 @@ class StoreTest {
         }
         assertTrue(store.isRunning)
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
 
         store.stop()
         assertFalse(store.isRunning)
@@ -90,7 +90,7 @@ class StoreTest {
         }
         assertTrue(store.isRunning)
 
-        Thread.sleep(500)
+        Thread.sleep(1000)
 
         store.stop()
         assertFalse(store.isRunning)
