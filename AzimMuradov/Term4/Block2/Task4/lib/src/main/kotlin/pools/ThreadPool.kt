@@ -5,7 +5,7 @@ import java.util.concurrent.*
 
 class ThreadPool private constructor(
     val threadCount: UInt,
-    private val workQueue: Queue<Runnable>,
+    private val workQueue: BlockingQueue<Runnable>,
 ) : AutoCloseable, Executor {
 
     private var isRunning = true
@@ -37,7 +37,7 @@ class ThreadPool private constructor(
 
     companion object {
 
-        fun with(threadCount: UInt, workQueue: Queue<Runnable>) = ThreadPool(threadCount, workQueue)
+        fun with(threadCount: UInt, workQueue: BlockingQueue<Runnable>) = ThreadPool(threadCount, workQueue)
 
         private var poolCount = 0
     }

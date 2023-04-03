@@ -12,7 +12,7 @@ class ThreadPoolTest {
 
     @Test
     fun `test thread pool with size 0`() {
-        val q = BlockingQueue()
+        val q = JavaBlockingQueue()
 
         ThreadPool.with(threadCount = 0u, workQueue = q).use { pool ->
             assertEquals(expected = 0, actual = q.size)
@@ -26,7 +26,7 @@ class ThreadPoolTest {
 
     @RepeatedTest(5)
     fun `test thread pool with size 1`() {
-        val q = BlockingQueue()
+        val q = JavaBlockingQueue()
 
         val cnt = atomic(0)
 
@@ -37,15 +37,13 @@ class ThreadPoolTest {
             repeat(times = 10000) { pool.execute(cnt::incrementAndGet) }
         }
 
-        Thread.sleep(1000)
-
         assertEquals(expected = 0, actual = q.size)
         assertEquals(expected = 10000, actual = cnt.value)
     }
 
     @RepeatedTest(5)
     fun `test thread pool with size 2`() {
-        val q = BlockingQueue()
+        val q = JavaBlockingQueue()
 
         val cnt = atomic(0)
 
@@ -56,15 +54,13 @@ class ThreadPoolTest {
             repeat(times = 10000) { pool.execute(cnt::incrementAndGet) }
         }
 
-        Thread.sleep(1000)
-
         assertEquals(expected = 0, actual = q.size)
         assertEquals(expected = 10000, actual = cnt.value)
     }
 
     @RepeatedTest(5)
     fun `test thread pool with size 5`() {
-        val q = BlockingQueue()
+        val q = JavaBlockingQueue()
 
         val cnt = atomic(0)
 
@@ -75,15 +71,13 @@ class ThreadPoolTest {
             repeat(times = 10000) { pool.execute(cnt::incrementAndGet) }
         }
 
-        Thread.sleep(1000)
-
         assertEquals(expected = 0, actual = q.size)
         assertEquals(expected = 10000, actual = cnt.value)
     }
 
     @Test
     fun `fail on execution after close`() {
-        ThreadPool.with(threadCount = 1u, workQueue = BlockingQueue()).run {
+        ThreadPool.with(threadCount = 1u, JavaBlockingQueue()).run {
             close()
             assertThrows<IllegalStateException>(
                 message = "Unable to execute, ThreadPool was closed"
