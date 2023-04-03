@@ -22,6 +22,7 @@ public abstract class Participant
 
     public void StartAction()
     {
+        stop = false;
         thread.Start();
     }
 

@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-
-namespace Task3;
+﻿namespace Task3;
 
 public class Factory
 {
