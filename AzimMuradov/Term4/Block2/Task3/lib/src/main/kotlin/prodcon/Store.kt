@@ -16,7 +16,7 @@ class Store<T : Any>(builder: Store<T>.() -> Unit) {
 
     private val threads = mutableListOf<Thread>()
 
-    private val elements: MutableList<T> = mutableListOf()
+    private val messages: MutableList<T> = mutableListOf()
 
     private val lock: Lock = ReentrantLock()
     private val notEmpty: Condition = lock.newCondition()
@@ -49,19 +49,19 @@ class Store<T : Any>(builder: Store<T>.() -> Unit) {
         }
     }
 
-    private fun send(element: T) = lock.withLock {
+    private fun send(message: T) = lock.withLock {
         if (isRunning) {
-            elements += element
+            messages += message
             notEmpty.signal()
         }
     }
 
     private fun receive(): T? = lock.withLock {
         if (isRunning) {
-            var product: T? = elements.removeFirstOrNull()
+            var product: T? = messages.removeFirstOrNull()
             while (isRunning && product == null) {
                 notEmpty.await()
-                product = elements.removeFirstOrNull()
+                product = messages.removeFirstOrNull()
             }
             product
         } else {
