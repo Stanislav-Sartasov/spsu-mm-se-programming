@@ -35,7 +35,7 @@ java {
     }
 }
 
-tasks.withType<JavaExec> {
+tasks.run.configure {
     mainClass.set("runtime.starter.MPJRun")
     classpath = mpjStarterJar
     args = listOf(appMainClass) + listOf("-cp", mpjClassPath.asPath) + listOf("-np", numberOfProcesses) +
