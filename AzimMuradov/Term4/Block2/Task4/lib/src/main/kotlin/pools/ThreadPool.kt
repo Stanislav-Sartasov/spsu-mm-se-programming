@@ -10,7 +10,7 @@ class ThreadPool private constructor(
 
     private var isRunning = true
 
-    private val threads: List<Thread>
+    private var threads: List<Thread>
 
     init {
         poolCount++
@@ -32,6 +32,7 @@ class ThreadPool private constructor(
     override fun close() {
         isRunning = false
         threads.forEach(Thread::join)
+        threads = emptyList()
     }
 
 

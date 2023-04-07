@@ -1,7 +1,7 @@
 package prodcon
 
 
-fun interface Producer<T : Any> {
+fun interface Producer<out T : Any> {
 
     fun produce(): T
 }

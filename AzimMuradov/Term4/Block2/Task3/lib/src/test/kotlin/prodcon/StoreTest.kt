@@ -41,9 +41,7 @@ class StoreTest {
         val messages = LinkedBlockingQueue<Int>()
         val store = Store {
             +SequenceProducer(testSequence())
-            repeat(times = 5) {
-                +Consumer<Int> { assertTrue(messages.add(it)) }
-            }
+            repeat(times = 5) { +Consumer(messages::add) }
         }
         assertTrue(store.isRunning)
 
@@ -59,9 +57,7 @@ class StoreTest {
     fun `test many to 1 store`() {
         val messages = LinkedBlockingQueue<Int>()
         val store = Store {
-            repeat(times = 5) {
-                +SequenceProducer(testSequence())
-            }
+            repeat(times = 5) { +SequenceProducer(testSequence()) }
             +Consumer(messages::add)
         }
         assertTrue(store.isRunning)
@@ -81,12 +77,8 @@ class StoreTest {
     fun `test many to many store`() {
         val messages = LinkedBlockingQueue<Int>()
         val store = Store {
-            repeat(times = 5) {
-                +SequenceProducer(testSequence())
-            }
-            repeat(times = 5) {
-                +Consumer(messages::add)
-            }
+            repeat(times = 5) { +SequenceProducer(testSequence()) }
+            repeat(times = 5) { +Consumer(messages::add) }
         }
         assertTrue(store.isRunning)
 
