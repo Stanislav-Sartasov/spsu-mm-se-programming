@@ -74,7 +74,7 @@ public class ThreadPoolTests
         Assert.That(taskCount, Is.EqualTo(taskCapacity));
         Assert.That(threadpool.ThreadCount, Is.Zero);
     }
-    
+
     [Test]
     public void CountTwiceTest()
     {
@@ -84,9 +84,9 @@ public class ThreadPoolTests
 
         for (var i = 0; i < taskCapacity; i++)
             threadpool.Enqueue(Count);
-        
+
         Thread.Sleep(2000);
-        
+
         for (var i = 0; i < taskCapacity; i++)
             threadpool.Enqueue(Count);
 

@@ -1,6 +1,6 @@
 ﻿public static class Program
 {
-    private static volatile int taskCompleted = 1;
+    private static volatile int TaskCompleted = 1;
 
     public static void Main(string[] args)
     {
@@ -16,7 +16,7 @@
             Console.WriteLine("You are supposed to write numbers. Try again, please!");
             return;
         }
-        
+
         var pool = new ThreadPool.ThreadPool(capacity);
         for (var i = 0; i < tasks; i++)
             pool.Enqueue(Count);
@@ -29,7 +29,7 @@
         var sum = 0;
         for (int i = 1; i < 100000; i++)
             sum += i;
-        var newVal = Interlocked.Increment(ref taskCompleted);
+        var newVal = Interlocked.Increment(ref TaskCompleted);
         Console.WriteLine($"({newVal - 1}) count result is {sum}");
     }
 }
