@@ -5,9 +5,10 @@ namespace ProducerConsumerTests;
 
 public partial class FactoryTests
 {
-    [GeneratedRegex("[(]\\d+[)]: consumer change applications' number from \\d+ to \\d+(\r\n|\r|\n)", RegexOptions.Compiled)]
+    [GeneratedRegex("[(]\\d+[)]: consumer change applications' number from \\d+ to \\d+(\r\n|\r|\n)",
+        RegexOptions.Compiled)]
     private static partial Regex ConsumerRegex();
-    
+
     [Test]
     public void StartTest()
     {
@@ -52,10 +53,10 @@ public partial class FactoryTests
         factory.Start();
         factory.Stop();
         factory.Dispose();
-    
+
         var consoleOutput = stringWriter.ToString();
         stringWriter.Dispose();
-        
+
         var regex = ConsumerRegex();
         Assert.That(regex.Matches(consoleOutput), Is.Not.Empty);
     }

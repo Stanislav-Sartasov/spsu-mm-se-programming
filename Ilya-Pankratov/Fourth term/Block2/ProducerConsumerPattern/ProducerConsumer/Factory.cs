@@ -4,13 +4,13 @@ public class Factory : IDisposable
 {
     private readonly int producerNumber;
     private readonly int consumerNumber;
-    
+
     private List<ProducerOrConsumer> marketParticipant = new();
 
     private List<Application> applications = new();
     private Mutex mutex = new();
     private bool running;
-    
+
     public Factory(int producerNumber, int consumerNumber)
     {
         this.producerNumber = producerNumber;
@@ -34,7 +34,7 @@ public class Factory : IDisposable
             marketParticipant.Add(consumer);
             consumer.Start();
         }
-        
+
         for (var i = 0; i < producerNumber; i++)
         {
             var producer = new Producer(mutex, applications);

@@ -13,14 +13,13 @@ public class Producer : ProducerOrConsumer
     private void ProduceItem()
     {
         int counter = 0;
-        
+
         while (!isStopped)
         {
             Application? application = null;
-            int elements;
 
             mutex.WaitOne();
-            elements = items.Count;
+            var elements = items.Count;
 
             if (elements != 0)
             {
@@ -29,7 +28,8 @@ public class Producer : ProducerOrConsumer
             }
 
             if (consoleLogging)
-                Console.WriteLine($"({Id}): producer change applications' number from {0} to {items.Count}", elements == 0 ? 0 : items.Count + 1);
+                Console.WriteLine($"({Id}): producer change applications' number from {0} to {items.Count}",
+                    elements == 0 ? 0 : items.Count + 1);
             mutex.ReleaseMutex();
 
             if (application != null)
@@ -45,7 +45,7 @@ public class Producer : ProducerOrConsumer
 
             if (++counter % 2 != 0) continue;
             counter = 0;
-            Thread.Sleep(millisecondsTimeout);
+            Thread.Sleep(timeout);
         }
     }
 
@@ -53,8 +53,8 @@ public class Producer : ProducerOrConsumer
     {
         var isDayOff = application.Time.DayOfWeek is DayOfWeek.Sunday or DayOfWeek.Saturday;
         var dayOffCoefficient = isDayOff ? 2 : 1;
-        var materialCoefficient = ConvertTypeToCostPerSquareMeter(application.coverType);
-        return Convert.ToInt32(application.squareMeters * dayOffCoefficient * materialCoefficient);
+        var materialCoefficient = ConvertTypeToCostPerSquareMeter(application.CoverType);
+        return Convert.ToInt32(application.SquareMeters * dayOffCoefficient * materialCoefficient);
     }
 
     private double ConvertTypeToCostPerSquareMeter(CoverType type)

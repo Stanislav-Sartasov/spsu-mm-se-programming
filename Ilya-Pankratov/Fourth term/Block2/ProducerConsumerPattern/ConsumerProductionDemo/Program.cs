@@ -24,7 +24,7 @@ public static class Program
         Console.WriteLine("Job done!");
     }
 
-    private static void ReadNumber(string consoleText, string failText,out int number)
+    private static void ReadNumber(string consoleText, string failText, out int number)
     {
         Console.Write(consoleText);
         var input = Console.ReadLine();

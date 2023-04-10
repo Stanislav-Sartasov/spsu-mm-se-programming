@@ -3,15 +3,15 @@ namespace ProducerConsumer;
 public class Application
 {
     public DateTime Time { get; }
-    public int squareMeters { get; }
-    public CoverType coverType { get; }
+    public int SquareMeters { get; }
+    public CoverType CoverType { get; }
     private bool isUproved;
 
     public Application(int squareMeters, CoverType type, DateTime date)
     {
         Time = date;
-        this.squareMeters = squareMeters;
-        coverType = type;
+        this.SquareMeters = squareMeters;
+        CoverType = type;
     }
 
     public void Approve()

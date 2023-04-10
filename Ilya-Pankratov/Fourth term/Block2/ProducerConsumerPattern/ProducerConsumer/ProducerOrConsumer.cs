@@ -3,13 +3,13 @@ namespace ProducerConsumer;
 public abstract class ProducerOrConsumer
 {
     public int Id { get; protected init; }
-    
+
     protected Thread thread;
     protected Mutex mutex;
     protected List<Application> items;
     protected volatile bool isStopped;
     protected static volatile bool consoleLogging;
-    protected static volatile int millisecondsTimeout;
+    protected static volatile int timeout;
 
     public void Start()
     {
@@ -32,8 +32,8 @@ public abstract class ProducerOrConsumer
         consoleLogging = false;
     }
 
-    public static void UpdateTimeout(int millisecondsTimeout)
+    public static void UpdateTimeout(int milliSecondsTimeout)
     {
-        ProducerOrConsumer.millisecondsTimeout = millisecondsTimeout;
-    } 
+        timeout = milliSecondsTimeout;
+    }
 }
