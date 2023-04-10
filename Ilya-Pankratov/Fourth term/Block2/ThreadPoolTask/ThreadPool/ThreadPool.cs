@@ -3,6 +3,7 @@ namespace ThreadPool;
 public class ThreadPool : IDisposable
 {
     public int Capacity { get; init; }
+    public int ThreadCount => createdThreads;
     private object actionSynchronizer = new();
     private object disposeSynchronizer = new();
     private List<Thread> threads = new();
@@ -31,7 +32,7 @@ public class ThreadPool : IDisposable
 
         Monitor.Enter(actionSynchronizer);
         availableActions.Enqueue(a);
-    
+
         // Threads are initialized as needed
         if (freeThreads == 0 && createdThreads != Capacity)
         {
@@ -69,7 +70,7 @@ public class ThreadPool : IDisposable
         while (true)
         {
             Monitor.Enter(actionSynchronizer);
-
+            // Wait until new action or disposing
             while (!availableActions.Any())
             {
                 Monitor.Enter(disposeSynchronizer);
@@ -78,6 +79,7 @@ public class ThreadPool : IDisposable
 
                 if (toExit)
                 {
+                    createdThreads--;
                     Monitor.Exit(actionSynchronizer);
                     return;
                 }
