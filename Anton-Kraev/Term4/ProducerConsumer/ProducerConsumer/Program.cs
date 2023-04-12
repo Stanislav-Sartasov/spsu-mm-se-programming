@@ -1,20 +1,21 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace ProducerConsumer;
+﻿namespace ProducerConsumer;
 
 internal class Program
 {
     private static int ProduceFunc()
     {
+        int item = new Random().Next(100);
+        Console.WriteLine($"Produced {item} on {Thread.CurrentThread.ManagedThreadId}");
         // work emulation
-        Thread.Sleep(100);
-        return 0;
+        Thread.Sleep(1000);
+        return item;
     }
 
     private static void ConsumeAction(int item)
     {
+        Console.WriteLine($"Consumed {item} on {Thread.CurrentThread.ManagedThreadId}");
         // work emulation
-        Thread.Sleep(100);
+        Thread.Sleep(500);
     }
 
     private const int ProducersCount = 4;
@@ -24,11 +25,12 @@ internal class Program
     {
         var manager = new Manager<int>(ProducersCount, ConsumersCount, ProduceFunc, ConsumeAction);
 
+        Console.WriteLine("Manager started");
         manager.Start();
 
         Console.ReadKey(true);
 
         manager.Stop();
-        manager.Dispose();
+        Console.WriteLine("Manager stopped");
     }
 }
