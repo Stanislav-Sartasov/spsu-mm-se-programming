@@ -103,7 +103,8 @@
             finally
             {
                 Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} was stopped.");
-                isRunningNotification.Set();
+                if (!isRunningNotification.SafeWaitHandle.IsClosed)
+                    isRunningNotification.Set();
             }
         }
 
