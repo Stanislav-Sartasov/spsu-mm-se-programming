@@ -3,6 +3,7 @@
     public class ThreadPool : IDisposable
     {
         volatile bool isStop = false;
+        const int maxDisposeThreadTime = 100;
 
         List<Thread> threads;
         Queue<(Action<object?> Task, object? Param)> tasks;
@@ -54,41 +55,56 @@
         {
             Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} was started...");
 
-            while (!isStop)
+            try
             {
-                isRunningNotification.WaitOne();
-                if (isStop) break; // Check if ThreadPool was stopped while we were waiting
-
-                enqueueSemaphore.WaitOne(); // Requesting access to queues
-
-                while (tasks.Count == 0) // Wait until the tasks appear in queue
+                while (!isStop)
                 {
-                    enqueueSemaphore.Release(); // Release the queue for another thread
-                    isRunningNotification.WaitOne(); // Waiting for execution
-                    if (isStop) break;
+                    isRunningNotification.WaitOne();
+                    if (isStop) break; // Check if ThreadPool was stopped while we were waiting
 
                     enqueueSemaphore.WaitOne(); // Requesting access to queues
+
+                    while (tasks.Count == 0) // Wait until the tasks appear in queue
+                    {
+                        enqueueSemaphore.Release(); // Release the queue for another thread
+                        isRunningNotification.WaitOne(); // Waiting for execution
+                        if (isStop) break;
+
+                        enqueueSemaphore.WaitOne(); // Requesting access to queues
+                    }
+
+                    var (task, param) = tasks.Dequeue();
+
+                    if (tasks.Count > 0) // Check if exist another task in queue and start it
+                        isRunningNotification.Set();
+
+                    enqueueSemaphore.Release(); // Allow another thread use queue
+
+                    try
+                    {
+                        task(param); // Execute task
+                    }
+                    catch (ThreadInterruptedException)
+                    {
+                        throw;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine($"Error {e} was accured in {Thread.CurrentThread.ManagedThreadId} thread!!!");
+                    }
                 }
 
-                var (task, param) = tasks.Dequeue();
-
-                if (tasks.Count > 0) // Check if exist another task in queue and start it
-                    isRunningNotification.Set();
-
-                enqueueSemaphore.Release(); // Allow another thread use queue
-
-                try
-                {
-                    task(param); // Execute task
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine($"Error {e} was accured in {Thread.CurrentThread.ManagedThreadId} thread!!!");
-                }
+                
             }
-
-            Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} was stopped.");
-            isRunningNotification.Set();
+            catch (ThreadInterruptedException)
+            {
+                Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} was interrupted while stopping pool.");
+            }
+            finally
+            {
+                Console.WriteLine($"Thread {Thread.CurrentThread.ManagedThreadId} was stopped.");
+                isRunningNotification.Set();
+            }
         }
 
         public void Dispose()
@@ -97,7 +113,10 @@
 
             isRunningNotification.Set();
             foreach (var thread in threads)
-                thread.Join();
+            {
+                if (!thread.Join(maxDisposeThreadTime))
+                    thread.Interrupt();
+            } 
 
             enqueueSemaphore.Dispose();
             isRunningNotification.Dispose();
