@@ -1,6 +1,6 @@
 ﻿namespace ProducerConsumer;
 
-public class Manager<T>: IDisposable
+public class Manager<T>
 {
     private Mutex mutex = new();
     private Buffer<T> buffer = new();
@@ -33,13 +33,11 @@ public class Manager<T>: IDisposable
         producers.ForEach(producer => producer.Stop());
         consumers.ForEach(consumer => consumer.Stop());
         threads.ForEach(thread => thread.Join());
-    }
 
-    public void Dispose()
-    {
         producers.Clear();
         consumers.Clear();
         threads.Clear();
+
         mutex.Dispose();
     }
 }
