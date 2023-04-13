@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProducerConsumer
+﻿namespace Task3.Locks
 {
-    class TTASLock
+    public class TTASLock : ILock
     {
-        static private volatile int state = 0;
+        private volatile int state = 0;
 
-        static public void Lock()
+        public void Lock()
         {
             while (true)
             {
@@ -26,7 +20,7 @@ namespace ProducerConsumer
             }
         }
 
-        static public void Unlock()
+        public void Unlock()
         {
             state = 0;
         }

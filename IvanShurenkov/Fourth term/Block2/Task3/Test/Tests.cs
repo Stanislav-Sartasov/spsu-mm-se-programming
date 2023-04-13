@@ -1,25 +1,30 @@
-using ProducerConsumer;
+using NUnit.Framework;
+using Task3.Locks;
+using Task3.ProducerConsumer;
+using Task3;
 
 namespace Test
 {
     public class Tests
     {
-        volatile List<int> buffer;
-        volatile List<int> items;
-        Random random;
+        private volatile List<int> buffer;
+        private volatile List<int> items;
+        private static Random Rnd;
+        private ILock localLocker;
 
         [SetUp]
         public void Setup()
         {
             buffer = new List<int>();
             items = new List<int>();
-            random = new Random();
+            Rnd = new Random();
+            localLocker = new TTASLock();
         }
 
         [Test]
         public void TestProducer()
         {
-            Producer<int> producer = new Producer<int>(buffer, () => { int item = random.Next(); items.Add(item); return item; });
+            Producer<int> producer = new Producer<int>(buffer, localLocker, () => { int item = Rnd.Next(); items.Add(item); return item; });
             producer.Start();
             Thread.Sleep(5);
             producer.Stop();
@@ -33,7 +38,7 @@ namespace Test
             List<Producer<int>> producers = new List<Producer<int>>();
             for (int i = 0; i < 2; i++)
             {
-                producers.Add(new Producer<int>(buffer, () => { int item = random.Next(); Thread.Sleep(100); return item; }));
+                producers.Add(new Producer<int>(buffer, localLocker, () => { int item = Rnd.Next(); Thread.Sleep(100); return item; }));
             }
             for (int i = 0; i < producers.Count; i++)
             {
@@ -53,7 +58,7 @@ namespace Test
         [Test]
         public void TestConsumer()
         {
-            Consumer<int> consumer = new Consumer<int>(buffer, items.Add);
+            Consumer<int> consumer = new Consumer<int>(buffer, localLocker, items.Add);
             List<int> expected = new List<int>();
             for (int i = 0; i < 10; i++)
             {
@@ -77,8 +82,8 @@ namespace Test
             {
                 consumerItems[i] = new List<int>();
             }
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[0].Add(item); }));
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[1].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[0].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[1].Add(item); }));
 
             for (int i = 0; i < 10; i++)
             {
@@ -123,10 +128,10 @@ namespace Test
             {
                 consumerItems[i] = new List<int>();
             }
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[0].Add(item); }));
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[1].Add(item); }));
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[2].Add(item); }));
-            consumers.Add(new Consumer<int>(buffer, item => { consumerItems[3].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[0].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[1].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[2].Add(item); }));
+            consumers.Add(new Consumer<int>(buffer, localLocker, item => { consumerItems[3].Add(item); }));
 
             for (int i = 0; i < 10; i++)
             {
@@ -165,33 +170,33 @@ namespace Test
         [Test]
         public void TestManager()
         {
-            Manager manager = new Manager(3, 5);
+            ProducerConsumerManager manager = new ProducerConsumerManager(3, 5);
             
-            Assert.That(manager.consumer.Count, Is.EqualTo(5));
-            Assert.That(manager.producer.Count, Is.EqualTo(3));
+            Assert.That(manager.Consumers.Count, Is.EqualTo(5));
+            Assert.That(manager.Producers.Count, Is.EqualTo(3));
 
             manager.Start();
 
-            for (int i = 0; i < manager.consumer.Count; i++)
+            for (int i = 0; i < manager.Consumers.Count; i++)
             {
-                Assert.IsFalse(manager.consumer[i].getState());
+                Assert.IsFalse(manager.Consumers[i].GetState());
             }
 
-            for (int i = 0; i < manager.producer.Count; i++)
+            for (int i = 0; i < manager.Producers.Count; i++)
             {
-                Assert.IsFalse(manager.producer[i].getState());
+                Assert.IsFalse(manager.Producers[i].GetState());
             }
 
             manager.Stop();
 
-            for (int i = 0; i < manager.consumer.Count; i++)
+            for (int i = 0; i < manager.Consumers.Count; i++)
             {
-                Assert.IsTrue(manager.consumer[i].getState());
+                Assert.IsTrue(manager.Consumers[i].GetState());
             }
 
-            for (int i = 0; i < manager.producer.Count; i++)
+            for (int i = 0; i < manager.Producers.Count; i++)
             {
-                Assert.IsTrue(manager.producer[i].getState());
+                Assert.IsTrue(manager.Producers[i].GetState());
             }
         }
     }

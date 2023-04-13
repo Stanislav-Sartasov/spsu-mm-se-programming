@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Task3.Locks;
 
-namespace ProducerConsumer
+namespace Task3.ProducerConsumer
 {
     public class Producer<T>
     {
@@ -13,15 +9,17 @@ namespace ProducerConsumer
         private Func<T> produce;
         private int timeout = 10;
         private Thread thread;
+        private ILock locker;
 
-        public Producer(List<T> buffer, Func<T> produce)
+        public Producer(List<T> buffer, ILock locker, Func<T> produce)
         {
             this.buffer = buffer;
             this.produce = produce;
-            this.thread = new Thread(Run);
+            thread = new Thread(Run);
+            this.locker = locker;
         }
 
-        public bool getState()
+        public bool GetState()
         {
             return stop;
         }
@@ -32,11 +30,11 @@ namespace ProducerConsumer
             {
                 T item = produce();
 
-                TTASLock.Lock();
+                locker.Lock();
 
                 buffer.Add(item);
 
-                TTASLock.Unlock();
+                locker.Unlock();
 
                 Thread.Sleep(timeout);
             }

@@ -1,26 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Task3.Locks;
 
-namespace ProducerConsumer
+namespace Task3.ProducerConsumer
 {
     public class Consumer<T>
     {
         private List<T> buffer;
         private Action<T> consume;
-        volatile bool stop = true;
+        private volatile bool stop = true;
         private Thread thread;
+        private ILock locker;
 
-        public Consumer(List<T> buffer, Action<T> consume)
+        public Consumer(List<T> buffer, ILock locker, Action<T> consume)
         {
             this.buffer = buffer;
             this.consume = consume;
-            this.thread = new Thread(Run);
+            thread = new Thread(Run);
+            this.locker = locker;
         }
 
-        public bool getState()
+        public bool GetState()
         {
             return stop;
         }
@@ -29,20 +27,20 @@ namespace ProducerConsumer
         {
             while (!stop)
             {
-                TTASLock.Lock();
+                locker.Lock();
 
                 if (buffer.Count > 0)
                 {
                     T item = buffer[0];
                     buffer.RemoveAt(0);
-                    
-                    TTASLock.Unlock();
+
+                    locker.Unlock();
 
                     consume(item);
                 }
                 else
                 {
-                    TTASLock.Unlock();
+                    locker.Unlock();
                 }
             }
         }
