@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO.Compression;
-using System.Xml;
-using MPI;
+﻿using MPI;
 using Graph;
 
 namespace Task2
@@ -91,8 +87,8 @@ namespace Task2
 
                     for (int i = 0; i < edges.Count; i++)
                     {
-                        graph[edges[i].src].Add(edges[i].id);
-                        graph[edges[i].dest].Add(edges[i].id);
+                        graph[edges[i].Src].Add(edges[i].Id);
+                        graph[edges[i].Dest].Add(edges[i].Id);
                     }
                 }
 
@@ -103,7 +99,7 @@ namespace Task2
                 PriorityQueue<int, int> queue = new PriorityQueue<int, int>();
                 for (int i = 0; i < graph[0].Count; i++)
                 {
-                    queue.Enqueue(graph[0][i], edges[graph[0][i] / cntCommunicator].weight);
+                    queue.Enqueue(graph[0][i], edges[graph[0][i] / cntCommunicator].Weight);
                 }
 
                 while (cnt < cntVertex - 1)
@@ -112,7 +108,7 @@ namespace Task2
                     while (queue.Count > 0 && queue.TryDequeue(out int edgeId, out int weight))
                     {
                         Edge edge = edges[edgeId / cntCommunicator];
-                        if (used[edge.src] ^ used[edge.dest])
+                        if (used[edge.Src] ^ used[edge.Dest])
                         {
                             minEdge = edge;
                             break;
@@ -132,7 +128,7 @@ namespace Task2
                                 continue;
                             }
                             Edge receiveEdge = edgesByRank[receiveEdgeId % cntCommunicator][receiveEdgeId / cntCommunicator];
-                            if (receiveEdge.weight < minREdge.weight)
+                            if (receiveEdge.Weight < minREdge.Weight)
                             {
                                 minREdge = receiveEdge;
                             }
@@ -144,39 +140,39 @@ namespace Task2
                     }
                     else
                     {
-                        communicator.Send<int>(minEdge.id, 0, 0);
+                        communicator.Send<int>(minEdge.Id, 0, 0);
                         minREdge = communicator.Receive<Edge>(0, 0);
                     }
-                    if (minREdge.id != minEdge.id && -1 != minEdge.id)
+                    if (minREdge.Id != minEdge.Id && -1 != minEdge.Id)
                     {
-                        queue.Enqueue(minEdge.id, minEdge.weight);
+                        queue.Enqueue(minEdge.Id, minEdge.Weight);
                     }
                     minEdge = minREdge;
-                    if (-1 == minEdge.id)
+                    if (-1 == minEdge.Id)
                     {
                         break;
                     }
 
                     int vertex = 0;
-                    if (used[minEdge.src])
+                    if (used[minEdge.Src])
                     {
-                        used[minEdge.dest] = true;
-                        vertex = minEdge.dest;
+                        used[minEdge.Dest] = true;
+                        vertex = minEdge.Dest;
                     }
                     else
                     {
-                        used[minEdge.src] = true;
-                        vertex = minEdge.src;
+                        used[minEdge.Src] = true;
+                        vertex = minEdge.Src;
                     }
                     for (int i = 0; i < graph[vertex].Count; i++)
                     {
                         Edge edge = edges[graph[vertex][i] / cntCommunicator];
-                        if (used[edge.src] ^ used[edge.dest])
+                        if (used[edge.Src] ^ used[edge.Dest])
                         {
-                            queue.Enqueue(graph[vertex][i], edge.weight);
+                            queue.Enqueue(graph[vertex][i], edge.Weight);
                         }
                     }
-                    sum += minEdge.weight;
+                    sum += minEdge.Weight;
                     cnt++;
                 }
                 if (0 == communicatorId)
