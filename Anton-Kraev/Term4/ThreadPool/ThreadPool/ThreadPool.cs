@@ -36,7 +36,11 @@ public class ThreadPool : IDisposable
     {
         while (true)
         {
-            if (isEmpty) continue;
+            if (isEmpty)
+            {
+                if (isDisposed) return;
+                continue;
+            }
 
             Action? task = null;
 
@@ -50,8 +54,6 @@ public class ThreadPool : IDisposable
             }
 
             task?.Invoke();
-
-            if (isDisposed && isEmpty) return;
         }
     }
 
