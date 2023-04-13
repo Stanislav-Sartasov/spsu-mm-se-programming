@@ -36,13 +36,21 @@ public class ThreadPool : IDisposable
         }
 
         tasks.Enqueue(a);
-        Monitor.Pulse(dequeueSync);
+
+        lock(dequeueSync)
+        {
+            Monitor.Pulse(dequeueSync);
+        }
     }
 
     public void Dispose()
     {
         isDisposed = true;
-        Monitor.PulseAll(dequeueSync);
+
+        lock(dequeueSync)
+        {
+            Monitor.PulseAll(dequeueSync);
+        }
 
         foreach (var thread in threads)
         {
@@ -70,14 +78,14 @@ public class ThreadPool : IDisposable
         {
             lock(dequeueSync)
             {
+                while (tasks.Count == 0 && !isDisposed)
+                {
+                    Monitor.Wait(dequeueSync);
+                }
+
                 if (isDisposed)
                 {
                     return;
-                }
-
-                if (tasks.Count == 0)
-                {
-                    Monitor.Wait(dequeueSync);
                 }
 
                 tasks.Dequeue()();
