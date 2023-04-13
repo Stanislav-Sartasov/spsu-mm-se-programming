@@ -17,7 +17,7 @@
         {
             if (consumersCounter == 10 || item == 0) return;
             Interlocked.Increment(ref consumersCounter);
-            Interlocked.Exchange(ref acc, acc + item);
+            Interlocked.Add(ref acc, item);
         }
 
         private Manager<int> manager;
@@ -27,6 +27,7 @@
         {
             producersCounter = 0;
             consumersCounter = 0;
+            acc = 0;
 
             manager = new Manager<int>(2, 2, Produce, Consume);
         }
@@ -36,9 +37,29 @@
         {
             manager.Start();
             while (consumersCounter + producersCounter != 20) { }
-            manager.Stop();
+            manager.Dispose();
 
             Assert.AreEqual(30, acc);
+        }
+
+        [Test]
+        public void DoubleStartAndDisposeTest()
+        {
+            manager.Start();
+            manager.Start();
+            manager.Dispose();
+            manager.Dispose();
+
+            Assert.Pass();
+        }
+
+        [Test]
+        public void StartAfterDisposeTest()
+        {
+            manager.Start();
+            manager.Dispose();
+
+            Assert.Catch<InvalidOperationException>(() => manager.Start());
         }
     }
 }
