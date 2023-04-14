@@ -56,8 +56,6 @@ public class ThreadPool : IDisposable
         {
             thread.Join();
         }
-
-        isDisposed = false;
     }
 
     private void InitializeThreads()
