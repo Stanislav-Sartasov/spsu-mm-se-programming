@@ -8,8 +8,7 @@ public class ThreadPool : IDisposable
 
     private Thread[] threads;
     private Queue<Action> tasks;
-    bool isInitialized;  // Not volatile, because only the main thread can change this field
-    bool isDisposed;  // Not volatile, because only the main thread can change this field
+    private volatile bool isDisposed;
 
     object dequeueSync = new();
 
@@ -23,16 +22,17 @@ public class ThreadPool : IDisposable
         NumberOfThreads = numberOfThreads;
         threads = new Thread[NumberOfThreads];
         tasks = new Queue<Action>();
-        isInitialized = false;
         isDisposed = false;
+
+        InitializeThreads();
     }
 
     [MethodImpl(MethodImplOptions.Synchronized)]
     public void Enqueue(Action a)
     {
-        if (!isInitialized)
+        if (isDisposed)
         {
-            InitializeThreads();
+            throw new InvalidOperationException("ThreadPool is disposed.");
         }
 
         tasks.Enqueue(a);
@@ -58,7 +58,6 @@ public class ThreadPool : IDisposable
         }
 
         isDisposed = false;
-        isInitialized = false;
     }
 
     private void InitializeThreads()
@@ -68,8 +67,6 @@ public class ThreadPool : IDisposable
             threads[i] = new Thread(PerformTasks);
             threads[i].Start();
         }
-
-        isInitialized = true;
     }
 
     private void PerformTasks()
