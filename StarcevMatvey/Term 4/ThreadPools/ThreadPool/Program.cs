@@ -8,8 +8,8 @@ namespace ThreadPool
         {
             if (args.Length < 1) throw new Exception("Not enough arguments");
 
-            int count;
-            if (!Int32.TryParse(args[0], out count)) throw new Exception("First argument must be integer");
+            var count = Utils.GetPositiveInt(args[0]);
+
             if (count <= 0) throw new Exception("First argument must be positive integer");
 
             var act = HelloThere;
