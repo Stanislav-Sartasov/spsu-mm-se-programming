@@ -27,6 +27,8 @@ namespace ThreadPool
 
         public void Enqueue(Action act)
         {
+            if (stop) throw new Exception("Thread pool is stopped");
+
             Monitor.Enter(actQueue);
             try
             {
