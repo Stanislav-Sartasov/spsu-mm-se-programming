@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsumerProducer.Locks;
 
 namespace ConsumerProducer
 {
-    public static class TASLock
+    public class TASLock : ILock
     {
-        private static volatile int stop = 0;
+        private volatile int stop;
 
-        public static void Lock()
+        public TASLock()
+        {
+            stop = 0;
+        }
+
+        public void Lock()
         {
             while (Interlocked.CompareExchange(ref stop, 1, 0) == 1)
             {
@@ -18,7 +24,7 @@ namespace ConsumerProducer
             }
         }
 
-        public static void Unlock()
+        public void Unlock()
         {
             stop = 0;
         }

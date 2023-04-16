@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ConsumerProducer.Locks;
 
 namespace ConsumerProducer
 {
@@ -11,9 +12,12 @@ namespace ConsumerProducer
         private Thread thread;
         private List<Data<string>> tasks;
         private volatile bool stop;
+        private ILock locker;
 
-        public Producer(List<Data<string>> tasks, string threadName)
+        public Producer(ILock locker, List<Data<string>> tasks, string threadName)
         {
+            this.locker = locker;
+
             thread = new Thread(Work);
             thread.Name = threadName;
             this.tasks = tasks;
@@ -27,9 +31,9 @@ namespace ConsumerProducer
 
             while (!stop)
             {
-                TASLock.Lock();
+                locker.Lock();
                 tasks.Add(new Data<string>(name));
-                TASLock.Unlock();
+                locker.Unlock();
 
                 Thread.Sleep(1000);
             }

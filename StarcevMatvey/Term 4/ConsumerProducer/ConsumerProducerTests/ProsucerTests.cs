@@ -11,7 +11,9 @@ namespace ConsumerProducerTests
         public void Test()
         {
             var tasks = new List<Data<string>>();
-            var prod = new Producer(tasks, "produser 0");
+            var locker = new TASLock();
+
+            var prod = new Producer(locker, tasks, "produser 0");
             Thread.Sleep(100);
             prod.Join();
 

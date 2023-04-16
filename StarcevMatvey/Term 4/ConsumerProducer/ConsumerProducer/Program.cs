@@ -12,13 +12,14 @@
             if (prCount * cnCount == 0) throw new Exception("One of arguments is not a positive integer");
 
             var tasks = new List<Data<string>>();
+            var locker = new TASLock();
 
             var consumers = new Consumer[cnCount]
-                .Select((x, i) => new Consumer(tasks, $"consumer number {i}"))
+                .Select((x, i) => new Consumer(locker, tasks, $"consumer number {i}"))
                 .ToArray();
 
             var produsers = new Producer[prCount]
-                .Select((x, i) => new Producer(tasks, $"producer number {i}"))
+                .Select((x, i) => new Producer(locker, tasks, $"producer number {i}"))
                 .ToArray();
 
             Console.ReadKey();
