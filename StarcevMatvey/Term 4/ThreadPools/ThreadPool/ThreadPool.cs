@@ -45,7 +45,6 @@ namespace ThreadPool
             while (!stop)
             {
                 Action act = null;
-                var flag = false;
 
                 Monitor.Enter(actQueue);
 
@@ -56,7 +55,6 @@ namespace ThreadPool
                     if (actQueue.Count > 0)
                     {
                         act = actQueue.Dequeue();
-                        flag = true;
                     }
                 }
                 finally
@@ -64,7 +62,7 @@ namespace ThreadPool
                     Monitor.Exit(actQueue);
                 }
 
-                if (flag && act != null) act.Invoke();
+                if (act != null) act.Invoke();
             }
         }
 
