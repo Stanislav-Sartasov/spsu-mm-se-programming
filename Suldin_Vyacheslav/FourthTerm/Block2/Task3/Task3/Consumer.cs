@@ -24,15 +24,14 @@ namespace Task3
                         Monitor.Wait(Sync);
                     }
                     Consume();
-                    Monitor.PulseAll(Sync);
                 }
-                Thread.Sleep(pause);
             }
         }
 
         public void Consume()
         {
-            //Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} consumes");
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} consumes");
+            Thread.Sleep(pause);
             buffer.RemoveAt(0);
         }
     }

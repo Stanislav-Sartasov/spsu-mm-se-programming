@@ -22,13 +22,13 @@ namespace Task3
                     buffer.Add(Produce());
                     Monitor.PulseAll(Sync);
                 }
-                Thread.Sleep(pause);
             }
         }
 
         public T Produce()
         {
-            //Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} produces");
+            Console.WriteLine($"{Thread.CurrentThread.ManagedThreadId} produces");
+            Thread.Sleep(pause);
             return default;
         }
     }
