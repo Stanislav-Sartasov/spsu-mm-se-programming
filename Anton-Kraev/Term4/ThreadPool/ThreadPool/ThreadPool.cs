@@ -7,8 +7,7 @@ public class ThreadPool : IDisposable
     private List<Thread> threads;
     private Queue<Action> queue = new();
 
-    private volatile bool isEmpty = true;
-    private volatile bool isDisposed = false;
+    private volatile bool isDisposed;
 
     public ThreadPool()
     {
@@ -21,14 +20,17 @@ public class ThreadPool : IDisposable
 
     public void Enqueue(Action action)
     {
-        if (isDisposed) throw new InvalidOperationException(
+        if (isDisposed)
+        {
+            throw new InvalidOperationException(
             "Error adding a new task to the queue, because the thread pool was destroyed"
             );
+        }
 
         lock (queue)
         {
             queue.Enqueue(action);
-            isEmpty = false;
+            Monitor.Pulse(queue);
         }
     }
     
@@ -36,21 +38,15 @@ public class ThreadPool : IDisposable
     {
         while (true)
         {
-            if (isEmpty)
-            {
-                if (isDisposed) return;
-                continue;
-            }
-
-            Action? task = null;
+            Action? task;
 
             lock (queue)
             {
-                if (queue.Any())
+                while (!queue.TryDequeue(out task))
                 {
-                    task = queue.Dequeue();
+                    if (isDisposed) return;
+                    Monitor.Wait(queue);
                 }
-                isEmpty = !queue.Any();
             }
 
             task?.Invoke();
@@ -60,9 +56,12 @@ public class ThreadPool : IDisposable
     public void Dispose()
     {
         if (isDisposed) return;
-
         isDisposed = true;
 
+        lock (queue)
+        {
+            Monitor.PulseAll(queue);
+        }
         threads.ForEach(th => th.Join());
 
         threads.Clear();
