@@ -1,4 +1,4 @@
-package prodcon
+package prodcons
 
 import org.junit.jupiter.api.RepeatedTest
 import java.util.concurrent.*

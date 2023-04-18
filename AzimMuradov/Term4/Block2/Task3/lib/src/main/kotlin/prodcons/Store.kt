@@ -1,4 +1,4 @@
-package prodcon
+package prodcons
 
 import java.util.concurrent.locks.*
 import kotlin.concurrent.thread

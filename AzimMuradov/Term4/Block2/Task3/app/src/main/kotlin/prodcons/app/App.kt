@@ -1,8 +1,8 @@
-package prodcon.app
+package prodcons.app
 
-import prodcon.Consumer
-import prodcon.Store
-import prodcon.Producer
+import prodcons.Consumer
+import prodcons.Store
+import prodcons.Producer
 import kotlin.random.Random
 import kotlin.random.nextLong
 

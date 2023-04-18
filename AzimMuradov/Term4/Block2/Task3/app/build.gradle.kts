@@ -9,7 +9,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("prodcon.app.AppKt")
+    mainClass.set("prodcons.app.AppKt")
 }
 
 tasks.run.configure {

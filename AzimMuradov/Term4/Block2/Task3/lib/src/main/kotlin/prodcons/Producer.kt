@@ -1,4 +1,4 @@
-package prodcon
+package prodcons
 
 
 fun interface Producer<out T : Any> {

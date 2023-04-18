@@ -1,4 +1,4 @@
-package prodcon
+package prodcons
 
 
 fun interface Consumer<in T : Any> {
