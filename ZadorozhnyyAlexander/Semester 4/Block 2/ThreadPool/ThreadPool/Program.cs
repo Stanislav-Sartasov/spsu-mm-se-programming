@@ -15,9 +15,9 @@ public class Program
     private static Action GenerateTask = () =>
     {
         var task = GenarateTask();
-        Console.WriteLine($"--> Start do task {task}...");
+        Console.WriteLine($"--> {Thread.CurrentThread.ManagedThreadId} Start do task {task}...");
         Thread.Sleep(random.Next(1000));
-        Console.WriteLine($"--> Task {task} was finished.");
+        Console.WriteLine($"--> {Thread.CurrentThread.ManagedThreadId} Task {task} was finished.");
     };
 
     public static int Main(string[] args)
@@ -26,8 +26,10 @@ public class Program
         {
             using (var threadPool = new ThreadPool(10))
             {
-                for (int i = 0; i < 20; i++)
+                for (int i = 0; i < 50; i++)
+                {
                     threadPool.EnqueueTask(GenerateTask);
+                }
 
                 Console.ReadKey();
             }
