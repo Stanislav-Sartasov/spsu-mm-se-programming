@@ -47,6 +47,21 @@ namespace Task4.UnitTests
         }
 
         [Test]
+        public void LessTasks()
+        {
+            int taskCount = 3;
+            int sum = 0;
+            var tp = new ThreadPool();
+            for (int i = 0; i < taskCount; i++)
+            {
+                tp.Enqueue(() => sum++);
+            }
+            tp.Dispose();
+
+            Assert.That(sum, Is.EqualTo(taskCount));
+        }
+
+        [Test]
         public void DisposeTest()
         {
             var tp = new ThreadPool();

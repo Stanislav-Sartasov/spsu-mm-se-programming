@@ -36,7 +36,6 @@ namespace Task4
             lock (actions)
             {
                 actions.Enqueue(action);
-                //pulsing thread to take new action
                 Monitor.Pulse(actions);
             }
         }
@@ -48,15 +47,20 @@ namespace Task4
                 Action action = null;
                 lock (actions)
                 {
-                    if (!actions.Any() && stop)
+                    bool empty = !actions.Any();
+
+                    if (empty && stop)
                     {
                         break;
                     }
-                    while (actions.Count == 0 && !stop)
+                    while (empty && !stop)
                     {
                         Monitor.Wait(actions);
                     }
-                    action = actions.Dequeue();
+                    if (!empty)
+                    {
+                        action = actions.Dequeue();
+                    }
                 }
 
                 if (action != null)
