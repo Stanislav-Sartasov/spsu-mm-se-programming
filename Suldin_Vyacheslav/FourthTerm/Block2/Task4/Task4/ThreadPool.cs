@@ -47,17 +47,15 @@ namespace Task4
                 Action action = null;
                 lock (actions)
                 {
-                    bool empty = !actions.Any();
-
-                    if (empty && stop)
+                    if (!actions.Any() && stop)
                     {
                         break;
                     }
-                    while (empty && !stop)
+                    while (!actions.Any() && !stop)
                     {
                         Monitor.Wait(actions);
                     }
-                    if (!empty)
+                    if (actions.Any())
                     {
                         action = actions.Dequeue();
                     }
