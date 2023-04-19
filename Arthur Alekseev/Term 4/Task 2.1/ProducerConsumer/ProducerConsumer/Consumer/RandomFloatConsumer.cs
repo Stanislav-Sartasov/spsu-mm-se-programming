@@ -45,10 +45,11 @@ public class RandomFloatConsumer : IThread
 		{
 			var item = _buffer.First();
 			_buffer.RemoveAt(0);
+			_lock.Unlock();
 			Consume(item);
 		}
-
-		_lock.Unlock();
+		else
+			_lock.Unlock();
 
 		Thread.Sleep(1000);
 	}
