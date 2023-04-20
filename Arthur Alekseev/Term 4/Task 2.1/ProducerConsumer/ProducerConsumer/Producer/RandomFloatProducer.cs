@@ -5,12 +5,12 @@ namespace ProducerConsumer.Producer;
 public class RandomFloatProducer : IThread
 {
 	private readonly Guid _guid;
-	private readonly ILock _lock;
+	private volatile ILock _lock;
 	private readonly ILogger _logger;
 	private readonly Random _random;
 	private readonly IThread _thread;
 
-	private readonly List<float> _buffer;
+	private volatile List<float> _buffer;
 
 	public RandomFloatProducer(ILock lockObject, List<float> buffer, ILogger logger)
 	{

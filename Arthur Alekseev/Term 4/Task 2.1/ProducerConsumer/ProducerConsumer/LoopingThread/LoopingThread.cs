@@ -6,7 +6,7 @@ public class LoopingThread : IThread
 {
 	private readonly Thread _thread;
 	private readonly Action _threadIteration;
-	private bool _isRunning;
+	private volatile bool _isRunning;
 
 	public LoopingThread(Action threadIteration)
 	{
