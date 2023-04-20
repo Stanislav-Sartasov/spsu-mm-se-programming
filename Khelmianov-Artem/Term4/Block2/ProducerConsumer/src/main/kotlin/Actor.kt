@@ -1,8 +1,8 @@
-import java.util.concurrent.Semaphore
+import java.util.concurrent.locks.ReentrantLock
 
 abstract class Actor<T>(
     protected val queue: MutableList<T>,
-    protected val mutex: Semaphore,
+    protected val mutex: ReentrantLock,
     protected val name: String = ""
 ) : Runnable {
     @Volatile

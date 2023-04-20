@@ -1,9 +1,10 @@
 import org.junit.jupiter.api.Test
+import java.util.concurrent.locks.ReentrantLock
 
 class ProducerConsumerProblemTest {
     private fun <T, C : Actor<T>> createAndRun(actor: Class<C>, list: MutableList<T>) {
-        val a = actor.getConstructor(MutableList::class.java, String::class.java)
-            .newInstance(list, "test")
+        val a = actor.getConstructor(MutableList::class.java, ReentrantLock::class.java, String::class.java)
+            .newInstance(list, ReentrantLock(), "test")
         val t = Thread(a).apply { start() }
         Thread.sleep(100)
         a.isRunning = false

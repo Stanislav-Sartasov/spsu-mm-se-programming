@@ -1,9 +1,10 @@
 import java.util.concurrent.Semaphore
+import java.util.concurrent.locks.ReentrantLock
 import kotlin.random.Random
 
 class Consumer(
     queue: MutableList<Data>,
-    mutex: Semaphore,
+    mutex: ReentrantLock,
     name: String = ""
 ) : Actor<Data>(queue, mutex, name) {
     override fun run() {

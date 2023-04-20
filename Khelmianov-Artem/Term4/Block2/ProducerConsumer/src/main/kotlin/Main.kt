@@ -1,5 +1,5 @@
 import java.util.concurrent.Executors
-import java.util.concurrent.Semaphore
+import java.util.concurrent.locks.ReentrantLock
 
 fun main(args: Array<String>) {
     ProducerConsumerProblem(2, 4).let { pc ->
@@ -15,7 +15,7 @@ class ProducerConsumerProblem(
 ) {
     private val executor = Executors.newVirtualThreadPerTaskExecutor()
     private val list = mutableListOf<Data>()
-    private val mutex = Semaphore(1)
+    private val mutex = ReentrantLock()
     val actors = mutableListOf<Actor<Data>>()
 
     fun start() {
@@ -31,11 +31,11 @@ class ProducerConsumerProblem(
 }
 
 
-fun <T> Semaphore.withLock(block: () -> T): T {
-    acquire()
+fun <T> ReentrantLock.withLock(block: () -> T): T {
+    lock()
     try {
         return block()
     } finally {
-        release()
+        unlock()
     }
 }
