@@ -11,6 +11,7 @@ namespace Fibers
 		private static readonly List<Fiber> Fibers = new List<Fiber>();
 		private static bool _isPrioMode;
 		private static Fiber _current;
+		private static Random _rnd = new Random();
 
 		public static void Start(List<Process> processes, bool prioMode)
 		{
@@ -39,13 +40,20 @@ namespace Fibers
 
 			if (_isPrioMode)
 			{
-				int maxPriority = Fibers.Aggregate(Fibers[0].Priority, (acc, c) => Math.Max(acc, c.Priority));
+				if (_rnd.Next(100) < 25)
+				{
+					_current = Fibers[_rnd.Next(Fibers.Count)];
+				}
+				else
+				{
+					int maxPriority = Fibers.Aggregate(Fibers[0].Priority, (acc, c) => Math.Max(acc, c.Priority));
 
-				var prioFibers = Fibers.FindAll(fiber => fiber.Priority == maxPriority);
+					var prioFibers = Fibers.FindAll(fiber => fiber.Priority == maxPriority);
 
-				// Get fiber with max priority and min duration
-				_current = prioFibers.Aggregate(prioFibers.First(),
-					(acc, c) => c.TotalDuration < acc.TotalDuration ? c : acc);
+					// Get fiber with max priority and min duration
+					_current = prioFibers.Aggregate(prioFibers.First(),
+						(acc, c) => c.TotalDuration < acc.TotalDuration ? c : acc);
+				}
 			}
 			else
 			{
