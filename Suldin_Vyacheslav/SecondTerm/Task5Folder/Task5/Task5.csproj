@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.17.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GisMeteo\GisMeteo.csproj" />
+    <ProjectReference Include="..\OpenWeather\OpenWeather.csproj" />
+    <ProjectReference Include="..\Parsers\Parsers.csproj" />
+    <ProjectReference Include="..\StormGlass\StormGlass.csproj" />
+    <ProjectReference Include="..\TomorrowIO\TomorrowIO.csproj" />
+    <ProjectReference Include="..\WebLibrary\WebLibrary.csproj" />
+  </ItemGroup>
+
+</Project>

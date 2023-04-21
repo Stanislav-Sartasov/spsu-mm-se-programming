@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="4.0.0-beta-0134" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GisMeteo\GisMeteo.csproj" />
+    <ProjectReference Include="..\OpenWeather\OpenWeather.csproj" />
+    <ProjectReference Include="..\Parsers\Parsers.csproj" />
+    <ProjectReference Include="..\StormGlass\StormGlass.csproj" />
+    <ProjectReference Include="..\TomorrowIO\TomorrowIO.csproj" />
+    <ProjectReference Include="..\WebLibrary\WebLibrary.csproj" />
+  </ItemGroup>
+
+</Project>

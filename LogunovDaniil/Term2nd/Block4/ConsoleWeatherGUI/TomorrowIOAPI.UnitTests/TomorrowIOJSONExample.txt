@@ -1,0 +1,25 @@
+﻿{
+  "data": {
+    "timelines": [
+      {
+        "timestep": "current",
+        "endTime": "2022-04-30T13:20:00Z",
+        "startTime": "2022-04-30T13:20:00Z",
+        "intervals": [
+          {
+            "startTime": "2022-04-30T13:20:00Z",
+            "values": {
+              "cloudCover": 68,
+              "humidity": 35,
+              "precipitationProbability": 0,
+              "precipitationType": 0,
+              "temperature": 6.5,
+              "windDirection": 282.13,
+              "windSpeed": 5.38
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

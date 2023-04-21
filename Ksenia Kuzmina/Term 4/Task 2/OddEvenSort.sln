@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33516.290
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OddEvenSort", "OddEvenSort\OddEvenSort.csproj", "{FD23E161-4F58-44A0-9915-690EFDA5C63B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Debug|x64.ActiveCfg = Debug|x64
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Debug|x64.Build.0 = Debug|x64
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Release|x64.ActiveCfg = Release|x64
+		{FD23E161-4F58-44A0-9915-690EFDA5C63B}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6DF1EC51-2479-4C15-A9B5-74A54B8A3662}
+	EndGlobalSection
+EndGlobal

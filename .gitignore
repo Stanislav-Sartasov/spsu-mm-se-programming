@@ -3,12 +3,19 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# C Sharp User-specific folders
+bin/
+obj/
+
 # User-specific files
 *.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
+**/Debug
+**.filters
+**.user
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -348,6 +355,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-Arthur Alekseev/Term 4/Task 2.1/ProducerConsumer/.idea/.idea.ProducerConsumer/.idea/vcs.xml
-Arthur Alekseev/Term 4/Task 2.1/ProducerConsumer/.idea/.idea.ProducerConsumer/.idea/indexLayout.xml
-Arthur Alekseev/Term 4/Task 2.1/ProducerConsumer/.idea/.idea.ProducerConsumer/.idea/encodings.xml

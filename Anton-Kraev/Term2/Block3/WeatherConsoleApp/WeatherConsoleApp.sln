@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32328.378
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeatherConsoleApp", "WeatherConsoleApp\WeatherConsoleApp.csproj", "{E8FA14BB-6AAE-49A4-955A-2AE26C339D73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeatherConsoleAppTests", "WeatherConsoleAppTests\WeatherConsoleAppTests.csproj", "{CEC0C8A3-0880-44CD-ACA2-9123742BA216}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8FA14BB-6AAE-49A4-955A-2AE26C339D73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8FA14BB-6AAE-49A4-955A-2AE26C339D73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8FA14BB-6AAE-49A4-955A-2AE26C339D73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8FA14BB-6AAE-49A4-955A-2AE26C339D73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEC0C8A3-0880-44CD-ACA2-9123742BA216}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEC0C8A3-0880-44CD-ACA2-9123742BA216}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEC0C8A3-0880-44CD-ACA2-9123742BA216}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEC0C8A3-0880-44CD-ACA2-9123742BA216}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {498B8724-90A3-4E8A-B171-C8AB413B860C}
+	EndGlobalSection
+EndGlobal

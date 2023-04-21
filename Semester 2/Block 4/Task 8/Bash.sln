@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BashApp", "BashApp\BashApp.csproj", "{F0D7DE52-37F5-414B-AD9C-434A3B47BD18}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BashLib", "BashLib\BashLib.csproj", "{DBD05A31-D321-473C-BF58-78C0A6D494C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BashTests", "BashTests\BashTests.csproj", "{12C0EC62-D5E1-443F-8874-2C823F940727}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F0D7DE52-37F5-414B-AD9C-434A3B47BD18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0D7DE52-37F5-414B-AD9C-434A3B47BD18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0D7DE52-37F5-414B-AD9C-434A3B47BD18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0D7DE52-37F5-414B-AD9C-434A3B47BD18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD05A31-D321-473C-BF58-78C0A6D494C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD05A31-D321-473C-BF58-78C0A6D494C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD05A31-D321-473C-BF58-78C0A6D494C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD05A31-D321-473C-BF58-78C0A6D494C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12C0EC62-D5E1-443F-8874-2C823F940727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12C0EC62-D5E1-443F-8874-2C823F940727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12C0EC62-D5E1-443F-8874-2C823F940727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12C0EC62-D5E1-443F-8874-2C823F940727}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6D44323D-2A8D-4451-B395-FBF9F6DDBE3A}
+	EndGlobalSection
+EndGlobal

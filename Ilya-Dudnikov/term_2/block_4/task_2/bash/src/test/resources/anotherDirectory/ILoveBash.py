@@ -1,0 +1,1 @@
+print("Buy Bitcoin and forget about poverty!")

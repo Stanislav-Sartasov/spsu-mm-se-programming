@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ConsoleOutputManagement\ConsoleOutputManagement.csproj" />
+    <ProjectReference Include="..\Sites.UnitTests\Sites.UnitTests.csproj" />
+    <ProjectReference Include="..\Sites\Sites.csproj" />
+  </ItemGroup>
+
+</Project>

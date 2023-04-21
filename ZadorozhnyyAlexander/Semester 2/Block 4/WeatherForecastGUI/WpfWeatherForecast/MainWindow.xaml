@@ -1,0 +1,38 @@
+﻿<Window x:Class="WeatherForecastGUIWpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherForecastGUIWpf" xmlns:wpfweatherforecastmodel="clr-namespace:WpfWeatherForecastModel;assembly=WpfWeatherForecastModel"
+        mc:Ignorable="d"
+        Title="WeatherForecast" Height="450" Width="800" ResizeMode="NoResize" Icon="pack://application:,,,/Resource/icon.ico">
+    <Window.Background>
+        <ImageBrush TileMode="None" ImageSource="pack://application:,,,/Resource/background.jpg"/>
+    </Window.Background>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <wpfweatherforecastmodel:WeatherForecastModel x:Key="Model" />
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid DataContext="{StaticResource Model}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Name="InfoLabel" Text="{Binding Description}" FontSize="30" FontStyle="Italic" FontWeight="Bold" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <TextBlock Name="DataLabel" Text="{Binding Data}" FontSize="35" Grid.Column="1" FontStyle="Italic" Grid.Row="1" Grid.RowSpan="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Script MT Bold" Height="323" Width="522"></TextBlock>
+        <Button Name="UpdateButton" Background="#99008000"  Content="Update" FontSize="22" FontWeight="ExtraBold" Grid.Row="1" Grid.Column="0" Command="{Binding UpdateCommand}" Margin="47,17,10,17" OpacityMask="Black" IsEnabled="{Binding IsUpdateEnabled}"></Button>
+        <Button Name="SwitchButton" Background="#99FFD700"  Content="Switch" FontSize="22" FontWeight="ExtraBold" Grid.Row="2" Grid.Column="0" Command="{Binding SwitchCommand}" Margin="47,10,10,22"/>
+        <Button Name="ActivityButton" Background="#99F08080"  Content="Turn off/on" FontSize="22" FontWeight="ExtraBold" Grid.Row="2" Grid.Column="0" Command="{Binding ActivityCommand}" Margin="47,114,10,37" Grid.RowSpan="2"/>
+    </Grid>
+</Window>
