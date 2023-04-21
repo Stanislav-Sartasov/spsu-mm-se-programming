@@ -24,7 +24,7 @@ namespace Task_2
                     threadPool.Enqueue(Task);
                 }
 
-                Thread.Sleep(15000);
+                Thread.Sleep(5000);
             }
         }
     }

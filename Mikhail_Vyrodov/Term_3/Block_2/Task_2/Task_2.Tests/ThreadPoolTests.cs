@@ -29,7 +29,9 @@ namespace Task_2.Tests
                 {
                     threadPool.Enqueue(Task);
                 }
-                Thread.Sleep(30 * 200);
+
+                Thread.Sleep((30 * 200) / 5);
+
                 threadPool.Dispose();
                 threadPool.Enqueue(Task);
                 Assert.Fail();
@@ -52,7 +54,9 @@ namespace Task_2.Tests
                 {
                     threadPool.Enqueue(Task);
                 }
-                Thread.Sleep(30 * 200);
+
+                Thread.Sleep((30 * 200) / 5);
+
                 threadPool.Dispose();
                 Assert.AreEqual(completedTaskCounter, 30);
 

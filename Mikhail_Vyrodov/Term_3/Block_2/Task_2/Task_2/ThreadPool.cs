@@ -12,7 +12,6 @@ namespace Task_2
         private Queue<Action> tasksQueue;
         private Thread[] threads; 
         private volatile bool disposeFlag = false;
-        private volatile int tasksCount = 0;
 
         private object sync;
 
@@ -39,7 +38,6 @@ namespace Task_2
             lock (sync)
             {
                 tasksQueue.Enqueue(a);
-                Interlocked.Increment(ref tasksCount);
                 Monitor.Pulse(sync);
             }
         }
@@ -48,9 +46,10 @@ namespace Task_2
         {
             while (!disposeFlag)
             {
+                Action? task = null;
                 lock (sync)
                 {
-                    while (tasksCount == 0 && !disposeFlag)
+                    while (tasksQueue.Count == 0 && !disposeFlag)
                     {
                         Monitor.Wait(sync);
                     }
@@ -61,12 +60,11 @@ namespace Task_2
                         return;
                     }
 
-                    Action task = tasksQueue.Dequeue();
-
-                    task();
-
-                    Interlocked.Decrement(ref tasksCount);
+                    task = tasksQueue.Dequeue();
                 }
+
+                if (task != null)
+                    task();
             }
         }
 
