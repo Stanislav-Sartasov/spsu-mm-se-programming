@@ -12,7 +12,7 @@ let ``Task are processed sequentially when thread is single`` () =
     let task n () = lock storage (fun () -> storage.Add n)
     let work () =
         use pool = new ThreadPool(1, Seq.init 5 task)
-        pool.Join()
+        ()
 
     work()
 
@@ -30,14 +30,12 @@ let ``Argument exception is raised when thread count is negative`` () =
 
 [<Test>]
 [<Repeat(5)>]
-let ``Enqueued tasks when joining is started should be also processed`` () =
+let ``Enqueue method should throw an exception after disposing `` () =
     let storage = ResizeArray()
     let task _ () = lock storage (fun () -> storage.Add 1; Thread.Sleep(100))
     let work () =
-        use pool = new ThreadPool(3, Seq.init 10 task)
-        Thread(fun () -> Thread.Sleep(100); pool.Enqueue(task ())).Start()
-        pool.Join()
+        let pool = new ThreadPool(3, Seq.init 10 task)
+        (pool :> IDisposable).Dispose()
+        task () |> pool.Enqueue
 
-    work()
-
-    Assert.AreEqual(11, storage.Count)
+    Assert.Throws(typeof<InvalidOperationException>, work) |> ignore
