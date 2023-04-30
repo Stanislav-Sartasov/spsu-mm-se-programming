@@ -47,7 +47,10 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
         public void Add(long studentId, long courseId)
         {
-            throw new NotImplementedException();
+            var node = new Node(studentId, courseId);
+
+            if (!Add(node))
+                throw new Exception($"I can't add a node with student id {studentId} and course id {courseId}");
         }
 
         public void Remove(long studentId, long courseId)
@@ -56,25 +59,35 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         }
 
         public bool Contains(long studentId, long courseId)
-        {
-            throw new NotImplementedException();
-        }
+            => Contains(new Node(studentId, courseId));
 
         public int Count() => _setSize;
 
         private void Acquire(Node x)
         {
-
+            throw new NotImplementedException();
         }
 
         private void Release(Node x)
         {
-
+            throw new NotImplementedException();
         }
 
         private bool Contains(Node x)
         {
-            throw new NotImplementedException();
+            Acquire(x);
+
+            try
+            {
+                var set0 = _table[0, _hash[0](x)];
+                var set1 = _table[1, _hash[1](x)];
+
+                return set0.Contains(x) || set1.Contains(x);
+            }
+            finally
+            {
+                Release(x);
+            }
         }
 
         private bool Add(Node x)
@@ -176,10 +189,14 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
             return true;
         }
 
+        private bool Remove(Node x)
+        {
+            throw new NotImplementedException();
+        }
+
         private void Resize()
         {
 
         }
-
     }
 }
