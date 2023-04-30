@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Exception = System.Exception;
 
-namespace Dekanat.DekanatLib
+namespace Dekanat.DekanatLib.StripedHashSet
 {
     public abstract class ABaseHashSet
     {

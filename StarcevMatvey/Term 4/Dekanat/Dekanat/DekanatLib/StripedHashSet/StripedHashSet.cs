@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dekanat.DekanatLib
+namespace Dekanat.DekanatLib.StripedHashSet
 {
     public class StripedHashSet : ABaseHashSet, IExamSystem
     {
