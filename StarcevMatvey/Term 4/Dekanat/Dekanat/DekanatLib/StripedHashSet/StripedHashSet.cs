@@ -40,19 +40,19 @@ namespace Dekanat.DekanatLib.StripedHashSet
             Remove(new Node(studentId, courseId));
         }
 
-        protected override int Hash(Node x)
+        protected override int Hash(Node x, int hash)
         {
-            return (int)x.StudentId % _table.Length;
+            return (int)x.StudentId % hash;
         }
 
         protected override void Acquire(Node x)
         {
-            _locks[Hash(x)].WaitOne();
+            _locks[Hash(x, _locks.Length)].WaitOne();
         }
 
         protected override void Release(Node x)
         {
-            _locks[Hash(x)].ReleaseMutex();
+            _locks[Hash(x, _locks.Length)].ReleaseMutex();
         }
 
         protected override void Resize()
@@ -74,7 +74,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
                     .ToArray();
                 oldTable
                     .ToList()
-                    .ForEach(x => x.ForEach(x => _table[Hash(x)].Add(x)));
+                    .ForEach(x => x.ForEach(x => _table[Hash(x, newSize)].Add(x)));
             }
             finally
             {

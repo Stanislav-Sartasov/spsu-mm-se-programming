@@ -24,7 +24,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
         protected abstract void Resize();
         protected abstract void Acquire(Node x);
         protected abstract void Release(Node x);
-        protected abstract int Hash(Node x);
+        protected abstract int Hash(Node x, int hash);
 
         protected bool Contains(Node x)
         {
@@ -32,7 +32,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
             try
             {
-                return _table[Hash(x)].Contains(x);
+                return _table[Hash(x, _table.Length)].Contains(x);
             }
             finally
             {
@@ -47,7 +47,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
             try
             {
-                var myBucket = Hash(x);
+                var myBucket = Hash(x, _table.Length);
                 if (!_table[myBucket].Contains(x))
                 {
                     _table[myBucket].Add(x);
@@ -72,7 +72,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
             try
             {
-                var myBucket = Hash(x);
+                var myBucket = Hash(x, _table.Length);
                 if (_table[myBucket].Contains(x))
                 {
                     _table[myBucket].Remove(x);
