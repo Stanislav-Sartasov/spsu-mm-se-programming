@@ -13,8 +13,8 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private const int LIMIT = 50;
 
         private int _setSize;
-        private volatile int _capacity;
-        private volatile List<Node>[,] _table;
+        private int _capacity;
+        private List<Node>[,] _table;
         private Mutex[,] _locks;
 
         private delegate int Hashing(Node x);
@@ -68,12 +68,14 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
         private void Acquire(Node x)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < 2; i++)
+                _locks[i, _hash[i](x)].WaitOne();
         }
 
         private void Release(Node x)
         {
-            throw new NotImplementedException();
+            for (var i = 0; i < 2; i++)
+                _locks[i, _hash[i](x)].ReleaseMutex();
         }
 
         private bool Contains(Node x)
