@@ -1,0 +1,185 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dekanat.DekanatLib.PhasedCuckooHashSet
+{
+    public class PhasedCuckooHashSet : IExamSystem
+    {
+        private const int THRESHHOLD = 20;
+        private const int LIST_SIZE = 40;
+        private const int LIMIT = 50;
+
+        private volatile int _setSize;
+        private volatile int _capacity;
+        private volatile List<Node>[,] _table;
+        private Mutex[,] _locks;
+
+        private delegate int Hashing(Node x);
+        private Hashing[] _hash;
+
+        public PhasedCuckooHashSet(int size)
+        {
+            _setSize = 0;
+            _capacity = size;
+            _table = new List<Node>[2, size];
+            _locks = new Mutex[2, size];
+
+            for (var i = 0 ; i < 2; i++)
+            {
+                for (var j = 0; j < size; j++)
+                {
+                    _table[i, j] = new List<Node>(LIST_SIZE);
+                    _locks[i, j] = new Mutex();
+                }
+            }
+
+            _hash = new Hashing[2]
+                .Select
+                (
+                    (x, i) => 
+                        new Hashing((x) => ((x.GetHashCode() + 7 * i) % _capacity))
+                )
+                .ToArray();
+        }
+
+        public void Add(long studentId, long courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(long studentId, long courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(long studentId, long courseId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int Count() => _setSize;
+
+        private void Acquire(Node x)
+        {
+
+        }
+
+        private void Release(Node x)
+        {
+
+        }
+
+        private bool Contains(Node x)
+        {
+            throw new NotImplementedException();
+        }
+
+        private bool Add(Node x)
+        {
+            Acquire(x);
+
+            int h0 = _hash[0](x), h1 = _hash[1](x);
+            int i = -1, h = -1;
+            var mustResize = false;
+
+            try
+            {
+                if (Contains(x)) return false;
+
+                var set0 = _table[0, h0];
+                var set1 = _table[1, h1];
+
+                if (set0.Count < THRESHHOLD)
+                {
+                    set0.Add(x);
+                    return true;
+                }
+                else if (set1.Count < THRESHHOLD)
+                {
+                    set1.Add(x);
+                    return true;
+                }
+                else if (set0.Count < LIST_SIZE)
+                {
+                    set0.Add(x);
+                    (i, h) = (0, 0);
+                }
+                else if (set1.Count < LIST_SIZE)
+                {
+                    set1.Add(x);
+                    (i, h) = (1, 1);
+                }
+                else mustResize = true;
+
+                if (mustResize)
+                {
+                    Resize();
+                    Add(x);
+                }
+                else if (!Relocate(i, h)) Resize();
+
+                return true;
+            }
+            finally
+            {
+                Release(x);
+            }
+        }
+
+        private bool Relocate(int i, int hi)
+        {
+            var j = 1 - i;
+
+            for (var round = 0; round < LIMIT; round++)
+            {
+                var iSet = _table[i, hi];
+                var y = iSet.First();
+
+                var hj = _hash[j](y);
+
+                Acquire(y);
+
+                var jSet = _table[j, hj];
+
+                try
+                {
+                    if (iSet.Remove(y))
+                    {
+                        if (jSet.Count < THRESHHOLD)
+                        {
+                            jSet.Add(y);
+                            return true;
+                        }
+                        else if (jSet.Count < LIST_SIZE)
+                        {
+                            jSet.Add(y);
+                            (i, j, hi) = (1 - i, 1 - j, hj);
+                        }
+                        else
+                        {
+                            iSet.Add(y);
+                            return true;
+                        }
+                    }
+                    else if (iSet.Count >= THRESHHOLD) continue;
+                    else return true;
+                }
+                finally
+                {
+                    Release(y);
+                }
+            }
+
+            return true;
+        }
+
+        private void Resize()
+        {
+
+        }
+
+    }
+}
