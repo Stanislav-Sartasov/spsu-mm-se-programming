@@ -256,10 +256,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
                 foreach (var set in oldTable)
                 {
-                    foreach (var node in set)
-                    {
-                        Add(node);
-                    }
+                    set.ForEach(node => Add(node));
                 }
             }
             finally
