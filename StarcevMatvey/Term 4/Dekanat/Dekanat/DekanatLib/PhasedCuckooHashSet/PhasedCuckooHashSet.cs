@@ -12,7 +12,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private const int LIST_SIZE = 40;
         private const int LIMIT = 50;
 
-        private int _setSize;
+        private long _setSize;
         private int _capacity;
         private List<Node>[,] _table;
         private Mutex[,] _locks;
@@ -66,7 +66,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         public bool Contains(long studentId, long courseId)
             => Contains(new Node(studentId, courseId));
 
-        public int Count() => _setSize;
+        public int Count() => (int)Interlocked.Read(ref _setSize);
 
         private void Acquire(Node x)
         {
@@ -115,25 +115,25 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 if (set0.Count < THRESHHOLD)
                 {
                     set0.Add(x);
-                    _setSize++;
+                    Interlocked.Increment(ref _setSize);
                     return true;
                 }
                 else if (set1.Count < THRESHHOLD)
                 {
                     set1.Add(x);
-                    _setSize++;
+                    Interlocked.Increment(ref _setSize);
                     return true;
                 }
                 else if (set0.Count < LIST_SIZE)
                 {
                     set0.Add(x);
-                    _setSize++;
+                    Interlocked.Increment(ref _setSize);
                     (i, h) = (0, 0);
                 }
                 else if (set1.Count < LIST_SIZE)
                 {
                     set1.Add(x);
-                    _setSize++;
+                    Interlocked.Increment(ref _setSize);
                     (i, h) = (1, 1);
                 }
                 else mustResize = true;
@@ -211,7 +211,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 if (set0.Contains(x))
                 {
                     set0.Remove(x);
-                    _setSize--;
+                    Interlocked.Decrement(ref _setSize);
                     return true;
                 }
                 else
@@ -221,7 +221,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                     if (set1.Contains(x))
                     {
                         set1.Remove(x);
-                        _setSize--;
+                        Interlocked.Decrement(ref _setSize);
                         return true;
                     }
                 }
