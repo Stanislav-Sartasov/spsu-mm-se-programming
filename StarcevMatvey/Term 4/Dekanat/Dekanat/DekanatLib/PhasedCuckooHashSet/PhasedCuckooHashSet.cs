@@ -198,7 +198,36 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
         private bool Remove(Node x)
         {
-            throw new NotImplementedException();
+            Acquire(x);
+
+            try
+            {
+                var set0 = _table[0, _hash[0](x)];
+
+                if (set0.Contains(x))
+                {
+                    set0.Remove(x);
+                    _setSize--;
+                    return true;
+                }
+                else
+                {
+                    var set1 = _table[1, _hash[1](x)];
+
+                    if (set1.Contains(x))
+                    {
+                        set1.Remove(x);
+                        _setSize--;
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            finally
+            {
+                Release(x);
+            }
         }
 
         private void Resize()
