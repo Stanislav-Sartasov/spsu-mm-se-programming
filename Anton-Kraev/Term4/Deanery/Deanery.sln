@@ -5,9 +5,11 @@ VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{819B536D-2B46-48A5-A33E-0EBF8AF1847B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{6552933C-EDAA-4A82-AF19-CE948DE9F784}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSystem", "ExamSystem\ExamSystem.csproj", "{F06BEFFF-76F5-4915-BA16-BE0E06936ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystem", "ExamSystem\ExamSystem.csproj", "{F06BEFFF-76F5-4915-BA16-BE0E06936ADA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{B09923CB-E1D5-4C3F-A29D-E78A589701BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemAPI", "ExamSystemAPI\ExamSystemAPI.csproj", "{F8279667-F5E9-416D-89EA-2ABDCA02B983}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,12 +21,17 @@ Global
 		{F06BEFFF-76F5-4915-BA16-BE0E06936ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F06BEFFF-76F5-4915-BA16-BE0E06936ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F06BEFFF-76F5-4915-BA16-BE0E06936ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{F06BEFFF-76F5-4915-BA16-BE0E06936ADA} = {819B536D-2B46-48A5-A33E-0EBF8AF1847B}
+		{F8279667-F5E9-416D-89EA-2ABDCA02B983} = {B09923CB-E1D5-4C3F-A29D-E78A589701BA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0110513D-A3A9-4BB6-8906-C8DC6C6CB769}
