@@ -87,5 +87,7 @@ namespace Dekanat.DekanatLib
 
             return rez;
         }
+
+        public int Count() => _setSize;
     }
 }

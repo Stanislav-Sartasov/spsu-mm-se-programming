@@ -30,8 +30,6 @@ namespace Dekanat.DekanatLib
         public bool Contains(long studentId, long courseId)
             => Contains(new Node(studentId, courseId));
 
-        public int Count() => _setSize;
-
         public void Remove(long studentId, long courseId)
         {
             var node = new Node(studentId, courseId);
