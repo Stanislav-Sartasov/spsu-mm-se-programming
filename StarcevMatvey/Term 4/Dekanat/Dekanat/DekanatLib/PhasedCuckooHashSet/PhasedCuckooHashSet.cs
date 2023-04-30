@@ -17,7 +17,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private List<Node>[,] _table;
         private Mutex[,] _locks;
 
-        private delegate int Hashing(Node x);
+        private delegate int Hashing(Node x, int hash);
         private Hashing[] _hash;
 
         public PhasedCuckooHashSet(int size)
@@ -40,7 +40,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 .Select
                 (
                     (x, i) => 
-                        new Hashing((x) => ((x.GetHashCode() + 7 * i) % _capacity))
+                        new Hashing((x, hash) => ((x.GetHashCode() + 7 * i) % hash))
                 )
                 .ToArray();
         }
@@ -69,13 +69,13 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private void Acquire(Node x)
         {
             for (var i = 0; i < 2; i++)
-                _locks[i, _hash[i](x)].WaitOne();
+                _locks[i, _hash[i](x, _locks.GetLength(i))].WaitOne();
         }
 
         private void Release(Node x)
         {
             for (var i = 0; i < 2; i++)
-                _locks[i, _hash[i](x)].ReleaseMutex();
+                _locks[i, _hash[i](x, _locks.GetLength(i))].ReleaseMutex();
         }
 
         private bool Contains(Node x)
@@ -84,8 +84,8 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
             try
             {
-                var set0 = _table[0, _hash[0](x)];
-                var set1 = _table[1, _hash[1](x)];
+                var set0 = _table[0, _hash[0](x, _capacity)];
+                var set1 = _table[1, _hash[1](x, _capacity)];
 
                 return set0.Contains(x) || set1.Contains(x);
             }
@@ -99,7 +99,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         {
             Acquire(x);
 
-            int h0 = _hash[0](x), h1 = _hash[1](x);
+            int h0 = _hash[0](x, _capacity), h1 = _hash[1](x, _capacity);
             int i = -1, h = -1;
             var mustResize = false;
 
@@ -160,7 +160,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 var iSet = _table[i, hi];
                 var y = iSet.First();
 
-                var hj = _hash[j](y);
+                var hj = _hash[j](y, _capacity);
 
                 Acquire(y);
 
@@ -204,7 +204,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
             try
             {
-                var set0 = _table[0, _hash[0](x)];
+                var set0 = _table[0, _hash[0](x, _capacity)];
 
                 if (set0.Contains(x))
                 {
@@ -214,7 +214,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 }
                 else
                 {
-                    var set1 = _table[1, _hash[1](x)];
+                    var set1 = _table[1, _hash[1](x, _capacity)];
 
                     if (set1.Contains(x))
                     {
@@ -234,7 +234,39 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
         private void Resize()
         {
+            var oldCapa = _capacity;
 
+            for (var i = 0; i < _locks.GetLength(0); i++)
+                _locks[0, i].WaitOne();
+
+            try
+            {
+                if (_capacity == oldCapa) return;
+
+                var oldTable = _table;
+                _capacity *= 2;
+
+                for (var i = 0; i < 2; i++)
+                {
+                    for (var j = 0; j < _capacity; j++)
+                    {
+                        _table[i, j] = new List<Node>(LIST_SIZE);
+                    }
+                }
+
+                foreach (var set in oldTable)
+                {
+                    foreach (var node in set)
+                    {
+                        Add(node);
+                    }
+                }
+            }
+            finally
+            {
+                for (var i = 0; i < _locks.GetLength(0); i++)
+                    _locks[0, i].ReleaseMutex();
+            }
         }
     }
 }
