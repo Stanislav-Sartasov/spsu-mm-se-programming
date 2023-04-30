@@ -12,7 +12,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private const int LIST_SIZE = 40;
         private const int LIMIT = 50;
 
-        private volatile int _setSize;
+        private int _setSize;
         private volatile int _capacity;
         private volatile List<Node>[,] _table;
         private Mutex[,] _locks;
@@ -55,7 +55,10 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 
         public void Remove(long studentId, long courseId)
         {
-            throw new NotImplementedException();
+            var node = new Node(studentId, courseId);
+
+            if (!Remove(node))
+                throw new Exception($"I can't remove a node with student id {studentId} and course id {courseId}");
         }
 
         public bool Contains(long studentId, long courseId)
@@ -108,21 +111,25 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 if (set0.Count < THRESHHOLD)
                 {
                     set0.Add(x);
+                    _setSize++;
                     return true;
                 }
                 else if (set1.Count < THRESHHOLD)
                 {
                     set1.Add(x);
+                    _setSize++;
                     return true;
                 }
                 else if (set0.Count < LIST_SIZE)
                 {
                     set0.Add(x);
+                    _setSize++;
                     (i, h) = (0, 0);
                 }
                 else if (set1.Count < LIST_SIZE)
                 {
                     set1.Add(x);
+                    _setSize++;
                     (i, h) = (1, 1);
                 }
                 else mustResize = true;
