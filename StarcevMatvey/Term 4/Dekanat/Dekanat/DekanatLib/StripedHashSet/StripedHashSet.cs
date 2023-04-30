@@ -21,10 +21,11 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
         public void Add(long studentId, long courseId)
         {
-            var node = new Node(studentId, courseId);
+            //var node = new Node(studentId, courseId);
+            //if (!Add(node))
+            //    throw new Exception($"I can't add a node with student id {studentId} and course id {courseId}");
 
-            if (!Add(node))
-                throw new Exception($"I can't add a node with student id {studentId} and course id {courseId}");
+            Add(new Node(studentId, courseId));
         }
 
         public bool Contains(long studentId, long courseId)
@@ -32,10 +33,11 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
         public void Remove(long studentId, long courseId)
         {
-            var node = new Node(studentId, courseId);
+            //var node = new Node(studentId, courseId);
+            //if (!Remove(node))
+            //    throw new Exception($"I can't remove a node with student id {studentId} and course id {courseId}");
 
-            if (!Remove(node))
-                throw new Exception($"I can't remove a node with student id {studentId} and course id {courseId}");
+            Remove(new Node(studentId, courseId));
         }
 
         protected override int Hash(Node x)
