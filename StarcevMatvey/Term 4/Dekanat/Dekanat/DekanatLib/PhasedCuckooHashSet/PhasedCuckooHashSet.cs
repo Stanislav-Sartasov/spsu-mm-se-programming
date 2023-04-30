@@ -128,13 +128,13 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 {
                     set0.Add(x);
                     Interlocked.Increment(ref _setSize);
-                    (i, h) = (0, 0);
+                    (i, h) = (0, h0);
                 }
                 else if (set1.Count < LIST_SIZE)
                 {
                     set1.Add(x);
                     Interlocked.Increment(ref _setSize);
-                    (i, h) = (1, 1);
+                    (i, h) = (1, h1);
                 }
                 else mustResize = true;
 
@@ -156,13 +156,14 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
         private bool Relocate(int i, int hi)
         {
             var j = 1 - i;
+            var hj = 0;
 
             for (var round = 0; round < LIMIT; round++)
             {
                 var iSet = _table[i, hi];
-                var y = iSet.First();
+                var y = iSet[0];
 
-                var hj = _hash[j](y, _capacity);
+                hj = _hash[i](y, _capacity);
 
                 Acquire(y);
 
