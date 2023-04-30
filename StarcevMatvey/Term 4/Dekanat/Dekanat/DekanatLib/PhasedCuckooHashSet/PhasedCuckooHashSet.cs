@@ -40,7 +40,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
                 .Select
                 (
                     (x, i) => 
-                        new Hashing((x, hash) => ((x.GetHashCode() + 7 * i) % hash))
+                        new Hashing((x, hash) => (((int)x.StudentId + 7 * i) % hash))
                 )
                 .ToArray();
         }

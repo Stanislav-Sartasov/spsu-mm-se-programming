@@ -40,7 +40,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
         protected override int Hash(Node x)
         {
-            return x.GetHashCode() % _table.Length;
+            return (int)x.StudentId % _table.Length;
         }
 
         protected override void Acquire(Node x)
