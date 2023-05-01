@@ -42,7 +42,7 @@ namespace Dekanat.DekanatLib.StripedHashSet
 
         protected override int Hash(Node x, int hash)
         {
-            return (int)x.StudentId % hash;
+            return Math.Abs((int)x.StudentId) % hash;
         }
 
         protected override void Acquire(Node x)
