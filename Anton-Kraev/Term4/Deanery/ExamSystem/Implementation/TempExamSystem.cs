@@ -1,4 +1,6 @@
-﻿namespace ExamSystem;
+﻿using ExamSystem.Interface;
+
+namespace ExamSystem.Implementation;
 
 public class TempExamSystem : IExamSystem
 {

@@ -1,4 +1,5 @@
 using ExamSystem;
+using ExamSystem.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExamSystemAPI.Controllers;
