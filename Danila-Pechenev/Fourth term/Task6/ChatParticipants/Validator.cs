@@ -27,9 +27,9 @@ namespace ChatParticipants
                 errorMessage = "Incorrect IP adress";
             }
 
-            if (string.Compare(parsedIP.ToString(), "127.0.0.1") < 0 || (string.Compare(parsedIP.ToString(), "127.255.255.254") > 0))
+            if (string.Compare(parsedIP.ToString(), Constants.MinAvailableIPAddress) < 0 || (string.Compare(parsedIP.ToString(), Constants.MaxAvailableIPAddress) > 0))
             {
-                errorMessage = "IP adress must be from 127.0.0.1 to 127.255.255.254";
+                errorMessage = $"IP address must be from {Constants.MinAvailableIPAddress} to {Constants.MaxAvailableIPAddress}";
                 return false;
             }
 
@@ -40,9 +40,9 @@ namespace ChatParticipants
         {
             errorMessage = "";
             bool success = int.TryParse(port, out intPort);
-            if (!success || intPort < Constants.MinAvailableIPAddress || intPort > Constants.MaxAvailableIPAddress)
+            if (!success || intPort < Constants.MinAvailablePort || intPort > Constants.MaxAvailablePort)
             {
-                errorMessage = $"Incorrect port: must be an integer from {Constants.MinAvailableIPAddress} to {Constants.MaxAvailableIPAddress}";
+                errorMessage = $"Incorrect port: must be an integer from {Constants.MinAvailablePort} to {Constants.MaxAvailablePort}";
                 return false;
             }
 

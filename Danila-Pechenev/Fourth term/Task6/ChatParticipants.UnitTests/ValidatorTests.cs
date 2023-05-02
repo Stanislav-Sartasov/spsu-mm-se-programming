@@ -24,7 +24,7 @@ namespace ChatParticipants.UnitTests
         [Test]
         public void ValidateIPTest()
         {
-            string ip = "0127.255.01.001";
+            string ip = "127.255.01.1";
             bool success = Validator.ValidateIP(ip, out string _, out IPAddress _);
             Assert.AreEqual(true, success);
         }

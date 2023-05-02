@@ -12,9 +12,13 @@
 
         public static int MaxUserNameLength { get; } = 20;
 
-        public static int MinAvailableIPAddress { get; } = 1024;
+        public static string MinAvailableIPAddress { get; } = "127.0.0.1";
 
-        public static int MaxAvailableIPAddress { get; } = 49151;
+        public static string MaxAvailableIPAddress { get; } = "127.255.255.254";
+
+        public static int MinAvailablePort { get; } = 1024;
+
+        public static int MaxAvailablePort { get; } = 49151;
 
         public static int MaxMessageLength { get; } = 200;
     }
