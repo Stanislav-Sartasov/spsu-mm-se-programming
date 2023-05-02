@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Dekanat.DekanatLib.PhasedCuckooHashSet
+﻿namespace Dekanat.DekanatLib.PhasedCuckooHashSet
 {
     public class PhasedCuckooHashSet : IExamSystem
     {
@@ -27,7 +21,7 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
             _table = new List<Node>[2, size];
             _locks = new Mutex[2, size];
 
-            for (var i = 0 ; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 for (var j = 0; j < size; j++)
                 {
@@ -39,8 +33,8 @@ namespace Dekanat.DekanatLib.PhasedCuckooHashSet
             _hash = new Hashing[2]
                 .Select
                 (
-                    (x, i) => 
-                        new Hashing((x, hash) => ((Math.Abs((int)x.StudentId) + 7 * i) % hash))
+                    (x, i) =>
+                        new Hashing((x, hash) => ((Math.Abs((int)x.StudentId + 7 * i)) % hash))
                 )
                 .ToArray();
         }
