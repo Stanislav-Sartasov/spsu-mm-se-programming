@@ -7,15 +7,15 @@ class ConcurrentSetImpl<T> : ConcurrentSet<T> {
         get() = TODO("Not yet implemented")
 
 
+    override fun contains(element: T): Boolean {
+        TODO("Not yet implemented")
+    }
+
     override fun add(element: T) {
         TODO("Not yet implemented")
     }
 
     override fun remove(element: T) {
-        TODO("Not yet implemented")
-    }
-
-    override fun contains(element: T): Boolean {
         TODO("Not yet implemented")
     }
 }
