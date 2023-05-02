@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 
 namespace ChatParticipants
 {
@@ -24,6 +25,12 @@ namespace ChatParticipants
             if (!success)
             {
                 errorMessage = "Incorrect IP adress";
+            }
+
+            if (string.Compare(parsedIP.ToString(), "127.0.0.1") < 0 || (string.Compare(parsedIP.ToString(), "127.255.255.254") > 0))
+            {
+                errorMessage = "IP adress must be from 127.0.0.1 to 127.255.255.254";
+                return false;
             }
 
             return success;

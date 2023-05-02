@@ -31,7 +31,7 @@
         <TextBox x:Name="ParticipantPort" HorizontalAlignment="Left" Height="40" Margin="162,540,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="906" FontFamily="Consolas" FontSize="24" Background="#FFAFB3FF" Foreground="Black" FontWeight="Bold"/>
         <Label x:Name="YourPortLabel" Content="Your port (must be from 1024 to 49151)" HorizontalAlignment="Left" Margin="162,219,0,0" VerticalAlignment="Top" FontFamily="Consolas" Foreground="White" FontSize="24" Height="38" Width="906" IsEnabled="False"/>
         <TextBox x:Name="UserPort" HorizontalAlignment="Left" Height="40" Margin="162,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="906" FontFamily="Consolas" FontSize="24" Background="#FFAFB3FF" Foreground="Black" FontWeight="Bold"/>
-        <Label x:Name="YourIPLabel" Content="Your IP (local address must start with 127)" HorizontalAlignment="Left" Margin="162,139,0,0" VerticalAlignment="Top" FontFamily="Consolas" Foreground="White" FontSize="24" Height="38" Width="906" IsEnabled="False"/>
+        <Label x:Name="YourIPLabel" Content="Your IP (must be from 127.0.0.1 to 127.255.255.254)" HorizontalAlignment="Left" Margin="162,139,0,0" VerticalAlignment="Top" FontFamily="Consolas" Foreground="White" FontSize="24" Height="38" Width="906" IsEnabled="False"/>
         <TextBox x:Name="UserIP" HorizontalAlignment="Left" Height="40" Margin="162,179,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="906" FontFamily="Consolas" FontSize="24" Background="#FFAFB3FF" Foreground="Black" FontWeight="Bold"/>
     </Grid>
 </Window>
