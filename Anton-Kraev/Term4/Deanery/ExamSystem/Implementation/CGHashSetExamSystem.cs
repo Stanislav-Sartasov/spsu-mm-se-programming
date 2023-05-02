@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ExamSystem.ConcurrentCollections;
+using ExamSystem.Interface;
 
-namespace ExamSystem.Implementation
+namespace ExamSystem.Implementation;
+
+public class CGHashSetExamSystem : IExamSystem
 {
-    internal class CGHashSetExamSystem
-    {
-    }
+    private readonly CoarseGrainedHashSet<(long, long)> _store = new(100);
+
+    public int Count => _store.Count();
+
+    public void Add(long studentId, long courseId) => _store.Add((studentId, courseId));
+
+    public bool Contains(long studentId, long courseId) => _store.Contains((studentId, courseId));
+
+    public void Remove(long studentId, long courseId) => _store.Remove((studentId, courseId));
 }

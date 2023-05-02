@@ -1,12 +1,10 @@
 ﻿namespace ExamSystem.ConcurrentCollections;
 
-public class CoarseGrainedHashSet<T>
+internal class CoarseGrainedHashSet<T>
 {
-    // TODO: RWLock
-
     private List<T>[] _table;
     private int _setSize;
-    private readonly Mutex _lock = new();
+    private readonly ReaderWriterLockSlim _lock = new();
 
     public CoarseGrainedHashSet(int capacity)
     {
@@ -20,14 +18,10 @@ public class CoarseGrainedHashSet<T>
 
     private bool PolicyDemandsResize => _setSize / _table.Length > 4;
 
-    // TODO: remove unused arg
-    private void Acquire(T x) => _lock.WaitOne();
-    private void Release(T x) => _lock.ReleaseMutex();
-
     private void Resize()
     {
         int oldCapacity = _table.Length;
-        _lock.WaitOne();
+        _lock.EnterWriteLock();
         try
         {
             if (oldCapacity != _table.Length)
@@ -49,13 +43,13 @@ public class CoarseGrainedHashSet<T>
         }
         finally
         {
-            _lock.ReleaseMutex();
+            _lock.ExitWriteLock();
         }
     }
 
     public bool Contains(T x)
     {
-        Acquire(x);
+        _lock.EnterReadLock();
         try
         {
             int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
@@ -63,13 +57,13 @@ public class CoarseGrainedHashSet<T>
         }
         finally
         {
-            Release(x);
+            _lock.ExitReadLock();
         }
     }
     public bool Add(T x)
     {
         bool result = false;
-        Acquire(x);
+        _lock.EnterWriteLock();
         try
         {
             int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
@@ -82,10 +76,39 @@ public class CoarseGrainedHashSet<T>
         }
         finally
         {
-            Release(x);
+            _lock.ExitWriteLock();
         }
         if (PolicyDemandsResize)
             Resize();
         return result;
+    }
+
+    public bool Remove(T x)
+    {
+        _lock.EnterWriteLock();
+        try
+        {
+            int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
+            bool result = _table[myBucket].Remove(x);
+            _setSize = result ? _setSize - 1 : _setSize;
+            return result;
+        }
+        finally
+        {
+            _lock.ExitWriteLock();
+        }
+    }
+
+    public int Count()
+    {
+        _lock.EnterReadLock();
+        try
+        {
+            return _setSize;
+        }
+        finally
+        {
+            _lock.ExitReadLock();
+        }
     }
 }
