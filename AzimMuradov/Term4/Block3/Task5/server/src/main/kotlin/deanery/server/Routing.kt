@@ -20,10 +20,7 @@ fun Application.configureRouting() {
                     is Valid -> result
                     is Invalid -> return@get respondBadRequest(result)
                 }
-
-                call.respondText(
-                    text = if (CoreExamSystem.contains(studentId, courseId)) "You passed!" else "You failed!"
-                )
+                call.respondText(text = examSystem.contains(studentId, courseId).toString())
             }
 
             post {
@@ -31,9 +28,7 @@ fun Application.configureRouting() {
                     is Valid -> result
                     is Invalid -> return@post respondBadRequest(result)
                 }
-
-                CoreExamSystem.add(studentId, courseId)
-                call.respondText(text = "The exam result has been successfully added.")
+                examSystem.add(studentId, courseId)
             }
 
             delete {
@@ -41,9 +36,13 @@ fun Application.configureRouting() {
                     is Valid -> result
                     is Invalid -> return@delete respondBadRequest(result)
                 }
+                examSystem.remove(studentId, courseId)
+            }
+        }
 
-                CoreExamSystem.remove(studentId, courseId)
-                call.respondText(text = "The exam result has been successfully removed.")
+        route("/exams/count") {
+            get {
+                call.respondText(text = examSystem.count.toString())
             }
         }
     }

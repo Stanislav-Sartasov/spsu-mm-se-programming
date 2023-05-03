@@ -1,7 +1,7 @@
 package deanery.set
 
 
-class ConcurrentSetImpl<T> : ConcurrentSet<T> {
+class NonBlockingSet<T> : ConcurrentSet<T> {
 
     override val count: Int
         get() = TODO("Not yet implemented")
