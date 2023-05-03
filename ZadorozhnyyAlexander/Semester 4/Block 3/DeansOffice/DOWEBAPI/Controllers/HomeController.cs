@@ -10,7 +10,51 @@ namespace DOWEBAPI.Controllers
         private static IExamSystem _examSystem = new ExamSystemS();
 
         [Route("/")]
+        [Route("/home")]
         public IActionResult Index() => View(_examSystem.Count);
+
+        [HttpGet]
+        public IActionResult Containscmd(long studentId, long courseId)
+        {
+            if (ModelState.IsValid)
+                _examSystem.Contains(studentId, courseId);
+
+            return Redirect("/");
+        }
+
+        [HttpGet]
+        public IActionResult Countcmd()
+        {
+            Console.WriteLine(_examSystem.Count);
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public IActionResult Addcmd(long studentId, long courseId)
+        {
+            if (ModelState.IsValid)
+                _examSystem.Add(studentId, courseId);
+
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public IActionResult Resetcmd()
+        {
+            if (ModelState.IsValid)
+                _examSystem = new ExamSystemS();
+
+            return Redirect("/");
+        }
+
+        [HttpDelete]
+        public IActionResult Removecmd(long studentId, long courseId)
+        {
+            if (ModelState.IsValid)
+                _examSystem.Remove(studentId, courseId);
+
+            return Redirect("/");
+        }
 
         public IActionResult Add() => View();
 
@@ -18,8 +62,12 @@ namespace DOWEBAPI.Controllers
         public IActionResult Add(Exam exam)
         {
             if (ModelState.IsValid)
+            {
                 _examSystem.Add(exam.studentId, exam.courseId);
-            return Redirect("/");
+                return Redirect("/");
+            }
+
+            return StatusCode(400);
         }
 
         public IActionResult Remove() => View();
@@ -28,9 +76,12 @@ namespace DOWEBAPI.Controllers
         public IActionResult Remove(Exam exam)
         {
             if (ModelState.IsValid)
+            {
                 _examSystem.Remove(exam.studentId, exam.courseId);
+                return Redirect("/");
+            }
 
-            return Redirect("/");
+            return StatusCode(400);
         }
 
         public IActionResult Contains() => View();
@@ -46,7 +97,7 @@ namespace DOWEBAPI.Controllers
                     return View("Negative");
             }
 
-            return Redirect("/");
+            return StatusCode(400);
         }
 
         public IActionResult Confirm() => View();
