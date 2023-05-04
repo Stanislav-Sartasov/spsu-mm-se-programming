@@ -1,7 +1,7 @@
 package deanery.set
 
 
-interface ConcurrentSet<T> {
+interface ConcurrentSet<T : Any> {
 
     val count: Int
 

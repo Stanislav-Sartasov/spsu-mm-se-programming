@@ -8,7 +8,7 @@ class LazySetNode<T : Any>(
     val value: T? = null,
     val key: Int = value.hashCode(),
     next: LazySetNode<T>? = null,
-) : Lock by ReentrantLock(), Comparable<LazySetNode<T>> {
+) : Lock by ReentrantLock() {
 
     lateinit var next: LazySetNode<T>
 
@@ -17,6 +17,4 @@ class LazySetNode<T : Any>(
     init {
         if (next != null) this.next = next
     }
-
-    override fun compareTo(other: LazySetNode<T>): Int = key.compareTo(other.key)
 }
