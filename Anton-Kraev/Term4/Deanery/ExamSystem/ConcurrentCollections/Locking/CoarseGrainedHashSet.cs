@@ -1,4 +1,4 @@
-﻿namespace ExamSystem.ConcurrentCollections;
+﻿namespace ExamSystem.ConcurrentCollections.Locking;
 
 internal class CoarseGrainedHashSet<T>
 {
