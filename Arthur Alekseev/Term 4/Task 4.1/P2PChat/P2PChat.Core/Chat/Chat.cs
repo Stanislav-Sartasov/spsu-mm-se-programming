@@ -105,6 +105,9 @@ public class Chat : IChat
 		if (!_running)
 			return false;
 
+		if (_parentConnection is not null)
+			return false;
+
 		var connection = ConnectTo(address);
 
 		SetParent(address, connection);
