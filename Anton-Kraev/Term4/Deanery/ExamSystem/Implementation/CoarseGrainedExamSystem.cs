@@ -1,4 +1,4 @@
-﻿using ExamSystem.ConcurrentCollections.Locking;
+﻿using ExamSystem.ConcurrentCollections;
 using ExamSystem.Interface;
 
 namespace ExamSystem.Implementation;
