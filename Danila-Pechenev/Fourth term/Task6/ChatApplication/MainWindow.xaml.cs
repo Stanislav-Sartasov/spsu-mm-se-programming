@@ -194,7 +194,7 @@ namespace ChatApplication
         private void SendUserLeavedChatMessage()
         {
             string time = DateTime.Now.TimeOfDay.ToString().Split(new char[] { '.' })[0];
-            client.SendMessage($"[{time}] User {userName} leaved the chat{Environment.NewLine}");
+            client.SendMessage($"[{time}] User {userName} left the chat{Environment.NewLine}");
         }
 
         public void Dispose()
