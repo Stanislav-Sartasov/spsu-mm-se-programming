@@ -2,6 +2,6 @@ package deanery.server
 
 
 enum class SetType {
-    Optimistic,
+    Lazy,
     NonBlocking,
 }

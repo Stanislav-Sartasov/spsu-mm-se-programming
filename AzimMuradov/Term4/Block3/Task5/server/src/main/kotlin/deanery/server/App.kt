@@ -3,7 +3,7 @@ package deanery.server
 import deanery.ConcurrentSetExamSystem
 import deanery.ExamSystem
 import deanery.set.NonBlockingSet
-import deanery.set.OptimisticSet
+import deanery.set.LazySet
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -14,7 +14,7 @@ fun main() {
 
     val setType = when {
         env.isNullOrBlank() -> SetType.NonBlocking
-        env == "optimistic" -> SetType.Optimistic
+        env == "optimistic" -> SetType.Lazy
         env == "non-blocking" -> SetType.NonBlocking
         else -> throw IllegalArgumentException(
             "Wrong format, expected: `<SET_TYPE>`, where <SET_TYPE> is either \"optimistic\" or \"non-blocking\""
@@ -23,7 +23,7 @@ fun main() {
 
     examSystem = ConcurrentSetExamSystem(
         set = when (setType) {
-            SetType.Optimistic -> OptimisticSet()
+            SetType.Lazy -> LazySet()
             SetType.NonBlocking -> NonBlockingSet()
         }
     )
