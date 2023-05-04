@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ConcurrentCollections\LockFree\" />
+    <PackageReference Include="IKVM" Version="8.4.5" />
   </ItemGroup>
 
 </Project>
