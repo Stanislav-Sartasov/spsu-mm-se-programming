@@ -16,7 +16,7 @@
 
         public bool Add(T item)
         {
-            int key = Math.Abs(item.GetHashCode());
+            int key = item.GetHashCode();
             while (true)
             {
                 //Tuple<AtomicNode<T>, AtomicNode<T>>
@@ -45,7 +45,7 @@
 
         public bool Remove(T item)
         {
-            int key = Math.Abs(item.GetHashCode());
+            int key = item.GetHashCode();
             bool snip;
             while (true)
             {
@@ -71,7 +71,7 @@
         public bool Contains(T item)
         {
             bool marked = false;
-            int key = Math.Abs(item.GetHashCode());
+            int key = item.GetHashCode();
             AtomicNode<T> curr = head;
             while (curr.Key < key)
             {
