@@ -249,11 +249,11 @@ public class Chat : IChat
 	{
 		_logger.Log($"Exception occurred in {socket.GetEndpoint()}");
 
-		if (socket == _parentConnection && _fallback is not null && _fallback.Port != 0)
-			Join(_fallback);
-
 		if (socket == _parentConnection)
 			NullParent();
+
+		if (_parentConnection == null && _fallback is not null && _fallback.Port != 0)
+			Join(_fallback);
 
 		RemoveSocketFromNetwork(socket);
 
