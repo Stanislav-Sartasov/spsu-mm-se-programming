@@ -29,6 +29,7 @@ fun Application.configureRouting() {
                     is Invalid -> return@post respondBadRequest(result)
                 }
                 examSystem.add(studentId, courseId)
+                call.respond(HttpStatusCode.OK)
             }
 
             delete {
@@ -37,6 +38,7 @@ fun Application.configureRouting() {
                     is Invalid -> return@delete respondBadRequest(result)
                 }
                 examSystem.remove(studentId, courseId)
+                call.respond(HttpStatusCode.OK)
             }
         }
 

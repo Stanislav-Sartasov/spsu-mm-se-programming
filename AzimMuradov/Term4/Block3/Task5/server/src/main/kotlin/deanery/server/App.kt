@@ -13,11 +13,11 @@ fun main() {
     val env = System.getenv()["SET_TYPE"]
 
     val setType = when {
-        env.isNullOrBlank() -> SetType.NonBlocking
-        env == "optimistic" -> SetType.Lazy
+        env.isNullOrBlank() -> SetType.Lazy
+        env == "lazy" -> SetType.Lazy
         env == "non-blocking" -> SetType.NonBlocking
         else -> throw IllegalArgumentException(
-            "Wrong format, expected: `<SET_TYPE>`, where <SET_TYPE> is either \"optimistic\" or \"non-blocking\""
+            "Wrong format, expected: `<SET_TYPE>`, where <SET_TYPE> is either \"lazy\" or \"non-blocking\""
         )
     }
 
