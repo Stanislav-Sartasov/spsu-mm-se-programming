@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Folder Include="MVVM\View\"/>
+        <Folder Include="Icons\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\P2PChat.Core\P2PChat.Core.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Page Update="Theme\UsernameBox.xaml">
+            <Generator>MSBuild:Compile</Generator>
+            <XamlRuntime>Wpf</XamlRuntime>
+            <SubType>Designer</SubType>
+        </Page>
+    </ItemGroup>
+
+</Project>
