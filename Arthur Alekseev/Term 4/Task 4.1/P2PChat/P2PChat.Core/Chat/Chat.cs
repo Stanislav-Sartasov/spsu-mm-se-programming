@@ -108,12 +108,19 @@ public class Chat : IChat
 		if (_parentConnection is not null)
 			return false;
 
-		var connection = ConnectTo(address);
+		try
+		{
+			var connection = ConnectTo(address);
 
-		SetParent(address, connection);
-		SendFallbackRequest();
-		UpdateChildrenFallback();
-		AddSocketToNetwork(connection);
+			SetParent(address, connection);
+			SendFallbackRequest();
+			UpdateChildrenFallback();
+			AddSocketToNetwork(connection);
+		}
+		catch 
+		{
+			return false;
+		}
 
 		return true;
 	}
