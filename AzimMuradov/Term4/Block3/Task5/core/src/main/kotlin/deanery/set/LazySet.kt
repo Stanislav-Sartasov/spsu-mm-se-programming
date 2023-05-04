@@ -1,5 +1,6 @@
 package deanery.set
 
+import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.withLock
 import deanery.set.LazySetNode as Node
 
@@ -12,8 +13,9 @@ class LazySet<T : Any> : ConcurrentSet<T> {
     )
 
 
-    @Volatile
-    override var count: Int = 0
+    private var _count = AtomicInteger()
+
+    override val count: Int get() = _count.get()
 
 
     override fun contains(element: T): Boolean {
@@ -30,7 +32,7 @@ class LazySet<T : Any> : ConcurrentSet<T> {
                 if (validate(prev, curr)) {
                     if (curr.key != key) {
                         prev.next = Node(element, next = curr)
-                        count++
+                        _count.incrementAndGet()
                     }
                     return
                 }
@@ -47,7 +49,7 @@ class LazySet<T : Any> : ConcurrentSet<T> {
                     if (curr.key == key) {
                         curr.mark = true
                         prev.next = curr.next
-                        count--
+                        _count.decrementAndGet()
                     }
                     return
                 }
