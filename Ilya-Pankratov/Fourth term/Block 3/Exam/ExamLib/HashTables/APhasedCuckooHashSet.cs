@@ -1,6 +1,6 @@
 namespace ExamLib;
 
-public abstract class PhasedCuckooHashSet<T>
+public abstract class APhasedCuckooHashSet<T>
 {
     // list is semi-full.
     protected const int Threshold = 2;
@@ -17,7 +17,7 @@ public abstract class PhasedCuckooHashSet<T>
     volatile protected int capacity;
     volatile protected List<T>[,] table;
 
-    public PhasedCuckooHashSet(int size)
+    public APhasedCuckooHashSet(int size)
     {
         capacity = size;
         table = new List<T>[2, capacity];
@@ -33,7 +33,7 @@ public abstract class PhasedCuckooHashSet<T>
         comparer = null;
     }
 
-    public PhasedCuckooHashSet(int size, IEqualityComparer<T> comparer) : this(size)
+    public APhasedCuckooHashSet(int size, IEqualityComparer<T> comparer) : this(size)
     {
         this.comparer = comparer;
     }

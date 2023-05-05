@@ -1,6 +1,6 @@
 namespace ExamLib;
 
-public class StripedCuckooHashSet<T> : PhasedCuckooHashSet<T>
+public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>
 {
     Mutex[,] locks;
 

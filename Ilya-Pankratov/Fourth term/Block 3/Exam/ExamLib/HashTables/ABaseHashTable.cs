@@ -1,12 +1,12 @@
 namespace ExamLib;
 
-public abstract class BaseHashSet<T>
+public abstract class ABaseHashSet<T>
 {
     protected List<T>[] table;
     protected int size;
     protected IEqualityComparer<T>? comparer;
 
-    protected BaseHashSet(int capacity)
+    protected ABaseHashSet(int capacity)
     {
         size = 0;
         table = new List<T>[capacity];
@@ -18,7 +18,7 @@ public abstract class BaseHashSet<T>
         comparer = null;
     }
 
-    protected BaseHashSet(int capacity, IEqualityComparer<T> comparer) : this(capacity)
+    protected ABaseHashSet(int capacity, IEqualityComparer<T> comparer) : this(capacity)
     {
         this.comparer = comparer;
     }

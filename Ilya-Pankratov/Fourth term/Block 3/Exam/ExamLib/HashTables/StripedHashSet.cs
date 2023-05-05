@@ -1,6 +1,6 @@
 namespace ExamLib;
 
-public class StripedHashSet<T> : BaseHashSet<T>
+public class StripedHashSet<T> : ABaseHashSet<T>
 {
     readonly Mutex[] locks;
 
