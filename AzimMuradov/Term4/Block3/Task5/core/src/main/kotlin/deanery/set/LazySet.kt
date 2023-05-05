@@ -72,9 +72,7 @@ class LazySet<T : Any> : ConcurrentSet<T> {
         private fun validate(prev: Node<*>, curr: Node<*>): Boolean =
             !prev.mark && !curr.mark && prev.next == curr
 
-        private inline fun <T : Any> OWindow<T>.withLock(b: (OWindow<T>) -> Unit) =
+        private inline fun <T : Any> Pair<Node<T>, Node<T>>.withLock(b: (Pair<Node<T>, Node<T>>) -> Unit) =
             first.withLock { second.withLock { b(this) } }
     }
 }
-
-private typealias OWindow<T> = Pair<Node<T>, Node<T>>

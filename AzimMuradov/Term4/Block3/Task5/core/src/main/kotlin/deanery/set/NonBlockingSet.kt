@@ -64,7 +64,7 @@ class NonBlockingSet<T : Any> : ConcurrentSet<T> {
     }
 
 
-    private fun findWindow(key: Int): NBWindow<T> {
+    private fun findWindow(key: Int): Pair<Node<T>, Node<T>> {
         var prev: Node<T>
         var curr: Node<T>
         var next: Node<T>?
@@ -89,5 +89,3 @@ class NonBlockingSet<T : Any> : ConcurrentSet<T> {
         }
     }
 }
-
-private typealias NBWindow<T> = Pair<Node<T>, Node<T>>
