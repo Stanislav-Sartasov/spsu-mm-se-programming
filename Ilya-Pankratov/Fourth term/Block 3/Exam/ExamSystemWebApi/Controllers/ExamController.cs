@@ -1,4 +1,3 @@
-using System.Runtime.Serialization;
 using ExamLib;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,18 +7,18 @@ namespace ExamSystemWebApi.Controllers;
 [ApiController]
 public class ExamController : ControllerBase
 {
-    private IExamSystem examSystem;
+    private static IExamSystem? examSystem;
 
     public ExamController(IExamSystem examSystem)
     {
-        this.examSystem = examSystem;
+        ExamController.examSystem ??= examSystem;
     }
-
+    
     [HttpGet("contains", Name = "Contains")]
     public ActionResult<StudentExamResult> Contains(long studentId, long courseId)
     {
         StudentExamResult studentExamResult;
-        if (examSystem.Contains(studentId, courseId))
+        if (examSystem!.Contains(studentId, courseId))
         {
             studentExamResult = StudentExamResult.GetStudentPassed(studentId, courseId);
         }
@@ -31,23 +30,23 @@ public class ExamController : ControllerBase
         return Ok(studentExamResult);
     }
 
-    [HttpPost("add", Name = "Add")]
+    [HttpGet("add", Name = "Add")]
     public ActionResult<StudentStatusResult> Add(long studentId, long courseId)
     {
-        examSystem.Add(studentId, courseId);
+        examSystem!.Add(studentId, courseId);
         return Ok(StudentStatusResult.GetStudentAdded(studentId, courseId));
     }
 
-    [HttpDelete("remove", Name = "Remove")]
+    [HttpGet("remove", Name = "Remove")]
     public ActionResult<StudentStatusResult> Remove(long studentId, long courseId)
     {
-        examSystem.Remove(studentId, courseId);
+        examSystem!.Remove(studentId, courseId);
         return Ok(StudentStatusResult.GetStudentRemoved(studentId, courseId));
     }
 
     [HttpGet("count", Name = "Count")]
     public ActionResult<int> Count()
     {
-        return Ok(examSystem.Count);
+        return Ok(examSystem!.Count);
     }
 }
