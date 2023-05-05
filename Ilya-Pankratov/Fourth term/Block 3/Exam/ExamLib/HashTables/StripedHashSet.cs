@@ -1,6 +1,6 @@
 namespace ExamLib;
 
-public class StripedHashSet<T> : ABaseHashSet<T>
+public class StripedHashSet<T> : ABaseHashSet<T>, IHashTable<T>
 {
     readonly Mutex[] locks;
 
@@ -67,5 +67,15 @@ public class StripedHashSet<T> : ABaseHashSet<T>
                 m.ReleaseMutex();
             }
         }
+    }
+
+    public static IHashTable<T> GetInstance(int capacity)
+    {
+        return new StripedHashSet<T>(capacity);
+    }
+
+    public static IHashTable<T> GetInstance(int capacity, IEqualityComparer<T> comparer)
+    {
+        return new StripedHashSet<T>(capacity, comparer);
     }
 }

@@ -1,6 +1,6 @@
 namespace ExamLib;
 
-public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>
+public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
 {
     Mutex[,] locks;
 
@@ -78,5 +78,15 @@ public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>
                 locks[0, i].ReleaseMutex();
             }
         }
+    }
+
+    public static IHashTable<T> GetInstance(int capacity)
+    {
+        return new StripedCuckooHashSet<T>(capacity);
+    }
+
+    public static IHashTable<T> GetInstance(int capacity, IEqualityComparer<T> comparer)
+    {
+        return new StripedCuckooHashSet<T>(capacity, comparer);
     }
 }

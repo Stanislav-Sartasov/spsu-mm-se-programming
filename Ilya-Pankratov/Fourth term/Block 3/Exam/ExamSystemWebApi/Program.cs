@@ -10,18 +10,25 @@ builder.Services.AddControllers();
 
 if (args.Length == 1)
 {
-    if (args[0].ToLower() == "cuckoo")
+    switch (args[0].ToLower())
     {
-        builder.Services.AddScoped<IExamSystem, CuckooExamSystem>();
-    }
-    else
-    {
-        builder.Services.AddScoped<IExamSystem, DefaultExamSystem>();
+        case "core-cuckoo":
+            builder.Services.AddScoped<IExamSystem, ExamSystem<CoreCockooHashSet<StudentPassedExam>>>();
+            break;
+        case "striped-cuckoo":
+            builder.Services.AddScoped<IExamSystem, ExamSystem<StripedCuckooHashSet<StudentPassedExam>>>();
+            break;
+        case "default":
+            builder.Services.AddScoped<IExamSystem, ExamSystem<StripedHashSet<StudentPassedExam>>>();
+            break;
+        default:
+            builder.Services.AddScoped<IExamSystem, ExamSystem<StripedHashSet<StudentPassedExam>>>();
+            break;
     }
 }
 else
 {
-    builder.Services.AddScoped<IExamSystem, DefaultExamSystem>();
+    builder.Services.AddScoped<IExamSystem, ExamSystem<StripedHashSet<StudentPassedExam>>>();
 }
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

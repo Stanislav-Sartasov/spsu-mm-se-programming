@@ -1,10 +1,10 @@
 using ExamLib;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 
 namespace ExamLibTests;
 
-[TestFixture(typeof(DefaultExamSystem))]
-[TestFixture(typeof(CuckooExamSystem))]
+[TestFixture(typeof(ExamSystem<CoreCockooHashSet<StudentPassedExam>>))]
+[TestFixture(typeof(ExamSystem<StripedCuckooHashSet<StudentPassedExam>>))]
+[TestFixture(typeof(ExamSystem<StripedHashSet<StudentPassedExam>>))]
 public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
 {
     private IExamSystem examSystem;
@@ -23,7 +23,7 @@ public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
     {
         examSystem = new TExamSystem();
     }
-    
+
     private void ThreadAdd(Tuple<int, int> value)
     {
         examSystem.Add(value.Item1, value.Item2);
@@ -82,12 +82,12 @@ public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
     public void TenThreadAddTest()
     {
         LaunchThreadActivity(ThreadAdd);
-        
+
         foreach (var data in testData)
         {
             Assert.That(ThreadContains(data), Is.True);
         }
-        
+
         Assert.That(examSystem.Count, Is.EqualTo(testData.Count));
     }
 
@@ -99,6 +99,7 @@ public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
         {
             Assert.That(ThreadContains(data));
         }
+
         LaunchThreadActivity(ThreadRemove);
         Assert.That(examSystem.Count, Is.Zero);
     }
@@ -111,7 +112,7 @@ public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
         {
             examSystem.Add(i, i * 5);
         }
-        
+
         Assert.That(examSystem.Count, Is.EqualTo(number));
     }
 }

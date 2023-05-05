@@ -1,17 +1,16 @@
-using System.Reflection.Metadata.Ecma335;
-
 namespace ExamLib;
 
-public class DefaultExamSystem : IExamSystem
+public class ExamSystem<TConcurrentHashTable> : IExamSystem
+    where TConcurrentHashTable : IHashTable<StudentPassedExam>
 {
-    private StripedHashSet<StudentPassedExam> hastTable;
+    private IHashTable<StudentPassedExam> hastTable;
     private const int defSize = 5;
     private volatile int count;
     public int Count => count;
 
-    public DefaultExamSystem()
+    public ExamSystem()
     {
-        hastTable = new StripedHashSet<StudentPassedExam>(defSize, new StudentPassedEqualityComparator());
+        hastTable = TConcurrentHashTable.GetInstance(defSize, new StudentPassedEqualityComparator());
         count = 0;
     }
 

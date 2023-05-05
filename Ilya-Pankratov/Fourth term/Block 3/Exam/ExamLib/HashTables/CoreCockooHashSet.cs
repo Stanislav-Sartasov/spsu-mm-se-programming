@@ -1,9 +1,9 @@
 namespace ExamLib;
 
-public class CoreCockooHashSet<T> : APhasedCuckooHashSet<T>
+public class CoreCockooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
 {
     private Mutex mutex = new();
-        
+
     public CoreCockooHashSet(int size) : base(size)
     {
     }
@@ -60,5 +60,15 @@ public class CoreCockooHashSet<T> : APhasedCuckooHashSet<T>
         {
             mutex.ReleaseMutex();
         }
+    }
+
+    public static IHashTable<T> GetInstance(int capacity)
+    {
+        return new CoreCockooHashSet<T>(capacity);
+    }
+
+    public static IHashTable<T> GetInstance(int capacity, IEqualityComparer<T> comparer)
+    {
+        return new CoreCockooHashSet<T>(capacity, comparer);
     }
 }

@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace ExamLib;
 
 public abstract class ABaseHashSet<T>
