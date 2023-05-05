@@ -4,7 +4,7 @@ public class ExamSystem<TConcurrentHashTable> : IExamSystem
     where TConcurrentHashTable : IHashTable<StudentPassedExam>
 {
     private IHashTable<StudentPassedExam> hastTable;
-    private const int defSize = 5;
+    private const int defSize = 64;
     private volatile int count;
     public int Count => count;
 
