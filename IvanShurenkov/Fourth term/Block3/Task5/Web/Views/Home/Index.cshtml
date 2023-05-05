@@ -1,0 +1,22 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@model Web.Models.ExamModel
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Student Id</label>
+        <input type="number" class="form-control" asp-for="StudentId" />
+        <label class="form-label">Course Id</label>
+        <input type="number" class="form-control" asp-for="CourseId" />
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" asp-controller="Home" asp-action="Add" class="btn btn-primary">Add</button>
+        <button type="submit" asp-controller="Home" asp-action="Remove" class="btn btn-primary">Remove</button>
+        <button type="submit" asp-controller="Home" asp-action="Count" class="btn btn-primary">Count</button>
+        <button type="submit" asp-controller="Home" asp-action="Contains" class="btn btn-primary">Contains</button>
+    </div>
+
+    @Html.DisplayFor(model => model.LableText)
+</form>
