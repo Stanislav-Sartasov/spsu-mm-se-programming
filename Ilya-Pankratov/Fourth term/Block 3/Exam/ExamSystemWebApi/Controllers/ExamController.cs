@@ -16,33 +16,33 @@ public class ExamController : ControllerBase
     }
 
     [HttpGet("contains", Name = "Contains")]
-    public ActionResult<StudentResult> Contains(long studentId, long courseId)
+    public ActionResult<StudentExamResult> Contains(long studentId, long courseId)
     {
-        StudentResult studentResult;
+        StudentExamResult studentExamResult;
         if (examSystem.Contains(studentId, courseId))
         {
-            studentResult = StudentResult.GetStudentPassed(studentId, courseId);
+            studentExamResult = StudentExamResult.GetStudentPassed(studentId, courseId);
         }
         else
         {
-            studentResult = StudentResult.GetStudentFailed(studentId, courseId);
+            studentExamResult = StudentExamResult.GetStudentFailed(studentId, courseId);
         }
 
-        return Ok(studentResult);
+        return Ok(studentExamResult);
     }
 
     [HttpPost("add", Name = "Add")]
-    public ActionResult<string> Add(long studentId, long courseId)
+    public ActionResult<StudentStatusResult> Add(long studentId, long courseId)
     {
         examSystem.Add(studentId, courseId);
-        return Ok("Added");
+        return Ok(StudentStatusResult.GetStudentAdded(studentId, courseId));
     }
 
     [HttpDelete("remove", Name = "Remove")]
-    public ActionResult<string> Remove(long studentId, long courseId)
+    public ActionResult<StudentStatusResult> Remove(long studentId, long courseId)
     {
-        examSystem.Add(studentId, courseId);
-        return Ok("Removed");
+        examSystem.Remove(studentId, courseId);
+        return Ok(StudentStatusResult.GetStudentRemoved(studentId, courseId));
     }
 
     [HttpGet("count", Name = "Count")]
