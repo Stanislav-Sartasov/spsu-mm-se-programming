@@ -1,11 +1,11 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["ExamSystemWebApi/ExamSystemWebApi.csproj", "ExamSystemWebApi/"]
+COPY ["ExamLib/ExamLib.csproj", "ExamLib/"]
 RUN dotnet restore "ExamSystemWebApi/ExamSystemWebApi.csproj"
 COPY . .
 WORKDIR "/src/ExamSystemWebApi"
