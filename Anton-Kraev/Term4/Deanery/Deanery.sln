@@ -9,7 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSystem", "ExamSystem\Ex
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{B09923CB-E1D5-4C3F-A29D-E78A589701BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemAPI", "ExamSystemAPI\ExamSystemAPI.csproj", "{F8279667-F5E9-416D-89EA-2ABDCA02B983}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExamSystemAPI", "ExamSystemAPI\ExamSystemAPI.csproj", "{F8279667-F5E9-416D-89EA-2ABDCA02B983}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{AF3FE1DF-73C9-40CC-845D-C5980D1BFAE0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemTests", "ExamSystemTests\ExamSystemTests.csproj", "{BD8004E9-3178-42D6-8AE0-E27D1FD623FB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +29,10 @@ Global
 		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F8279667-F5E9-416D-89EA-2ABDCA02B983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD8004E9-3178-42D6-8AE0-E27D1FD623FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD8004E9-3178-42D6-8AE0-E27D1FD623FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD8004E9-3178-42D6-8AE0-E27D1FD623FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD8004E9-3178-42D6-8AE0-E27D1FD623FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -32,6 +40,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{F06BEFFF-76F5-4915-BA16-BE0E06936ADA} = {819B536D-2B46-48A5-A33E-0EBF8AF1847B}
 		{F8279667-F5E9-416D-89EA-2ABDCA02B983} = {B09923CB-E1D5-4C3F-A29D-E78A589701BA}
+		{BD8004E9-3178-42D6-8AE0-E27D1FD623FB} = {AF3FE1DF-73C9-40CC-845D-C5980D1BFAE0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0110513D-A3A9-4BB6-8906-C8DC6C6CB769}
