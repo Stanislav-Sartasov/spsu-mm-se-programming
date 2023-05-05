@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemWebApi", "ExamSys
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamLibTests", "ExamLibTests\ExamLibTests.csproj", "{D88DE62E-723A-43BB-8927-EB7C0A62FEAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemWebApiTests", "ExamSystemWebApiTests\ExamSystemWebApiTests.csproj", "{BCBD98E7-3232-4334-95EA-63FA8A4DBCF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{D88DE62E-723A-43BB-8927-EB7C0A62FEAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D88DE62E-723A-43BB-8927-EB7C0A62FEAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D88DE62E-723A-43BB-8927-EB7C0A62FEAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCBD98E7-3232-4334-95EA-63FA8A4DBCF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCBD98E7-3232-4334-95EA-63FA8A4DBCF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCBD98E7-3232-4334-95EA-63FA8A4DBCF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCBD98E7-3232-4334-95EA-63FA8A4DBCF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
