@@ -180,7 +180,7 @@ internal class StripedCuckooHashSet<T> where T : Tuple<long, long>
     private void Resize()
     {
         int oldCapacity = _capacity;
-        for (int i = 0; i < oldCapacity; i++)
+        for (int i = 0; i < _locks.GetLength(1); i++)
         {
             _locks[0, i].WaitOne();
         }
@@ -191,6 +191,9 @@ internal class StripedCuckooHashSet<T> where T : Tuple<long, long>
             {
                 return;
             }
+
+            Interlocked.Exchange(ref _setSize, 0);
+
             List<T>[,] oldTable = _table;
             _capacity = 2 * _capacity;
             _table = new List<T>[2, _capacity];
@@ -205,7 +208,7 @@ internal class StripedCuckooHashSet<T> where T : Tuple<long, long>
 
             for (int i = 0; i < 2; i++)
             {
-                for (int j = 0; j < _capacity; j++)
+                for (int j = 0; j < oldCapacity; j++)
                 {
                     foreach (T z in oldTable[i, j])
                     {
@@ -216,7 +219,7 @@ internal class StripedCuckooHashSet<T> where T : Tuple<long, long>
         }
         finally
         {
-            for (int i = 0; i < oldCapacity; i++)
+            for (int i = 0; i < _locks.GetLength(1); i++)
             {
                 _locks[0, i].ReleaseMutex();
             }

@@ -99,16 +99,5 @@ internal class CoarseGrainedHashSet<T>
         }
     }
 
-    public int Count()
-    {
-        _lock.EnterReadLock();
-        try
-        {
-            return _setSize;
-        }
-        finally
-        {
-            _lock.ExitReadLock();
-        }
-    }
+    public int Count() => _setSize;
 }
