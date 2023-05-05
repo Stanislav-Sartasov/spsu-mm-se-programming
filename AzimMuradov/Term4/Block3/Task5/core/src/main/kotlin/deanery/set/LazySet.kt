@@ -13,7 +13,7 @@ class LazySet<T : Any> : ConcurrentSet<T> {
     )
 
 
-    private var _count = AtomicInteger()
+    private val _count = AtomicInteger()
 
     override val count: Int get() = _count.get()
 

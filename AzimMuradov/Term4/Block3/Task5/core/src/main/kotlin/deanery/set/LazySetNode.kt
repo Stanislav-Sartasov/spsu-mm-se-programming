@@ -4,7 +4,7 @@ import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
 
-class LazySetNode<T : Any>(
+internal class LazySetNode<T : Any>(
     val value: T? = null,
     val key: Int = value.hashCode(),
     next: LazySetNode<T>? = null,

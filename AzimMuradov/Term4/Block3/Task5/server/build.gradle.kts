@@ -7,9 +7,9 @@ plugins {
 dependencies {
     implementation(project(":core"))
 
-    implementation("io.ktor:ktor-server-core-jvm:2.2.4")
-    implementation("io.ktor:ktor-server-netty-jvm:2.2.4")
-    implementation("ch.qos.logback:logback-classic:1.2.11")
+    implementation("io.ktor:ktor-server-core-jvm:2.3.0")
+    implementation("io.ktor:ktor-server-netty-jvm:2.3.0")
+    implementation("ch.qos.logback:logback-classic:1.4.7")
 }
 
 

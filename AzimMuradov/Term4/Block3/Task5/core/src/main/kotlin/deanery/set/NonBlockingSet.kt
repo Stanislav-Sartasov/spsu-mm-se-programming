@@ -12,26 +12,27 @@ class NonBlockingSet<T : Any> : ConcurrentSet<T> {
     )
 
 
-    private var _count = AtomicInteger()
+    private val _count = AtomicInteger()
 
     override val count: Int get() = _count.get()
 
 
     override fun contains(element: T): Boolean {
-        val marked = booleanArrayOf(false)
+        val mark = booleanArrayOf(false)
         val key = element.hashCode()
         var curr = head
         while (curr.key < key) {
             curr = curr.next.reference!!
-            curr.next.get(marked)
+            curr.next.get(mark)
         }
-        return curr.key == key && !marked[0]
+        return curr.key == key && !mark[0]
     }
 
     override fun add(element: T) {
         val key: Int = element.hashCode()
+
         while (true) {
-            val (pred, curr) = find(key)
+            val (pred, curr) = findWindow(key)
             if (curr.key != key) {
                 val node = Node(element, next = curr)
                 if (pred.next.compareAndSet(curr, node, false, false)) {
@@ -46,8 +47,9 @@ class NonBlockingSet<T : Any> : ConcurrentSet<T> {
 
     override fun remove(element: T) {
         val key: Int = element.hashCode()
+
         while (true) {
-            val (prev, curr) = find(key)
+            val (prev, curr) = findWindow(key)
             if (curr.key == key) {
                 val next = curr.next.reference
                 if (curr.next.attemptMark(next, true)) {
@@ -62,7 +64,7 @@ class NonBlockingSet<T : Any> : ConcurrentSet<T> {
     }
 
 
-    private fun find(key: Int): NBWindow<T> {
+    private fun findWindow(key: Int): NBWindow<T> {
         var prev: Node<T>
         var curr: Node<T>
         var next: Node<T>?
