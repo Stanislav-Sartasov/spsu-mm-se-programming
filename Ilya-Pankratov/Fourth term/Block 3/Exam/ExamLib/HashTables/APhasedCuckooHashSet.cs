@@ -3,13 +3,13 @@ namespace ExamLib;
 public abstract class APhasedCuckooHashSet<T>
 {
     // list is semi-full.
-    protected const int Threshold = 2;
+    protected const int Threshold = 30;
 
     // list is full.
-    protected const int ListSize = 4;
+    protected const int ListSize = 60;
 
     // steps to relocate
-    protected const int Limit = 5;
+    protected const int Limit = 75;
 
     // comparator for equality
     protected IEqualityComparer<T>? comparer;
