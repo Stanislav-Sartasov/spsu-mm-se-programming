@@ -1,6 +1,4 @@
-using System.Runtime.CompilerServices;
-
-namespace ExamLib;
+namespace ExamLib.HashTables;
 
 public abstract class ABaseHashSet<T>
 {
@@ -53,7 +51,7 @@ public abstract class ABaseHashSet<T>
         Acquire(x);
         try
         {
-            var myBucket = Math.Abs(x.GetHashCode() % table.Length); // обновить ?
+            var myBucket = Math.Abs(x.GetHashCode() % table.Length);
             return TableContains(myBucket, x);
         }
         finally
@@ -106,7 +104,7 @@ public abstract class ABaseHashSet<T>
         }
 
         if (PolicyDemandsResize)
-            Resize(); // может быть не надо?
+            Resize();
         return result;
     }
 }

@@ -1,3 +1,5 @@
+using ExamLib.HashTables;
+
 namespace ExamLib;
 
 public class StripedHashSet<T> : ABaseHashSet<T>, IHashTable<T>
@@ -18,7 +20,7 @@ public class StripedHashSet<T> : ABaseHashSet<T>, IHashTable<T>
         this.comparer = comparer;
     }
 
-    protected override bool PolicyDemandsResize => size / table.Length > 4; // ???
+    protected override bool PolicyDemandsResize => size / table.Length > 4;
 
     protected override void Acquire(T x)
     {

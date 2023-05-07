@@ -1,4 +1,5 @@
 using ExamLib;
+using ExamLib.HashTables;
 
 namespace ExamLibTests;
 
@@ -111,7 +112,7 @@ public class ExamSystemTests<TExamSystem> where TExamSystem : IExamSystem, new()
         var random = new Random();
         var minCourseId = 1;
         var maxCourseId = 20;
-        for (int i = 0; i < number; i++)
+        for (var i = 0; i < number; i++)
         {
             examSystem.Add(i, random.Next(minCourseId, maxCourseId));
         }

@@ -7,8 +7,8 @@ public class StudentPassedExam
 
     public StudentPassedExam(long studentId, long courseId)
     {
-        this.StudentId = studentId;
-        this.CourseId = courseId;
+        StudentId = studentId;
+        CourseId = courseId;
     }
 
     public override int GetHashCode()

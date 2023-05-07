@@ -1,15 +1,15 @@
-namespace ExamLib;
+namespace ExamLib.HashTables;
 
 public abstract class APhasedCuckooHashSet<T>
 {
     // list is semi-full.
-    protected const int Threshold = 60;
+    protected const int threshold = 60;
 
     // list is full.
-    protected const int ListSize = 70;
+    protected const int listSize = 70;
 
     // steps to relocate
-    protected const int Limit = 80;
+    protected const int limit = 80;
 
     // comparator for equality
     protected IEqualityComparer<T>? comparer;
@@ -17,23 +17,23 @@ public abstract class APhasedCuckooHashSet<T>
     volatile protected int capacity;
     volatile protected List<T>[,] table;
 
-    public APhasedCuckooHashSet(int size)
+    protected APhasedCuckooHashSet(int size)
     {
         capacity = size;
         table = new List<T>[2, capacity];
 
-        for (int i = 0; i < 2; i++)
+        for (var i = 0; i < 2; i++)
         {
-            for (int j = 0; j < capacity; j++)
+            for (var j = 0; j < capacity; j++)
             {
-                table[i, j] = new List<T>(ListSize);
+                table[i, j] = new List<T>(listSize);
             }
         }
 
         comparer = null;
     }
 
-    public APhasedCuckooHashSet(int size, IEqualityComparer<T> comparer) : this(size)
+    protected APhasedCuckooHashSet(int size, IEqualityComparer<T> comparer) : this(size)
     {
         this.comparer = comparer;
     }
@@ -45,24 +45,16 @@ public abstract class APhasedCuckooHashSet<T>
 
     private bool TableRemove(List<T> list, T value)
     {
-        if (comparer != null)
-        {
-            var index = list.FindIndex(x => comparer.Equals(x, value));
+        if (comparer == null) return list.Remove(value);
+        var index = list.FindIndex(x => comparer.Equals(x, value));
 
-            if (index == -1)
-            {
-                return false;
-            }
-            else
-            {
-                list.RemoveAt(index);
-                return true;
-            }
-        }
-        else
+        if (index == -1)
         {
-            return list.Remove(value);
+            return false;
         }
+
+        list.RemoveAt(index);
+        return true;
     }
 
     protected int Hash0(T x)
@@ -157,23 +149,23 @@ public abstract class APhasedCuckooHashSet<T>
             var set0 = table[0, h0];
             var set1 = table[1, h1];
 
-            if (set0.Count < Threshold)
+            if (set0.Count < threshold)
             {
                 set0.Add(x);
                 return true;
             }
-            else if (set1.Count < Threshold)
+            else if (set1.Count < threshold)
             {
                 set1.Add(x);
                 return true;
             }
-            else if (set0.Count < ListSize)
+            else if (set0.Count < listSize)
             {
                 set0.Add(x);
                 i = 0;
                 h = h0;
             }
-            else if (set1.Count < ListSize)
+            else if (set1.Count < listSize)
             {
                 set1.Add(x);
                 i = 1;
@@ -202,11 +194,11 @@ public abstract class APhasedCuckooHashSet<T>
         return true; // x must have been present
     }
 
-    protected bool Relocate(int i, int hi)
+    private bool Relocate(int i, int hi)
     {
         var hj = 0;
         var j = 1 - i;
-        for (var round = 0; round < Limit; round++)
+        for (var round = 0; round < limit; round++)
         {
             var iSet = table[i, hi];
             var y = iSet[0];
@@ -226,12 +218,12 @@ public abstract class APhasedCuckooHashSet<T>
             {
                 if (TableRemove(iSet, y))
                 {
-                    if (jSet.Count < Threshold)
+                    if (jSet.Count < threshold)
                     {
                         jSet.Add(y);
                         return true;
                     }
-                    else if (jSet.Count < ListSize)
+                    else if (jSet.Count < listSize)
                     {
                         jSet.Add(y);
                         i = 1 - i;
@@ -244,7 +236,7 @@ public abstract class APhasedCuckooHashSet<T>
                         return false;
                     }
                 }
-                else if (iSet.Count >= Threshold)
+                else if (iSet.Count >= threshold)
                 {
                     continue;
                 }

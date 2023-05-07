@@ -2,7 +2,7 @@ namespace ExamLib;
 
 public class StudentPassedEqualityComparator : IEqualityComparer<StudentPassedExam>
 {
-    public bool Equals(StudentPassedExam x, StudentPassedExam y)
+    public bool Equals(StudentPassedExam? x, StudentPassedExam? y)
     {
         if (ReferenceEquals(x, y)) return true;
         if (ReferenceEquals(x, null)) return false;

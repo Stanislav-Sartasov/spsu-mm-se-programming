@@ -1,4 +1,5 @@
 using ExamLib;
+using ExamLib.HashTables;
 
 var builder = WebApplication.CreateBuilder(args);
 

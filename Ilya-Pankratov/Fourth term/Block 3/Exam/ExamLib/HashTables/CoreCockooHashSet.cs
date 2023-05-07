@@ -1,4 +1,4 @@
-namespace ExamLib;
+namespace ExamLib.HashTables;
 
 public class CoreCockooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
 {
@@ -41,7 +41,7 @@ public class CoreCockooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
             {
                 for (var j = 0; j < capacity; j++)
                 {
-                    table[i, j] = new List<T>(ListSize);
+                    table[i, j] = new List<T>(listSize);
                 }
             }
 

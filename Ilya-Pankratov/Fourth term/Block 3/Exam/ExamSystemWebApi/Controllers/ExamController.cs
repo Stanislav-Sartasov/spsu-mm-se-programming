@@ -13,7 +13,7 @@ public class ExamController : ControllerBase
     {
         ExamController.examSystem ??= examSystem;
     }
-    
+
     [HttpGet("contains", Name = "Contains")]
     public ActionResult<StudentExamResult> Contains(long studentId, long courseId)
     {

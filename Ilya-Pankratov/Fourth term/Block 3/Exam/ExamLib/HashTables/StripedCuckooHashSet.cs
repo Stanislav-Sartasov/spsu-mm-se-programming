@@ -1,4 +1,4 @@
-namespace ExamLib;
+namespace ExamLib.HashTables;
 
 public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
 {
@@ -56,7 +56,7 @@ public class StripedCuckooHashSet<T> : APhasedCuckooHashSet<T>, IHashTable<T>
             {
                 for (var j = 0; j < capacity; j++)
                 {
-                    table[i, j] = new List<T>(ListSize);
+                    table[i, j] = new List<T>(listSize);
                 }
             }
 
