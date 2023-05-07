@@ -13,6 +13,6 @@ public class StudentPassedExam
 
     public override int GetHashCode()
     {
-        return (int)CourseId;
+        return (int)(StudentId + CourseId * 1000000);
     }
 }
