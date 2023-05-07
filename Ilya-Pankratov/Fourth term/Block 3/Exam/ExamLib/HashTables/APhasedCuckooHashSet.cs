@@ -10,7 +10,7 @@ public abstract class APhasedCuckooHashSet<T>
 
     // steps to relocate
     protected const int Limit = 5;
-    
+
     // comparator for equality
     protected IEqualityComparer<T>? comparer;
 
@@ -38,9 +38,31 @@ public abstract class APhasedCuckooHashSet<T>
         this.comparer = comparer;
     }
 
-    private bool CollectionContains(ICollection<T> list, T x)
+    private bool TableContains(List<T> list, T x)
     {
         return comparer == null ? list.Contains(x) : list.Contains(x, comparer);
+    }
+
+    private bool TableRemove(List<T> list, T value)
+    {
+        if (comparer != null)
+        {
+            var index = list.FindIndex(x => comparer.Equals(x, value));
+
+            if (index == -1)
+            {
+                return false;
+            }
+            else
+            {
+                list.RemoveAt(index);
+                return true;
+            }
+        }
+        else
+        {
+            return list.Remove(value);
+        }
     }
 
     protected int Hash0(T x)
@@ -69,14 +91,14 @@ public abstract class APhasedCuckooHashSet<T>
         try
         {
             var set0 = table[0, Hash0(x) % capacity];
-            if (CollectionContains(set0, x))
+            if (TableContains(set0, x))
             {
                 return true;
             }
             else
             {
                 var set1 = table[1, Hash1(x) % capacity];
-                if (CollectionContains(set1, x))
+                if (TableContains(set1, x))
                 {
                     return true;
                 }
@@ -100,17 +122,17 @@ public abstract class APhasedCuckooHashSet<T>
         try
         {
             var set0 = table[0, Hash0(x) % capacity];
-            if (CollectionContains(set0, x))
+            if (TableContains(set0, x))
             {
-                set0.Remove(x);
+                TableRemove(set0, x);
                 return true;
             }
             else
             {
                 var set1 = table[1, Hash1(x) % capacity];
-                if (CollectionContains(set1, x))
+                if (TableContains(set1, x))
                 {
-                    set1.Remove(x);
+                    TableRemove(set1, x);
                     return true;
                 }
             }
@@ -202,7 +224,7 @@ public abstract class APhasedCuckooHashSet<T>
             var jSet = table[j, hj];
             try
             {
-                if (iSet.Remove(y))
+                if (TableRemove(iSet, y))
                 {
                     if (jSet.Count < Threshold)
                     {

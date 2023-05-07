@@ -35,6 +35,19 @@ public abstract class ABaseHashSet<T>
         return comparer == null ? table[bucket].Contains(x) : table[bucket].Contains(x, comparer);
     }
 
+    private void TableDelete(int bucket, T value)
+    {
+        if (comparer != null)
+        {
+            var index = table[bucket].FindIndex(x => comparer.Equals(x, value));
+            table[bucket].RemoveAt(index);
+        }
+        else
+        {
+            table[bucket].Remove(value);
+        }
+    }
+
     public bool Contains(T x)
     {
         Acquire(x);
@@ -82,7 +95,7 @@ public abstract class ABaseHashSet<T>
             var myBucket = Math.Abs(x.GetHashCode() % table.Length);
             if (TableContains(myBucket, x))
             {
-                table[myBucket].Remove(x);
+                TableDelete(myBucket, x);
                 result = true;
                 size--;
             }
