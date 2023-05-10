@@ -1,0 +1,120 @@
+/*
+ * Copyright 2021-2023 Azim Muradov
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package chat.presentation.views
+
+import androidx.compose.foundation.VerticalScrollbar
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.material.*
+import androidx.compose.material.TextFieldDefaults.IconOpacity
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import chat.presentation.state.State
+
+
+@Composable
+fun ChatScreen(state: State.ChatRoom, onSend: (String) -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(Modifier.fillMaxWidth().height(16.dp).background(MaterialTheme.colors.secondary))
+
+        Box(Modifier.fillMaxWidth().weight(1f).padding(end = 6.dp)) {
+            val lazyListState = rememberLazyListState()
+
+            SelectionContainer {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    state = lazyListState,
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Bottom)
+                ) {
+                    items(state.messages) { (user, data) ->
+                        MessageBox(user, data)
+                    }
+                }
+            }
+
+            VerticalScrollbar(
+                modifier = Modifier.padding(vertical = 16.dp).align(Alignment.CenterEnd).fillMaxHeight(),
+                adapter = rememberScrollbarAdapter(scrollState = lazyListState)
+            )
+        }
+
+        Row(
+            Modifier.fillMaxWidth().background(MaterialTheme.colors.secondary).padding(16.dp),
+            Arrangement.SpaceBetween,
+            Alignment.Bottom
+        ) {
+            var value by remember { mutableStateOf("") }
+
+            Column(Modifier.weight(1f), horizontalAlignment = Alignment.Start) {
+                OutlinedTextField(
+                    value = value,
+                    onValueChange = { if (it.length <= 300) value = it },
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp, max = 128.dp),
+                    placeholder = { Text(text = "write a message...") },
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        textColor = MaterialTheme.colors.onSecondary,
+                        backgroundColor = Color.Transparent,
+                        cursorColor = MaterialTheme.colors.onSecondary,
+                        focusedBorderColor = Color.Transparent,
+                        unfocusedBorderColor = Color.Transparent,
+                        trailingIconColor = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
+                        placeholderColor = MaterialTheme.colors.onSecondary.copy(ContentAlpha.medium),
+                    )
+                )
+                Text(
+                    text = "${value.length} / 300",
+                    modifier = Modifier.padding(start = 16.dp),
+                    color = if (value.length < 300) MaterialTheme.colors.onSecondary else MaterialTheme.colors.error,
+                    fontWeight = if (value.length < 300) FontWeight.Normal else FontWeight.Bold,
+                    fontFamily = FontFamily.Monospace,
+                    style = MaterialTheme.typography.overline
+                )
+            }
+
+            Spacer(Modifier.size(16.dp))
+
+            Column(Modifier.height(72.dp), verticalArrangement = Arrangement.Center) {
+                IconButton(onClick = { onSend(value) }) {
+                    Icon(
+                        imageVector = Icons.Filled.Send,
+                        contentDescription = "send message",
+                        modifier = Modifier.size(24.dp).pointerHoverIcon(PointerIcon.Hand),
+                        tint = MaterialTheme.colors.onSecondary
+                    )
+                }
+            }
+        }
+    }
+}
