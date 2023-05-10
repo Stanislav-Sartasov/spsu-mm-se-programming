@@ -18,3 +18,12 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+kover {
+    filters {
+        classes {
+            excludes += "chat.data.*"
+            excludes += "chat.serializers.InetSocketAddressSurrogate*"
+        }
+    }
+}

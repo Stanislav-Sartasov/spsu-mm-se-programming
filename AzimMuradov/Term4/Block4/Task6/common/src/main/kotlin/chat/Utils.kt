@@ -8,7 +8,7 @@ import java.net.Socket
 
 val logger = KotlinLogging.logger(name = "IO")
 
-fun <T> tryOrNull(b: () -> T): T? = try {
+fun <T : Any> tryOrNull(b: () -> T): T? = try {
     b()
 } catch (e: Exception) {
     null
