@@ -1,4 +1,4 @@
-package chat.presentation.views
+package chat.app.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
@@ -9,9 +9,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import chat.data.models.MessageData
-import chat.presentation.state.User
-import java.time.Instant
+import chat.app.state.Message
+import chat.app.state.User
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -19,21 +18,20 @@ import java.util.*
 
 
 @Composable
-fun MessageBox(user: User, message: MessageData) {
-    val sender = (user as? User.NotMe)?.name?.name
-    val (text, epoch) = message
-    val instant = Instant.ofEpochSecond(epoch)
+fun MessageBox(message: Message) {
+    val (s, text, sendTime) = message
+    val sender = (s as? User.NotMe)?.username
     val formatted = DateTimeFormatter
         .ofLocalizedTime(FormatStyle.MEDIUM)
         .withLocale(Locale.US)
         .withZone(ZoneId.systemDefault())
-        .format(instant)
+        .format(sendTime)
 
     Row {
         if (sender == null) Spacer(Modifier.weight(1f))
 
         Card(
-            modifier = Modifier.widthIn(min = 128.dp),
+            modifier = Modifier.widthIn(min = 128.dp, max = 300.dp),
             shape = MaterialTheme.shapes.medium,
             backgroundColor = MaterialTheme.colors.surface,
             contentColor = MaterialTheme.colors.onSurface
@@ -51,7 +49,7 @@ fun MessageBox(user: User, message: MessageData) {
                     )
                     Spacer(Modifier.size(4.dp))
                 }
-                Text(text, style = MaterialTheme.typography.body1)
+                Text(text, style = MaterialTheme.typography.body2)
                 Spacer(Modifier.size(4.dp))
                 Text(formatted, style = MaterialTheme.typography.overline)
             }

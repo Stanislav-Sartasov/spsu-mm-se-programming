@@ -6,7 +6,7 @@ import java.io.PrintWriter
 import java.net.Socket
 
 
-val logger = KotlinLogging.logger("IO")
+val logger = KotlinLogging.logger(name = "IO")
 
 fun <T> tryOrNull(b: () -> T): T? = try {
     b()

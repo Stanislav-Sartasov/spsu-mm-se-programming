@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package chat.presentation.views
+package chat.app.views
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
@@ -30,8 +30,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import chat.presentation.views.IconAnimationState.APPEARING
-import chat.presentation.views.IconAnimationState.DISAPPEARING
+import chat.app.views.IconAnimationState.APPEARING
+import chat.app.views.IconAnimationState.DISAPPEARING
 
 
 @Composable

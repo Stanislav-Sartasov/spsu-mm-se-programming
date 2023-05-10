@@ -1,7 +1,7 @@
-package chat
+package chat.peer
 
-import chat.data.models.MessageData
-import chat.data.models.UserData
+import chat.data.MessageData
+import chat.data.UserData
 
 
 sealed interface State {
@@ -9,7 +9,7 @@ sealed interface State {
     object Idle : State
 
     data class Chat(
-        val users: List<UserData>,
+        val users: Set<UserData>,
         val messages: List<Pair<UserData, MessageData>>,
     ) : State
 }

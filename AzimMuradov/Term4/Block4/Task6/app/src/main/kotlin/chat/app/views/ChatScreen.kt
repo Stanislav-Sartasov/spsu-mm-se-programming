@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package chat.presentation.views
+package chat.app.views
 
 import androidx.compose.foundation.VerticalScrollbar
 import androidx.compose.foundation.background
@@ -23,7 +23,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollbarAdapter
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material.*
 import androidx.compose.material.TextFieldDefaults.IconOpacity
 import androidx.compose.material.icons.Icons
@@ -37,11 +39,11 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import chat.presentation.state.State
+import chat.app.state.State
 
 
 @Composable
-fun ChatScreen(state: State.ChatRoom, onSend: (String) -> Unit) {
+fun ChatScreen(state: State.ChatScreen, onSend: (String) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -58,8 +60,8 @@ fun ChatScreen(state: State.ChatRoom, onSend: (String) -> Unit) {
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Bottom)
                 ) {
-                    items(state.messages) { (user, data) ->
-                        MessageBox(user, data)
+                    items(state.messages) { msg ->
+                        MessageBox(msg)
                     }
                 }
             }
@@ -78,21 +80,28 @@ fun ChatScreen(state: State.ChatRoom, onSend: (String) -> Unit) {
             var value by remember { mutableStateOf("") }
 
             Column(Modifier.weight(1f), horizontalAlignment = Alignment.Start) {
-                OutlinedTextField(
-                    value = value,
-                    onValueChange = { if (it.length <= 300) value = it },
-                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp, max = 128.dp),
-                    placeholder = { Text(text = "write a message...") },
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        textColor = MaterialTheme.colors.onSecondary,
-                        backgroundColor = Color.Transparent,
-                        cursorColor = MaterialTheme.colors.onSecondary,
-                        focusedBorderColor = Color.Transparent,
-                        unfocusedBorderColor = Color.Transparent,
-                        trailingIconColor = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
-                        placeholderColor = MaterialTheme.colors.onSecondary.copy(ContentAlpha.medium),
+                CompositionLocalProvider(
+                    LocalTextSelectionColors provides TextSelectionColors(
+                        handleColor = Color.White,
+                        backgroundColor = Color.Blue
                     )
-                )
+                ) {
+                    OutlinedTextField(
+                        value = value,
+                        onValueChange = { if (it.length <= 300) value = it },
+                        modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp, max = 128.dp),
+                        placeholder = { Text(text = "write a message...") },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            textColor = MaterialTheme.colors.onSecondary,
+                            backgroundColor = Color.Transparent,
+                            cursorColor = MaterialTheme.colors.onSecondary,
+                            focusedBorderColor = Color.Transparent,
+                            unfocusedBorderColor = Color.Transparent,
+                            trailingIconColor = MaterialTheme.colors.onSurface.copy(alpha = IconOpacity),
+                            placeholderColor = MaterialTheme.colors.onSecondary.copy(ContentAlpha.medium),
+                        )
+                    )
+                }
                 Text(
                     text = "${value.length} / 300",
                     modifier = Modifier.padding(start = 16.dp),
@@ -106,12 +115,16 @@ fun ChatScreen(state: State.ChatRoom, onSend: (String) -> Unit) {
             Spacer(Modifier.size(16.dp))
 
             Column(Modifier.height(72.dp), verticalArrangement = Arrangement.Center) {
-                IconButton(onClick = { onSend(value) }) {
+                IconButton(onClick = { onSend(value); value = "" }, enabled = value.isNotEmpty()) {
                     Icon(
                         imageVector = Icons.Filled.Send,
                         contentDescription = "send message",
-                        modifier = Modifier.size(24.dp).pointerHoverIcon(PointerIcon.Hand),
-                        tint = MaterialTheme.colors.onSecondary
+                        modifier = Modifier
+                            .size(24.dp)
+                            .then(if (value.isNotEmpty()) Modifier.pointerHoverIcon(PointerIcon.Hand) else Modifier),
+                        tint = MaterialTheme.colors.onSecondary.copy(
+                            alpha = if (value.isNotEmpty()) 1f else ContentAlpha.disabled
+                        )
                     )
                 }
             }

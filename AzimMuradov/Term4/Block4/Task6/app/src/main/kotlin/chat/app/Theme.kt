@@ -1,4 +1,4 @@
-package chat.presentation
+package chat.app
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape

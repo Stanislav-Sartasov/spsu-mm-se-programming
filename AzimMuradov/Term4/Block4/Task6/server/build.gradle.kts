@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm")
     kotlin("plugin.serialization") version "1.8.10"
+    application
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
@@ -20,6 +21,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.2")
 }
 
+
+application {
+    mainClass.set("chat.hub.MainKt")
+}
 
 tasks.test {
     useJUnitPlatform()

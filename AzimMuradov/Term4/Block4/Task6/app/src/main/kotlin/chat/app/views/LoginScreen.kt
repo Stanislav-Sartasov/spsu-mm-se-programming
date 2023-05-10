@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package chat.presentation.views
+package chat.app.views
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.PointerIcon
+import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.unit.dp
 
 
@@ -48,8 +50,13 @@ fun LoginScreen(onLogin: (String) -> Unit) {
         Spacer(Modifier.size(24.dp))
 
         Button(
-            onClick = { onLogin(value) },
-            modifier = Modifier.widthIn(max = 300.dp).fillMaxWidth().height(64.dp)
+            onClick = { onLogin(value.trim()) },
+            modifier = Modifier
+                .widthIn(max = 300.dp)
+                .fillMaxWidth()
+                .height(64.dp)
+                .then(if (value.trim().length in 3..16) Modifier.pointerHoverIcon(PointerIcon.Hand) else Modifier),
+            enabled = value.trim().length in 3..16
         ) {
             Text(text = "JOIN")
         }
