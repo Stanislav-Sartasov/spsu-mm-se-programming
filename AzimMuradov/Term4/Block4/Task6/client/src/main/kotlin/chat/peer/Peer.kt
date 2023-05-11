@@ -139,7 +139,7 @@ class Peer(
                             }
                         }
 
-                        is H2PNews.Error -> error(news.reason)
+                        is H2PNews.Error -> error(news.message)
                     }
                 }
             }

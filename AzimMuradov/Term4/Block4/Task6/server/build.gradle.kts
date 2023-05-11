@@ -15,6 +15,8 @@ dependencies {
 
     testImplementation(kotlin("test"))
     testImplementation("org.junit.jupiter:junit-jupiter:5.9.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("app.cash.turbine:turbine:0.12.3")
 }
 
 
@@ -24,4 +26,12 @@ application {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+kover {
+    filters {
+        classes {
+            includes += "chat.hub.Hub*"
+        }
+    }
 }
