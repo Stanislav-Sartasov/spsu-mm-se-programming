@@ -20,17 +20,24 @@ import chat.app.state.User
 import chat.app.views.ChatScreen
 import chat.app.views.LoginScreen
 import chat.app.views.SplashScreen
+import chat.logger
 import chat.peer.Intent
+import chat.peer.LoginException
 import chat.peer.Peer
 import kotlinx.coroutines.*
 import java.awt.Dimension
+import java.io.IOException
 import java.time.Instant
+import kotlin.time.Duration.Companion.milliseconds
 import chat.peer.State as PeerState
+
 
 fun main() {
     val scope = CoroutineScope(Dispatchers.IO)
 
     Peer().use { peer ->
+        peer.run()
+
         application {
             var state: State by remember { mutableStateOf(State.SplashScreen) }
 
@@ -95,13 +102,24 @@ fun main() {
 
                     AppTheme {
                         when (val st = state) {
-                            State.SplashScreen -> SplashScreen(onSplashScreenEnd = { state = State.LoginScreen })
+                            State.SplashScreen -> SplashScreen(onSplashScreenEnd = { state = State.LoginScreen.Idle })
 
-                            State.LoginScreen -> LoginScreen(
+                            is State.LoginScreen -> LoginScreen(
+                                state = st,
                                 onLogin = { username, hubIp, hubPort ->
                                     scope.launch {
-                                        peer.run(hubIp, hubPort)
-                                        delay(100)
+                                        try {
+                                            peer.connectToHub(hubIp, hubPort)
+                                        } catch (e: IOException) {
+                                            logger.warn(e.stackTraceToString())
+                                            state = State.LoginScreen.Error("failed to connect to the server")
+                                        } catch (e: LoginException) {
+                                            logger.warn(e.stackTraceToString())
+                                            state = State.LoginScreen.Error(e.message)
+                                        }
+                                    }
+                                    scope.launch {
+                                        delay(100.milliseconds)
                                         peer.intents.emit(Intent.JoinTheChat(username))
                                     }
                                 }

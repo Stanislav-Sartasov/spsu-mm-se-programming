@@ -9,10 +9,11 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import chat.app.state.State
 
 
 @Composable
-fun LoginScreen(onLogin: (String, String, Int) -> Unit) {
+fun LoginScreen(state: State.LoginScreen, onLogin: (String, String, Int) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(100.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -39,19 +40,8 @@ fun LoginScreen(onLogin: (String, String, Int) -> Unit) {
 
         Row(Modifier.widthIn(max = 400.dp).fillMaxWidth().height(64.dp)) {
             OutlinedTextField(
-                value = hubAddress/* run {
-                    val ip = mutableListOf("0", "0", "0", "0")
-                    hubAddress.chunked(3).forEachIndexed { i, x -> ip[i] = x }
-                    ip.joinToString(separator = ".")
-                } */,
-                onValueChange = {
-                    // val ip = it.filterNot { it == '.' }.chunked(3).map { it.toIntOrNull() }
-                    // if (it.all { it.isDigit() || it == '.' } && ip.all { it != null && it in 0..255 } && ip.size <= 4) {
-                    //     hubAddress =
-                    //         it.filterNot { it == '.' }.chunked(3).map { it.toInt().toString() }.joinToString("")
-                    // }
-                    hubAddress = it
-                },
+                value = hubAddress,
+                onValueChange = { if (it.length <= 15) hubAddress = it },
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 label = { Text(text = "hub IP") },
@@ -65,7 +55,7 @@ fun LoginScreen(onLogin: (String, String, Int) -> Unit) {
 
             OutlinedTextField(
                 value = hubPort,
-                onValueChange = { hubPort = it },
+                onValueChange = { if (it.toIntOrNull() != null || it.isEmpty()) hubPort = it },
                 modifier = Modifier.weight(1f).fillMaxHeight(),
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 label = { Text(text = "hub port") },
@@ -84,10 +74,27 @@ fun LoginScreen(onLogin: (String, String, Int) -> Unit) {
                 .widthIn(max = 400.dp)
                 .fillMaxWidth()
                 .height(64.dp)
-                .then(if (username.trim().length in 3..16) Modifier.pointerHoverIcon(PointerIcon.Hand) else Modifier),
-            enabled = username.trim().length in 3..16
+                .then(
+                    if (username.trim().length in 3..16 && hubAddress.isNotEmpty() && hubPort.isNotEmpty()) {
+                        Modifier.pointerHoverIcon(PointerIcon.Hand)
+                    } else {
+                        Modifier
+                    }
+                ),
+            enabled = username.trim().length in 3..16 && hubAddress.isNotEmpty() && hubPort.isNotEmpty()
         ) {
             Text(text = "JOIN")
+        }
+
+        if (state is State.LoginScreen.Error) {
+            Spacer(Modifier.size(32.dp))
+            Text(
+                text = "${state.message}, please try again",
+                modifier = Modifier
+                    .widthIn(max = 400.dp)
+                    .fillMaxWidth(),
+                color = MaterialTheme.colors.error, textAlign = TextAlign.Center
+            )
         }
 
         Spacer(Modifier.weight(1f))

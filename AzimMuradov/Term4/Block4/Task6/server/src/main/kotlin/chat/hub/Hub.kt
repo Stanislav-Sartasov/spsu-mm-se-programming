@@ -34,35 +34,50 @@ class Hub(
 
     private var serverSocket: ServerSocket? = null
 
+    private var canCallRun: Boolean = true
+
 
     fun run(port: Int) {
-        val serverSocket = ServerSocket(port).also { serverSocket = it }
-
-        scope.launch { listenToStateChanges() }
+        if (!canCallRun) return
 
         try {
-            while (true) {
-                val socket = serverSocket.accept().also { logger.debug { it } }
+            val serverSocket = ServerSocket(port).also { serverSocket = it }
 
-                scope.launch {
-                    try {
-                        processPeerNews(socket)
-                    } catch (e: SocketException) {
-                        logger.warn(e.stackTraceToString())
-                    } finally {
-                        val addr = socket.remoteSocketAddress
-                        state.update { st ->
-                            st.copy(connections = st.connections.filterNot { it.address == addr })
+            scope.launch {
+                try {
+                    listenToStateChanges()
+                } catch (e: SocketException) {
+                    logger.warn(e.stackTraceToString())
+                }
+            }
+
+            try {
+                while (true) {
+                    val socket = serverSocket.accept().also { logger.debug { it } }
+
+                    scope.launch {
+                        try {
+                            processPeerNews(socket)
+                        } catch (e: SocketException) {
+                            logger.warn(e.stackTraceToString())
+                        } finally {
+                            val addr = socket.remoteSocketAddress
+                            state.update { st ->
+                                st.copy(connections = st.connections.filterNot { it.address == addr })
+                            }
                         }
                     }
                 }
+            } catch (e: SocketException) {
+                logger.debug(e.stackTraceToString())
             }
-        } catch (e: SocketException) {
-            logger.debug(e.stackTraceToString())
+        } finally {
+            canCallRun = false
         }
     }
 
     override fun close() {
+        canCallRun = false
         scope.cancel()
         serverSocket?.close()
     }
@@ -95,12 +110,7 @@ class Hub(
                         printer = socket.printer()
                     )
 
-                    null -> {
-                        // TODO : Add error messages
-                        // socket.printer().println(
-                        //     Json.encodeToString<H2PNews>(H2PNews.Error(message = "wrong `news` format"))
-                        // )
-                    }
+                    null -> Unit
                 }
             }
         }
@@ -108,16 +118,22 @@ class Hub(
 
     private fun processJoinTheChatRequest(user: UserData, address: SocketAddress, printer: PrintWriter) {
         state.update { st ->
-            val connection = st.connections.find { (u, a) -> u == user || a == address }
+            val connection = st.connections.find { (u, a) ->
+                u.username == user.username || u.address == user.address || a == address
+            }
             when {
                 connection == null -> st.copy(connections = st.connections + Connection(user, address, printer))
 
-                connection.user != user -> st.also {
+                connection.address != address -> st.also {
                     printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "cannot change user data")))
                 }
 
-                connection.address != address -> st.also {
-                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "user already exists")))
+                connection.user.username != user.username -> st.also {
+                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "username is taken")))
+                }
+
+                connection.user.address != user.address -> st.also {
+                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "username is taken")))
                 }
 
                 else -> st

@@ -5,7 +5,12 @@ sealed interface State {
 
     object SplashScreen : State
 
-    object LoginScreen : State
+    sealed interface LoginScreen : State {
+
+        object Idle : LoginScreen
+
+        data class Error(val message: String) : LoginScreen
+    }
 
     sealed interface ChatScreen : State {
 
