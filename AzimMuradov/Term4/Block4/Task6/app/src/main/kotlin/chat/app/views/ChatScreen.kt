@@ -38,6 +38,7 @@ import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import chat.app.state.State
 
@@ -53,15 +54,27 @@ fun ChatScreen(state: State.ChatScreen, onSend: (String) -> Unit) {
         Box(Modifier.fillMaxWidth().weight(1f).padding(end = 6.dp)) {
             val lazyListState = rememberLazyListState()
 
-            SelectionContainer {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    state = lazyListState,
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Bottom)
+            when (state) {
+                State.ChatScreen.Alone -> Box(
+                    modifier = Modifier.fillMaxSize().padding(64.dp),
+                    contentAlignment = Alignment.Center
                 ) {
-                    items(state.messages) { msg ->
-                        MessageBox(msg)
+                    Text(
+                        text = "You cannot send messages while you are alone in the chat",
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                is State.ChatScreen.NotAlone -> SelectionContainer {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        state = lazyListState,
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.Bottom)
+                    ) {
+                        items(state.messages) { msg ->
+                            MessageBox(msg)
+                        }
                     }
                 }
             }
@@ -115,15 +128,31 @@ fun ChatScreen(state: State.ChatScreen, onSend: (String) -> Unit) {
             Spacer(Modifier.size(16.dp))
 
             Column(Modifier.height(72.dp), verticalArrangement = Arrangement.Center) {
-                IconButton(onClick = { onSend(value); value = "" }, enabled = value.isNotEmpty()) {
+                IconButton(
+                    onClick = {
+                        onSend(value)
+                        value = ""
+                    },
+                    enabled = value.isNotEmpty() && state is State.ChatScreen.NotAlone
+                ) {
                     Icon(
                         imageVector = Icons.Filled.Send,
                         contentDescription = "send message",
                         modifier = Modifier
                             .size(24.dp)
-                            .then(if (value.isNotEmpty()) Modifier.pointerHoverIcon(PointerIcon.Hand) else Modifier),
+                            .then(
+                                if (value.isNotEmpty() && state is State.ChatScreen.NotAlone) {
+                                    Modifier.pointerHoverIcon(PointerIcon.Hand)
+                                } else {
+                                    Modifier
+                                }
+                            ),
                         tint = MaterialTheme.colors.onSecondary.copy(
-                            alpha = if (value.isNotEmpty()) 1f else ContentAlpha.disabled
+                            alpha = if (value.isNotEmpty() && state is State.ChatScreen.NotAlone) {
+                                1f
+                            } else {
+                                ContentAlpha.disabled
+                            }
                         )
                     )
                 }

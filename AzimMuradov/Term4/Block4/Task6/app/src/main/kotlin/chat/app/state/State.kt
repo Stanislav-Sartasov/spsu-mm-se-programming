@@ -1,11 +1,16 @@
 package chat.app.state
 
 
-sealed class State {
+sealed interface State {
 
-    object SplashScreen : State()
+    object SplashScreen : State
 
-    object LoginScreen : State()
+    object LoginScreen : State
 
-    data class ChatScreen(val messages: List<Message>) : State()
+    sealed interface ChatScreen : State {
+
+        object Alone : ChatScreen
+
+        data class NotAlone(val messages: List<Message>) : ChatScreen
+    }
 }
