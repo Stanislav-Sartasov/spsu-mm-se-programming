@@ -40,7 +40,6 @@ private val LightColorPalette = lightColors(
     error = Color(0xFFFF5555)
 )
 
-
 private val Typography = Typography(
     body1 = TextStyle(
         fontWeight = FontWeight.Normal,
@@ -55,7 +54,6 @@ private val Typography = Typography(
         fontSize = 12.sp
     )
 )
-
 
 private val Shapes = Shapes(
     small = RoundedCornerShape(4.dp),

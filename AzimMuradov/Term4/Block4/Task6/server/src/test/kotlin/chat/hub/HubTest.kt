@@ -98,7 +98,7 @@ class HubTest {
     }
 
     @Test
-    fun `run and try to send not valid command`() = runBlocking {
+    fun `run and try to send not valid 'news'`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
         var thread: Thread?
