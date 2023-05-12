@@ -9,7 +9,7 @@ public class StripedCuckooExamSystem : IExamSystem
 
     public StripedCuckooExamSystem()
     {
-        _store = new StripedCuckooHashSet<Tuple<long, long>>(15);
+        _store = new StripedCuckooHashSet<Tuple<long, long>>(30);
     }
 
     public StripedCuckooExamSystem(int capacity)

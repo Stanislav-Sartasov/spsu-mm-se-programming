@@ -60,6 +60,7 @@ internal class CoarseGrainedHashSet<T>
             _lock.ExitReadLock();
         }
     }
+
     public bool Add(T x)
     {
         bool result = false;

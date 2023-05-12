@@ -1,4 +1,4 @@
-using ExamSystem;
+using ExamSystem.Implementation;
 using ExamSystem.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,15 +8,7 @@ namespace ExamSystemAPI.Controllers;
 [Route("[controller]/[action]")]
 public class ExamSystemController : ControllerBase
 {
-
-    private readonly ILogger<ExamSystemController> _logger;
-    private readonly IExamSystem _examSystem;
-
-    public ExamSystemController(ILogger<ExamSystemController> logger)
-    {
-        _logger = logger;
-        _examSystem = new TempExamSystem();
-    }
+    private static readonly IExamSystem ExamSystem = new CoarseGrainedExamSystem();
 
     [HttpGet(Name = "FindStudent")]
     [ProducesResponseType(StatusCodes.Status200OK)]
@@ -27,7 +19,7 @@ public class ExamSystemController : ControllerBase
 
         try
         {
-            found = _examSystem.Contains(studentId, courseId);
+            found = ExamSystem.Contains(studentId, courseId);
         }
         catch (Exception e)
         {
@@ -42,14 +34,17 @@ public class ExamSystemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult AddStudent(long studentId, long courseId)
     {
+        Console.WriteLine(ExamSystem.Count);
+        Console.WriteLine(studentId  + " " + courseId);
         try
         {
-            _examSystem.Add(studentId, courseId);
+            ExamSystem.Add(studentId, courseId);
         }
         catch (Exception e)
         {
             return StatusCode(500, e.Message);
         }
+        Console.WriteLine(ExamSystem.Count);
 
         return Ok();
     }
@@ -61,7 +56,7 @@ public class ExamSystemController : ControllerBase
     {
         try
         {
-            _examSystem.Remove(studentId, courseId);
+            ExamSystem.Remove(studentId, courseId);
         }
         catch (Exception e)
         {
@@ -80,7 +75,7 @@ public class ExamSystemController : ControllerBase
 
         try
         {
-            count = _examSystem.Count;
+            count = ExamSystem.Count;
         }
         catch (Exception e)
         {
