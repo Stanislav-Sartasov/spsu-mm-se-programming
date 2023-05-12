@@ -13,7 +13,7 @@ import chat.app.state.State
 
 
 @Composable
-fun LoginScreen(state: State.LoginScreen, onLogin: (String, String, Int) -> Unit) {
+fun LoginScreen(state: State.LoginScreen, onLogin: (username: String, hubAddress: String, hubPort: Int) -> Unit) {
     Column(
         modifier = Modifier.fillMaxSize().padding(100.dp),
         horizontalAlignment = Alignment.CenterHorizontally

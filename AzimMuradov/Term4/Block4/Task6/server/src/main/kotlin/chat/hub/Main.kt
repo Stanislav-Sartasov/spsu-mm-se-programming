@@ -1,4 +1,4 @@
 package chat.hub
 
 
-fun main() = Hub().run(port = 12345)
+fun main(args: Array<String>) = Hub().run(port = args.single().toInt())

@@ -118,25 +118,28 @@ class Hub(
 
     private fun processJoinTheChatRequest(user: UserData, address: SocketAddress, printer: PrintWriter) {
         state.update { st ->
-            val connection = st.connections.find { (u, a) ->
+            if (st.connections.any { (u, a) -> u == user && a == address }) return
+
+            val similarConnection = st.connections.find { (u, a) ->
                 u.username == user.username || u.address == user.address || a == address
             }
-            when {
-                connection == null -> st.copy(connections = st.connections + Connection(user, address, printer))
 
-                connection.address != address -> st.also {
+            when {
+                similarConnection == null -> st.copy(
+                    connections = st.connections + Connection(user, address, printer)
+                )
+
+                similarConnection.address == address -> st.also {
                     printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "cannot change user data")))
                 }
 
-                connection.user.username != user.username -> st.also {
+                similarConnection.user.username == user.username -> st.also {
                     printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "username is taken")))
                 }
 
-                connection.user.address != user.address -> st.also {
-                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "username is taken")))
+                else -> st.also {
+                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "address is taken")))
                 }
-
-                else -> st
             }
         }
     }

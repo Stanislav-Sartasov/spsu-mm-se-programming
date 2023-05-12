@@ -106,10 +106,10 @@ fun main() {
 
                             is State.LoginScreen -> LoginScreen(
                                 state = st,
-                                onLogin = { username, hubIp, hubPort ->
+                                onLogin = { username, hubAddress, hubPort ->
                                     scope.launch {
                                         try {
-                                            peer.connectToHub(hubIp, hubPort)
+                                            peer.connectToHub(hubAddress, hubPort)
                                         } catch (e: IOException) {
                                             logger.warn(e.stackTraceToString())
                                             state = State.LoginScreen.Error("failed to connect to the server")

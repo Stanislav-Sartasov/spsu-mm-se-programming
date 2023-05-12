@@ -37,7 +37,7 @@ class HubTest {
     fun `run and attempt to connect`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -47,7 +47,7 @@ class HubTest {
                     thread = thread { it.run(port = 1234) }.also { Thread.sleep(500) }
                     Socket("localhost", 1234).use { Thread.sleep(500) }
                 }
-                thread?.join()
+                thread.join()
             }
 
             assertEquals(emptyList(), cancelAndConsumeRemainingEvents())
@@ -58,7 +58,7 @@ class HubTest {
     fun `run and try to login`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -88,7 +88,7 @@ class HubTest {
                         Thread.sleep(500)
                     }
                 }
-                thread?.join()
+                thread.join()
             }
 
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -101,7 +101,7 @@ class HubTest {
     fun `run and try to send not valid 'news'`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -115,7 +115,7 @@ class HubTest {
                         Thread.sleep(500)
                     }
                 }
-                thread?.join()
+                thread.join()
             }
 
             assertEquals(emptyList(), cancelAndConsumeRemainingEvents())
@@ -126,7 +126,7 @@ class HubTest {
     fun `run and try to login twice`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -141,17 +141,7 @@ class HubTest {
                             """.trimMargin().encodeToByteArray()
                         )
 
-                        assertEquals(
-                            expected = """{"type":"chat.data.H2PNews.ChatInfo","users":[{"username":"John Doe","address":{"ip":"127.0.0.1","port":5000}}]}""",
-                            actual = it.reader().buffered().readLine()
-                        )
-
-                        assertEquals(
-                            expected = listOf(
-                                UserData("John Doe", InetSocketAddress("127.0.0.1", 5000))
-                            ),
-                            actual = awaitItem().connections.map { it.user }
-                        )
+                        awaitItem()
 
                         it.getOutputStream().write(
                             """|{"type":"chat.data.P2HNews.JoinTheChatRequest","user":{"username":"John Doe","address":{"ip":"127.0.0.1","port":5000}}}
@@ -162,7 +152,7 @@ class HubTest {
                         Thread.sleep(500)
                     }
                 }
-                thread?.join()
+                thread.join()
             }
 
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -172,10 +162,10 @@ class HubTest {
     }
 
     @Test
-    fun `run and fail to login as someone else`() = runBlocking {
+    fun `run and fail to login with taken username`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -190,17 +180,7 @@ class HubTest {
                             """.trimMargin().encodeToByteArray()
                         )
 
-                        assertEquals(
-                            expected = """{"type":"chat.data.H2PNews.ChatInfo","users":[{"username":"John Doe","address":{"ip":"127.0.0.1","port":5000}}]}""",
-                            actual = it.reader().buffered().readLine()
-                        )
-
-                        assertEquals(
-                            expected = listOf(
-                                UserData("John Doe", InetSocketAddress("127.0.0.1", 5000))
-                            ),
-                            actual = awaitItem().connections.map { it.user }
-                        )
+                        awaitItem()
 
                         Socket("localhost", 1234).use {
                             it.getOutputStream().write(
@@ -210,7 +190,7 @@ class HubTest {
                             )
 
                             assertEquals(
-                                expected = """{"type":"chat.data.H2PNews.Error","message":"user already exists"}""",
+                                expected = """{"type":"chat.data.H2PNews.Error","message":"username is taken"}""",
                                 actual = it.reader().buffered().readLine()
                             )
                         }
@@ -218,7 +198,53 @@ class HubTest {
                         Thread.sleep(500)
                     }
                 }
-                thread?.join()
+                thread.join()
+            }
+
+            assertEquals(expected = State(emptyList()), actual = awaitItem())
+
+            assertEquals(emptyList(), cancelAndConsumeRemainingEvents())
+        }
+    }
+
+    @Test
+    fun `run and fail to login with taken address`() = runBlocking {
+        val state = MutableStateFlow(State(emptyList()))
+
+        var thread: Thread
+
+        state.test {
+            assertEquals(expected = State(emptyList()), actual = awaitItem())
+
+            assertDoesNotThrow {
+                Hub(state = state).use {
+                    thread = thread { it.run(port = 1234) }.also { Thread.sleep(500) }
+                    Socket("localhost", 1234).use {
+                        it.getOutputStream().write(
+                            """|{"type":"chat.data.P2HNews.JoinTheChatRequest","user":{"username":"John Doe","address":{"ip":"127.0.0.1","port":5000}}}
+                               |
+                            """.trimMargin().encodeToByteArray()
+                        )
+
+                        awaitItem()
+
+                        Socket("localhost", 1234).use {
+                            it.getOutputStream().write(
+                                """|{"type":"chat.data.P2HNews.JoinTheChatRequest","user":{"username":"John Carpenter","address":{"ip":"127.0.0.1","port":5000}}}
+                                   |
+                                """.trimMargin().encodeToByteArray()
+                            )
+
+                            assertEquals(
+                                expected = """{"type":"chat.data.H2PNews.Error","message":"address is taken"}""",
+                                actual = it.reader().buffered().readLine()
+                            )
+                        }
+
+                        Thread.sleep(500)
+                    }
+                }
+                thread.join()
             }
 
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -231,7 +257,7 @@ class HubTest {
     fun `run and fail to change user data`() = runBlocking {
         val state = MutableStateFlow(State(emptyList()))
 
-        var thread: Thread?
+        var thread: Thread
 
         state.test {
             assertEquals(expected = State(emptyList()), actual = awaitItem())
@@ -246,17 +272,9 @@ class HubTest {
                             """.trimMargin().encodeToByteArray()
                         )
 
-                        assertEquals(
-                            expected = """{"type":"chat.data.H2PNews.ChatInfo","users":[{"username":"John Doe","address":{"ip":"127.0.0.1","port":5000}}]}""",
-                            actual = it.reader().buffered().readLine()
-                        )
+                        it.reader().buffered().readLine()
 
-                        assertEquals(
-                            expected = listOf(
-                                UserData("John Doe", InetSocketAddress("127.0.0.1", 5000))
-                            ),
-                            actual = awaitItem().connections.map { it.user }
-                        )
+                        awaitItem()
 
                         it.getOutputStream().write(
                             """|{"type":"chat.data.P2HNews.JoinTheChatRequest","user":{"username":"John Malkovich","address":{"ip":"127.0.0.1","port":5000}}}
@@ -272,7 +290,7 @@ class HubTest {
                         Thread.sleep(500)
                     }
                 }
-                thread?.join()
+                thread.join()
             }
 
             assertEquals(expected = State(emptyList()), actual = awaitItem())

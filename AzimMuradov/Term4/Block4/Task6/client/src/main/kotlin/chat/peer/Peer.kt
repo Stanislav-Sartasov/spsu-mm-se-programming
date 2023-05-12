@@ -54,19 +54,26 @@ class Peer(
     fun run(peerServerPort: Int = 0) {
         if (!canCallRun) return
 
-        try {
-            scope.launch { listenToStateChanges() }
-            scope.launch { runPeerServer(peerServerPort) }
-        } catch (e: SocketException) {
-            logger.error(e.stackTraceToString())
-            close()
-        } finally {
-            canCallRun = false
+        scope.launch {
+            try {
+                listenToStateChanges()
+            } catch (e: SocketException) {
+                logger.debug(e.stackTraceToString())
+            }
         }
+        scope.launch {
+            try {
+                runPeerServer(peerServerPort)
+            } catch (e: SocketException) {
+                logger.debug(e.stackTraceToString())
+            }
+        }
+
+        canCallRun = false
     }
 
-    fun connectToHub(hubIp: String, hubPort: Int) {
-        Socket(hubIp, hubPort).use { client ->
+    fun connectToHub(hubAddress: String, hubPort: Int) {
+        Socket(hubAddress, hubPort).use { client ->
             val reader = client.reader()
             val printer = client.printer()
 
@@ -96,8 +103,8 @@ class Peer(
 
     override fun close() {
         canCallRun = false
-        scope.cancel()
         peerServerSocket?.close()
+        scope.cancel()
     }
 
 
