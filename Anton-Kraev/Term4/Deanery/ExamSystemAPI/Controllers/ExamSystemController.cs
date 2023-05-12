@@ -34,8 +34,6 @@ public class ExamSystemController : ControllerBase
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public ActionResult AddStudent(long studentId, long courseId)
     {
-        Console.WriteLine(ExamSystem.Count);
-        Console.WriteLine(studentId  + " " + courseId);
         try
         {
             ExamSystem.Add(studentId, courseId);
@@ -44,7 +42,6 @@ public class ExamSystemController : ControllerBase
         {
             return StatusCode(500, e.Message);
         }
-        Console.WriteLine(ExamSystem.Count);
 
         return Ok();
     }
