@@ -33,7 +33,7 @@ import chat.peer.State as PeerState
 
 
 fun main() {
-    val scope = CoroutineScope(Dispatchers.IO)
+    val scope = CoroutineScope(Dispatchers.Default)
 
     Peer().use { peer ->
         peer.run()

@@ -13,10 +13,10 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.io.IOException
 import java.net.InetSocketAddress
 import java.net.ServerSocket
 import java.net.Socket
-import java.net.SocketException
 
 
 class Peer(
@@ -54,22 +54,21 @@ class Peer(
     fun run(peerServerPort: Int = 0) {
         if (!canCallRun) return
 
-        scope.launch {
-            try {
-                listenToStateChanges()
-            } catch (e: SocketException) {
-                logger.debug(e.stackTraceToString())
-            }
-        }
-        scope.launch {
-            try {
-                runPeerServer(peerServerPort)
-            } catch (e: SocketException) {
-                logger.debug(e.stackTraceToString())
-            }
-        }
+        try {
+            scope.launch { listenToStateChanges() }
 
-        canCallRun = false
+            peerServerSocket = ServerSocket(peerServerPort)
+
+            scope.launch {
+                try {
+                    runPeerServer()
+                } catch (e: IOException) {
+                    logger.debug(e.stackTraceToString())
+                }
+            }
+        } finally {
+            canCallRun = false
+        }
     }
 
     fun connectToHub(hubAddress: String, hubPort: Int) {
@@ -85,17 +84,17 @@ class Peer(
             }
 
             reader.forEachLine { text ->
-                tryOrNull { Json.decodeFromString<H2PNews>(text) }?.let { news ->
-                    when (news) {
-                        is H2PNews.ChatInfo -> _state.update { st ->
-                            when (st) {
-                                is State.Chat -> st.copy(users = news.users)
-                                State.Idle -> State.Chat(news.users, emptyList())
-                            }
+                when (val news = tryOrNull { Json.decodeFromString<H2PNews>(text) }) {
+                    is H2PNews.ChatInfo -> _state.update { state ->
+                        when (state) {
+                            is State.Chat -> state.copy(users = news.users)
+                            State.Idle -> State.Chat(users = news.users, messages = emptyList())
                         }
-
-                        is H2PNews.Error -> throw LoginException(message = news.message)
                     }
+
+                    is H2PNews.LoginError -> throw LoginException(message = news.message)
+
+                    null -> Unit
                 }
             }
         }
@@ -103,8 +102,8 @@ class Peer(
 
     override fun close() {
         canCallRun = false
-        peerServerSocket?.close()
         scope.cancel()
+        peerServerSocket?.close()
     }
 
 
@@ -114,39 +113,43 @@ class Peer(
                 if (state is State.Chat) {
                     (state.users - connectedUsers.value)
                         .filter { it.username != username }
-                        .forEach { scope.launch { connectToPeer(it.address) } }
+                        .forEach {
+                            scope.launch {
+                                try {
+                                    connectToPeer(it.address)
+                                } catch (e: IOException) {
+                                    logger.warn(e.stackTraceToString())
+                                }
+                            }
+                        }
                     connectedUsers.update { state.users }
                 }
             }.collect()
     }
 
     private fun connectToPeer(address: InetSocketAddress) {
-        try {
-            Socket(address.address, address.port).use { client ->
-                client.reader().forEachLine { text ->
-                    tryOrNull { Json.decodeFromString<P2PNews>(text) }?.let { news ->
-                        when (news) {
-                            is P2PNews.TextMessage -> _state.update { state ->
-                                when (state) {
-                                    is State.Chat -> {
-                                        val sender = state.users.first { it.address == address }
-                                        state.copy(messages = state.messages + (sender to news.msg))
-                                    }
-
-                                    State.Idle -> state
-                                }
+        Socket(address.address, address.port).use { client ->
+            client.reader().forEachLine { text ->
+                when (val news = tryOrNull { Json.decodeFromString<P2PNews>(text) }) {
+                    is P2PNews.TextMessage -> _state.update { state ->
+                        when (state) {
+                            is State.Chat -> {
+                                val sender = state.users.first { it.address == address }
+                                state.copy(messages = state.messages + (sender to news.msg))
                             }
+
+                            State.Idle -> state
                         }
                     }
+
+                    null -> Unit
                 }
             }
-        } catch (e: SocketException) {
-            logger.warn(e.stackTraceToString())
         }
     }
 
-    private fun runPeerServer(peerServerPort: Int) {
-        val peerServerSocket = ServerSocket(peerServerPort).also { peerServerSocket = it }
+    private fun runPeerServer() {
+        val peerServerSocket = peerServerSocket!!
 
         address = InetSocketAddress(peerServerSocket.inetAddress, peerServerSocket.localPort)
 

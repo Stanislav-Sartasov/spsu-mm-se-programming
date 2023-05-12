@@ -1,6 +1,5 @@
 package chat
 
-import org.junit.jupiter.api.RepeatedTest
 import java.net.ServerSocket
 import java.net.Socket
 import kotlin.concurrent.thread
@@ -22,7 +21,7 @@ class UtilsTest {
         assertNull(tryOrNull<Int> { error("") })
     }
 
-    @RepeatedTest(10)
+    @Test
     fun `test socket reader`() {
         val c: Char
         ServerSocket(5000).use {

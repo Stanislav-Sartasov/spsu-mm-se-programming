@@ -20,11 +20,11 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import java.io.IOException
 import java.io.PrintWriter
 import java.net.ServerSocket
 import java.net.Socket
 import java.net.SocketAddress
-import java.net.SocketException
 
 
 class Hub(
@@ -43,32 +43,11 @@ class Hub(
         try {
             val serverSocket = ServerSocket(port).also { serverSocket = it }
 
-            scope.launch {
-                try {
-                    listenToStateChanges()
-                } catch (e: SocketException) {
-                    logger.warn(e.stackTraceToString())
-                }
-            }
+            scope.launch { listenToStateChanges() }
 
             try {
-                while (true) {
-                    val socket = serverSocket.accept().also { logger.debug { it } }
-
-                    scope.launch {
-                        try {
-                            processPeerNews(socket)
-                        } catch (e: SocketException) {
-                            logger.warn(e.stackTraceToString())
-                        } finally {
-                            val addr = socket.remoteSocketAddress
-                            state.update { st ->
-                                st.copy(connections = st.connections.filterNot { it.address == addr })
-                            }
-                        }
-                    }
-                }
-            } catch (e: SocketException) {
+                runServer(serverSocket)
+            } catch (e: IOException) {
                 logger.debug(e.stackTraceToString())
             }
         } finally {
@@ -84,18 +63,35 @@ class Hub(
 
 
     private suspend fun listenToStateChanges() {
-        state.onEach {
+        state.onEach { state ->
             logger.debug {
-                it.connections.joinToString(separator = "\n") { (user, address) -> "$user --- $address" }
+                state.connections.joinToString(separator = "\n") { (user, address) -> "$user --- $address" }
             }
-        }.onEach {
+        }.onEach { state ->
             val newChatInfo = Json.encodeToString<H2PNews>(
-                H2PNews.ChatInfo(users = it.connections.mapTo(mutableSetOf(), Connection::user))
+                H2PNews.ChatInfo(users = state.connections.mapTo(mutableSetOf(), Connection::user))
             )
-            it.connections.forEach { (_, _, printer) ->
-                printer.println(newChatInfo)
-            }
+            state.connections.forEach { it.printer.println(newChatInfo) }
         }.collect()
+    }
+
+    private fun runServer(serverSocket: ServerSocket) {
+        while (true) {
+            val socket = serverSocket.accept().also { logger.debug { it } }
+
+            scope.launch {
+                try {
+                    processPeerNews(socket)
+                } catch (e: IOException) {
+                    logger.warn(e.stackTraceToString())
+                } finally {
+                    val addr = socket.remoteSocketAddress
+                    state.update { st ->
+                        st.copy(connections = st.connections.filterNot { it.address == addr })
+                    }
+                }
+            }
+        }
     }
 
     private fun processPeerNews(socket: Socket) {
@@ -117,29 +113,23 @@ class Hub(
     }
 
     private fun processJoinTheChatRequest(user: UserData, address: SocketAddress, printer: PrintWriter) {
-        state.update { st ->
-            if (st.connections.any { (u, a) -> u == user && a == address }) return
+        state.update { state ->
+            if (state.connections.any { (u, a) -> u == user && a == address }) return
 
-            val similarConnection = st.connections.find { (u, a) ->
+            val similarConnection = state.connections.find { (u, a) ->
                 u.username == user.username || u.address == user.address || a == address
             }
 
-            when {
-                similarConnection == null -> st.copy(
-                    connections = st.connections + Connection(user, address, printer)
-                )
-
-                similarConnection.address == address -> st.also {
-                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "cannot change user data")))
+            if (similarConnection == null) {
+                state.copy(connections = state.connections + Connection(user, address, printer))
+            } else {
+                val errorMessage = when {
+                    similarConnection.address == address -> "cannot change user data"
+                    similarConnection.user.username == user.username -> "username is taken"
+                    else -> "address is taken"
                 }
-
-                similarConnection.user.username == user.username -> st.also {
-                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "username is taken")))
-                }
-
-                else -> st.also {
-                    printer.println(Json.encodeToString<H2PNews>(H2PNews.Error(message = "address is taken")))
-                }
+                printer.println(Json.encodeToString<H2PNews>(H2PNews.LoginError(errorMessage)))
+                return
             }
         }
     }

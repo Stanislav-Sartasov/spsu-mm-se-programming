@@ -13,5 +13,5 @@ sealed class H2PNews {
     data class ChatInfo(val users: Set<UserData>) : H2PNews()
 
     @Serializable
-    data class Error(val message: String) : H2PNews()
+    data class LoginError(val message: String) : H2PNews()
 }

@@ -190,7 +190,7 @@ class HubTest {
                             )
 
                             assertEquals(
-                                expected = """{"type":"chat.data.H2PNews.Error","message":"username is taken"}""",
+                                expected = """{"type":"chat.data.H2PNews.LoginError","message":"username is taken"}""",
                                 actual = it.reader().buffered().readLine()
                             )
                         }
@@ -236,7 +236,7 @@ class HubTest {
                             )
 
                             assertEquals(
-                                expected = """{"type":"chat.data.H2PNews.Error","message":"address is taken"}""",
+                                expected = """{"type":"chat.data.H2PNews.LoginError","message":"address is taken"}""",
                                 actual = it.reader().buffered().readLine()
                             )
                         }
@@ -283,7 +283,7 @@ class HubTest {
                         )
 
                         assertEquals(
-                            expected = """{"type":"chat.data.H2PNews.Error","message":"cannot change user data"}""",
+                            expected = """{"type":"chat.data.H2PNews.LoginError","message":"cannot change user data"}""",
                             actual = it.reader().buffered().readLine()
                         )
 
