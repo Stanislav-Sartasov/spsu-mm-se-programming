@@ -20,6 +20,12 @@ namespace P2P.Net
             _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
+        public Connect (Socket socket)
+        {
+            _socket = socket;
+            _encoder = new MessengeEncoder.MessengeEncoder();
+        }
+
         public Connect(Socket socket, MessengeEncoder.MessengeEncoder encoder)
         {
             _socket = socket;
