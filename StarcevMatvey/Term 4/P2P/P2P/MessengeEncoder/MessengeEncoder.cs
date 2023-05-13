@@ -22,12 +22,12 @@ namespace P2P.MessengeEncoder
 
         public byte[] ToMessenge(Messenge messenge)
         {
-            //    0     1  2 3 ...
-            // ReFlag type messengeData
+            //   0     1  2 3 ...
+            // union type messengeData
 
             var mes = Encoding.UTF8.GetBytes(" " + " " + messenge.Data);
             mes = mes.Length <= MaxMessengeLength + 2 ? mes : mes.Take(MaxMessengeLength + 2).ToArray();
-            mes[0] = (byte)messenge.Reshuffle;
+            mes[0] = (byte)messenge.Union;
             mes[1] = (byte)messenge.Type;
 
             return mes;
@@ -35,13 +35,13 @@ namespace P2P.MessengeEncoder
 
         public Messenge FromMessenge(byte[] messenge)
         {
-            var rFlag = (Reshuffle)messenge[0];
+            var union = (Union)messenge[0];
             var type = (TypeOfData)messenge[1];
             var getted = Math.Min(messenge.Length, MaxMessengeLength + 2);
 
             var data = Encoding.UTF8.GetString(messenge, 2, getted);
 
-            return new Messenge(data, rFlag, type);
+            return new Messenge(data, union, type);
         }
     }
 }

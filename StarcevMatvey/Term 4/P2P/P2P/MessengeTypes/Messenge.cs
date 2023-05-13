@@ -3,20 +3,22 @@
     public class Messenge
     {
         public readonly string Data;
-        public readonly Reshuffle Reshuffle;
+        public readonly Union Union;
         public readonly TypeOfData Type;
 
-        public Messenge (string data, Reshuffle reshuffle, TypeOfData type)
+        public Messenge (string data, Union union, TypeOfData type)
         {
             Data = data;
-            Reshuffle = reshuffle;
+            Union = union;
             Type = type;
         }
 
-        public Messenge WithData (string data) => new Messenge(data, Reshuffle, Type);
+        public Messenge WithData (string data) => new Messenge(data, Union, Type);
 
-        public Messenge WithReshuffle(Reshuffle reshuffle) => new Messenge(Data, reshuffle, Type);
+        public Messenge WithReshuffle(Union union) => new Messenge(Data, union, Type);
 
-        public Messenge WithType(TypeOfData type) => new Messenge(Data, Reshuffle, type);
+        public Messenge WithType(TypeOfData type) => new Messenge(Data, Union, type);
+
+        public static Messenge Empty => new Messenge("", Union.NoUnion, TypeOfData.Empty);
     }
 }
