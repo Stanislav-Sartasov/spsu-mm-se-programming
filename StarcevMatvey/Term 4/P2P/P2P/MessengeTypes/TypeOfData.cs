@@ -3,6 +3,7 @@
     public enum TypeOfData
     {
         Listeners = 0,
-        RegularMessenge = 1
+        RegularMessenge = 1,
+        Empty = 2
     }
 }
