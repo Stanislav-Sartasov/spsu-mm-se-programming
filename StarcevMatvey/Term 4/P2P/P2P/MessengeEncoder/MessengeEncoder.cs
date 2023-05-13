@@ -20,28 +20,28 @@ namespace P2P.MessengeEncoder
 
         public MessengeEncoder WithMessengeLength(int mexMessengeLength) => new MessengeEncoder(mexMessengeLength);
 
-        public byte[] ToMessenge(string messenge, Reshuffle reshuffle, TypeOfData type)
+        public byte[] ToMessenge(Messenge messenge)
         {
             //    0     1  2 3 ...
             // ReFlag type messengeData
 
-            var mes = Encoding.UTF8.GetBytes(" " + " " + messenge);
+            var mes = Encoding.UTF8.GetBytes(" " + " " + messenge.Data);
             mes = mes.Length <= _maxMessengeLength + 2 ? mes : mes.Take(_maxMessengeLength + 2).ToArray();
-            mes[0] = (byte)reshuffle;
-            mes[1] = (byte)type;
+            mes[0] = (byte)messenge.Reshuffle;
+            mes[1] = (byte)messenge.Type;
 
             return mes;
         }
 
-        public (string, Reshuffle, TypeOfData) FromMessenge(byte[] messenge)
+        public Messenge FromMessenge(byte[] messenge)
         {
             var rFlag = (Reshuffle)messenge[0];
             var type = (TypeOfData)messenge[1];
             var getted = Math.Min(messenge.Length, _maxMessengeLength + 2);
 
-            var mes = Encoding.UTF8.GetString(messenge, 2, getted);
+            var data = Encoding.UTF8.GetString(messenge, 2, getted);
 
-            return (mes, rFlag, type);
+            return new Messenge(data, rFlag, type);
         }
     }
 }
