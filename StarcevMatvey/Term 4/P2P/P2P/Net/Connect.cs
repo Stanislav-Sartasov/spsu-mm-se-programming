@@ -2,50 +2,55 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using P2P.MessengeTypes;
+using P2P.MessengeEncoder;
 
 namespace P2P.Net
 {
     public class Connect : IDisposable
     {
-        const int MESSENGE_LENGTH = 1024; // bytes
-
         private readonly Socket _socket;
+        private readonly MessengeEncoder.MessengeEncoder _encoder;
 
         public Connect(IPEndPoint peerEndPoint)
         {
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(peerEndPoint);
+
+            _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
-        public Connect(Socket socket)
+        public Connect(Socket socket, MessengeEncoder.MessengeEncoder encoder)
         {
             _socket = socket;
+            _encoder = encoder;
         }
 
-        public Connect WithSocket(Socket socket) => new Connect(socket);
+        public Connect WithSocket(Socket socket) => new Connect(socket, _encoder);
+        public Connect WithEncoder(MessengeEncoder.MessengeEncoder encoder) => new Connect(_socket, encoder);
 
         public IPEndPoint LocalEndPoint => (IPEndPoint)_socket.LocalEndPoint;
         public IPEndPoint RemoteEndPoint => (IPEndPoint)_socket.RemoteEndPoint;
 
-        public void Send(string messenge)
+        public void Send(Messenge messenge)
         {
-            Console.WriteLine($"I am sending \"{messenge}\"");
+            Console.WriteLine($"I am sending \"{messenge.Data}\"\nReshuffle {messenge.Reshuffle}  Type {messenge.Type}");
 
-            var mes = Encoding.UTF8.GetBytes(messenge);
-            mes = mes.Length <= MESSENGE_LENGTH ? mes : mes.Take(MESSENGE_LENGTH).ToArray();
+            var mes = _encoder.ToMessenge(messenge);
 
             if (_socket.Send(mes) <= 0) throw new Exception("I could't send your messenge T.T");
         }
 
-        public string Receive()
+        public Messenge Receive()
         {
-            byte[] mes = new byte[MESSENGE_LENGTH];
+            byte[] mes = new byte[_encoder.MaxMessengeLength];
             var getted = _socket.Receive(mes);
 
             if (getted <= 0) throw new Exception("I can't get yout messenge >.<");
 
-            var messenge = Encoding.UTF8.GetString(mes, 0, getted);
-            Console.WriteLine($"I get your messenge \"{messenge}\"");
+            var messenge = _encoder.FromMessenge(mes);
+
+            Console.WriteLine($"I get your messenge \"{messenge.Data}\"");
 
             return messenge;
         }

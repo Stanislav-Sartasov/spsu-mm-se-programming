@@ -6,16 +6,16 @@ namespace P2P.MessengeEncoder
     public class MessengeEncoder
     {
         private const int NORMAL_MAX_MESSENGE_LENGTH = 1024; // bytes
-        private readonly int _maxMessengeLength; //bytes
+        public readonly int MaxMessengeLength; //bytes
 
         public MessengeEncoder()
         {
-            _maxMessengeLength = NORMAL_MAX_MESSENGE_LENGTH;
+            MaxMessengeLength = NORMAL_MAX_MESSENGE_LENGTH;
         }
 
         public MessengeEncoder(int maxMessengeLength)
         {
-            _maxMessengeLength = maxMessengeLength <= 0 ? NORMAL_MAX_MESSENGE_LENGTH : maxMessengeLength;
+            MaxMessengeLength = maxMessengeLength <= 0 ? NORMAL_MAX_MESSENGE_LENGTH : maxMessengeLength;
         }
 
         public MessengeEncoder WithMessengeLength(int mexMessengeLength) => new MessengeEncoder(mexMessengeLength);
@@ -26,7 +26,7 @@ namespace P2P.MessengeEncoder
             // ReFlag type messengeData
 
             var mes = Encoding.UTF8.GetBytes(" " + " " + messenge.Data);
-            mes = mes.Length <= _maxMessengeLength + 2 ? mes : mes.Take(_maxMessengeLength + 2).ToArray();
+            mes = mes.Length <= MaxMessengeLength + 2 ? mes : mes.Take(MaxMessengeLength + 2).ToArray();
             mes[0] = (byte)messenge.Reshuffle;
             mes[1] = (byte)messenge.Type;
 
@@ -37,7 +37,7 @@ namespace P2P.MessengeEncoder
         {
             var rFlag = (Reshuffle)messenge[0];
             var type = (TypeOfData)messenge[1];
-            var getted = Math.Min(messenge.Length, _maxMessengeLength + 2);
+            var getted = Math.Min(messenge.Length, MaxMessengeLength + 2);
 
             var data = Encoding.UTF8.GetString(messenge, 2, getted);
 
