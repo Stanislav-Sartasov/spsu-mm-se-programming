@@ -1,8 +1,8 @@
 ﻿namespace P2P.MessengeTypes
 {
-    public enum Reshuffle
+    public enum Union
     {
-        NoReshuffle = 0,
-        Reshuffle = 1
+        NoUnion = 0,
+        Union = 1
     }
 }
