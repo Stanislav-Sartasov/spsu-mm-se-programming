@@ -10,9 +10,16 @@ open Avalonia.FuncUI.DSL
 open Gui.Connection.State
 open Gui.ChatTab
 
+let private messagesSync = obj()
+
+let private addMessage message (messages: IWritable<Notification list>) =
+    lock messagesSync (fun () ->
+            message :: messages.Current |> messages.Set
+        )
+
 let private notify (messages: IWritable<Notification list>) notification =
     async {
-        notification :: messages.Current |> messages.Set
+        addMessage notification messages
     }
 
 let mutable private chat = Unchecked.defaultof<Chat>
@@ -22,7 +29,7 @@ let internal disposeChat () =
         (chat :> IDisposable).Dispose()
 
 let private onSending (messages: IWritable<Notification list>) username message =
-    Message(username, message) :: messages.Current |> messages.Set
+    addMessage <| Message(username, message) <| messages
     chat.SendMessage(message) |> Async.Start
 
 let private initChat (address: IWritable<string>) (port: IWritable<int>) (errorDest: IWritable<string>) username notify =

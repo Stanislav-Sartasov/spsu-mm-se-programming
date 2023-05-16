@@ -10,21 +10,25 @@ open System.Net
 open System.Net.Sockets
 
 
-type NetworkStreamReader(socket: Socket, token : CancellationToken) =
-    member this.ReadExactlyAsync n =
-        async {
-            let buffer = Array.zeroCreate<byte> n
-            let mutable alreadyReadCount = 0
-            while alreadyReadCount <> n do
-                let! count =
-                    let buffer = Memory<byte>(buffer, alreadyReadCount, n - alreadyReadCount)
-                    socket.ReceiveAsync(buffer, SocketFlags.None, token).AsTask()
-                    |> Async.AwaitTask
-                alreadyReadCount <- count + alreadyReadCount
-            return buffer
-        }
+type INetworkStreamReader =
+    abstract ReadExactlyAsync : int -> Async<byte array>
 
-type Listener (address, port, maxConnectionQueueSize, token : CancellationToken, processClient: NetworkStreamReader -> Async<unit>) =
+type NetworkStreamReader(socket: Socket, token : CancellationToken) =
+    interface INetworkStreamReader with
+        member this.ReadExactlyAsync n =
+            async {
+                let buffer = Array.zeroCreate<byte> n
+                let mutable alreadyReadCount = 0
+                while alreadyReadCount <> n do
+                    let! count =
+                        let buffer = Memory<byte>(buffer, alreadyReadCount, n - alreadyReadCount)
+                        socket.ReceiveAsync(buffer, SocketFlags.None, token).AsTask()
+                        |> Async.AwaitTask
+                    alreadyReadCount <- count + alreadyReadCount
+                return buffer
+            }
+
+type Listener (address, port, maxConnectionQueueSize, token : CancellationToken, processClient: INetworkStreamReader -> Async<unit>) =
     member listener.Run(): unit =
         let thread =
             (fun () ->

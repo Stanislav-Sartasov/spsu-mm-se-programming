@@ -12,6 +12,8 @@ type Chat (username,  notify : Notification -> Async<unit>) =
     let tokenSource = new CancellationTokenSource()
     let token = tokenSource.Token
     let mutable isConnected = false
+
+    // some routing hack, works only if you are connected to the network (not only the Internet)
     let myAddress, myPort =
         use socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp)
         socket.Connect("8.8.8.8", 65530)
@@ -19,7 +21,7 @@ type Chat (username,  notify : Notification -> Async<unit>) =
         endPoint.Address, endPoint.Port
 
     let client = new Client<Message>(serializeMessage, token)
-    let onReceive data =
+    let onReceive (data : INetworkStreamReader) =
         async {
             let! mes = deserializeMessage data
             match mes with

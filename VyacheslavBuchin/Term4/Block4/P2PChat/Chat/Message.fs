@@ -3,14 +3,14 @@ module Chat.Message
 open System
 open Network
 
-let private readNBytes (stream: NetworkStreamReader) n =
+let private readNBytes (stream: INetworkStreamReader) n =
     async {
         let! res = stream.ReadExactlyAsync n
         return res
     }
 
 let private serializeInt (n: int) = BitConverter.GetBytes n
-let private deserializeInt (stream: NetworkStreamReader) =
+let private deserializeInt (stream: INetworkStreamReader) =
     async {
         let! bytes = readNBytes stream 4
         return BitConverter.ToInt32 bytes
@@ -22,7 +22,7 @@ let private serializeArray<'a> (elems : 'a array) serialize =
         Array.map serialize elems |> Array.concat
     ]
 
-let private deserializeArray<'a> (stream: NetworkStreamReader) deserialize =
+let private deserializeArray<'a> (stream: INetworkStreamReader) deserialize =
     async {
         let! count = deserializeInt stream
         return! Array.init count (fun _ -> deserialize stream) |> Async.Sequential
@@ -33,7 +33,7 @@ let private serializeByteArray (bytes: byte array) =
         serializeInt bytes.Length
         bytes
     ]
-let private deserializeByteArray (stream: NetworkStreamReader) =
+let private deserializeByteArray (stream: INetworkStreamReader) =
     async {
         let! size = deserializeInt stream
         return! readNBytes stream size
@@ -42,7 +42,7 @@ let private deserializeByteArray (stream: NetworkStreamReader) =
 let private serializeString (str: string) =
     System.Text.UTF32Encoding.UTF32.GetBytes str |> serializeByteArray
 
-let private deserializeString (stream: NetworkStreamReader) =
+let private deserializeString (stream: INetworkStreamReader) =
     async {
         let! bytes = deserializeByteArray stream
         return System.Text.UTF32Encoding.UTF32.GetString bytes
@@ -57,7 +57,7 @@ let private disconnectByte = [| byte 5 |]
 type ipInfo = string * int
 
 let private serializeIpInfo (ip, port) = Array.concat [ serializeString ip; serializeInt port ]
-let private deserializeIpInfo (stream : NetworkStreamReader) =
+let private deserializeIpInfo (stream : INetworkStreamReader) =
     async {
         let! ip = deserializeString stream
         let! port = deserializeInt stream
@@ -93,7 +93,7 @@ let serializeMessage = function
             serializeIpInfo info
         ]
 
-let deserializeMessage (stream : NetworkStreamReader) =
+let deserializeMessage (stream : INetworkStreamReader) =
     async {
         let! result =
             async {
