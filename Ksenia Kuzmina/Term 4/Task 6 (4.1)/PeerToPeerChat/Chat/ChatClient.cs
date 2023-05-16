@@ -271,8 +271,6 @@ namespace PeerToPeerChat.Chat
 
 		public void Send(string message)
 		{
-			// Info for debug
-			// Console.WriteLine("Connections:\n" + string.Join("\n", connections.Select(x => "  [" + x.Key + ": " + x.Value?.LocalAddress() + "->" + x.Value?.RemoteAddress() + "]").ToList()));
 
 			foreach (var conn in connections.Keys)
 			{
