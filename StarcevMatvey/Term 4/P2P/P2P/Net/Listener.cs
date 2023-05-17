@@ -12,12 +12,16 @@ namespace P2P.Net
         {
             _peerEndPoint = new IPEndPoint(IPAddress.Any, port);
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            Start();
         }
 
         public Listener(Socket socket, IPEndPoint peerEndPoint)
         {
             _socket = socket;
             _peerEndPoint = peerEndPoint;
+
+            Start();
         }
 
         public Listener WithSocket(Socket socket) => new Listener(socket, _peerEndPoint);

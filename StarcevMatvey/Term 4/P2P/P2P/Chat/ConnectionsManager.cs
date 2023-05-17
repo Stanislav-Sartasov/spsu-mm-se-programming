@@ -12,13 +12,10 @@ namespace P2P.Chat
 
         private Dictionary<IPEndPoint, Connect> _connections;
 
-        private bool _disposed;
-
         public ConnectionsManager(int port, ReceiversManager receiversManager)
         {
             _port = port;
             _receiversManager = receiversManager;
-            _disposed = false;
 
             _connections = new Dictionary<IPEndPoint, Connect>();
         }
@@ -49,7 +46,7 @@ namespace P2P.Chat
                 var c = new Connect(con);
                 c.SendNoUnion();
 
-                _receiversManager.Add(c);
+                _receiversManager.Add(c, this);
                 _connections.Add(con, c);
             }
         }
@@ -69,23 +66,6 @@ namespace P2P.Chat
             return new Messenge(data, Union.NoUnion, TypeOfData.Listeners);
         }
 
-        public List<IPEndPoint> ToConnections(Messenge mes)
-        {
-            var strs = mes.Data.Split().ToList();
-            var rez = new List<IPEndPoint>();
-
-            strs.ForEach(x => rez.Add(IPEndPoint.Parse(x)));
-
-            return rez;
-        }
-
-        public void Dispose()
-        {
-            if (_disposed) return;
-
-            _receiversManager.Dispose();
-
-            _disposed = true;
-        }
+        public void Dispose() => _receiversManager.Dispose();
     }
 }

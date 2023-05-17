@@ -29,7 +29,7 @@ namespace P2P.MessengeEncoder
             // union type messengeData
 
             var mes = Encoding.UTF8.GetBytes(" " + " " + messenge.Data);
-            mes = mes.Length <= MaxMessengeLength + 2 ? mes : mes.Take(MaxMessengeLength + 2).ToArray();
+            mes = mes.Length <= MaxMessengeLength ? mes : mes.Take(MaxMessengeLength).ToArray();
             mes[0] = (byte)messenge.Union;
             mes[1] = (byte)messenge.Type;
 
@@ -40,11 +40,12 @@ namespace P2P.MessengeEncoder
         {
             var union = (Union)messenge[0];
             var type = (TypeOfData)messenge[1];
-            var getted = Math.Min(messenge.Length, MaxMessengeLength + 2);
+            var getted = Math.Min(messenge.Length, MaxMessengeLength) - 2;
 
-            var data = Encoding.UTF8.GetString(messenge, 2, getted);
+            var data = "";
+            if (getted > 0) data = Encoding.UTF8.GetString(messenge.Skip(2).ToArray(), 0, getted);
 
-            return new Messenge(data, union, type);
+            return new Messenge(data.Trim(), union, type);
         }
 
         public int GetPort(Messenge messenge)

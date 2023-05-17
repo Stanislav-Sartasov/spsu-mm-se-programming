@@ -30,7 +30,6 @@ namespace P2P.Chat
             _encoder = new MessengeEncoder.MessengeEncoder();
             _receiversManager = new ReceiversManager(_lock, _encoder);
             _connectionsManager = new ConnectionsManager(_port, _receiversManager);
-            _receiversManager.SetConnectionManager(_connectionsManager);
 
             _listenerThread = new Thread(Listen);
             _listenerThread.Start();
@@ -51,7 +50,7 @@ namespace P2P.Chat
 
                     if (mes.Union == MessengeTypes.Union.NoUnion)
                     {
-                        _receiversManager.Add(conect);
+                        _receiversManager.Add(conect, _connectionsManager);
                         continue;
                     }
 
@@ -70,7 +69,7 @@ namespace P2P.Chat
 
                         _connectionsManager.SendToAll(_connectionsManager.ToMessenge());
 
-                        _receiversManager.Add(conect);
+                        _receiversManager.Add(conect, _connectionsManager);
                     }
                 }
             }
@@ -105,7 +104,7 @@ namespace P2P.Chat
             con.Send(_connectionsManager.ToMessenge());
             con.Receive();
 
-            _receiversManager.Add(con);
+            _receiversManager.Add(con, _connectionsManager);
         }
 
         public void Send(string data)

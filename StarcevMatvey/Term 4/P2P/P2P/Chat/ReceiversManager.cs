@@ -13,23 +13,6 @@ namespace P2P.Chat
         private List<Thread> _receiversThreads;
         private List<Connect> _toClose;
 
-        private ConnectionsManager _connectionsManager
-        {
-            get
-            {
-                return _connectionsManager;
-            }
-            set
-            {
-                if (!_initedConnectionManager)
-                {
-                    _connectionsManager = value;
-                    _initedConnectionManager = true;
-                }
-            }
-        }
-
-        private bool _initedConnectionManager;
         private bool _disposed;
 
         public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder)
@@ -37,30 +20,22 @@ namespace P2P.Chat
             _stop = false;
             _lock = l;
             _disposed = false;
-            _initedConnectionManager = false;
             _encoder = encoder;
 
             _receiversThreads = new List<Thread>();
             _toClose = new List<Connect>();
         }
 
-        public void SetConnectionManager(ConnectionsManager manager)
+        public void Add(Connect con, ConnectionsManager manager)
         {
-            _connectionsManager = manager;
-        }
-
-        public void Add(Connect con)
-        {
-            if (!_initedConnectionManager) throw new Exception("Connections manager for receivers are not setted");
-
             _toClose.Add(con);
 
-            var th = new Thread(() => Receive(con));
+            var th = new Thread(() => Receive(con, manager));
             _receiversThreads.Add(th);
             th.Start();
         }
 
-        private void Receive(Connect con)
+        private void Receive(Connect con, ConnectionsManager manager)
         {
             while (!_stop)
             {
@@ -70,17 +45,17 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes);
+                    WorkWithData(mes, manager);
                 }
             }
         }
 
-        private void WorkWithData(Messenge mes)
+        private void WorkWithData(Messenge mes, ConnectionsManager manager)
         {
             switch (mes.Type)
             {
                 case TypeOfData.Listeners:
-                    _connectionsManager.Merge(_encoder.GetConnections(mes));
+                    manager.Merge(_encoder.GetConnections(mes));
                     break;
                 case TypeOfData.RegularMessenge:
                     Console.WriteLine(mes.Data);
@@ -96,7 +71,6 @@ namespace P2P.Chat
             
             _toClose.ForEach(x => x.Dispose());
             _receiversThreads.ForEach(x => x.Join());
-            _connectionsManager.Dispose();
 
             _disposed = true;
         }
