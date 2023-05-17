@@ -1,5 +1,6 @@
 ﻿using P2P.Net;
 using P2P.MessengeTypes;
+using P2P.Loggers;
 
 namespace P2P.Chat
 {
@@ -15,12 +16,27 @@ namespace P2P.Chat
 
         private bool _disposed;
 
+        public ILogger Logger { get; }
+
+        public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
+        {
+            _stop = false;
+            _lock = l;
+            _disposed = false;
+            _encoder = encoder;
+            Logger = logger;
+
+            _receiversThreads = new List<Thread>();
+            _toClose = new List<Connect>();
+        }
+
         public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder)
         {
             _stop = false;
             _lock = l;
             _disposed = false;
             _encoder = encoder;
+            Logger = new Logger();
 
             _receiversThreads = new List<Thread>();
             _toClose = new List<Connect>();
@@ -73,6 +89,8 @@ namespace P2P.Chat
             _receiversThreads.ForEach(x => x.Join());
 
             _disposed = true;
+
+            Logger.Log($"I disposed receivers manager");
         }
     }
 }

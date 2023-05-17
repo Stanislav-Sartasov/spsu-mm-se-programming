@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using P2P.MessengeTypes;
 using P2P.MessengeEncoder;
+using P2P.Loggers;
 
 namespace P2P.Net
 {
@@ -12,35 +13,70 @@ namespace P2P.Net
         private readonly Socket _socket;
         private readonly MessengeEncoder.MessengeEncoder _encoder;
 
-        public Connect(IPEndPoint peerEndPoint)
+        public ILogger Logger { get; }
+
+        public Connect(IPEndPoint peerEndPoint, ILogger logger)
         {
+            Logger = logger;
+
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(peerEndPoint);
 
             _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
-        public Connect (Socket socket)
+        public Connect (Socket socket, ILogger logger)
         {
+            Logger = logger;
+
+            _socket = socket;
+            _encoder = new MessengeEncoder.MessengeEncoder();
+        }
+
+        public Connect(Socket socket, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
+        {
+            Logger = logger;
+            _socket = socket;
+            _encoder = encoder;
+        }
+
+        public Connect(IPEndPoint peerEndPoint)
+        {
+            Logger = new Logger();
+
+            _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _socket.Connect(peerEndPoint);
+
+            _encoder = new MessengeEncoder.MessengeEncoder();
+        }
+
+        public Connect(Socket socket)
+        {
+            Logger = new Logger();
+
             _socket = socket;
             _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
         public Connect(Socket socket, MessengeEncoder.MessengeEncoder encoder)
         {
+            Logger = new Logger();
             _socket = socket;
             _encoder = encoder;
         }
 
-        public Connect WithSocket(Socket socket) => new Connect(socket, _encoder);
-        public Connect WithEncoder(MessengeEncoder.MessengeEncoder encoder) => new Connect(_socket, encoder);
+        public Connect WithSocket(Socket socket) => new Connect(socket, _encoder, Logger);
+
+        public Connect WithEncoder(MessengeEncoder.MessengeEncoder encoder) => new Connect(_socket, encoder, Logger);
+
+        public Connect WithLogger(ILogger logger) => new Connect(_socket, _encoder, logger);
 
         public IPEndPoint LocalEndPoint => (IPEndPoint)_socket.LocalEndPoint;
         public IPEndPoint RemoteEndPoint => (IPEndPoint)_socket.RemoteEndPoint;
 
         public void Send(Messenge messenge)
         {
-            Console.WriteLine($"I am sending \"{messenge.Data}\"\nReshuffle {messenge.Union}  Type {messenge.Type}");
+            Logger.Log($"I am sending \"{messenge.Data}\"\nReshuffle {messenge.Union}  Type {messenge.Type}");
 
             var mes = _encoder.ToMessenge(messenge);
 
@@ -56,7 +92,7 @@ namespace P2P.Net
 
             var messenge = _encoder.FromMessenge(mes);
 
-            Console.WriteLine($"I get your messenge \"{messenge.Data}\"");
+            Logger.Log($"I get your messenge \"{messenge.Data}\"");
 
             return messenge;
         }
@@ -76,6 +112,7 @@ namespace P2P.Net
         {
             Close();
             _socket.Dispose();
+            Logger.Log($"Connect {_socket} was disposed");
         }
     }
 }

@@ -2,6 +2,7 @@
 using P2P.Net;
 using System.Net;
 using System.Net.Sockets;
+using P2P.Loggers;
 
 namespace P2P.Chat
 {
@@ -12,10 +13,22 @@ namespace P2P.Chat
 
         private Dictionary<IPEndPoint, Connect> _connections;
 
+        private ILogger Logger { get; }
+
+        public ConnectionsManager(int port, ReceiversManager receiversManager, ILogger logger)
+        {
+            _port = port;
+            _receiversManager = receiversManager;
+            Logger = logger;
+
+            _connections = new Dictionary<IPEndPoint, Connect>();
+        }
+
         public ConnectionsManager(int port, ReceiversManager receiversManager)
         {
             _port = port;
             _receiversManager = receiversManager;
+            Logger = new Logger();
 
             _connections = new Dictionary<IPEndPoint, Connect>();
         }
@@ -43,7 +56,7 @@ namespace P2P.Chat
                 if (con.Address.AddressFamily == AddressFamily.InterNetwork && con.Port == _port) continue;
                 if (Contains(con)) continue;
 
-                var c = new Connect(con);
+                var c = new Connect(con, Logger);
                 c.SendNoUnion();
 
                 _receiversManager.Add(c, this);
