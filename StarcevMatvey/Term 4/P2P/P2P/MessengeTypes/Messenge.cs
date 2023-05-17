@@ -20,5 +20,9 @@
         public Messenge WithType(TypeOfData type) => new Messenge(Data, Union, type);
 
         public static Messenge Empty => new Messenge("", Union.NoUnion, TypeOfData.Empty);
+
+        public static Messenge NoUnoion => new Messenge("", Union.NoUnion, TypeOfData.Empty);
+
+        public static Messenge YesUnion => new Messenge("", Union.Union, TypeOfData.Empty);
     }
 }

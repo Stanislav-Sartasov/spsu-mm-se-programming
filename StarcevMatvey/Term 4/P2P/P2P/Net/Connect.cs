@@ -40,7 +40,7 @@ namespace P2P.Net
 
         public void Send(Messenge messenge)
         {
-            Console.WriteLine($"I am sending \"{messenge.Data}\"\nReshuffle {messenge.Reshuffle}  Type {messenge.Type}");
+            Console.WriteLine($"I am sending \"{messenge.Data}\"\nReshuffle {messenge.Union}  Type {messenge.Type}");
 
             var mes = _encoder.ToMessenge(messenge);
 
@@ -60,6 +60,12 @@ namespace P2P.Net
 
             return messenge;
         }
+
+        public void SendEmpty() => Send(Messenge.Empty);
+
+        public void SendNoUnion() => Send(Messenge.NoUnoion);
+
+        public void SendUnion() => Send(Messenge.YesUnion);
 
         public void Close()
         {

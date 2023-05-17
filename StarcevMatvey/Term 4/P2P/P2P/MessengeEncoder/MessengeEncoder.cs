@@ -1,5 +1,8 @@
-﻿using System.Text;
+﻿using System.Net;
+using System.Text;
 using P2P.MessengeTypes;
+using P2P.Net;
+using P2P.Utils;
 
 namespace P2P.MessengeEncoder
 {
@@ -42,6 +45,31 @@ namespace P2P.MessengeEncoder
             var data = Encoding.UTF8.GetString(messenge, 2, getted);
 
             return new Messenge(data, union, type);
+        }
+
+        public int GetPort(Messenge messenge)
+        {
+            if (messenge.Type != MessengeTypes.TypeOfData.Listeners) 
+                throw new Exception("Type of messenge is not a LISTENERS");
+
+            var port = Utils.Utils.GetPositiveInt(messenge.Data);
+
+            if (port == 0) throw new Exception("Port must be possitive");
+
+            return port;
+        }
+
+        public List<IPEndPoint> GetConnections(Messenge mes)
+        {
+            if (mes.Type != MessengeTypes.TypeOfData.Listeners)
+                throw new Exception("Type of messenge is not a LISTENERS");
+
+            var strs = mes.Data.Split().ToList();
+            var rez = new List<IPEndPoint>();
+
+            strs.ForEach(x => rez.Add(IPEndPoint.Parse(x)));
+
+            return rez;
         }
     }
 }
