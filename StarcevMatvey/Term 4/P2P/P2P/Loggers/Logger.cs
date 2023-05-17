@@ -13,5 +13,10 @@
         {
             Logs.Add(mes);
         }
+
+        public void Clear()
+        {
+            Logs.Clear();
+        }
     }
 }
