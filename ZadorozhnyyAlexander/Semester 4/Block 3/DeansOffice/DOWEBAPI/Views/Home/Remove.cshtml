@@ -1,0 +1,21 @@
+﻿@model Exam
+@{
+	ViewData["Title"] = "Remove exam result page";
+}
+
+<h1>
+	Remove exam result page
+</h1>
+
+<form method="post" asp-controller="Home" asp-action="Remove">
+	<label asp-for="studentId"></label>
+	<input asp-for="studentId" />
+	<span asp-validation-for="studentId"></span>
+
+	<label asp-for="courseId"></label>
+	<input asp-for="courseId" />
+	<span asp-validation-for="courseId"></span>
+
+	<input type="submit" value="Remove exam result" />
+</form>
+
