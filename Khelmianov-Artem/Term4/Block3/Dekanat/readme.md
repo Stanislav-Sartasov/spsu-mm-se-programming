@@ -40,3 +40,8 @@ SET options:
 ### Load testing ###
 
 ![](test.png)
+
+### Timeout 1s
+Lock-free: 1312 RPS  (2559 values in set)
+
+Cuckoo: 1296 RPS  (1621 values in set)
