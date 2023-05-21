@@ -3,18 +3,18 @@ using ExamSystem.Interface;
 
 namespace ExamSystem.Implementation;
 
-public class CoarseGrainedExamSystem : IExamSystem
+public class StripedExamSystem : IExamSystem
 {
-    private readonly CoarseGrainedHashSet<Tuple<long, long>> _store;
+    private readonly StripedHashSet<Tuple<long, long>> _store;
 
-    public CoarseGrainedExamSystem()
+    public StripedExamSystem()
     {
-        _store = new CoarseGrainedHashSet<Tuple<long, long>>(30);
+        _store = new StripedHashSet<Tuple<long, long>>(32);
     }
 
-    public CoarseGrainedExamSystem(int capacity)
+    public StripedExamSystem(int capacity)
     {
-        _store = new CoarseGrainedHashSet<Tuple<long, long>>(capacity);
+        _store = new StripedHashSet<Tuple<long, long>>(capacity);
     }
 
     public int Count => _store.Count();

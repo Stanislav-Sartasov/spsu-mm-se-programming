@@ -8,7 +8,7 @@ namespace ExamSystemAPI.Controllers;
 [Route("[controller]/[action]")]
 public class ExamSystemController : ControllerBase
 {
-    private static readonly IExamSystem ExamSystem = new CoarseGrainedExamSystem();
+    private static readonly IExamSystem ExamSystem = new StripedExamSystem();
 
     [HttpGet(Name = "FindStudent")]
     [ProducesResponseType(StatusCodes.Status200OK)]

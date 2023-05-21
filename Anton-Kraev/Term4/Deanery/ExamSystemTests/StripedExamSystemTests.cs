@@ -3,12 +3,12 @@ using ExamSystem.Implementation;
 
 namespace ExamSystemTests
 {
-    public class CoarseGrainedExamSystemTests
+    public class StripedExamSystemTests
     {
         [Test]
         public void AddTest()
         {
-            var examSystem = new CoarseGrainedExamSystem();
+            var examSystem = new StripedExamSystem();
 
             for (int i = 0; i < 10; i++)
             {
@@ -23,7 +23,7 @@ namespace ExamSystemTests
         [Test]
         public void RemoveTest()
         {
-            var examSystem = new CoarseGrainedExamSystem();
+            var examSystem = new StripedExamSystem();
 
             for (int i = 0; i < 10; i++)
             {
@@ -45,7 +45,7 @@ namespace ExamSystemTests
         [Test]
         public void CollisionTest()
         {
-            var examSystem = new CoarseGrainedExamSystem();
+            var examSystem = new StripedExamSystem();
 
             examSystem.Add(3, 4);
             examSystem.Add(4, 1);
@@ -60,14 +60,14 @@ namespace ExamSystemTests
         [Test]
         public void ResizeTest()
         {
-            var examSystem = new CoarseGrainedExamSystem();
+            var examSystem = new StripedExamSystem();
 
-            for (int i = 0; i < 121; i++)
+            for (int i = 0; i < 333; i++)
             {
                 examSystem.Add(i, i + 1);
             }
 
-            Assert.AreEqual(121, examSystem.Count);
+            Assert.AreEqual(333, examSystem.Count);
         }
     }
 }

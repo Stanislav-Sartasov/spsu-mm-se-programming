@@ -1,18 +1,20 @@
 ﻿namespace ExamSystem.ConcurrentCollections;
 
-internal class CoarseGrainedHashSet<T>
+internal class StripedHashSet<T>
 {
     private List<T>[] _table;
     private int _setSize;
-    private readonly ReaderWriterLockSlim _lock = new();
+    private readonly ReaderWriterLockSlim[] _locks;
 
-    public CoarseGrainedHashSet(int capacity)
+    public StripedHashSet(int capacity)
     {
         _setSize = 0;
         _table = new List<T>[capacity];
+        _locks = new ReaderWriterLockSlim[capacity];
         for (int i = 0; i < capacity; i++)
         {
             _table[i] = new List<T>();
+            _locks[i] = new ReaderWriterLockSlim();
         }
     }
 
@@ -21,12 +23,17 @@ internal class CoarseGrainedHashSet<T>
     private void Resize()
     {
         int oldCapacity = _table.Length;
-        _lock.EnterWriteLock();
+
+        foreach (var l in _locks)
+        {
+            l.EnterWriteLock();
+        }
+
         try
         {
             if (oldCapacity != _table.Length)
             {
-                return; // someone beat us to it
+                return;
             }
             int newCapacity = 2 * oldCapacity;
             List<T>[] oldTable = _table;
@@ -43,13 +50,16 @@ internal class CoarseGrainedHashSet<T>
         }
         finally
         {
-            _lock.ExitWriteLock();
+            foreach (var l in _locks)
+            {
+                l.ExitWriteLock();
+            }
         }
     }
 
     public bool Contains(T x)
     {
-        _lock.EnterReadLock();
+        _locks[Math.Abs(x.GetHashCode() % _locks.Length)].EnterReadLock();
         try
         {
             int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
@@ -57,14 +67,14 @@ internal class CoarseGrainedHashSet<T>
         }
         finally
         {
-            _lock.ExitReadLock();
+            _locks[Math.Abs(x.GetHashCode() % _locks.Length)].ExitReadLock();
         }
     }
 
     public bool Add(T x)
     {
         bool result = false;
-        _lock.EnterWriteLock();
+        _locks[Math.Abs(x.GetHashCode() % _locks.Length)].EnterWriteLock();
         try
         {
             int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
@@ -77,7 +87,7 @@ internal class CoarseGrainedHashSet<T>
         }
         finally
         {
-            _lock.ExitWriteLock();
+            _locks[Math.Abs(x.GetHashCode() % _locks.Length)].ExitWriteLock();
         }
         if (PolicyDemandsResize)
             Resize();
@@ -86,7 +96,7 @@ internal class CoarseGrainedHashSet<T>
 
     public bool Remove(T x)
     {
-        _lock.EnterWriteLock();
+        _locks[Math.Abs(x.GetHashCode() % _locks.Length)].EnterWriteLock();
         try
         {
             int myBucket = Math.Abs(x.GetHashCode() % _table.Length);
@@ -96,7 +106,7 @@ internal class CoarseGrainedHashSet<T>
         }
         finally
         {
-            _lock.ExitWriteLock();
+            _locks[Math.Abs(x.GetHashCode() % _locks.Length)].ExitWriteLock();
         }
     }
 
