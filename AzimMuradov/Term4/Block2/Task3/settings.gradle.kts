@@ -1,4 +1,4 @@
-rootProject.name = "producer-consumer"
+rootProject.name = "producers-consumers"
 
 include("app")
 
