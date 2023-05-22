@@ -16,6 +16,20 @@ namespace P2P.Chat
 
         private bool _disposed;
 
+        public Invokes Invoke
+        {
+            get => this.Invoke;
+            set
+            {
+                if (_invokeUpdt)
+                {
+                    this.Invoke = value;
+                    _invokeUpdt = false;
+                }
+            }
+        }
+        private bool _invokeUpdt;
+
         public ILogger Logger { get; }
 
         public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
@@ -75,6 +89,7 @@ namespace P2P.Chat
                     break;
                 case TypeOfData.RegularMessenge:
                     Console.WriteLine(mes.Data);
+                    if (!_invokeUpdt) Invoke.Invoke(mes.Data);
                     break;
             }
         }

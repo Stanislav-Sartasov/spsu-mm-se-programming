@@ -22,6 +22,20 @@ namespace P2P.Chat
 
         private readonly object _lock;
 
+        public Invokes Invoke
+        {
+            get => this.Invoke;
+            set
+            {
+                if (_invokeUpdt)
+                {
+                    this.Invoke = value;
+                    _invokeUpdt = false;
+                }
+            }
+        }
+        private bool _invokeUpdt;
+
         public ILogger Logger { get; }
 
         public Client(int port, ILogger logger)
@@ -29,6 +43,7 @@ namespace P2P.Chat
             _port = port;
             _listener = new Listener(port);
             _lock = new object();
+            _invokeUpdt = true;
 
             Logger = logger;
 
@@ -45,6 +60,7 @@ namespace P2P.Chat
             _port = port;
             _listener = new Listener(port);
             _lock = new object();
+            _invokeUpdt = true;
 
             Logger = new Logger();
 
@@ -140,6 +156,7 @@ namespace P2P.Chat
             _connectionsManager.SendToAll(mes);
 
             Logger.Log($"I sended to all conections {data}");
+            if(!_invokeUpdt) Invoke.Invoke(data);
         }
 
         public void Dispose()
