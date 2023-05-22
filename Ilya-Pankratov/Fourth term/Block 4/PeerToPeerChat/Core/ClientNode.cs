@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
 using Core.Chat;
@@ -8,34 +9,86 @@ namespace Core;
 
 public class ClientNode : IClient<Message>, IDisposable
 {
-    public Guid Id { get; init; }
+    public Guid Id { get; }
     public string Name { get; }
-    public List<Peer> Peers { get; }
-    public IChat<Message> Chat { get; }
     public IPAddress IpAddress { get; }
-    public int Port { get; }
-    private readonly Socket listenSocket;
-    private const int backLog = 50;
+    public int Port { get; private set; }
+    public ConcurrentDictionary<Guid, Peer> Peers { get; }
+
+
+    // Client state
     private volatile bool isRunning;
 
-    public ClientNode(string name, int port)
+    // Listen socket
+    private readonly Socket listenSocket;
+    private const int backLog = 50;
+
+    // Message dealing
+    private Action<Message> onMessageReceived;
+
+    // Connections
+    private ConcurrentDictionary<IPEndPoint, DateTime> startedConnections;
+    private volatile bool isConnecting;
+    private const int delayTimer = 25;
+    private const int maxDelay = 100;
+    private const int maxConnectionTime = 5;
+    private object connectionState = new();
+
+    public ClientNode(string name, int port, Action<Message> onMessageReceived, IPAddress? ipAddress = null)
     {
         Id = Guid.NewGuid();
         Name = name;
         Port = port;
-        IpAddress = NetworkManager.GetLocalIp();
-        Peers = new List<Peer>();
-        Chat = new Chat<Message>();
+        IpAddress = ipAddress ?? NetworkManager.GetLocalHostIp();
+        Peers = new ConcurrentDictionary<Guid, Peer>();
         isRunning = true;
         listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        this.onMessageReceived = onMessageReceived;
+        startedConnections = new ConcurrentDictionary<IPEndPoint, DateTime>();
+        isConnecting = false;
     }
 
-    public void Start()
+    private void CheckStartedConnections()
+    {
+        /*
+         * Remove clients from connect list if their answer time is more than 10 seconds
+         */
+
+        if (isConnecting)
+        {
+            foreach (var data in startedConnections)
+            {
+                if ((DateTime.Now - data.Value).Seconds > maxConnectionTime)
+                {
+                    startedConnections.TryRemove(data);
+                }
+            }
+
+            if (startedConnections.IsEmpty)
+            {
+                lock (connectionState)
+                {
+                    isConnecting = false;
+                }
+            }
+        }
+    }
+
+    public void Start() // Launch listening activity on IpAddress:Port
     {
         try
         {
             var ep = new IPEndPoint(IpAddress, Port);
             listenSocket.Bind(ep);
+
+            if (Port < 1)
+            {
+                if (listenSocket.LocalEndPoint is IPEndPoint localIpEndPoint)
+                {
+                    Port = localIpEndPoint.Port;
+                }
+            }
+
             listenSocket.Listen(backLog);
             BeginAcceptSocket();
         }
@@ -50,6 +103,18 @@ public class ClientNode : IClient<Message>, IDisposable
     {
         ipAddress ??= NetworkManager.GetLocalHostIp();
         var connectEp = new IPEndPoint(ipAddress, port);
+        var time = DateTime.Now;
+
+        if (startedConnections.GetOrAdd(connectEp, time) != time)
+        {
+            return; // Connection request was already sent
+        }
+
+        lock (connectionState)
+        {
+            isConnecting = true;
+        }
+
         var sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         try
@@ -58,6 +123,7 @@ public class ClientNode : IClient<Message>, IDisposable
 
             var connectData = new ConnectMessage()
             {
+                Id = Id,
                 Name = Name,
                 SentTime = DateTime.Now,
                 IpAddress = IpAddress.ToString(),
@@ -66,7 +132,8 @@ public class ClientNode : IClient<Message>, IDisposable
             };
 
             var sendData = MessageConverter.Serialize(connectData);
-            var sentBytes = await sender.SendAsync(sendData.Data);
+            await sender.SendAsync(sendData.Data);
+            sender.Shutdown(SocketShutdown.Both);
             sender.Close();
         }
         catch (Exception e)
@@ -78,18 +145,42 @@ public class ClientNode : IClient<Message>, IDisposable
 
     public async Task SendMessage(string message)
     {
+        var chatMessage = new Message
+        {
+            PeerName = Name,
+            SentTime = DateTime.Now,
+            Content = message
+        };
+
+        var delayCounter = 0;
+        while (isConnecting || delayCounter > maxDelay) // Waits for the connection to end
+        {
+            await Task.Delay(delayTimer);
+            delayCounter++;
+        }
+
+        if (isConnecting)
+        {
+            CheckStartedConnections();
+        }
+
+        await SendMessageToPeers(chatMessage);
+    }
+
+    private async Task SendMessageToPeers(Message message)
+    {
         var nodeMessage = new PeerMessage()
         {
             Name = Name,
-            SentTime = DateTime.Now,
+            SentTime = message.SentTime,
             IpAddress = IpAddress.ToString(),
-            Message = message,
+            Message = message.Content,
             Type = typeof(PeerMessage)
         };
 
         var sentData = MessageConverter.Serialize(nodeMessage);
 
-        foreach (var peer in Peers)
+        foreach (var peer in Peers.Values)
         {
             await SendToPeer(peer, sentData.Data);
         }
@@ -110,7 +201,7 @@ public class ClientNode : IClient<Message>, IDisposable
 
         var sentData = MessageConverter.Serialize(nodeMessage);
 
-        foreach (var peer in Peers)
+        foreach (var peer in Peers.Values)
         {
             await SendToPeer(peer, sentData.Data);
         }
@@ -125,7 +216,7 @@ public class ClientNode : IClient<Message>, IDisposable
         try
         {
             await sender.ConnectAsync(connectEp);
-            var sentBytes = await sender.SendAsync(bytes);
+            await sender.SendAsync(bytes);
             sender.Close();
         }
         catch (Exception e)
@@ -221,14 +312,13 @@ public class ClientNode : IClient<Message>, IDisposable
 
     private void DisconnectPeer(DisconnectMessage disconnect)
     {
-        Peers.RemoveAll(x =>
-            x.IpAddress == disconnect.IpAddress && x.Name == disconnect.Name && x.Port == disconnect.Port);
+        Peers.TryRemove(disconnect.Id, out _);
     }
 
     private void ProcessMessage(PeerMessage message)
     {
         Console.WriteLine($"{Name}: Get message from {message.Name}:\n{message.Message}");
-        
+
         var chatMessage = new Message
         {
             PeerName = message.Name,
@@ -236,7 +326,7 @@ public class ClientNode : IClient<Message>, IDisposable
             Content = message.Message
         };
 
-        Chat.SaveMessage(chatMessage);
+        onMessageReceived(chatMessage);
     }
 
     private async Task AcceptConnection(ConnectMessage connect)
@@ -246,36 +336,34 @@ public class ClientNode : IClient<Message>, IDisposable
         var sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         Console.WriteLine($"{Name}: Approved connection from {connect.Name}");
-        
+
         try
         {
             await sender.ConnectAsync(connectEp);
             var connectData = new AcceptedConnectMessage()
             {
+                Id = Id,
                 Name = Name,
                 SentTime = DateTime.Now,
                 IpAddress = IpAddress.ToString(),
-                Peers = new List<Peer>(Peers),
+                Peers = new List<Peer>(Peers.Values),
                 Type = typeof(AcceptedConnectMessage)
             };
-
-            connectData.Peers.Add(new Peer
-            {
-                Name = Name,
-                IpAddress = connect.IpAddress,
-                Port = Port
-            });
 
             var sendData = MessageConverter.Serialize(connectData);
             var sentBytes = await sender.SendAsync(sendData.Data);
 
             var connectedPeer = new Peer
             {
+                Id = connect.Id,
                 Name = connect.Name,
                 IpAddress = connect.IpAddress,
                 Port = connect.ListenPort
             };
-            Peers.Add(connectedPeer);
+
+            if (Peers.TryAdd(connectedPeer.Id, connectedPeer))
+            {
+            }
 
             sender.Close();
         }
@@ -286,10 +374,29 @@ public class ClientNode : IClient<Message>, IDisposable
         }
     }
 
-    private void ConfirmAcceptedConnection(AcceptedConnectMessage acceptedConnect)
+    private async Task ConfirmAcceptedConnection(AcceptedConnectMessage acceptedConnect)
     {
         Console.WriteLine($"{Name}: Get confirmation for connection from {acceptedConnect.Name}");
-        Peers.AddRange(acceptedConnect.Peers);
+        foreach (var nextPeer in acceptedConnect.Peers)
+        {
+            if (Peers.ContainsKey(nextPeer.Id)) continue;
+            await ConnectToClient(nextPeer.Port, IPAddress.Parse(nextPeer.IpAddress));
+        }
+
+        var peer = new Peer
+        {
+            Id = acceptedConnect.Id,
+            IpAddress = acceptedConnect.IpAddress,
+            Name = acceptedConnect.Name,
+            Port = acceptedConnect.Port
+        };
+
+        if (Peers.TryAdd(acceptedConnect.Id, peer))
+        {
+            var ip = IPAddress.Parse(acceptedConnect.IpAddress);
+            var ep = new IPEndPoint(ip, acceptedConnect.Port);
+            startedConnections.TryRemove(ep, out _);
+        }
     }
 
     public void Dispose()
