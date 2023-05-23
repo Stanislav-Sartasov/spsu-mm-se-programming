@@ -8,7 +8,8 @@ public static class NetworkManager
     public static IPAddress GetLocalIp()
     {
         var host = Dns.GetHostEntry(Dns.GetHostName());
-        return host.AddressList.First(x => x.AddressFamily == AddressFamily.InterNetwork);
+        var ip = host.AddressList.First(x => x.AddressFamily == AddressFamily.InterNetwork);
+        return ip;
     }
 
     public static IPAddress GetLocalHostIp()
