@@ -5,11 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewmodel="clr-namespace:P2P_Chat_App.ViewModel"
         mc:Ignorable="d"
-        Height="625" Width="1200"
-        Background="#36393e">
-    <Grid>
+        Height="625" Width="1000"
+        Background="#eae7dc">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
-            <RowDefinition Height="25"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
@@ -19,7 +18,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- Left board -->
-        <Grid Grid.Row="1" Background="AliceBlue">
+        <Grid Grid.Row="1" Background="#d8c3a5">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition/>
@@ -32,7 +31,8 @@
                    Content="Участники"
                    VerticalAlignment="Center"
                    FontWeight="Medium"
-                   Margin="10,0,0,0">
+                   Margin="10,0,0,0"
+                   Foreground="#e85a4f">
             </Label>
 
             <ListView ItemsSource="{Binding Peers}"
@@ -45,19 +45,19 @@
             <StackPanel
                 Grid.Row="2"
                 Orientation="Horizontal"
-                Background="#292b2F">
+                Background="Transparent">
 
                 <Border CornerRadius="25"
                         Width="30"
                         Height="30"
-                        Background="#3bff6f"
+                        Background="#e85a4f"
                         Margin="20,0,0,0">
                 </Border>
 
 
                 <StackPanel VerticalAlignment="Center">
-                    <Label Content="Username"
-                           Foreground="White"
+                    <Label Content="{Binding User.Name}"
+                           Foreground="#e85a4f"
                            FontWeight="SemiBold"/>
                 </StackPanel>
             </StackPanel>
@@ -65,25 +65,24 @@
             <StackPanel
                 Grid.Row="3"
                 Orientation="Horizontal"
-                Background="#292b2F">
+                Background="Transparent">
 
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button Margin="60, 0, 0, 0"
-                            Height="30"
-                            Foreground="AliceBlue"
-                            Width="80"
-                            Content="Отключиться"
-                            Background="Red"
-                            Command="{Binding DisconnectCommand}">
-                    </Button>
-                </StackPanel>
+                <Button Margin="60, 0, 0, 0"
+                        Height="30"
+                        Foreground="AliceBlue"
+                        Width="80"
+                        Content="Отключиться"
+                        Background="#f64c72"
+                        Command="{Binding DisconnectCommand}">
+                </Button>
 
             </StackPanel>
         </Grid>
 
         <!-- Right board with messages -->
         <Grid Grid.Column="1"
-              Grid.Row="1">
+              Grid.Row="1"
+              Background="Transparent">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
@@ -95,8 +94,8 @@
             <Border>
                 <Grid HorizontalAlignment="Stretch"
                       Margin="10">
-                    <Label Content="@USER IP:PORT"
-                           Foreground="White"
+                    <Label Content="{Binding IpEndPoint}"
+                           Foreground="#e85a4f"
                            FontWeight="Bold"
                            Margin="10, 0, 10, 0"
                            VerticalAlignment="Center"/>
@@ -123,7 +122,7 @@
 
                 <TextBox Grid.Row="1"
                          Height="50"
-                         Text="Message @USERNAME"
+                         Text="Message"
                          Style="{StaticResource MessageBox}"
                          Grid.ColumnSpan="2"/>
 
@@ -139,7 +138,7 @@
                             Margin="35,0,0,0"
                             Command="{Binding SendCommand}">
                         <StackPanel>
-                            <Image Source=".\Image\send.png"
+                            <Image Source="..\Image\send.png"
                                    Width="20"
                                    Height="20"
                                    RenderOptions.BitmapScalingMode="Fant"

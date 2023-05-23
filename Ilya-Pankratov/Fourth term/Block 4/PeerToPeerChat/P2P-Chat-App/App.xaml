@@ -22,6 +22,18 @@
                 <view:MainView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type TypeName=viewmodel:CreateViewModel}">
+                <view:CreateView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type TypeName=viewmodel:NameViewModel}">
+                <view:NameView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type TypeName=viewmodel:ConnectViewModel}">
+                <view:ConnectView/>
+            </DataTemplate>
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="./Theme/PeerCard.xaml"/>
                 <ResourceDictionary Source="./Theme/Chat.xaml"/>

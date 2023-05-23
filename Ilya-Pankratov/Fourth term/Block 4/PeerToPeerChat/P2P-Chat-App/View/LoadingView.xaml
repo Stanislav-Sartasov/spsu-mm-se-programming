@@ -6,9 +6,43 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:P2P_Chat_App"
         mc:Ignorable="d"
-        Height="625" Width="1200"
-        Background="#36393e">
+        Height="625" Width="1000"
+        Background="#eae7dc">
     <Grid>
-        <fa:ImageAwesome Icon="Refresh" Spin="True" Height="120" Width="120" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <fa:ImageAwesome Grid.RowSpan="2"
+                         Grid.ColumnSpan="2"
+                         Icon="Refresh"
+                         Spin="True"
+                         Height="120"
+                         Width="120"
+                         Foreground="#e85a4f"/>
+
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+            
+            <Label Content="Подключение к"
+                   Foreground="#e85a4f"
+                   FontWeight="SemiBold"/>
+
+            <Label Content="{Binding RemoteIPEndPoint}"
+                   Foreground="#e85a4f"
+                   FontWeight="SemiBold"
+                   Margin="-5, 0, 0, 0"/>
+
+        </StackPanel>
     </Grid>
 </UserControl>

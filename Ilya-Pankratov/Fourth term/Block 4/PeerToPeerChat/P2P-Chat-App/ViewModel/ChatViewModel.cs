@@ -1,4 +1,7 @@
-﻿using P2P_Chat_App.Helpers;
+﻿using Core;
+using Core.Chat;
+using Core.Data;
+using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
 using System;
@@ -6,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace P2P_Chat_App.ViewModel
@@ -14,6 +18,14 @@ namespace P2P_Chat_App.ViewModel
     {
         public ObservableCollection<MessageModel> Messages { get; set; }
         public ObservableCollection<PeerModel> Peers { get; set; }
+        public string IpEndPoint 
+        { 
+            get
+            {
+                return $"{User.LocalIpAddress}:{User.LocalPort}";
+            }
+        }
+
         private string message;
         public string Message
         {
@@ -30,99 +42,88 @@ namespace P2P_Chat_App.ViewModel
 
         public RelayCommand SendCommand {get; set;}
         public RelayCommand DisconnectCommand { get; set; }
-        private readonly INavigationService nagivateService;
-
-        public ChatViewModel(INavigationService nagivateService)
+        public INavigationService NavigateService { get; }
+        public CurrentUserModel User { get; }
+        public IClient<Message, Peer> Client { get; }
+        public ChatViewModel(INavigationService nagivateService, CurrentUserModel user, IClient<Message, Peer> clientNode)
         {
             Messages = new ObservableCollection<MessageModel>();
             Peers = new ObservableCollection<PeerModel>();
-            this.nagivateService = nagivateService;
+            NavigateService = nagivateService;
+            User = user;
+            Client = clientNode;
+            Client.OnNewConnection = ThreadSaveAddPeer;
+            Client.OnDisconnection = ThreadSaveRemovePeer;
+            Client.OnMessageReceived = ThreadSaveAddMessage;
 
-            SendCommand = new RelayCommand(o =>
+            foreach (var peer in clientNode.Peers.Values)
             {
-                Messages.Add(new MessageModel()
+                var newPeer = new PeerModel
                 {
-                    Content = Message,
-                    FirstMessage = false,
-                });
+                    Username = peer.Name
+                };
 
+                Peers.Add(newPeer);
+            }
+
+            SendCommand = new RelayCommand(async o =>
+            {
+                await Client.SendMessage(Message);
+
+                var message = new Message
+                {
+                    PeerName = User.Name,
+                    SentTime = DateTime.Now,
+                    Content = Message
+                };
+
+                ThreadSaveAddMessage(message);
                 Message = string.Empty;
             }, canExecute => true);
 
-            // Test
-
-            Messages.Add(new MessageModel()
+            DisconnectCommand = new RelayCommand(async o =>
             {
-                Username = "Pankrat",
-                Time = DateTime.Now,
-                Content = "Test",
-                IsNativeOrigin = true,
-                FirstMessage = true
-            });
-
-            for (int i = 0; i < 3; i++)
-            {
-                Messages.Add(new MessageModel()
-                {
-                    Username = "Pankrat",
-                    Time = DateTime.Now,
-                    Content = "Test" + i,
-                    IsNativeOrigin = true,
-                    FirstMessage = false
-                });
-            }
-
-            Messages.Add(new MessageModel()
-            {
-                Username = "Ilya",
-                Time = DateTime.Now,
-                Content = "Test_Ilya",
-                IsNativeOrigin = false,
-                FirstMessage = true,
-            });
-
-            for (int i = 0; i < 4; i++)
-            {
-                Messages.Add(new MessageModel()
-                {
-                    Username = "Ilya",
-                    Time = DateTime.Now,
-                    Content = "Test" + i,
-                    IsNativeOrigin = false,
-                    FirstMessage = false
-                });
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                Messages.Add(new MessageModel()
-                {
-                    Username = "Ilya",
-                    Time = DateTime.Now,
-                    Content = "Test" + i,
-                    IsNativeOrigin = true,
-                    FirstMessage = false
-                });
-            }
-
-            Messages.Add(new MessageModel()
-            {
-                Username = "Ilya",
-                Time = DateTime.Now,
-                Content = "Last",
-                IsNativeOrigin = true,
-                FirstMessage = false
-            });
-
-            for (int i = 0; i < 5; i++)
-            {
-                Peers.Add(new PeerModel
-                {
-                    Username = "Ilysha" + i,
-                    Messages = Messages
-                }) ;
-            }
+                Peers.Clear();
+                Messages.Clear();
+                await clientNode.Disconnect();
+                clientNode.Stop();
+                NavigateService.NavigateTo<MainViewModel>();
+            }, canExecute => true);
         }
 
+        private void ThreadSaveAddMessage(Message message)
+        {
+            var messageModel = new MessageModel()
+            {
+                Username = message.PeerName,
+                Time = message.SentTime,
+                Content = message.Content,
+                IsNativeOrigin = User.Name == message.PeerName,
+                FirstMessage = !Messages.Any() || Messages.Last().Username != message.PeerName
+            };
+
+            App.Current.Dispatcher.Invoke(() => { Messages.Add(messageModel); });
+        }
+
+        private void ThreadSaveAddPeer(Peer peer)
+        {
+            App.Current.Dispatcher.Invoke(() => Peers.Add(new PeerModel()
+            {
+                Username = peer.Name
+            }));
+        }
+
+        private void ThreadSaveRemovePeer(Peer peer)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                var removedPeer = Peers.First(x => x.Username == peer.Name);
+
+                if (removedPeer != null)
+                {
+                    Peers.Remove(removedPeer);
+                }
+            });
+        }
     }
 }

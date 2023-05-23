@@ -1,4 +1,8 @@
-﻿using P2P_Chat_App.Helpers;
+﻿using Core;
+using Core.Chat;
+using Core.Data;
+using Core.Network;
+using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
 using P2P_Chat_App.View;
@@ -6,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,32 +23,20 @@ namespace P2P_Chat_App.ViewModel
         private volatile bool isConnected;
 
         public CurrentUserModel User { get; }
-
-        public bool IsConnected
+        public IClient<Message, Peer> Client { get; }
+        public IPEndPoint RemoteIPEndPoint
         {
             get
             {
-                return isConnected;
-            }
-            private set
-            {
-                isConnected = value;
+                return new IPEndPoint(User.RemoteIpAddress, User.RemotePort);
             }
         }
 
-        public LoadingViewModel(INavigationService nagivateService, CurrentUserModel user)
+        public LoadingViewModel(INavigationService nagivateService, CurrentUserModel user, IClient<Message, Peer> clientNode)
         {
-            var thread = new Thread(ConnectToRemoteUser);
-            thread.Start();
+            Client = clientNode;
             this.nagivateService = nagivateService;
-            this.User = user;
-        }
-
-        private void ConnectToRemoteUser()
-        {
-            Thread.Sleep(3000);
-            IsConnected = true;
-            nagivateService.NavigateTo<ChatViewModel>();
+            User = user;
         }
     }
 }

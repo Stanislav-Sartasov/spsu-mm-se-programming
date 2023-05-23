@@ -30,7 +30,7 @@ namespace P2P_Chat_App.ViewModel
         public MainWindowViewModel(INavigationService nagivateService)
         {
             this.nagivateService = nagivateService;
-            NavigateService.NavigateTo<MainViewModel>();
+            NavigateService.NavigateTo<NameViewModel>();
         }
     }
 }

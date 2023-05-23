@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         Height="650" Width="1200"
-        Background="#36393e"
+        Background="#eae7dc"
         AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="NoResize"
         MaxHeight="650"
-        MaxWidth="1200">
+        MaxWidth="1000">
     <!-- ResizeMode="CanResizeWithGrip"-->
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Name, Minimize, Expand, Close -->

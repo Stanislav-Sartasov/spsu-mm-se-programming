@@ -8,7 +8,6 @@ namespace P2P_Chat_App.Model
 {
     internal class MessageModel
     {
-        public Guid id { get; set; }
         public string Username { get; set; }
         public string Content { get; set; }
         public DateTime Time { get; set; }
