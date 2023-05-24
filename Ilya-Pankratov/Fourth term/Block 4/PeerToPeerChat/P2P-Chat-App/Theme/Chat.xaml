@@ -35,9 +35,9 @@
                                    FontWeight="SemiBold"
                                    VerticalAlignment="Center"
                                    Margin="0, -5, 5, 0"/>
-                            
+
                         </StackPanel>
-                       
+
 
                     </StackPanel>
                 </ControlTemplate>

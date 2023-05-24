@@ -17,7 +17,7 @@ public class ClientNode : IClient<Message, Peer>
     public ConcurrentDictionary<Guid, Peer> Peers { get; } // Connected Peers
 
     // Event actions
-    public Action? OnConnectionSuccessed { get ; set ; }
+    public Action? OnConnectionSuccessed { get; set; }
     public Action? OnConnectionFailed { get; set; }
     public Action<Message>? OnMessageReceived { get; set; }
     public Action<Peer>? OnNewConnection { get; set; }
@@ -37,6 +37,8 @@ public class ClientNode : IClient<Message, Peer>
     private volatile bool isConnected;
     private volatile bool isAborted;
     private volatile int millisecondsConnectionTimeout;
+    private int maxMessageDelay = 5000;
+    private int delayInterval = 100;
     private object connectionState = new();
     private int expectedPeers;
 
@@ -86,7 +88,7 @@ public class ClientNode : IClient<Message, Peer>
 
     public void Start(int port) // Launch listening activity on IpAddress:Port
     {
-        lock(runningState)
+        lock (runningState)
         {
             if (isRunning)
             {
@@ -128,12 +130,12 @@ public class ClientNode : IClient<Message, Peer>
 
     public async Task ConnectToClient(int port, IPAddress? ipAddress, int millisecondsTimeout)
     {
-        if(isConnected)
+        if (isConnected)
         {
             return;
         }
 
-        if(!isConnecting)
+        if (!isConnecting)
         {
             lock (connectionState)
             {
@@ -190,9 +192,15 @@ public class ClientNode : IClient<Message, Peer>
 
     public async Task SendMessage(string message)
     {
-        if (!isConnected)
+        var enteredTime = DateTime.Now;
+        while (!isConnected)
         {
-            return;
+            Thread.Sleep(delayInterval);
+
+            if ((DateTime.Now - enteredTime).TotalMilliseconds > maxMessageDelay)
+            {
+                return;
+            }
         }
 
         var chatMessage = new Message
@@ -243,7 +251,7 @@ public class ClientNode : IClient<Message, Peer>
             await SendToPeer(peer, sentData.Data);
         }
 
-        lock(connectionState)
+        lock (connectionState)
         {
             isConnected = false;
             isConnecting = false;
@@ -256,7 +264,7 @@ public class ClientNode : IClient<Message, Peer>
 
     public void Stop()
     {
-        lock(runningState)
+        lock (runningState)
         {
             isRunning = false;
             listenSocket.Close();
@@ -515,7 +523,7 @@ public class ClientNode : IClient<Message, Peer>
 
         if (!startedConnections.Any() && Peers.Count == expectedPeers)
         {
-            lock(connectionState)
+            lock (connectionState)
             {
                 isConnected = true;
                 isConnecting = false;
@@ -523,5 +531,5 @@ public class ClientNode : IClient<Message, Peer>
 
             OnConnectionSuccessed?.Invoke();
         }
-    } 
+    }
 }

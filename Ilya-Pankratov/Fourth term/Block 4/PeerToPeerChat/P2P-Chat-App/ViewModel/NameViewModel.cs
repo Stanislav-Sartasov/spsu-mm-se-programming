@@ -1,18 +1,6 @@
-﻿using Core.Chat;
-using Core.Data;
-using Core;
-using Core.Network;
-using P2P_Chat_App.Helpers;
+﻿using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
-using P2P_Chat_App.View;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace P2P_Chat_App.ViewModel
 {

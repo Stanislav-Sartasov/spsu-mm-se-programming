@@ -7,7 +7,7 @@
         <ResourceDictionary>
 
             <!--<DataTemplate DataType="{x:Type TypeName=viewmodel:MainWindowViewModel}">  -->
-                <!--<view:MainWindow/>  -->
+            <!--<view:MainWindow/>  -->
             <!--</DataTemplate>  -->
 
             <DataTemplate DataType="{x:Type TypeName=viewmodel:ChatViewModel}">

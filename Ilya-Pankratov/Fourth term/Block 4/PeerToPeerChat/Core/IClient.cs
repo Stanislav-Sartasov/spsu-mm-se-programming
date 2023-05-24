@@ -1,7 +1,5 @@
 using System.Collections.Concurrent;
 using System.Net;
-using Core.Chat;
-using Core.Data;
 
 namespace Core;
 
@@ -16,7 +14,7 @@ public interface IClient<TMessage, VPeer>
 
     // Event handlers
     public Action? OnConnectionSuccessed { get; set; }
-    public Action? OnConnectionFailed{ get; set; }
+    public Action? OnConnectionFailed { get; set; }
     public Action<TMessage>? OnMessageReceived { get; set; }
     public Action<VPeer>? OnNewConnection { get; set; }
     public Action<VPeer>? OnDisconnection { get; set; }

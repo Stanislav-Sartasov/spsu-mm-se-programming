@@ -9,14 +9,7 @@ using P2P_Chat_App.Service;
 using P2P_Chat_App.View;
 using P2P_Chat_App.ViewModel;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Navigation;
-using System.Xml.Linq;
 using NavigationService = P2P_Chat_App.Service.NavigationService;
 
 namespace P2P_Chat_App
@@ -65,7 +58,7 @@ namespace P2P_Chat_App
             services.AddSingleton<IClient<Message, Peer>, ClientNode>(provider =>
             {
                 var user = provider.GetRequiredService<CurrentUserModel>();
-                return new ClientNode(user.Name); 
+                return new ClientNode(user.Name);
             });
 
             serviceProvider = services.BuildServiceProvider();

@@ -5,12 +5,8 @@ using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace P2P_Chat_App.ViewModel
 {
@@ -18,8 +14,8 @@ namespace P2P_Chat_App.ViewModel
     {
         public ObservableCollection<MessageModel> Messages { get; set; }
         public ObservableCollection<PeerModel> Peers { get; set; }
-        public string IpEndPoint 
-        { 
+        public string IpEndPoint
+        {
             get
             {
                 return $"{User.LocalIpAddress}:{User.LocalPort}";
@@ -40,7 +36,7 @@ namespace P2P_Chat_App.ViewModel
             }
         }
 
-        public RelayCommand SendCommand {get; set;}
+        public RelayCommand SendCommand { get; set; }
         public RelayCommand DisconnectCommand { get; set; }
         public INavigationService NavigateService { get; }
         public CurrentUserModel User { get; }

@@ -8,7 +8,8 @@ namespace P2P_Chat_App.Service
         private AViewModel currentView;
         private readonly Func<Type, AViewModel> viewModelFactory;
 
-        public AViewModel CurrentView {
+        public AViewModel CurrentView
+        {
             get
             {
                 return currentView;

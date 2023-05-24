@@ -18,7 +18,7 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
+
         <fa:ImageAwesome Grid.RowSpan="2"
                          Grid.ColumnSpan="2"
                          Icon="Refresh"
@@ -33,7 +33,7 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal"
                     HorizontalAlignment="Center">
-            
+
             <Label Content="Подключение к"
                    Foreground="#e85a4f"
                    FontWeight="SemiBold"/>

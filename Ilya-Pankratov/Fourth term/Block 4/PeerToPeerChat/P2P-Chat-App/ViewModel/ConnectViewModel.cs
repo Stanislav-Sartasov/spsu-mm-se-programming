@@ -1,19 +1,11 @@
 ﻿using Core;
 using Core.Chat;
 using Core.Data;
-using Core.Network;
 using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
-using P2P_Chat_App.View;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace P2P_Chat_App.ViewModel
 {
@@ -38,12 +30,12 @@ namespace P2P_Chat_App.ViewModel
         private IPAddress localIp;
         private readonly int timeout;
 
-        public string LocalIp 
-        { 
-            get 
-            { 
-                return "Local IP: " + localIp.ToString(); 
-            } 
+        public string LocalIp
+        {
+            get
+            {
+                return "Local IP: " + localIp.ToString();
+            }
         }
 
         public string Port { get; set; }
