@@ -50,3 +50,11 @@ StripedHashSet и StripedCockooHastSet 500  RPS
 StripedHashSet и StripedCockooHastSet 1000  RPS
 ![StripedCockooHastSet-1000RPS](./images/Compare-workflow-1000.png)
 ---
+
+### Таймаут 120ms ###
+
+Число клиентов приводящее к timeout 120ms.
+
+StripedHashSet. Число клиентов 500, примерное количество записей в системе - 4489
+
+StripedCockooHastSet. Число клиентов 240, примерное количество записей в системе - 2594.
