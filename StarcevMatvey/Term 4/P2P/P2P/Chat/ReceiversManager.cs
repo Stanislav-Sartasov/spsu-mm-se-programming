@@ -16,19 +16,8 @@ namespace P2P.Chat
 
         private bool _disposed = false;
 
-        public Invokes Invoke
-        {
-            get => this.Invoke;
-            set
-            {
-                if (_invokeUpdt)
-                {
-                    this.Invoke = value;
-                    _invokeUpdt = false;
-                }
-            }
-        }
-        private bool _invokeUpdt;
+        public delegate void MessengeEvent(string messenge);
+        public event MessengeEvent MessengeInvoke;
 
         public ILogger Logger { get; }
 
@@ -46,16 +35,16 @@ namespace P2P.Chat
             Logger = new Logger();
         }
 
-        public void Add(Connect con, ConnectionsManager manager)
+        public void Add(Connect con, ConnectionsManager manager, MessengeEvent me)
         {
             _toClose.Add(con);
 
-            var th = new Thread(() => Receive(con, manager));
+            var th = new Thread(() => Receive(con, manager, me));
             _receiversThreads.Add(th);
             th.Start();
         }
 
-        private void Receive(Connect con, ConnectionsManager manager)
+        private void Receive(Connect con, ConnectionsManager manager, MessengeEvent me)
         {
             while (!_stop)
             {
@@ -65,12 +54,12 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes, manager);
+                    WorkWithData(mes, manager, me);
                 }
             }
         }
 
-        private void WorkWithData(Messenge mes, ConnectionsManager manager)
+        private void WorkWithData(Messenge mes, ConnectionsManager manager, MessengeEvent me)
         {
             switch (mes.Type)
             {
@@ -79,7 +68,7 @@ namespace P2P.Chat
                     break;
                 case TypeOfData.RegularMessenge:
                     Console.WriteLine(mes.Data);
-                    if (!_invokeUpdt) Invoke.Invoke(mes.Data);
+                    if (me != null) me.Invoke(mes.Data);
                     break;
             }
         }

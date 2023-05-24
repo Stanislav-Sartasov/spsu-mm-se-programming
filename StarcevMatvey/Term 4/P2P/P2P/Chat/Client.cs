@@ -22,20 +22,8 @@ namespace P2P.Chat
 
         private readonly object _lock = new object();
 
-        public Invokes Invoke
-        {
-            get => this.Invoke;
-            set
-            {
-                if (_invokeUpdt)
-                {
-                    this.Invoke = value;
-                    _receiversManager.Invoke = value;
-                    _invokeUpdt = false;
-                }
-            }
-        }
-        private bool _invokeUpdt = true;
+        public delegate void MessengeEvent(string messenge);
+        public event MessengeEvent MessengeInvoke;
 
         public ILogger Logger { get; }
 
@@ -82,7 +70,7 @@ namespace P2P.Chat
 
                     if (mes.Union == MessengeTypes.Union.NoUnion)
                     {
-                        _receiversManager.Add(conect, _connectionsManager);
+                        _receiversManager.Add(conect, _connectionsManager, MessengeInvoke);
                         Logger.Log($"I added new connection");
                         continue;
                     }
@@ -102,7 +90,7 @@ namespace P2P.Chat
 
                         _connectionsManager.SendToAll(_connectionsManager.ToMessenge());
 
-                        _receiversManager.Add(conect, _connectionsManager);
+                        _receiversManager.Add(conect, _connectionsManager, MessengeInvoke);
 
                         Logger.Log($"I union conections of to conect");
                     }
@@ -139,7 +127,7 @@ namespace P2P.Chat
             con.Send(_connectionsManager.ToMessenge());
             con.Receive();
 
-            _receiversManager.Add(con, _connectionsManager);
+            _receiversManager.Add(con, _connectionsManager, MessengeInvoke);
 
             Logger.Log($"I am connected to {adrs}");
         }
@@ -151,7 +139,7 @@ namespace P2P.Chat
             _connectionsManager.SendToAll(mes);
 
             Logger.Log($"I sended to all conections {data}");
-            if(!_invokeUpdt) Invoke.Invoke(data);
+            if(MessengeInvoke != null) MessengeInvoke.Invoke(data);
         }
 
         public void Dispose()
