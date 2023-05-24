@@ -15,7 +15,7 @@ namespace P2P.Chat
         private readonly Listener _listener;
         private readonly Thread _listenerThread;
 
-        private readonly ReceiversManager _receiversManager;
+        public readonly ReceiversManager ReceiversManager;
         private readonly ConnectionsManager _connectionsManager;
 
         private readonly MessengeEncoder.MessengeEncoder _encoder = new MessengeEncoder.MessengeEncoder();
@@ -23,7 +23,7 @@ namespace P2P.Chat
         private readonly object _lock = new object();
 
         public delegate void MessengeEvent(string messenge);
-        public event MessengeEvent MessengeInvoke;
+        public event MessengeEvent MessengeSend;
 
         public ILogger Logger { get; }
 
@@ -34,8 +34,8 @@ namespace P2P.Chat
 
             Logger = logger;
 
-            _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
-            _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
+            ReceiversManager = new ReceiversManager(_lock, _encoder, Logger);
+            _connectionsManager = new ConnectionsManager(_port, ReceiversManager, Logger);
 
             _listenerThread = new Thread(Listen);
             _listenerThread.Start();
@@ -48,8 +48,8 @@ namespace P2P.Chat
 
             Logger = new Logger();
 
-            _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
-            _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
+            ReceiversManager = new ReceiversManager(_lock, _encoder, Logger);
+            _connectionsManager = new ConnectionsManager(_port, ReceiversManager, Logger);
 
             _listenerThread = new Thread(Listen);
             _listenerThread.Start();
@@ -70,7 +70,7 @@ namespace P2P.Chat
 
                     if (mes.Union == MessengeTypes.Union.NoUnion)
                     {
-                        _receiversManager.Add(conect, _connectionsManager, MessengeInvoke);
+                        ReceiversManager.Add(conect, _connectionsManager);
                         Logger.Log($"I added new connection");
                         continue;
                     }
@@ -90,7 +90,7 @@ namespace P2P.Chat
 
                         _connectionsManager.SendToAll(_connectionsManager.ToMessenge());
 
-                        _receiversManager.Add(conect, _connectionsManager, MessengeInvoke);
+                        ReceiversManager.Add(conect, _connectionsManager);
 
                         Logger.Log($"I union conections of to conect");
                     }
@@ -127,7 +127,7 @@ namespace P2P.Chat
             con.Send(_connectionsManager.ToMessenge());
             con.Receive();
 
-            _receiversManager.Add(con, _connectionsManager, MessengeInvoke);
+            ReceiversManager.Add(con, _connectionsManager);
 
             Logger.Log($"I am connected to {adrs}");
         }
@@ -139,7 +139,7 @@ namespace P2P.Chat
             _connectionsManager.SendToAll(mes);
 
             Logger.Log($"I sended to all conections {data}");
-            if(MessengeInvoke != null) MessengeInvoke.Invoke(data);
+            if(MessengeSend != null) MessengeSend.Invoke(data);
         }
 
         public void Dispose()
@@ -149,7 +149,7 @@ namespace P2P.Chat
             _listenerThread.Join();
 
             _connectionsManager.Dispose();
-            _receiversManager.Dispose();
+            ReceiversManager.Dispose();
 
             Logger.Log($"I disposed client with post {_port}");
         }

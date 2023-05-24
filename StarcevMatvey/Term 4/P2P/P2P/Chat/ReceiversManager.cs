@@ -17,7 +17,7 @@ namespace P2P.Chat
         private bool _disposed = false;
 
         public delegate void MessengeEvent(string messenge);
-        public event MessengeEvent MessengeInvoke;
+        public event MessengeEvent MessengeReceive;
 
         public ILogger Logger { get; }
 
@@ -35,16 +35,16 @@ namespace P2P.Chat
             Logger = new Logger();
         }
 
-        public void Add(Connect con, ConnectionsManager manager, MessengeEvent me)
+        public void Add(Connect con, ConnectionsManager manager)
         {
             _toClose.Add(con);
 
-            var th = new Thread(() => Receive(con, manager, me));
+            var th = new Thread(() => Receive(con, manager));
             _receiversThreads.Add(th);
             th.Start();
         }
 
-        private void Receive(Connect con, ConnectionsManager manager, MessengeEvent me)
+        private void Receive(Connect con, ConnectionsManager manager)
         {
             while (!_stop)
             {
@@ -54,12 +54,12 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes, manager, me);
+                    WorkWithData(mes, manager);
                 }
             }
         }
 
-        private void WorkWithData(Messenge mes, ConnectionsManager manager, MessengeEvent me)
+        private void WorkWithData(Messenge mes, ConnectionsManager manager)
         {
             switch (mes.Type)
             {
@@ -68,7 +68,7 @@ namespace P2P.Chat
                     break;
                 case TypeOfData.RegularMessenge:
                     Console.WriteLine(mes.Data);
-                    if (me != null) me.Invoke(mes.Data);
+                    if (MessengeReceive != null) MessengeReceive.Invoke(mes.Data);
                     break;
             }
         }
