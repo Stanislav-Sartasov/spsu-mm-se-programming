@@ -1,8 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{CAAD94E3-358F-4CA1-9431-FAA6C7627D4D}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33712.159
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{CAAD94E3-358F-4CA1-9431-FAA6C7627D4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Tests", "Core.Tests\Core.Tests.csproj", "{92A06D81-8DE5-49C5-9019-EF85E0ED40C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Tests", "Core.Tests\Core.Tests.csproj", "{92A06D81-8DE5-49C5-9019-EF85E0ED40C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2P-Chat-App", "P2P-Chat-App\P2P-Chat-App.csproj", "{4AEA54A3-FC4C-4A1B-AA51-E71516E39EDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +23,15 @@ Global
 		{92A06D81-8DE5-49C5-9019-EF85E0ED40C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A06D81-8DE5-49C5-9019-EF85E0ED40C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A06D81-8DE5-49C5-9019-EF85E0ED40C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEA54A3-FC4C-4A1B-AA51-E71516E39EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEA54A3-FC4C-4A1B-AA51-E71516E39EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEA54A3-FC4C-4A1B-AA51-E71516E39EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEA54A3-FC4C-4A1B-AA51-E71516E39EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E4F19CF7-041C-4328-B87B-E4F492FE53E4}
 	EndGlobalSection
 EndGlobal
