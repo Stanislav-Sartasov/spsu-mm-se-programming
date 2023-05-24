@@ -18,9 +18,9 @@ namespace P2P.Chat
         private readonly ReceiversManager _receiversManager;
         private readonly ConnectionsManager _connectionsManager;
 
-        private readonly MessengeEncoder.MessengeEncoder _encoder;
+        private readonly MessengeEncoder.MessengeEncoder _encoder = new MessengeEncoder.MessengeEncoder();
 
-        private readonly object _lock;
+        private readonly object _lock = new object();
 
         public Invokes Invoke
         {
@@ -30,11 +30,12 @@ namespace P2P.Chat
                 if (_invokeUpdt)
                 {
                     this.Invoke = value;
+                    _receiversManager.Invoke = value;
                     _invokeUpdt = false;
                 }
             }
         }
-        private bool _invokeUpdt;
+        private bool _invokeUpdt = true;
 
         public ILogger Logger { get; }
 
@@ -42,12 +43,9 @@ namespace P2P.Chat
         {
             _port = port;
             _listener = new Listener(port);
-            _lock = new object();
-            _invokeUpdt = true;
 
             Logger = logger;
 
-            _encoder = new MessengeEncoder.MessengeEncoder();
             _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
             _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
 
@@ -59,12 +57,9 @@ namespace P2P.Chat
         {
             _port = port;
             _listener = new Listener(port);
-            _lock = new object();
-            _invokeUpdt = true;
 
             Logger = new Logger();
 
-            _encoder = new MessengeEncoder.MessengeEncoder();
             _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
             _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
 

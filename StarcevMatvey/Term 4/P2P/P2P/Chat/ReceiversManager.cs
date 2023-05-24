@@ -6,15 +6,15 @@ namespace P2P.Chat
 {
     public class ReceiversManager : IDisposable
     {
-        private volatile bool _stop;
+        private volatile bool _stop = false;
         private readonly object _lock;
 
         private readonly MessengeEncoder.MessengeEncoder _encoder;
 
-        private List<Thread> _receiversThreads;
-        private List<Connect> _toClose;
+        private List<Thread> _receiversThreads = new List<Thread> ();
+        private List<Connect> _toClose = new List<Connect> (); 
 
-        private bool _disposed;
+        private bool _disposed = false;
 
         public Invokes Invoke
         {
@@ -34,26 +34,16 @@ namespace P2P.Chat
 
         public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
         {
-            _stop = false;
             _lock = l;
-            _disposed = false;
             _encoder = encoder;
             Logger = logger;
-
-            _receiversThreads = new List<Thread>();
-            _toClose = new List<Connect>();
         }
 
         public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder)
         {
-            _stop = false;
             _lock = l;
-            _disposed = false;
             _encoder = encoder;
             Logger = new Logger();
-
-            _receiversThreads = new List<Thread>();
-            _toClose = new List<Connect>();
         }
 
         public void Add(Connect con, ConnectionsManager manager)

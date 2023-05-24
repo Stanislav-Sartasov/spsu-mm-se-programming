@@ -11,7 +11,7 @@ namespace P2P.Chat
         private readonly int _port;
         private readonly ReceiversManager _receiversManager;
 
-        private Dictionary<IPEndPoint, Connect> _connections;
+        private Dictionary<IPEndPoint, Connect> _connections = new Dictionary<IPEndPoint, Connect>();
 
         private ILogger Logger { get; }
 
@@ -20,8 +20,6 @@ namespace P2P.Chat
             _port = port;
             _receiversManager = receiversManager;
             Logger = logger;
-
-            _connections = new Dictionary<IPEndPoint, Connect>();
         }
 
         public ConnectionsManager(int port, ReceiversManager receiversManager)
@@ -29,8 +27,6 @@ namespace P2P.Chat
             _port = port;
             _receiversManager = receiversManager;
             Logger = new Logger();
-
-            _connections = new Dictionary<IPEndPoint, Connect>();
         }
 
         public bool Contains(IPEndPoint key) => _connections.ContainsKey(key);

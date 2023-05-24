@@ -11,7 +11,7 @@ namespace P2P.Net
     public class Connect : IDisposable
     {
         private readonly Socket _socket;
-        private readonly MessengeEncoder.MessengeEncoder _encoder;
+        private readonly MessengeEncoder.MessengeEncoder _encoder = new MessengeEncoder.MessengeEncoder();
 
         public ILogger Logger { get; }
 
@@ -21,8 +21,6 @@ namespace P2P.Net
 
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             _socket.Connect(peerEndPoint);
-
-            _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
         public Connect (Socket socket, ILogger logger)
@@ -30,7 +28,6 @@ namespace P2P.Net
             Logger = logger;
 
             _socket = socket;
-            _encoder = new MessengeEncoder.MessengeEncoder();
         }
 
         public Connect(Socket socket, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
