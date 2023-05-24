@@ -58,6 +58,11 @@ namespace P2P_Chat_App.ViewModel
                     return;
                 }
 
+                if (!NetworkManager.IsPortValid(localPort))
+                {
+                    return;
+                }
+
                 // Set userData
                 user.LocalPort = localPort;
                 clientNode.Start(user.LocalPort);

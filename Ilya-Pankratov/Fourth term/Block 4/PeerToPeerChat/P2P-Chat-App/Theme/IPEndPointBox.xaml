@@ -27,7 +27,7 @@
                             </TextBox>
 
                             <TextBlock IsHitTestVisible="False"
-                                       Text="IP:Port"
+                                       Text="192.168.154.125:11111"
                                        VerticalAlignment="Center"
                                        HorizontalAlignment="Left"
                                        Margin="10,0,0,0"

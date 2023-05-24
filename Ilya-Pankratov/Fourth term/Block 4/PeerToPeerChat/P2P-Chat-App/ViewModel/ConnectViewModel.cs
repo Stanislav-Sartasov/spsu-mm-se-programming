@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Chat;
 using Core.Data;
+using Core.Network;
 using P2P_Chat_App.Helpers;
 using P2P_Chat_App.Model;
 using P2P_Chat_App.Service;
@@ -84,6 +85,11 @@ namespace P2P_Chat_App.ViewModel
                 }
 
                 if (!IPAddress.TryParse(data[0].Trim(), out var remoteIPAddress))
+                {
+                    return;
+                }
+
+                if(!NetworkManager.IsPortValid(localPort) || !NetworkManager.IsPortValid(remotePort))
                 {
                     return;
                 }

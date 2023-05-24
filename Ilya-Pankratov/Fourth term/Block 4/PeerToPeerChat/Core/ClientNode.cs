@@ -318,7 +318,7 @@ public class ClientNode : IClient<Message, Peer>
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            AbortConnection();
         }
     }
 
@@ -371,7 +371,7 @@ public class ClientNode : IClient<Message, Peer>
         }
         else
         {
-            throw new InvalidDataException();
+            AbortConnection();
         }
     }
 
@@ -450,8 +450,7 @@ public class ClientNode : IClient<Message, Peer>
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            AbortConnection();
         }
     }
 

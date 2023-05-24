@@ -16,4 +16,9 @@ public static class NetworkManager
     {
         return Dns.GetHostEntry("localhost").AddressList.First();
     }
+
+    public static bool IsPortValid(int port)
+    {
+        return 0 < port && port < 65536;
+    }
 }
