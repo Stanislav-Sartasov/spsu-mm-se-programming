@@ -56,7 +56,7 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes, manager, con.RemoteEndPoint.Address.ToString());
+                    WorkWithData(mes, manager, $"{con.LocalEndPoint.Address.ToString()}:{con.LocalEndPoint.Port}");
                 }
             }
         }

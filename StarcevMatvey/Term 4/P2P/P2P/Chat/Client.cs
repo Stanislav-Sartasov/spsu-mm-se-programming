@@ -56,8 +56,20 @@ namespace P2P.Chat
             _listenerThread.Start();
         }
 
-        public Client(IPEndPoint point, MessengeEventChat chatEv, MessengeEventReceive recEv) 
-            => new Client(point.Port, chatEv, recEv);
+        public Client(IPEndPoint point, MessengeEventChat chatEv, MessengeEventReceive recEv)
+        {
+            _port = point.Port;
+            _listener = new Listener(_port);
+            messengeSend = chatEv;
+
+            Logger = new Logger();
+
+            _receiversManager = new ReceiversManager(_lock, recEv, _encoder, Logger);
+            _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
+
+            _listenerThread = new Thread(Listen);
+            _listenerThread.Start();
+        }
 
         private void Listen()
         {
