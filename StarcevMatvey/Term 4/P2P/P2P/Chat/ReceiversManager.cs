@@ -1,6 +1,7 @@
 ﻿using P2P.Net;
 using P2P.MessengeTypes;
 using P2P.Loggers;
+using System.Net;
 
 namespace P2P.Chat
 {
@@ -12,26 +13,27 @@ namespace P2P.Chat
         private readonly MessengeEncoder.MessengeEncoder _encoder;
 
         private List<Thread> _receiversThreads = new List<Thread> ();
-        private List<Connect> _toClose = new List<Connect> (); 
+        private List<Connect> _toClose = new List<Connect> ();
 
         private bool _disposed = false;
 
-        public delegate void MessengeEvent(string messenge);
-        public event MessengeEvent MessengeReceive;
+        private event MessengeEventReceive messengeReceive;
 
         public ILogger Logger { get; }
 
-        public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
+        public ReceiversManager(object l, MessengeEventReceive ev, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
         {
             _lock = l;
             _encoder = encoder;
+            messengeReceive = ev;
             Logger = logger;
         }
 
-        public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder)
+        public ReceiversManager(object l, MessengeEventReceive ev, MessengeEncoder.MessengeEncoder encoder)
         {
             _lock = l;
             _encoder = encoder;
+            messengeReceive = ev;
             Logger = new Logger();
         }
 
@@ -54,12 +56,12 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes, manager);
+                    WorkWithData(mes, manager, con.RemoteEndPoint.Address.ToString());
                 }
             }
         }
 
-        private void WorkWithData(Messenge mes, ConnectionsManager manager)
+        private void WorkWithData(Messenge mes, ConnectionsManager manager, string adress)
         {
             switch (mes.Type)
             {
@@ -67,8 +69,7 @@ namespace P2P.Chat
                     manager.Merge(_encoder.GetConnections(mes));
                     break;
                 case TypeOfData.RegularMessenge:
-                    Console.WriteLine(mes.Data);
-                    if (MessengeReceive != null) MessengeReceive.Invoke(mes.Data);
+                    messengeReceive.Invoke(mes.Data, adress);
                     break;
             }
         }
