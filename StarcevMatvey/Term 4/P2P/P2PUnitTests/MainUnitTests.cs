@@ -10,7 +10,10 @@ namespace P2PUnitTests
         public void MainUnitTest()
         {
             var (p1, p2) = (1, 2);
-            var (c1, c2) = (new Client(p1), new Client(p2));
+            var (c1, c2) = (
+                new Client(p1, (string x) => { }, (string x, string y) => { }),
+                new Client(p2, (string x) => { }, (string x, string y) => { })
+                );
 
             c1.Conect(IPEndPoint.Parse($"127.0.0.1:{p2}"));
 
