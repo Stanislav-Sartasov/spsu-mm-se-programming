@@ -1,5 +1,12 @@
-﻿namespace P2PChat.Core.Client;
+﻿using System.Net;
 
-public interface IClient
+namespace P2PChat.Core.Client;
+
+public interface IClient : IDisposable
 {
+    public void Connect(IPEndPoint endPoint);
+
+    public void SendMessage(string message);
+
+    public void Disconnect();
 }
