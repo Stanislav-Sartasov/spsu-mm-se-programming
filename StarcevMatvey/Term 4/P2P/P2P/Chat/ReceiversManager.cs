@@ -1,45 +1,40 @@
 ﻿using P2P.Net;
 using P2P.MessengeTypes;
 using P2P.Loggers;
+using System.Net;
 
 namespace P2P.Chat
 {
     public class ReceiversManager : IDisposable
     {
-        private volatile bool _stop;
+        private volatile bool _stop = false;
         private readonly object _lock;
 
         private readonly MessengeEncoder.MessengeEncoder _encoder;
 
-        private List<Thread> _receiversThreads;
-        private List<Connect> _toClose;
+        private List<Thread> _receiversThreads = new List<Thread> ();
+        private List<Connect> _toClose = new List<Connect> ();
 
-        private bool _disposed;
+        private bool _disposed = false;
+
+        private event MessengeEventReceive messengeReceive;
 
         public ILogger Logger { get; }
 
-        public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
+        public ReceiversManager(object l, MessengeEventReceive ev, MessengeEncoder.MessengeEncoder encoder, ILogger logger)
         {
-            _stop = false;
             _lock = l;
-            _disposed = false;
             _encoder = encoder;
+            messengeReceive = ev;
             Logger = logger;
-
-            _receiversThreads = new List<Thread>();
-            _toClose = new List<Connect>();
         }
 
-        public ReceiversManager(object l, MessengeEncoder.MessengeEncoder encoder)
+        public ReceiversManager(object l, MessengeEventReceive ev, MessengeEncoder.MessengeEncoder encoder)
         {
-            _stop = false;
             _lock = l;
-            _disposed = false;
             _encoder = encoder;
+            messengeReceive = ev;
             Logger = new Logger();
-
-            _receiversThreads = new List<Thread>();
-            _toClose = new List<Connect>();
         }
 
         public void Add(Connect con, ConnectionsManager manager)
@@ -61,12 +56,12 @@ namespace P2P.Chat
 
                 lock (_lock)
                 {
-                    WorkWithData(mes, manager);
+                    WorkWithData(mes, manager, $"{con.LocalEndPoint.Address.ToString()}:{con.LocalEndPoint.Port}");
                 }
             }
         }
 
-        private void WorkWithData(Messenge mes, ConnectionsManager manager)
+        private void WorkWithData(Messenge mes, ConnectionsManager manager, string adress)
         {
             switch (mes.Type)
             {
@@ -74,7 +69,7 @@ namespace P2P.Chat
                     manager.Merge(_encoder.GetConnections(mes));
                     break;
                 case TypeOfData.RegularMessenge:
-                    Console.WriteLine(mes.Data);
+                    messengeReceive.Invoke(mes.Data, adress);
                     break;
             }
         }

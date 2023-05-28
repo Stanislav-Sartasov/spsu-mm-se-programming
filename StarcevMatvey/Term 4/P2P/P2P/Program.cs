@@ -12,7 +12,11 @@ namespace P2P
             if (args.Length < 0) throw new Exception($"I think that you forgot some arguments of command line (port)");
             if (port == 0) throw new Exception($"Uh, sorry, port must be possitive integer (>0)");
 
-            var client = new Client(port);
+            var client = new Client(
+                port,
+                (string x) => { Console.WriteLine($"I sended {x}"); },
+                (string x, string y) => { Console.WriteLine($"{y} sended to us {x}"); }
+                );
 
             while (true)
             {
@@ -33,7 +37,7 @@ namespace P2P
                     Console.WriteLine($"Quiting... (");
                     break;
                 }
-                else client.Send(tokens[1]);
+                else client.Send(string.Join(" ", tokens.Skip(1).ToList()));
             }
         }
     }

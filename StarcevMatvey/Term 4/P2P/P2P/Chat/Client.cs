@@ -18,38 +18,53 @@ namespace P2P.Chat
         private readonly ReceiversManager _receiversManager;
         private readonly ConnectionsManager _connectionsManager;
 
-        private readonly MessengeEncoder.MessengeEncoder _encoder;
+        private readonly MessengeEncoder.MessengeEncoder _encoder = new MessengeEncoder.MessengeEncoder();
 
-        private readonly object _lock;
+        private readonly object _lock = new object();
+
+        private event MessengeEventChat messengeSend;
 
         public ILogger Logger { get; }
 
-        public Client(int port, ILogger logger)
+        public Client(int port, MessengeEventChat chatEv, MessengeEventReceive recEv, ILogger logger)
         {
             _port = port;
             _listener = new Listener(port);
-            _lock = new object();
+            messengeSend = chatEv;
 
             Logger = logger;
 
-            _encoder = new MessengeEncoder.MessengeEncoder();
-            _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
+            _receiversManager = new ReceiversManager(_lock, recEv, _encoder, Logger);
             _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
 
             _listenerThread = new Thread(Listen);
             _listenerThread.Start();
         }
 
-        public Client(int port)
+        public Client(int port, MessengeEventChat chatEv, MessengeEventReceive recEv)
         {
             _port = port;
             _listener = new Listener(port);
-            _lock = new object();
+            messengeSend = chatEv;
 
             Logger = new Logger();
 
-            _encoder = new MessengeEncoder.MessengeEncoder();
-            _receiversManager = new ReceiversManager(_lock, _encoder, Logger);
+            _receiversManager = new ReceiversManager(_lock, recEv, _encoder, Logger);
+            _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
+
+            _listenerThread = new Thread(Listen);
+            _listenerThread.Start();
+        }
+
+        public Client(IPEndPoint point, MessengeEventChat chatEv, MessengeEventReceive recEv)
+        {
+            _port = point.Port;
+            _listener = new Listener(_port);
+            messengeSend = chatEv;
+
+            Logger = new Logger();
+
+            _receiversManager = new ReceiversManager(_lock, recEv, _encoder, Logger);
             _connectionsManager = new ConnectionsManager(_port, _receiversManager, Logger);
 
             _listenerThread = new Thread(Listen);
@@ -140,6 +155,7 @@ namespace P2P.Chat
             _connectionsManager.SendToAll(mes);
 
             Logger.Log($"I sended to all conections {data}");
+            messengeSend.Invoke(data);
         }
 
         public void Dispose()
