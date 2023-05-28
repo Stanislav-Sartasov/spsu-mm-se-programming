@@ -1,0 +1,15 @@
+﻿<Window x:Class="P2P_Chat.Chat"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:P2P_Chat"
+        mc:Ignorable="d"
+        Title="Chat" Height="500" Width="800" ResizeMode="NoResize" Closing="OnWindowClosing">
+    <Grid>
+        <TextBox x:Name="ChatTextBox" HorizontalAlignment="Center" VerticalAlignment="Top" Width="700" Height="300" Margin="0,50,0,0" IsReadOnly="True" FontFamily="Roboto" FontSize="20"/>
+        <TextBox x:Name="MessageBox" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="700" Height="35" Margin="0,0,0,40" FontFamily="Roboto" FontSize="20"/>
+        <Button x:Name="SendButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="70" Height="35" Margin="0,0,45,40" Content="Send" FontFamily="Roboto" FontSize="20" Click="SendMessageButton"/>
+        <TextBox x:Name="Warning" HorizontalAlignment="Left" BorderThickness="0" VerticalAlignment="Bottom" IsReadOnly="True" Margin="50, 0, 0, 10" Foreground="Red" FontFamily="Roboto" FontSize="20"/>
+    </Grid>
+</Window>
