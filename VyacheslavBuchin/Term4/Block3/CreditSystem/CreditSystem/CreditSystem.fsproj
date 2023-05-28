@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="Credit.fs" />
+      <Compile Include="IExamSystem.fs" />
+      <Compile Include="CreditSystem.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\ConcurrentSet\ConcurrentSet.csproj" />
+    </ItemGroup>
+
+</Project>
