@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PChat", "P2PChat\P2PChat.csproj", "{2E8B2140-5DA2-4C2F-B3FB-5EF8B0F44A0F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A12D91C6-DD62-4AAF-B2FB-3A0E48967B50}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PChatGUI", "P2PChatGUI\P2PChatGUI.csproj", "{0626739C-B922-413C-AF65-6D8C7783669B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2E8B2140-5DA2-4C2F-B3FB-5EF8B0F44A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E8B2140-5DA2-4C2F-B3FB-5EF8B0F44A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E8B2140-5DA2-4C2F-B3FB-5EF8B0F44A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E8B2140-5DA2-4C2F-B3FB-5EF8B0F44A0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A12D91C6-DD62-4AAF-B2FB-3A0E48967B50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A12D91C6-DD62-4AAF-B2FB-3A0E48967B50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A12D91C6-DD62-4AAF-B2FB-3A0E48967B50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A12D91C6-DD62-4AAF-B2FB-3A0E48967B50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0626739C-B922-413C-AF65-6D8C7783669B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0626739C-B922-413C-AF65-6D8C7783669B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0626739C-B922-413C-AF65-6D8C7783669B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0626739C-B922-413C-AF65-6D8C7783669B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71689FF2-2DB5-4F74-8A80-DEB798BACF1B}
+	EndGlobalSection
+EndGlobal
