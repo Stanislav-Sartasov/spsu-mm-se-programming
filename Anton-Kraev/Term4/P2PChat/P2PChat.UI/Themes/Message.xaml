@@ -1,0 +1,21 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="ListViewItem" x:Key="Message">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Sender.Port}"
+                               Foreground="Aqua"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Center"/>
+                        <Label Content="{Binding Text}"
+                               Foreground="White"
+                               Margin="10,-2,0,-2"
+                               VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

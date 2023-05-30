@@ -4,6 +4,12 @@
              xmlns:local="clr-namespace:P2PChat.UI"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Themes/MemberCard.xaml"/>
+                <ResourceDictionary Source="./Themes/Message.xaml"/>
+                <ResourceDictionary Source="./Themes/Scrollbar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

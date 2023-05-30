@@ -7,4 +7,8 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\P2PChat.Core\P2PChat.Core.csproj" />
+  </ItemGroup>
+
 </Project>
