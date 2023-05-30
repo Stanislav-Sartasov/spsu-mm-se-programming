@@ -1,47 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using P2PChat.Core;
 
-namespace P2PChat.UI;
+namespace P2PChat;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
 public partial class MainWindow : Window
 {
-    private Client _client;
+    private readonly Client _client;
     public MainWindow()
     {
         InitializeComponent();
-        _client = new(10);
-        Members.ItemsSource = _client.ConnectedPeers;
-        _client.ConnectedPeers.Add(new IPEndPoint(IPAddress.Any, 10));
-        _client.ConnectedPeers.Add(new IPEndPoint(IPAddress.Any, 11));
-        Messages.ItemsSource = _client.Messages;
-        _client.Messages.Add(new Message(MessageType.Text, _client.EndPoint, "hello"));
-        YourAddress.Content = _client.EndPoint;
-    }
+        _client = new(new Random().Next(1024, 49151));
 
-    private void OnNewMessage(Message msg)
-    {
-        // если отключается или подклбчается то просто убирать или добавлять в списке слева
-        // тут 2 списка, один со своими сообщениями, другой с чужими
-        // сравниваем эндпоинты и добавляем в 1 из списков соответственно
+        Members.ItemsSource = _client.ConnectedPeers;
+        Messages.ItemsSource = _client.Messages;
+        YourAddress.Content = "User " + _client.EndPoint.Port;
     }
 
     private void BorderMouseDown(object sender, MouseButtonEventArgs e)
@@ -67,7 +45,7 @@ public partial class MainWindow : Window
     private void CloseButtonClick(object sender, RoutedEventArgs e)
     {
         _client.Dispose();
-        Application.Current.Shutdown();
+        Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
     }
 
     private void SendMessageClick(object sender, RoutedEventArgs e)
@@ -83,8 +61,16 @@ public partial class MainWindow : Window
             JoinTextBox.Visibility = Visibility.Collapsed;
             JoinButton.Visibility = Visibility.Collapsed;
             LeaveButton.Visibility = Visibility.Visible;
+
+            var portToConnect = int.Parse(JoinTextBox.Text.Replace(" ", ""));
+            if (portToConnect == _client.EndPoint.Port) return;
+            foreach (var peer in _client.ConnectedPeers)
+            {
+                if (portToConnect == peer.Port) return;
+            }
+
+            _client.Connect(portToConnect);
         }
-        //_client.Connect();
     }
 
     private void LeaveChatClick(object sender, RoutedEventArgs e)
@@ -92,7 +78,8 @@ public partial class MainWindow : Window
         JoinTextBox.Visibility = Visibility.Visible;
         JoinButton.Visibility = Visibility.Visible;
         LeaveButton.Visibility = Visibility.Collapsed;
-        //_client.Disconnect();
+
+        _client.Disconnect();
     }
 
     private void PortTextBoxPreviewInput(object sender, TextCompositionEventArgs e)
