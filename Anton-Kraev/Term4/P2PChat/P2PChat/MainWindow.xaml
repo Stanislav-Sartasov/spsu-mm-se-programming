@@ -1,16 +1,19 @@
-﻿<Window x:Name="Chat" x:Class="P2PChat.MainWindow"
+﻿<Window x:Name="Chat" x:Class="P2PChat.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:P2PChat"
+        xmlns:local="clr-namespace:P2PChat.WPF"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="450" Width="800"
         Background="#36393F"
         WindowStyle="None"
         AllowsTransparency="True"
-        ResizeMode="CanResizeWithGrip">
+        ResizeMode="CanResizeWithGrip"
+        DataContext="{Binding Mode=OneWay,
+                              RelativeSource={RelativeSource FindAncestor,
+                                                             AncestorType={x:Type local:MainWindow}}}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="25"/>
@@ -106,7 +109,7 @@
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8">
                     <Button x:Name="LeaveButton"  Content="Leave"
                             Click="LeaveChatClick"
-                            Visibility="Collapsed" 
+                            Visibility="Collapsed"
                             Width="70" Height="30"
                             Background="SlateBlue"
                             Foreground="LightGray">
@@ -134,7 +137,8 @@
                         Height="20"
                         CornerRadius="8"
                         Margin="0,0,5,0"
-                        Visibility="Visible">
+                        Visibility="Visible"
+                        x:Name="PortToJoinTextBox">
                         <Grid>
                             <TextBox VerticalContentAlignment="Center"
                                      HorizontalAlignment="Stretch"

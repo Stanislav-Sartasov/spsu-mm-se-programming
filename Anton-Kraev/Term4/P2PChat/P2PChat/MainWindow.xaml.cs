@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using P2PChat.Core;
 
-namespace P2PChat;
+namespace P2PChat.WPF;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml
@@ -12,14 +15,40 @@ namespace P2PChat;
 public partial class MainWindow : Window
 {
     private readonly Client _client;
+    private readonly ObservableCollection<IPEndPoint> _connectedPeers = new();
+    private readonly ObservableCollection<Message> _messages = new();
+
     public MainWindow()
     {
         InitializeComponent();
-        _client = new(new Random().Next(1024, 49151));
 
-        Members.ItemsSource = _client.ConnectedPeers;
-        Messages.ItemsSource = _client.Messages;
+        _client = new(new Random().Next(1024, 49151), OnNewMessage);
+
+        Members.ItemsSource = _connectedPeers;
+        Messages.ItemsSource = _messages;
         YourAddress.Content = "User " + _client.EndPoint.Port;
+    }
+
+    private void OnNewMessage(Message msg)
+    {
+        Dispatcher.Invoke(delegate
+        {
+            switch (msg.Type)
+            {
+                case MessageType.Text:
+                    _messages.Add(msg);
+                    break;
+                case MessageType.AddPeer:
+                    _connectedPeers.Add(IPEndPoint.Parse(msg.Sender));
+                    ShowLeaveButton();
+                    break;
+                case MessageType.RemovePeer:
+                    _connectedPeers.Remove(IPEndPoint.Parse(msg.Sender));
+                    if (!_connectedPeers.Any())
+                        ShowJoinButton();
+                    break;
+            }
+        });
     }
 
     private void BorderMouseDown(object sender, MouseButtonEventArgs e)
@@ -58,13 +87,9 @@ public partial class MainWindow : Window
     {
         if (JoinTextBox.Text != "")
         {
-            JoinTextBox.Visibility = Visibility.Collapsed;
-            JoinButton.Visibility = Visibility.Collapsed;
-            LeaveButton.Visibility = Visibility.Visible;
-
             var portToConnect = int.Parse(JoinTextBox.Text.Replace(" ", ""));
             if (portToConnect == _client.EndPoint.Port) return;
-            foreach (var peer in _client.ConnectedPeers)
+            foreach (var peer in _connectedPeers)
             {
                 if (portToConnect == peer.Port) return;
             }
@@ -72,14 +97,24 @@ public partial class MainWindow : Window
             _client.Connect(portToConnect);
         }
     }
+    private void ShowLeaveButton()
+    {
+        PortToJoinTextBox.Visibility = Visibility.Collapsed;
+        JoinButton.Visibility = Visibility.Collapsed;
+        LeaveButton.Visibility = Visibility.Visible;
+    }
 
     private void LeaveChatClick(object sender, RoutedEventArgs e)
     {
-        JoinTextBox.Visibility = Visibility.Visible;
+        ShowJoinButton();
+        _client.Disconnect();
+    }
+
+    private void ShowJoinButton()
+    {
+        PortToJoinTextBox.Visibility = Visibility.Visible;
         JoinButton.Visibility = Visibility.Visible;
         LeaveButton.Visibility = Visibility.Collapsed;
-
-        _client.Disconnect();
     }
 
     private void PortTextBoxPreviewInput(object sender, TextCompositionEventArgs e)

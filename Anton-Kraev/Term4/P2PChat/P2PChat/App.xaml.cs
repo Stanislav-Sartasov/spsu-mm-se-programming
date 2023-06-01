@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace P2PChat;
+namespace P2PChat.WPF;
 
 /// <summary>
 /// Interaction logic for App.xaml
