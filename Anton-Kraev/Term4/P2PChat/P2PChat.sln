@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33530.505
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P2PChat.WPF", "P2PChat\P2PChat.WPF.csproj", "{B88DEFAA-466B-4774-B575-48E26E777C53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P2PChat.Core", "P2PChat.Core\P2PChat.Core.csproj", "{A4863849-AE33-427D-9B3D-E91952B9665A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P2PChatTests", "P2PChatTests\P2PChatTests.csproj", "{8329FC11-5CEB-483B-8989-33FE40766265}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P2PChat.WPF", "P2PChat.WPF\P2PChat.WPF.csproj", "{E41ABB04-8C58-4968-ADE0-AAB2F22A10F9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P2PChat.Core", "P2PChat.Core\P2PChat.Core.csproj", "{A4863849-AE33-427D-9B3D-E91952B9665A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "P2PChat.Tests", "P2PChat.Tests\P2PChat.Tests.csproj", "{54DDB455-BF80-4169-9AF0-5F0C39D20FE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,18 +15,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B88DEFAA-466B-4774-B575-48E26E777C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B88DEFAA-466B-4774-B575-48E26E777C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B88DEFAA-466B-4774-B575-48E26E777C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B88DEFAA-466B-4774-B575-48E26E777C53}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8329FC11-5CEB-483B-8989-33FE40766265}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8329FC11-5CEB-483B-8989-33FE40766265}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8329FC11-5CEB-483B-8989-33FE40766265}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8329FC11-5CEB-483B-8989-33FE40766265}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4863849-AE33-427D-9B3D-E91952B9665A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A4863849-AE33-427D-9B3D-E91952B9665A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4863849-AE33-427D-9B3D-E91952B9665A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4863849-AE33-427D-9B3D-E91952B9665A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E41ABB04-8C58-4968-ADE0-AAB2F22A10F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41ABB04-8C58-4968-ADE0-AAB2F22A10F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41ABB04-8C58-4968-ADE0-AAB2F22A10F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41ABB04-8C58-4968-ADE0-AAB2F22A10F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54DDB455-BF80-4169-9AF0-5F0C39D20FE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54DDB455-BF80-4169-9AF0-5F0C39D20FE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54DDB455-BF80-4169-9AF0-5F0C39D20FE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54DDB455-BF80-4169-9AF0-5F0C39D20FE5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
