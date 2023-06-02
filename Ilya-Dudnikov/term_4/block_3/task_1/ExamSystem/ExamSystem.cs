@@ -2,9 +2,9 @@
 
 public class ExamSystem : IExamSystem
 {
-    private ISet<Credit> set;
+    private Sets.ISet<Credit> set;
 
-    public ExamSystem(ISet<Credit> set)
+    public ExamSystem(Sets.ISet<Credit> set)
     {
         this.set = set;
     }
@@ -15,5 +15,5 @@ public class ExamSystem : IExamSystem
 
     public bool Contains(long studentId, long courseId) => set.Contains(new Credit(studentId, courseId));
 
-    public int Count => set.Count;
+    public int Count => set.Count();
 }

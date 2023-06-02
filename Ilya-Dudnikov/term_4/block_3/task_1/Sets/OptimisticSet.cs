@@ -1,6 +1,6 @@
 ﻿namespace Sets;
 
-internal class OptimisticSet<T> : ISet<T>
+public class OptimisticSet<T> : ISet<T>
 {
     private Node<T> _tail = new(int.MaxValue);
     private Node<T> _head = new(int.MinValue);
