@@ -1,4 +1,5 @@
 using System.Net;
+using System.Threading;
 using NUnit.Framework;
 
 namespace P2PChat.UnitTests;
@@ -37,16 +38,28 @@ public class ChatTests
 
 		_secondChat.Connect(IPEndPoint.Parse($"127.0.0.1:{_firstPort}"));
 
+		Thread.Sleep(10);
+
 		_firstChat.Send("Test 1");
 		_secondChat.Send("Test 2");
 
+		Thread.Sleep(10);
+
 		_thirdChat.Connect(IPEndPoint.Parse($"127.0.0.1:{_secondPort}"));
+
+		Thread.Sleep(10);
 
 		_thirdChat.Send("Test 3");
 
+		Thread.Sleep(10);
+
 		_firstChat.Dispose();
 
+		Thread.Sleep(10);
+
 		_secondChat.Send("Test 4");
+
+		Thread.Sleep(10);
 
 		Assert.AreEqual("CMMCM", first);
 		Assert.AreEqual("CMMCMDM", second);

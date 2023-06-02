@@ -63,6 +63,8 @@ public class Chat : IDisposable
 				}
 
 				AddToChat(endPoint, conn);
+
+
 				OnEvent?.Invoke(ChatEvent.Connect, endPoint, null);
 			}
 			catch
@@ -79,7 +81,10 @@ public class Chat : IDisposable
 			try
 			{
 				string received = conn.Receive();
-				OnEvent?.Invoke(ChatEvent.Message, endPoint, received);
+				lock (_locker)
+				{
+					OnEvent?.Invoke(ChatEvent.Message, endPoint, received);
+				}
 			}
 			catch (SocketException e)
 			{
