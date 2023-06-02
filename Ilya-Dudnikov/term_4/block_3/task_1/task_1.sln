@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystem", "ExamSystem\ExamSystem.csproj", "{ABB181E3-250D-4117-AED2-FBC8DF952D49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamSystemWebAPI", "ExamSystemWebAPI\ExamSystemWebAPI.csproj", "{ABB181E3-250D-4117-AED2-FBC8DF952D49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sets", "Sets\Sets.csproj", "{BFBE01E6-7B9C-4F71-ACC0-422A831D6322}"
 EndProject
