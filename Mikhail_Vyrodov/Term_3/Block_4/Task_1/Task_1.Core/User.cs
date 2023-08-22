@@ -1,12 +1,13 @@
 ﻿using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using System.Xml.Linq;
 
 namespace Task_1.Core
 {
     public class User
     {
-        public IPEndPoint UserEndpoint { get; private set; }
+        public IPEndPoint UserEndPoint { get; private set; }
         public string Name { get; private set; }
 
         public delegate void EventHandler(ChatAction chatEvent, string message);
@@ -15,19 +16,19 @@ namespace Task_1.Core
         private Socket _socket;
         private object _locker;
         private Thread _runningThread;
-        private List<IPEndPoint> _users;
+        private List<Tuple<IPEndPoint, string>> _users;
         private volatile bool _isTerminated;
 
         public User(IPEndPoint endPoint, EventHandler onEvent, string name)
         {
-            _users = new List<IPEndPoint>();
+            _users = new List<Tuple<IPEndPoint, string>>();
             _locker = new();
             this.onEvent += onEvent;
             Name = name;
 
-            UserEndpoint = endPoint;
+            UserEndPoint = endPoint;
             _socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            _socket.Bind(UserEndpoint);
+            _socket.Bind(UserEndPoint);
             _socket.ReceiveTimeout = 1000;
 
             _runningThread = new Thread(Run);
@@ -36,82 +37,85 @@ namespace Task_1.Core
 
         public void Disconnect()
         {
-            string query = "Disconnect" + ";" + UserEndpoint.ToString() + ";" + Name;
-            var serializedQuery = Encoding.UTF8.GetBytes(query);
+            var serializedQuery = MessageConverter.CreateDisconnectQuery(UserEndPoint, Name);
 
             for (int i = 0; i < _users.Count; i++)
             {
-                _socket.SendTo(serializedQuery, _users[i]);
+                _socket.SendTo(serializedQuery, _users[i].Item1);
             }
         }
 
         private void ConnectUsers(string[] msgList)
         {
-
             for (int i = 1; i < msgList.Length; i++)
             {
-                var address = msgList[i].Split(':');
-                var endPoint = new IPEndPoint(IPAddress.Parse(address[0]), Int32.Parse(address[1]));
-                if (!_users.Contains(endPoint))
-                    _users.Add(endPoint);
+                var userTuple = MessageConverter.ParseUserTuple(msgList[i]);
+                if (!_users.Contains(userTuple))
+                    _users.Add(userTuple);
             }
         }
 
         private void ProcessNewConnection(IPEndPoint newUserEndPoint, string newUserName)
         {
-            string query = "ConnectUsers" + ";" + String.Join(";", _users.Append(UserEndpoint));
-            var serializedConnectQuery = Encoding.UTF8.GetBytes(query);
+            var tupleInfo = new Tuple<IPEndPoint, string>(UserEndPoint, Name);
+            var serializedConnectQuery = 
+                MessageConverter.CreateConnectUsersQuery(_users.Append(tupleInfo));
 
             _socket.SendTo(serializedConnectQuery, newUserEndPoint);
 
-            string addQuery = "AddUser" + ";" + newUserEndPoint.ToString() + ";" + newUserName; 
-            var serializedAddQuery = Encoding.UTF8.GetBytes(addQuery);
+            var serializedAddQuery = MessageConverter.CreateAddUserQuery(newUserEndPoint, newUserName);
 
             for (int i = 0; i < _users.Count; i++)
             {
-                _socket.SendTo(serializedAddQuery, _users[i]);
+                _socket.SendTo(serializedAddQuery, _users[i].Item1);
             }
-            _users.Add(newUserEndPoint);
+            if (!_users.Any(x => x.Item1.Equals(newUserEndPoint)))
+                _users.Add(new Tuple<IPEndPoint, string>(newUserEndPoint, newUserName));
 
-            string msg = String.Format("User {0} is connected to User {1}",
-                newUserName, Name);
-            string successfulConnectMessage = "Message" + ";" + Name + ";" + msg;
-            var serializedMsg = Encoding.UTF8.GetBytes(successfulConnectMessage);
-            _socket.SendTo(serializedMsg, newUserEndPoint);
+            var serializedNotification = 
+                MessageConverter.CreateConnectionNotification(Name, newUserName);
+            _socket.SendTo(serializedNotification, newUserEndPoint);
         }
 
         public void Connect(IPEndPoint newUserEndPoint)
         {
-            if (newUserEndPoint.ToString() == UserEndpoint.ToString())
+            InnerConnect(newUserEndPoint, UserEndPoint, Name);
+
+            for (int i = 0; i < _users.Count; i++)
+            {
+                InnerConnect(newUserEndPoint, _users[i].Item1, _users[i].Item2);
+            }
+        }
+
+        private void InnerConnect(IPEndPoint newUserEndPoint, IPEndPoint userEndPoint, string newUserName)
+        {
+            if (newUserEndPoint.ToString() == UserEndPoint.ToString())
             {
                 string errorMessage = "You cannot connect to yourself";
                 throw new Exception(errorMessage);
             }
-            if (_users.Contains(newUserEndPoint))
+            if (_users.Any(x => x.Item1.Equals(newUserEndPoint)))
             {
                 string errorMessage = "You are already connected to user with such address";
                 throw new Exception(errorMessage);
             }
-            
-            string query = "Connect" + ";" + UserEndpoint.ToString() + ";" + Name;
-            var serializedQuery = Encoding.UTF8.GetBytes(query);
+
+            var serializedQuery = MessageConverter.CreateConnectQuery(userEndPoint, newUserName);
             _socket.SendTo(serializedQuery, newUserEndPoint);
         }
 
         public void SendMessage(string msg)
         {
-            string message = "Message" + ";" + Name + ";" + msg;
-            var serializedMessage = Encoding.UTF8.GetBytes(message);
+            var serializedMessage = MessageConverter.CreateMessageQuery(Name, msg);
             if (_users.Count == 0)
             {
                 string errorMessage = String.Format("User {0} cannot send message because" +
                                                  " it isn't connected to anyone", Name);
-                //OnEvent(ChatAction.Error, errorMessage);
                 throw new Exception(errorMessage);
             }
             for (int i = 0; i < _users.Count; i++)
             {
-                _socket.SendTo(serializedMessage, _users[i]);
+                _socket.SendTo(serializedMessage, _users[i].Item1);
             }
 
             string selfMsg = String.Format("{0}: {1}", Name, msg);
@@ -144,11 +148,10 @@ namespace Task_1.Core
 
         private void ProcessMessage(string[] msgList)
         {
-            var endPoint = new IPEndPoint(IPAddress.Any, 12345);
+            var endPoint = new IPEndPoint(IPAddress.Any, 1234);
             if (msgList[0] == "Connect" || msgList[0] == "Disconnect" || msgList[0] == "AddUser")
             {
-                var address = msgList[1].Split(':');
-                endPoint = new IPEndPoint(IPAddress.Parse(address[0]), Int32.Parse(address[1]));
+                endPoint = MessageConverter.ParseEndPoint(msgList[1]);
             }
 
             if (msgList[0] == "Message")
@@ -164,15 +167,16 @@ namespace Task_1.Core
             }
             else if (msgList[0] == "Disconnect")
             {
-                _users.Remove(endPoint);
+                var tupleToRemove = new Tuple<IPEndPoint, string>(endPoint, msgList[2]);
+                _users.Remove(tupleToRemove);
+
                 string message = String.Format("User {0} disconnected from User {1}", msgList[2], Name);
                 onEvent(ChatAction.Leave, message);
 
-                string msg = String.Format("User {0} disconnected from User {1}",
-                    msgList[2], Name);
-                string successfulConnectMessage = "Message" + ";" + Name + ";" + msg;
-                var serializedMsg = Encoding.UTF8.GetBytes(successfulConnectMessage);
-                _socket.SendTo(serializedMsg, endPoint);
+
+                var serializedDisconnectMessage = 
+                    MessageConverter.CreateDisconnectionNotification(Name, msgList[2]);
+                _socket.SendTo(serializedDisconnectMessage, endPoint);
             }
             else if (msgList[0] == "ConnectUsers")
             {
@@ -180,16 +184,19 @@ namespace Task_1.Core
             }
             else if (msgList[0] == "AddUser")
             {
-                _users.Add(endPoint);
+                var newUserTuple = new Tuple<IPEndPoint, string>(endPoint, msgList[2]);
+                if (_users.Contains(newUserTuple))
+                {
+                    return;
+                }
 
+                _users.Add(newUserTuple);
                 string message = String.Format("User {0} is connected to User {1}", msgList[2], Name);
                 onEvent(ChatAction.Message, message);
 
-                string msg = String.Format("User {0} is connected to User {1}",
-                    msgList[2], Name);
-                string successfulConnectMessage = "Message" + ";" + Name + ";" + msg;
-                var serializedMsg = Encoding.UTF8.GetBytes(successfulConnectMessage);
-                _socket.SendTo(serializedMsg, endPoint);
+                var serializedConnectMessage =
+                    MessageConverter.CreateConnectionNotification(Name, msgList[2]);
+                _socket.SendTo(serializedConnectMessage, endPoint);
             }
         }
 

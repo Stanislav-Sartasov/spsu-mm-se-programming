@@ -29,7 +29,7 @@ namespace Task_1.Tests
 
             try
             {
-                firstUser.Connect(firstUser.UserEndpoint);
+                firstUser.Connect(firstUser.UserEndPoint);
             }
             catch (Exception e)
             {
@@ -37,12 +37,12 @@ namespace Task_1.Tests
                 Assert.AreEqual(e.Message, actualMessage);
             }
 
-            firstUser.Connect(secondUser.UserEndpoint);
+            firstUser.Connect(secondUser.UserEndPoint);
             Thread.Sleep(100);
 
             try
             {
-                firstUser.Connect(secondUser.UserEndpoint);
+                firstUser.Connect(secondUser.UserEndPoint);
             }
             catch (Exception e)
             {
@@ -69,10 +69,10 @@ namespace Task_1.Tests
             User secondUser = new User(secondAddress, (_, m) => second.Add(m), "second");
             User thirdUser = new User(thirdAddress, (_, m) => third.Add(m), "third");
 
-            firstUser.Connect(secondUser.UserEndpoint);
+            firstUser.Connect(secondUser.UserEndPoint);
             Thread.Sleep(100);
             firstUser.SendMessage("msg1");
-            thirdUser.Connect(secondUser.UserEndpoint);
+            thirdUser.Connect(secondUser.UserEndPoint);
             Thread.Sleep(100);
             thirdUser.SendMessage("msg2");
             thirdUser.Disconnect();

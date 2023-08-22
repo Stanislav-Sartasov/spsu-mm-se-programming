@@ -1,4 +1,6 @@
-﻿namespace Task_1.Core
+﻿using System.Net;
+
+namespace Task_1.Core
 {
     internal class Program
     {
