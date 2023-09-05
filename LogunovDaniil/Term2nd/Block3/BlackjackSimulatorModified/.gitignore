@@ -1,3 +1,0 @@
-# including .dll files needed for testing purposes and checking the program's operability
-!/OutsorcedPlayersLibrary/*.dll
-!/Blackjack.PlayerLoaderLibrary.UnitTests/TestingDLLs/**/*.dll

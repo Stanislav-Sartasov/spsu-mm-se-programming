@@ -1,3 +1,0 @@
-etot text
-est text
-not executable just text

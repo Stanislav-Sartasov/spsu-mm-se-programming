@@ -1,3 +1,0 @@
-﻿echo exit text
-exit
-echo exit text 2

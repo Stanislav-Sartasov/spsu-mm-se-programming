@@ -1,9 +1,0 @@
-rootProject.name = 'weatherApp'
-include 'lib:openweathermapOrg'
-findProject(':lib:openweathermapOrg')?.name = 'openweathermapOrg'
-include 'lib:tomorrowIo'
-findProject(':lib:tomorrowIo')?.name = 'tomorrowIo'
-include 'lib:weatherWeb'
-findProject(':lib:weatherWeb')?.name = 'weatherWeb'
-include 'app'
-

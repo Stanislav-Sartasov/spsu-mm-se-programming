@@ -1,7 +1,0 @@
-rootProject.name = 'task_1'
-include 'lib'
-include 'Stormglass'
-include 'OpenWeatherMap'
-include 'JavaFXApp'
-include 'SwingApp'
-

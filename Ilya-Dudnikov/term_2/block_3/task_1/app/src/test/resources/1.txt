@@ -1,1 +1,0 @@
-Hey there! This file is supposed to be ignored by loadJarFilesFromPath() method :)

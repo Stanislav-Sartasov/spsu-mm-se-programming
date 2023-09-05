@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "BMPFileFilter": {
-      "commandName": "Project",
-      "commandLineArgs": "../../../test_32.bmp Gauss3x3 ../../../gauss_result.bmp"
-    }
-  }
-}

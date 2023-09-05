@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Filters": {
-      "commandName": "Project",
-      "commandLineArgs": "\"C:\\Users\\kuksa\\OneDrive\\Рабочий стол\\input.bmp\" SobelX \"C:\\Users\\kuksa\\OneDrive\\Рабочий стол\\output1.bmp\""
-    }
-  }
-}

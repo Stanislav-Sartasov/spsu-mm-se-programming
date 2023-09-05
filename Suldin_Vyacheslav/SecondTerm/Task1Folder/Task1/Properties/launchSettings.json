@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Task1": {
-      "commandName": "Project",
-      "commandLineArgs": "test gray gray.new"
-    }
-  }
-}

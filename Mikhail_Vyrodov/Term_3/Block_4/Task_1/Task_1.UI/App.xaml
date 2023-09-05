@@ -1,9 +1,0 @@
-﻿<Application x:Class="Task_1.UI.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Task_1.UI"
-             StartupUri="MainWindow.xaml" ShutdownMode="OnLastWindowClose" Startup="AppStartup">
-    <Application.Resources>
-         
-    </Application.Resources>
-</Application>

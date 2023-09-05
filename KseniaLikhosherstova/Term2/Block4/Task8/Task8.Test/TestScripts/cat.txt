@@ -1,1 +1,0 @@
-﻿cat TestScripts/echo_with_variables.txt
