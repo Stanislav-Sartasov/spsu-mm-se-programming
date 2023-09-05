@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{0375AD5E-8E67-41A0-A342-DF37DE8E532C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "ProcessManager", "ProcessManager\ProcessManager.fsproj", "{BD7EA570-D5C6-43B6-BE43-C5F80AEE1D46}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Test", "Test\Test.fsproj", "{F90DC66F-CF7E-4723-A3A3-D01399F39AA2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD7EA570-D5C6-43B6-BE43-C5F80AEE1D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7EA570-D5C6-43B6-BE43-C5F80AEE1D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7EA570-D5C6-43B6-BE43-C5F80AEE1D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7EA570-D5C6-43B6-BE43-C5F80AEE1D46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0375AD5E-8E67-41A0-A342-DF37DE8E532C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0375AD5E-8E67-41A0-A342-DF37DE8E532C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F90DC66F-CF7E-4723-A3A3-D01399F39AA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F90DC66F-CF7E-4723-A3A3-D01399F39AA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F90DC66F-CF7E-4723-A3A3-D01399F39AA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F90DC66F-CF7E-4723-A3A3-D01399F39AA2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

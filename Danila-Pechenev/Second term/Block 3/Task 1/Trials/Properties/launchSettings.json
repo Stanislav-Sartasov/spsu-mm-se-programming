@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Trials": {
+      "commandName": "Project",
+      "commandLineArgs": "../../../../Plugins/"
+    }
+  }
+}

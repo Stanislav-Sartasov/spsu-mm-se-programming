@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bash", "Bash\Bash.csproj", "{0951B084-852E-4AA8-B636-03F8DABAC92F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tools", "Tools\Tools.csproj", "{9DE5C188-3096-4599-8034-EE05BDBE9EE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.UnitTests", "Tools.UnitTests\Tools.UnitTests.csproj", "{9F7F8548-DEB2-4200-B430-6911A50EEA56}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0951B084-852E-4AA8-B636-03F8DABAC92F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0951B084-852E-4AA8-B636-03F8DABAC92F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0951B084-852E-4AA8-B636-03F8DABAC92F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0951B084-852E-4AA8-B636-03F8DABAC92F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DE5C188-3096-4599-8034-EE05BDBE9EE5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DE5C188-3096-4599-8034-EE05BDBE9EE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DE5C188-3096-4599-8034-EE05BDBE9EE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DE5C188-3096-4599-8034-EE05BDBE9EE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F7F8548-DEB2-4200-B430-6911A50EEA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F7F8548-DEB2-4200-B430-6911A50EEA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F7F8548-DEB2-4200-B430-6911A50EEA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F7F8548-DEB2-4200-B430-6911A50EEA56}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C3475404-24E4-40FE-A204-B03FD03AD983}
+	EndGlobalSection
+EndGlobal

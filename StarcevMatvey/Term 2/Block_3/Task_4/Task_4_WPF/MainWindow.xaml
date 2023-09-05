@@ -1,0 +1,119 @@
+﻿<Window x:Class="Task_4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Task_4"
+        mc:Ignorable="d"
+        FontSize="16"
+        FontWeight="DemiBold"
+        Title="Weather" Height="450" Width="300" ResizeMode="NoResize">
+
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/background/background.jpg" />
+    </Window.Background>
+    
+    <Grid x:Name="mainRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <Button 
+            x:Name="refresh" 
+            Grid.Column="0" 
+            Grid.Row="7" 
+            Click="RefreshClick"
+            Content="refresh" />
+        <Button 
+            x:Name="switcher" 
+            Grid.Column="1" 
+            Grid.Row="7" 
+            Click="SwitchClick"
+            Content ="switch" />
+        
+        <TextBlock 
+            x:Name="siteName" 
+            Grid.Row="0" 
+            Grid.ColumnSpan="2"
+            TextAlignment="Center" />
+        <TextBlock
+            x:Name="temp"
+            Grid.Row="1"
+            Grid.Column="0"
+            TextAlignment="Center" 
+            Text="Temperature:" />
+        <TextBlock
+            x:Name="clouds"
+            Grid.Row="2"
+            Grid.Column="0"
+            TextAlignment="Center" 
+            Text="Clouds:" />
+        <TextBlock
+            x:Name="humidity"
+            Grid.Row="3"
+            Grid.Column="0"
+            TextAlignment="Center" 
+            Text="Humidity:" />
+        <TextBlock
+            x:Name="windSpd"
+            Grid.Row="4"
+            Grid.Column="0"
+            TextAlignment="Center"  
+            Text="Wind speed:" />
+        <TextBlock
+            x:Name="windDeg"
+            Grid.Row="5"
+            Grid.Column="0"
+            TextAlignment="Center" 
+            Text="Wind degree:" />
+        <TextBlock
+            x:Name="fallout"
+            Grid.Row="6"
+            Grid.Column="0"
+            TextAlignment="Center" 
+            Text="Fallout:" />
+        <TextBlock
+            x:Name="tempValue"
+            Grid.Row="1"
+            Grid.Column="1"
+            TextAlignment="Center"  />
+        <TextBlock
+            x:Name="cloudsValue"
+            Grid.Row="2"
+            Grid.Column="1"
+            TextAlignment="Center"  />
+        <TextBlock
+            x:Name="humidityValue"
+            Grid.Row="3"
+            Grid.Column="1"
+            TextAlignment="Center"  />
+        <TextBlock
+            x:Name="windSpdValue"
+            Grid.Row="4"
+            Grid.Column="1"
+            TextAlignment="Center"  />
+        <TextBlock
+            x:Name="windDegValue"
+            Grid.Row="5"
+            Grid.Column="1"
+            TextAlignment="Center"  />
+        <TextBlock
+            x:Name="falloutValue"
+            Grid.Row="6"
+            Grid.Column="1"
+            TextWrapping="Wrap"
+            TextAlignment="Center" />
+    </Grid>
+</Window>

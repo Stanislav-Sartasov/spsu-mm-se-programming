@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="WeatherWpf.UserControls.WeatherCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:WeatherWpf.UserControls"
+             xmlns:ui="http://schemas.modernwpf.com/2019"
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="500"
+             x:Name="weatherCard">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/WeatherCardStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Border
+        Padding="16"
+        Margin="16 16 16 0"
+        CornerRadius="8"
+        Style="{StaticResource weatherBackgroundStyle}">
+        <StackPanel>
+            <StackPanel Style="{StaticResource weatherDataStyle}">
+                <TextBlock
+                    FontSize="16"
+                    FontWeight="500"
+                    Style="{StaticResource weatherTextStyle}"
+                    Text="{Binding Path=Source, ElementName=weatherCard}" />
+                <TextBlock
+                    FontSize="14"
+                    Style="{StaticResource weatherTextStyle}"
+                    Text="{Binding Date, StringFormat=Данные на {0}}"
+                    Opacity="0.7"/>
+                <StackPanel Orientation="Horizontal" Margin="0 8 0 8">
+                    <TextBlock
+                        FontSize="48"
+                        Style="{StaticResource weatherTextStyle}"
+                        Text="{Binding TemperatureC, StringFormat={}{0}°C}" />
+                    <svgc:SvgViewbox
+                        Width="36"
+                        Height="36"
+                        Margin="16 4 0 0"
+                        Style="{StaticResource weatherIconStyle}"
+                        VerticalAlignment="Center"/>
+                    <TextBlock
+                        FontSize="24"
+                        Style="{StaticResource weatherTextStyle}"
+                        VerticalAlignment="Bottom"
+                        Margin="16 0 0 6"
+                        Text="{Binding TemperatureF, StringFormat={}{0}°F}"
+                        Opacity="0.7" />
+                </StackPanel>
+                <TextBlock
+                    FontSize="14"
+                    Style="{StaticResource weatherTextStyle}"
+                    Text="{Binding Description, TargetNullValue=Нет описания}"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        FontSize="14"
+                        Style="{StaticResource weatherTextStyle}"
+                        Opacity="0.7"
+                        Text="Ощущается как " />
+                    <TextBlock
+                        FontSize="14"
+                        Style="{StaticResource weatherTextStyle}"
+                        Text="{Binding FeelsLike, StringFormat={}{0}°C}" />
+                </StackPanel>
+                <WrapPanel Margin="0 16 0 0">
+                    <local:WeatherValue
+                        Icon="/Assets/Icons/wind.svg"
+                        Style="{StaticResource weatherTextStyle}"
+                        ToolTip="Ветер"
+                        Margin="0 0 32 0">
+                        <local:WeatherValue.Value>
+                            <MultiBinding StringFormat="{}{0} м/с, {1}">
+                                <Binding Path="WindSpeed" />
+                                <Binding Path="WindDirection" />
+                            </MultiBinding>
+                        </local:WeatherValue.Value>
+                    </local:WeatherValue>
+                    <local:WeatherValue
+                        Icon="/Assets/Icons/cloudCover.svg"
+                        Style="{StaticResource weatherTextStyle}"
+                        Value="{Binding CloudCover, StringFormat={}{0}%}"
+                        ToolTip="Облачность"
+                        Margin="0 0 32 0" />
+                    <local:WeatherValue
+                        Icon="/Assets/Icons/humidity.svg"
+                        Style="{StaticResource weatherTextStyle}"
+                        Value="{Binding Humidity, StringFormat={}{0}%}"
+                        ToolTip="Влажность"
+                        Margin="0 0 32 0" />
+                    <local:WeatherValue
+                        Icon="/Assets/Icons/precipitations.svg"
+                        Style="{StaticResource weatherTextStyle}"
+                        Value="{Binding Precipitations, StringFormat={}{0} мм}"
+                        ToolTip="Осадки"/>
+                </WrapPanel>
+            </StackPanel>
+            
+            <TextBlock
+                TextWrapping="Wrap"
+                Foreground="{DynamicResource SystemControlForegroundBaseHighBrush}"
+                FontSize="14"
+                Padding="32"
+                Text="{Binding Error, StringFormat=Ошибка: {0}}"
+                Style="{StaticResource weatherErrorStyle}" />
+            
+            <ui:ProgressRing
+                Margin="32"
+                Style="{StaticResource weatherLoadingStyle}"
+                Width="32"
+                Height="32"
+                IsActive="True"/>
+        
+        </StackPanel>
+    </Border>
+</UserControl>

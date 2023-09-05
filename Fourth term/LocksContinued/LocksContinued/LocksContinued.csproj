@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{33E6F267-1B3C-496C-9FA0-F851A0A7F257}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LocksContinued</RootNamespace>
+    <AssemblyName>LocksContinued</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Barriers\1_SimpleBarrier.cs" />
+    <Compile Include="Barriers\2_SenseReverseBarrier.cs" />
+    <Compile Include="Barriers\3_TreeBarrier.cs" />
+    <Compile Include="Barriers\4_StaticTreeBarrier.cs" />
+    <Compile Include="Hashing\5_PhasedCuckooHashSet.cs" />
+    <Compile Include="Hashing\6_StripedCuckooHashSet.cs" />
+    <Compile Include="Hashing\7_RefinableCuckooHashSet.cs" />
+    <Compile Include="Hashing\BucketList.cs" />
+    <Compile Include="Interfaces\AtomicMarkableReference.cs" />
+    <Compile Include="Interfaces\IBarrier.cs" />
+    <Compile Include="Locks\13_HBOLock.cs" />
+    <Compile Include="Locks\14_HCLHLock.cs" />
+    <Compile Include="Locks\2_LamportBakeryLock.cs" />
+    <Compile Include="Locks\1_PetersonLock.cs" />
+    <Compile Include="Locks\3_TASLock.cs" />
+    <Compile Include="Locks\4_TTASLock.cs" />
+    <Compile Include="Locks\5_BackoffLock.cs" />
+    <Compile Include="Locks\6_ALock.cs" />
+    <Compile Include="Locks\7_CLHLock.cs" />
+    <Compile Include="Locks\8_MCSLock.cs" />
+    <Compile Include="Locks\9_TOLock.cs" />
+    <Compile Include="Locks\Backoff.cs" />
+    <Compile Include="Locks\ThreadID.cs" />
+    <Compile Include="Monitors\1_FifoQueue.cs" />
+    <Compile Include="Monitors\2_ReaderWriterLock.cs" />
+    <Compile Include="Monitors\3_FairReaderWriterLock.cs" />
+    <Compile Include="Monitors\4_ReentrantLock.cs" />
+    <Compile Include="Monitors\5_Semaphore.cs" />
+    <Compile Include="Hashing\1_CoarseHashSet.cs" />
+    <Compile Include="Hashing\2_StripedHashSet.cs" />
+    <Compile Include="Hashing\3_RefinableHashSet.cs" />
+    <Compile Include="PriorityQueues\IPriorityQueue.cs" />
+    <Compile Include="Sets\1_CoarseSet.cs" />
+    <Compile Include="Sets\2_FineGrainSet.cs" />
+    <Compile Include="Sets\3_OptimisticSet.cs" />
+    <Compile Include="Interfaces\AtomicNode.cs" />
+    <Compile Include="Hashing\0.5_BaseHashSet.cs" />
+    <Compile Include="Hashing\4_LockFreeHashSet.cs" />
+    <Compile Include="Interfaces\IAtomicMarkableReference.cs" />
+    <Compile Include="Interfaces\ILock.cs" />
+    <Compile Include="Interfaces\Node.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sets\4_LazySet.cs" />
+    <Compile Include="Sets\5_LockFreeSet.cs" />
+    <Compile Include="Sets\Window.cs" />
+    <Compile Include="Skiplists\1_LazySkipList.cs" />
+    <Compile Include="Skiplists\2_LockFreeSkipList.cs" />
+    <Compile Include="Stacks\1_LockFreeStack.cs" />
+    <Compile Include="Stacks\2_LockFreeExchanger.cs" />
+    <Compile Include="Stacks\3_EliminationArray.cs" />
+    <Compile Include="Stacks\4_EliminationBackOffStack.cs" />
+    <Compile Include="WorkStealing\1_BoundDEQueue.cs" />
+    <Compile Include="WorkStealing\2_UnboundDEQueue.cs" />
+    <Compile Include="WorkStealing\AtomicStampedReference.cs" />
+    <Compile Include="WorkStealing\IDEQueue.cs" />
+    <Compile Include="WorkStealing\WorkSharingThread.cs" />
+    <Compile Include="WorkStealing\WorkStelaingThread.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

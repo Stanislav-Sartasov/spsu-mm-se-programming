@@ -1,0 +1,130 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:models="clr-namespace:WeatherWpf.Models"
+                    xmlns:weatherApi="clr-namespace:WeatherApi;assembly=WeatherApi"
+                    xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
+                    xmlns:ui="http://schemas.modernwpf.com/2019">
+    <Style x:Key="weatherErrorStyle">
+        <Style.Setters>
+            <Setter Property="Control.Visibility" Value="Collapsed" />
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="{x:Static models:WeatherStatus.Error}">
+                <Setter Property="Control.Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="weatherDataStyle">
+        <Style.Setters>
+            <Setter Property="Control.Visibility" Value="Collapsed" />
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="{x:Static models:WeatherStatus.Loaded}">
+                <Setter Property="Control.Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="weatherLoadingStyle">
+        <Style.Setters>
+            <Setter Property="Control.Visibility" Value="Collapsed" />
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Status}" Value="{x:Static models:WeatherStatus.Refreshing}">
+                <Setter Property="Control.Visibility" Value="Visible"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="weatherTextStyle">
+        <Setter Property="Control.Foreground" Value="White" />
+    </Style>
+    <Style x:Key="weatherBackgroundStyle" TargetType="{x:Type Border}">
+        <Style.Setters>
+            <!--<Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.2" Color="{ui:StaticColor SystemChromeMediumLowColor}"/>
+                </Setter.Value>
+            </Setter>-->
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Opacity="0.05" Color="{ui:DynamicColor SystemBaseHighColor}"/>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Thunderstorm}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/thunderstorm.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Drizzle}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/drizzle.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Rain}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/rain.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Snow}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/snow.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Fog}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/fog.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Clear}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/clear.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Cloudy}">
+                <Setter Property="Background">
+                    <Setter.Value>
+                        <ImageBrush ImageSource="/Assets/Backgrounds/cloudy.jpg" Stretch="UniformToFill"/>
+                    </Setter.Value>
+                </Setter>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="weatherIconStyle" TargetType="{x:Type svgc:SvgViewbox}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Thunderstorm}">
+                <Setter Property="Source" Value="/Assets/Icons/rain.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Drizzle}">
+                <Setter Property="Source" Value="/Assets/Icons/drizzle.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Rain}">
+                <Setter Property="Source" Value="/Assets/Icons/rain.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Snow}">
+                <Setter Property="Source" Value="/Assets/Icons/snow.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Fog}">
+                <Setter Property="Source" Value="/Assets/Icons/cloudy.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Clear}">
+                <Setter Property="Source" Value="/Assets/Icons/clear.svg" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Type}" Value="{x:Static weatherApi:WeatherType.Cloudy}">
+                <Setter Property="Source" Value="/Assets/Icons/cloudy.svg" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

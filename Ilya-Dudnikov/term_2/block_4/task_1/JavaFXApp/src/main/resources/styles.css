@@ -1,0 +1,48 @@
+.button {
+    -fx-background-color: transparent;
+}
+
+.button:hover {
+    -fx-background-color: rgba(43, 43, 43, .3);
+    -fx-background-radius: 50%;
+    -fx-cursor: hand;
+}
+
+.button:pressed {
+    -fx-background-color: rgba(43, 43, 43, .5);
+    -fx-background-radius: 50%;
+    -fx-cursor: closed_hand;
+}
+
+.error_text {
+    -fx-font-size: 10pt;
+    -fx-font-family: 'Roboto Light';
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.top-bar-text {
+    -fx-font-size: 15pt;
+    -fx-font-family: 'Roboto Light';
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.temperature {
+    -fx-font-size: 32pt;
+    -fx-text-fill: white;
+}
+
+.temperature:hover {
+    -fx-background-radius: 10%;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(43, 43, 43, .1);
+}
+
+.temperature:pressed {
+    -fx-background-radius: 10%;
+    -fx-text-fill: white;
+    -fx-background-color: rgba(43, 43, 43, .3);
+    -fx-cursor: closed_hand;
+}

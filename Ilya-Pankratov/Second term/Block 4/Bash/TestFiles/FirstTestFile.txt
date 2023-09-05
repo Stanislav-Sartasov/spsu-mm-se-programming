@@ -1,0 +1,19 @@
+That's the first file for bash commands test!
+
+Reflective programming is a mechanism that lets a process introspective capabilities.
+The reflection APIs built into programming languages allow you to inspect code at runtime.
+You can use this ability to learn about the surrounding codebase and its contents.
+
+Reflection’s often talked about in the context of object-oriented programming.
+You often use reflection to discover codebase entities at runtime.
+The language’s reflection API will let you inspect classes, methods, properties, and types
+from within your system. This lets you build more dynamic functionality.
+
+Systems which utilize reflection are able to interrogate and modify their own environments.
+This is where reflection differs from plain value introspection. A language with full
+reflection support will permit codebase modification at runtime, effectively allowing the
+source to rewrite aspects of itself.
+
+lines 19
+words 140
+bytes 971

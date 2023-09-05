@@ -1,0 +1,81 @@
+﻿<Window x:Class="P2P_Chat_App.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Height="650" Width="1200"
+        Background="#eae7dc"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        MaxHeight="650"
+        MaxWidth="1000">
+    <!-- ResizeMode="CanResizeWithGrip"-->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Name, Minimize, Expand, Close -->
+        <Border Grid.ColumnSpan="2"
+                Background="#000000"
+                MouseDown="Border_MouseDown">
+
+            <Grid HorizontalAlignment="Stretch">
+                <Label Content="P2P Chat"
+                       Foreground="AntiqueWhite"
+                       FontWeight="SemiBold">
+                </Label>
+
+                <StackPanel
+                    HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+
+                    <Button Width="20"
+                            Height="20"
+                            Content="🗕"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            VerticalContentAlignment="Center"
+                            Margin="0,0,0,3"
+                            Click="ButtonMinimize_Click"/>
+
+                    <Button Width="20"
+                            Height="20"
+                            Content="☐"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            VerticalContentAlignment="Center"
+                            Click="ButtonExpand_Click"/>
+
+                    <Button Width="20"
+                            Height="20"
+                            Content="⨉"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Foreground="Gray"
+                            FontWeight="Bold"
+                            FontSize="15"
+                            Margin="0,0,0,1"
+                            Click="ButtonClose_Click"/>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+
+
+        <ContentControl Grid.Row="1"
+                        Grid.Column="0"
+                        Content="{Binding NavigateService.CurrentView}">
+        </ContentControl>
+    </Grid>
+</Window>
