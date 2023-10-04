@@ -120,7 +120,6 @@
         {
             get
             {
-                Console.WriteLine("hello");
                 return count;
             }
         }
