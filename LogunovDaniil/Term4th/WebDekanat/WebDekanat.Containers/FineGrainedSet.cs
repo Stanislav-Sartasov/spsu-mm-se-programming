@@ -12,114 +12,114 @@
 		}
 
 		public void Add(long studentId, long courseId)
-        {
-            var newNode = new Node<Entry>(new Entry(studentId, courseId));
-            var newKey = newNode.Key;
+		{
+			var newNode = new Node<Entry>(new Entry(studentId, courseId));
+			var newKey = newNode.Key;
 
-            var pred = _head;
-            pred.Lock();
-            try
-            {
-                var curr = pred.Next;
-                curr.Lock();
-                try
-                {
-                    while (curr.Key < newKey)
-                    {
-                        pred.Unlock();
-                        pred = curr;
-                        curr = curr.Next;
-                        curr.Lock();
-                    }
+			var pred = _head;
+			pred.Lock();
+			try
+			{
+				var curr = pred.Next;
+				curr.Lock();
+				try
+				{
+					while (curr.Key < newKey)
+					{
+						pred.Unlock();
+						pred = curr;
+						curr = curr.Next;
+						curr.Lock();
+					}
 
-                    if (curr.Key == newKey)
-                        return;
+					if (curr.Key == newKey)
+						return;
 
-                    newNode.Next = curr;
-                    pred.Next = newNode;
-                    
-                    Interlocked.Increment(ref count);
-                }
-                finally
-                {
-                    curr.Unlock();
-                }
-            }
-            finally
-            {
-                pred.Unlock();
-            }
-        }
+					newNode.Next = curr;
+					pred.Next = newNode;
+					
+					Interlocked.Increment(ref count);
+				}
+				finally
+				{
+					curr.Unlock();
+				}
+			}
+			finally
+			{
+				pred.Unlock();
+			}
+		}
 
 		public bool Contains(long studentId, long courseId)
-        {
-            var key = new Node<Entry>(new Entry(studentId, courseId)).GetHashCode();
+		{
+			var key = new Node<Entry>(new Entry(studentId, courseId)).GetHashCode();
 
-            var pred = _head;
-            pred.Lock();
-            try
-            {
-                var curr = pred.Next;
-                curr.Lock();
-                try
-                {
-                    while (curr.Key < key)
-                    {
-                        pred.Unlock();
-                        pred = curr;
-                        curr = curr.Next;
-                        curr.Lock();
-                    }
-                    return curr.Key == key;
-                }
-                finally
-                {
-                    curr.Unlock();
-                }
-            }
-            finally
-            {
-                pred.Unlock();
-            }
-        }
+			var pred = _head;
+			pred.Lock();
+			try
+			{
+				var curr = pred.Next;
+				curr.Lock();
+				try
+				{
+					while (curr.Key < key)
+					{
+						pred.Unlock();
+						pred = curr;
+						curr = curr.Next;
+						curr.Lock();
+					}
+					return curr.Key == key;
+				}
+				finally
+				{
+					curr.Unlock();
+				}
+			}
+			finally
+			{
+				pred.Unlock();
+			}
+		}
 
 		public void Remove(long studentId, long courseId)
-        {
-            var keyToRemove = new Node<Entry>(new Entry(studentId, courseId)).GetHashCode();
+		{
+			var keyToRemove = new Node<Entry>(new Entry(studentId, courseId)).GetHashCode();
 
-            var pred = _head;
-            pred.Lock();
-            try
-            {
-                var curr = pred.Next;
-                curr.Lock();
-                try
-                {
-                    while (curr.Key < keyToRemove)
-                    {
-                        pred.Unlock();
-                        pred = curr;
-                        curr = curr.Next;
-                        curr.Lock();
-                    }
+			var pred = _head;
+			pred.Lock();
+			try
+			{
+				var curr = pred.Next;
+				curr.Lock();
+				try
+				{
+					while (curr.Key < keyToRemove)
+					{
+						pred.Unlock();
+						pred = curr;
+						curr = curr.Next;
+						curr.Lock();
+					}
 
-                    if (curr.Key != keyToRemove)
-                        return;
+					if (curr.Key != keyToRemove)
+						return;
 
-                    pred.Next = curr.Next;
+					pred.Next = curr.Next;
 
-                    Interlocked.Decrement(ref count);
-                }
-                finally
-                {
-                    curr.Unlock();
-                }
-            }
-            finally
-            {
-                pred.Unlock();
-            }
-        }
+					Interlocked.Decrement(ref count);
+				}
+				finally
+				{
+					curr.Unlock();
+				}
+			}
+			finally
+			{
+				pred.Unlock();
+			}
+		}
 
 		public int Count { get { return count; } }
 	}
