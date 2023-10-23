@@ -4,7 +4,7 @@
 	{
 		private Node<Entry> _head = new(long.MinValue);
 		private Node<Entry> _tail = new(long.MaxValue);
-		private int count;
+		private volatile int count;
 
 		public FineGrainedSet()
 		{

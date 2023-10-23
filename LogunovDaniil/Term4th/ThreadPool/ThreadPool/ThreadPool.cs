@@ -4,7 +4,7 @@
 	{
 		private static readonly int MaxThreads = 10;
 
-		private bool _isDisposed = false;
+		private volatile bool _isDisposed = false;
 		private List<Thread> _threads = new();
 		private Queue<Action> _workQueue = new();
 
